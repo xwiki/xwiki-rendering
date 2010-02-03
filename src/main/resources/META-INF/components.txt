@@ -1,0 +1,6 @@
+org.xwiki.rendering.internal.xml.parser.XMLStreamParser
+org.xwiki.rendering.internal.xml.parser.XMLBlockParser
+org.xwiki.rendering.internal.xml.renderer.XMLStreamRenderer
+org.xwiki.rendering.internal.xml.renderer.XMLStreamRendererFactory
+org.xwiki.rendering.internal.xml.renderer.XMLBlockRenderer
+org.xwiki.rendering.internal.xml.parameters.XStreamParameterManager
