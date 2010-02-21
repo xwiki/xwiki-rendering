@@ -47,7 +47,7 @@ public class XMLBlockParser extends AbstractBlockParser
      */
     public Syntax getSyntax()
     {
-        return Syntax.XML_1_0;
+        return XMLStreamParser.XML_1_0;
     }
 
     /**

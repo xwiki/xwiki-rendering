@@ -19,8 +19,9 @@
  */
 package org.xwiki.rendering.internal.xml.renderer;
 
-import org.xwiki.rendering.internal.renderer.*;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
+import org.xwiki.rendering.internal.xml.parser.XMLStreamParser;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -32,10 +33,11 @@ public class XMLStreamRendererFactory extends AbstractPrintRendererFactory
 {
     /**
      * {@inheritDoc}
+     * 
      * @see AbstractPrintRendererFactory#getSyntax()
      */
     public Syntax getSyntax()
     {
-        return Syntax.XML_1_0;
+        return XMLStreamParser.XML_1_0;
     }
 }

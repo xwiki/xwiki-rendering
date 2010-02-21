@@ -38,10 +38,13 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxType;
 
 @Component("xml/1.0")
 public class XMLStreamParser implements StreamParser, Initializable
 {
+    public static final Syntax XML_1_0 = new Syntax(new SyntaxType("xml", "XML"), "1.0");
+
     @Requirement
     private ParameterManager parameterManager;
 
@@ -64,7 +67,7 @@ public class XMLStreamParser implements StreamParser, Initializable
      */
     public Syntax getSyntax()
     {
-        return Syntax.XML_1_0;
+        return XML_1_0;
     }
 
     public void parse(Reader source, Listener listener) throws ParseException
