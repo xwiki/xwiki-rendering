@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.xml.parameters;
+package org.xwiki.rendering.xdomxml.internal.parameters;
 
 import java.util.LinkedHashMap;
 

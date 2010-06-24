@@ -17,28 +17,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.xml.renderer;
+package org.xwiki.rendering.xdomxml.internal;
 
-import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
-import org.xwiki.rendering.internal.xml.XMLEntities;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxType;
 
-/**
- * Current version of the XDOM+XML stream based renderer factory.
- * 
- * @version $Id$
- */
-@Component("xml/1.0")
-public class XMLStreamRendererFactory extends AbstractPrintRendererFactory
+public interface XMLEntities
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractPrintRendererFactory#getSyntax()
-     */
-    public Syntax getSyntax()
-    {
-        return XMLEntities.XML_1_0;
-    }
+    Syntax XML_1_0 = new Syntax(new SyntaxType("xml", "XML"), "1.0");
+
+    String ELEM_BLOCK = "block";
+
+    String ATT_BLOCK_NAME = "name";
+
+    String ELEM_PARAMETERS = "parameters";
 }

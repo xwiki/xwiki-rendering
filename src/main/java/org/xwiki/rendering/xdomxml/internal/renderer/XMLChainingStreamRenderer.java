@@ -17,13 +17,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.xml.renderer;
+package org.xwiki.rendering.xdomxml.internal.renderer;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.xwiki.rendering.internal.xml.XMLEntities;
-import org.xwiki.rendering.internal.xml.parameters.ParameterManager;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.Image;
@@ -35,6 +33,8 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.renderer.printer.XMLWikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.xdomxml.internal.XMLEntities;
+import org.xwiki.rendering.xdomxml.internal.parameters.ParameterManager;
 
 /**
  * Current version of the XDOM+XML stream based renderer.

@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.xml.parser;
+package org.xwiki.rendering.xdomxml.internal.parser;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -33,13 +33,13 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.internal.xml.XMLEntities;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.xdomxml.internal.XMLEntities;
 
 /**
  * XDOM+XML stream based parser.

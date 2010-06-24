@@ -17,48 +17,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.xml.parser;
+package org.xwiki.rendering.xdomxml.internal.renderer;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.internal.parser.AbstractBlockParser;
-import org.xwiki.rendering.internal.xml.XMLEntities;
-import org.xwiki.rendering.parser.StreamParser;
-import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.internal.renderer.AbstractBlockRenderer;
+import org.xwiki.rendering.renderer.PrintRendererFactory;
 
 /**
- * XDOM+XML {@link Block} based parser.
+ * XDOM+XML {@link Block} based renderer.
  * 
  * @version $Id$
  */
 @Component("xml/1.0")
-public class XMLBlockParser extends AbstractBlockParser
+public class XMLBlockRenderer extends AbstractBlockRenderer
 {
-    /**
-     * The stream based parser.
-     */
     @Requirement("xml/1.0")
-    private StreamParser xmlStreamParser;
+    private PrintRendererFactory xmlRendererFactory;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     */
-    public Syntax getSyntax()
-    {
-        return XMLEntities.XML_1_0;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.internal.parser.AbstractBlockParser#getStreamParser()
-     */
     @Override
-    protected StreamParser getStreamParser()
+    protected PrintRendererFactory getPrintRendererFactory()
     {
-        return xmlStreamParser;
+        return this.xmlRendererFactory;
     }
 }

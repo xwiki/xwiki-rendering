@@ -1,8 +1,8 @@
-org.xwiki.rendering.internal.xml.parameters.XStreamParameterManager
-org.xwiki.rendering.internal.xml.parser.XMLBlockParser
-org.xwiki.rendering.internal.xml.parser.XMLContentHandlerStreamParser
-org.xwiki.rendering.internal.xml.parser.XMLContentHandlerStreamParserFactory
-org.xwiki.rendering.internal.xml.parser.XMLStreamParser
-org.xwiki.rendering.internal.xml.renderer.XMLBlockRenderer
-org.xwiki.rendering.internal.xml.renderer.XMLStreamRenderer
-org.xwiki.rendering.internal.xml.renderer.XMLStreamRendererFactory
+org.xwiki.rendering.xdomxml.internal.parameters.XStreamParameterManager
+org.xwiki.rendering.xdomxml.internal.parser.XMLBlockParser
+org.xwiki.rendering.xdomxml.internal.parser.XMLContentHandlerStreamParser
+org.xwiki.rendering.xdomxml.internal.parser.XMLContentHandlerStreamParserFactory
+org.xwiki.rendering.xdomxml.internal.parser.XMLStreamParser
+org.xwiki.rendering.xdomxml.internal.renderer.XMLBlockRenderer
+org.xwiki.rendering.xdomxml.internal.renderer.XMLStreamRenderer
+org.xwiki.rendering.xdomxml.internal.renderer.XMLStreamRendererFactory

@@ -17,18 +17,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.xml.parser;
+package org.xwiki.rendering.xdomxml.internal.parser;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.internal.xml.XMLEntities;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.xdomxml.internal.XMLEntities;
 
 /**
  * @version $Id$
