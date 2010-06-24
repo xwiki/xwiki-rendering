@@ -26,7 +26,7 @@ import org.xml.sax.ContentHandler;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.listener.DefaultAttachement;
+import org.xwiki.rendering.listener.DefaultAttachment;
 import org.xwiki.rendering.listener.DocumentImage;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
@@ -51,7 +51,7 @@ public class XStreamParameterManager implements ParameterManager, Initializable
         this.xstream.alias("link", Link.class);
         this.xstream.alias("documentImage", DocumentImage.class);
         this.xstream.alias("urlImage", URLImage.class);
-        this.xstream.alias("attachement", DefaultAttachement.class);
+        this.xstream.alias("attachement", DefaultAttachment.class);
         this.xstream.alias("listType", ListType.class);
         this.xstream.alias("headerLevel", HeaderLevel.class);
 

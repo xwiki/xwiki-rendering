@@ -28,21 +28,27 @@ import org.dom4j.io.SAXContentHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import org.xwiki.component.annotation.Component;
+import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.internal.xml.XMLEntities;
 import org.xwiki.rendering.internal.xml.parameters.ParameterManager;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.chaining.EventType;
+import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * @version $Id$
  */
-public class XMLHandler extends DefaultHandler implements XMLEntities
+@Component
+public class XMLContentHandlerStreamParser extends DefaultHandler implements ContentHandlerStreamParser, XMLEntities
 {
     private static Object[] DEFAULT_PARAMETERS = new Object[] {Listener.EMPTY_PARAMETERS};
 
-    private Listener listener;
-
+    @Requirement
     private ParameterManager parameterManager;
+    
+    private Listener listener;
 
     private Stack<Block> blockStack = new Stack<Block>();
 
@@ -110,12 +116,21 @@ public class XMLHandler extends DefaultHandler implements XMLEntities
         }
     }
 
-    public XMLHandler(Listener listener, ParameterManager parameterManager)
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.xwiki.rendering.parser.xml.ContentHandlerStreamParser#getSyntax()
+     */
+    public Syntax getSyntax()
     {
-        this.listener = listener;
-        this.parameterManager = parameterManager;
+        return XML_1_0;
     }
 
+    public void setListener(Listener listener)
+    {
+        this.listener = listener;
+    }
+    
     /**
      * {@inheritDoc}
      * 

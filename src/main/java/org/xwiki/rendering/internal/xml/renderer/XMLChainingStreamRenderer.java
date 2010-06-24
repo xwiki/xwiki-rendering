@@ -37,8 +37,9 @@ import org.xwiki.rendering.renderer.printer.XMLWikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
+ * Current version of the XDOM+XML stream based renderer.
+ * 
  * @version $Id$
- * @since 2.1RC1
  */
 public class XMLChainingStreamRenderer extends AbstractChainingPrintRenderer implements XMLEntities
 {

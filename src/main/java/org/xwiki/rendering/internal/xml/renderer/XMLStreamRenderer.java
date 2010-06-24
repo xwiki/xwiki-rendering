@@ -30,8 +30,9 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 
 /**
+ * Current version of the XDOM+XML stream based renderer.
+ * 
  * @version $Id$
- * @since 2.1RC1
  */
 @Component("xml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
@@ -42,6 +43,7 @@ public class XMLStreamRenderer extends AbstractChainingPrintRenderer implements 
 
     /**
      * {@inheritDoc}
+     * 
      * @see Initializable#initialize()
      * @since 2.0M3
      */
@@ -53,6 +55,6 @@ public class XMLStreamRenderer extends AbstractChainingPrintRenderer implements 
         // Construct the listener chain in the right order. Listeners early in the chain are called before listeners
         // placed later in the chain.
         chain.addListener(this);
-        chain.addListener(new XMLChainingStreamRenderer(chain, parameterManager));
+        chain.addListener(new XMLChainingStreamRenderer(chain, this.parameterManager));
     }
 }

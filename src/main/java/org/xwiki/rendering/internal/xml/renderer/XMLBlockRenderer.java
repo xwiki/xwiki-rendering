@@ -21,12 +21,14 @@ package org.xwiki.rendering.internal.xml.renderer;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.Requirement;
+import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.internal.renderer.AbstractBlockRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 
 /**
+ * XDOM+XML {@link Block} based renderer.
+ * 
  * @version $Id$
- * @since 2.1RC1
  */
 @Component("xml/1.0")
 public class XMLBlockRenderer extends AbstractBlockRenderer

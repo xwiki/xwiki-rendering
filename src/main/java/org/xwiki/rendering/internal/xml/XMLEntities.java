@@ -19,8 +19,13 @@
  */
 package org.xwiki.rendering.internal.xml;
 
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxType;
+
 public interface XMLEntities
 {
+    Syntax XML_1_0 = new Syntax(new SyntaxType("xml", "XML"), "1.0");
+
     String ELEM_BLOCK = "block";
 
     String ATT_BLOCK_NAME = "name";

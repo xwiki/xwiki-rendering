@@ -21,30 +21,31 @@ package org.xwiki.rendering.internal.xml.parser;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.Requirement;
-import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.internal.parser.AbstractBlockParser;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.xml.XMLEntities;
-import org.xwiki.rendering.parser.StreamParser;
+import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
+import org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory;
+import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * XDOM+XML {@link Block} based parser.
- * 
  * @version $Id$
  */
-@Component("xml/1.0")
-public class XMLBlockParser extends AbstractBlockParser
+@Component
+public class XMLContentHandlerStreamParserFactory implements ContentHandlerStreamParserFactory
 {
     /**
-     * The stream based parser.
+     * Used to lookup the {@link PrintRenderer}.
      */
-    @Requirement("xml/1.0")
-    private StreamParser xmlStreamParser;
+    @Requirement
+    private ComponentManager componentManager;
 
     /**
      * {@inheritDoc}
      * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
+     * @see org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory#getSyntax()
      */
     public Syntax getSyntax()
     {
@@ -54,11 +55,19 @@ public class XMLBlockParser extends AbstractBlockParser
     /**
      * {@inheritDoc}
      * 
-     * @see org.xwiki.rendering.internal.parser.AbstractBlockParser#getStreamParser()
+     * @see org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory#createParser(org.xwiki.rendering.listener.Listener)
      */
-    @Override
-    protected StreamParser getStreamParser()
+    public ContentHandlerStreamParser createParser(Listener listener)
     {
-        return xmlStreamParser;
+        ContentHandlerStreamParser contentHandlerParser;
+        try {
+            contentHandlerParser =
+                this.componentManager.lookup(ContentHandlerStreamParser.class, getSyntax().toIdString());
+        } catch (ComponentLookupException e) {
+            throw new RuntimeException("Failed to create [" + getSyntax().toString() + "] renderer", e);
+        }
+        contentHandlerParser.setListener(listener);
+
+        return contentHandlerParser;
     }
 }

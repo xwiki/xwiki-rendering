@@ -17,28 +17,21 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.xml.renderer;
+package org.xwiki.rendering.parser.xml;
 
-import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
-import org.xwiki.rendering.internal.xml.XMLEntities;
+import org.xml.sax.ContentHandler;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.syntax.Syntax;
 
-/**
- * Current version of the XDOM+XML stream based renderer factory.
- * 
- * @version $Id$
- */
-@Component("xml/1.0")
-public class XMLStreamRendererFactory extends AbstractPrintRendererFactory
+public interface ContentHandlerStreamParser extends ContentHandler
 {
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractPrintRendererFactory#getSyntax()
+     * @return the {@link Syntax} supported
      */
-    public Syntax getSyntax()
-    {
-        return XMLEntities.XML_1_0;
-    }
+    Syntax getSyntax();
+
+    /**
+     * @param Listener the listener to use to send events
+     */
+    void setListener(Listener listener);
 }

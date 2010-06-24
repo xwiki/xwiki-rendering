@@ -33,20 +33,27 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.internal.xml.parameters.ParameterManager;
+import org.xwiki.rendering.internal.xml.XMLEntities;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.StreamParser;
+import org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory;
+import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.syntax.SyntaxType;
 
+/**
+ * XDOM+XML stream based parser.
+ * 
+ * @version $Id$
+ */
 @Component("xml/1.0")
 public class XMLStreamParser implements StreamParser, Initializable
 {
-    public static final Syntax XML_1_0 = new Syntax(new SyntaxType("xml", "XML"), "1.0");
-
+    /**
+     * Used to lookup the {@link PrintRenderer}.
+     */
     @Requirement
-    private ParameterManager parameterManager;
+    private ContentHandlerStreamParserFactory contentHandlerStreamParserFactory;
 
     private SAXParserFactory parserFactory;
 
@@ -67,9 +74,14 @@ public class XMLStreamParser implements StreamParser, Initializable
      */
     public Syntax getSyntax()
     {
-        return XML_1_0;
+        return XMLEntities.XML_1_0;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.xwiki.rendering.parser.StreamParser#parse(java.io.Reader, org.xwiki.rendering.listener.Listener)
+     */
     public void parse(Reader source, Listener listener) throws ParseException
     {
         try {
@@ -85,7 +97,7 @@ public class XMLStreamParser implements StreamParser, Initializable
         SAXParser parser = this.parserFactory.newSAXParser();
         XMLReader xmlReader = parser.getXMLReader();
 
-        xmlReader.setContentHandler(new XMLHandler(listener, this.parameterManager));
+        xmlReader.setContentHandler(this.contentHandlerStreamParserFactory.createParser(listener));
 
         xmlReader.parse(new InputSource(reader));
     }
