@@ -39,6 +39,6 @@ public class XMLStreamRendererFactory extends AbstractPrintRendererFactory
      */
     public Syntax getSyntax()
     {
-        return XMLEntities.XML_1_0;
+        return XMLEntities.XDOMXML_1_0;
     }
 }

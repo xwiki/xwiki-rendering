@@ -24,7 +24,7 @@ import org.xwiki.rendering.syntax.SyntaxType;
 
 public interface XMLEntities
 {
-    Syntax XML_1_0 = new Syntax(new SyntaxType("xml", "XML"), "1.0");
+    Syntax XDOMXML_1_0 = new Syntax(new SyntaxType("xdom+xml", "XML based XDOM"), "1.0");
 
     String ELEM_BLOCK = "block";
 

@@ -123,7 +123,7 @@ public class XMLContentHandlerStreamParser extends DefaultHandler implements Con
      */
     public Syntax getSyntax()
     {
-        return XML_1_0;
+        return XDOMXML_1_0;
     }
 
     public void setListener(Listener listener)

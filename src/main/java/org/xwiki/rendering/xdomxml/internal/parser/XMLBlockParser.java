@@ -48,7 +48,7 @@ public class XMLBlockParser extends AbstractBlockParser
      */
     public Syntax getSyntax()
     {
-        return XMLEntities.XML_1_0;
+        return XMLEntities.XDOMXML_1_0;
     }
 
     /**
