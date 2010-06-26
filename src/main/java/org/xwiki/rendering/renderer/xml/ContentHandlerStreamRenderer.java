@@ -17,18 +17,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxml.internal;
+package org.xwiki.rendering.renderer.xml;
 
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.syntax.SyntaxType;
+import org.xml.sax.ContentHandler;
+import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.rendering.renderer.Renderer;
 
-public interface XMLEntities
+/**
+ * @version $Id$
+ */
+@ComponentRole
+public interface ContentHandlerStreamRenderer extends Renderer
 {
-    Syntax XDOMXML_1_0 = new Syntax(new SyntaxType("xdom+xml", "XML based XDOM"), "1.0");
+    ContentHandler getContentHandler();
 
-    String ELEM_BLOCK = "block";
-
-    String ATT_BLOCK_NAME = "name";
-
-    String ELEM_PARAMETERS = "parameters";
+    void setContentHandler(ContentHandler contentHandler);
 }

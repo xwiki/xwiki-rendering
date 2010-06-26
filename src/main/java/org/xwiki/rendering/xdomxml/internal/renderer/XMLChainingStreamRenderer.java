@@ -22,6 +22,10 @@ package org.xwiki.rendering.xdomxml.internal.renderer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
+import org.xwiki.rendering.internal.renderer.xml.AbstractChainingContentHandlerStreamRenderer;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.Image;
@@ -29,11 +33,8 @@ import org.xwiki.rendering.listener.Link;
 import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.chaining.EventType;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
-import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
-import org.xwiki.rendering.renderer.printer.WikiPrinter;
-import org.xwiki.rendering.renderer.printer.XMLWikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xdomxml.internal.XMLEntities;
+import org.xwiki.rendering.xdomxml.internal.Constants;
 import org.xwiki.rendering.xdomxml.internal.parameters.ParameterManager;
 
 /**
@@ -41,54 +42,15 @@ import org.xwiki.rendering.xdomxml.internal.parameters.ParameterManager;
  * 
  * @version $Id$
  */
-public class XMLChainingStreamRenderer extends AbstractChainingPrintRenderer implements XMLEntities
+public class XMLChainingStreamRenderer extends AbstractChainingContentHandlerStreamRenderer implements Constants
 {
     private ParameterManager parameterManager;
-
-    private XMLWikiPrinter xmlWikiPrinter;
 
     public XMLChainingStreamRenderer(ListenerChain listenerChain, ParameterManager parameterManager)
     {
         setListenerChain(listenerChain);
 
         this.parameterManager = parameterManager;
-    }
-
-    // Printer
-
-    protected XMLWikiPrinter getXMLWikiPrinter()
-    {
-        if (this.xmlWikiPrinter == null) {
-            this.xmlWikiPrinter = new XMLWikiPrinter(getPrinter());
-        }
-
-        return this.xmlWikiPrinter;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.AbstractChainingPrintRenderer#pushPrinter(org.xwiki.rendering.renderer.printer.WikiPrinter)
-     */
-    @Override
-    protected void pushPrinter(WikiPrinter wikiPrinter)
-    {
-        super.pushPrinter(wikiPrinter);
-
-        getXMLWikiPrinter().setWikiPrinter(getPrinter());
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.AbstractChainingPrintRenderer#popPrinter()
-     */
-    @Override
-    protected void popPrinter()
-    {
-        super.popPrinter();
-
-        getXMLWikiPrinter().setWikiPrinter(getPrinter());
     }
 
     // Events
@@ -415,38 +377,78 @@ public class XMLChainingStreamRenderer extends AbstractChainingPrintRenderer imp
 
     private void beginEvent(EventType eventType, Object... parameters)
     {
-        getXMLWikiPrinter().printXMLStartElement(ELEM_BLOCK,
-            new String[][] {{ATT_BLOCK_NAME, eventType.toString().substring("BEGIN_".length()).toLowerCase()}});
+        startElement(ELEM_BLOCK, new String[][] {{ATT_BLOCK_NAME,
+        eventType.toString().substring("BEGIN_".length()).toLowerCase()}});
 
         printParameters(parameters);
     }
 
     private void endEvent(EventType eventType)
     {
-        getXMLWikiPrinter().printXMLEndElement(ELEM_BLOCK);
+        endElement(ELEM_BLOCK);
     }
 
     private void onEvent(EventType eventType, Object... parameters)
     {
         if (parameters.length > 0) {
-            getXMLWikiPrinter().printXMLStartElement(ELEM_BLOCK,
-                new String[][] {{ATT_BLOCK_NAME, eventType.toString().substring("ON_".length()).toLowerCase()}});
+            startElement(ELEM_BLOCK, new String[][] {{ATT_BLOCK_NAME,
+            eventType.toString().substring("ON_".length()).toLowerCase()}});
             printParameters(parameters);
             endEvent(eventType);
         } else {
-            getXMLWikiPrinter().printXMLElement(ELEM_BLOCK,
-                new String[][] {{ATT_BLOCK_NAME, eventType.toString().substring("ON_".length()).toLowerCase()}});
+            emptyElement(ELEM_BLOCK, new String[][] {{ATT_BLOCK_NAME,
+            eventType.toString().substring("ON_".length()).toLowerCase()}});
         }
     }
 
     private void printParameters(Object[] parameters)
     {
         if (parameters.length > 0) {
-            getXMLWikiPrinter().printXMLStartElement(ELEM_PARAMETERS);
+            startElement(ELEM_PARAMETERS, null);
             for (Object parameter : parameters) {
-                this.parameterManager.serialize(parameter, getXMLWikiPrinter().getXMLWriter());
+                this.parameterManager.serialize(parameter, getContentHandler());
             }
-            getXMLWikiPrinter().printXMLEndElement(ELEM_PARAMETERS);
+            endElement(ELEM_PARAMETERS);
         }
+    }
+
+    private void emptyElement(String elemntName, String[][] parameters)
+    {
+        startElement(elemntName, parameters);
+        endElement(elemntName);
+    }
+
+    private void startElement(String elemntName, String[][] parameters)
+    {
+        try {
+            getContentHandler().startElement("", elemntName, elemntName, createAttributes(parameters));
+        } catch (SAXException e) {
+            throw new RuntimeException("Failed to send sax event", e);
+        }
+    }
+
+    private void endElement(String elemntName)
+    {
+        try {
+            getContentHandler().endElement("", elemntName, elemntName);
+        } catch (SAXException e) {
+            throw new RuntimeException("Failed to send sax event", e);
+        }
+    }
+
+    /**
+     * Convert provided table into {@link Attributes} to use in xml writer.
+     */
+    private Attributes createAttributes(String[][] parameters)
+    {
+        AttributesImpl attributes = new AttributesImpl();
+
+        if (parameters != null && parameters.length > 0) {
+            for (String[] entry : parameters) {
+                attributes.addAttribute(null, null, entry[0], null, entry[1]);
+            }
+        }
+
+        return attributes;
     }
 }

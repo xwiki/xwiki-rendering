@@ -21,16 +21,15 @@ package org.xwiki.rendering.xdomxml.internal.renderer;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
+import org.xwiki.rendering.internal.renderer.xml.AbstractContentHandlerStreamRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xdomxml.internal.XMLEntities;
+import org.xwiki.rendering.xdomxml.internal.Constants;
 
 /**
- * Current version of the XDOM+XML stream based renderer factory.
- * 
  * @version $Id$
  */
 @Component("xml/1.0")
-public class XMLStreamRendererFactory extends AbstractPrintRendererFactory
+public class XMLStreamRendererFactory extends AbstractContentHandlerStreamRendererFactory
 {
     /**
      * {@inheritDoc}
@@ -39,6 +38,6 @@ public class XMLStreamRendererFactory extends AbstractPrintRendererFactory
      */
     public Syntax getSyntax()
     {
-        return XMLEntities.XDOMXML_1_0;
+        return Constants.XDOMXML_1_0;
     }
 }

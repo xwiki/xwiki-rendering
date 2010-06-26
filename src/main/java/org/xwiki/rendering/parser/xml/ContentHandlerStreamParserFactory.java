@@ -19,19 +19,17 @@
  */
 package org.xwiki.rendering.parser.xml;
 
+import org.xwiki.component.annotation.ComponentRole;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.syntax.Syntax;
 
+/**
+ * @version $Id$
+ */
+@ComponentRole
 public interface ContentHandlerStreamParserFactory
 {
-    /**
-     * @return the {@link Syntax} supported by the {@link ContentHandlerStreamParser} type
-     */
     Syntax getSyntax();
 
-    /**
-     * @param listener the listener to use to send events
-     * @return a new Parser {@link ContentHandlerStreamParser} (stateful)
-     */
     ContentHandlerStreamParser createParser(Listener listener);
 }

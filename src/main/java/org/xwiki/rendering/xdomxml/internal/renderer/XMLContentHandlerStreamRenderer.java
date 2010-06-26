@@ -25,21 +25,33 @@ import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
+import org.xwiki.rendering.internal.renderer.xml.AbstractChainingContentHandlerStreamRenderer;
+import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
+import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
-import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.xdomxml.internal.Constants;
 import org.xwiki.rendering.xdomxml.internal.parameters.ParameterManager;
 
 /**
- * Current version of the XDOM+XML stream based renderer.
- * 
  * @version $Id$
  */
 @Component("xml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class XMLStreamRenderer extends AbstractChainingPrintRenderer implements Initializable
+public class XMLContentHandlerStreamRenderer extends AbstractChainingContentHandlerStreamRenderer
 {
     @Requirement
     private ParameterManager parameterManager;
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.xwiki.rendering.parser.xml.ContentHandlerStreamParser#getSyntax()
+     */
+    public Syntax getSyntax()
+    {
+        return Constants.XDOMXML_1_0;
+    }
 
     /**
      * {@inheritDoc}
@@ -55,6 +67,8 @@ public class XMLStreamRenderer extends AbstractChainingPrintRenderer implements 
         // Construct the listener chain in the right order. Listeners early in the chain are called before listeners
         // placed later in the chain.
         chain.addListener(this);
-        chain.addListener(new XMLChainingStreamRenderer(chain, this.parameterManager));
+        chain.addListener(new BlockStateChainingListener(chain));
+        chain.addListener(new EmptyBlockChainingListener(chain));
+        chain.addListener(new XMLChainingStreamRenderer(chain, parameterManager));
     }
 }

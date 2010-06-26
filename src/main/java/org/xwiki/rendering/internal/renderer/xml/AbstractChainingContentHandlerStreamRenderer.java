@@ -17,29 +17,27 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxml.internal.parser;
+package org.xwiki.rendering.internal.renderer.xml;
 
-import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.internal.parser.AbstractBlockParser;
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xdomxml.internal.Constants;
+import org.xml.sax.ContentHandler;
+import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
+import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRenderer;
 
 /**
- * XDOM+XML {@link Block} based parser.
- * 
  * @version $Id$
  */
-@Component("xml/1.0")
-public class XMLBlockParser extends AbstractBlockParser
+public abstract class AbstractChainingContentHandlerStreamRenderer extends AbstractChainingListener implements
+    ContentHandlerStreamRenderer
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     */
-    public Syntax getSyntax()
+    private ContentHandler contentHandler;
+
+    public ContentHandler getContentHandler()
     {
-        return Constants.XDOMXML_1_0;
+        return contentHandler;
+    }
+
+    public void setContentHandler(ContentHandler contentHandler)
+    {
+        this.contentHandler = contentHandler;
     }
 }

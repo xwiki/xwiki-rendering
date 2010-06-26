@@ -19,27 +19,10 @@
  */
 package org.xwiki.rendering.xdomxml.internal.parser;
 
-import java.io.IOException;
-import java.io.Reader;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
-import org.xwiki.component.phase.Initializable;
-import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.listener.Listener;
-import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.rendering.parser.StreamParser;
-import org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory;
-import org.xwiki.rendering.renderer.PrintRenderer;
+import org.xwiki.rendering.internal.parser.xml.AbstractStreamParser;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xdomxml.internal.XMLEntities;
+import org.xwiki.rendering.xdomxml.internal.Constants;
 
 /**
  * XDOM+XML stream based parser.
@@ -47,26 +30,8 @@ import org.xwiki.rendering.xdomxml.internal.XMLEntities;
  * @version $Id$
  */
 @Component("xml/1.0")
-public class XMLStreamParser implements StreamParser, Initializable
+public class XMLStreamParser extends AbstractStreamParser
 {
-    /**
-     * Used to lookup the {@link PrintRenderer}.
-     */
-    @Requirement
-    private ContentHandlerStreamParserFactory contentHandlerStreamParserFactory;
-
-    private SAXParserFactory parserFactory;
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.component.phase.Initializable#initialize()
-     */
-    public void initialize() throws InitializationException
-    {
-        this.parserFactory = SAXParserFactory.newInstance();
-    }
-
     /**
      * {@inheritDoc}
      * 
@@ -74,31 +39,6 @@ public class XMLStreamParser implements StreamParser, Initializable
      */
     public Syntax getSyntax()
     {
-        return XMLEntities.XDOMXML_1_0;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.StreamParser#parse(java.io.Reader, org.xwiki.rendering.listener.Listener)
-     */
-    public void parse(Reader source, Listener listener) throws ParseException
-    {
-        try {
-            parseXML(source, listener);
-        } catch (Exception e) {
-            throw new ParseException("Failed to parse input source", e);
-        }
-    }
-
-    public void parseXML(Reader reader, Listener listener) throws ParserConfigurationException, SAXException,
-        IOException
-    {
-        SAXParser parser = this.parserFactory.newSAXParser();
-        XMLReader xmlReader = parser.getXMLReader();
-
-        xmlReader.setContentHandler(this.contentHandlerStreamParserFactory.createParser(listener));
-
-        xmlReader.parse(new InputSource(reader));
+        return Constants.XDOMXML_1_0;
     }
 }

@@ -17,57 +17,46 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxml.internal.parser;
+package org.xwiki.rendering.internal.parser.xml;
 
-import org.xwiki.component.annotation.Component;
+import java.io.Reader;
+
 import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.parser.ParseException;
+import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory;
-import org.xwiki.rendering.renderer.PrintRenderer;
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xdomxml.internal.XMLEntities;
 
 /**
+ * 
  * @version $Id$
  */
-@Component
-public class XMLContentHandlerStreamParserFactory implements ContentHandlerStreamParserFactory
+public abstract class AbstractStreamParser implements ContentHandlerStreamParserFactory, StreamParser
 {
-    /**
-     * Used to lookup the {@link PrintRenderer}.
-     */
     @Requirement
     private ComponentManager componentManager;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory#getSyntax()
-     */
-    public Syntax getSyntax()
-    {
-        return XMLEntities.XDOMXML_1_0;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory#createParser(org.xwiki.rendering.listener.Listener)
-     */
     public ContentHandlerStreamParser createParser(Listener listener)
     {
-        ContentHandlerStreamParser contentHandlerParser;
+        ContentHandlerStreamParser parser;
         try {
-            contentHandlerParser =
-                this.componentManager.lookup(ContentHandlerStreamParser.class, getSyntax().toIdString());
+            parser = this.componentManager.lookup(ContentHandlerStreamParser.class, getSyntax().toIdString());
         } catch (ComponentLookupException e) {
-            throw new RuntimeException("Failed to create [" + getSyntax().toString() + "] renderer", e);
+            throw new RuntimeException(
+                "Failed to create [" + getSyntax().toString() + "] ContentHandler stream parser", e);
         }
-        contentHandlerParser.setListener(listener);
 
-        return contentHandlerParser;
+        parser.setListener(listener);
+
+        return parser;
+    }
+
+    public void parse(Reader source, Listener listener) throws ParseException
+    {
+        // TODO Auto-generated method stub
+
     }
 }

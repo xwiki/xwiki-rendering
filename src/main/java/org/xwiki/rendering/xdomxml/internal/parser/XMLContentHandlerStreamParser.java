@@ -29,25 +29,28 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.annotation.Requirement;
+import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.chaining.EventType;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xdomxml.internal.XMLEntities;
+import org.xwiki.rendering.xdomxml.internal.Constants;
 import org.xwiki.rendering.xdomxml.internal.parameters.ParameterManager;
 
 /**
  * @version $Id$
  */
-@Component
-public class XMLContentHandlerStreamParser extends DefaultHandler implements ContentHandlerStreamParser, XMLEntities
+@Component("xml/1.0")
+@InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
+public class XMLContentHandlerStreamParser extends DefaultHandler implements ContentHandlerStreamParser, Constants
 {
     private static Object[] DEFAULT_PARAMETERS = new Object[] {Listener.EMPTY_PARAMETERS};
 
     @Requirement
     private ParameterManager parameterManager;
-    
+
     private Listener listener;
 
     private Stack<Block> blockStack = new Stack<Block>();
@@ -130,7 +133,7 @@ public class XMLContentHandlerStreamParser extends DefaultHandler implements Con
     {
         this.listener = listener;
     }
-    
+
     /**
      * {@inheritDoc}
      * 

@@ -17,29 +17,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxml.internal.parser;
+package org.xwiki.rendering.xdomxml.internal;
 
-import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.internal.parser.AbstractBlockParser;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xdomxml.internal.Constants;
+import org.xwiki.rendering.syntax.SyntaxType;
 
-/**
- * XDOM+XML {@link Block} based parser.
- * 
- * @version $Id$
- */
-@Component("xml/1.0")
-public class XMLBlockParser extends AbstractBlockParser
+public interface Constants
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     */
-    public Syntax getSyntax()
-    {
-        return Constants.XDOMXML_1_0;
-    }
+    Syntax XDOMXML_1_0 = new Syntax(new SyntaxType("xdom+xml", "XML based XDOM"), "1.0");
+
+    String ELEM_BLOCK = "block";
+
+    String ATT_BLOCK_NAME = "name";
+
+    String ELEM_PARAMETERS = "parameters";
 }
