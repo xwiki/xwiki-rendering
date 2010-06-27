@@ -32,11 +32,23 @@ import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRendererFactory;
 /**
  * @version $Id$
  */
-public abstract class AbstractContentHandlerStreamRendererFactory implements PrintRendererFactory,
+public abstract class AbstractStreamRendererFactory implements PrintRendererFactory,
     ContentHandlerStreamRendererFactory
 {
     @Requirement
-    private ComponentManager componentManager;
+    protected ComponentManager componentManager;
+
+    protected ContentHandlerStreamRenderer createContentHandlerStreamRenderer()
+    {
+        ContentHandlerStreamRenderer renderer;
+        try {
+            renderer = this.componentManager.lookup(ContentHandlerStreamRenderer.class, getSyntax().toIdString());
+        } catch (ComponentLookupException e) {
+            throw new RuntimeException("Failed to create [" + getSyntax().toString() + "] renderer", e);
+        }
+
+        return renderer;
+    }
 
     /**
      * {@inheritDoc}
@@ -45,12 +57,7 @@ public abstract class AbstractContentHandlerStreamRendererFactory implements Pri
      */
     public ContentHandlerStreamRenderer createRenderer(ContentHandler contentHandler)
     {
-        ContentHandlerStreamRenderer renderer;
-        try {
-            renderer = this.componentManager.lookup(ContentHandlerStreamRenderer.class, getSyntax().toIdString());
-        } catch (ComponentLookupException e) {
-            throw new RuntimeException("Failed to create [" + getSyntax().toString() + "] renderer", e);
-        }
+        ContentHandlerStreamRenderer renderer = createContentHandlerStreamRenderer();
 
         renderer.setContentHandler(contentHandler);
 
@@ -64,13 +71,6 @@ public abstract class AbstractContentHandlerStreamRendererFactory implements Pri
      */
     public PrintRenderer createRenderer(WikiPrinter printer)
     {
-        ContentHandlerStreamRenderer renderer;
-        try {
-            renderer = this.componentManager.lookup(ContentHandlerStreamRenderer.class, getSyntax().toIdString());
-        } catch (ComponentLookupException e) {
-            throw new RuntimeException("Failed to create [" + getSyntax().toString() + "] renderer", e);
-        }
-
-        return new ContentHandlerPrintRenderer(renderer, printer);
+        return new ContentHandlerPrintRenderer(createContentHandlerStreamRenderer(), printer);
     }
 }

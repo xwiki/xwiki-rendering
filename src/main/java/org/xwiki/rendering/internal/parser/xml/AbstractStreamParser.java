@@ -19,11 +19,21 @@
  */
 package org.xwiki.rendering.internal.parser.xml;
 
+import java.io.IOException;
 import java.io.Reader;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.component.phase.Initializable;
+import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.StreamParser;
@@ -31,14 +41,30 @@ import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory;
 
 /**
- * 
  * @version $Id$
  */
-public abstract class AbstractStreamParser implements ContentHandlerStreamParserFactory, StreamParser
+public abstract class AbstractStreamParser implements ContentHandlerStreamParserFactory, StreamParser, Initializable
 {
     @Requirement
     private ComponentManager componentManager;
 
+    private SAXParserFactory parserFactory;
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.xwiki.component.phase.Initializable#initialize()
+     */
+    public void initialize() throws InitializationException
+    {
+        this.parserFactory = SAXParserFactory.newInstance();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory#createParser(org.xwiki.rendering.listener.Listener)
+     */
     public ContentHandlerStreamParser createParser(Listener listener)
     {
         ContentHandlerStreamParser parser;
@@ -54,9 +80,29 @@ public abstract class AbstractStreamParser implements ContentHandlerStreamParser
         return parser;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.xwiki.rendering.parser.StreamParser#parse(java.io.Reader, org.xwiki.rendering.listener.Listener)
+     */
     public void parse(Reader source, Listener listener) throws ParseException
     {
-        // TODO Auto-generated method stub
+        try {
+            parseXML(source, listener);
+        } catch (Exception e) {
+            throw new ParseException("Failed to parse input source", e);
+        }
+    }
 
+    public void parseXML(Reader source, Listener listener) throws ParserConfigurationException, SAXException,
+        IOException
+    {
+        SAXParser saxParser = this.parserFactory.newSAXParser();
+        XMLReader xmlReader = saxParser.getXMLReader();
+
+        ContentHandlerStreamParser parser = createParser(listener);
+        xmlReader.setContentHandler(parser);
+
+        xmlReader.parse(new InputSource(source));
     }
 }

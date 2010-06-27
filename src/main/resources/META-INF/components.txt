@@ -1,9 +1,7 @@
 org.xwiki.rendering.xdomxml.internal.parameters.XStreamParameterManager
 
-org.xwiki.rendering.xdomxml.internal.parser.XMLBlockParser
 org.xwiki.rendering.xdomxml.internal.parser.XMLContentHandlerStreamParser
-org.xwiki.rendering.xdomxml.internal.parser.XMLStreamParser
+org.xwiki.rendering.xdomxml.internal.parser.XMLParser
 
-org.xwiki.rendering.xdomxml.internal.renderer.XMLBlockRenderer
 org.xwiki.rendering.xdomxml.internal.renderer.XMLContentHandlerStreamRenderer
-org.xwiki.rendering.xdomxml.internal.renderer.XMLStreamRendererFactory
+org.xwiki.rendering.xdomxml.internal.renderer.XMLRenderer

@@ -17,27 +17,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxml.internal.renderer;
+package org.xwiki.rendering.renderer.xml;
 
-import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
-import org.xwiki.rendering.internal.renderer.xml.AbstractContentHandlerStreamRendererFactory;
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xdomxml.internal.Constants;
+import java.util.Collection;
+
+import org.xml.sax.ContentHandler;
+import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.rendering.block.Block;
 
 /**
  * @version $Id$
  */
-@Component("xml/1.0")
-public class XMLStreamRendererFactory extends AbstractContentHandlerStreamRendererFactory
+@ComponentRole
+public interface ContentHandlerBlockRenderer
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractPrintRendererFactory#getSyntax()
-     */
-    public Syntax getSyntax()
-    {
-        return Constants.XDOMXML_1_0;
-    }
+    void render(Collection<Block> blocks, ContentHandler contentHandler);
 }
