@@ -34,7 +34,7 @@ import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.chaining.EventType;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xdomxml.internal.Constants;
+import org.xwiki.rendering.xdomxml.internal.XDOMXMLConstants;
 import org.xwiki.rendering.xdomxml.internal.parameters.ParameterManager;
 
 /**
@@ -42,11 +42,11 @@ import org.xwiki.rendering.xdomxml.internal.parameters.ParameterManager;
  * 
  * @version $Id$
  */
-public class XMLChainingStreamRenderer extends AbstractChainingContentHandlerStreamRenderer implements Constants
+public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandlerStreamRenderer implements XDOMXMLConstants
 {
     private ParameterManager parameterManager;
 
-    public XMLChainingStreamRenderer(ListenerChain listenerChain, ParameterManager parameterManager)
+    public XDOMXMLChainingStreamRenderer(ListenerChain listenerChain, ParameterManager parameterManager)
     {
         setListenerChain(listenerChain);
 

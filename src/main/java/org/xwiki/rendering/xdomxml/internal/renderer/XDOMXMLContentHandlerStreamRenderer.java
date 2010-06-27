@@ -30,15 +30,15 @@ import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xdomxml.internal.Constants;
+import org.xwiki.rendering.xdomxml.internal.XDOMXMLConstants;
 import org.xwiki.rendering.xdomxml.internal.parameters.ParameterManager;
 
 /**
  * @version $Id$
  */
-@Component("xml/1.0")
+@Component("xdom+xml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class XMLContentHandlerStreamRenderer extends AbstractChainingContentHandlerStreamRenderer
+public class XDOMXMLContentHandlerStreamRenderer extends AbstractChainingContentHandlerStreamRenderer
 {
     @Requirement
     private ParameterManager parameterManager;
@@ -50,7 +50,7 @@ public class XMLContentHandlerStreamRenderer extends AbstractChainingContentHand
      */
     public Syntax getSyntax()
     {
-        return Constants.XDOMXML_1_0;
+        return XDOMXMLConstants.XDOMXML_1_0;
     }
 
     /**
@@ -69,6 +69,6 @@ public class XMLContentHandlerStreamRenderer extends AbstractChainingContentHand
         chain.addListener(this);
         chain.addListener(new BlockStateChainingListener(chain));
         chain.addListener(new EmptyBlockChainingListener(chain));
-        chain.addListener(new XMLChainingStreamRenderer(chain, parameterManager));
+        chain.addListener(new XDOMXMLChainingStreamRenderer(chain, parameterManager));
     }
 }

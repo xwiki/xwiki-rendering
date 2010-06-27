@@ -36,15 +36,16 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.chaining.EventType;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xdomxml.internal.Constants;
+import org.xwiki.rendering.xdomxml.internal.XDOMXMLConstants;
 import org.xwiki.rendering.xdomxml.internal.parameters.ParameterManager;
 
 /**
  * @version $Id$
  */
-@Component("xml/1.0")
+@Component("xdom+xml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class XMLContentHandlerStreamParser extends DefaultHandler implements ContentHandlerStreamParser, Constants
+public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements ContentHandlerStreamParser,
+    XDOMXMLConstants
 {
     private static Object[] DEFAULT_PARAMETERS = new Object[] {Listener.EMPTY_PARAMETERS};
 

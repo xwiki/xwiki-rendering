@@ -22,7 +22,7 @@ package org.xwiki.rendering.xdomxml.internal;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxType;
 
-public interface Constants
+public interface XDOMXMLConstants
 {
     Syntax XDOMXML_1_0 = new Syntax(new SyntaxType("xdom+xml", "XML based XDOM"), "1.0");
 
