@@ -19,11 +19,8 @@
  */
 package org.xwiki.rendering.internal.renderer.xml;
 
-import java.io.UnsupportedEncodingException;
-
 import org.dom4j.io.XMLWriter;
 import org.xwiki.rendering.internal.renderer.printer.WikiWriter;
-import org.xwiki.rendering.internal.renderer.printer.XHTMLWriter;
 import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
@@ -44,11 +41,9 @@ public class ContentHandlerPrintRenderer extends WrappingListener implements Pri
 
         this.wikiWriter = new WikiWriter(printer);
 
-        try {
-            this.xmlWriter = new XHTMLWriter(this.wikiWriter);
-        } catch (UnsupportedEncodingException e) {
-            // TODO: add error log "should not append"
-        }
+        this.xmlWriter = new XMLWriter(this.wikiWriter);
+        // escape all non US-ASCII to have as less encoding problems as possible
+        this.xmlWriter.setMaximumAllowedCharacter(127);
 
         renderer.setContentHandler(this.xmlWriter);
     }
