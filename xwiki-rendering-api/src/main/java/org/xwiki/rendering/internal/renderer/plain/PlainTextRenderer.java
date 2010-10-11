@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.renderer.plain;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.xml.sax.ContentHandler;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
