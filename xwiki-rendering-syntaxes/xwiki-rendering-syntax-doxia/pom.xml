@@ -26,12 +26,12 @@
   <modelVersion>4.0.0</modelVersion>
   <description>Parsers and renderers based on Doxia</description>
   <parent>
-    <groupId>org.xwiki.platform</groupId>
-    <artifactId>xwiki-core-rendering-syntaxes</artifactId>
+    <groupId>org.xwiki.rendering</groupId>
+    <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>3.0-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-core-rendering-syntax-doxia</artifactId>
-  <name>XWiki Platform - Core - Rendering - Bridge - Doxia</name>
+  <artifactId>xwiki-rendering-syntax-doxia</artifactId>
+  <name>XWiki Rendering - Bridge - Doxia</name>
   <dependencies>
     <dependency>
       <groupId>org.apache.maven.doxia</groupId>

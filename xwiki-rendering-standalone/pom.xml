@@ -25,18 +25,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.xwiki.platform</groupId>
-    <artifactId>xwiki-core-rendering-parent</artifactId>
+    <groupId>org.xwiki.rendering</groupId>
+    <artifactId>xwiki-rendering</artifactId>
     <version>3.0-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-core-rendering-standalone</artifactId>
-  <name>XWiki Platform - Core - Rendering - Standalone Distribution</name>
+  <artifactId>xwiki-rendering-standalone</artifactId>
+  <name>XWiki Rendering - Standalone Distribution</name>
   <packaging>jar</packaging>
-  <description>XWiki Platform - Core - Rendering - Standalone Distribution</description>
+  <description>XWiki Rendering - Standalone Distribution</description>
   <dependencies>
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-core-rendering-syntax-wikimodel</artifactId>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
