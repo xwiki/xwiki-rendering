@@ -44,6 +44,7 @@
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-toc</artifactId>
       <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
