@@ -28,7 +28,7 @@
     <groupId>org.xwiki.platform</groupId>
     <artifactId>xwiki</artifactId>
     <version>40-SNAPSHOT</version>
-    <relativePath>../pom</relativePath>
+    <relativePath>../platform/pom</relativePath>
   </parent>
   <groupId>org.xwiki.rendering</groupId>
   <artifactId>xwiki-rendering</artifactId>
@@ -62,8 +62,8 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-core-component-api</artifactId>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-component-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     <!-- Test Dependencies -->
