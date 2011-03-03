@@ -20,8 +20,6 @@
 package org.xwiki.rendering;
 
 import org.junit.Assert;
-import org.junit.Before;
-import org.xwiki.model.reference.EntityReferenceSerializer;
 import org.xwiki.rendering.internal.macro.html.HTMLMacro;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroExecutionException;
@@ -37,18 +35,6 @@ import org.xwiki.test.AbstractComponentTestCase;
  */
 public class HTMLMacroTest extends AbstractComponentTestCase
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractComponentTestCase#setUp()
-     */
-    @Before
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        registerMockComponent(EntityReferenceSerializer.class);
-    }
-
     /**
      * Verify that inline HTML macros with non inline content generate an exception.
      */
