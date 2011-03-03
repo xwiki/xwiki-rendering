@@ -20,6 +20,7 @@
 package org.xwiki.rendering;
 
 import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rendering.internal.macro.html.HTMLMacro;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroExecutionException;
@@ -38,7 +39,7 @@ public class HTMLMacroTest extends AbstractComponentTestCase
     /**
      * Verify that inline HTML macros with non inline content generate an exception.
      */
-    @org.junit.Test(expected = MacroExecutionException.class)
+    @Test(expected = MacroExecutionException.class)
     public void executeMacroWhenNonInlineContentInInlineContext() throws Exception
     {
         HTMLMacro macro = (HTMLMacro) getComponentManager().lookup(Macro.class, "html");
@@ -48,7 +49,7 @@ public class HTMLMacroTest extends AbstractComponentTestCase
         macro.execute(parameters, "<ul><li>item</li></ul>", context);
     }
 
-    @org.junit.Test
+    @Test
     public void macroDescriptor() throws Exception
     {
         HTMLMacro macro = (HTMLMacro) getComponentManager().lookup(Macro.class, "html");
