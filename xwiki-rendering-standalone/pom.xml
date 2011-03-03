@@ -127,26 +127,19 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-invoker-plugin</artifactId>
-            <configuration>
-              <debug>true</debug>
-              <projectsDirectory>src/it</projectsDirectory>
-              <pomIncludes>
-                <pomInclude>**/example/pom.xml</pomInclude>
-              </pomIncludes>
-              <postBuildHookScript>verify.bsh</postBuildHookScript>
-            </configuration>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>shitty-maven-plugin</artifactId>
+            <version>1.0-alpha-3</version>
             <executions>
               <execution>
-                <id>integration-test</id>
-                <phase>integration-test</phase>
                 <goals>
-                  <goal>run</goal>
+                  <goal>clean</goal>
+                  <goal>install</goal>
+                  <goal>test</goal>
                 </goals>
               </execution>
             </executions>
-          </plugin>      
+          </plugin>
         </plugins>
       </build>
     </profile>
