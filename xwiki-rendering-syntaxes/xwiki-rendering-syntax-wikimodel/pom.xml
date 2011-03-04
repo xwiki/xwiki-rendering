@@ -39,8 +39,8 @@
       <version>2.0.7-20101027</version>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-core-xml-default</artifactId>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-xml</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
