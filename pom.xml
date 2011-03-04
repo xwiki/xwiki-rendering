@@ -28,7 +28,7 @@
     <groupId>org.xwiki.platform</groupId>
     <artifactId>xwiki</artifactId>
     <version>40-SNAPSHOT</version>
-    <relativePath>../platform/pom</relativePath>
+    <relativePath>../commons/xwiki-commons-pom</relativePath>
   </parent>
   <groupId>org.xwiki.rendering</groupId>
   <artifactId>xwiki-rendering</artifactId>
