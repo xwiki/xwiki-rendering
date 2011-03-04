@@ -44,8 +44,8 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-core-configuration-api</artifactId>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-configuration-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -79,8 +79,8 @@
           <artifactId>xwiki-core-bridge</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-core-configuration-api</artifactId>
+          <groupId>org.xwiki.commons</groupId>
+          <artifactId>xwiki-commons-configuration-api</artifactId>
         </exclusion>
       </exclusions>      
     </dependency>
