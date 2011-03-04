@@ -66,8 +66,8 @@
       
     <!-- Testing dependencies -->
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-core-shared-tests</artifactId>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-tests</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
       <!-- Exclude some deps drawn transitively and that we don't use.
@@ -82,7 +82,7 @@
           <groupId>org.xwiki.commons</groupId>
           <artifactId>xwiki-commons-configuration-api</artifactId>
         </exclusion>
-      </exclusions>      
+      </exclusions>
     </dependency>
   </dependencies>
   <build>
