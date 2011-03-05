@@ -57,8 +57,6 @@
     <clirr.previous.version>3.0</clirr.previous.version>
     <!-- Default is to not run CLIRR, make sure we run it -->
     <xwiki.clirr.skip>false</xwiki.clirr.skip>
-    <!-- FIXME: Don't run CLIRR yet since this is the first release. Remove when it's first released -->
-    <xwiki.clirr.skip>true</xwiki.clirr.skip>
   </properties>
   <dependencies>
     <dependency>
