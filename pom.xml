@@ -146,8 +146,7 @@
               <rules>
                 <bannedDependencies>
                   <excludes>
-                    <exclude>org.xwiki.platform:xwiki-core-bridge</exclude>
-                    <exclude>org.xwiki.platform:xwiki-core-configuration-default</exclude>
+                    <exclude>org.xwiki.platform:*</exclude>
                   </excludes>
                 </bannedDependencies>
               </rules>
