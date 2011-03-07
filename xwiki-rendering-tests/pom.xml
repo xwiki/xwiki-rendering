@@ -42,7 +42,7 @@
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-tests</artifactId>
-      <version>${project.version}</version>
+      <version>${xwiki.commons.core.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -104,7 +104,7 @@
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-component-default</artifactId>
-      <version>${project.version}</version>
+      <version>${xwiki.commons.core.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

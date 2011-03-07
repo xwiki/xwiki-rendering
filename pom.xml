@@ -57,18 +57,19 @@
     <clirr.previous.version>3.0</clirr.previous.version>
     <!-- Default is to not run CLIRR, make sure we run it -->
     <xwiki.clirr.skip>false</xwiki.clirr.skip>
+    <xwiki.commons.core.version>3.0-milestone-3</xwiki.commons.core.version>
   </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-component-api</artifactId>
-      <version>3.0-milestone-3</version>
+      <version>${xwiki.commons.core.version}</version>
     </dependency>
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-tests</artifactId>
-      <version>3.0-milestone-3</version>
+      <version>${xwiki.commons.core.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
