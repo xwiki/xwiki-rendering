@@ -53,7 +53,7 @@
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-velocity</artifactId>
-      <version>${xwiki.commons.core.version}</version>
+      <version>${commons.core.version}</version>
     </dependency>
 
     <!-- Testing dependencies -->

@@ -41,7 +41,7 @@
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-xml</artifactId>
-      <version>${xwiki.commons.core.version}</version>
+      <version>${commons.core.version}</version>
     </dependency>
   </dependencies>
   <build>
