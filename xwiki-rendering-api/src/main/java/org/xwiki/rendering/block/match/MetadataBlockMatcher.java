@@ -27,6 +27,7 @@ import org.xwiki.rendering.listener.MetaData;
  * Implementation of {@link BlockMatcher} which matches {@link MetaData} information.
  * 
  * @version $Id$
+ * @since 3.0M3
  */
 public class MetadataBlockMatcher extends ClassBlockMatcher
 {
