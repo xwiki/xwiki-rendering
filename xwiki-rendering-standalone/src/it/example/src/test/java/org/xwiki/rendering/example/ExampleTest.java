@@ -78,7 +78,7 @@ public class ExampleTest
         Parser parser = ecm.lookup(Parser.class, Syntax.XWIKI_2_0.toIdString());
         XDOM xdom = parser.parse(new StringReader("This a [[link>>MyPage]]"));
         
-        // Find all links and make them italic
+        // Find all links and make them italic by manipulating the XDOM
         for (Block block : xdom.getBlocks(new ClassBlockMatcher(LinkBlock.class), Block.Axes.DESCENDANT)) {
             Block parentBlock = block.getParent();
             Block newBlock = new FormatBlock(Collections.<Block>singletonList(block), Format.ITALIC);
