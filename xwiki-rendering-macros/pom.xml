@@ -108,5 +108,6 @@
     <module>xwiki-rendering-macro-toc</module>
     <module>xwiki-rendering-macro-id</module>
     <module>xwiki-rendering-macro-box</module>
+    <module>xwiki-rendering-macro-message</module>
   </modules>
 </project>
