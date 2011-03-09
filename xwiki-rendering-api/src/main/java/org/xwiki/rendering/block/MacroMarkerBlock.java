@@ -119,7 +119,7 @@ public class MacroMarkerBlock extends AbstractBlock
      */
     public void before(Listener listener)
     {
-        listener.beginMacroMarker(getName(), getParameters(), getContent(), isInline());
+        listener.beginMacroMarker(getId(), getParameters(), getContent(), isInline());
     }
 
     /**
@@ -129,6 +129,6 @@ public class MacroMarkerBlock extends AbstractBlock
      */
     public void after(Listener listener)
     {
-        listener.endMacroMarker(getName(), getParameters(), getContent(), isInline());
+        listener.endMacroMarker(getId(), getParameters(), getContent(), isInline());
     }
 }
