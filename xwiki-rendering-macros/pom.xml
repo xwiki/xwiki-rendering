@@ -109,5 +109,6 @@
     <module>xwiki-rendering-macro-id</module>
     <module>xwiki-rendering-macro-box</module>
     <module>xwiki-rendering-macro-message</module>
+    <module>xwiki-rendering-macro-footnotes</module>
   </modules>
 </project>
