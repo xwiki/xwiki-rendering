@@ -36,7 +36,7 @@ public class MacroBlockMatcher extends ClassBlockMatcher
     private String macroId;
 
     /**
-     * Match {@link org.xwiki.rendering.block.MacroBlock} having the passed id
+     * Match {@link org.xwiki.rendering.block.MacroBlock} having the passed id.
      *
      * @param macroId the macro id to match
      */
