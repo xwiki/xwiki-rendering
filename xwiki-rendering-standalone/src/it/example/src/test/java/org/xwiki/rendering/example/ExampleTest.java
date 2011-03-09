@@ -31,12 +31,14 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.converter.Converter;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationManager;
 import org.xwiki.rendering.syntax.Syntax;
 
@@ -77,7 +79,7 @@ public class ExampleTest
         XDOM xdom = parser.parse(new StringReader("This a [[link>>MyPage]]"));
         
         // Find all links and make them italic
-        for (LinkBlock block : xdom.getChildrenByType(LinkBlock.class, true)) {
+        for (Block block : xdom.getBlocks(new ClassBlockMatcher(LinkBlock.class), Block.Axes.DESCENDANT)) {
             Block parentBlock = block.getParent();
             Block newBlock = new FormatBlock(Collections.<Block>singletonList(block), Format.ITALIC);
             parentBlock.replaceChild(newBlock, block);
@@ -85,7 +87,8 @@ public class ExampleTest
 
         // Execute transformations (for example this executes the Macros which are implemented as Transformations).
         TransformationManager txManager = ecm.lookup(TransformationManager.class);
-        txManager.performTransformations(xdom, parser.getSyntax());
+        TransformationContext txContext = new TransformationContext(xdom, parser.getSyntax());
+        txManager.performTransformations(xdom, txContext);
 
         // Generate XWiki 2.0 Syntax as output for example
         WikiPrinter printer = new DefaultWikiPrinter();
