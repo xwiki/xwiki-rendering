@@ -57,7 +57,7 @@ public class ExampleTest
         EmbeddableComponentManager ecm = new EmbeddableComponentManager();
         ecm.initialize(this.getClass().getClassLoader());
         
-        // Use a the Converter component to convert between one syntax to another.
+        // Use the Converter component to convert between one syntax to another.
         Converter converter = ecm.lookup(Converter.class);
 
         // Convert input in XWiki Syntax 2.0 into XHTML. The result is stored in the printer.
