@@ -107,5 +107,6 @@
     <module>xwiki-rendering-macro-html</module>
     <module>xwiki-rendering-macro-toc</module>
     <module>xwiki-rendering-macro-id</module>
+    <module>xwiki-rendering-macro-box</module>
   </modules>
 </project>
