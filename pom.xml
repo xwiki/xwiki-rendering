@@ -48,6 +48,7 @@
   <modules>
     <module>xwiki-rendering-api</module>
     <module>xwiki-rendering-syntaxes</module>
+    <module>xwiki-rendering-test</module>
     <module>xwiki-rendering-integration-tests</module>
     <module>xwiki-rendering-macros</module>
     <module>xwiki-rendering-transformations</module>

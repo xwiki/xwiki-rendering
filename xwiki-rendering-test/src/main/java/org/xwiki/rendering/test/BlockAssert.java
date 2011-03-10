@@ -17,8 +17,9 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.scaffolding;
+package org.xwiki.rendering.test;
 
+import org.junit.Assert;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.renderer.PrintRenderer;
@@ -37,14 +38,20 @@ import java.util.List;
 public class BlockAssert
 {
     /**
-     * Protect constructor since it is a static only class
+     * Protect constructor since it is a static only class.
      */
     protected BlockAssert()
     {
         // Nothing to do
     }
 
-    public static void assertBlocks(String expected, List<Block> blocks, PrintRendererFactory factory) throws Exception
+    /**
+     * @param expected the expected value of passed Blocks when rendered using the passed Renderer Factory
+     * @param blocks the Blocks to assert
+     * @param factory the Renderer Factory to use to serialize the passed Block and to compare them with the passed
+     *        String
+     */
+    public static void assertBlocks(String expected, List<Block> blocks, PrintRendererFactory factory)
     {
         // Assert the result by parsing it through the EventsRenderer to generate easily
         // assertable events.
@@ -54,6 +61,6 @@ public class BlockAssert
         PrintRenderer eventRenderer = factory.createRenderer(printer);
 
         dom.traverse(eventRenderer);
-        junit.framework.Assert.assertEquals(expected, printer.toString());
+        Assert.assertEquals(expected, printer.toString());
     }
 }
