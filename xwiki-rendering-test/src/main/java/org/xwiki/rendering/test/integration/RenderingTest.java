@@ -17,13 +17,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.scaffolding;
+package org.xwiki.rendering.test.integration;
 
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jmock.cglib.MockObjectTestCase;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.rendering.block.XDOM;
@@ -36,19 +37,19 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.SyntaxFactory;
-import org.xwiki.rendering.test.integration.SyntaxWrappingListener;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationManager;
 import org.xwiki.test.MockConfigurationSource;
 
 /**
+ * A generic JUnit Test used by {@link RenderingTestSuite} to parse some passed content and verify it matches some
+ * passed expectation. The format of the input/expectation is specified in {@link TestDataParser}.
+ *
  * @version $Id$
- * @since 1.6M1
+ * @since 3.0RC1
  */
-public class RenderingTestCase extends MockObjectTestCase
+public class RenderingTest
 {
-    private ComponentManager componentManager;
-
     private String input;
 
     private String expected;
@@ -63,14 +64,11 @@ public class RenderingTestCase extends MockObjectTestCase
 
     private Map<String, ? > configuration;
 
-    /**
-     * @since 3.0M3
-     */
-    public RenderingTestCase(String testName, String input, String expected, String parserId, String targetSyntaxId,
-        boolean streaming, boolean runTransformations, Map<String, ? > configuration)
-    {
-        super(testName);
+    private ComponentManager componentManager;
 
+    public RenderingTest(String input, String expected, String parserId, String targetSyntaxId,
+        boolean streaming, boolean runTransformations, Map<String, ? > configuration, ComponentManager componentManager)
+    {
         this.input = input;
         this.expected = expected;
         this.parserId = parserId;
@@ -78,15 +76,11 @@ public class RenderingTestCase extends MockObjectTestCase
         this.streaming = streaming;
         this.runTransformations = runTransformations;
         this.configuration = configuration;
+        this.componentManager = componentManager;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#runTest()
-     */
-    @Override
-    protected void runTest() throws Throwable
+    @Test
+    public void execute() throws Throwable
     {
         Map<String, String> originalConfiguration = new HashMap<String, String>();
         if (this.configuration != null) {
@@ -157,15 +151,10 @@ public class RenderingTestCase extends MockObjectTestCase
             parser.parse(new StringReader(this.input), listener);
         }
 
-        assertEquals(this.expected, printer.toString());
+        Assert.assertEquals(this.expected, printer.toString());
     }
 
-    public void setComponentManager(ComponentManager componentManager)
-    {
-        this.componentManager = componentManager;
-    }
-
-    public ComponentManager getComponentManager()
+    public ComponentManager getComponentManager() throws Exception
     {
         return this.componentManager;
     }

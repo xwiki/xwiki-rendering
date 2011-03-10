@@ -29,6 +29,11 @@ import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
+/**
+ * Used in some {@code *.test} files.
+ *
+ * @version $Id$
+ */
 @Component("testbox")
 public class TestBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
 {

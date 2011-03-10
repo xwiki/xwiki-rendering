@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.scaffolding;
+package org.xwiki.rendering.test.integration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +29,7 @@ import org.xwiki.rendering.listener.WrappingListener;
  * Filter {@link MetaData} source element from begin/endDocument events.
  * 
  * @version $Id$
- * @since 3.0M3
+ * @since 3.0RC1
  */
 public class SyntaxWrappingListener extends WrappingListener
 {
