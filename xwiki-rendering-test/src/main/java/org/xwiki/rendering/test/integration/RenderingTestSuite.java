@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
@@ -175,6 +176,18 @@ public class RenderingTestSuite extends Suite
     protected List<Runner> getChildren()
     {
         return this.runners;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * We override this method so that the JUnit results are not displayed in a test hierarchy with a single test
+     * result for each node (as it would be otherwise since RenderingTest has a single test method).
+     */
+    @Override
+    public Description getDescription()
+    {
+        return Description.createSuiteDescription(getTestClass().getJavaClass());
     }
 
     /**
