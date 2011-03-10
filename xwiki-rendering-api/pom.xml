@@ -70,19 +70,6 @@
       <artifactId>xwiki-commons-tests</artifactId>
       <version>${commons.core.version}</version>
       <scope>test</scope>
-      <!-- Exclude some deps drawn transitively and that we don't use.
-           We do this to prevent the Enforcer plugin configuration for
-           this module from failing. -->
-      <exclusions>
-        <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-core-bridge</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.xwiki.commons</groupId>
-          <artifactId>xwiki-commons-configuration-api</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
   <build>
