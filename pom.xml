@@ -131,7 +131,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
-      <!-- Ensure that the XWiki Rendering top level module is independent of the XWiki Core Model (so that it can
+      <!-- Ensure that the XWiki Rendering top level module is independent of the XWiki Platform (so that it can
            be used standalone). -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
