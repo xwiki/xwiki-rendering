@@ -75,81 +75,89 @@ public class RenderingTestSuite extends Suite
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public static @interface Initialized {
+    public static @interface Initialized
+    {
     }
 
-	private class TestClassRunnerForParameters extends
+    private class TestClassRunnerForParameters extends
         BlockJUnit4ClassRunner
     {
-		private final int fParameterSetNumber;
+        private final int parameterSetNumber;
 
-		private final List<Object[]> fParameterList;
+        private final List<Object[]> parameterList;
 
-		TestClassRunnerForParameters(Class<?> type,
-				List<Object[]> parameterList, int i) throws InitializationError
+        TestClassRunnerForParameters(Class<?> type,
+            List<Object[]> parameterList, int i) throws InitializationError
         {
-			super(type);
-			fParameterList = parameterList;
-			fParameterSetNumber = i;
-		}
+            super(type);
+            this.parameterList = parameterList;
+            this.parameterSetNumber = i;
+        }
 
-		@Override
-		public Object createTest() throws Exception {
-			return getTestClass().getOnlyConstructor().newInstance(
-					computeParams());
-		}
+        @Override
+        public Object createTest() throws Exception
+        {
+            return getTestClass().getOnlyConstructor().newInstance(
+                computeParams());
+        }
 
-		private Object[] computeParams() throws Exception {
+        private Object[] computeParams() throws Exception
+        {
             // Add the Component Manager as the last parameter in order to pass it to the Test constructor
             // Remove the first parameter which is the test name and that is not needed in RenderingTest
-            Object[] originalObjects = fParameterList.get(fParameterSetNumber);
+            Object[] originalObjects = this.parameterList.get(this.parameterSetNumber);
             Object[] newObjects = new Object[originalObjects.length];
             System.arraycopy(originalObjects, 1, newObjects, 0, originalObjects.length - 1);
             newObjects[originalObjects.length - 1] = INITIALIZER.getComponentManager();
             return newObjects;
-		}
+        }
 
-		@Override
-		protected String getName()
+        @Override
+        protected String getName()
         {
-			return (String) this.fParameterList.get(this.fParameterSetNumber)[0];
-		}
+            return (String) this.parameterList.get(this.parameterSetNumber)[0];
+        }
 
-		@Override
-		protected String testName(final FrameworkMethod method)
+        @Override
+        protected String testName(final FrameworkMethod method)
         {
             return getName();
-		}
+        }
 
-		@Override
-		protected void validateConstructor(List<Throwable> errors) {
-			validateOnlyOneConstructor(errors);
-		}
+        @Override
+        protected void validateConstructor(List<Throwable> errors)
+        {
+            validateOnlyOneConstructor(errors);
+        }
 
-		@Override
-		protected Statement classBlock(RunNotifier notifier) {
-			return childrenInvoker(notifier);
-		}
-	}
+        @Override
+        protected Statement classBlock(RunNotifier notifier)
+        {
+            return childrenInvoker(notifier);
+        }
+    }
 
-	private final ArrayList<Runner> runners= new ArrayList<Runner>();
+    private final ArrayList<Runner> runners = new ArrayList<Runner>();
 
-	/**
-	 * Only called reflectively. Do not use programmatically.
-	 */
-	public RenderingTestSuite(Class klass) throws Throwable {
-		super(RenderingTest.class, Collections.<Runner>emptyList());
+    /**
+     * Only called reflectively. Do not use programmatically.
+     */
+    public RenderingTestSuite(Class klass) throws Throwable
+    {
+        super(RenderingTest.class, Collections.<Runner>emptyList());
         this.klass = klass;
-		List<Object[]> parametersList = (List<Object[]>) GENERATOR.generateData();
-		for (int i= 0; i < parametersList.size(); i++)
-			runners.add(new TestClassRunnerForParameters(getTestClass().getJavaClass(),
-					parametersList, i));
-	}
+        List<Object[]> parametersList = (List<Object[]>) GENERATOR.generateData();
+        for (int i = 0; i < parametersList.size(); i++) {
+            this.runners.add(new TestClassRunnerForParameters(getTestClass().getJavaClass(),
+                parametersList, i));
+        }
+    }
 
-	@Override
-	protected List<Runner> getChildren() {
-		return runners;
-	}
+    @Override
+    protected List<Runner> getChildren()
+    {
+        return this.runners;
+    }
 
     @Override
     public void run(RunNotifier notifier)
