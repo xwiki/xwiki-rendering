@@ -1,5 +1,3 @@
-package org.xwiki.rendering.util;
-
 /*
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,69 +17,71 @@ package org.xwiki.rendering.util;
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-import junit.framework.TestCase;
+package org.xwiki.rendering.util;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Validate {@link IdGenerator}.
  * 
  * @version $Id$
  */
-public class IdGeneratorTest extends TestCase
+public class IdGeneratorTest
 {
     private IdGenerator idGenerator;
     
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
-     */
-    @Override
-    protected void setUp() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
-        super.setUp();
-        
         this.idGenerator = new IdGenerator();
     }
-    
+
+    @Test
     public void testGenerateUniqueId()
     {
-        assertEquals("Itext", this.idGenerator.generateUniqueId("text"));
-        assertEquals("Itext-1", this.idGenerator.generateUniqueId("te xt"));
-    }
-    
-    public void testGenerateUniqueIdWithPrefix()
-    {
-        assertEquals("prefixtext", this.idGenerator.generateUniqueId("prefix", "text"));
-        assertEquals("prefixtext-1", this.idGenerator.generateUniqueId("prefix", "te xt"));
-    }
-    
-    public void testGenerateUniqueIdFromNonAlphaNum()
-    {
-        assertEquals("I:_.-", this.idGenerator.generateUniqueId(":_.-"));
-        assertEquals("Iwithspace", this.idGenerator.generateUniqueId("with space"));
-        assertEquals("Iwithtab", this.idGenerator.generateUniqueId("with\ttab"));
-        assertEquals("I5BC67801", this.idGenerator.generateUniqueId("\u5BC6\u7801"));
-        assertEquals("I3D", this.idGenerator.generateUniqueId("="));
+        Assert.assertEquals("Itext", this.idGenerator.generateUniqueId("text"));
+        Assert.assertEquals("Itext-1", this.idGenerator.generateUniqueId("te xt"));
     }
 
+    @Test
+    public void testGenerateUniqueIdWithPrefix()
+    {
+        Assert.assertEquals("prefixtext", this.idGenerator.generateUniqueId("prefix", "text"));
+        Assert.assertEquals("prefixtext-1", this.idGenerator.generateUniqueId("prefix", "te xt"));
+    }
+
+    @Test
+    public void testGenerateUniqueIdFromNonAlphaNum()
+    {
+        Assert.assertEquals("I:_.-", this.idGenerator.generateUniqueId(":_.-"));
+        Assert.assertEquals("Iwithspace", this.idGenerator.generateUniqueId("with space"));
+        Assert.assertEquals("Iwithtab", this.idGenerator.generateUniqueId("with\ttab"));
+        Assert.assertEquals("I5BC67801", this.idGenerator.generateUniqueId("\u5BC6\u7801"));
+        Assert.assertEquals("I3D", this.idGenerator.generateUniqueId("="));
+    }
+
+    @Test
     public void testGenerateUniqueIdWhenInvalidEmptyPrefix()
     {
         try {
             this.idGenerator.generateUniqueId("", "whatever");
-            fail("Should have thrown an exception");
+            Assert.fail("Should have thrown an exception");
         } catch (IllegalArgumentException expected) {
-            assertEquals("The prefix [] should only contain alphanumerical characters and not be empty.",
+            Assert.assertEquals("The prefix [] should only contain alphanumerical characters and not be empty.",
                 expected.getMessage());
         }
     }
 
+    @Test
     public void testGenerateUniqueIdWhenInvalidNonAlphaPrefix()
     {
         try {
             this.idGenerator.generateUniqueId("a-b", "whatever");
-            fail("Should have thrown an exception");
+            Assert.fail("Should have thrown an exception");
         } catch (IllegalArgumentException expected) {
-            assertEquals("The prefix [a-b] should only contain alphanumerical characters and not be empty.",
+            Assert.assertEquals("The prefix [a-b] should only contain alphanumerical characters and not be empty.",
                 expected.getMessage());
         }
     }

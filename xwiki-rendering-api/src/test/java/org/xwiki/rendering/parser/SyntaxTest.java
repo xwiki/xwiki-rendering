@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering.parser;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxType;
 
@@ -29,36 +30,39 @@ import org.xwiki.rendering.syntax.SyntaxType;
  * @version $Id$
  * @since 1.5M2
  */
-public class SyntaxTest extends TestCase
+public class SyntaxTest
 {
+    @Test
     public void testEquality()
     {
         Syntax syntax1 = new Syntax(new SyntaxType("mytype", "My Type"), "1.0");
         Syntax syntax2 = new Syntax(new SyntaxType("mytype", "My Type"), "1.0");
         Syntax syntax3 = new Syntax(new SyntaxType("mytype", "Still same type"), "1.0");
 
-        assertEquals("mytype", syntax1.getType().getId());
-        assertEquals("My Type", syntax1.getType().getName());
+        Assert.assertEquals("mytype", syntax1.getType().getId());
+        Assert.assertEquals("My Type", syntax1.getType().getName());
 
-        assertEquals(syntax2, syntax1);
+        Assert.assertEquals(syntax2, syntax1);
         // The syntax type name is not part of the equality test.
-        assertEquals(syntax3, syntax1);
+        Assert.assertEquals(syntax3, syntax1);
     }
 
+    @Test
     public void testNonEquality()
     {
         Syntax syntax1 = new Syntax(SyntaxType.XWIKI, "1.0");
         Syntax syntax2 = new Syntax(SyntaxType.XWIKI, "2.0");
         Syntax syntax3 = new Syntax(SyntaxType.CONFLUENCE, "1.0");
 
-        assertFalse(syntax2.equals(syntax1));
-        assertFalse(syntax3.equals(syntax1));
+        Assert.assertFalse(syntax2.equals(syntax1));
+        Assert.assertFalse(syntax3.equals(syntax1));
     }
 
+    @Test
     public void testToString()
     {
         Syntax syntax = new Syntax(SyntaxType.XWIKI, "1.0");
-        assertEquals("XWiki 1.0", syntax.toString());
-        assertEquals("xwiki/1.0", syntax.toIdString());
+        Assert.assertEquals("XWiki 1.0", syntax.toString());
+        Assert.assertEquals("xwiki/1.0", syntax.toIdString());
     }
 }
