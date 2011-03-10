@@ -195,6 +195,7 @@
       </activation>
       <modules>
         <module>xwiki-rendering-standalone</module>
+        <module>xwiki-rendering-archetype-macro</module>
       </modules>
     </profile>
   </profiles>
