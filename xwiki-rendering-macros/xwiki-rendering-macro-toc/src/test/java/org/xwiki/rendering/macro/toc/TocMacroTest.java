@@ -21,8 +21,6 @@ package org.xwiki.rendering.macro.toc;
 
 import java.util.Collections;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.properties.PropertyException;
@@ -39,32 +37,20 @@ public class TocMacroTest extends AbstractComponentTestCase
     private BeanManager beanManager;
 
     @Override
-    public void setUp() throws Exception
+    protected void registerComponents() throws Exception
     {
-        super.setUp();
-
         this.beanManager = getComponentManager().lookup(BeanManager.class);
     }
 
-    @Test
-    public void testStartTooLow()
+    @Test(expected = PropertyException.class)
+    public void testStartTooLow() throws PropertyException
     {
-        try {
-            this.beanManager.populate(new TocMacroParameters(), Collections.singletonMap("start", "0"));
-            Assert.fail("populate should have failed");
-        } catch (PropertyException expected) {
-            // expected
-        }
+        this.beanManager.populate(new TocMacroParameters(), Collections.singletonMap("start", "0"));
     }
 
-    @Test
-    public void testDepthTooLow()
+    @Test(expected = PropertyException.class)
+    public void testDepthTooLow() throws PropertyException
     {
-        try {
-            this.beanManager.populate(new TocMacroParameters(), Collections.singletonMap("depth", "0"));
-            Assert.fail("populate should have failed");
-        } catch (PropertyException expected) {
-            // expected
-        }
+        this.beanManager.populate(new TocMacroParameters(), Collections.singletonMap("depth", "0"));
     }
 }
