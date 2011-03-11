@@ -109,8 +109,7 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
     }
 
     /**
-     * @param transformations the explicit list of transformations (component role hints, eg "macro", "icon", etc) to
-     *        execute (overrides the default list)
+     * @param transformations the explicit list of transformations to execute (overrides the default list)
      */
     public void setTransformations(List<Transformation> transformations)
     {
