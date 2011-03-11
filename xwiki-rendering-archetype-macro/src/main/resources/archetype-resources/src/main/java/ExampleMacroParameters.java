@@ -17,13 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package ${packageName};
+package ${package};
 
 import org.xwiki.properties.annotation.PropertyMandatory;
 import org.xwiki.properties.annotation.PropertyDescription;
 
 /**
- * Parameters for the {@link ${packageName}.internal.ExampleMacro} Macro.
+ * Parameters for the {@link ${package}.internal.ExampleMacro} Macro.
  */
 public class ExampleMacroParameters
 {

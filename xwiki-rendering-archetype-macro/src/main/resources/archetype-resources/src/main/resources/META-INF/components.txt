@@ -1,1 +1,1 @@
-${packageName}.internal.ExampleMacro
+${package}.internal.ExampleMacro
