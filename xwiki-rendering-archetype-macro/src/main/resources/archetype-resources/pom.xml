@@ -30,8 +30,8 @@
   <name>XWiki Macro - Example</name>
   <description>XWiki Macro - Example</description>
   <properties>
-    <rendering.version>${renderingVersion}</rendering.version>
-    <commons.version>${commonsVersion}</commons.version>
+    <rendering.version>${project.version}</rendering.version>
+    <commons.version>${commons.core.version}</commons.version>
   </properties>
   <build>
     <plugins>
