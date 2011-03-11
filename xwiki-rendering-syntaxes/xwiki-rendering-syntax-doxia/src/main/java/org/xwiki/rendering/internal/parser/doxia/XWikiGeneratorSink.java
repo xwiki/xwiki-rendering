@@ -20,7 +20,6 @@
 package org.xwiki.rendering.internal.parser.doxia;
 
 import java.io.StringReader;
-import java.util.Map;
 import java.util.Stack;
 
 import org.apache.maven.doxia.logging.Log;
@@ -30,15 +29,15 @@ import org.xwiki.rendering.listener.CompositeListener;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.InlineFilterListener;
-import org.xwiki.rendering.listener.MetaData;
-import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.QueueListener;
-import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.listener.WrappingListener;
-import org.xwiki.rendering.parser.ResourceReferenceParser;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ParseException;
+import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
