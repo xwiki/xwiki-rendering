@@ -115,4 +115,39 @@ public class ExampleTest
 
         Assert.assertEquals("<div id=\"test\"></div>", printer.toString());
     }
+
+    /**
+     * Verifies that all bundled macro work fine (this is to verify we bundle all their required dependencies).
+     */
+    @Test
+    public void executeAllBundledMacros() throws Exception
+    {
+        // Initialize Rendering components and allow getting instances
+        final EmbeddableComponentManager cm = new EmbeddableComponentManager();
+        cm.initialize(this.getClass().getClassLoader());
+
+        // Content containing all bundled macros
+        String content = "{{toc/}}\n\n"
+            + "{{id name=\"header1\"/}}\n"
+            + "= header =\n";
+
+        Parser parser = cm.lookup(Parser.class, Syntax.XWIKI_2_0.toIdString());
+        XDOM xdom = parser.parse(new StringReader(content));
+
+        // Execute the Macro Transformation to execute Macros.
+        Transformation transformation = cm.lookup(Transformation.class, "macro");
+        TransformationContext txContext = new TransformationContext(xdom, parser.getSyntax());
+        transformation.transform(xdom, txContext);
+
+        // Convert input in XWiki Syntax 2.0 into XHTML. The result is stored in the printer.
+        WikiPrinter printer = new DefaultWikiPrinter();
+        BlockRenderer renderer = cm.lookup(BlockRenderer.class, Syntax.XHTML_1_0.toIdString());
+        renderer.render(xdom, printer);
+
+        String expected = "<ul><li><span class=\"wikilink\"><a href=\"#Hheader\">header</a></span></li></ul>"
+            + "<div id=\"header1\"></div>"
+            + "<h1 id=\"Hheader\"><span>header</span></h1>";
+
+        Assert.assertEquals(expected, printer.toString());
+    }
 }
