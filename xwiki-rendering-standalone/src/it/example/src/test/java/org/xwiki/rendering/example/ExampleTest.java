@@ -38,8 +38,8 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
-import org.xwiki.rendering.transformation.TransformationManager;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -54,11 +54,11 @@ public class ExampleTest
     public void renderXWiki20SyntaxAsXHTML() throws Exception
     {
         // Initialize Rendering components and allow getting instances
-        EmbeddableComponentManager ecm = new EmbeddableComponentManager();
-        ecm.initialize(this.getClass().getClassLoader());
+        EmbeddableComponentManager cm = new EmbeddableComponentManager();
+        cm.initialize(this.getClass().getClassLoader());
         
         // Use the Converter component to convert between one syntax to another.
-        Converter converter = ecm.lookup(Converter.class);
+        Converter converter = cm.lookup(Converter.class);
 
         // Convert input in XWiki Syntax 2.0 into XHTML. The result is stored in the printer.
         WikiPrinter printer = new DefaultWikiPrinter();
@@ -71,11 +71,11 @@ public class ExampleTest
     public void makeAllLinksItalic() throws Exception
     {
         // Initialize Rendering components and allow getting instances
-        EmbeddableComponentManager ecm = new EmbeddableComponentManager();
-        ecm.initialize(this.getClass().getClassLoader());
+        EmbeddableComponentManager cm = new EmbeddableComponentManager();
+        cm.initialize(this.getClass().getClassLoader());
         
         // Parse XWiki 2.0 Syntax using a Parser.
-        Parser parser = ecm.lookup(Parser.class, Syntax.XWIKI_2_0.toIdString());
+        Parser parser = cm.lookup(Parser.class, Syntax.XWIKI_2_0.toIdString());
         XDOM xdom = parser.parse(new StringReader("This a [[link>>MyPage]]"));
         
         // Find all links and make them italic by manipulating the XDOM
@@ -85,16 +85,34 @@ public class ExampleTest
             parentBlock.replaceChild(newBlock, block);
         }
 
-        // Execute transformations (for example this executes the Macros which are implemented as Transformations).
-        TransformationManager txManager = ecm.lookup(TransformationManager.class);
-        TransformationContext txContext = new TransformationContext(xdom, parser.getSyntax());
-        txManager.performTransformations(xdom, txContext);
-
         // Generate XWiki 2.0 Syntax as output for example
         WikiPrinter printer = new DefaultWikiPrinter();
-        BlockRenderer renderer = ecm.lookup(BlockRenderer.class, Syntax.XWIKI_2_0.toIdString());
+        BlockRenderer renderer = cm.lookup(BlockRenderer.class, Syntax.XWIKI_2_0.toIdString());
         renderer.render(xdom, printer);
 
         Assert.assertEquals("This a //[[link>>MyPage]]//", printer.toString());
+    }
+
+    @Test
+    public void executeMacroTransformation() throws Exception
+    {
+        // Initialize Rendering components and allow getting instances
+        final EmbeddableComponentManager cm = new EmbeddableComponentManager();
+        cm.initialize(this.getClass().getClassLoader());
+
+        Parser parser = cm.lookup(Parser.class, Syntax.XWIKI_2_0.toIdString());
+        XDOM xdom = parser.parse(new StringReader("{{id name=\"test\"/}}"));
+
+        // Execute the Macro Transformation to execute Macros.
+        Transformation transformation = cm.lookup(Transformation.class, "macro");
+        TransformationContext txContext = new TransformationContext(xdom, parser.getSyntax());
+        transformation.transform(xdom, txContext);
+
+        // Convert input in XWiki Syntax 2.0 into XHTML. The result is stored in the printer.
+        WikiPrinter printer = new DefaultWikiPrinter();
+        BlockRenderer renderer = cm.lookup(BlockRenderer.class, Syntax.XHTML_1_0.toIdString());
+        renderer.render(xdom, printer);
+
+        Assert.assertEquals("<div id=\"test\"></div>", printer.toString());
     }
 }
