@@ -130,7 +130,10 @@ public class ExampleTest
         String content = "{{toc/}}\n\n"
             + "{{id name=\"header1\"/}}\n"
             + "= header =\n"
-            + "{{box}}content{{/box}}";
+            + "{{box}}content{{/box}}\n\n"
+            + "{{info}}info{{/info}}\n\n"
+            + "{{warning}}warning{{/warning}}\n\n"
+            + "{{error}}error{{/error}}";
 
         Parser parser = cm.lookup(Parser.class, Syntax.XWIKI_2_0.toIdString());
         XDOM xdom = parser.parse(new StringReader(content));
@@ -148,7 +151,10 @@ public class ExampleTest
         String expected = "<ul><li><span class=\"wikilink\"><a href=\"#Hheader\">header</a></span></li></ul>"
             + "<div id=\"header1\"></div>"
             + "<h1 id=\"Hheader\"><span>header</span></h1>"
-            + "<div class=\"box\"><p>content</p></div>";
+            + "<div class=\"box\"><p>content</p></div>"
+            + "<div class=\"box infomessage\">info</div>"
+            + "<div class=\"box warningmessage\">warning</div>"
+            + "<div class=\"box errormessage\">error</div>";
 
         Assert.assertEquals(expected, printer.toString());
     }
