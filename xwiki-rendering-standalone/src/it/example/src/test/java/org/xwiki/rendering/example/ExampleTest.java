@@ -133,7 +133,8 @@ public class ExampleTest
             + "{{box}}content{{/box}}\n\n"
             + "{{info}}info{{/info}}\n\n"
             + "{{warning}}warning{{/warning}}\n\n"
-            + "{{error}}error{{/error}}";
+            + "{{error}}error{{/error}}\n\n"
+            + "{{html}}<strong>bold</strong>{{/html}}";
 
         Parser parser = cm.lookup(Parser.class, Syntax.XWIKI_2_0.toIdString());
         XDOM xdom = parser.parse(new StringReader(content));
@@ -154,7 +155,8 @@ public class ExampleTest
             + "<div class=\"box\"><p>content</p></div>"
             + "<div class=\"box infomessage\">info</div>"
             + "<div class=\"box warningmessage\">warning</div>"
-            + "<div class=\"box errormessage\">error</div>";
+            + "<div class=\"box errormessage\">error</div>"
+            + "<p><strong>bold</strong></p>";
 
         Assert.assertEquals(expected, printer.toString());
     }
