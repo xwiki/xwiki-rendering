@@ -134,7 +134,9 @@ public class ExampleTest
             + "{{info}}info{{/info}}\n\n"
             + "{{warning}}warning{{/warning}}\n\n"
             + "{{error}}error{{/error}}\n\n"
-            + "{{html}}<strong>bold</strong>{{/html}}";
+            + "{{html}}<strong>bold</strong>{{/html}}\n\n"
+            + "{{footnote}}footnote{{/footnote}}\n\n"
+            + "{{putFootnotes/}}";
 
         Parser parser = cm.lookup(Parser.class, Syntax.XWIKI_2_0.toIdString());
         XDOM xdom = parser.parse(new StringReader(content));
@@ -156,7 +158,12 @@ public class ExampleTest
             + "<div class=\"box infomessage\">info</div>"
             + "<div class=\"box warningmessage\">warning</div>"
             + "<div class=\"box errormessage\">error</div>"
-            + "<p><strong>bold</strong></p>";
+            + "<p><strong>bold</strong></p>"
+            + "<sup><span id=\"x_footnote_ref_1\" class=\"footnoteRef\"><span class=\"wikilink\">"
+                + "<a href=\"#x_footnote_1\">1</a></span></span></sup>"
+                + "<ol class=\"footnotes\"><li><span class=\"wikilink\">"
+                + "<a id=\"x_footnote_1\" class=\"footnoteBackRef\" href=\"#x_footnote_ref_1\">^</a>"
+                + "</span> footnote</li></ol>";
 
         Assert.assertEquals(expected, printer.toString());
     }
