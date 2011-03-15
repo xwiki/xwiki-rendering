@@ -26,7 +26,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.match.AnyBlockMatcher;
 import org.xwiki.rendering.block.match.SameBlockMatcher;
@@ -43,6 +45,9 @@ import org.xwiki.rendering.listener.reference.ResourceType;
  */
 public class BlockTest
 {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Test
     public void testGetBlocksByType()
     {
@@ -142,13 +147,9 @@ public class BlockTest
         Assert.assertSame(word2, word1.getNextSibling());
         Assert.assertSame(word1, word2.getPreviousSibling());
 
-        // provide not existing block to replace
-        try {
-            parentBlock.replaceChild(word3, new WordBlock("not existing"));
-            Assert.fail("Should have thrown an InvalidParameterException exception");
-        } catch (InvalidParameterException expected) {
-            // expected
-        }
+        // Provide not existing block to replace
+        this.thrown.expect(InvalidParameterException.class);
+        parentBlock.replaceChild(word3, new WordBlock("not existing"));
     }
 
     @Test

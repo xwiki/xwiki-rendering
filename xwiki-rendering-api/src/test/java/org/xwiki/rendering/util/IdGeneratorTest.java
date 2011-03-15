@@ -21,7 +21,9 @@ package org.xwiki.rendering.util;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Validate {@link IdGenerator}.
@@ -31,7 +33,10 @@ import org.junit.Test;
 public class IdGeneratorTest
 {
     private IdGenerator idGenerator;
-    
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Before
     public void setUp() throws Exception
     {
@@ -65,24 +70,16 @@ public class IdGeneratorTest
     @Test
     public void testGenerateUniqueIdWhenInvalidEmptyPrefix()
     {
-        try {
-            this.idGenerator.generateUniqueId("", "whatever");
-            Assert.fail("Should have thrown an exception");
-        } catch (IllegalArgumentException expected) {
-            Assert.assertEquals("The prefix [] should only contain alphanumerical characters and not be empty.",
-                expected.getMessage());
-        }
+        this.thrown.expect(IllegalArgumentException.class);
+        this.thrown.expectMessage("The prefix [] should only contain alphanumerical characters and not be empty.");
+        this.idGenerator.generateUniqueId("", "whatever");
     }
 
     @Test
     public void testGenerateUniqueIdWhenInvalidNonAlphaPrefix()
     {
-        try {
-            this.idGenerator.generateUniqueId("a-b", "whatever");
-            Assert.fail("Should have thrown an exception");
-        } catch (IllegalArgumentException expected) {
-            Assert.assertEquals("The prefix [a-b] should only contain alphanumerical characters and not be empty.",
-                expected.getMessage());
-        }
+        this.thrown.expect(IllegalArgumentException.class);
+        this.thrown.expectMessage("The prefix [a-b] should only contain alphanumerical characters and not be empty.");
+        this.idGenerator.generateUniqueId("a-b", "whatever");
     }
 }
