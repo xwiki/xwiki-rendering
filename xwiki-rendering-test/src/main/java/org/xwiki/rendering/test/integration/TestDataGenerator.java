@@ -39,16 +39,6 @@ public class TestDataGenerator
 {
     private TestDataParser parser = new TestDataParser();
 
-    public Collection<Object[]> generateData()
-    {
-        return generateData("");
-    }
-
-    public Collection<Object[]> generateData(String testPackage)
-    {
-        return generateData(testPackage, ".*\\.test");
-    }
-
     public Collection<Object[]> generateData(String testPackage, String pattern)
     {
         Reflections reflections = new Reflections(new ConfigurationBuilder()

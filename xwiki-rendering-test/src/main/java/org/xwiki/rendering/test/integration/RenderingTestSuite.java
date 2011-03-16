@@ -71,6 +71,8 @@ public class RenderingTestSuite extends Suite
 
     private static final XWikiComponentInitializer INITIALIZER = new XWikiComponentInitializer();
 
+    private static final String DEFAULT_PATTERN = ".*\\.test";
+
     private Object klassInstance;
 
     @Retention(RetentionPolicy.RUNTIME)
@@ -87,6 +89,11 @@ public class RenderingTestSuite extends Suite
          * @return the classpath prefix to search in
          */
         String value() default "";
+
+        /**
+         * @return the regex pattern to filter *.test files to execute
+         */
+        String pattern() default DEFAULT_PATTERN;
     }
 
     private class TestClassRunnerForParameters extends
@@ -178,13 +185,14 @@ public class RenderingTestSuite extends Suite
         }
 
         // If a Scope Annotation is present then use it to define the scope
-        List<Object[]> parametersList;
         Scope scopeAnnotation = klass.getAnnotation(Scope.class);
+        String packagePrefix = "";
+        String pattern = DEFAULT_PATTERN;
         if (scopeAnnotation != null) {
-            parametersList = (List<Object[]>) GENERATOR.generateData(scopeAnnotation.value());
-        } else {
-            parametersList = (List<Object[]>) GENERATOR.generateData();
+            packagePrefix = scopeAnnotation.value();
+            pattern = scopeAnnotation.pattern();
         }
+        List<Object[]> parametersList = (List<Object[]>) GENERATOR.generateData(packagePrefix, pattern);
 
         for (int i = 0; i < parametersList.size(); i++) {
             this.runners.add(new TestClassRunnerForParameters(getTestClass().getJavaClass(),
