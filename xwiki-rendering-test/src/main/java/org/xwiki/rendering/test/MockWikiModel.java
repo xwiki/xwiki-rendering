@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.scaffolding;
+package org.xwiki.rendering.test;
 
 import java.util.Map;
 
@@ -36,6 +36,11 @@ import org.xwiki.rendering.wiki.WikiModel;
  */
 public class MockWikiModel implements WikiModel
 {
+    /**
+     * Question Mark symbol.
+     */
+    private static final String QM = "?";
+
     /**
      * Create and return a descriptor for this component.
      * 
@@ -60,7 +65,7 @@ public class MockWikiModel implements WikiModel
     public String getLinkURL(ResourceReference linkReference)
     {
         String queryString = linkReference.getParameter(AttachmentResourceReference.QUERY_STRING);
-        return "attachmenturl" + (queryString != null ? "?" + queryString : "");
+        return "attachmenturl" + (queryString != null ? QM + queryString : "");
     }
 
     /**
@@ -71,7 +76,7 @@ public class MockWikiModel implements WikiModel
     public String getImageURL(ResourceReference imageReference, Map<String, String> parameters)
     {
         String queryString = imageReference.getParameter(AttachmentResourceReference.QUERY_STRING);
-        return "imageurl" + (queryString != null ? "?" + queryString : "");
+        return "imageurl" + (queryString != null ? QM + queryString : "");
     }
 
     /**
@@ -93,7 +98,7 @@ public class MockWikiModel implements WikiModel
     {
         String queryString = documentReference.getParameter(DocumentResourceReference.QUERY_STRING);
         String anchor = documentReference.getParameter(DocumentResourceReference.ANCHOR);
-        return "viewurl" + (queryString != null ? "?" + queryString : "") + (anchor != null ? "#" + anchor : "");
+        return "viewurl" + (queryString != null ? QM + queryString : "") + (anchor != null ? "#" + anchor : "");
     }
 
     /**

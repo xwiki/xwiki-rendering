@@ -19,36 +19,32 @@
  */
 package org.xwiki.rendering;
 
-import junit.framework.TestCase;
-
+import org.junit.runner.RunWith;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.internal.configuration.DefaultRenderingConfiguration;
-import org.xwiki.rendering.scaffolding.MockWikiModel;
-import org.xwiki.rendering.scaffolding.RenderingTestSuite;
-import org.xwiki.rendering.wiki.WikiModel;
-import org.xwiki.test.ComponentManagerTestSetup;
+import org.xwiki.rendering.test.MockWikiModel;
+import org.xwiki.rendering.test.integration.RenderingTestSuite;
 
 /**
- * Rendering tests requiring a {@link WikiModel} implementation (ie tests that must have the notion of a wiki to run
- * fine).
- * 
+ * Run all tests found in {@code simple/*.test} files located in the classpath. These {@code *.test} files must follow
+ * the conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
+ *
  * @version $Id$
- * @since 2.0M1
+ * @since 3.0RC1
  */
-public class WikiRenderingTests extends TestCase
+@RunWith(RenderingTestSuite.class)
+@RenderingTestSuite.Scope("wiki")
+public class WikiIntegrationTests
 {
-    public static junit.framework.Test suite() throws Exception
+    @RenderingTestSuite.Initialized
+    public void initialize(ComponentManager componentManager) throws Exception
     {
-        RenderingTestSuite suite = new RenderingTestSuite("Rendering tests requiring the wiki notion", "wiki");
-
-        ComponentManagerTestSetup testSetup = new ComponentManagerTestSetup(suite);
-        testSetup.addComponentDescriptor(MockWikiModel.getComponentDescriptor());
+        componentManager.registerComponent(MockWikiModel.getComponentDescriptor());
 
         // Add InterWiki Definition for links28 test
-        DefaultRenderingConfiguration renderingConfiguration = 
-            (DefaultRenderingConfiguration) testSetup.getComponentManager().lookup(RenderingConfiguration.class);
+        DefaultRenderingConfiguration renderingConfiguration =
+            (DefaultRenderingConfiguration) componentManager.lookup(RenderingConfiguration.class);
         renderingConfiguration.addInterWikiDefinition("knownalias", "http://server/common/url/");
-
-        return testSetup;
     }
 }

@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.test.integration;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -72,12 +71,22 @@ public class RenderingTestSuite extends Suite
 
     private static final XWikiComponentInitializer INITIALIZER = new XWikiComponentInitializer();
 
-    private Class klass;
+    private Object klassInstance;
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
     public static @interface Initialized
     {
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public static @interface Scope
+    {
+        /**
+         * @return the classpath prefix to search in
+         */
+        String value() default "";
     }
 
     private class TestClassRunnerForParameters extends
@@ -158,11 +167,25 @@ public class RenderingTestSuite extends Suite
     /**
      * Only called reflectively. Do not use programmatically.
      */
-    public RenderingTestSuite(Class klass) throws Throwable
+    public RenderingTestSuite(Class<?> klass) throws Throwable
     {
         super(RenderingTest.class, Collections.<Runner>emptyList());
-        this.klass = klass;
-        List<Object[]> parametersList = (List<Object[]>) GENERATOR.generateData();
+
+        try {
+            this.klassInstance = klass.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to construct instance of [" + klass.getName() + "]", e);
+        }
+
+        // If a Scope Annotation is present then use it to define the scope
+        List<Object[]> parametersList;
+        Scope scopeAnnotation = klass.getAnnotation(Scope.class);
+        if (scopeAnnotation != null) {
+            parametersList = (List<Object[]>) GENERATOR.generateData(scopeAnnotation.value());
+        } else {
+            parametersList = (List<Object[]>) GENERATOR.generateData();
+        }
+
         for (int i = 0; i < parametersList.size(); i++) {
             this.runners.add(new TestClassRunnerForParameters(getTestClass().getJavaClass(),
                 parametersList, i));
@@ -205,12 +228,11 @@ public class RenderingTestSuite extends Suite
 
         // Check all methods for a ComponentManager annotation and call the found ones.
         try {
-            Object instance = this.klass.newInstance();
-            for (Method method : this.klass.getMethods()) {
-                Annotation componentManagerAnnotation = method.getAnnotation(Initialized.class);
+            for (Method method : this.klassInstance.getClass().getMethods()) {
+                Initialized componentManagerAnnotation = method.getAnnotation(Initialized.class);
                 if (componentManagerAnnotation != null) {
                     // Call it!
-                    method.invoke(instance, INITIALIZER.getComponentManager());
+                    method.invoke(this.klassInstance, INITIALIZER.getComponentManager());
                 }
             }
         } catch (Exception e) {

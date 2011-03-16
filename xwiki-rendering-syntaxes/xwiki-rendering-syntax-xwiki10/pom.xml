@@ -59,7 +59,7 @@
     <!-- Testing dependencies -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-integration-tests</artifactId>
+      <artifactId>xwiki-rendering-test</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>

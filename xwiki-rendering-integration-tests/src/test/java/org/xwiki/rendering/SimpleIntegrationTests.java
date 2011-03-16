@@ -19,24 +19,19 @@
  */
 package org.xwiki.rendering;
 
-import junit.framework.TestCase;
-
-import org.xwiki.rendering.scaffolding.RenderingTestSuite;
-import org.xwiki.rendering.wiki.WikiModel;
-import org.xwiki.test.ComponentManagerTestSetup;
+import org.junit.runner.RunWith;
+import org.xwiki.rendering.test.integration.RenderingTestSuite;
 
 /**
- * Rendering tests not requiring a {@link WikiModel} implementation (ie tests that don't need the notion of Wiki to
- * run).
- * 
+ * Run all tests found in {@code simple/*.test} files located in the classpath. These {@code *.test} files must follow
+ * the conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
+ *
  * @version $Id$
- * @since 2.0M1
+ * @since 3.0RC1
  */
-public class SimpleRenderingTests extends TestCase
+@RunWith(RenderingTestSuite.class)
+@RenderingTestSuite.Scope("simple")
+public class SimpleIntegrationTests
 {
-    public static junit.framework.Test suite() throws Exception
-    {
-        RenderingTestSuite suite = new RenderingTestSuite("Rendering tests not requiring the wiki notion", "simple");
-        return new ComponentManagerTestSetup(suite);
-    }
+
 }
