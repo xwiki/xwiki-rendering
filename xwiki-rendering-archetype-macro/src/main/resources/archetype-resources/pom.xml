@@ -31,7 +31,6 @@
   <description>XWiki Macro - Example</description>
   <properties>
     <rendering.version>${project.version}</rendering.version>
-    <commons.version>${commons.core.version}</commons.version>
   </properties>
   <build>
     <plugins>
@@ -72,12 +71,6 @@
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-test</artifactId>
       <version>${rendering.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-test</artifactId>
-      <version>${commons.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
