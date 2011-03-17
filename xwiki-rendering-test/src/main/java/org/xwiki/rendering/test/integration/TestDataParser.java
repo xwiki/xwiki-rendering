@@ -50,7 +50,8 @@ public class TestDataParser
     {
         TestData data = new TestData();
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(source));
+        // Resources should always be encoded as UTF-8, to reduce the dependency on the system encoding
+        BufferedReader reader = new BufferedReader(new InputStreamReader(source, "UTF-8"));
 
         // Read each line and look for lines starting with ".". When this happens it means we've found a separate
         // test case.
