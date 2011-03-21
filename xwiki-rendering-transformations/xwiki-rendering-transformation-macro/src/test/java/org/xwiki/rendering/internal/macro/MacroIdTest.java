@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering.internal.macro;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.syntax.Syntax;
 

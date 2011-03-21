@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.jmock.Expectations;
-import org.junit.*;
+import org.junit.Test;
 import org.xwiki.component.descriptor.DefaultComponentDescriptor;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.ImageBlock;

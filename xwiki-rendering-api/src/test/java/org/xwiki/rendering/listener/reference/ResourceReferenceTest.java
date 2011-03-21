@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering.listener.reference;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link ResourceReference}.

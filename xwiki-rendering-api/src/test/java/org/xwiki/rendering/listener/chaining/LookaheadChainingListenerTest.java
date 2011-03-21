@@ -22,7 +22,8 @@ package org.xwiki.rendering.listener.chaining;
 import java.util.Collections;
 import java.util.Map;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rendering.listener.MetaData;
 
 /**

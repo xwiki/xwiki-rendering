@@ -22,7 +22,8 @@ package org.xwiki.rendering.internal.block;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.ParagraphBlock;

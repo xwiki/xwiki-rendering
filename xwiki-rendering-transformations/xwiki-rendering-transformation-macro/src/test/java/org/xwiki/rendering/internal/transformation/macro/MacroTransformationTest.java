@@ -23,7 +23,9 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.XDOM;

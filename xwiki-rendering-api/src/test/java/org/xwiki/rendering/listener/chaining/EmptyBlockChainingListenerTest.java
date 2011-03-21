@@ -19,10 +19,12 @@
  */
 package org.xwiki.rendering.listener.chaining;
 
-import org.junit.*;
-
 import java.util.Collections;
 import java.util.Map;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link LookaheadChainingListener}.

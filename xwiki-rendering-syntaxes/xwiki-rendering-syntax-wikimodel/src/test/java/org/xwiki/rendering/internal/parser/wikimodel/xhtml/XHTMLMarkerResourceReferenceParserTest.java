@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering.internal.parser.wikimodel.xhtml;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rendering.internal.renderer.ParametersPrinter;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;

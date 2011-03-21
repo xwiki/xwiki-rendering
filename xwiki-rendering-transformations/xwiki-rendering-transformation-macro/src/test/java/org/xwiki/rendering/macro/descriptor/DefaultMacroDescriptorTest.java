@@ -21,7 +21,9 @@ package org.xwiki.rendering.macro.descriptor;
 
 import java.util.Map;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.properties.annotation.PropertyDescription;
 import org.xwiki.properties.annotation.PropertyHidden;
