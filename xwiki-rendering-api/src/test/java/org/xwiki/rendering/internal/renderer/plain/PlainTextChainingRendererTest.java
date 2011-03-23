@@ -49,8 +49,6 @@ public class PlainTextChainingRendererTest extends AbstractComponentTestCase
 
 		// Force the link label generator to be null
 		this.renderer = new PlainTextRenderer();
-		ReflectionUtils.setFieldValue(this.renderer, "defaultLinkReferenceSerializer", 
-		    getComponentManager().lookup(ResourceReferenceSerializer.class, "xwiki/2.1/link"));
 		this.renderer.initialize();
 	}
 	

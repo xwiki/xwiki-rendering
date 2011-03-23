@@ -22,7 +22,7 @@ package org.xwiki.rendering.internal.renderer.xwiki21.reference;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.xwiki.rendering.internal.renderer.printer.XWikiSyntaxEscapeWikiPrinter;
+import org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxEscapeWikiPrinter;
 import org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxListenerChain;
 import org.xwiki.rendering.listener.reference.AttachmentResourceReference;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;

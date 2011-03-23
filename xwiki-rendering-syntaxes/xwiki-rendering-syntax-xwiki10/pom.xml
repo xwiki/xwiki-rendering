@@ -41,12 +41,11 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
-    <!-- Needed at runtime since the XWiki 1.0 parser converts to XWiki Syntax 2.0 which is then parsed using a
-         XWiki Syntax 2.0 Parser found in the xwiki-rendering-syntax-wikimodel module. It's only needed at runtime
+    <!-- Needed at runtime since the XWiki 1.0 parser converts to XWiki Syntax 2.0. It's only needed at runtime
          since it's a component implementation. -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
+      <artifactId>xwiki-rendering-syntax-xwiki2</artifactId>
       <version>${project.version}</version>
       <scope>runtime</scope>
     </dependency>
