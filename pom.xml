@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.commons</groupId>
     <artifactId>xwiki-commons</artifactId>
-    <version>41-SNAPSHOT</version>
+    <version>41</version>
     <relativePath>../commons/xwiki-commons-pom</relativePath>
   </parent>
   <groupId>org.xwiki.rendering</groupId>
@@ -59,7 +59,7 @@
     <!-- Default is to not run CLIRR, make sure we run it -->
     <xwiki.clirr.skip>false</xwiki.clirr.skip>
     <!-- xwiki-rendering and xwiki-commons-core versions are currently synchronized. -->
-    <commons.core.version>${project.version}</commons.core.version>
+    <commons.core.version>3.0-rc-1</commons.core.version>
   </properties>
   <dependencies>
     <dependency>
