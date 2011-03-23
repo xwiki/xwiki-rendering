@@ -37,9 +37,9 @@
   <packaging>pom</packaging>
   <description>XWiki Rendering - Parent POM</description>
   <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/rendering/trunk</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/rendering/trunk</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/rendering/trunk</url>
+    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/rendering/branches/xwiki-rendering-3.0</connection>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/rendering/branches/xwiki-rendering-3.0</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/rendering/branches/xwiki-rendering-3.0</url>
   </scm>
   <issueManagement>
     <system>jira</system>
