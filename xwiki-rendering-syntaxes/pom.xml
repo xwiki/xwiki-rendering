@@ -44,6 +44,7 @@
     <module>xwiki-rendering-syntax-doxia</module>
     <module>xwiki-rendering-syntax-wikimodel</module>
     <module>xwiki-rendering-syntax-xwiki2</module>
+    <module>xwiki-rendering-syntax-xhtml</module>
     <module>xwiki-rendering-syntax-xwiki10</module>
   </modules>
 </project>

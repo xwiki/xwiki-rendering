@@ -38,6 +38,11 @@
       <artifactId>xwiki-commons-xml</artifactId>
       <version>${commons.core.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <!-- Test dependencies -->
     <dependency>

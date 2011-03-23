@@ -38,6 +38,14 @@
       <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
+    <!-- runtime dependency -->
+    <!-- TODO: That's very bad and should be fixed by http://jira.xwiki.org/jira/browse/XRENDERING-83 -->
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-xwiki2</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -46,14 +54,15 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <excludes>
-            org/xwiki/rendering/internal/parser/XDOMGeneratorListener.java,
-            org/xwiki/rendering/internal/renderer/event/EventsChainingRenderer.java,
-            org/xwiki/rendering/internal/renderer/event/EventRendererFactory.java,
-            org/xwiki/rendering/internal/renderer/event/EventBlockRenderer.java,
-            org/xwiki/rendering/internal/renderer/plain/PlainTextRenderer.java,
-            org/xwiki/rendering/internal/renderer/plain/PlainTextChainingRenderer.java,
-            org/xwiki/rendering/internal/renderer/printer/XHTMLWriter.java,
-            org/xwiki/rendering/internal/renderer/printer/WikiWriter.java,
+            org/xwiki/rendering/internal/parser/xhtml/WikiModelXHTMLParser.java,
+            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXHTMLWhitespaceXMLFilter.java,
+            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiImageTagHandler.java,
+            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiReferenceTagHandler.java,
+            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiCommentHandler.java,
+            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiHeaderTagHandler.java,
+            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiSpanTagHandler.java,
+            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXMLReaderFactory.java,
+            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiWikiReference.java,
             org/xwiki/rendering/internal/renderer/xhtml/AnnotatedXHTMLChainingRenderer.java,
             org/xwiki/rendering/internal/renderer/xhtml/link/DefaultXHTMLLinkRenderer.java,
             org/xwiki/rendering/internal/renderer/xhtml/AnnotatedXHTMLBlockRenderer.java,
@@ -62,19 +71,6 @@
             org/xwiki/rendering/internal/renderer/xhtml/XHTMLBlockRenderer.java,
             org/xwiki/rendering/internal/renderer/xhtml/image/DefaultXHTMLImageRenderer.java,
             org/xwiki/rendering/internal/renderer/xhtml/image/AnnotatedXHTMLImageRenderer.java,
-            org/xwiki/rendering/listener/chaining/LookaheadChainingListener.java,
-            org/xwiki/rendering/listener/chaining/TextOnNewLineStateChainingListener.java,
-            org/xwiki/rendering/listener/chaining/EventType.java,
-            org/xwiki/rendering/listener/chaining/EmptyBlockChainingListener.java,
-            org/xwiki/rendering/listener/chaining/BlockStateChainingListener.java,
-            org/xwiki/rendering/listener/chaining/GroupStateChainingListener.java,
-            org/xwiki/rendering/renderer/printer/XHTMLWikiPrinter.java,
-            org/xwiki/rendering/renderer/printer/XMLWikiPrinter.java,
-            org/xwiki/rendering/renderer/printer/VoidWikiPrinter.java,
-            org/xwiki/rendering/renderer/printer/LookaheadWikiPrinter.java,
-            org/xwiki/rendering/renderer/printer/WrappingWikiPrinter.java,
-            org/xwiki/rendering/syntax/Syntax.java,
-            org/xwiki/rendering/syntax/SyntaxType.java
           </excludes>
         </configuration>
       </plugin>
