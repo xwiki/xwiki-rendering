@@ -1030,6 +1030,6 @@ public abstract class AbstractBlock implements Block
     @Deprecated
     public <T extends Block> T getParentBlockByType(Class<T> blockClass)
     {
-        return (T) getFirstBlock(new ClassBlockMatcher(blockClass), Axes.ANCESTOR);
+        return blockClass.cast(getFirstBlock(new ClassBlockMatcher(blockClass), Axes.ANCESTOR));
     }
 }
