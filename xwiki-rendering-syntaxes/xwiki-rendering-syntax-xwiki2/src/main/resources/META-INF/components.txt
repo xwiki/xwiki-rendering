@@ -1,5 +1,5 @@
-org.xwiki.rendering.internal.parser.xwiki20.WikiModelXWiki20Parser
-org.xwiki.rendering.internal.parser.xwiki21.WikiModelXWiki21Parser
+org.xwiki.rendering.internal.parser.xwiki20.XWiki20Parser
+org.xwiki.rendering.internal.parser.xwiki21.XWiki21Parser
 org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxRenderer
 org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxBlockRenderer
 org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxRendererFactory

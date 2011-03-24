@@ -32,7 +32,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * @since 2.1M1
  */
 @Component("xwiki/2.0")
-public class WikiModelXWiki20Parser extends AbstractWikiModelParser
+public class XWiki20Parser extends AbstractWikiModelParser
 {
     /**
      * @see #getLinkReferenceParser()

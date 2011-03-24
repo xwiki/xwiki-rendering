@@ -37,7 +37,7 @@ import org.xwiki.rendering.util.IdGenerator;
  * @since 2.5M2
  */
 @Component("xwiki/2.1")
-public class WikiModelXWiki21Parser extends AbstractWikiModelParser
+public class XWiki21Parser extends AbstractWikiModelParser
 {
     /**
      * @see #getLinkReferenceParser()
