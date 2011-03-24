@@ -29,7 +29,7 @@ import org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
-import org.xwiki.rendering.internal.parser.xhtml.WikiModelXHTMLParser;
+import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
@@ -54,7 +54,7 @@ public class XWikiCommentHandler extends CommentHandler
      */
     private static final String COMMENT_SEPARATOR = "|-|";
 
-    private WikiModelXHTMLParser parser;
+    private XHTMLParser parser;
 
     private ResourceReferenceParser imageReferenceParser;
 
@@ -75,7 +75,7 @@ public class XWikiCommentHandler extends CommentHandler
      * @todo Remove the need to pass a Parser when WikiModel implements support for wiki syntax in links. See
      *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */
-    public XWikiCommentHandler(ComponentManager componentManager, WikiModelXHTMLParser parser,
+    public XWikiCommentHandler(ComponentManager componentManager, XHTMLParser parser,
         ResourceReferenceParser imageReferenceParser, PrintRendererFactory xwikiSyntaxPrintRendererFactory,
         ResourceReferenceParser xhtmlMarkerResourceReferenceParser)
     {

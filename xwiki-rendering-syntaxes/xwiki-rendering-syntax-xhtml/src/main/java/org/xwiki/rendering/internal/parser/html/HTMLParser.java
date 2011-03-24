@@ -25,7 +25,7 @@ import java.io.StringReader;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.internal.parser.xhtml.WikiModelXHTMLParser;
+import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
@@ -39,7 +39,7 @@ import org.xwiki.xml.html.HTMLUtils;
  * @since 1.5M2
  */
 @Component("html/4.01")
-public class WikiModelHTMLParser extends WikiModelXHTMLParser
+public class HTMLParser extends XHTMLParser
 {
     /**
      * Used to clean the HTML into valid XHTML. Injected by the Component Manager.
@@ -61,7 +61,7 @@ public class WikiModelHTMLParser extends WikiModelXHTMLParser
     /**
      * {@inheritDoc}
      * 
-     * @see WikiModelXHTMLParser#parse(Reader)
+     * @see XHTMLParser#parse(Reader)
      */
     @Override
     public XDOM parse(Reader source) throws ParseException

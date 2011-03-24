@@ -30,7 +30,7 @@ import org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack;
 import org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
-import org.xwiki.rendering.internal.parser.xhtml.WikiModelXHTMLParser;
+import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
@@ -45,7 +45,7 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
  */
 public class XWikiReferenceTagHandler extends ReferenceTagHandler
 {
-    private WikiModelXHTMLParser parser;
+    private XHTMLParser parser;
 
     private PrintRendererFactory xwikiSyntaxPrintRendererFactory;
 
@@ -54,7 +54,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
      * @todo Remove the need to pass a Parser when WikiModel implements support for wiki syntax in links. See
      *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */
-    public XWikiReferenceTagHandler(WikiModelXHTMLParser parser, PrintRendererFactory xwikiSyntaxPrintRendererFactory)
+    public XWikiReferenceTagHandler(XHTMLParser parser, PrintRendererFactory xwikiSyntaxPrintRendererFactory)
     {
         this.parser = parser;
         this.xwikiSyntaxPrintRendererFactory = xwikiSyntaxPrintRendererFactory;

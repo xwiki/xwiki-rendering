@@ -56,7 +56,7 @@ import org.xwiki.xml.XMLReaderFactory;
  * @since 1.5M2
  */
 @Component("xhtml/1.0")
-public class WikiModelXHTMLParser extends AbstractWikiModelParser
+public class XHTMLParser extends AbstractWikiModelParser
 {
     /**
      * The parser used for the link label parsing. For (x)html parsing, this will be an xwiki 2.0 parser, since it's
