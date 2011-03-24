@@ -308,6 +308,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             case MONOSPACE:
                 print("##");
                 break;
+            case NONE:
+                break;
         }
     }
 
@@ -340,6 +342,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 break;
             case MONOSPACE:
                 print("##");
+                break;
+            case NONE:
                 break;
         }
         if (!parameters.isEmpty()) {
