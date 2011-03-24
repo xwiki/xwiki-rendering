@@ -25,11 +25,9 @@ import java.util.Map;
 import org.wikimodel.wem.IWikiParser;
 import org.wikimodel.wem.xhtml.XhtmlParser;
 import org.wikimodel.wem.xhtml.handler.TagHandler;
-import org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener;
@@ -50,7 +48,7 @@ import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.xml.XMLReaderFactory;
 
 /**
- * Parses XHTML and generate a {@link XDOM} object.
+ * Parses XHTML and generate a {@link org.xwiki.rendering.block.XDOM} object.
  * 
  * @version $Id$
  * @since 1.5M2
@@ -62,7 +60,7 @@ public class XHTMLParser extends AbstractWikiModelParser
      * The parser used for the link label parsing. For (x)html parsing, this will be an xwiki 2.0 parser, since it's
      * more convenient to pass link labels in xwiki syntax. See referred resource for more details.
      * 
-     * @see XWikiCommentHandler#handleLinkCommentStop(String, TagStack)
+     * @see XWikiCommentHandler#handleLinkCommentStop(String, org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack)
      */
     @Requirement("xwiki/2.0")
     private StreamParser xwikiParser;
@@ -147,7 +145,7 @@ public class XHTMLParser extends AbstractWikiModelParser
 
         XhtmlParser parser = new XhtmlParser();
         parser.setExtraHandlers(handlers);
-        parser.setCommentHandler(new XWikiCommentHandler(this.componentManager, this, getImageReferenceParser(),
+        parser.setCommentHandler(new XWikiCommentHandler(this.componentManager, this,
             this.xwikiSyntaxPrintRendererFactory, this.xhtmlMarkerResourceReferenceParser));
 
         // Construct our own XML filter chain since we want to use our own Comment filter.

@@ -49,14 +49,7 @@ import org.xwiki.xml.XMLUtils;
  */
 public class XWikiCommentHandler extends CommentHandler
 {
-    /**
-     * Character to separate data in XHTML comments.
-     */
-    private static final String COMMENT_SEPARATOR = "|-|";
-
     private XHTMLParser parser;
-
-    private ResourceReferenceParser imageReferenceParser;
 
     private PrintRendererFactory xwikiSyntaxPrintRendererFactory;
 
@@ -76,13 +69,11 @@ public class XWikiCommentHandler extends CommentHandler
      *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */
     public XWikiCommentHandler(ComponentManager componentManager, XHTMLParser parser,
-        ResourceReferenceParser imageReferenceParser, PrintRendererFactory xwikiSyntaxPrintRendererFactory,
-        ResourceReferenceParser xhtmlMarkerResourceReferenceParser)
+        PrintRendererFactory xwikiSyntaxPrintRendererFactory, ResourceReferenceParser xhtmlMarkerResourceReferenceParser)
     {
         this.componentManager = componentManager;
         this.parser = parser;
         this.xwikiSyntaxPrintRendererFactory = xwikiSyntaxPrintRendererFactory;
-        this.imageReferenceParser = imageReferenceParser;
         this.xhtmlMarkerResourceReferenceParser = xhtmlMarkerResourceReferenceParser;
     }
 
@@ -117,7 +108,8 @@ public class XWikiCommentHandler extends CommentHandler
         // parser passed as the first parameter in the DefaultXWikiGeneratorListener constructor.
         // Since we cannot get this label as it originally appeared in the HTML source ( we are doing a SAX-like
         // parsing), we should render the XDOM as HTML to get an HTML label.
-        // Since any syntax would do it, as long as this renderer matches the corresponding DefaultXWikiGeneratorListener
+        // Since any syntax would do it, as long as this renderer matches the corresponding
+        // DefaultXWikiGeneratorListener
         // parser, we use an xwiki 2.1 renderer for it is less complex (no context needed to render xwiki 2.1, no url
         // resolution needed, no reference validity tests).
         // see DefaultXWikiGeneratorListener#DefaultXWikiGeneratorListener(Parser, ResourceReferenceParser, ImageParser)
@@ -206,8 +198,8 @@ public class XWikiCommentHandler extends CommentHandler
     {
         String label;
         try {
-            URILabelGenerator uriLabelGenerator = this.componentManager.lookup(URILabelGenerator.class,
-                reference.getType().getScheme());
+            URILabelGenerator uriLabelGenerator =
+                this.componentManager.lookup(URILabelGenerator.class, reference.getType().getScheme());
             label = uriLabelGenerator.generateLabel(reference);
         } catch (ComponentLookupException e) {
             label = reference.getReference();

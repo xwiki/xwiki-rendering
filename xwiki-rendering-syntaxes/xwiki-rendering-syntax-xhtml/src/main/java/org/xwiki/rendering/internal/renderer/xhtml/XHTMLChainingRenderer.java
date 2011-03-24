@@ -180,6 +180,8 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
             case MONOSPACE:
                 getXHTMLWikiPrinter().printXMLStartElement("tt");
                 break;
+            case NONE:
+                break;
         }
         if (!parameters.isEmpty()) {
             getXHTMLWikiPrinter().printXMLStartElement("span", parameters);
@@ -218,6 +220,8 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
                 break;
             case MONOSPACE:
                 getXHTMLWikiPrinter().printXMLEndElement("tt");
+                break;
+            case NONE:
                 break;
         }
     }
@@ -258,7 +262,8 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractChainingPrintRenderer#beginLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean, Map)
+     * @see AbstractChainingPrintRenderer#beginLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean,
+     *      Map)
      */
     @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
@@ -271,7 +276,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         // events (it's sent in begin/endMetaData events).
         List<String> baseReferences = reference.getBaseReferences();
         if (baseReferences.isEmpty()) {
-            reference.addBaseReferences(getMetaDataState().<String>getAllMetaData(MetaData.SOURCE));
+            reference.addBaseReferences(getMetaDataState().<String> getAllMetaData(MetaData.SOURCE));
         }
 
         this.linkRenderer.beginLink(reference, isFreeStandingURI, parameters);
@@ -280,7 +285,8 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     /**
      * {@inheritDoc}
      * 
-     * @see AbstractChainingPrintRenderer#endLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean, Map)
+     * @see AbstractChainingPrintRenderer#endLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean,
+     *      Map)
      */
     @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
@@ -737,7 +743,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         // events (it's sent in begin/endMetaData events).
         List<String> baseReferences = reference.getBaseReferences();
         if (baseReferences.isEmpty()) {
-            reference.addBaseReferences(getMetaDataState().<String>getAllMetaData(MetaData.SOURCE));
+            reference.addBaseReferences(getMetaDataState().<String> getAllMetaData(MetaData.SOURCE));
         }
 
         this.imageRenderer.onImage(reference, isFreeStandingURI, parameters);
