@@ -24,8 +24,8 @@ import org.xwiki.component.annotation.Component;
 /**
  * Displays a success message.
  *
- * @version $Id:$
- * @since 2.0M3
+ * @version $Id$
+ * @since 3.1M1
  */
 @Component("success")
 public class SuccessMessageMacro extends AbstractMessageMacro
