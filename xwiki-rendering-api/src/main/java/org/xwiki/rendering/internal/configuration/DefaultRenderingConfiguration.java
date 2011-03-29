@@ -20,7 +20,6 @@
 package org.xwiki.rendering.internal.configuration;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
@@ -30,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+
+import javax.inject.Inject;
 
 /**
  * Basic default implementation to be used when using the XWiki Rendering system standalone.
@@ -43,7 +44,7 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
     /**
      * Holds the list of transformations to apply, sorted by priority in {@link #initialize()}.
      */
-    @Requirement
+    @Inject
     private List<Transformation> transformations = new ArrayList<Transformation>();
 
     /**
