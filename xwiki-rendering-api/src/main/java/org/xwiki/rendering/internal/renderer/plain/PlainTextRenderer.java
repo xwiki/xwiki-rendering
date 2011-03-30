@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.renderer.plain;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
@@ -40,7 +41,8 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
  * @version $Id$
  * @since 2.0M3
  */
-@Component("plain/1.0")
+@Component
+@Named("plain/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class PlainTextRenderer extends AbstractChainingPrintRenderer implements Initializable
 {

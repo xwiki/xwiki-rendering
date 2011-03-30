@@ -22,6 +22,8 @@ package org.xwiki.rendering.internal.syntax;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.rendering.parser.ParseException;
@@ -34,6 +36,7 @@ import org.xwiki.rendering.syntax.SyntaxType;
  * @since 1.5M2
  */
 @Component
+@Singleton
 public class DefaultSyntaxFactory extends AbstractLogEnabled implements SyntaxFactory
 {
     /**

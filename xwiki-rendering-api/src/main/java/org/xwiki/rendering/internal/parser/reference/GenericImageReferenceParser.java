@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 
 /**
@@ -28,7 +31,9 @@ import org.xwiki.component.annotation.Component;
  * @version $Id$
  * @since 2.5RC1
  */
-@Component("default/image")
+@Component
+@Named("default/image")
+@Singleton
 public class GenericImageReferenceParser extends XWiki20ImageReferenceParser
 {
 }

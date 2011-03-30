@@ -35,7 +35,8 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
  * @version $Id$
  * @since 2.0M3
  */
-@Component("plain/1.0")
+@Component
+@Named("plain/1.0")
 @Singleton
 public class PlainTextBlockRenderer extends AbstractBlockRenderer
 {

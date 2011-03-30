@@ -35,7 +35,8 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
  * @version $Id$
  * @since 2.6M1
  */
-@Component("link/untyped")
+@Component
+@Named("link/untyped")
 @Singleton
 public class DefaultUntypedLinkReferenceParser implements ResourceReferenceParser
 {

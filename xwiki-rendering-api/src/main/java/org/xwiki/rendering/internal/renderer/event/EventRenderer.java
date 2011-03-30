@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.internal.renderer.event;
 
+import javax.inject.Named;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -34,7 +36,8 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
  * @version $Id$
  * @since 2.0M3
  */
-@Component("event/1.0")
+@Component
+@Named("event/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class EventRenderer extends AbstractChainingPrintRenderer implements Initializable
 {

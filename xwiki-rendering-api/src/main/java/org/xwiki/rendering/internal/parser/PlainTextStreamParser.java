@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.regex.Pattern;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
@@ -37,7 +40,9 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 2.1M1
  */
-@Component("plain/1.0")
+@Component
+@Named("plain/1.0")
+@Singleton
 public class PlainTextStreamParser implements StreamParser
 {
     /**

@@ -22,6 +22,9 @@ package org.xwiki.rendering.internal.parser.reference;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 
 /**
@@ -31,7 +34,9 @@ import org.xwiki.component.annotation.Component;
  * @version $Id$
  * @since 2.5RC1
  */
-@Component("default/link")
+@Component
+@Named("default/link")
+@Singleton
 public class GenericLinkReferenceParser extends XWiki20LinkReferenceParser
 {
     /**

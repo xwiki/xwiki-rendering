@@ -36,7 +36,8 @@ import org.xwiki.rendering.parser.ResourceReferenceParser;
  * @version $Id$
  * @since 2.6M1
  */
-@Component("image")
+@Component
+@Named("image")
 @Singleton
 public class DefaultImageReferenceParser implements ResourceReferenceParser
 {

@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.reference.ResourceType;
 
@@ -28,7 +31,9 @@ import org.xwiki.rendering.listener.reference.ResourceType;
  * @version $Id$
  * @since 2.6M1
  */
-@Component("icon")
+@Component
+@Named("icon")
+@Singleton
 public class IconResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
 {
     /**

@@ -27,7 +27,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.AbstractBlockRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 
-@Component("event/1.0")
+@Component
+@Named("event/1.0")
 @Singleton
 public class EventBlockRenderer extends AbstractBlockRenderer
 {

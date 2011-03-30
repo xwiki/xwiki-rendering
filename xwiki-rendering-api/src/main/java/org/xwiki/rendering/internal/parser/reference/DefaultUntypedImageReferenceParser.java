@@ -35,7 +35,8 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
  * @version $Id$
  * @since 2.6M1
  */
-@Component("image/untyped")
+@Component
+@Named("image/untyped")
 @Singleton
 public class DefaultUntypedImageReferenceParser implements ResourceReferenceParser
 {

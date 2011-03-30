@@ -75,7 +75,8 @@ import javax.inject.Singleton;
  * @version $Id$
  * @since 2.5RC1
  */
-@Component("xwiki/2.0/link")
+@Component
+@Named("xwiki/2.0/link")
 @Singleton
 public class XWiki20LinkReferenceParser implements ResourceReferenceParser
 {

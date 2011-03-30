@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -30,7 +33,9 @@ import org.xwiki.rendering.listener.reference.ResourceType;
  * @version $Id$
  * @since 2.5RC1
  */
-@Component("interwiki")
+@Component
+@Named("interwiki")
+@Singleton
 public class InterWikiResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
 {
     /**

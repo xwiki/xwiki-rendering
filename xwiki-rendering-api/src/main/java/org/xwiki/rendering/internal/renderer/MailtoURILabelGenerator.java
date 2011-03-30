@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.renderer;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.apache.commons.lang.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -30,7 +33,9 @@ import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
  * @version $Id$
  * @since 2.2RC1
  */
-@Component("mailto")
+@Component
+@Named("mailto")
+@Singleton
 public class MailtoURILabelGenerator implements URILabelGenerator
 {
     /**

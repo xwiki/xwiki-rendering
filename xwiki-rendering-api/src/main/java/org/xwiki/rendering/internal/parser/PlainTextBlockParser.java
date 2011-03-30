@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.syntax.Syntax;
 
@@ -28,7 +31,9 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 2.1M1
  */
-@Component("plain/1.0")
+@Component
+@Named("plain/1.0")
+@Singleton
 public class PlainTextBlockParser extends AbstractBlockParser
 {
     /**

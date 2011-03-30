@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.internal.renderer;
 
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
@@ -30,6 +32,7 @@ import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
  * @since 2.0M1
  */
 @Component
+@Singleton
 public class DefaultLinkLabelGenerator implements LinkLabelGenerator
 {
     /**

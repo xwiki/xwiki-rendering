@@ -36,7 +36,8 @@ import org.xwiki.rendering.parser.ResourceReferenceParser;
  * @version $Id$
  * @since 2.6M1
  */
-@Component("link")
+@Component
+@Named("link")
 @Singleton
 public class DefaultLinkReferenceParser implements ResourceReferenceParser
 {

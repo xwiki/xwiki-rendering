@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.renderer.plain;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
@@ -29,7 +32,9 @@ import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
  * @version $Id$
  * @since 2.0M3
  */
-@Component("plain/1.0")
+@Component
+@Named("plain/1.0")
+@Singleton
 public class PlainTextRendererFactory extends AbstractPrintRendererFactory
 {
     /**
