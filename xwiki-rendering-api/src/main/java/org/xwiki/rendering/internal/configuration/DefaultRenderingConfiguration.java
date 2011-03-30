@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Basic default implementation to be used when using the XWiki Rendering system standalone.
@@ -39,6 +40,7 @@ import javax.inject.Inject;
  * @since 2.0M1
  */
 @Component
+@Singleton
 public class DefaultRenderingConfiguration implements RenderingConfiguration, Initializable
 {
     /**

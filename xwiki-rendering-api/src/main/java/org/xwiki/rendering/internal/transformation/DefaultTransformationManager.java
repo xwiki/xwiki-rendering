@@ -19,8 +19,10 @@
  */
 package org.xwiki.rendering.internal.transformation;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
@@ -39,12 +41,13 @@ import org.xwiki.rendering.transformation.TransformationManager;
  * @since 1.5M2
  */
 @Component
+@Singleton
 public class DefaultTransformationManager extends AbstractLogEnabled implements TransformationManager
 {
     /**
      * Used to get the ordered list of transformations to execute.
      */
-    @Requirement
+    @Inject
     private RenderingConfiguration configuration;
 
     /**

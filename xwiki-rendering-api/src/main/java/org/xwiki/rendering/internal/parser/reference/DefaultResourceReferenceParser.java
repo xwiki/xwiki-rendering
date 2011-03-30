@@ -19,8 +19,10 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -44,6 +46,7 @@ import org.xwiki.rendering.wiki.WikiModel;
  * @since 2.6M1
  */
 @Component
+@Singleton
 public class DefaultResourceReferenceParser implements ResourceReferenceParser
 {
     /**
@@ -55,7 +58,7 @@ public class DefaultResourceReferenceParser implements ResourceReferenceParser
      * Used to verify if we're in wiki mode or not by looking up an implementation of {@link
      * org.xwiki.rendering.wiki.WikiModel}.
      */
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     /**

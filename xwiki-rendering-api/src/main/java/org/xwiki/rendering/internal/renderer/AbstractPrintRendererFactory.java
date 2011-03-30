@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering.internal.renderer;
 
-import org.xwiki.component.annotation.Requirement;
+import javax.inject.Inject;
+
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.renderer.PrintRenderer;
@@ -38,7 +39,7 @@ public abstract class AbstractPrintRendererFactory implements PrintRendererFacto
     /**
      * Used to lookup the {@link PrintRenderer}.
      */
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     /**

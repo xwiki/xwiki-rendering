@@ -19,8 +19,11 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
@@ -34,18 +37,20 @@ import org.xwiki.rendering.parser.ResourceReferenceParser;
  * @since 2.6M1
  */
 @Component("link")
+@Singleton
 public class DefaultLinkReferenceParser implements ResourceReferenceParser
 {
     /**
      * Default parser to parse typed resource references.
      */
-    @Requirement
+    @Inject
     private ResourceReferenceParser defaultResourceReferenceParser;
 
     /**
      * Used to parse untyped resource reference and guess their types.
      */
-    @Requirement("link/untyped")
+    @Inject
+    @Named("link/untyped")
     private ResourceReferenceParser untypedLinkReferenceParser;
 
     /**

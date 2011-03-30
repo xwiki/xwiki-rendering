@@ -19,8 +19,11 @@
  */
 package org.xwiki.rendering.internal.renderer.plain;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.internal.renderer.AbstractBlockRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 
@@ -33,12 +36,14 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
  * @since 2.0M3
  */
 @Component("plain/1.0")
+@Singleton
 public class PlainTextBlockRenderer extends AbstractBlockRenderer
 {
     /**
      * Used to create new plain/1.0 {@link org.xwiki.rendering.renderer.PrintRenderer}s. 
      */
-    @Requirement("plain/1.0")
+    @Inject
+    @Named("plain/1.0")
     private PrintRendererFactory plainTextRendererFactory;
 
     /**

@@ -19,15 +19,20 @@
  */
 package org.xwiki.rendering.internal.renderer.event;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.internal.renderer.AbstractBlockRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 
 @Component("event/1.0")
+@Singleton
 public class EventBlockRenderer extends AbstractBlockRenderer
 {
-    @Requirement("event/1.0")
+    @Inject
+    @Named("event/1.0")
     private PrintRendererFactory eventRendererFactory;
 
     @Override

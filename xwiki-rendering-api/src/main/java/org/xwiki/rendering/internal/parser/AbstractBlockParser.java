@@ -21,7 +21,8 @@ package org.xwiki.rendering.internal.parser;
 
 import java.io.Reader;
 
-import org.xwiki.component.annotation.Requirement;
+import javax.inject.Inject;
+
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.XDOM;
@@ -40,7 +41,7 @@ public abstract class AbstractBlockParser implements Parser
     /**
      * Used to lookup the {@link StreamParser} for the syntax.
      */
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     /**

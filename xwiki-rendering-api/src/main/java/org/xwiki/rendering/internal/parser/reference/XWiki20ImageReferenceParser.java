@@ -19,8 +19,10 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -33,13 +35,14 @@ import org.xwiki.rendering.wiki.WikiModel;
  * @since 2.5RC1
  */
 @Component("xwiki/2.0/image")
+@Singleton
 public class XWiki20ImageReferenceParser implements ResourceReferenceParser
 {
     /**
      * Used to verify if we're in wiki mode or not by looking up an implementation of
      * {@link org.xwiki.rendering.wiki.WikiModel}. In non wiki mode all image references are considered as URLs.
      */
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     /**

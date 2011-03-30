@@ -19,8 +19,11 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
@@ -33,18 +36,21 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
  * @since 2.6M1
  */
 @Component("link/untyped")
+@Singleton
 public class DefaultUntypedLinkReferenceParser implements ResourceReferenceParser
 {
     /**
      * Parser to parse link references pointing to URLs.
      */
-    @Requirement("url")
+    @Inject
+    @Named("url")
     private ResourceReferenceTypeParser urlResourceReferenceTypeParser;
 
     /**
      * Parser to parse link references pointing to documents.
      */
-    @Requirement("doc")
+    @Inject
+    @Named("doc")
     private ResourceReferenceTypeParser documentResourceReferenceTypeParser;
 
     /**

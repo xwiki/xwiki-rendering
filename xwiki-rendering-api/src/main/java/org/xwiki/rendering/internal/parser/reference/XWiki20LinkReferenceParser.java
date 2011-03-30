@@ -21,7 +21,6 @@ package org.xwiki.rendering.internal.parser.reference;
 
 import org.apache.commons.lang.StringUtils;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
@@ -34,6 +33,10 @@ import org.xwiki.rendering.wiki.WikiModel;
 
 import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 /**
  * Parses the content of XWiki 2.0 resource references.
@@ -73,6 +76,7 @@ import java.util.List;
  * @since 2.5RC1
  */
 @Component("xwiki/2.0/link")
+@Singleton
 public class XWiki20LinkReferenceParser implements ResourceReferenceParser
 {
     /**
@@ -154,14 +158,15 @@ public class XWiki20LinkReferenceParser implements ResourceReferenceParser
     /**
      * Parser to parse link references pointing to URLs.
      */
-    @Requirement("url")
+    @Inject
+    @Named("url")
     private ResourceReferenceTypeParser urlResourceReferenceTypeParser;
 
     /**
      * Used to verify if we're in wiki mode or not by looking up an implementation of {@link
      * org.xwiki.rendering.wiki.WikiModel}.
      */
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     /**
