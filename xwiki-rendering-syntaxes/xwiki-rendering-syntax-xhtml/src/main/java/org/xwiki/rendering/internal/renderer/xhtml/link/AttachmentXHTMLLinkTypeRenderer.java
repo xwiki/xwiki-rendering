@@ -21,7 +21,6 @@ package org.xwiki.rendering.internal.renderer.xhtml.link;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.phase.Initializable;
@@ -32,13 +31,17 @@ import org.xwiki.rendering.wiki.WikiModel;
 
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /**
  * Handle XHTML rendering for links to attachments.
  *
  * @version $Id$
  * @since 2.5M2
  */
-@Component("attach")
+@Component
+@Named("attach")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class AttachmentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer implements Initializable
 {
@@ -47,7 +50,8 @@ public class AttachmentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRender
      * We choose the XWiki Syntax 2.0 arbitrarily. Normally the user should never use a link to an attachment when
      * not inside a wiki. 
      */
-    @Requirement("xwiki/2.0")
+    @Inject
+    @Named("xwiki/2.0")
     private ResourceReferenceTypeSerializer defaultResourceReferenceTypeSerializer;
 
     /**

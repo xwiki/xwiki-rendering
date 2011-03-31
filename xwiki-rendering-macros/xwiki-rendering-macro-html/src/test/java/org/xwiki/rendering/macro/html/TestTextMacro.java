@@ -22,8 +22,11 @@ package org.xwiki.rendering.macro.html;
 import java.io.StringReader;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
@@ -32,7 +35,9 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.util.ParserUtils;
 
-@Component("testtextmacro")
+@Component
+@Named("testtextmacro")
+@Singleton
 public class TestTextMacro extends AbstractNoParameterMacro
 {
     /**
@@ -40,7 +45,8 @@ public class TestTextMacro extends AbstractNoParameterMacro
      */
     private ParserUtils parserUtils = new ParserUtils();
 
-    @Requirement("plain/1.0")
+    @Inject
+    @Named("plain/1.0")
     private Parser plainTextParser;
 
     public TestTextMacro()

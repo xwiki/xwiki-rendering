@@ -19,8 +19,11 @@
  */
 package org.xwiki.rendering.internal.renderer.tex;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.internal.renderer.AbstractBlockRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 
@@ -30,10 +33,13 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
  * @version $Id$
  * @since 2.1RC1
  */
-@Component("tex/1.0")
+@Component
+@Named("tex/1.0")
+@Singleton
 public class TexBlockRenderer extends AbstractBlockRenderer
 {
-    @Requirement("tex/1.0")
+    @Inject
+    @Named("tex/1.0")
     private PrintRendererFactory texRendererFactory;
 
     @Override

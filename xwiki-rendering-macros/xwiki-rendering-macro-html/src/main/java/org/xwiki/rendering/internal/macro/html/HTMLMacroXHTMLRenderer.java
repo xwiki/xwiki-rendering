@@ -19,9 +19,11 @@
  */
 package org.xwiki.rendering.internal.macro.html;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -41,7 +43,8 @@ import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
  * @version $Id $
  * @since 1.8.3
  */
-@Component("xhtmlmacro/1.0")
+@Component
+@Named("xhtmlmacro/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class HTMLMacroXHTMLRenderer extends AbstractChainingPrintRenderer implements Initializable
 {
@@ -50,7 +53,7 @@ public class HTMLMacroXHTMLRenderer extends AbstractChainingPrintRenderer implem
      * the underlying system wants to handle it. For example for XWiki we check if the document exists, we get the
      * document URL, etc.
      */
-    @Requirement
+    @Inject
     private XHTMLLinkRenderer linkRenderer;
 
     /**
@@ -58,7 +61,7 @@ public class HTMLMacroXHTMLRenderer extends AbstractChainingPrintRenderer implem
      * on how the underlying system wants to handle it. For example for XWiki we check if the image exists as a
      * document attachments, we get its URL, etc.
      */
-    @Requirement
+    @Inject
     private XHTMLImageRenderer imageRenderer;
 
     /**

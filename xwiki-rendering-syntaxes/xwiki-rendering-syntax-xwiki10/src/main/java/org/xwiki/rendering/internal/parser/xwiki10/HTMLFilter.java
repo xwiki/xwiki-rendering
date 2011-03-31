@@ -25,8 +25,11 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
@@ -44,7 +47,9 @@ import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
  * @version $Id$
  * @since 1.8M1
  */
-@Component("htmlmacro")
+@Component
+@Named("htmlmacro")
+@Singleton
 public class HTMLFilter extends AbstractFilter implements Initializable
 {
     public static final String HTMLOPEN_SUFFIX = "htmlopen";
@@ -71,10 +76,11 @@ public class HTMLFilter extends AbstractFilter implements Initializable
     /**
      * Used to lookup macros converters.
      */
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
-    @Requirement("escape20")
+    @Inject
+    @Named("escape20")
     private Filter escape20SyntaxFilter;
 
     /**

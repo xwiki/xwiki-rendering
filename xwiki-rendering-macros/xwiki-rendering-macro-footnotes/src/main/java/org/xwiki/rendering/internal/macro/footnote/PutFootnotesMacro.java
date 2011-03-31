@@ -24,9 +24,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.apache.commons.lang.StringUtils;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
@@ -53,7 +56,9 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * @version $Id$
  * @since 2.0M2
  */
-@Component(PutFootnotesMacro.MACRO_NAME)
+@Component
+@Named(PutFootnotesMacro.MACRO_NAME)
+@Singleton
 public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
 {
     /** The name of this macro. */
@@ -77,7 +82,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     private static final String FOOTNOTE_REFERENCE_ID_PREFIX = "x_footnote_ref_";
 
     /** Used to get the current syntax parser. */
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     /**

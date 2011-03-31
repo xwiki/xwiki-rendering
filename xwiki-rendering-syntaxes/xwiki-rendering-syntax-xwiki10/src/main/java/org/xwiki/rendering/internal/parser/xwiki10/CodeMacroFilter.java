@@ -22,8 +22,11 @@ package org.xwiki.rendering.internal.parser.xwiki10;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.parser.xwiki10.AbstractFilter;
@@ -38,16 +41,20 @@ import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
  * @version $Id$
  * @since 1.8M1
  */
-@Component("code")
+@Component
+@Named("code")
+@Singleton
 public class CodeMacroFilter extends AbstractFilter implements Initializable
 {
     private static final Pattern CODEMACRO_PATTERN =
         Pattern.compile("\\{(code)(?::([^\\}]*))?\\}(.*?)\\{code\\}", Pattern.DOTALL);
 
-    @Requirement("code")
+    @Inject
+    @Named("code")
     private RadeoxMacroConverter codeMacroConverter;
 
-    @Requirement("unescape")
+    @Inject
+    @Named("unescape")
     private Filter unescapeFilter;
 
     private EscapeFilter escapeFilter = new EscapeFilter();

@@ -21,7 +21,6 @@ package org.xwiki.rendering.internal.renderer.xhtml.link;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
@@ -30,20 +29,24 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /**
  * Handle XHTML rendering for interwiki links.
  *
  * @version $Id$
  * @since 2.5M2
  */
-@Component("interwiki")
+@Component
+@Named("interwiki")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class InterWikiXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
 {
     /**
      * Used to get access to the InterWiki definitions.
      */
-    @Requirement
+    @Inject
     private RenderingConfiguration renderingConfiguration;
 
     /**

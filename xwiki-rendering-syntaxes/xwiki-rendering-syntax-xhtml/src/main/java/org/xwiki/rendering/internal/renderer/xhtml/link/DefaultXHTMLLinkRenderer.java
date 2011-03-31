@@ -21,9 +21,10 @@ package org.xwiki.rendering.internal.renderer.xhtml.link;
 
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -42,10 +43,10 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class DefaultXHTMLLinkRenderer implements XHTMLLinkRenderer
 {
-    @Requirement
+    @Inject
     private XHTMLLinkTypeRenderer defaultLinkTypeRenderer;
 
-    @Requirement
+    @Inject
     protected ComponentManager componentManager;
 
     /**

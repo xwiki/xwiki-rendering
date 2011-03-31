@@ -21,9 +21,11 @@ package org.xwiki.rendering.internal.renderer.xhtml.link;
 
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
@@ -36,20 +38,22 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
  * @version $Id$
  * @since 2.0M3
  */
-@Component("annotated")
+@Component
+@Named("annotated")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class AnnotatedXHTMLLinkRenderer implements XHTMLLinkRenderer
 {
     /**
      * Used to print Image reference as XHTML comments.
      */
-    @Requirement("xhtmlmarker")
+    @Inject
+    @Named("xhtmlmarker")
     private ResourceReferenceSerializer xhtmlMarkerSerializer;
 
     /**
      * The default XHTML Link Renderer that we're wrapping.
      */
-    @Requirement
+    @Inject
     private XHTMLLinkRenderer defaultLinkRenderer;
 
     /**

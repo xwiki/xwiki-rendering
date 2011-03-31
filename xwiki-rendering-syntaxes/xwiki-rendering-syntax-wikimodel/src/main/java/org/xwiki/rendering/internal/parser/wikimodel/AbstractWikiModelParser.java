@@ -21,8 +21,10 @@ package org.xwiki.rendering.internal.parser.wikimodel;
 
 import java.io.Reader;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.wikimodel.wem.IWikiParser;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
@@ -45,7 +47,8 @@ public abstract class AbstractWikiModelParser extends AbstractLogEnabled impleme
     /**
      * Used by the XWiki Generator Listener to generate unique header ids.
      */
-    @Requirement("plain/1.0")
+    @Inject
+    @Named("plain/1.0")
     protected PrintRendererFactory plainRendererFactory;
 
     /**

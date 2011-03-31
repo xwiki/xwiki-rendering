@@ -24,12 +24,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.Block.Axes;
@@ -64,7 +66,8 @@ import org.xwiki.xml.html.HTMLUtils;
  * @version $Id$
  * @since 1.6M1
  */
-@Component("html")
+@Component
+@Named("html")
 public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
 {
     /**
@@ -90,13 +93,13 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     /**
      * To clean the passed HTML so that it's valid XHTML (this is required since we use an XML parser to parse it).
      */
-    @Requirement
+    @Inject
     private HTMLCleaner htmlCleaner;
 
     /**
      * Used to find the parser from syntax identifier.
      */
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     /**
@@ -104,13 +107,14 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
      * special behaviors, for example to not escape special symbols (since we don't want to escape HTML tags for
      * example).
      */
-    @Requirement("xhtmlmacro/1.0")
+    @Inject
+    @Named("xhtmlmacro/1.0")
     private PrintRendererFactory xhtmlRendererFactory;
 
     /**
      * The parser used to parse macro content.
      */
-    @Requirement
+    @Inject
     private MacroContentParser contentParser;
 
     /**

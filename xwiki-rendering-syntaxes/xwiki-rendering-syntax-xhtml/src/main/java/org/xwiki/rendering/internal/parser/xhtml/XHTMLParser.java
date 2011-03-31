@@ -22,11 +22,14 @@ package org.xwiki.rendering.internal.parser.xhtml;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.wikimodel.wem.IWikiParser;
 import org.wikimodel.wem.xhtml.XhtmlParser;
 import org.wikimodel.wem.xhtml.handler.TagHandler;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
@@ -53,7 +56,9 @@ import org.xwiki.xml.XMLReaderFactory;
  * @version $Id$
  * @since 1.5M2
  */
-@Component("xhtml/1.0")
+@Component
+@Named("xhtml/1.0")
+@Singleton
 public class XHTMLParser extends AbstractWikiModelParser
 {
     /**
@@ -62,28 +67,33 @@ public class XHTMLParser extends AbstractWikiModelParser
      * 
      * @see XWikiCommentHandler#handleLinkCommentStop(String, org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack)
      */
-    @Requirement("xwiki/2.0")
+    @Inject
+    @Named("xwiki/2.0")
     private StreamParser xwikiParser;
 
     /**
      * @see #getLinkReferenceParser()
      */
-    @Requirement("link")
+    @Inject
+    @Named("link")
     private ResourceReferenceParser linkReferenceParser;
 
     /**
      * @see #getImageReferenceParser()
      */
-    @Requirement("image")
+    @Inject
+    @Named("image")
     private ResourceReferenceParser imageReferenceParser;
 
-    @Requirement("xwiki/2.1")
+    @Inject
+    @Named("xwiki/2.1")
     private PrintRendererFactory xwikiSyntaxPrintRendererFactory;
 
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
-    @Requirement("xhtmlmarker")
+    @Inject
+    @Named("xhtmlmarker")
     private ResourceReferenceParser xhtmlMarkerResourceReferenceParser;
 
     /**
@@ -96,7 +106,8 @@ public class XHTMLParser extends AbstractWikiModelParser
      * <li>Resolve DTDs locally to speed DTD loading/validation</li>
      * </ul>
      */
-    @Requirement("xwiki")
+    @Inject
+    @Named("xwiki")
     private XMLReaderFactory xmlReaderFactory;
 
     /**

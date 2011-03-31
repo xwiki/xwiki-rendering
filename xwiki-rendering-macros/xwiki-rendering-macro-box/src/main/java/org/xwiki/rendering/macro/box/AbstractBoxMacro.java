@@ -24,8 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.LinkedHashMap;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.apache.commons.lang.StringUtils;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
@@ -53,13 +55,14 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
     /**
      * Parses untyped image references.
      */
-    @Requirement("image/untyped")
+    @Inject
+    @Named("image/untyped")
     private ResourceReferenceParser untypedImageReferenceParser;
 
     /**
      * The parser used to parse box content and box title parameter.
      */
-    @Requirement
+    @Inject
     private MacroContentParser contentParser;
 
     /**

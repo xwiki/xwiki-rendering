@@ -22,8 +22,11 @@ package org.xwiki.rendering.internal.parser.html;
 import java.io.Reader;
 import java.io.StringReader;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.listener.Listener;
@@ -38,13 +41,15 @@ import org.xwiki.xml.html.HTMLUtils;
  * @version $Id$
  * @since 1.5M2
  */
-@Component("html/4.01")
+@Component
+@Named("html/4.01")
+@Singleton
 public class HTMLParser extends XHTMLParser
 {
     /**
      * Used to clean the HTML into valid XHTML. Injected by the Component Manager.
      */
-    @Requirement
+    @Inject
     private HTMLCleaner htmlCleaner;
 
     /**

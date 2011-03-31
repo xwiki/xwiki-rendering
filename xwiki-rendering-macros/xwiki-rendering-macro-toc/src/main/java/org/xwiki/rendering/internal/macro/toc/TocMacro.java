@@ -23,8 +23,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.BulletedListBlock;
@@ -49,7 +52,9 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * @version $Id$
  * @since 1.5M2
  */
-@Component("toc")
+@Component
+@Named("toc")
+@Singleton
 public class TocMacro extends AbstractMacro<TocMacroParameters>
 {
     /**
@@ -65,13 +70,14 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
     /**
      * A parser that knows how to parse plain text; this is used to transform link labels into plain text.
      */
-    @Requirement("plain/1.0")
+    @Inject
+    @Named("plain/1.0")
     private Parser plainTextParser;
 
     /**
      * Generate link label.
      */
-    @Requirement
+    @Inject
     private LinkLabelGenerator linkLabelGenerator;
 
     /**

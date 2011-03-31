@@ -22,10 +22,12 @@ package org.xwiki.rendering.internal.renderer.xhtml.link;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.apache.commons.lang.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.phase.Initializable;
@@ -41,7 +43,8 @@ import org.xwiki.rendering.wiki.WikiModel;
  * @version $Id$
  * @since 2.5M2
  */
-@Component("doc")
+@Component
+@Named("doc")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer implements Initializable
 {
@@ -58,7 +61,7 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
     /**
      * Used to generate a link label.
      */
-    @Requirement
+    @Inject
     private LinkLabelGenerator linkLabelGenerator;
 
     /**

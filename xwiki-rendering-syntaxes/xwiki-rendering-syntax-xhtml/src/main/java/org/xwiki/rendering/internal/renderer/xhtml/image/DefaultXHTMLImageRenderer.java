@@ -22,8 +22,9 @@ package org.xwiki.rendering.internal.renderer.xhtml.image;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -60,7 +61,7 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer, Initializa
      */
     private WikiModel wikiModel;
 
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     /**

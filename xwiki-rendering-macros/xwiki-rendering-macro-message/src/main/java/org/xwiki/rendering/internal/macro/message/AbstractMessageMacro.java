@@ -26,10 +26,12 @@ import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.xwiki.component.annotation.Requirement;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Common implementation for info, error and warning macros.
@@ -47,7 +49,8 @@ public abstract class AbstractMessageMacro extends AbstractMacro<Object>
     /**
      * Injected by the component manager.
      */
-    @Requirement("box")
+    @Inject
+    @Named("box")
     private Macro<BoxMacroParameters> boxMacro;
 
     /**

@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml.link;
 
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -28,6 +27,8 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 /**
  * Common code for XHTML Link Type Renderer implementations.
@@ -51,7 +52,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
      * Used to look for {@link org.xwiki.rendering.renderer.reference.link.URILabelGenerator} component implementations
      * when computing labels.
      */
-    @Requirement
+    @Inject
     protected ComponentManager componentManager;
 
     /**

@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
@@ -28,7 +31,6 @@ import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.component.phase.Initializable;
@@ -42,7 +44,8 @@ import org.xwiki.component.phase.Initializable;
  * @version $Id$
  * @since 2.0M3
  */
-@Component("annotatedxhtml/1.0")
+@Component
+@Named("annotatedxhtml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implements Initializable
 {
@@ -51,7 +54,8 @@ public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implem
      * on how the underlying system wants to handle it. For example for XWiki we check if the document exists, we get
      * the document URL, etc.
      */
-    @Requirement("annotated")
+    @Inject
+    @Named("annotated")
     private XHTMLLinkRenderer linkRenderer;
 
     /**
@@ -59,7 +63,8 @@ public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implem
      * on how the underlying system wants to handle it. For example for XWiki we check if the image exists as a
      * document attachments, we get its URL, etc.
      */
-    @Requirement("annotated")
+    @Inject
+    @Named("annotated")
     private XHTMLImageRenderer imageRenderer;
 
     /**

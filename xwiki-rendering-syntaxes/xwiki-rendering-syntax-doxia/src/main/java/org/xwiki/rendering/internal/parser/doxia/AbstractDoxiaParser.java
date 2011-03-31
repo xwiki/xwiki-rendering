@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.parser.doxia;
 
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
@@ -30,6 +29,10 @@ import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.StreamParser;
 
 import java.io.Reader;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.util.IdGenerator;
 
@@ -42,16 +45,20 @@ public abstract class AbstractDoxiaParser extends AbstractLogEnabled implements 
     /**
      * Used by the XWikiGeneratorListener to generate unique header ids.
      */
-    @Requirement("plain/1.0")
+    @Inject
+    @Named("plain/1.0")
     protected PrintRendererFactory plainRendererFactory;
 
-    @Requirement("plain/1.0")
+    @Inject
+    @Named("plain/1.0")
     private StreamParser plainParser;
 
-    @Requirement("default/link")
+    @Inject
+    @Named("default/link")
     private ResourceReferenceParser linkReferenceParser;
 
-    @Requirement("default/image")
+    @Inject
+    @Named("default/image")
     private ResourceReferenceParser imageReferenceParser;
 
     public abstract org.apache.maven.doxia.parser.Parser createDoxiaParser();

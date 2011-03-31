@@ -19,10 +19,13 @@
  */
 package org.xwiki.rendering.internal.parser;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.wikimodel.wem.IWikiParser;
 import org.wikimodel.wem.confluence.ConfluenceWikiParser;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.Parser;
@@ -34,19 +37,23 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 1.8.2
  */
-@Component("confluence/1.0")
+@Component
+@Named("confluence/1.0")
+@Singleton
 public class WikiModelConfluenceParser extends AbstractWikiModelParser
 {
     /**
      * @see #getLinkReferenceParser()
      */
-    @Requirement("default/link")
+    @Inject
+    @Named("default/link")
     private ResourceReferenceParser referenceParser;
 
     /**
      * @see #getImageReferenceParser()
      */
-    @Requirement("default/image")
+    @Inject
+    @Named("default/image")
     private ResourceReferenceParser imageReferenceParser;
 
     /**

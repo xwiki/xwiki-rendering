@@ -19,10 +19,13 @@
  */
 package org.xwiki.rendering.internal.parser;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.wikimodel.wem.IWikiParser;
 import org.wikimodel.wem.creole.CreoleWikiParser;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
@@ -31,19 +34,23 @@ import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
  * @version $Id$
  * @since 1.5M2
  */
-@Component("creole/1.0")
+@Component
+@Named("creole/1.0")
+@Singleton
 public class WikiModelCreoleParser extends AbstractWikiModelParser
 {
     /**
      * @see #getLinkReferenceParser()
      */
-    @Requirement("default/link")
+    @Inject
+    @Named("default/link")
     private ResourceReferenceParser linkReferenceParser;
 
     /**
      * @see #getImageReferenceParser()
      */
-    @Requirement("default/image")
+    @Inject
+    @Named("default/image")
     private ResourceReferenceParser imageReferenceParser;
 
     /**
