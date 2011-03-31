@@ -22,6 +22,9 @@ package org.xwiki.rendering.internal.transformation.wikiword;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.LinkBlock;
@@ -39,7 +42,9 @@ import org.xwiki.rendering.transformation.TransformationException;
  * @version $Id$
  * @since 2.6RC1
  */
-@Component("wikiword")
+@Component
+@Named("wikiword")
+@Singleton
 public class WikiWordTransformation extends AbstractTransformation
 {
     /**

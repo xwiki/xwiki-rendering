@@ -23,6 +23,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
@@ -30,7 +33,9 @@ import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
-@Component("testnestedmacro")
+@Component
+@Named("testnestedmacro")
+@Singleton
 public class TestNestedMacro extends AbstractNoParameterMacro
 {
     public TestNestedMacro()
@@ -52,7 +57,7 @@ public class TestNestedMacro extends AbstractNoParameterMacro
     /**
      * {@inheritDoc}
      *
-     * @see org.xwiki.rendering.macro.Macro#execute
+     * @see org.xwiki.rendering.macro.Macro#execute(Object, String, MacroTransformationContext)
      */
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException

@@ -19,6 +19,8 @@
  */
 package ${package}.internal;
 
+import javax.inject.Named;
+
 import java.util.List;
 import java.util.Arrays;
 
@@ -34,7 +36,8 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 /**
  * Example Macro.
  */
-@Component("example")
+@Component
+@Named("example")
 public class ExampleMacro extends AbstractMacro<ExampleMacroParameters>
 {
     /**

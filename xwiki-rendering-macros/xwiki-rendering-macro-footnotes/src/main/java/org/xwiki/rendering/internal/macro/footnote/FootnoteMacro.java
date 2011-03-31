@@ -22,6 +22,9 @@ package org.xwiki.rendering.internal.macro.footnote;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
@@ -39,7 +42,9 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * @version $Id$
  * @since 2.0M2
  */
-@Component(FootnoteMacro.MACRO_NAME)
+@Component
+@Named(FootnoteMacro.MACRO_NAME)
+@Singleton
 public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
 {
     /** The name of this macro. */

@@ -21,6 +21,8 @@ package org.xwiki.rendering.internal.renderer.xhtml.link;
 
 import java.util.Map;
 
+import javax.inject.Named;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -32,7 +34,8 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
  * @version $Id$
  * @since 2.5RC1
  */
-@Component("mailto")
+@Component
+@Named("mailto")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class MailtoXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
 {

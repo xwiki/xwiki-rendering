@@ -22,6 +22,9 @@ package org.xwiki.rendering.internal.transformation.macro;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.WordBlock;
@@ -29,7 +32,9 @@ import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
-@Component("testcontentmacro")
+@Component
+@Named("testcontentmacro")
+@Singleton
 public class TestContentMacro extends AbstractNoParameterMacro
 {
     public TestContentMacro()

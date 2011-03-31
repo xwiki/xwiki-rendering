@@ -22,6 +22,9 @@ package org.xwiki.rendering.internal.transformation.macro;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.ParagraphBlock;
@@ -30,7 +33,9 @@ import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
-@Component("testprioritymacro")
+@Component
+@Named("testprioritymacro")
+@Singleton
 public class TestPriorityMacro extends AbstractNoParameterMacro
 {
     public TestPriorityMacro()
@@ -54,7 +59,7 @@ public class TestPriorityMacro extends AbstractNoParameterMacro
     /**
      * {@inheritDoc}
      *
-     * @see org.xwiki.rendering.macro.Macro#execute
+     * @see org.xwiki.rendering.macro.Macro#execute(Object, String, MacroTransformationContext)
      */
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException

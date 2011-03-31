@@ -22,6 +22,9 @@ package org.xwiki.rendering.internal.parser.xwiki10.macro;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 
 /**
@@ -29,7 +32,9 @@ import org.xwiki.component.annotation.Component;
  * @version $Id$
  * @since 1.8M1
  */
-@Component("includeTopic")
+@Component
+@Named("includeTopic")
+@Singleton
 public class IncludeTopicVelocityMacroConverter extends IncludeInContextVelocityMacroConverter
 {
     @Override

@@ -22,6 +22,9 @@ package org.xwiki.rendering.macro.box;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.VerbatimBlock;
@@ -34,7 +37,9 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  *
  * @version $Id$
  */
-@Component("testbox")
+@Component
+@Named("testbox")
+@Singleton
 public class TestBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
     public TestBoxMacro()

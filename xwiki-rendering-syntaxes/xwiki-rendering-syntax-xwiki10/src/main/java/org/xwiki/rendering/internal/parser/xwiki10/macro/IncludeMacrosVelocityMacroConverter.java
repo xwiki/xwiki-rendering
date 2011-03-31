@@ -19,13 +19,18 @@
  */
 package org.xwiki.rendering.internal.parser.xwiki10.macro;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 
 /**
  * @version $Id$
  * @since 1.8.1
  */
-@Component("includeMacros")
+@Component
+@Named("includeMacros")
+@Singleton
 public class IncludeMacrosVelocityMacroConverter extends IncludeInContextVelocityMacroConverter
 {
 }

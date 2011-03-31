@@ -23,6 +23,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
@@ -30,7 +33,9 @@ import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
-@Component("testrecursivemacro")
+@Component
+@Named("testrecursivemacro")
+@Singleton
 public class TestRecursiveMacro extends AbstractNoParameterMacro
 {
     public TestRecursiveMacro()
@@ -51,7 +56,7 @@ public class TestRecursiveMacro extends AbstractNoParameterMacro
     /**
      * {@inheritDoc}
      * 
-     * @see org.xwiki.rendering.macro.Macro#execute
+     * @see org.xwiki.rendering.macro.Macro#execute(Object, String, MacroTransformationContext)
      */
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException

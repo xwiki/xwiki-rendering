@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
@@ -68,6 +69,7 @@ import org.xwiki.xml.html.HTMLUtils;
  */
 @Component
 @Named("html")
+@Singleton
 public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
 {
     /**

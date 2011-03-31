@@ -23,6 +23,9 @@ import java.text.MessageFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.apache.commons.lang.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
@@ -35,7 +38,9 @@ import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
  * @version $Id$
  * @since 1.8M1
  */
-@Component("list")
+@Component
+@Named("list")
+@Singleton
 public class ListSyntaxFilter extends AbstractFilter implements Initializable
 {
     private static final Pattern LISTYNTAX_PATTERN =

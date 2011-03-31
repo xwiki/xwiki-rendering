@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki20.reference;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.apache.commons.lang.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.reference.XWiki20LinkReferenceParser;
@@ -33,7 +36,9 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
  * @version $Id$
  * @since 2.5RC1
  */
-@Component("xwiki/2.0/interwiki")
+@Component
+@Named("xwiki/2.0/interwiki")
+@Singleton
 public class InterWikiReferenceTypeSerializer implements ResourceReferenceTypeSerializer
 {
     /**

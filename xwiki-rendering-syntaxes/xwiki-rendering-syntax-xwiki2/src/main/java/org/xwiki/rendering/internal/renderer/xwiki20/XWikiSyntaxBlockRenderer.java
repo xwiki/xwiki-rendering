@@ -19,8 +19,11 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki20;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.internal.renderer.AbstractBlockRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 
@@ -29,13 +32,16 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
  *
  * @version $Id$
  */
-@Component("xwiki/2.0")
+@Component
+@Named("xwiki/2.0")
+@Singleton
 public class XWikiSyntaxBlockRenderer extends AbstractBlockRenderer
 {
     /**
      * @see #getPrintRendererFactory()
      */
-    @Requirement("xwiki/2.0")
+    @Inject
+    @Named("xwiki/2.0")
     private PrintRendererFactory xwikiSyntaxRendererFactory;
 
     /**

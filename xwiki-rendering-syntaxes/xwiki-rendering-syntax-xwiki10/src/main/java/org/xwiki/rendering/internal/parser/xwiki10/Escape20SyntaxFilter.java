@@ -22,6 +22,9 @@ package org.xwiki.rendering.internal.parser.xwiki10;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -32,7 +35,9 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
  * @version $Id$
  * @since 1.8M1
  */
-@Component("escape20")
+@Component
+@Named("escape20")
+@Singleton
 public class Escape20SyntaxFilter extends AbstractFilter implements Initializable
 {
     private static final String LISTSYNTAX_SPATTERN =

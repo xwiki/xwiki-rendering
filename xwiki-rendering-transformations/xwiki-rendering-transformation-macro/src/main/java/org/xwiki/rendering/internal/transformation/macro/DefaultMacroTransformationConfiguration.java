@@ -21,6 +21,8 @@ package org.xwiki.rendering.internal.transformation.macro;
 
 import java.util.Properties;
 
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.transformation.macro.MacroTransformationConfiguration;
@@ -32,6 +34,7 @@ import org.xwiki.rendering.transformation.macro.MacroTransformationConfiguration
  * @since 2.6RC1
  */
 @Component
+@Singleton
 public class DefaultMacroTransformationConfiguration implements MacroTransformationConfiguration
 {
     /**

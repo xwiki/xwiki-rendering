@@ -21,6 +21,9 @@ package org.xwiki.rendering.internal.renderer.xhtml;
 
 import java.util.Map;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.ParametersPrinter;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -34,7 +37,9 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
  * @version $Id$
  * @since 2.5RC1
  */
-@Component("xhtmlmarker")
+@Component
+@Named("xhtmlmarker")
+@Singleton
 public class XHTMLMarkerResourceReferenceSerializer implements ResourceReferenceSerializer
 {
     /**

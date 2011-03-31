@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki20.reference;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
@@ -35,7 +38,9 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
  * @version $Id$
  * @since 2.5RC1
  */
-@Component("xwiki/2.0/image")
+@Component
+@Named("xwiki/2.0/image")
+@Singleton
 public class XWikiSyntaxImageReferenceSerializer extends XWikiSyntaxLinkReferenceSerializer
 {
     /**

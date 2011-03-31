@@ -21,6 +21,9 @@ package org.xwiki.rendering.internal.parser.xwiki10;
 
 import java.util.regex.Pattern;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -34,7 +37,9 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
  * @version $Id$
  * @since 1.8M1
  */
-@Component("nl")
+@Component
+@Named("nl")
+@Singleton
 public class NewLineFilter extends AbstractFilter implements Initializable
 {
     private static final Pattern ALTERNATIVE_LINE_ENDINGS = Pattern.compile("\r\n?");

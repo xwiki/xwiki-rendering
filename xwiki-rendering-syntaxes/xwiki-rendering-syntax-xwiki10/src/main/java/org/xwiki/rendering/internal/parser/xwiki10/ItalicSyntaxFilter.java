@@ -21,6 +21,9 @@ package org.xwiki.rendering.internal.parser.xwiki10;
 
 import java.util.regex.Pattern;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -30,7 +33,9 @@ import org.xwiki.rendering.parser.xwiki10.AbstractSyntaxFilter;
  * @version $Id$
  * @since 1.8M1
  */
-@Component("italic")
+@Component
+@Named("italic")
+@Singleton
 public class ItalicSyntaxFilter extends AbstractSyntaxFilter implements Initializable
 {
     private static final Pattern ITALICSYNTAX_PATTERN =

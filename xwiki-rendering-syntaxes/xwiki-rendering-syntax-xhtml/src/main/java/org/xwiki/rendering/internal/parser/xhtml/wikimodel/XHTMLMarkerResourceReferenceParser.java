@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.apache.commons.lang.StringUtils;
 import org.wikimodel.wem.WikiParameter;
 import org.wikimodel.wem.WikiParameters;
@@ -34,7 +37,9 @@ import org.xwiki.rendering.parser.ResourceReferenceParser;
  * @version $Id$
  * @since 2.5RC1
  */
-@Component("xhtmlmarker")
+@Component
+@Named("xhtmlmarker")
+@Singleton
 public class XHTMLMarkerResourceReferenceParser implements ResourceReferenceParser
 {
     /**

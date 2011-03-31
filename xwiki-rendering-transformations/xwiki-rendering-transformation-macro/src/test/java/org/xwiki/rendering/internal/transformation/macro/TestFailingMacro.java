@@ -22,6 +22,9 @@ package org.xwiki.rendering.internal.transformation.macro;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
@@ -34,7 +37,9 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * @version $Id$
  * @since 1.7M3
  */
-@Component("testfailingmacro")
+@Component
+@Named("testfailingmacro")
+@Singleton
 public class TestFailingMacro extends AbstractNoParameterMacro
 {
     public class MockMacroExecutionException extends MacroExecutionException

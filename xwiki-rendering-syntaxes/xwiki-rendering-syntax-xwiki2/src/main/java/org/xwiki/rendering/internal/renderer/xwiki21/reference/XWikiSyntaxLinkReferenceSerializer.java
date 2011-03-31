@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki21.reference;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 
 /**
@@ -27,7 +30,9 @@ import org.xwiki.component.annotation.Component;
  * @version $Id$
  * @since 2.3M2
  */
-@Component("xwiki/2.1/link")
+@Component
+@Named("xwiki/2.1/link")
+@Singleton
 public class XWikiSyntaxLinkReferenceSerializer
     extends org.xwiki.rendering.internal.renderer.xwiki20.reference.XWikiSyntaxLinkReferenceSerializer
 {

@@ -22,6 +22,9 @@ package org.xwiki.rendering.internal.parser.xwiki10;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -34,7 +37,9 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
  * @version $Id$
  * @since 1.9M2
  */
-@Component("unescape")
+@Component
+@Named("unescape")
+@Singleton
 public class UnescapeFilter extends AbstractFilter implements Initializable
 {
     public static final Pattern ESCAPE_SPATTERN =

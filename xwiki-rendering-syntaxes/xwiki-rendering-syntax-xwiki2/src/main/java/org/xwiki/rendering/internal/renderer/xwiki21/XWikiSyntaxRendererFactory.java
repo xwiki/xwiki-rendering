@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki21;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
@@ -29,7 +32,9 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 2.5M2
  */
-@Component("xwiki/2.1")
+@Component
+@Named("xwiki/2.1")
+@Singleton
 public class XWikiSyntaxRendererFactory extends AbstractPrintRendererFactory
 {
     /**

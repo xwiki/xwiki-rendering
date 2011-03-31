@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.macro.html;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
@@ -30,7 +33,9 @@ import org.xwiki.rendering.syntax.SyntaxType;
  * @version $Id$
  * @since 2.0M3
  */
-@Component("xhtmlmacro/1.0")
+@Component
+@Named("xhtmlmacro/1.0")
+@Singleton
 public class HTMLMacroXHTMLRendererFactory extends AbstractPrintRendererFactory
 {
     /**

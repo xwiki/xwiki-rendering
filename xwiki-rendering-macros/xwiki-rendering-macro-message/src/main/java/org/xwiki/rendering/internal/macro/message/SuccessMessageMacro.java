@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 
 /**
@@ -27,7 +30,9 @@ import org.xwiki.component.annotation.Component;
  * @version $Id$
  * @since 3.1M1
  */
-@Component("success")
+@Component
+@Named("success")
+@Singleton
 public class SuccessMessageMacro extends AbstractMessageMacro
 {
     /**

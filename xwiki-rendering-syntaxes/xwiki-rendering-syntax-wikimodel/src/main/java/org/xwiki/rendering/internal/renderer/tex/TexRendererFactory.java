@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.renderer.tex;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.rendering.internal.renderer.*;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.syntax.Syntax;
@@ -29,7 +32,9 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 2.1RC1
  */
-@Component("tex/1.0")
+@Component
+@Named("tex/1.0")
+@Singleton
 public class TexRendererFactory extends AbstractPrintRendererFactory
 {
     /**

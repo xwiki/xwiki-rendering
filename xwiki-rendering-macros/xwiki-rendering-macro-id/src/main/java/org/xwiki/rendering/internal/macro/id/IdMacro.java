@@ -22,6 +22,9 @@ package org.xwiki.rendering.internal.macro.id;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.IdBlock;
@@ -37,7 +40,9 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * @version $Id$
  * @since 1.6M1
  */
-@Component("id")
+@Component
+@Named("id")
+@Singleton
 public class IdMacro extends AbstractMacro<IdMacroParameters>
 {
     /**

@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.xwiki10;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -30,7 +33,9 @@ import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
  * @version $Id$
  * @since 1.8RC3
  */
-@Component("groovy")
+@Component
+@Named("groovy")
+@Singleton
 public class GroovyFilter extends AbstractFilter implements Initializable
 {
     public static final String GROOVY_BEGIN = "<%";
