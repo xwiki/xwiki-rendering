@@ -19,10 +19,13 @@
  */
 package org.xwiki.rendering.internal.parser.xwiki20;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.wikimodel.wem.IWikiParser;
 import org.wikimodel.wem.xwiki.xwiki20.XWikiParser;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.syntax.Syntax;
@@ -31,19 +34,23 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 2.1M1
  */
-@Component("xwiki/2.0")
+@Component
+@Named("xwiki/2.0")
+@Singleton
 public class XWiki20Parser extends AbstractWikiModelParser
 {
     /**
      * @see #getLinkReferenceParser()
      */
-    @Requirement("xwiki/2.0/link")
+    @Inject
+    @Named("xwiki/2.0/link")
     private ResourceReferenceParser linkReferenceParser;
 
     /**
      * @see #getImageReferenceParser()
      */
-    @Requirement("xwiki/2.0/image")
+    @Inject
+    @Named("xwiki/2.0/image")
     private ResourceReferenceParser imageReferenceParser;
 
     /**

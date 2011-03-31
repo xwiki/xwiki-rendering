@@ -19,8 +19,11 @@
  */
 package org.xwiki.rendering.internal.macro;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.properties.converter.AbstractConverter;
 import org.xwiki.properties.converter.ConversionException;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
@@ -33,13 +36,15 @@ import org.xwiki.rendering.parser.ResourceReferenceParser;
  * @since 2.6M1
  * @see org.xwiki.properties.converter.Converter
  */
-@Component("org.xwiki.rendering.listener.reference.ResourceReference")
+@Component
+@Named("org.xwiki.rendering.listener.reference.ResourceReference")
+@Singleton
 public class ResourceReferenceConverter extends AbstractConverter
 {
     /**
      * Used to convert Resource References from String to ResourceReference object.
      */
-    @Requirement
+    @Inject
     private ResourceReferenceParser referenceParser;
 
     /**

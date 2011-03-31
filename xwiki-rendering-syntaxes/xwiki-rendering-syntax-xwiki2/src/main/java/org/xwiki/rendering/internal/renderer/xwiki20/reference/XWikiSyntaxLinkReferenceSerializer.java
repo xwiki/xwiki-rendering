@@ -19,8 +19,11 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki20.reference;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -40,7 +43,9 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
  * @version $Id$
  * @since 2.5RC1
  */
-@Component("xwiki/2.0/link")
+@Component
+@Named("xwiki/2.0/link")
+@Singleton
 public class XWikiSyntaxLinkReferenceSerializer implements ResourceReferenceSerializer
 {
     /**
@@ -51,13 +56,14 @@ public class XWikiSyntaxLinkReferenceSerializer implements ResourceReferenceSeri
     /**
      * Used to lookup {@link org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer} implementations.
      */
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     /**
      * Default serializer to use when no serializer is found for the link type.
      */
-    @Requirement("xwiki/2.0")
+    @Inject
+    @Named("xwiki/2.0")
     private ResourceReferenceTypeSerializer defaultResourceReferenceTypeSerializer;
 
     /**

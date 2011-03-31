@@ -22,8 +22,11 @@ package org.xwiki.rendering.internal.parser.xwiki10;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.parser.xwiki10.AbstractFilter;
@@ -35,16 +38,20 @@ import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
  * @version $Id$
  * @since 1.8M1
  */
-@Component("pre")
+@Component
+@Named("pre")
+@Singleton
 public class PreFilter extends AbstractFilter implements Initializable
 {
     private static final Pattern PRE_PATTERN =
         Pattern.compile("\\{pre\\}(.*?)\\{/pre\\}", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
-    @Requirement("spacescleanning")
+    @Inject
+    @Named("spacescleanning")
     public Filter spacesCleaningFilter;
 
-    @Requirement("standalonenewlinecleanning")
+    @Inject
+    @Named("standalonenewlinecleanning")
     public Filter standaloneNewLineCleaningFilter;
 
     /**

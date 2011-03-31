@@ -21,8 +21,11 @@ package org.xwiki.rendering.internal.parser.xwiki10.macro;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.internal.parser.xwiki10.VelocityFilter;
 import org.xwiki.rendering.parser.xwiki10.Filter;
 import org.xwiki.rendering.parser.xwiki10.FilterContext;
@@ -33,9 +36,11 @@ import org.xwiki.rendering.parser.xwiki10.macro.AbstractVelocityMacroConverter;
  * @since 2.0
  */
 @Component(hints = {"info", "warning", "error"})
+@Singleton
 public class MessageVelocityMacroConverter extends AbstractVelocityMacroConverter
 {
-    @Requirement("velocity")
+    @Inject
+    @Named("velocity")
     private Filter velocityFilter;
 
     @Override

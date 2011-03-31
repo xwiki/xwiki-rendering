@@ -19,8 +19,9 @@
  */
 package org.xwiki.rendering.macro;
 
+import javax.inject.Inject;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -60,7 +61,7 @@ public abstract class AbstractMacro<P> extends AbstractLogEnabled implements Mac
     /**
      * The {@link BeanManager} component.
      */
-    @Requirement
+    @Inject
     protected BeanManager beanManager;
 
     /**

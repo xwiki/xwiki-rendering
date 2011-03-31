@@ -23,8 +23,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -44,12 +46,13 @@ import org.xwiki.rendering.syntax.Syntax;
  * @since 1.9M1
  */
 @Component
+@Singleton
 public class DefaultMacroManager extends AbstractLogEnabled implements MacroManager
 {
     /**
      * Allows transforming a macro id specified as text into a {@link MacroId} object.
      */
-    @Requirement
+    @Inject
     private MacroIdFactory macroIdFactory;
 
     /**
@@ -57,7 +60,7 @@ public class DefaultMacroManager extends AbstractLogEnabled implements MacroMana
      * implementations registered as components. Note that Context Component Manager allows Macros to be 
      * registered for a specific user, for a specific wiki, etc. 
      */
-    @Requirement
+    @Inject
     private ComponentManager rootComponentManager;
 
     /**

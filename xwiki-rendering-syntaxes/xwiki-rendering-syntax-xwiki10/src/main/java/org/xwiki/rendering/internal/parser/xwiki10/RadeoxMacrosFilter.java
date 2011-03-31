@@ -22,8 +22,11 @@ package org.xwiki.rendering.internal.parser.xwiki10;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
@@ -40,7 +43,9 @@ import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
  * @version $Id$
  * @since 1.8M1
  */
-@Component("radeoxmacros")
+@Component
+@Named("radeoxmacros")
+@Singleton
 public class RadeoxMacrosFilter extends AbstractFilter implements Initializable
 {
     /**
@@ -56,7 +61,7 @@ public class RadeoxMacrosFilter extends AbstractFilter implements Initializable
     public static final Pattern MULTI_LINE_MACRO_PATTERN =
         Pattern.compile("\\{(\\w+)(:(.+?))?\\}(.+?)\\{\\1\\}", Pattern.DOTALL);
 
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     /**

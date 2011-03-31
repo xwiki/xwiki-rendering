@@ -19,8 +19,10 @@
  */
 package org.xwiki.rendering.internal.macro;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.rendering.macro.MacroIdFactory;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.syntax.SyntaxFactory;
@@ -33,6 +35,7 @@ import org.xwiki.rendering.parser.ParseException;
  * @since 2.0M3
  */
 @Component
+@Singleton
 public class DefaultMacroIdFactory implements MacroIdFactory
 {
     /**
@@ -44,7 +47,7 @@ public class DefaultMacroIdFactory implements MacroIdFactory
      * For creating Syntax objects when creating MacroId from a string representing the syntax id and the
      * syntax version.
      */
-    @Requirement
+    @Inject
     private SyntaxFactory syntaxFactory;
 
     /**

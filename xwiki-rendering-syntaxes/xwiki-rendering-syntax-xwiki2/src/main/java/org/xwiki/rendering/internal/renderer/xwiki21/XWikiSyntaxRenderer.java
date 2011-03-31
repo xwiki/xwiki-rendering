@@ -19,9 +19,11 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki21;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.internal.renderer.xwiki20.AbstractXWikiSyntaxRenderer;
 import org.xwiki.rendering.listener.chaining.ChainingListener;
@@ -35,20 +37,23 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
  * @since 2.5M2
  * @see org.xwiki.rendering.internal.renderer.xwiki21.XWikiSyntaxRenderer
  */
-@Component("xwiki/2.1")
+@Component
+@Named("xwiki/2.1")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class XWikiSyntaxRenderer extends AbstractXWikiSyntaxRenderer
 {
     /**
      * Needed by XWikiSyntaxChainingRenderer to serialize wiki link references.
      */
-    @Requirement("xwiki/2.1/link")
+    @Inject
+    @Named("xwiki/2.1/link")
     protected ResourceReferenceSerializer linkReferenceSerializer;
 
     /**
      * Needed by XWikiSyntaxChainingRenderer to serialize wiki image references.
      */
-    @Requirement("xwiki/2.1/image")
+    @Inject
+    @Named("xwiki/2.1/image")
     protected ResourceReferenceSerializer imageReferenceSerializer;
 
     /**

@@ -20,13 +20,15 @@
 package org.xwiki.rendering.internal.transformation.icon;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 
 import java.util.Properties;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * All configuration options for the Icon transformation.
@@ -35,6 +37,7 @@ import java.util.Properties;
  * @since 2.6RC1
  */
 @Component
+@Singleton
 public class DefaultIconTransformationConfiguration implements IconTransformationConfiguration, Initializable
 {
     /**
@@ -50,7 +53,7 @@ public class DefaultIconTransformationConfiguration implements IconTransformatio
     /**
      * Defines from where to read the rendering configuration data.
      */
-    @Requirement
+    @Inject
     private ConfigurationSource configuration;
 
     /**

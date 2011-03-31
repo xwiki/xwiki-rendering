@@ -21,8 +21,11 @@ package org.xwiki.rendering.internal.parser.xwiki10;
 
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -44,7 +47,9 @@ import org.xwiki.velocity.internal.util.VelocityBlock.VelocityType;
  * @version $Id$
  * @since 1.8M1
  */
-@Component("velocity")
+@Component
+@Named("velocity")
+@Singleton
 public class VelocityFilter extends AbstractFilter implements Initializable
 {
     public static final String VELOCITY_SF = "velocity";
@@ -95,7 +100,7 @@ public class VelocityFilter extends AbstractFilter implements Initializable
     /**
      * Used to lookup macros converters.
      */
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     private ExtendedVelocityParser velocityParser;

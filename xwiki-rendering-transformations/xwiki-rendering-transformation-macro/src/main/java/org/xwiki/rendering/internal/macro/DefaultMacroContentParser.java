@@ -24,9 +24,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.apache.commons.lang.StringUtils;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
@@ -50,12 +52,13 @@ import org.xwiki.rendering.util.ParserUtils;
  * @since 3.0M1
  */
 @Component
+@Singleton
 public class DefaultMacroContentParser implements MacroContentParser
 {
     /**
      * Used to look up the syntax parser to use for parsing the content.
      */
-    @Requirement
+    @Inject
     private ComponentManager componentManager;
 
     /**

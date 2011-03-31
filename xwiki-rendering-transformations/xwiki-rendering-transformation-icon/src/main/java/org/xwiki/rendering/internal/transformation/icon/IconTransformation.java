@@ -20,7 +20,6 @@
 package org.xwiki.rendering.internal.transformation.icon;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
@@ -44,6 +43,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 /**
  * Transforms some special characters representing icons into images. For example transforms {@code :)} characters
  * into a smiley.
@@ -51,19 +54,22 @@ import java.util.Map;
  * @version $Id$
  * @since 2.6RC1
  */
-@Component("icon")
+@Component
+@Named("icon")
+@Singleton
 public class IconTransformation extends AbstractTransformation implements Initializable
 {
     /**
      * Used to get the icon mapping information (suite of characters mapped to an icon name).
      */
-    @Requirement
+    @Inject
     private IconTransformationConfiguration configuration;
 
     /**
      * Used to parse the mapping suite of characters into a XDOM tree for fast matching.
      */
-    @Requirement("plain/1.0")
+    @Inject
+    @Named("plain/1.0")
     private Parser plainTextParser;
 
     /**

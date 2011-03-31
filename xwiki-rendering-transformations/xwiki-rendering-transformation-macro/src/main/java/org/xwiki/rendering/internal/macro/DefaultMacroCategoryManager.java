@@ -26,8 +26,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.rendering.macro.MacroCategoryManager;
 import org.xwiki.rendering.macro.MacroLookupException;
@@ -43,18 +45,19 @@ import org.xwiki.rendering.transformation.macro.MacroTransformationConfiguration
  * @since 2.0M3
  */
 @Component
+@Singleton
 public class DefaultMacroCategoryManager extends AbstractLogEnabled implements MacroCategoryManager
 {
     /**
      * Used to get macro categories defined by the user (if any).
      */
-    @Requirement
+    @Inject
     private MacroTransformationConfiguration configuration;
 
     /**
      * Macro manager component used to check the existence of macros.
      */
-    @Requirement
+    @Inject
     private MacroManager macroManager;
 
     /**

@@ -27,8 +27,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
@@ -59,7 +62,9 @@ import org.xwiki.rendering.transformation.TransformationException;
  * @version $Id$
  * @since 1.5M2
  */
-@Component("macro")
+@Component
+@Named("macro")
+@Singleton
 public class MacroTransformation extends AbstractTransformation
 {
     /**
@@ -71,13 +76,13 @@ public class MacroTransformation extends AbstractTransformation
     /**
      * Handles macro registration and macro lookups. Injected by the Component Manager.
      */
-    @Requirement
+    @Inject
     private MacroManager macroManager;
 
     /**
      * Used to populate automatically macros parameters classes with parameters specified in the Macro Block.
      */
-    @Requirement
+    @Inject
     private BeanManager beanManager;
 
     private class MacroHolder implements Comparable<MacroHolder>

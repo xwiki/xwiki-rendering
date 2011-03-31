@@ -26,9 +26,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.apache.commons.io.IOUtils;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -47,7 +50,9 @@ import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
  * @version $Id$
  * @since 1.8M1
  */
-@Component("xwiki/1.0")
+@Component
+@Named("xwiki/1.0")
+@Singleton
 public class XWikiParser extends AbstractLogEnabled implements Parser, Initializable
 {
     /**
@@ -58,13 +63,14 @@ public class XWikiParser extends AbstractLogEnabled implements Parser, Initializ
     /**
      * Use to create the XDOM from converted content.
      */
-    @Requirement("xwiki/2.0")
+    @Inject
+    @Named("xwiki/2.0")
     private Parser xwiki20Parser;
 
     /**
      * The filters use to convert 1.0 content to 2.0.
      */
-    @Requirement
+    @Inject
     private List<Filter> filters;
 
     /**
