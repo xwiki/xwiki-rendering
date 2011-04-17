@@ -26,9 +26,9 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.commons</groupId>
-    <artifactId>xwiki-commons</artifactId>
-    <version>42-SNAPSHOT</version>
-    <relativePath>../commons/xwiki-commons-pom</relativePath>
+    <artifactId>xwiki-commons-pom</artifactId>
+    <version>3.1-SNAPSHOT</version>
+    <relativePath>../xwiki-commons/xwiki-commons-pom</relativePath>
   </parent>
   <groupId>org.xwiki.rendering</groupId>
   <artifactId>xwiki-rendering</artifactId>
