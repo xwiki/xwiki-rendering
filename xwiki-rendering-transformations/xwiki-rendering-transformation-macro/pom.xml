@@ -36,7 +36,7 @@
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-properties</artifactId>
-      <version>${commons.core.version}</version>
+      <version>${commons.version}</version>
     </dependency>
   </dependencies>
   <build>

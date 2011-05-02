@@ -41,12 +41,12 @@
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-xml</artifactId>
-      <version>${commons.core.version}</version>
+      <version>${commons.version}</version>
     </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-configuration-api</artifactId>
-      <version>${commons.core.version}</version>
+      <version>${commons.version}</version>
     </dependency>
     <dependency>
       <groupId>dom4j</groupId>
@@ -68,7 +68,7 @@
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-test</artifactId>
-      <version>${commons.core.version}</version>
+      <version>${commons.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
