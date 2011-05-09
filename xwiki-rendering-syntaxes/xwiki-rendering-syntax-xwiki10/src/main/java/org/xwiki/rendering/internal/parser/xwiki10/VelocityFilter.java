@@ -114,7 +114,7 @@ public class VelocityFilter extends AbstractFilter implements Initializable
     {
         setPriority(20);
 
-        this.velocityParser = new ExtendedVelocityParser(componentManager, getLogger());
+        this.velocityParser = new ExtendedVelocityParser(componentManager);
     }
 
     /**

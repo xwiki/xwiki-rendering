@@ -22,7 +22,8 @@ package org.xwiki.rendering.internal.parser.xwiki10.velocity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.xwiki.component.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.xwiki10.HTMLFilter;
@@ -39,11 +40,16 @@ import org.xwiki.velocity.internal.util.VelocityParserContext;
  */
 public class ExtendedVelocityParser extends VelocityParser
 {
+    /**
+     * The Logger to use for logging.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(VelocityParser.class);
+
     private ComponentManager componentManager;
 
-    public ExtendedVelocityParser(ComponentManager componentManager, Logger logger)
+    public ExtendedVelocityParser(ComponentManager componentManager)
     {
-        super(logger);
+        super();
 
         this.componentManager = componentManager;
     }
@@ -154,13 +160,9 @@ public class ExtendedVelocityParser extends VelocityParser
                 context.setConversion(true);
             }
         } catch (ComponentLookupException e) {
-            if (getLogger().isDebugEnabled()) {
-                getLogger().debug("Can't find macro converter [" + name + "]", e);
-            }
+            LOGGER.debug("Can't find macro converter [" + name + "]", e);
         } catch (Exception e) {
-            if (getLogger().isDebugEnabled()) {
-                getLogger().debug("Failed to convert macro [" + name + "]", e);
-            }
+            LOGGER.debug("Failed to convert macro [" + name + "]", e);
         }
 
         return convertedMacro;
@@ -259,7 +261,7 @@ public class ExtendedVelocityParser extends VelocityParser
                         isVelocity = true;
                         continue;
                     } catch (InvalidVelocityException e) {
-                        getLogger().debug("Not a valid variable at char [" + i + "]", e);
+                        LOGGER.debug("Not a valid variable at char [" + i + "]", e);
                     }
                 } else if (array[i] == escapeChar) {
                     ++i;

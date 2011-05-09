@@ -121,14 +121,12 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
-      <!-- Ensure that the XWiki Rendering top level module is independent of the XWiki Platform (so that it can
-           be used standalone). -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
           <execution>
-            <id>enforce-banned-dependencies</id>
+            <id>enforce-platform-isolation</id>
             <goals>
               <goal>enforce</goal>
             </goals>
@@ -136,7 +134,28 @@
               <rules>
                 <bannedDependencies>
                   <excludes>
+                    <!-- Ensure that the XWiki Rendering top level module is independent of the XWiki Platform (so that
+                         it can be used standalone) -->
                     <exclude>org.xwiki.platform:*</exclude>
+                  </excludes>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
+          <execution>
+            <id>enforce-jcl-log4j-isolation</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <searchTransitive>false</searchTransitive>
+                  <excludes>
+                    <!-- Ensure we don't depend on commons logging/log4j since we want all logging to be done through
+                         SLF4J -->
+                    <exclude>commons-logging:commons-logging</exclude>
+                    <exclude>log4j:log4j</exclude>
                   </excludes>
                 </bannedDependencies>
               </rules>
