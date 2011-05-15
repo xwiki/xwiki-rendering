@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -63,6 +64,12 @@ public class RadeoxMacrosFilter extends AbstractFilter implements Initializable
 
     @Inject
     private ComponentManager componentManager;
+
+    /**
+     * The logger to log.
+     */
+    @Inject
+    private Logger logger;
 
     /**
      * {@inheritDoc}
@@ -152,9 +159,7 @@ public class RadeoxMacrosFilter extends AbstractFilter implements Initializable
                     currentMacro = null;
                 }
             } catch (ComponentLookupException e) {
-                if (getLogger().isDebugEnabled()) {
-                    getLogger().debug("Can't find macro converter [" + macroName + "]", e);
-                }
+                this.logger.debug("Can't find macro converter [" + macroName + "]", e);
 
                 currentMacro = null;
             }

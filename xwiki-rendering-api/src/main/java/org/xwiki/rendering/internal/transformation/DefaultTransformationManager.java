@@ -22,8 +22,8 @@ package org.xwiki.rendering.internal.transformation;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
@@ -42,13 +42,19 @@ import org.xwiki.rendering.transformation.TransformationManager;
  */
 @Component
 @Singleton
-public class DefaultTransformationManager extends AbstractLogEnabled implements TransformationManager
+public class DefaultTransformationManager implements TransformationManager
 {
     /**
      * Used to get the ordered list of transformations to execute.
      */
     @Inject
     private RenderingConfiguration configuration;
+
+    /**
+     * The logger to log.
+     */
+    @Inject
+    private Logger logger;
 
     /**
      * {@inheritDoc}
@@ -75,7 +81,7 @@ public class DefaultTransformationManager extends AbstractLogEnabled implements 
                 transformation.transform(block, context);
             } catch (Exception e) {
                 // Continue running the other transformations
-                getLogger().error("Failed to execute transformation", e);
+                this.logger.error("Failed to execute transformation", e);
                 error = true;
             }
         }

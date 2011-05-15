@@ -32,7 +32,6 @@ import javax.inject.Singleton;
 
 import org.apache.commons.io.IOUtils;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.XDOM;
@@ -53,7 +52,7 @@ import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
 @Component
 @Named("xwiki/1.0")
 @Singleton
-public class XWikiParser extends AbstractLogEnabled implements Parser, Initializable
+public class XWikiParser implements Parser, Initializable
 {
     /**
      * The syntax identifier of the parser.

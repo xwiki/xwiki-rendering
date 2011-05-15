@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
@@ -102,6 +103,12 @@ public class VelocityFilter extends AbstractFilter implements Initializable
      */
     @Inject
     private ComponentManager componentManager;
+
+    /**
+     * The logger to log.
+     */
+    @Inject
+    private Logger logger;
 
     private ExtendedVelocityParser velocityParser;
 
@@ -184,7 +191,7 @@ public class VelocityFilter extends AbstractFilter implements Initializable
                     }
                 }
             } catch (InvalidVelocityException e) {
-                getLogger().debug("Not a valid Velocity block at char [" + i + "]", e);
+                this.logger.debug("Not a valid Velocity block at char [" + i + "]", e);
                 context.setVelocity(false);
             }
 

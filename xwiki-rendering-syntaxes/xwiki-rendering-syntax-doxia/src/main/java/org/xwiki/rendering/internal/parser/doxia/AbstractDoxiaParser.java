@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.parser.doxia;
 
-import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
@@ -40,7 +39,7 @@ import org.xwiki.rendering.util.IdGenerator;
  * @version $Id$
  * @since 1.5M2
  */
-public abstract class AbstractDoxiaParser extends AbstractLogEnabled implements Parser, StreamParser
+public abstract class AbstractDoxiaParser implements Parser, StreamParser
 {
     /**
      * Used by the XWikiGeneratorListener to generate unique header ids.

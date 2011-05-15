@@ -25,7 +25,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.wikimodel.wem.IWikiParser;
-import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
@@ -42,7 +41,7 @@ import org.xwiki.rendering.util.IdGenerator;
  * @version $Id$
  * @since 1.5M2
  */
-public abstract class AbstractWikiModelParser extends AbstractLogEnabled implements Parser, WikiModelStreamParser
+public abstract class AbstractWikiModelParser implements Parser, WikiModelStreamParser
 {
     /**
      * Used by the XWiki Generator Listener to generate unique header ids.

@@ -24,8 +24,8 @@ import java.util.Collections;
 import org.jmock.Expectations;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
 import org.xwiki.component.descriptor.DefaultComponentDescriptor;
-import org.xwiki.component.logging.Logger;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.rendering.internal.transformation.macro.TestSimpleMacro;
@@ -49,7 +49,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
 {
     // Mock all required components except for some for which we want to use the real implementations since they make
     // the test easier to write (no need to mock them).
-    @MockingRequirement(exceptions = { ComponentManager.class, MacroIdFactory.class })
+    @MockingRequirement(exceptions = { ComponentManager.class, MacroIdFactory.class, Logger.class })
     private DefaultMacroManager macroManager;
 
     @Test
@@ -143,7 +143,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
 
         // Use a mock logger in order to assert what is sent to it.
         final Logger mockLogger = getMockery().mock(Logger.class);
-        this.macroManager.enableLogging(mockLogger);
+        ReflectionUtils.setFieldValue(this.macroManager, "logger", mockLogger);
 
         getMockery().checking(new Expectations() {{
             allowing(mockRootComponentManager).lookup(ComponentManager.class, "context");

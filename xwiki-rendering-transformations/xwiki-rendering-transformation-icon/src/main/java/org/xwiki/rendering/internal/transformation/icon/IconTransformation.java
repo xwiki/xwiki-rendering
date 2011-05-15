@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.internal.transformation.icon;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -73,6 +74,12 @@ public class IconTransformation extends AbstractTransformation implements Initia
     private Parser plainTextParser;
 
     /**
+     * The logger to log.
+     */
+    @Inject
+    private Logger logger;
+
+    /**
      * Used to remove the top level paragraph since we don't currently have an inline parser.
      */
     private ParserUtils parserUtils = new ParserUtils();
@@ -103,7 +110,7 @@ public class IconTransformation extends AbstractTransformation implements Initia
                 this.parserUtils.removeTopLevelParagraph(xdom.getChildren());
                 mergeTree(this.mappingTree, convertToDeepTree(xdom, (String) entry.getValue()));
             } catch (ParseException e) {
-                getLogger().warn("Failed to parse icon symbols [" + entry.getKey() + "]. Reason = ["
+                this.logger.warn("Failed to parse icon symbols [" + entry.getKey() + "]. Reason = ["
                     + e.getMessage() + "]");
             }
         }

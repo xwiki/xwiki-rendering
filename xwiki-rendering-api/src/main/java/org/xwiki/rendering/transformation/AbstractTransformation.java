@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.transformation;
 
-import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
 
@@ -29,7 +28,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 1.5M2
  */
-public abstract class AbstractTransformation extends AbstractLogEnabled implements Transformation
+public abstract class AbstractTransformation implements Transformation
 {
     /**
      * Execution order priority. Transformations with smaller values are executed sooner. Injected by the Component

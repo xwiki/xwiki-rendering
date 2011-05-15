@@ -24,7 +24,6 @@ import javax.inject.Named;
 
 import org.apache.commons.lang.StringUtils;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.properties.BeanManager;
@@ -38,7 +37,7 @@ import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
  * @version $Id$
  * @since 1.5M2
  */
-public abstract class AbstractMacro<P> extends AbstractLogEnabled implements Macro<P>, Initializable
+public abstract class AbstractMacro<P> implements Macro<P>, Initializable
 {
     /**
      * "Formatting" default macro category.

@@ -185,6 +185,13 @@
               <excludes>
                 <exclude>**/internal/**</exclude>
                 <exclude>**/test/**</exclude>
+                <!-- Remove when Rendering 3.1 has been released -->
+                <exclude>org/xwiki/rendering/transformation/AbstractTransformation</exclude> <!-- AbstractLogEnabled -->
+                <exclude>org/xwiki/rendering/macro/AbstractMacro</exclude>
+                <exclude>org/xwiki/rendering/macro/AbstractNoParameterMacro</exclude>
+                <exclude>org/xwiki/rendering/parser/xwiki10/AbstractFilter</exclude>
+                <exclude>org/xwiki/rendering/parser/xwiki10/AbstractSyntaxFilter</exclude>
+                <exclude>org/xwiki/rendering/macro/box/AbstractBoxMacro</exclude>
               </excludes>
             </configuration>
           </plugin>

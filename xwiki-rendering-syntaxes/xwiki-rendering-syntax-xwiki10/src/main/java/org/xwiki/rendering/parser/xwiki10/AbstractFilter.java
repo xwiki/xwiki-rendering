@@ -19,15 +19,13 @@
  */
 package org.xwiki.rendering.parser.xwiki10;
 
-import org.xwiki.component.logging.AbstractLogEnabled;
-
 /**
  * Base class for filters.
  * 
  * @version $Id$
  * @since 1.8M1
  */
-public abstract class AbstractFilter extends AbstractLogEnabled implements Filter
+public abstract class AbstractFilter implements Filter
 {
     private int priority;
 

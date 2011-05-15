@@ -23,10 +23,12 @@ import java.text.MessageFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -50,6 +52,12 @@ public class ListSyntaxFilter extends AbstractFilter implements Initializable
     private static final Pattern LISTITEMSYNTAX_PATTERN =
         Pattern.compile("^(" + VelocityFilter.SPACEGROUP_OC_SPATTERN
             + ")([-#*]++|[-#*iIaA1ghHkKj]++\\.)([\\p{Blank}]++[^\r\n]++)([ \t]*+[\r\n]++)*+", Pattern.MULTILINE);
+
+    /**
+     * The logger to log.
+     */
+    @Inject
+    private Logger logger;
 
     /**
      * {@inheritDoc}
@@ -159,7 +167,7 @@ public class ListSyntaxFilter extends AbstractFilter implements Initializable
                     listString = listSigns;
                 } else {
                     // This should never append
-                    getLogger().error("Unknown list sign: " + listSign);
+                    this.logger.error("Unknown list sign: " + listSign);
 
                     listString = StringUtils.repeat("*", listSigns.length());
                 }

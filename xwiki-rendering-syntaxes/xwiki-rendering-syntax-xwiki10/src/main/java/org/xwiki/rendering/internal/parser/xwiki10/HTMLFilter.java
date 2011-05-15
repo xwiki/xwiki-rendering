@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -82,6 +83,12 @@ public class HTMLFilter extends AbstractFilter implements Initializable
     @Inject
     @Named("escape20")
     private Filter escape20SyntaxFilter;
+
+    /**
+     * The logger to log.
+     */
+    @Inject
+    private Logger logger;
 
     /**
      * {@inheritDoc}
@@ -167,7 +174,7 @@ public class HTMLFilter extends AbstractFilter implements Initializable
                         VelocityFilter.appendVelocityClose(buffer, filterContext, false);
                     }
                 } catch (InvalidHtmlException e) {
-                    getLogger().debug("Invalid HTML block at char [" + i + "]", e);
+                    this.logger.debug("Invalid HTML block at char [" + i + "]", e);
 
                     nonHtmlbuffer.append(c);
                     ++i;
@@ -388,13 +395,9 @@ public class HTMLFilter extends AbstractFilter implements Initializable
                 context.setInline(currentMacro.isInline());
             }
         } catch (ComponentLookupException e) {
-            if (getLogger().isDebugEnabled()) {
-                getLogger().debug("Can't find macro converter [" + name + "]", e);
-            }
+            this.logger.debug("Can't find macro converter [" + name + "]", e);
         } catch (Exception e) {
-            if (getLogger().isDebugEnabled()) {
-                getLogger().debug("Failed to convert macro [" + name + "]", e);
-            }
+            this.logger.debug("Failed to convert macro [" + name + "]", e);
         }
 
         return convertedElement;
@@ -434,7 +437,7 @@ public class HTMLFilter extends AbstractFilter implements Initializable
                         ++i;
                     }
                 } catch (InvalidHtmlException e) {
-                    getLogger().debug("Invalid HTML block at char [" + i + "]", e);
+                    this.logger.debug("Invalid HTML block at char [" + i + "]", e);
                     ++i;
                 }
             } else {

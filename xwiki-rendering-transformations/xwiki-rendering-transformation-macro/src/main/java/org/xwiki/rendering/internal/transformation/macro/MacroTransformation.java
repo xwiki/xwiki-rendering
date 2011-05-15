@@ -31,6 +31,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.rendering.block.Block;
@@ -84,6 +85,12 @@ public class MacroTransformation extends AbstractTransformation
      */
     @Inject
     private BeanManager beanManager;
+
+    /**
+     * The logger to log.
+     */
+    @Inject
+    private Logger logger;
 
     private class MacroHolder implements Comparable<MacroHolder>
     {
@@ -156,7 +163,7 @@ public class MacroTransformation extends AbstractTransformation
                 // execution result.
                 generateError(macroHolder.macroBlock, "Not an inline macro",
                     "This macro can only be used by itself on a new line");
-                getLogger().debug("The [" + macroHolder.macroBlock.getId() + "] macro doesn't support inline mode.");
+                this.logger.debug("The [" + macroHolder.macroBlock.getId() + "] macro doesn't support inline mode.");
                 return;
             }
         } else {
@@ -179,7 +186,7 @@ public class MacroTransformation extends AbstractTransformation
                 // execution result.
                 generateError(macroHolder.macroBlock, "Invalid macro parameters used for the \""
                     + macroHolder.macroBlock.getId() + "\" macro", e);
-                getLogger().debug(
+                this.logger.debug(
                     "Invalid macro parameter for the [" + macroHolder.macroBlock.getId() + "] macro. Internal error: ["
                         + e.getMessage() + "]");
 
@@ -196,7 +203,7 @@ public class MacroTransformation extends AbstractTransformation
             // Note: We catch any Exception because we want to never break the whole rendering.
             generateError(macroHolder.macroBlock, "Failed to execute the [" + macroHolder.macroBlock.getId()
                 + "] macro", e);
-            getLogger().debug(
+            this.logger.debug(
                 "Failed to execute the [" + macroHolder.macroBlock.getId() + "]macro. Internal error ["
                     + e.getMessage() + "]");
 
@@ -230,7 +237,7 @@ public class MacroTransformation extends AbstractTransformation
                 generateError(macroBlock, "Unknown macro: " + macroBlock.getId(), "The \"" + macroBlock.getId()
                     + "\" macro is not in the list of registered macros. Verify the "
                     + "spelling or contact your administrator.");
-                getLogger().debug("Failed to locate the [" + macroBlock.getId() + "] macro. Ignoring it.");
+                this.logger.debug("Failed to locate the [" + macroBlock.getId() + "] macro. Ignoring it.");
             }
         }
 

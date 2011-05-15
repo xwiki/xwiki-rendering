@@ -26,8 +26,8 @@ import java.util.HashSet;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.logging.AbstractLogEnabled;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.macro.Macro;
@@ -47,7 +47,7 @@ import org.xwiki.rendering.syntax.Syntax;
  */
 @Component
 @Singleton
-public class DefaultMacroManager extends AbstractLogEnabled implements MacroManager
+public class DefaultMacroManager implements MacroManager
 {
     /**
      * Allows transforming a macro id specified as text into a {@link MacroId} object.
@@ -62,6 +62,12 @@ public class DefaultMacroManager extends AbstractLogEnabled implements MacroMana
      */
     @Inject
     private ComponentManager rootComponentManager;
+
+    /**
+     * The logger to log.
+     */
+    @Inject
+    private Logger logger;
 
     /**
      * {@inheritDoc}
@@ -98,7 +104,7 @@ public class DefaultMacroManager extends AbstractLogEnabled implements MacroMana
             } catch (ParseException e) {
                 // One of the macros is registered against the component manager with an invalid macro id, ignore it
                 // but log a warning.
-                getLogger().warn("Invalid Macro descriptor format for hint [" + entry.getKey()
+                this.logger.warn("Invalid Macro descriptor format for hint [" + entry.getKey()
                     + "]. The hint should contain either the macro name only or the macro name followed by "
                     + "the syntax for which it is valid. In that case the macro name should be followed by a "
                     + "\"/\" followed by the syntax name followed by another \"/\" followed by the syntax version. "
