@@ -173,20 +173,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     public void initialize() throws InitializationException
     {
         MacroId macroId = null;
-        // Try to get macro id from component hint - only possible for XWiki Java Macros
-        String hint = null;
-        Named named = this.getClass().getAnnotation(Named.class);
-        if (named != null) {
-            hint = named.value();
-        } else {
-            Component component = this.getClass().getAnnotation(Component.class);
-            if (component != null && component.hints().length > 0) {
-                hint = component.hints()[0];
-            } else if (component != null && StringUtils.isNotBlank(component.value())) {
-                hint = component.value().trim();
-            }
-        }
-
+        String hint = extractMacroComponentHint();
         if (hint != null && !"default".equals(hint) && !"".equals(hint)) {
             macroId = new MacroId(hint);
         }
@@ -195,6 +182,32 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
             this.contentDescriptor, this.beanManager.getBeanDescriptor(this.parametersBeanClass));
         descriptor.setDefaultCategory(this.defaultCategory);
         setDescriptor(descriptor);
+    }
+
+    /**
+     * Extract the Macro Component Hint from the Macro annotation (from the {@link Named} annotation or from the
+     * older {@link Component} annotation which is kept for backward compatibility only).
+     *
+     * @return the Macro component hint under whicht the macro is registered
+     * since 3.1M2
+     */
+    private String extractMacroComponentHint()
+    {
+        String hint = null;
+        Named named = this.getClass().getAnnotation(Named.class);
+        if (named != null) {
+            hint = named.value();
+        } else {
+            // Kept for backward-compatibility to continue supporting the declaration of the Macro hint in the
+            // Component annotation.
+            Component component = this.getClass().getAnnotation(Component.class);
+            if (component != null && component.hints().length > 0) {
+                hint = component.hints()[0];
+            } else if (component != null && StringUtils.isNotBlank(component.value())) {
+                hint = component.value().trim();
+            }
+        }
+        return hint;
     }
 
     /**
