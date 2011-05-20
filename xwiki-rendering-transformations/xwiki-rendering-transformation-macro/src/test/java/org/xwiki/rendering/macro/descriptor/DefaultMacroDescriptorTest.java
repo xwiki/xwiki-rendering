@@ -115,7 +115,7 @@ public class DefaultMacroDescriptorTest extends AbstractMockingComponentTestCase
 
         public String getHiddenParameter()
         {
-            return hiddenParameter;
+            return this.hiddenParameter;
         }
     }
 
@@ -127,9 +127,8 @@ public class DefaultMacroDescriptorTest extends AbstractMockingComponentTestCase
     {
         super.setUp();
         BeanManager propertiesManager = getComponentManager().lookup(BeanManager.class);
-        macroDescriptor =
-            new DefaultMacroDescriptor(new MacroId("Id"), "Name", "Description", new DefaultContentDescriptor(),
-                propertiesManager.getBeanDescriptor(ParametersTests.class));
+        this.macroDescriptor = new DefaultMacroDescriptor(new MacroId("Id"), "Name", "Description",
+            new DefaultContentDescriptor(), propertiesManager.getBeanDescriptor(ParametersTests.class));
     }
 
     @Test
@@ -144,7 +143,7 @@ public class DefaultMacroDescriptorTest extends AbstractMockingComponentTestCase
         Assert.assertNotNull(lowerParamDescriptor);
         Assert.assertEquals("lowerparam", lowerParamDescriptor.getId());
         Assert.assertEquals("lowerparam", lowerParamDescriptor.getDescription());
-        Assert.assertSame(String.class, lowerParamDescriptor.getType());
+        Assert.assertSame(String.class, lowerParamDescriptor.getParameterType());
         Assert.assertEquals(null, lowerParamDescriptor.getDefaultValue());
         Assert.assertEquals(false, lowerParamDescriptor.isMandatory());
 
@@ -163,7 +162,7 @@ public class DefaultMacroDescriptorTest extends AbstractMockingComponentTestCase
         Assert.assertNotNull(upperParamDescriptor);
         Assert.assertEquals("upperParam", upperParamDescriptor.getId());
         Assert.assertEquals("upperParam", upperParamDescriptor.getDescription());
-        Assert.assertSame(String.class, upperParamDescriptor.getType());
+        Assert.assertSame(String.class, upperParamDescriptor.getParameterType());
         Assert.assertEquals(false, upperParamDescriptor.isMandatory());
     }
 
@@ -177,7 +176,7 @@ public class DefaultMacroDescriptorTest extends AbstractMockingComponentTestCase
         Assert.assertNotNull(param1Descriptor);
         Assert.assertEquals("param1", param1Descriptor.getId());
         Assert.assertEquals("param1 description", param1Descriptor.getDescription());
-        Assert.assertSame(String.class, param1Descriptor.getType());
+        Assert.assertSame(String.class, param1Descriptor.getParameterType());
         Assert.assertEquals(false, param1Descriptor.isMandatory());
     }
 
@@ -191,7 +190,7 @@ public class DefaultMacroDescriptorTest extends AbstractMockingComponentTestCase
         Assert.assertNotNull(param2Descriptor);
         Assert.assertEquals("param2", param2Descriptor.getId());
         Assert.assertEquals("param2 description", param2Descriptor.getDescription());
-        Assert.assertSame(int.class, param2Descriptor.getType());
+        Assert.assertSame(int.class, param2Descriptor.getParameterType());
         Assert.assertEquals(true, param2Descriptor.isMandatory());
     }
 
@@ -205,7 +204,7 @@ public class DefaultMacroDescriptorTest extends AbstractMockingComponentTestCase
         Assert.assertNotNull(param3Descriptor);
         Assert.assertEquals("param3", param3Descriptor.getId());
         Assert.assertEquals("param3 description", param3Descriptor.getDescription());
-        Assert.assertSame(boolean.class, param3Descriptor.getType());
+        Assert.assertSame(boolean.class, param3Descriptor.getParameterType());
         Assert.assertEquals(true, param3Descriptor.isMandatory());
     }
 }
