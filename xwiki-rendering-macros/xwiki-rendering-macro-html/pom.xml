@@ -41,14 +41,14 @@
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
-      <version>${project.version}</version>
+      <version>3.1-milestone-2</version>
     </dependency>
 
     <!-- Test dependencies -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-toc</artifactId>
-      <version>${project.version}</version>
+      <version>3.1-milestone-2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
