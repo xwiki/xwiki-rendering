@@ -2,7 +2,16 @@
 .input|xhtml/1.0
 .# Verify header in table cell support
 .#--------------------------------------------------------------------------------
-<table><tr><td><h1>x</h1></td><td>y</td></tr></table>
+<table>
+  <tr>
+    <td><h1>x</h1></td>
+    <td>y</td>
+    <td>
+      <div class="wikimodel-emptyline"></div>
+      <p>text</p>
+    </td>
+  </tr>
+</table>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -21,6 +30,14 @@ endTableCell
 beginTableCell
 onWord [y]
 endTableCell
+beginTableCell
+beginGroup
+onEmptyLines [1]
+beginParagraph
+onWord [text]
+endParagraph
+endGroup
+endTableCell
 endTableRow
 endTable
 endDocument
@@ -29,4 +46,7 @@ endDocument
 .#-----------------------------------------------------
 |(((
 = x =
-)))|y
+)))|y|(((
+
+text
+)))
