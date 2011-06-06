@@ -30,7 +30,7 @@
   <name>XWiki Macro - Example</name>
   <description>XWiki Macro - Example</description>
   <properties>
-    <rendering.version>3.1-rc-1</rendering.version>
+    <rendering.version>${project.version}</rendering.version>
   </properties>
   <build>
     <plugins>
