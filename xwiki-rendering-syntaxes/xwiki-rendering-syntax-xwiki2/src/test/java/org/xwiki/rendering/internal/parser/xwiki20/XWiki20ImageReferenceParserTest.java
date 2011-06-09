@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.reference;
+package org.xwiki.rendering.internal.parser.xwiki20;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,15 +25,18 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.wiki.WikiModel;
+import org.xwiki.test.AbstractComponentTestCase;
 
 /**
  * Unit tests for {@link XWiki20ImageReferenceParser}.
- *
+ * 
  * @version $Id$
  * @since 2.5RC1
  */
-public class XWiki20ImageReferenceParserTest extends AbstractImageReferenceParserTest
+public class XWiki20ImageReferenceParserTest extends AbstractComponentTestCase
 {
+    private ResourceReferenceParser parser;
+
     @Override
     protected void registerComponents() throws Exception
     {
@@ -41,6 +44,27 @@ public class XWiki20ImageReferenceParserTest extends AbstractImageReferenceParse
         registerMockComponent(WikiModel.class);
 
         this.parser = getComponentManager().lookup(ResourceReferenceParser.class, "xwiki/2.0/image");
+    }
+
+    @Test
+    public void testParseImagesCommon() throws Exception
+    {
+        // Verify that non-typed image referencing an attachment works.
+        ResourceReference reference = parser.parse("wiki:space.page@filename");
+        Assert.assertEquals(ResourceType.ATTACHMENT, reference.getType());
+        Assert.assertEquals("wiki:space.page@filename", reference.getReference());
+        Assert.assertEquals("Typed = [false] Type = [attach] Reference = [wiki:space.page@filename]",
+            reference.toString());
+        Assert.assertFalse(reference.isTyped());
+
+        // Verify that non-typed image referencing a URL works.
+        reference = parser.parse("http://server/path/to/image");
+        Assert.assertEquals(ResourceType.URL, reference.getType());
+        Assert.assertEquals("http://server/path/to/image", reference.getReference());
+        Assert.assertEquals("Typed = [false] Type = [url] Reference = [http://server/path/to/image]",
+            reference.toString());
+        Assert.assertFalse(reference.isTyped());
+
     }
 
     @Test

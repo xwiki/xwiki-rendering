@@ -17,45 +17,52 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.renderer.xwiki21.reference;
+package org.xwiki.rendering.internal.renderer.reference;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.reference.DefaultResourceReferenceParser;
-import org.xwiki.rendering.internal.parser.reference.InterWikiResourceReferenceTypeParser;
-import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
 
 /**
- * Serialize a link reference pointing to an interwiki link using the format {@code (interwikialias):(interwiki path)}.
- *
+ * Serialize a link by outputting the link type (if the link is typed) followed by the link reference (ie
+ * "(linktype):(reference)").
+ * 
  * @version $Id$
- * @since 2.5RC1
+ * @since 3.1
  */
 @Component
-@Named("xwiki/2.1/interwiki")
 @Singleton
-public class InterWikiReferenceTypeSerializer implements ResourceReferenceTypeSerializer
+public class DefaultResourceReferenceTypeSerializer implements ResourceReferenceTypeSerializer
 {
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer#serialize(org.xwiki.rendering.listener.reference.ResourceReference)
      */
     public String serialize(ResourceReference reference)
     {
-        StringBuilder result = new StringBuilder();
-        result.append(reference.getType().getScheme());
-        result.append(DefaultResourceReferenceParser.TYPE_SEPARATOR);
-        String interWikiAlias = reference.getParameter(InterWikiResourceReference.INTERWIKI_ALIAS);
-        if (interWikiAlias != null) {
-            result.append(interWikiAlias);
-            result.append(InterWikiResourceReferenceTypeParser.INTERWIKI_ALIAS_SEPARATOR);
+        StringBuffer result = new StringBuffer();
+        if (reference.isTyped() && isSupportedType(reference.getType())) {
+            result.append(reference.getType().getScheme());
+            result.append(DefaultResourceReferenceParser.TYPE_SEPARATOR);
         }
         result.append(reference.getReference());
+
         return result.toString();
+    }
+
+    /**
+     * Indicate if the provided type is supported by this syntax.
+     * 
+     * @param type the type of resource
+     * @return true if the type is supported
+     */
+    protected boolean isSupportedType(ResourceType type)
+    {
+        return true;
     }
 }

@@ -19,10 +19,17 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.parser.ResourceReferenceParser;
+import org.xwiki.rendering.wiki.WikiModel;
 
 /**
  * Each syntax should have its own resource reference parser. However while we wait for syntax specific parser to be
@@ -34,6 +41,44 @@ import org.xwiki.component.annotation.Component;
 @Component
 @Named("default/image")
 @Singleton
-public class GenericImageReferenceParser extends XWiki20ImageReferenceParser
+public class GenericImageReferenceParser implements ResourceReferenceParser
 {
+    /**
+     * Used to verify if we're in wiki mode or not by looking up an implementation of
+     * {@link org.xwiki.rendering.wiki.WikiModel}. In non wiki mode all image references are considered as URLs.
+     */
+    @Inject
+    private ComponentManager componentManager;
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see org.xwiki.rendering.parser.ResourceReferenceParser#parse(String)
+     */
+    public ResourceReference parse(String rawReference)
+    {
+        ResourceType type;
+        if (rawReference.startsWith("http://") || !isInWikiMode()) {
+            type = ResourceType.URL;
+        } else {
+            type = ResourceType.ATTACHMENT;
+        }
+        ResourceReference result = new ResourceReference(rawReference, type);
+        result.setTyped(false);
+        return result; 
+    }
+
+    /**
+     * @return true if we're in wiki mode (ie there's no implementing class for {@link WikiModel})
+     */
+    private boolean isInWikiMode()
+    {
+        boolean result = true;
+        try {
+            this.componentManager.lookup(WikiModel.class);
+        } catch (ComponentLookupException e) {
+            result = false;
+        }
+        return result;
+    }
 }

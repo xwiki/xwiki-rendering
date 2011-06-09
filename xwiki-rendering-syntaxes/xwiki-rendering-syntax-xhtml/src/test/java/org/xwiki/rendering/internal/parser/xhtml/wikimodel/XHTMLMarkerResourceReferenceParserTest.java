@@ -28,7 +28,7 @@ import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.test.AbstractComponentTestCase;
 
 /**
- * Unit tests for {@link org.xwiki.rendering.internal.parser.reference.XWiki20ImageReferenceParser}.
+ * Unit tests for {@link org.xwiki.rendering.internal.parser.xwiki20.XWiki20ImageReferenceParser}.
  *
  * @version $Id$
  * @since 2.5RC1

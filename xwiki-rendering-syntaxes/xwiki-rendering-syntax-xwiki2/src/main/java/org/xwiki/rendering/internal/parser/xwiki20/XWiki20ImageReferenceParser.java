@@ -17,32 +17,22 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.renderer.xwiki21.reference;
+package org.xwiki.rendering.internal.parser.xwiki20;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.internal.parser.reference.GenericImageReferenceParser;
 
 /**
- * Generate a string representation of an Image's reference, in XWiki Syntax 2.1.
- * 
  * @version $Id$
  * @since 2.5RC1
  */
 @Component
-@Named("xwiki/2.1/image")
+@Named("xwiki/2.0/image")
 @Singleton
-public class XWikiSyntaxImageReferenceSerializer extends XWikiSyntaxLinkReferenceSerializer
+public class XWiki20ImageReferenceParser extends GenericImageReferenceParser
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer#serialize(org.xwiki.rendering.listener.reference.ResourceReference)
-     */
-    public String serialize(ResourceReference reference)
-    {
-        return "image:" + super.serialize(reference);
-    }
+    
 }
