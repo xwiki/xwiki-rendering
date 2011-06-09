@@ -27,6 +27,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.wiki.WikiModel;
+import org.xwiki.test.AbstractComponentTestCase;
 
 /**
  * Unit tests for {@link DefaultLinkReferenceParser}.
@@ -34,8 +35,10 @@ import org.xwiki.rendering.wiki.WikiModel;
  * @version $Id$
  * @since 2.6M1
  */
-public class DefaultLinkReferenceParserTest extends AbstractLinkReferenceParserTest
+public class DefaultLinkReferenceParserTest extends AbstractComponentTestCase
 {
+    private ResourceReferenceParser parser;
+
     @Override
     protected void registerComponents() throws Exception
     {
@@ -43,6 +46,52 @@ public class DefaultLinkReferenceParserTest extends AbstractLinkReferenceParserT
         registerMockComponent(WikiModel.class);
 
         this.parser = getComponentManager().lookup(ResourceReferenceParser.class, "link");
+    }
+
+    @Test
+    public void testParseLinksWhenInWikiModeCommon() throws Exception
+    {
+        ResourceReference reference = parser.parse("");
+        Assert.assertEquals("", reference.getReference());
+        Assert.assertFalse(reference.isTyped());
+        Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
+        Assert.assertEquals("Typed = [false] Type = [doc] Reference = []", reference.toString());
+
+        reference = parser.parse("Hello World");
+        Assert.assertEquals("Hello World", reference.getReference());
+        Assert.assertFalse(reference.isTyped());
+        Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
+        Assert.assertEquals("Typed = [false] Type = [doc] Reference = [Hello World]", reference.toString());
+
+        reference = parser.parse("http://xwiki.org");
+        Assert.assertEquals("http://xwiki.org", reference.getReference());
+        Assert.assertFalse(reference.isTyped());
+        Assert.assertEquals(ResourceType.URL, reference.getType());
+        Assert.assertEquals("Typed = [false] Type = [url] Reference = [http://xwiki.org]", reference.toString());
+
+        // Verify mailto: URI is recognized
+        reference = parser.parse("mailto:john@smith.com?subject=test");
+        Assert.assertEquals("john@smith.com?subject=test", reference.getReference());
+        Assert.assertTrue(reference.isTyped());
+        Assert.assertEquals(ResourceType.MAILTO, reference.getType());
+        Assert.assertEquals("Typed = [true] Type = [mailto] Reference = [john@smith.com?subject=test]",
+            reference.toString());
+
+        // Verify attach: URI is recognized
+        reference = parser.parse("attach:some:content");
+        Assert.assertEquals("some:content", reference.getReference());
+        Assert.assertTrue(reference.isTyped());
+        Assert.assertEquals(ResourceType.ATTACHMENT, reference.getType());
+        Assert.assertEquals("Typed = [true] Type = [attach] Reference = [some:content]", reference.toString());
+
+        // Verify that unknown URIs are ignored
+        // Note: In this example we point to a document and we consider that myxwiki is the wiki name and
+        // http://xwiki.org is the page name
+        reference = parser.parse("mywiki:http://xwiki.org");
+        Assert.assertEquals("mywiki:http://xwiki.org", reference.getReference());
+        Assert.assertFalse(reference.isTyped());
+        Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
+        Assert.assertEquals("Typed = [false] Type = [doc] Reference = [mywiki:http://xwiki.org]", reference.toString());
     }
 
     @Test
@@ -86,7 +135,7 @@ public class DefaultLinkReferenceParserTest extends AbstractLinkReferenceParserT
         Assert.assertNull(((DocumentResourceReference) reference).getAnchor());
         Assert.assertNull(((DocumentResourceReference) reference).getQueryString());
         Assert.assertEquals("Typed = [false] Type = [doc] Reference = [Hello World?no=queryString#notAnAnchor]",
-                reference.toString());
+            reference.toString());
 
         // Verify that the interwiki separator from XWiki Syntax 2.0 has not meaning in link references to documents
         reference = parser.parse("page@alias");

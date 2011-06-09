@@ -21,8 +21,9 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import org.wikimodel.wem.WikiReference;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
-import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
@@ -31,7 +32,7 @@ import org.xwiki.rendering.util.IdGenerator;
 
 /**
  * WikiModel listener bridge for the XHTML Syntax.
- *
+ * 
  * @version $Id$
  * @since 2.5RC1
  */
@@ -56,33 +57,37 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
 
     /**
      * {@inheritDoc}
-     *
-     * @see DefaultXWikiGeneratorListener#onReference(org.wikimodel.wem.WikiReference)  
+     * 
+     * @see DefaultXWikiGeneratorListener#onReference(org.wikimodel.wem.WikiReference)
      */
     @Override
     public void onReference(WikiReference reference)
     {
         // We need to handle 2 cases:
         // - when the passed reference is an instance of XWikiWikiReference, i.e. when a XHTML comment defining a XWiki
-        //   link has been specified
+        // link has been specified
         // - when the passed reference is not an instance of XWikiWikiReference which will happen if there's no special
-        //   XHTML comment defining a XWiki link
+        // XHTML comment defining a XWiki link7
+        ResourceReference resourceReference;
+        boolean isFreeStanding;
         if (!(reference instanceof XWikiWikiReference)) {
-            super.onReference(reference);
+            resourceReference = new ResourceReference(reference.getLink(), ResourceType.URL);
+            isFreeStanding = false;
         } else {
             XWikiWikiReference xwikiReference = (XWikiWikiReference) reference;
-            ResourceReference resourceReference = xwikiReference.getReference();
+            resourceReference = xwikiReference.getReference();
+            isFreeStanding = xwikiReference.isFreeStanding();
 
             flushFormat();
-
-            onReference(resourceReference, xwikiReference.getLabel(), xwikiReference.isFreeStanding(),
-                convertParameters(xwikiReference.getParameters()));
         }
+
+        onReference(resourceReference, reference.getLabel(), isFreeStanding,
+            convertParameters(reference.getParameters()));
     }
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see DefaultXWikiGeneratorListener#onImage(org.wikimodel.wem.WikiReference)
      */
     @Override
@@ -90,9 +95,9 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
     {
         // We need to handle 2 cases:
         // - when the passed reference is an instance of XWikiWikiReference, i.e. when a XHTML comment defining a XWiki
-        //   image has been specified
+        // image has been specified
         // - when the passed reference is not an instance of XWikiWikiReference which will happen if there's no special
-        //   XHTML comment defining a XWiki image
+        // XHTML comment defining a XWiki image
         if (!(reference instanceof XWikiWikiReference)) {
             super.onImage(reference);
         } else {

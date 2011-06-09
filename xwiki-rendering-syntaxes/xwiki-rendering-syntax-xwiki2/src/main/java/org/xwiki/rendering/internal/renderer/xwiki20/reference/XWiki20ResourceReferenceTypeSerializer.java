@@ -24,34 +24,47 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.reference.DefaultResourceReferenceParser;
+import org.xwiki.rendering.internal.parser.xwiki20.XWiki20LinkReferenceParser;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
 
 /**
- * Serialize a link by outputting the link type (if the link is typed) followed by the link reference
- * (ie "(linktype):(reference)").
- *  
+ * Serialize a link by outputting the link type (if the link is typed) followed by the link reference (ie
+ * "(linktype):(reference)").
+ * 
  * @version $Id$
- * @since 2.5RC1
+ * @since 3.1
  */
 @Component
 @Named("xwiki/2.0")
 @Singleton
-public class DefaultResourceReferenceTypeSerializer implements ResourceReferenceTypeSerializer
+public class XWiki20ResourceReferenceTypeSerializer implements ResourceReferenceTypeSerializer
 {
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer#serialize(org.xwiki.rendering.listener.reference.ResourceReference)
      */
     public String serialize(ResourceReference reference)
     {
         StringBuffer result = new StringBuffer();
-        if (reference.isTyped()) {
+        if (reference.isTyped() && isSupportedType(reference.getType())) {
             result.append(reference.getType().getScheme());
             result.append(DefaultResourceReferenceParser.TYPE_SEPARATOR);
         }
         result.append(reference.getReference());
         return result.toString();
+    }
+
+    /**
+     * Indicate if the provided type is supported by this syntax.
+     * 
+     * @param type the type of resource
+     * @return true if the type is supported
+     */
+    protected boolean isSupportedType(ResourceType type)
+    {
+        return XWiki20LinkReferenceParser.URI_PREFIXES.contains(type.getScheme());
     }
 }

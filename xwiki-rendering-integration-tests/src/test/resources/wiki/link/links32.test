@@ -1,0 +1,56 @@
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.# Validate xwiki/2.0 reference serializer
+.#-----------------------------------------------------
+[[mailto:mailto]]
+[[image:image]]
+[[attach:attach]]
+[[doc:doc||anchor="anchor" queryString="param=value"]]
+
+[[path:path]]
+[[url:url]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [true] Type = [mailto] Reference = [mailto]] [false]
+endLink [Typed = [true] Type = [mailto] Reference = [mailto]] [false]
+onNewLine
+onImage [Typed = [false] Type = [attach] Reference = [image]] [false]
+onNewLine
+beginLink [Typed = [true] Type = [attach] Reference = [attach]] [false]
+endLink [Typed = [true] Type = [attach] Reference = [attach]] [false]
+onNewLine
+beginLink [Typed = [true] Type = [doc] Reference = [doc] Parameters = [[queryString] = [param=value], [anchor] = [anchor]]] [false]
+endLink [Typed = [true] Type = [doc] Reference = [doc] Parameters = [[queryString] = [param=value], [anchor] = [anchor]]] [false]
+endParagraph
+beginParagraph
+beginLink [Typed = [true] Type = [path] Reference = [path]] [false]
+endLink [Typed = [true] Type = [path] Reference = [path]] [false]
+onNewLine
+beginLink [Typed = [false] Type = [doc] Reference = [url:url]] [false]
+endLink [Typed = [false] Type = [doc] Reference = [url:url]] [false]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+[[mailto:mailto]]
+[[image:image]]
+[[attach:attach]]
+.# Yes it's the expected order, impossible to change that now...
+[[doc#anchor?param=value]]
+
+[[path]]
+[[url:url]]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+[[mailto:mailto]]
+[[image:image]]
+[[attach:attach]]
+[[doc:doc||queryString="param=value" anchor="anchor"]]
+
+[[path:path]]
+[[url:url]]

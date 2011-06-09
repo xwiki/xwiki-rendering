@@ -23,26 +23,18 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.internal.renderer.reference.DefaultResourceReferenceTypeSerializer;
 
 /**
- * Generate a string representation of an Image's reference, in XWiki Syntax 2.1.
+ * Serialize a link by outputting the link type (if the link is typed) followed by the link reference (ie
+ * "(linktype):(reference)").
  * 
  * @version $Id$
- * @since 2.5RC1
+ * @since 3.1
  */
 @Component
-@Named("xwiki/2.1/image")
+@Named("xwiki/2.1")
 @Singleton
-public class XWikiSyntaxImageReferenceSerializer extends XWikiSyntaxLinkReferenceSerializer
+public class XWiki21ResourceReferenceTypeSerializer extends DefaultResourceReferenceTypeSerializer
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer#serialize(org.xwiki.rendering.listener.reference.ResourceReference)
-     */
-    public String serialize(ResourceReference reference)
-    {
-        return "image:" + super.serialize(reference);
-    }
 }

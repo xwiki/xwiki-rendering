@@ -27,7 +27,7 @@ import org.xwiki.rendering.test.MockWikiModel;
 import org.xwiki.rendering.test.integration.RenderingTestSuite;
 
 /**
- * Run all tests found in {@code simple/*.test} files located in the classpath. These {@code *.test} files must follow
+ * Run all tests found in {@code wiki/*.test} files located in the classpath. These {@code *.test} files must follow
  * the conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
  *
  * @version $Id$
