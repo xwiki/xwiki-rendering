@@ -6,7 +6,9 @@
 [label>href>_blank]
 http://xwiki.org/
 svn://xwiki.org
+[href?param=value#anchor]
+[http://xwiki.org/?param=value#anchor]
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
-[[href]] [[label>>href]] [[label>>href||target="_blank"]] http://xwiki.org/ svn:~/~/xwiki.org
+[[href]] [[label>>href]] [[label>>href||target="_blank"]] http://xwiki.org/ svn:~/~/xwiki.org [[href#anchor?param=value]] [[http://xwiki.org/?param=value#anchor]]
