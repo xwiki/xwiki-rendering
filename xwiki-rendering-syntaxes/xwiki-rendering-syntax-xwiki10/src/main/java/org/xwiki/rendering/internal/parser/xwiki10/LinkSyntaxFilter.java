@@ -45,6 +45,11 @@ public class LinkSyntaxFilter extends AbstractFilter implements Initializable
 {
     private static final Pattern LINKSYNTAX_PATTERN = Pattern.compile("\\[(.+?)\\]");
 
+    /**
+     * URL matching pattern.
+     */
+    private static final Pattern URL_SCHEME_PATTERN = Pattern.compile("^[a-zA-Z0-9+.-]*://.*$");
+
     @Inject
     @Named("escape20")
     private Filter escape20Filter;
@@ -128,8 +133,28 @@ public class LinkSyntaxFilter extends AbstractFilter implements Initializable
                     linkResult.append(">>");
                 }
 
-                linkResult.append(href);
+                // xwiki/1.0 and xwiki/2.0 syntaxes are not using query string and anchor in the same order
+                if (!URL_SCHEME_PATTERN.matcher(href).matches()) {
+                    int anchorIndex = href.lastIndexOf('#');
+                    if (anchorIndex == -1) {
+                        anchorIndex = href.length();
+                    }
+                    int queryStringIndex = href.lastIndexOf('?', anchorIndex - 1);
+                    if (queryStringIndex == -1) {
+                        queryStringIndex = anchorIndex;
+                    }
+                    String anchor = href.substring(anchorIndex);
+                    String queryString = href.substring(queryStringIndex, anchorIndex);
+                    href = href.substring(0, queryStringIndex);
 
+                    linkResult.append(href);
+                    linkResult.append(anchor);
+                    linkResult.append(queryString);
+                } else {
+                    linkResult.append(href);
+                }
+
+                // Target
                 if (target != null) {
                     linkResult.append("||target=");
                     linkResult.append(target);
