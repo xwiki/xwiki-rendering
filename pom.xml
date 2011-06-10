@@ -28,18 +28,17 @@
     <groupId>org.xwiki.commons</groupId>
     <artifactId>xwiki-commons</artifactId>
     <version>41</version>
-    <relativePath>../commons/xwiki-commons-pom</relativePath>
   </parent>
   <groupId>org.xwiki.rendering</groupId>
   <artifactId>xwiki-rendering</artifactId>
-  <version>3.0</version>
+  <version>3.0-SNAPSHOT</version>
   <name>XWiki Rendering - Parent POM</name>
   <packaging>pom</packaging>
   <description>XWiki Rendering - Parent POM</description>
   <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/rendering/tags/xwiki-rendering-3.0</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/rendering/tags/xwiki-rendering-3.0</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/rendering/tags/xwiki-rendering-3.0</url>
+    <connection>scm:git:git://github.com/xwiki/xwiki-rendering.git</connection>
+    <developerConnection>scm:git:git@github.com:xwiki/xwiki-rendering.git</developerConnection>
+    <url>https://github.com/xwiki/xwiki-rendering</url>
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -59,7 +58,7 @@
     <!-- Default is to not run CLIRR, make sure we run it -->
     <xwiki.clirr.skip>false</xwiki.clirr.skip>
     <!-- xwiki-rendering and xwiki-commons-core versions are currently synchronized. -->
-    <commons.core.version>3.0</commons.core.version>
+    <commons.core.version>${project.version}</commons.core.version>
   </properties>
   <dependencies>
     <dependency>
