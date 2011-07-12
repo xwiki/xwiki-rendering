@@ -55,7 +55,7 @@
   </modules>
   <properties>
     <!-- Version to compare with for CLIRR -->
-    <clirr.previous.version>3.0</clirr.previous.version>
+    <clirr.previous.version>3.1</clirr.previous.version>
     <!-- Default is to not run CLIRR, make sure we run it -->
     <xwiki.clirr.skip>false</xwiki.clirr.skip>
     <!-- xwiki-rendering and xwiki-commons versions are currently synchronized. -->
@@ -186,12 +186,6 @@
                 <exclude>**/internal/**</exclude>
                 <exclude>**/test/**</exclude>
                 <!-- Remove when Rendering 3.1 has been released -->
-                <exclude>org/xwiki/rendering/transformation/AbstractTransformation</exclude> <!-- AbstractLogEnabled -->
-                <exclude>org/xwiki/rendering/macro/AbstractMacro</exclude>
-                <exclude>org/xwiki/rendering/macro/AbstractNoParameterMacro</exclude>
-                <exclude>org/xwiki/rendering/parser/xwiki10/AbstractFilter</exclude>
-                <exclude>org/xwiki/rendering/parser/xwiki10/AbstractSyntaxFilter</exclude>
-                <exclude>org/xwiki/rendering/macro/box/AbstractBoxMacro</exclude>
               </excludes>
             </configuration>
           </plugin>
