@@ -38,6 +38,12 @@
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-api</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+          <exclusion>
+              <artifactId>dom4j</artifactId>
+              <groupId>dom4j</groupId>
+          </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
@@ -48,6 +54,13 @@
       <groupId>org.reflections</groupId>
       <artifactId>reflections</artifactId>
       <version>0.9.5</version>
+      <exclusions>
+        <!-- We don't need that part of reflections -->
+        <exclusion>
+          <artifactId>dom4j</artifactId>
+          <groupId>dom4j</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <build>
