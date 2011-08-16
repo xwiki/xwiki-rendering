@@ -43,7 +43,7 @@ public class TestDataGenerator
     {
         Reflections reflections = new Reflections(new ConfigurationBuilder()
             .setScanners(new ResourcesScanner())
-            .setUrls(ClasspathHelper.getUrlsForPackagePrefix(""))
+            .setUrls(ClasspathHelper.forPackage(""))
             .filterInputsBy(new FilterBuilder.Include(FilterBuilder.prefix(testPackage))));
 
         Collection<Object[]> data = new ArrayList<Object[]>();
