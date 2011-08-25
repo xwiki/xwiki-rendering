@@ -69,11 +69,9 @@ public class RenderingTestSuite extends Suite
 {
     private static final TestDataGenerator GENERATOR = new TestDataGenerator();
 
-    private static final XWikiComponentInitializer INITIALIZER = new XWikiComponentInitializer();
-
     private static final String DEFAULT_PATTERN = ".*\\.test";
 
-    private Object klassInstance;
+    private final Object klassInstance;
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
@@ -100,6 +98,8 @@ public class RenderingTestSuite extends Suite
         BlockJUnit4ClassRunner
     {
         private final int parameterSetNumber;
+
+        private final XWikiComponentInitializer componentInitializer = new XWikiComponentInitializer();
 
         private final List<Object[]> parameterList;
 
@@ -128,7 +128,7 @@ public class RenderingTestSuite extends Suite
             Object[] originalObjects = this.parameterList.get(this.parameterSetNumber);
             Object[] newObjects = new Object[originalObjects.length];
             System.arraycopy(originalObjects, 1, newObjects, 0, originalObjects.length - 1);
-            newObjects[originalObjects.length - 1] = INITIALIZER.getComponentManager();
+            newObjects[originalObjects.length - 1] = this.componentInitializer.getComponentManager();
             return newObjects;
         }
 
@@ -166,6 +166,44 @@ public class RenderingTestSuite extends Suite
         protected Statement classBlock(RunNotifier notifier)
         {
             return childrenInvoker(notifier);
+        }
+
+        /**
+         * Initialize the Component Manager and call all methods annotated with {@link Initialized} in the suite,
+         * before each test is executed, to ensure test isolation.
+         */
+        @Override
+        protected void runChild(FrameworkMethod method, RunNotifier notifier)
+        {
+            try {
+                this.componentInitializer.initializeConfigurationSource();
+                this.componentInitializer.initializeExecution();
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to initialize Component Manager", e);
+            }
+
+            // Check all methods for a ComponentManager annotation and call the found ones.
+            try {
+                for (Method klassMethod : klassInstance.getClass().getMethods()) {
+                    Initialized componentManagerAnnotation = klassMethod.getAnnotation(Initialized.class);
+                    if (componentManagerAnnotation != null) {
+                        // Call it!
+                        klassMethod.invoke(klassInstance, this.componentInitializer.getComponentManager());
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to call Component Manager initialization method", e);
+            }
+
+            try {
+                super.runChild(method, notifier);
+            } finally {
+                try {
+                    this.componentInitializer.shutdown();
+                } catch (Exception e) {
+                    throw new RuntimeException("Failed to shutdown Component Manager", e);
+                }
+            }
         }
     }
 
@@ -219,42 +257,5 @@ public class RenderingTestSuite extends Suite
     public Description getDescription()
     {
         return Description.createSuiteDescription(getTestClass().getJavaClass());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void run(RunNotifier notifier)
-    {
-        try {
-            INITIALIZER.initializeConfigurationSource();
-            INITIALIZER.initializeExecution();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to initialize Component Manager", e);
-        }
-
-        // Check all methods for a ComponentManager annotation and call the found ones.
-        try {
-            for (Method method : this.klassInstance.getClass().getMethods()) {
-                Initialized componentManagerAnnotation = method.getAnnotation(Initialized.class);
-                if (componentManagerAnnotation != null) {
-                    // Call it!
-                    method.invoke(this.klassInstance, INITIALIZER.getComponentManager());
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to call Component Manager initialization method", e);
-        }
-
-        try {
-            super.run(notifier);
-        } finally {
-            try {
-                INITIALIZER.shutdown();
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to shutdown Component Manager", e);
-            }
-        }
     }
 }
