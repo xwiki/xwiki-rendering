@@ -22,8 +22,10 @@ package org.xwiki.rendering.test.integration;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.junit.Assert;
+import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.configuration.ConfigurationSource;
@@ -151,7 +153,55 @@ public class RenderingTest
             parser.parse(new StringReader(this.input), listener);
         }
 
-        Assert.assertEquals(this.expected, printer.toString());
+        // Verify the expected result against the result we got.
+        assertExpectedResult(this.expected, printer.toString());
+    }
+
+    /**
+     * Compare the passed expected string with the passed result.
+     * We support regexes for comparison usng the format: ${{{regex:...}}}. For example:
+     * {@code
+     *  .#-----------------------------------------------------
+     *  .expect|event/1.0
+     *  .#-----------------------------------------------------
+     *  beginDocument
+     *  beginMacroMarkerStandalone [useravatar] [username=XWiki.UserNotExisting]
+     *  beginGroup [[class]=[xwikirenderingerror]]
+     *  onWord [Failed to execute the [useravatar] macro]
+     *  endGroup [[class]=[xwikirenderingerror]]
+     *  beginGroup [[class]=[xwikirenderingerrordescription hidden]]
+     *  onVerbatim [org.xwiki.rendering.macro.MacroExecutionException: User [XWiki.UserNotExisting]${{{regex:.*}}}]
+     *  endGroup [[class]=[xwikirenderingerrordescription hidden]]
+     *  endMacroMarkerStandalone [useravatar] [username=XWiki.UserNotExisting]
+     *  endDocument}
+     */
+    private void assertExpectedResult(String expected, String result)
+    {
+        StringBuilder builder = new StringBuilder();
+        normalizeExpectedValue(builder, expected);
+
+        Pattern pattern = Pattern.compile(builder.toString(), Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(result);
+        if (!matcher.matches()) {
+            throw new ComparisonFailure("", expected, result);
+        }
+    }
+
+    private void normalizeExpectedValue(StringBuilder builder, String expected)
+    {
+        int pos = expected.indexOf("${{{regex:");
+        if (pos > -1) {
+            builder.append(Pattern.quote(expected.substring(0, pos)));
+            // Find end of regex definition
+            int pos2 = expected.indexOf("}}}", pos + 10);
+            if (pos2 == -1) {
+                throw new RuntimeException("Invalid regex declaration: missing closing part }}}");
+            }
+            builder.append(expected.substring(pos + 10, pos2));
+            normalizeExpectedValue(builder, expected.substring(pos2 + 3));
+        } else {
+            builder.append(Pattern.quote(expected));
+        }
     }
 
     public ComponentManager getComponentManager() throws Exception
