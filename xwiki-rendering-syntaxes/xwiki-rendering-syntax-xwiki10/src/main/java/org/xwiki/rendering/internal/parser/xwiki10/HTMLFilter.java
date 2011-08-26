@@ -454,8 +454,14 @@ public class HTMLFilter extends AbstractFilter implements Initializable
     {
         int i = currentIndex + 1;
 
-        // If white space it's not html
-        if (i == array.length || Character.isWhitespace(array[i])) {
+        // If end of the content it's not html
+        if (i == array.length) {
+            throw new InvalidHtmlException();
+        }
+
+        // If not a letter it's not html
+        // TODO: should maybe try to match a list of html elements instead. Is it possible to find an exhaustive list ?
+        if (!Character.isLetter(array[i])) {
             throw new InvalidHtmlException();
         }
 
@@ -472,7 +478,9 @@ public class HTMLFilter extends AbstractFilter implements Initializable
         i = getWhiteSpaces(array, i, null);
 
         // 
-        if (array[i] == '/' && i + 1 < array.length && array[i + 1] == '>') {
+        if (i == array.length) {
+            context.setType(HTMLType.ELEMENT);
+        } else if (array[i] == '/' && i + 1 < array.length && array[i + 1] == '>') {
             context.setType(HTMLType.ELEMENT);
             i += 2;
         } else {
