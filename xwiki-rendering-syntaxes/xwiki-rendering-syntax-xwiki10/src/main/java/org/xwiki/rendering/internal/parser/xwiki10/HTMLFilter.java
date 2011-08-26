@@ -601,7 +601,7 @@ public class HTMLFilter extends AbstractFilter implements Initializable
         i = getWhiteSpaces(array, i, null);
 
         // Equal sign
-        if (array[i] == '=') {
+        if (i < array.length && array[i] == '=') {
             ++i;
 
             // Skip white spaces
