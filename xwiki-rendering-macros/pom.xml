@@ -106,5 +106,6 @@
     <module>xwiki-rendering-macro-box</module>
     <module>xwiki-rendering-macro-message</module>
     <module>xwiki-rendering-macro-footnotes</module>
+    <module>xwiki-rendering-macro-comment</module>
   </modules>
 </project>

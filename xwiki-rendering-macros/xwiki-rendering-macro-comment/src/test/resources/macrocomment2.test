@@ -1,0 +1,15 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.#-----------------------------------------------------
+{{comment}}inline comment{{/comment}}Paragraph
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginMacroMarkerInline [comment] [] [inline comment]
+endMacroMarkerInline [comment] [] [inline comment]
+onWord [Paragraph]
+endParagraph
+endDocument

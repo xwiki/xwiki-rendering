@@ -1,0 +1,14 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.#-----------------------------------------------------
+{{comment}}
+Some comment...
+{{/comment}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [comment] [] [Some comment...]
+endMacroMarkerStandalone [comment] [] [Some comment...]
+endDocument
