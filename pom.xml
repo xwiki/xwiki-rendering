@@ -59,7 +59,7 @@
     <!-- Default is to not run CLIRR, make sure we run it -->
     <xwiki.clirr.skip>false</xwiki.clirr.skip>
     <!-- xwiki-rendering and xwiki-commons versions are currently synchronized. -->
-    <commons.version>${project.version}</commons.version>
+    <commons.version>3.2-SNAPSHOT</commons.version>
   </properties>
   <dependencies>
     <dependency>
