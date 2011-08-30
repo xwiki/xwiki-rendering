@@ -41,19 +41,13 @@ public class DefinitionTermBlock extends AbstractBlock
         super(childrenBlocks);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.block.AbstractBlock#before(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void before(Listener listener)
     {
         listener.beginDefinitionTerm();
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.block.AbstractBlock#after(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void after(Listener listener)
     {
         listener.endDefinitionTerm();

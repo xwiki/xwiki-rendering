@@ -41,10 +41,7 @@ public final class NewLineBlock extends AbstractBlock
         // We need to keep this constructor to override the ones in AbstractBlock
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.block.AbstractBlock#traverse(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void traverse(Listener listener)
     {
         listener.onNewLine();

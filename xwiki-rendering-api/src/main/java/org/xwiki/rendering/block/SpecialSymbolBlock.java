@@ -50,11 +50,7 @@ public class SpecialSymbolBlock extends AbstractBlock
         return this.symbol;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#traverse(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void traverse(Listener listener)
     {
         listener.onSpecialSymbol(getSymbol());

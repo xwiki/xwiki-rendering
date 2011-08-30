@@ -52,10 +52,7 @@ public class IdBlock extends AbstractBlock
         return this.name;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.block.AbstractBlock#traverse(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void traverse(Listener listener)
     {
         listener.onId(getName());

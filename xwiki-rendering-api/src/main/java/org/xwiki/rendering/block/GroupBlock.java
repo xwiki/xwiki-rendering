@@ -72,22 +72,12 @@ public class GroupBlock extends AbstractBlock
         super(blocks, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#before(org.xwiki.rendering.listener.Listener)
-     */
     @Override
     public void before(Listener listener)
     {
         listener.beginGroup(getParameters());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#after(org.xwiki.rendering.listener.Listener)
-     */
     @Override
     public void after(Listener listener)
     {

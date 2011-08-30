@@ -88,21 +88,13 @@ public class LinkBlock extends AbstractBlock
         return this.isFreeStandingURI;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#before(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void before(Listener listener)
     {
         listener.beginLink(getReference(), isFreeStandingURI(), getParameters());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#after(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void after(Listener listener)
     {
         listener.endLink(getReference(), isFreeStandingURI(), getParameters());

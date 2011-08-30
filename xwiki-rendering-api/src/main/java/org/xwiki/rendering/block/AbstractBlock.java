@@ -132,21 +132,13 @@ public abstract class AbstractBlock implements Block
         addChildren(childrenBlocks);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#addChild(org.xwiki.rendering.block.Block)
-     */
+    @Override
     public void addChild(Block blockToAdd)
     {
         insertChildAfter(blockToAdd, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#addChildren(java.util.List)
-     */
+    @Override
     public void addChildren(List< ? extends Block> blocksToAdd)
     {
         for (Block blockToAdd : blocksToAdd) {
@@ -154,11 +146,7 @@ public abstract class AbstractBlock implements Block
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#setChildren(java.util.List)
-     */
+    @Override
     public void setChildren(List< ? extends Block> children)
     {
         this.childrenBlocks.clear();
@@ -188,12 +176,7 @@ public abstract class AbstractBlock implements Block
         this.previousSiblingBlock = previousSiblingBlock;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#insertChildBefore(org.xwiki.rendering.block.Block,
-     *      org.xwiki.rendering.block.Block)
-     */
+    @Override
     public void insertChildBefore(Block blockToInsert, Block nextBlock)
     {
         blockToInsert.setParent(this);
@@ -224,12 +207,7 @@ public abstract class AbstractBlock implements Block
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#insertChildAfter(org.xwiki.rendering.block.Block,
-     *      org.xwiki.rendering.block.Block)
-     */
+    @Override
     public void insertChildAfter(Block blockToInsert, Block previousBlock)
     {
         if (previousBlock == null) {
@@ -249,21 +227,13 @@ public abstract class AbstractBlock implements Block
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#replaceChild(Block, Block)
-     */
+    @Override
     public void replaceChild(Block newBlock, Block oldBlock)
     {
         replaceChild(Collections.singletonList(newBlock), oldBlock);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#replaceChild(List, Block)
-     */
+    @Override
     public void replaceChild(List<Block> newBlocks, Block oldBlock)
     {
         int position = indexOfChild(oldBlock);
@@ -347,51 +317,31 @@ public abstract class AbstractBlock implements Block
         return -1;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#getChildren()
-     */
+    @Override
     public List<Block> getChildren()
     {
         return this.childrenBlocks;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#getParent()
-     */
+    @Override
     public Block getParent()
     {
         return this.parentBlock;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#getParameters()
-     */
+    @Override
     public Map<String, String> getParameters()
     {
         return Collections.unmodifiableMap(this.parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#getParameter(java.lang.String)
-     */
+    @Override
     public String getParameter(String name)
     {
         return this.parameters.get(name);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#setParameter(java.lang.String, java.lang.String)
-     */
+    @Override
     public void setParameter(String name, String value)
     {
         this.parameters.put(name, value);
@@ -408,21 +358,13 @@ public abstract class AbstractBlock implements Block
         this.parameters.putAll(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#setParent(org.xwiki.rendering.block.Block)
-     */
+    @Override
     public void setParent(Block parentBlock)
     {
         this.parentBlock = parentBlock;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#getRoot()
-     */
+    @Override
     public Block getRoot()
     {
         Block block = this;
@@ -479,33 +421,18 @@ public abstract class AbstractBlock implements Block
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see EqualsBuilder#reflectionEquals(Object, Object)
-     */
     @Override
     public boolean equals(Object obj)
     {
         return EqualsBuilder.reflectionEquals(this, obj);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see HashCodeBuilder#reflectionHashCode(Object)
-     */
     @Override
     public int hashCode()
     {
         return HashCodeBuilder.reflectionHashCode(this);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#clone()
-     */
     @Override
     public Block clone()
     {
@@ -550,11 +477,7 @@ public abstract class AbstractBlock implements Block
         return block;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#traverse(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void traverse(Listener listener)
     {
         before(listener);
@@ -590,12 +513,7 @@ public abstract class AbstractBlock implements Block
         // Do nothing by default, should be overridden by extending Blocks
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#getBlocks(org.xwiki.rendering.block.match.BlockMatcher,
-     *      org.xwiki.rendering.block.Block.Axes)
-     */
+    @Override
     public List<Block> getBlocks(BlockMatcher matcher, Axes axes)
     {
         List<Block> blocks = null;
@@ -809,12 +727,7 @@ public abstract class AbstractBlock implements Block
         return newBlocks;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#getFirstBlock(org.xwiki.rendering.block.match.BlockMatcher,
-     *      org.xwiki.rendering.block.Block.Axes)
-     */
+    @Override
     public Block getFirstBlock(BlockMatcher matcher, Axes axes)
     {
         Block block = null;
@@ -978,7 +891,7 @@ public abstract class AbstractBlock implements Block
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.xwiki.rendering.block.Block#getChildrenByType(java.lang.Class, boolean)
      */
     @Deprecated
@@ -989,7 +902,7 @@ public abstract class AbstractBlock implements Block
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.xwiki.rendering.block.Block#getPreviousBlockByType(java.lang.Class, boolean)
      */
     @Deprecated

@@ -73,11 +73,7 @@ public class PlainTextBlockFilter implements BlockFilter
         this.linkLabelGenerator = linkLabelGenerator;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.BlockFilter#filter(org.xwiki.rendering.block.Block)
-     */
+    @Override
     public List<Block> filter(Block block)
     {
         if (VALID_PLAINTEXT_BLOCKS.contains(block.getClass())) {

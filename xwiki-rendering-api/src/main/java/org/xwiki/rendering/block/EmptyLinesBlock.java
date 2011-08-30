@@ -59,10 +59,7 @@ public class EmptyLinesBlock  extends AbstractBlock
         this.count = count;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see AbstractBlock#traverse(Listener)
-     */
+    @Override
     public void traverse(Listener listener)
     {
         listener.onEmptyLines(getEmptyLinesCount());

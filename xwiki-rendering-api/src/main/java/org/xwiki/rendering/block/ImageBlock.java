@@ -87,11 +87,7 @@ public class ImageBlock extends AbstractBlock
         return this.isFreeStandingURI;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#traverse(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void traverse(Listener listener)
     {
         listener.onImage(getReference(), isFreeStandingURI(), getParameters());

@@ -54,19 +54,13 @@ public class DefinitionListBlock extends AbstractBlock implements ListBLock
         super(childrenBlocks, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.block.AbstractBlock#before(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void before(Listener listener)
     {
         listener.beginDefinitionList(getParameters());
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.block.AbstractBlock#after(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void after(Listener listener)
     {
         listener.endDefinitionList(getParameters());

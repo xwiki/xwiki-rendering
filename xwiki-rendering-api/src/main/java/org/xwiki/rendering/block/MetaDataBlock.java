@@ -80,21 +80,13 @@ public class MetaDataBlock extends AbstractBlock
         return this.metaData;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.block.AbstractBlock#before(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void before(Listener listener)
     {
         listener.beginMetaData(getMetaData());
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.block.AbstractBlock#after(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void after(Listener listener)
     {
         listener.endMetaData(getMetaData());

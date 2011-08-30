@@ -53,11 +53,7 @@ public class RawBlock extends AbstractBlock
         this.syntax = syntax;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractBlock#traverse(Listener)
-     */
+    @Override
     public void traverse(Listener listener)
     {
         listener.onRawText(getRawContent(), getSyntax());
