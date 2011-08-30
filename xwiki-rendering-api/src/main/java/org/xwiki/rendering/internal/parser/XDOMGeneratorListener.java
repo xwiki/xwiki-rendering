@@ -81,11 +81,7 @@ public class XDOMGeneratorListener implements Listener
 
     private static class MarkerBlock extends AbstractBlock
     {
-        /**
-         * {@inheritDoc}
-         * 
-         * @see AbstractBlock#traverse(Listener)
-         */
+        @Override
         public void traverse(Listener listener)
         {
             // Nothing to do since this block is only used as a marker.
@@ -119,31 +115,19 @@ public class XDOMGeneratorListener implements Listener
         return blocks;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionDescription()
-     */
+    @Override
     public void beginDefinitionDescription()
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionList(java.util.Map)
-     */
+    @Override
     public void beginDefinitionList(Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionTerm()
-     */
+    @Override
     public void beginDefinitionTerm()
     {
         this.stack.push(this.marker);
@@ -160,154 +144,91 @@ public class XDOMGeneratorListener implements Listener
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginFormat(org.xwiki.rendering.listener.Format, java.util.Map)
-     */
+    @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginGroup(java.util.Map)
-     */
+    @Override
     public void beginGroup(Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginHeader(org.xwiki.rendering.listener.HeaderLevel,
-     *      java.lang.String, java.util.Map)
-     */
+    @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginList(org.xwiki.rendering.listener.ListType, java.util.Map)
-     */
+    @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginListItem()
-     */
+    @Override
     public void beginListItem()
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginMacroMarker(java.lang.String, java.util.Map, java.lang.String,
-     *      boolean)
-     */
+    @Override
     public void beginMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginParagraph(java.util.Map)
-     */
+    @Override
     public void beginParagraph(Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginQuotation(java.util.Map)
-     */
+    @Override
     public void beginQuotation(Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginQuotationLine()
-     */
+    @Override
     public void beginQuotationLine()
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginSection(java.util.Map)
-     */
+    @Override
     public void beginSection(Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTable(java.util.Map)
-     */
+    @Override
     public void beginTable(Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTableCell(java.util.Map)
-     */
+    @Override
     public void beginTableCell(Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTableHeadCell(java.util.Map)
-     */
+    @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTableRow(java.util.Map)
-     */
+    @Override
     public void beginTableRow(Map<String, String> parameters)
     {
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.LinkListener#beginLink(org.xwiki.rendering.listener.reference.ResourceReference ,
-     *      boolean, java.util.Map)
-     */
+    @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         this.stack.push(this.marker);
@@ -324,31 +245,19 @@ public class XDOMGeneratorListener implements Listener
         this.stack.push(this.marker);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionDescription()
-     */
+    @Override
     public void endDefinitionDescription()
     {
         this.stack.push(new DefinitionDescriptionBlock(generateListFromStack()));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionList(java.util.Map)
-     */
+    @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
         this.stack.push(new DefinitionListBlock(generateListFromStack(), parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionTerm()
-     */
+    @Override
     public void endDefinitionTerm()
     {
         this.stack.push(new DefinitionTermBlock(generateListFromStack()));
@@ -365,42 +274,25 @@ public class XDOMGeneratorListener implements Listener
         this.stack.push(new XDOM(generateListFromStack(), metaData));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endFormat(org.xwiki.rendering.listener.Format, java.util.Map)
-     */
+    @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
         this.stack.push(new FormatBlock(generateListFromStack(), format, parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endGroup(java.util.Map)
-     */
+    @Override
     public void endGroup(Map<String, String> parameters)
     {
         this.stack.push(new GroupBlock(generateListFromStack(), parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endHeader(org.xwiki.rendering.listener.HeaderLevel, java.lang.String,
-     *      java.util.Map)
-     */
+    @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         this.stack.push(new HeaderBlock(generateListFromStack(), level, parameters, id));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endList(org.xwiki.rendering.listener.ListType, java.util.Map)
-     */
+    @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
         if (listType == ListType.BULLETED) {
@@ -410,113 +302,67 @@ public class XDOMGeneratorListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endListItem()
-     */
+    @Override
     public void endListItem()
     {
         this.stack.push(new ListItemBlock(generateListFromStack()));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endMacroMarker(java.lang.String, java.util.Map, java.lang.String,
-     *      boolean)
-     */
+    @Override
     public void endMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
         this.stack.push(new MacroMarkerBlock(name, macroParameters, content, generateListFromStack(), isInline));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endParagraph(java.util.Map)
-     */
+    @Override
     public void endParagraph(Map<String, String> parameters)
     {
         this.stack.push(new ParagraphBlock(generateListFromStack(), parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endQuotation(java.util.Map)
-     */
+    @Override
     public void endQuotation(Map<String, String> parameters)
     {
         this.stack.push(new QuotationBlock(generateListFromStack(), parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endQuotationLine()
-     */
+    @Override
     public void endQuotationLine()
     {
         this.stack.push(new QuotationLineBlock(generateListFromStack()));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endSection(java.util.Map)
-     */
+    @Override
     public void endSection(Map<String, String> parameters)
     {
         this.stack.push(new SectionBlock(generateListFromStack(), parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTable(java.util.Map)
-     */
+    @Override
     public void endTable(Map<String, String> parameters)
     {
         this.stack.push(new TableBlock(generateListFromStack(), parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTableCell(java.util.Map)
-     */
+    @Override
     public void endTableCell(Map<String, String> parameters)
     {
         this.stack.push(new TableCellBlock(generateListFromStack(), parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTableHeadCell(java.util.Map)
-     */
+    @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
         this.stack.push(new TableHeadCellBlock(generateListFromStack(), parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTableRow(java.util.Map)
-     */
+    @Override
     public void endTableRow(Map<String, String> parameters)
     {
         this.stack.push(new TableRowBlock(generateListFromStack(), parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.LinkListener#endLink(org.xwiki.rendering.listener.reference.ResourceReference ,
-     *      boolean, java.util.Map)
-     */
+    @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         this.stack.push(new LinkBlock(generateListFromStack(), reference, isFreeStandingURI, parameters));
@@ -533,112 +379,67 @@ public class XDOMGeneratorListener implements Listener
         this.stack.push(new MetaDataBlock(generateListFromStack(), metadata));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onEmptyLines(int)
-     */
+    @Override
     public void onEmptyLines(int count)
     {
         this.stack.push(new EmptyLinesBlock(count));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onHorizontalLine(java.util.Map)
-     */
+    @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
         this.stack.push(new HorizontalLineBlock(parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onId(java.lang.String)
-     */
+    @Override
     public void onId(String name)
     {
         this.stack.push(new IdBlock(name));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onMacro(java.lang.String, java.util.Map, java.lang.String, boolean)
-     */
+    @Override
     public void onMacro(String id, Map<String, String> macroParameters, String content, boolean isInline)
     {
         this.stack.push(new MacroBlock(id, macroParameters, content, isInline));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onNewLine()
-     */
+    @Override
     public void onNewLine()
     {
         this.stack.push(new NewLineBlock());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onRawText(java.lang.String, org.xwiki.rendering.syntax.Syntax)
-     */
+    @Override
     public void onRawText(String rawContent, Syntax syntax)
     {
         this.stack.push(new RawBlock(rawContent, syntax));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onSpace()
-     */
+    @Override
     public void onSpace()
     {
         this.stack.push(new SpaceBlock());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onSpecialSymbol(char)
-     */
+    @Override
     public void onSpecialSymbol(char symbol)
     {
         this.stack.push(new SpecialSymbolBlock(symbol));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onVerbatim(java.lang.String, boolean, java.util.Map)
-     */
+    @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
         this.stack.push(new VerbatimBlock(protectedString, parameters, isInline));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onWord(java.lang.String)
-     */
+    @Override
     public void onWord(String word)
     {
         this.stack.push(new WordBlock(word));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.ImageListener#onImage(org.xwiki.rendering.listener.reference.ResourceReference ,
-     *      boolean, java.util.Map)
-     */
+    @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         this.stack.push(new ImageBlock(reference, isFreeStandingURI, parameters));

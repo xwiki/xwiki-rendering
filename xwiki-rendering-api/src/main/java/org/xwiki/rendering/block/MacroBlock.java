@@ -100,11 +100,7 @@ public class MacroBlock extends AbstractBlock
         return this.isInline;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#traverse(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void traverse(Listener listener)
     {
         // Don't do anything here since we want the Macro Transformer component to take in charge

@@ -65,11 +65,6 @@ public class MetadataBlockMatcher extends ClassBlockMatcher
         this.metadataValue = metadataValue;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.match.ClassBlockMatcher#match(org.xwiki.rendering.block.Block)
-     */
     @Override
     public boolean match(Block block)
     {

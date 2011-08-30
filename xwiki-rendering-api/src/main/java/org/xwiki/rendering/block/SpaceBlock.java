@@ -40,21 +40,12 @@ public final class SpaceBlock extends AbstractBlock
         // We need to keep this constructor to override the ones in AbstractBlock
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#traverse(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void traverse(Listener listener)
     {
         listener.onSpace();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#clone()
-     */
     @Override
     public Block clone()
     {

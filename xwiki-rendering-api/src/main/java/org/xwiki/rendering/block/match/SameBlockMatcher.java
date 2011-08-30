@@ -42,11 +42,7 @@ public class SameBlockMatcher implements BlockMatcher
         this.block = block;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.match.BlockMatcher#match(org.xwiki.rendering.block.Block)
-     */
+    @Override
     public boolean match(Block block)
     {
         return this.block == block;

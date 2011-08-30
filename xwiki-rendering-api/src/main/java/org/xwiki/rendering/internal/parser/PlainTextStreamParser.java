@@ -51,11 +51,7 @@ public class PlainTextStreamParser implements StreamParser
      */
     public static final Pattern SPECIALSYMBOL_PATTERN = Pattern.compile("[!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~]");
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.PLAIN_1_0;
@@ -81,11 +77,7 @@ public class PlainTextStreamParser implements StreamParser
         return c;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.StreamParser#parse(java.io.Reader, org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void parse(Reader source, Listener listener) throws ParseException
     {
         StringBuffer word = new StringBuffer();

@@ -39,11 +39,7 @@ import org.xwiki.rendering.block.MacroMarkerBlock;
  */
 public class ProtectedBlockFilter implements BlockFilter
 {
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.block.BlockFilter#filter(org.xwiki.rendering.block.Block)
-     */
+    @Override
     public List<Block> filter(Block block)
     {
         List<Block> blocks = new ArrayList<Block>();

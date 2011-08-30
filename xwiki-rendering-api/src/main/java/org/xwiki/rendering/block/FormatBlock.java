@@ -67,22 +67,12 @@ public class FormatBlock extends AbstractBlock
         return this.format;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#before(org.xwiki.rendering.listener.Listener)
-     */
     @Override
     public void before(Listener listener)
     {
         listener.beginFormat(getFormat(), getParameters());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#after(org.xwiki.rendering.listener.Listener)
-     */
     @Override
     public void after(Listener listener)
     {

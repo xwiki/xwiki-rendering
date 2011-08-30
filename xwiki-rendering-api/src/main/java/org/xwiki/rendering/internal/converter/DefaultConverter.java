@@ -60,11 +60,7 @@ public class DefaultConverter implements Converter
     @Inject
     private TransformationManager transformationManager;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.converter.Converter#convert(java.io.Reader, org.xwiki.rendering.syntax.Syntax, org.xwiki.rendering.syntax.Syntax, org.xwiki.rendering.renderer.printer.WikiPrinter)
-     */
+    @Override
     public void convert(Reader source, Syntax sourceSyntax, Syntax targetSyntax, WikiPrinter printer)
         throws ConversionException
     {

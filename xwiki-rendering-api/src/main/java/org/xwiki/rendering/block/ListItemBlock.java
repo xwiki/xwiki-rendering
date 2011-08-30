@@ -41,19 +41,13 @@ public class ListItemBlock extends AbstractBlock
         super(childrenBlocks);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractBlock#before(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void before(Listener listener)
     {
         listener.beginListItem();
     }
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractBlock#after(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void after(Listener listener)
     {
         listener.endListItem();

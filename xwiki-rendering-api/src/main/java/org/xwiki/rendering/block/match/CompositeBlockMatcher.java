@@ -55,11 +55,7 @@ public class CompositeBlockMatcher implements BlockMatcher
         }
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.block.match.BlockMatcher#match(org.xwiki.rendering.block.Block)
-     */
+    @Override
     public boolean match(Block block)
     {
         for (BlockMatcher matcher : this.matchers) {

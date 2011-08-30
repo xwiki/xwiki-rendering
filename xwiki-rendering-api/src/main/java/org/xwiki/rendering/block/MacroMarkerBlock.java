@@ -112,21 +112,13 @@ public class MacroMarkerBlock extends AbstractBlock
         return this.isInline;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#before(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void before(Listener listener)
     {
         listener.beginMacroMarker(getId(), getParameters(), getContent(), isInline());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#after(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void after(Listener listener)
     {
         listener.endMacroMarker(getId(), getParameters(), getContent(), isInline());

@@ -50,10 +50,7 @@ public class HorizontalLineBlock extends AbstractBlock
         super(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.block.AbstractBlock#traverse(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void traverse(Listener listener)
     {
         listener.onHorizontalLine(getParameters());

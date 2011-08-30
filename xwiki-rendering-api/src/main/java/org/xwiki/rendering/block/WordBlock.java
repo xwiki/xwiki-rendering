@@ -43,11 +43,7 @@ public class WordBlock extends AbstractBlock
         this.word = word;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractBlock#traverse(Listener)
-     */
+    @Override
     public void traverse(Listener listener)
     {
         listener.onWord(getWord());

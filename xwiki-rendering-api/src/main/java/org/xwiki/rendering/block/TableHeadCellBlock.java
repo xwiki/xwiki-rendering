@@ -41,22 +41,12 @@ public class TableHeadCellBlock extends TableCellBlock
         super(list, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.TableCellBlock#before(org.xwiki.rendering.listener.Listener)
-     */
     @Override
     public void before(Listener listener)
     {
         listener.beginTableHeadCell(getParameters());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.TableCellBlock#after(org.xwiki.rendering.listener.Listener)
-     */
     @Override
     public void after(Listener listener)
     {

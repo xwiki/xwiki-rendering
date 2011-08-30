@@ -41,19 +41,13 @@ public class DefinitionDescriptionBlock extends AbstractBlock
         super(childrenBlocks);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractBlock#before(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void before(Listener listener)
     {
         listener.beginDefinitionDescription();
     }
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractBlock#after(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void after(Listener listener)
     {
         listener.endDefinitionDescription();
