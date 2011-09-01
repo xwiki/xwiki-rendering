@@ -54,12 +54,11 @@
     <module>xwiki-rendering-transformations</module>
   </modules>
   <properties>
-    <!-- Version to compare with for CLIRR -->
-    <clirr.previous.version>3.1</clirr.previous.version>
+    <!-- Useful for Rendering extensions -->
+    <rendering.version>${commons.version}</rendering.version>
+
     <!-- Default is to not run CLIRR, make sure we run it -->
     <xwiki.clirr.skip>false</xwiki.clirr.skip>
-    <!-- xwiki-rendering and xwiki-commons versions are currently synchronized. -->
-    <commons.version>${project.version}</commons.version>
   </properties>
   <dependencies>
     <dependency>
