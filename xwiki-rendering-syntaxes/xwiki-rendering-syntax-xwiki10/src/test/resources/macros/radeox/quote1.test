@@ -1,13 +1,13 @@
 .#-----------------------------------------------------
 .input|xwiki/1.0
 .#-----------------------------------------------------
-{quote}
+{quote:source}
 first line
 same line
 
 another paragraph
 {quote}
-{quote}
+{quote:http://url}
 first line
 same line
 

@@ -40,6 +40,11 @@ public class QuoteRadeoxMacroConverter extends AbstractRadeoxMacroConverter
     @Named("standalonenewlinecleanning")
     private Filter standaloneNewLineCleaningFilter;
 
+    public QuoteRadeoxMacroConverter()
+    {
+        registerParameter("");
+    }
+
     @Override
     public String convert(String name, RadeoxMacroParameters parameters, String content, FilterContext filterContext)
     {
