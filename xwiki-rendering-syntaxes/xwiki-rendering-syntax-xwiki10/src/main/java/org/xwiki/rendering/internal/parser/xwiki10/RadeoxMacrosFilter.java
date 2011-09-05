@@ -59,8 +59,8 @@ public class RadeoxMacrosFilter extends AbstractFilter implements Initializable
      * using the {@link Pattern#DOTALL} flag to tell the compiler that "." should match any characters, including new
      * lines.
      */
-    public static final Pattern MULTI_LINE_MACRO_PATTERN =
-        Pattern.compile("\\{(\\w+)(:(.+?))?\\}(.+?)\\{\\1\\}", Pattern.DOTALL);
+    public static final Pattern MULTI_LINE_MACRO_PATTERN = Pattern.compile("\\{(\\w+)(:(.+?))?\\}(.+?)\\{\\1\\}",
+        Pattern.DOTALL);
 
     @Inject
     private ComponentManager componentManager;
@@ -203,25 +203,30 @@ public class RadeoxMacrosFilter extends AbstractFilter implements Initializable
                 String parameter = parameterTable[parameterIndex];
                 int equalIndex = parameter.indexOf('=');
 
-                int parameterType = macroConverter.getParameterType(parameterIndex);
-                String parameterName;
-                String parameterValue;
-                if (equalIndex >= 0) {
-                    parameterName = parameter.substring(0, equalIndex);
-                    parameterValue = parameter.substring(equalIndex + 1);
-                } else {
-                    parameterName = macroConverter.getParameterName(parameterIndex);
-                    parameterValue = parameter;
-                }
+                try {
+                    int parameterType = macroConverter.getParameterType(parameterIndex);
+                    String parameterName;
+                    String parameterValue;
+                    if (equalIndex >= 0) {
+                        parameterName = parameter.substring(0, equalIndex);
+                        parameterValue = parameter.substring(equalIndex + 1);
+                    } else {
+                        parameterName = macroConverter.getParameterName(parameterIndex);
+                        parameterValue = parameter;
+                    }
 
-                if (parameterType != RadeoxMacroConverter.PARAMETER_SIMPLE
-                    && ((parameterType & RadeoxMacroConverter.PARAMETER_NOTEMPTY) != 0 && parameterValue.trim()
-                        .length() == 0)
-                    || (((parameterType & RadeoxMacroConverter.PARAMETER_NOTNONE) != 0 && "none".equals(parameterValue)))) {
-                    parameterValue = null;
-                }
+                    if (parameterType != RadeoxMacroConverter.PARAMETER_SIMPLE
+                        && ((parameterType & RadeoxMacroConverter.PARAMETER_NOTEMPTY) != 0 && parameterValue.trim()
+                            .length() == 0)
+                        || (((parameterType & RadeoxMacroConverter.PARAMETER_NOTNONE) != 0 && "none"
+                            .equals(parameterValue)))) {
+                        parameterValue = null;
+                    }
 
-                parameterMap.addParameter(parameterIndex, parameterName, parameterValue);
+                    parameterMap.addParameter(parameterIndex, parameterName, parameterValue);
+                } catch (Throwable t) {
+                    // skip parameter
+                }
             }
         }
 
