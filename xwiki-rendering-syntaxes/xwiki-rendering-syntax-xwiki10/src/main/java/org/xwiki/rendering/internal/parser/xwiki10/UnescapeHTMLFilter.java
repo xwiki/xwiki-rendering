@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -102,6 +102,6 @@ public class UnescapeHTMLFilter extends AbstractFilter implements Initializable
 
     private String unescapeNonHtmlContent(String content)
     {
-        return StringEscapeUtils.unescapeHtml(content);
+        return StringEscapeUtils.unescapeHtml4(content);
     }
 }

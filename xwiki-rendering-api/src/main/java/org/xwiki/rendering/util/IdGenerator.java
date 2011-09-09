@@ -23,7 +23,7 @@ import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Stateful generator of id attributes. It's stateful since it remembers the generated ids. Thus a new instance of it

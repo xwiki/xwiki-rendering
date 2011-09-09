@@ -26,7 +26,7 @@ import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 

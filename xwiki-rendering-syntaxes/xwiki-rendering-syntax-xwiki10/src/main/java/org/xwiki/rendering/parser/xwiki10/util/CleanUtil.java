@@ -22,7 +22,7 @@ package org.xwiki.rendering.parser.xwiki10.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.internal.parser.xwiki10.VelocityFilter;
 import org.xwiki.rendering.parser.xwiki10.FilterContext;
 

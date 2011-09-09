@@ -27,7 +27,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
@@ -126,50 +126,50 @@ public class ListSyntaxFilter extends AbstractFilter implements Initializable
             String listStyle = "";
 
             if (listSign == '#') {
-                listString = StringUtils.repeat("1", listSigns.length()) + ".";
+                listString = StringUtils.repeat('1', listSigns.length()) + ".";
             } else if (listSign == '1') {
                 listString = listSigns;
             } else {
                 if (listSign == '-') {
                     listStyle = "square";
-                    listString = StringUtils.repeat("*", listSigns.length());
+                    listString = StringUtils.repeat('*', listSigns.length());
                 } else if (listSign == 'a') {
                     listStyle = "lower-alpha";
-                    listString = StringUtils.repeat("*", listSigns.length() - 1);
+                    listString = StringUtils.repeat('*', listSigns.length() - 1);
                 } else if (listSign == 'A') {
                     listStyle = "upper-alpha";
-                    listString = StringUtils.repeat("*", listSigns.length() - 1);
+                    listString = StringUtils.repeat('*', listSigns.length() - 1);
                 } else if (listSign == 'i') {
                     listStyle = "lower-roman";
-                    listString = StringUtils.repeat("*", listSigns.length() - 1);
+                    listString = StringUtils.repeat('*', listSigns.length() - 1);
                 } else if (listSign == 'I') {
                     listStyle = "upper-roman";
-                    listString = StringUtils.repeat("*", listSigns.length() - 1);
+                    listString = StringUtils.repeat('*', listSigns.length() - 1);
                 } else if (listSign == 'g') {
                     listStyle = "lower-greek";
-                    listString = StringUtils.repeat("*", listSigns.length() - 1);
+                    listString = StringUtils.repeat('*', listSigns.length() - 1);
                 } else if (listSign == 'h') {
                     listStyle = "hiragana";
-                    listString = StringUtils.repeat("*", listSigns.length() - 1);
+                    listString = StringUtils.repeat('*', listSigns.length() - 1);
                 } else if (listSign == 'H') {
                     listStyle = "hiragana-iroha";
-                    listString = StringUtils.repeat("*", listSigns.length() - 1);
+                    listString = StringUtils.repeat('*', listSigns.length() - 1);
                 } else if (listSign == 'k') {
                     listStyle = "katakana";
-                    listString = StringUtils.repeat("*", listSigns.length() - 1);
+                    listString = StringUtils.repeat('*', listSigns.length() - 1);
                 } else if (listSign == 'K') {
                     listStyle = "katakana-iroha";
-                    listString = StringUtils.repeat("*", listSigns.length() - 1);
+                    listString = StringUtils.repeat('*', listSigns.length() - 1);
                 } else if (listSign == 'j') {
                     listStyle = "hebrew";
-                    listString = StringUtils.repeat("*", listSigns.length() - 1);
+                    listString = StringUtils.repeat('*', listSigns.length() - 1);
                 } else if (listSign == '*') {
                     listString = listSigns;
                 } else {
                     // This should never append
                     this.logger.error("Unknown list sign: " + listSign);
 
-                    listString = StringUtils.repeat("*", listSigns.length());
+                    listString = StringUtils.repeat('*', listSigns.length());
                 }
             }
 

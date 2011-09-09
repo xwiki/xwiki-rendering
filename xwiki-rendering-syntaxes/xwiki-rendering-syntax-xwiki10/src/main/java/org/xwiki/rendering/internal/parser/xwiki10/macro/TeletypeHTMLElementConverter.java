@@ -24,7 +24,7 @@ import java.util.Map;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.xwiki10.HTMLFilter.HTMLFilterContext;
 import org.xwiki.rendering.parser.xwiki10.macro.AbstractHTMLElementConverter;

@@ -21,7 +21,7 @@ package org.xwiki.rendering.renderer.printer;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 
 /**
@@ -254,7 +254,7 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
                     printEntity("&nbsp;");
                 }
             } else {
-                super.printXML(StringUtils.repeat(" ", this.spaceCount));
+                super.printXML(StringUtils.repeat(' ', this.spaceCount));
             }
         }
         this.spaceCount = 0;
@@ -271,7 +271,7 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
                 printEntity("&nbsp;");
             }
         } else {
-            super.printXML(StringUtils.repeat(" ", this.spaceCount));
+            super.printXML(StringUtils.repeat(' ', this.spaceCount));
         }
         this.spaceCount = 0;
         this.elementEnded = false;

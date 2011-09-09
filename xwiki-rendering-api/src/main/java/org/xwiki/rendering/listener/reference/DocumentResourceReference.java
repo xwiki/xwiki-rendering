@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.listener.reference;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Represents a reference to a Document.

@@ -21,7 +21,7 @@ package org.xwiki.rendering.internal.renderer.xwiki20;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.internal.renderer.xwiki20.reference.XWikiSyntaxResourceRenderer;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
@@ -634,7 +634,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     @Override
     public void onEmptyLines(int count)
     {
-        print(StringUtils.repeat("\n", count));
+        print(StringUtils.repeat('\n', count));
     }
 
     /**
@@ -673,7 +673,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 print(".");
             }
         }
-        print(StringUtils.repeat(":", getBlockState().getDefinitionListDepth() - 1));
+        print(StringUtils.repeat(':', getBlockState().getDefinitionListDepth() - 1));
         print("; ");
     }
 
@@ -696,7 +696,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 print(".");
             }
         }
-        print(StringUtils.repeat(":", getBlockState().getDefinitionListDepth() - 1));
+        print(StringUtils.repeat(':', getBlockState().getDefinitionListDepth() - 1));
         print(": ");
     }
 
@@ -757,7 +757,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             getPrinter().print("\n");
         }
 
-        print(StringUtils.repeat(">", getBlockState().getQuotationDepth()));
+        print(StringUtils.repeat('>', getBlockState().getQuotationDepth()));
     }
 
     /**
@@ -940,6 +940,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
      * @see org.xwiki.rendering.renderer.AbstractChainingPrintRenderer#setPrinter(org.xwiki.rendering.renderer.printer.WikiPrinter)
      * @since 2.0M3
      */
+    @Override
     public void setPrinter(WikiPrinter printer)
     {
         // If the printer is already a XWiki Syntax Escape printer don't wrap it again. This case happens when

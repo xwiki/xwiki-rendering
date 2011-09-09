@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -84,7 +84,7 @@ public class SectionSyntaxFilter extends AbstractFilter implements Initializable
             CleanUtil.setTrailingNewLines(result, 2);
 
             String headerSyntax =
-                filterContext.addProtectedContent(StringUtils.repeat("=", (matcher.group(2).length() + 1) / 2), false);
+                filterContext.addProtectedContent(StringUtils.repeat('=', (matcher.group(2).length() + 1) / 2), false);
 
             String headerContent = headerSyntax + ' ' + matcher.group(4) + ' ' + headerSyntax;
 

@@ -22,7 +22,7 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.wikimodel.wem.WikiParameter;
 import org.wikimodel.wem.WikiParameters;
 import org.xwiki.component.annotation.Component;

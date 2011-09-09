@@ -22,7 +22,7 @@ package org.xwiki.rendering.internal.renderer.xwiki20.reference;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.xwiki20.XWiki20LinkReferenceParser;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
