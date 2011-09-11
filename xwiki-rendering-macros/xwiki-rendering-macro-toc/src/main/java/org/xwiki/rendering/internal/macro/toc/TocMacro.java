@@ -170,8 +170,6 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
         List<HeaderBlock> headers = (List) root.getBlocks(
             new ClassBlockMatcher(HeaderBlock.class), Block.Axes.DESCENDANT);
 
-            root.getChildrenByType(HeaderBlock.class, true);
-
         // If the root block is a section, remove it's header block for the list of header blocks
         if (root instanceof SectionBlock) {
             Block block = root.getChildren().get(0);
