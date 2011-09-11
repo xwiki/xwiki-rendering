@@ -37,6 +37,7 @@ import org.xwiki.rendering.block.ListBLock;
 import org.xwiki.rendering.block.ListItemBlock;
 import org.xwiki.rendering.block.NumberedListBlock;
 import org.xwiki.rendering.block.SectionBlock;
+import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
@@ -154,7 +155,8 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
         if (parameters.getScope() == Scope.LOCAL) {
             root = context.getCurrentMacroBlock().getParent();
             if (!parameters.isCustomStart()) {
-                SectionBlock rootSection = context.getCurrentMacroBlock().getParentBlockByType(SectionBlock.class);
+                SectionBlock rootSection = (SectionBlock) context.getCurrentMacroBlock().getFirstBlock(
+                    new ClassBlockMatcher(SectionBlock.class), Block.Axes.ANCESTOR);
                 HeaderBlock header = rootSection.getHeaderBlock();
                 if (header != null) {
                     start = header.getLevel().getAsInt() + 1;
@@ -165,8 +167,10 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
         }
 
         // Get the list of sections in the scope
+        List<HeaderBlock> headers = (List) root.getBlocks(
+            new ClassBlockMatcher(HeaderBlock.class), Block.Axes.DESCENDANT);
 
-        List<HeaderBlock> headers = root.getChildrenByType(HeaderBlock.class, true);
+            root.getChildrenByType(HeaderBlock.class, true);
 
         // If the root block is a section, remove it's header block for the list of header blocks
         if (root instanceof SectionBlock) {
