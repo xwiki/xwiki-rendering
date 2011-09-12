@@ -897,7 +897,7 @@ public abstract class AbstractBlock implements Block
     @Deprecated
     public <T extends Block> List<T> getChildrenByType(Class<T> blockClass, boolean recurse)
     {
-        return (List<T>) getBlocks(new ClassBlockMatcher(blockClass), Axes.DESCENDANT);
+        return (List<T>) getBlocks(new ClassBlockMatcher(blockClass), recurse ? Axes.DESCENDANT : Axes.CHILD);
     }
 
     /**
