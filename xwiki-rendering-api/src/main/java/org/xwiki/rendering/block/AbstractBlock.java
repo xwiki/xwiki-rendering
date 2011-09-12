@@ -156,10 +156,9 @@ public abstract class AbstractBlock implements Block
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Block#setNextSiblingBlock(Block)
      * @since 2.6RC1
      */
+    @Override
     public void setNextSiblingBlock(Block nextSiblingBlock)
     {
         this.nextSiblingBlock = nextSiblingBlock;
@@ -167,10 +166,9 @@ public abstract class AbstractBlock implements Block
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Block#setPreviousSiblingBlock(Block)
      * @since 2.6RC1
      */
+    @Override
     public void setPreviousSiblingBlock(Block previousSiblingBlock)
     {
         this.previousSiblingBlock = previousSiblingBlock;
@@ -349,10 +347,9 @@ public abstract class AbstractBlock implements Block
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#setParameters(java.util.Map)
      * @since 1.7M2
      */
+    @Override
     public void setParameters(Map<String, String> parameters)
     {
         this.parameters.putAll(parameters);
@@ -378,10 +375,9 @@ public abstract class AbstractBlock implements Block
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Block#getNextSibling()
      * @since 2.6RC1
      */
+    @Override
     public Block getNextSibling()
     {
         return this.nextSiblingBlock;
@@ -389,10 +385,9 @@ public abstract class AbstractBlock implements Block
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Block#getPreviousSibling()
      * @since 2.6RC1
      */
+    @Override
     public Block getPreviousSibling()
     {
         return this.previousSiblingBlock;
@@ -400,10 +395,9 @@ public abstract class AbstractBlock implements Block
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#removeBlock(Block)
      * @since 2.6RC1
      */
+    @Override
     public void removeBlock(Block childBlockToRemove)
     {
         getChildren().remove(childBlockToRemove);
@@ -441,10 +435,9 @@ public abstract class AbstractBlock implements Block
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#clone(org.xwiki.rendering.block.BlockFilter)
      * @since 1.8RC2
      */
+    @Override
     public Block clone(BlockFilter blockFilter)
     {
         Block block;
@@ -514,9 +507,9 @@ public abstract class AbstractBlock implements Block
     }
 
     @Override
-    public List<Block> getBlocks(BlockMatcher matcher, Axes axes)
+    public <T extends Block> List<T> getBlocks(BlockMatcher matcher, Axes axes)
     {
-        List<Block> blocks = null;
+        List<T> blocks = null;
 
         if (axes == Axes.SELF) {
             blocks = addBlock(this, matcher, blocks);
@@ -528,21 +521,22 @@ public abstract class AbstractBlock implements Block
             blocks = getSiblingBlocks(matcher, axes);
         }
 
-        return blocks != null ? blocks : Collections.<Block> emptyList();
+        return blocks != null ? blocks : Collections.<T> emptyList();
     }
 
     /**
      * Get all blocks following provided {@link BlockMatcher} and ancestor {@link Axes}.
      * 
+     * @param <T> the class of the Blocks to return
      * @param matcher filter the blocks to return
      * @param axes indicate the search axes
      * @return the matched {@link Block}s, empty list of none was found
      */
-    private List<Block> getAncestorBlocks(BlockMatcher matcher, Axes axes)
+    private <T extends Block> List<T> getAncestorBlocks(BlockMatcher matcher, Axes axes)
     {
-        List<Block> blocks = null;
+        List<T> blocks = null;
 
-        Block nextBlock = getParent();
+        T nextBlock = (T) getParent();
         Axes nextAxes = axes;
 
         switch (axes) {
@@ -563,37 +557,38 @@ public abstract class AbstractBlock implements Block
             blocks = getBlocks(nextBlock, matcher, nextAxes, blocks);
         }
 
-        return blocks != null ? blocks : Collections.<Block> emptyList();
+        return blocks != null ? blocks : Collections.<T> emptyList();
     }
 
     /**
      * Get all blocks following provided {@link BlockMatcher} and descendant {@link Axes}.
      * 
+     * @param <T> the class of the Blocks to return
      * @param matcher filter the blocks to return
      * @param axes indicate the search axes
      * @return the matched {@link Block}s, empty list of none was found
      */
-    private List<Block> getDescendantBlocks(BlockMatcher matcher, Axes axes)
+    private <T extends Block> List<T> getDescendantBlocks(BlockMatcher matcher, Axes axes)
     {
-        List<Block> blocks = null;
+        List<T> blocks = null;
 
-        Block nextBlock = null;
+        T nextBlock = null;
         Axes nextAxes = axes;
 
         switch (axes) {
             case CHILD:
-                if (!this.childrenBlocks.isEmpty()) {
-                    nextBlock = this.childrenBlocks.get(0);
+                if (!getChildren().isEmpty()) {
+                    nextBlock = (T) getChildren().get(0);
                     nextAxes = Axes.FOLLOWING_SIBLING;
                     blocks = addBlock(nextBlock, matcher, blocks);
                 }
                 break;
             case DESCENDANT_OR_SELF:
                 blocks = addBlock(this, matcher, blocks);
-                blocks = getBlocks(this.childrenBlocks, matcher, Axes.DESCENDANT_OR_SELF, blocks);
+                blocks = getBlocks((List) getChildren(), matcher, Axes.DESCENDANT_OR_SELF, blocks);
                 break;
             case DESCENDANT:
-                blocks = getBlocks(this.childrenBlocks, matcher, Axes.DESCENDANT_OR_SELF, blocks);
+                blocks = getBlocks((List) getChildren(), matcher, Axes.DESCENDANT_OR_SELF, blocks);
                 break;
             default:
                 break;
@@ -603,44 +598,45 @@ public abstract class AbstractBlock implements Block
             blocks = getBlocks(nextBlock, matcher, nextAxes, blocks);
         }
 
-        return blocks != null ? blocks : Collections.<Block> emptyList();
+        return blocks != null ? blocks : Collections.<T> emptyList();
     }
 
     /**
      * Get all blocks following provided {@link BlockMatcher} and following/preceding sibling {@link Axes}.
      * 
+     * @param <T> the class of the Blocks to return
      * @param matcher filter the blocks to return
      * @param axes indicate the search axes
      * @return the matched {@link Block}s, empty list of none was found
      */
-    private List<Block> getSiblingBlocks(BlockMatcher matcher, Axes axes)
+    private <T extends Block> List<T> getSiblingBlocks(BlockMatcher matcher, Axes axes)
     {
-        List<Block> blocks = null;
+        List<T> blocks = null;
 
-        Block nextBlock = null;
+        T nextBlock = null;
         Axes nextAxes = axes;
 
         switch (axes) {
             // FOLLOWING
             case FOLLOWING_SIBLING:
-                nextBlock = getNextSibling();
+                nextBlock = (T) getNextSibling();
                 blocks = addBlock(nextBlock, matcher, blocks);
                 break;
             case FOLLOWING:
                 for (Block nextSibling = getNextSibling(); nextSibling != null; nextSibling =
                         nextSibling.getNextSibling()) {
-                    blocks = getBlocks(nextSibling, matcher, Axes.DESCENDANT_OR_SELF, blocks);
+                    blocks = getBlocks((T) nextSibling, matcher, Axes.DESCENDANT_OR_SELF, blocks);
                 }
                 break;
             // PRECEDING
             case PRECEDING_SIBLING:
-                nextBlock = getPreviousSibling();
+                nextBlock = (T) getPreviousSibling();
                 blocks = addBlock(nextBlock, matcher, blocks);
                 break;
             case PRECEDING:
                 for (Block previousSibling = getPreviousSibling(); previousSibling != null; previousSibling =
                         previousSibling.getPreviousSibling()) {
-                    blocks = getBlocks(previousSibling, matcher, Axes.DESCENDANT_OR_SELF, blocks);
+                    blocks = getBlocks((T) previousSibling, matcher, Axes.DESCENDANT_OR_SELF, blocks);
                 }
                 break;
             default:
@@ -651,28 +647,29 @@ public abstract class AbstractBlock implements Block
             blocks = getBlocks(nextBlock, matcher, nextAxes, blocks);
         }
 
-        return blocks != null ? blocks : Collections.<Block> emptyList();
+        return blocks != null ? blocks : Collections.<T> emptyList();
     }
 
     /**
      * Add provided {@link Block} to provided list (or create list of null) if block validate the provided
      * {@link BlockMatcher}.
      * 
+     * @param <T> the class of the Blocks to return
      * @param block the block
      * @param matcher the matcher
      * @param blocks the list of blocks to fill
      * @return the modified list, null if provided list is null and provided {@link Block} does not validate provided
      *         {@link BlockMatcher}
      */
-    private List<Block> addBlock(Block block, BlockMatcher matcher, List<Block> blocks)
+    private <T extends Block> List<T> addBlock(Block block, BlockMatcher matcher, List<T> blocks)
     {
-        List<Block> newBlocks = blocks;
+        List<T> newBlocks = blocks;
 
         if (block != null && matcher.match(block)) {
             if (newBlocks == null) {
-                newBlocks = new ArrayList<Block>();
+                newBlocks = new ArrayList<T>();
             }
-            newBlocks.add(block);
+            newBlocks.add((T) block);
         }
 
         return newBlocks;
@@ -682,6 +679,7 @@ public abstract class AbstractBlock implements Block
      * Add all blocks following provided {@link BlockMatcher} and {@link Axes} in the provide list (or create a new list
      * of provided list is null).
      * 
+     * @param <T> the class of the Blocks to return
      * @param blocks the blocks from where to search
      * @param matcher the block matcher
      * @param axes the axes
@@ -689,11 +687,12 @@ public abstract class AbstractBlock implements Block
      * @return the modified list, null if provided list is null and provided {@link Block} does not validate provided
      *         {@link BlockMatcher}
      */
-    private List<Block> getBlocks(List<Block> blocks, BlockMatcher matcher, Axes axes, List<Block> blocksOut)
+    private <T extends Block> List<T> getBlocks(List<T> blocks, BlockMatcher matcher, Axes axes,
+        List<T> blocksOut)
     {
-        List<Block> newBlocks = blocksOut;
+        List<T> newBlocks = blocksOut;
 
-        for (Block child : blocks) {
+        for (T child : blocks) {
             newBlocks = getBlocks(child, matcher, axes, newBlocks);
         }
 
@@ -704,6 +703,7 @@ public abstract class AbstractBlock implements Block
      * Add all blocks following provided {@link BlockMatcher} and {@link Axes} in the provide list (or create a new list
      * of provided list is null).
      * 
+     * @param <T> the class of the Blocks to return
      * @param block the block from where to search
      * @param matcher the block matcher
      * @param axes the axes
@@ -711,11 +711,11 @@ public abstract class AbstractBlock implements Block
      * @return the modified list, null if provided list is null and provided {@link Block} does not validate provided
      *         {@link BlockMatcher}
      */
-    private List<Block> getBlocks(Block block, BlockMatcher matcher, Axes axes, List<Block> blocksOut)
+    private <T extends Block> List<T> getBlocks(T block, BlockMatcher matcher, Axes axes, List<T> blocksOut)
     {
-        List<Block> newBlocks = blocksOut;
+        List<T> newBlocks = blocksOut;
 
-        List<Block> nextBlocks = block.getBlocks(matcher, axes);
+        List<T> nextBlocks = block.getBlocks(matcher, axes);
         if (!nextBlocks.isEmpty()) {
             if (newBlocks == null) {
                 newBlocks = nextBlocks;
@@ -728,22 +728,22 @@ public abstract class AbstractBlock implements Block
     }
 
     @Override
-    public Block getFirstBlock(BlockMatcher matcher, Axes axes)
+    public <T extends Block> T getFirstBlock(BlockMatcher matcher, Axes axes)
     {
-        Block block = null;
+        T block = null;
 
         if (axes == Axes.SELF) {
             if (matcher.match(this)) {
-                block = this;
+                block = (T) this;
             }
         } else if (axes.compareTo(Axes.ANCESTOR_OR_SELF) <= 0) {
-            block = getFirstAncestorBlock(matcher, axes);
+            block = (T) getFirstAncestorBlock(matcher, axes);
         } else if (axes.compareTo(Axes.DESCENDANT_OR_SELF) <= 0) {
-            block = getFirstDescendantBlock(matcher, axes);
+            block = (T) getFirstDescendantBlock(matcher, axes);
         } else if (axes.compareTo(Axes.FOLLOWING_SIBLING) <= 0) {
-            block = getFirstFollowingSiblingBlock(matcher, axes);
+            block = (T) getFirstFollowingSiblingBlock(matcher, axes);
         } else {
-            block = getFirstPrecedingSiblingBlock(matcher, axes);
+            block = (T) getFirstPrecedingSiblingBlock(matcher, axes);
         }
 
         return block;
@@ -889,23 +889,15 @@ public abstract class AbstractBlock implements Block
         return nextBlock != null ? nextBlock.getFirstBlock(matcher, nextAxes) : null;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.block.Block#getChildrenByType(java.lang.Class, boolean)
-     */
     @Deprecated
+    @Override
     public <T extends Block> List<T> getChildrenByType(Class<T> blockClass, boolean recurse)
     {
-        return (List<T>) getBlocks(new ClassBlockMatcher(blockClass), recurse ? Axes.DESCENDANT : Axes.CHILD);
+        return getBlocks(new ClassBlockMatcher(blockClass), recurse ? Axes.DESCENDANT : Axes.CHILD);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.block.Block#getPreviousBlockByType(java.lang.Class, boolean)
-     */
     @Deprecated
+    @Override
     public <T extends Block> T getPreviousBlockByType(Class<T> blockClass, boolean recurse)
     {
         // Don't use #getFirstBlock(BlockMatcher, Axes) for retro-compatibility because it's a bit different:
@@ -935,12 +927,8 @@ public abstract class AbstractBlock implements Block
         return recurse ? getParent().getPreviousBlockByType(blockClass, true) : null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.Block#getParentBlockByType(java.lang.Class)
-     */
     @Deprecated
+    @Override
     public <T extends Block> T getParentBlockByType(Class<T> blockClass)
     {
         return blockClass.cast(getFirstBlock(new ClassBlockMatcher(blockClass), Axes.ANCESTOR));

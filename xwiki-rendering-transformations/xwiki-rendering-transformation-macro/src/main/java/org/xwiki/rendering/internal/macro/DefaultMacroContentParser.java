@@ -153,8 +153,7 @@ public class DefaultMacroContentParser implements MacroContentParser
 
         if (currentMacroBlock != null) {
             MetaDataBlock metaDataBlock =
-                (MetaDataBlock) currentMacroBlock.getFirstBlock(new MetadataBlockMatcher(MetaData.SYNTAX),
-                    Axes.ANCESTOR_OR_SELF);
+                currentMacroBlock.getFirstBlock(new MetadataBlockMatcher(MetaData.SYNTAX), Axes.ANCESTOR_OR_SELF);
 
             if (metaDataBlock != null) {
                 currentSyntax = (Syntax) metaDataBlock.getMetaData().getMetaData(MetaData.SYNTAX);

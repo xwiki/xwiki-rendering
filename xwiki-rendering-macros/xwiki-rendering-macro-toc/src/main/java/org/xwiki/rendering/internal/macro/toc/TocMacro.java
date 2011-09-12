@@ -155,7 +155,7 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
         if (parameters.getScope() == Scope.LOCAL) {
             root = context.getCurrentMacroBlock().getParent();
             if (!parameters.isCustomStart()) {
-                SectionBlock rootSection = (SectionBlock) context.getCurrentMacroBlock().getFirstBlock(
+                SectionBlock rootSection = context.getCurrentMacroBlock().getFirstBlock(
                     new ClassBlockMatcher(SectionBlock.class), Block.Axes.ANCESTOR);
                 HeaderBlock header = rootSection.getHeaderBlock();
                 if (header != null) {
@@ -167,8 +167,7 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
         }
 
         // Get the list of sections in the scope
-        List<HeaderBlock> headers = (List) root.getBlocks(
-            new ClassBlockMatcher(HeaderBlock.class), Block.Axes.DESCENDANT);
+        List<HeaderBlock> headers = root.getBlocks(new ClassBlockMatcher(HeaderBlock.class), Block.Axes.DESCENDANT);
 
         // If the root block is a section, remove it's header block for the list of header blocks
         if (root instanceof SectionBlock) {

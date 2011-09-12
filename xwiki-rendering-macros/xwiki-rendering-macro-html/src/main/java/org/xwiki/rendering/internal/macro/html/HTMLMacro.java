@@ -254,7 +254,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             // html macro, it this case the macro will be parsed as inline block
             // - by forcing clean=false, we also make the html macro merge the whole html before cleaning so the cleaner
             // have the chole context and can clean better
-            List<MacroBlock> macros = (List) xdom.getBlocks(MACROBLOCKMATCHER, Axes.DESCENDANT);
+            List<MacroBlock> macros = xdom.getBlocks(MACROBLOCKMATCHER, Axes.DESCENDANT);
             for (MacroBlock macro : macros) {
                 if (macro.getId().equals("html")) {
                     macro.setParameter("clean", "false");

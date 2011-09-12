@@ -275,22 +275,24 @@ public interface Block extends Cloneable
     /**
      * Get all blocks following provided {@link BlockMatcher} and {@link Axes}.
      * 
+     * @param <T> the class of the Blocks to return
      * @param matcher filter the blocks to return
      * @param axes indicate the search axes
      * @return the matched {@link Block}s, empty list of none was found
      * @since 3.0M3
      */
-    List<Block> getBlocks(BlockMatcher matcher, Axes axes);
+    <T extends Block> List<T> getBlocks(BlockMatcher matcher, Axes axes);
 
     /**
      * Get the first matched block in the provided {@link Axes}.
      * 
+     * @param <T> the class of the Block to return
      * @param matcher indicate which block to stop to
      * @param axes indicate the search axes
      * @return the matched {@link Block}, null if none was found
      * @since 3.0M3
      */
-    Block getFirstBlock(BlockMatcher matcher, Axes axes);
+    <T extends Block> T getFirstBlock(BlockMatcher matcher, Axes axes);
 
     /**
      * Gets all the Blocks in the tree which are of the passed Block class.
