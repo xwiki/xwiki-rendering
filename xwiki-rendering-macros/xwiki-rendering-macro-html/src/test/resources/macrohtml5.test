@@ -10,9 +10,9 @@
 </pre>
 <p> Some  <span>  text 
 </span> 
-<!--comment-->  another  <![CDATA[
+<!--comment-->  another  <script><![CDATA[
 hello  world
-   ]]>
+]]></script>
 </p>
 {{/html}}
 .#-----------------------------------------------------
@@ -25,9 +25,9 @@ beginMacroMarkerStandalone [html] [] [<pre>
 </pre>
 <p> Some  <span>  text 
 </span> 
-<!--comment-->  another  <![CDATA[
+<!--comment-->  another  <script><![CDATA[
 hello  world
-   ]]>
+]]></script>
 </p>]
 onRawText [<pre>
   newline
@@ -35,9 +35,11 @@ onRawText [<pre>
 </pre>
 <p> Some  <span>  text 
 </span> 
-<!--comment-->  another  <![CDATA[
+<!--comment-->  another  <script>//<![CDATA[
+
 hello  world
-   ]]>
+
+//]]></script>
 </p>] [xhtml/1.0]
 endMacroMarkerStandalone [html] [] [<pre>
   newline
@@ -45,8 +47,8 @@ endMacroMarkerStandalone [html] [] [<pre>
 </pre>
 <p> Some  <span>  text 
 </span> 
-<!--comment-->  another  <![CDATA[
+<!--comment-->  another  <script><![CDATA[
 hello  world
-   ]]>
+]]></script>
 </p>]
 endDocument

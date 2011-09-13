@@ -19,4 +19,7 @@
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>test</p>
+<p>
+.# There's a bug in HTML Cleaner that adds the new line after the XML declaration into the body.
+.# See http://tinyurl.com/3d2w5c8
+test</p>
