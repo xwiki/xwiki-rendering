@@ -1,13 +1,22 @@
-/*******************************************************************************
- * Copyright (c) 2005,2006 Cognium Systems SA and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:
- *     Cognium Systems SA - initial API and implementation
- *******************************************************************************/
+/*
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import org.wikimodel.wem.WikiParameter;
@@ -39,11 +48,6 @@ public class XWikiTableDataTagHandler extends TableDataTagHandler
      */
     private static final String TH_SCOPE_ROW = "row";
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.wikimodel.wem.xhtml.handler.TableDataTagHandler#begin(org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack.TagContext)
-     */
     @Override
     protected void begin(TagContext context)
     {
@@ -70,5 +74,4 @@ public class XWikiTableDataTagHandler extends TableDataTagHandler
 
         context.getScannerContext().beginTableCell(true, parameters);
     }
-
 }
