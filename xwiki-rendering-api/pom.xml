@@ -89,7 +89,6 @@
             org/xwiki/rendering/internal/renderer/printer/WikiWriter.java,
             org/xwiki/rendering/listener/chaining/LookaheadChainingListener.java,
             org/xwiki/rendering/listener/chaining/TextOnNewLineStateChainingListener.java,
-            org/xwiki/rendering/listener/chaining/EventType.java,
             org/xwiki/rendering/listener/chaining/EmptyBlockChainingListener.java,
             org/xwiki/rendering/listener/chaining/BlockStateChainingListener.java,
             org/xwiki/rendering/listener/chaining/GroupStateChainingListener.java,
