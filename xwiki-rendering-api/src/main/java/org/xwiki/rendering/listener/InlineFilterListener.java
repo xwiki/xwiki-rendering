@@ -29,66 +29,36 @@ import java.util.Map;
  */
 public class InlineFilterListener extends WrappingListener
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.WrappingListener#beginDocument(org.xwiki.rendering.listener.MetaData)
-     */
     @Override
     public void beginDocument(MetaData metaData)
     {
         // Disable this event
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.WrappingListener#endDocument(org.xwiki.rendering.listener.MetaData)
-     */
     @Override
     public void endDocument(MetaData metaData)
     {
         // Disable this event
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.WrappingListener#beginSection(java.util.Map)
-     */
     @Override
     public void beginSection(Map<String, String> parameters)
     {
         // Disable this event
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.WrappingListener#endSection(java.util.Map)
-     */
     @Override
     public void endSection(Map<String, String> parameters)
     {
         // Disable this event
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.WrappingListener#beginParagraph(java.util.Map)
-     */
     @Override
     public void beginParagraph(Map<String, String> parameters)
     {
         // Disable this event
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.WrappingListener#endParagraph(java.util.Map)
-     */
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
