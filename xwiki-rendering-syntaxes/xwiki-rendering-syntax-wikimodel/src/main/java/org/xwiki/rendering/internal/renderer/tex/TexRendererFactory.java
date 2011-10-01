@@ -27,7 +27,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * Create Plain Text Renderers.
+ * Create LaTeX Renderers.
  *
  * @version $Id$
  * @since 2.1RC1
@@ -37,10 +37,7 @@ import org.xwiki.rendering.syntax.Syntax;
 @Singleton
 public class TexRendererFactory extends AbstractPrintRendererFactory
 {
-    /**
-     * {@inheritDoc}
-     * @see AbstractPrintRendererFactory#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.TEX_1_0;

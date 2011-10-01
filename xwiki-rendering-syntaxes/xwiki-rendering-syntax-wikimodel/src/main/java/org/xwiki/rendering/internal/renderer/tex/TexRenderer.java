@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.internal.renderer.tex;
 
+import javax.inject.Named;
+
 import org.wikimodel.wem.tex.TexSerializer;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
@@ -35,7 +37,8 @@ import org.xwiki.rendering.internal.renderer.wikimodel.WikiModelPrinterAdapter;
  * @version $Id$
  * @since 2.1RC1
  */
-@Component("tex/1.0")
+@Component
+@Named("tex/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class TexRenderer extends WrappingListener implements PrintRenderer
 {
@@ -44,11 +47,7 @@ public class TexRenderer extends WrappingListener implements PrintRenderer
      */
     private WikiPrinter printer;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.PrintRenderer#getPrinter()
-     */
+    @Override
     public WikiPrinter getPrinter()
     {
         return this.printer;
@@ -56,9 +55,9 @@ public class TexRenderer extends WrappingListener implements PrintRenderer
 
     /**
      * {@inheritDoc}
-     * @see org.xwiki.rendering.renderer.PrintRenderer#setPrinter(org.xwiki.rendering.renderer.printer.WikiPrinter)
      * @since 2.0M3
      */
+    @Override
     public void setPrinter(WikiPrinter printer)
     {
         this.printer = printer;
