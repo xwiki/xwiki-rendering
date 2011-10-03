@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.parser.doxia;
 
 import java.io.StringReader;
+import java.util.Collections;
 import java.util.Stack;
 
 import org.apache.maven.doxia.logging.Log;
@@ -33,6 +34,7 @@ import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.QueueListener;
+import org.xwiki.rendering.listener.VoidListener;
 import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
@@ -73,6 +75,10 @@ public class XWikiGeneratorSink implements Sink
 
     private MetaData documentMetadata;
 
+    private boolean isInVerbatim;
+
+    private StringBuffer accumulatedText = new StringBuffer();
+    
     /**
      * @since 3.0M3
      */
@@ -127,31 +133,19 @@ public class XWikiGeneratorSink implements Sink
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#flush()
-     */
+    @Override
     public void flush()
     {
         flushEmptyLines();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#enableLogging(Log)
-     */
+    @Override
     public void enableLogging(Log arg0)
     {
         // Not used.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#anchor(String, SinkEventAttributes)
-     */
+    @Override
     public void anchor(String name, SinkEventAttributes attributes)
     {
         flushEmptyLines();
@@ -159,92 +153,56 @@ public class XWikiGeneratorSink implements Sink
         getListener().onId(name);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#anchor(String)
-     */
+    @Override
     public void anchor(String name)
     {
         anchor(name, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#anchor_()
-     */
+    @Override
     public void anchor_()
     {
         // Nothing to do since for XWiki anchors don't have children and thus the XWiki Block is generated in the Sink
         // anchor start event
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#author(SinkEventAttributes)
-     */
+    @Override
     public void author(SinkEventAttributes attributes)
     {
         // XWiki's Listener model doesn't support authors. Don't do anything.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#author()
-     */
+    @Override
     public void author()
     {
         // XWiki's Listener model doesn't support authors. Don't do anything.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#author_()
-     */
+    @Override
     public void author_()
     {
         // XWiki's Listener model doesn't support authors. Don't do anything.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#body(SinkEventAttributes)
-     */
+    @Override
     public void body(SinkEventAttributes attributes)
     {
         body();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#body()
-     */
+    @Override
     public void body()
     {
         getListener().beginDocument(this.documentMetadata);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#body_()
-     */
+    @Override
     public void body_()
     {
         getListener().endDocument(this.documentMetadata);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#bold()
-     */
+    @Override
     public void bold()
     {
         flushEmptyLines();
@@ -252,11 +210,7 @@ public class XWikiGeneratorSink implements Sink
         getListener().beginFormat(Format.BOLD, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#bold_()
-     */
+    @Override
     public void bold_()
     {
         flushEmptyLines();
@@ -264,61 +218,37 @@ public class XWikiGeneratorSink implements Sink
         getListener().endFormat(Format.BOLD, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#close()
-     */
+    @Override
     public void close()
     {
         // Not used.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#comment(String)
-     */
+    @Override
     public void comment(String comment)
     {
         // TODO: Not supported yet by the XDOM.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#date(SinkEventAttributes)
-     */
+    @Override
     public void date(SinkEventAttributes attributes)
     {
         // XWiki's Listener model doesn't support dates. Don't do anything.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#date()
-     */
+    @Override
     public void date()
     {
         // XWiki's Listener model doesn't support dates. Don't do anything.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#date_()
-     */
+    @Override
     public void date_()
     {
         // XWiki's Listener model doesn't support dates. Don't do anything.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definedTerm(SinkEventAttributes)
-     */
+    @Override
     public void definedTerm(SinkEventAttributes attributes)
     {
         getListener().beginDefinitionTerm();
@@ -326,21 +256,13 @@ public class XWikiGeneratorSink implements Sink
         ++this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definedTerm()
-     */
+    @Override
     public void definedTerm()
     {
         definedTerm(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definedTerm_()
-     */
+    @Override
     public void definedTerm_()
     {
         flushEmptyLines();
@@ -351,11 +273,7 @@ public class XWikiGeneratorSink implements Sink
         --this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definition(SinkEventAttributes)
-     */
+    @Override
     public void definition(SinkEventAttributes attributes)
     {
         getListener().beginDefinitionDescription();
@@ -363,21 +281,13 @@ public class XWikiGeneratorSink implements Sink
         ++this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definition()
-     */
+    @Override
     public void definition()
     {
         definition(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definition()
-     */
+    @Override
     public void definition_()
     {
         flushEmptyLines();
@@ -388,11 +298,7 @@ public class XWikiGeneratorSink implements Sink
         --this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definitionList(SinkEventAttributes)
-     */
+    @Override
     public void definitionList(SinkEventAttributes attributes)
     {
         flushEmptyLines();
@@ -400,122 +306,74 @@ public class XWikiGeneratorSink implements Sink
         getListener().beginDefinitionList(Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definitionList()
-     */
+    @Override
     public void definitionList()
     {
         definitionList(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definitionList_()
-     */
+    @Override
     public void definitionList_()
     {
         // TODO: Handle parameters
         getListener().endDefinitionList(Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definitionListItem(SinkEventAttributes)
-     */
+    @Override
     public void definitionListItem(SinkEventAttributes attributes)
     {
         // Nothing to do since for XWiki the definition list items are the definition term/descriptions.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definitionListItem()
-     */
+    @Override
     public void definitionListItem()
     {
         // Nothing to do since for XWiki the definition list items are the definition term/descriptions.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#definitionListItem_()
-     */
+    @Override
     public void definitionListItem_()
     {
         // Nothing to do since for XWiki the definition list items are the definition term/descriptions.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#figure(SinkEventAttributes)
-     */
+    @Override
     public void figure(SinkEventAttributes attributes)
     {
         // Nothing to do
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#figure()
-     */
+    @Override
     public void figure()
     {
         // Nothing to do
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#figure_()
-     */
+    @Override
     public void figure_()
     {
         // Nothing to do
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#figureCaption(SinkEventAttributes)
-     */
+    @Override
     public void figureCaption(SinkEventAttributes attributes)
     {
         // TODO: Handle caption as parameters in the future
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#figureCaption()
-     */
+    @Override
     public void figureCaption()
     {
         figureCaption(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#figureCaption_()
-     */
+    @Override
     public void figureCaption_()
     {
         // TODO: Handle caption as parameters in the future
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#figureGraphics(String, SinkEventAttributes)
-     */
+    @Override
     public void figureGraphics(String source, SinkEventAttributes attributes)
     {
         flushEmptyLines();
@@ -524,51 +382,33 @@ public class XWikiGeneratorSink implements Sink
         getListener().onImage(new ResourceReference(source, ResourceType.URL), false, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#figureGraphics(String)
-     */
+    @Override
     public void figureGraphics(String source)
     {
         figureGraphics(source, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#head(SinkEventAttributes)
-     */
+    @Override
     public void head(SinkEventAttributes sinkEventAttributes)
     {
-        // Nothing to do
+        head();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#head()
-     */
+    @Override
     public void head()
     {
-        // Nothing to do
+        // When in head don't output anything
+        pushListener(new VoidListener());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#head_()
-     */
+    @Override
     public void head_()
     {
-        // Nothing to do
+        // Start generating stuff again...
+        popListener();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#horizontalRule(SinkEventAttributes)
-     */
+    @Override
     public void horizontalRule(SinkEventAttributes attributes)
     {
         flushEmptyLines();
@@ -577,21 +417,13 @@ public class XWikiGeneratorSink implements Sink
         getListener().onHorizontalLine(Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#horizontalRule()
-     */
+    @Override
     public void horizontalRule()
     {
         horizontalRule(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#italic()
-     */
+    @Override
     public void italic()
     {
         flushEmptyLines();
@@ -599,11 +431,7 @@ public class XWikiGeneratorSink implements Sink
         getListener().beginFormat(Format.ITALIC, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#italic_()
-     */
+    @Override
     public void italic_()
     {
         flushEmptyLines();
@@ -611,31 +439,19 @@ public class XWikiGeneratorSink implements Sink
         getListener().endFormat(Format.ITALIC, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#lineBreak(SinkEventAttributes)
-     */
+    @Override
     public void lineBreak(SinkEventAttributes attributes)
     {
         ++this.lineBreaks;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#lineBreak()
-     */
+    @Override
     public void lineBreak()
     {
         lineBreak(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#link(String, SinkEventAttributes)
-     */
+    @Override
     public void link(String name, SinkEventAttributes attributes)
     {
         flushEmptyLines();
@@ -647,21 +463,13 @@ public class XWikiGeneratorSink implements Sink
         this.parameters.push(resourceReference);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#link(String)
-     */
+    @Override
     public void link(String name)
     {
         link(name, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#link_()
-     */
+    @Override
     public void link_()
     {
         flushEmptyLines();
@@ -669,11 +477,7 @@ public class XWikiGeneratorSink implements Sink
         getListener().endLink((ResourceReference) this.parameters.pop(), false, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#list()
-     */
+    @Override
     public void list(SinkEventAttributes attributes)
     {
         flushEmptyLines();
@@ -682,31 +486,19 @@ public class XWikiGeneratorSink implements Sink
         getListener().beginList(ListType.BULLETED, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#list()
-     */
+    @Override
     public void list()
     {
         list(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#list_()
-     */
+    @Override
     public void list_()
     {
         getListener().endList(ListType.BULLETED, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#listItem(SinkEventAttributes)
-     */
+    @Override
     public void listItem(SinkEventAttributes attributes)
     {
         // TODO: Handle parameters
@@ -715,21 +507,13 @@ public class XWikiGeneratorSink implements Sink
         ++this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#listItem()
-     */
+    @Override
     public void listItem()
     {
         listItem(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#listItem_()
-     */
+    @Override
     public void listItem_()
     {
         flushEmptyLines();
@@ -739,11 +523,7 @@ public class XWikiGeneratorSink implements Sink
         --this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#monospaced()
-     */
+    @Override
     public void monospaced()
     {
         flushEmptyLines();
@@ -751,11 +531,7 @@ public class XWikiGeneratorSink implements Sink
         getListener().beginFormat(Format.MONOSPACE, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#monospaced_()
-     */
+    @Override
     public void monospaced_()
     {
         flushEmptyLines();
@@ -763,11 +539,7 @@ public class XWikiGeneratorSink implements Sink
         getListener().endFormat(Format.MONOSPACE, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#nonBreakingSpace()
-     */
+    @Override
     public void nonBreakingSpace()
     {
         flushEmptyLines();
@@ -775,11 +547,7 @@ public class XWikiGeneratorSink implements Sink
         getListener().onSpace();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#numberedList(int, SinkEventAttributes)
-     */
+    @Override
     public void numberedList(int numbering, SinkEventAttributes sinkEventAttributes)
     {
         flushEmptyLines();
@@ -787,31 +555,19 @@ public class XWikiGeneratorSink implements Sink
         getListener().beginList(ListType.NUMBERED, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#numberedList(int)
-     */
+    @Override
     public void numberedList(int numbering)
     {
         numberedList(numbering, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#numberedList_()
-     */
+    @Override
     public void numberedList_()
     {
         getListener().endList(ListType.NUMBERED, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#numberedListItem(SinkEventAttributes)
-     */
+    @Override
     public void numberedListItem(SinkEventAttributes attributes)
     {
         getListener().beginListItem();
@@ -819,21 +575,13 @@ public class XWikiGeneratorSink implements Sink
         ++this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#numberedListItem()
-     */
+    @Override
     public void numberedListItem()
     {
         numberedListItem(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#numberedListItem_()
-     */
+    @Override
     public void numberedListItem_()
     {
         flushEmptyLines();
@@ -843,21 +591,13 @@ public class XWikiGeneratorSink implements Sink
         --this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#pageBreak()
-     */
+    @Override
     public void pageBreak()
     {
         // Not supported in XWiki.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#paragraph(SinkEventAttributes)
-     */
+    @Override
     public void paragraph(SinkEventAttributes attributes)
     {
         flushEmptyLines();
@@ -868,21 +608,13 @@ public class XWikiGeneratorSink implements Sink
         ++this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#paragraph()
-     */
+    @Override
     public void paragraph()
     {
         paragraph(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#paragraph_()
-     */
+    @Override
     public void paragraph_()
     {
         flushEmptyLines();
@@ -892,11 +624,7 @@ public class XWikiGeneratorSink implements Sink
         --this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#rawText(String)
-     */
+    @Override
     public void rawText(String text)
     {
         flushEmptyLines();
@@ -904,11 +632,7 @@ public class XWikiGeneratorSink implements Sink
         getListener().onVerbatim(text, isInline(), Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section(int, SinkEventAttributes)
-     */
+    @Override
     public void section(int level, SinkEventAttributes attributes)
     {
         flushEmptyLines();
@@ -916,11 +640,7 @@ public class XWikiGeneratorSink implements Sink
         getListener().beginSection(Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section_(int)
-     */
+    @Override
     public void section_(int level)
     {
         flushEmptyLines();
@@ -928,111 +648,67 @@ public class XWikiGeneratorSink implements Sink
         getListener().endSection(Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section1()
-     */
+    @Override
     public void section1()
     {
         section(1, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section1_()
-     */
+    @Override
     public void section1_()
     {
         section_(1);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section2()
-     */
+    @Override
     public void section2()
     {
         section(2, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section2_()
-     */
+    @Override
     public void section2_()
     {
         section_(2);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section3()
-     */
+    @Override
     public void section3()
     {
         section(3, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section3_()
-     */
+    @Override
     public void section3_()
     {
         section_(3);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section4()
-     */
+    @Override
     public void section4()
     {
         section(4, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section4_()
-     */
+    @Override
     public void section4_()
     {
         section_(4);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section5()
-     */
+    @Override
     public void section5()
     {
         section(5, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#section5_()
-     */
+    @Override
     public void section5_()
     {
         section_(5);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle(int, SinkEventAttributes)
-     */
+    @Override
     public void sectionTitle(int level, SinkEventAttributes attributes)
     {
         flushEmptyLines();
@@ -1047,21 +723,13 @@ public class XWikiGeneratorSink implements Sink
         ++this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle()
-     */
+    @Override
     public void sectionTitle()
     {
         // Should be deprecated in Doxia
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle_(int)
-     */
+    @Override
     public void sectionTitle_(int level)
     {
         flushEmptyLines();
@@ -1083,121 +751,73 @@ public class XWikiGeneratorSink implements Sink
         --this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle_()
-     */
+    @Override
     public void sectionTitle_()
     {
         // Should be deprecated in Doxia
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle1()
-     */
+    @Override
     public void sectionTitle1()
     {
         sectionTitle(1, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle1_()
-     */
+    @Override
     public void sectionTitle1_()
     {
         sectionTitle_(1);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle2()
-     */
+    @Override
     public void sectionTitle2()
     {
         sectionTitle(2, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle2_()
-     */
+    @Override
     public void sectionTitle2_()
     {
         sectionTitle_(2);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle3()
-     */
+    @Override
     public void sectionTitle3()
     {
         sectionTitle(3, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle3_()
-     */
+    @Override
     public void sectionTitle3_()
     {
         sectionTitle_(3);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle4()
-     */
+    @Override
     public void sectionTitle4()
     {
         sectionTitle(4, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle4_()
-     */
+    @Override
     public void sectionTitle4_()
     {
         sectionTitle_(4);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle5()
-     */
+    @Override
     public void sectionTitle5()
     {
         sectionTitle(5, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#sectionTitle5_()
-     */
+    @Override
     public void sectionTitle5_()
     {
         sectionTitle_(5);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#table(SinkEventAttributes)
-     */
+    @Override
     public void table(SinkEventAttributes attributes)
     {
         flushEmptyLines();
@@ -1206,61 +826,37 @@ public class XWikiGeneratorSink implements Sink
         getListener().beginTable(Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#table()
-     */
+    @Override
     public void table()
     {
         table(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#table_()
-     */
+    @Override
     public void table_()
     {
         getListener().endTable(Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableCaption(SinkEventAttributes)
-     */
+    @Override
     public void tableCaption(SinkEventAttributes attributes)
     {
         // TODO: Handle this
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableCaption()
-     */
+    @Override
     public void tableCaption()
     {
         tableCaption(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableCaption_()
-     */
+    @Override
     public void tableCaption_()
     {
         // TODO: Handle this
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableCell(SinkEventAttributes)
-     */
+    @Override
     public void tableCell(SinkEventAttributes attributes)
     {
         // TODO: Handle parameters
@@ -1269,32 +865,20 @@ public class XWikiGeneratorSink implements Sink
         ++this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableCell()
-     */
+    @Override
     public void tableCell()
     {
         tableCell((SinkEventAttributes) null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableCell(String)
-     */
+    @Override
     public void tableCell(String width)
     {
         // TODO: Handle width
         tableCell((SinkEventAttributes) null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableCell_()
-     */
+    @Override
     public void tableCell_()
     {
         flushEmptyLines();
@@ -1304,11 +888,7 @@ public class XWikiGeneratorSink implements Sink
         --this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableHeaderCell(SinkEventAttributes)
-     */
+    @Override
     public void tableHeaderCell(SinkEventAttributes attributes)
     {
         // TODO: Handle parameters
@@ -1317,32 +897,20 @@ public class XWikiGeneratorSink implements Sink
         ++this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableHeaderCell()
-     */
+    @Override
     public void tableHeaderCell()
     {
         tableHeaderCell((SinkEventAttributes) null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableHeaderCell(String)
-     */
+    @Override
     public void tableHeaderCell(String width)
     {
         // TODO: Handle width
         tableHeaderCell((SinkEventAttributes) null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableHeaderCell_()
-     */
+    @Override
     public void tableHeaderCell_()
     {
         flushEmptyLines();
@@ -1352,65 +920,46 @@ public class XWikiGeneratorSink implements Sink
         --this.inlineDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableRow(SinkEventAttributes)
-     */
+    @Override
     public void tableRow(SinkEventAttributes attributes)
     {
         // TODO: Handle parameters
         getListener().beginTableRow(Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableRow()
-     */
+    @Override
     public void tableRow()
     {
         tableRow(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableRow_()
-     */
+    @Override
     public void tableRow_()
     {
         getListener().endTableRow(Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableRows(int[], boolean)
-     */
+    @Override
     public void tableRows(int[] arg0, boolean arg1)
     {
         // Not supported by XWiki.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#tableRows_()
-     */
+    @Override
     public void tableRows_()
     {
         // Not supported by XWiki.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#text(String, SinkEventAttributes)
-     */
+    @Override
     public void text(String text, SinkEventAttributes attributes)
     {
         flushEmptyLines();
+
+        if (this.isInVerbatim) {
+            this.accumulatedText.append(text);
+            return;
+        }
 
         // TODO Handle parameters
         // Since Doxia doesn't generate events at the word level we need to reparse the
@@ -1429,81 +978,52 @@ public class XWikiGeneratorSink implements Sink
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#text(String)
-     */
+    @Override
     public void text(String text)
     {
         text(text, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#title(SinkEventAttributes)
-     */
+    @Override
     public void title(SinkEventAttributes attributes)
     {
         // XWiki's Listener model doesn't support titles. Don't do anything.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#title()
-     */
+    @Override
     public void title()
     {
         // XWiki's Listener model doesn't support titles. Don't do anything.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#title_()
-     */
+    @Override
     public void title_()
     {
         // XWiki's Listener model doesn't support titles. Don't do anything.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#verbatim(SinkEventAttributes)
-     */
+    @Override
     public void verbatim(SinkEventAttributes attributes)
     {
-        // Nothing to do since whitespaces are significant in the XDOM.
+        this.isInVerbatim = true;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#verbatim(boolean)
-     */
+    @Override
     public void verbatim(boolean boxed)
     {
-        // Nothing to do since whitespaces are significant in the XDOM.
+        this.isInVerbatim = true;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#verbatim_()
-     */
+    @Override
     public void verbatim_()
     {
-        // Nothing to do since whitespaces are significant in the XDOM.
+        // TODO: Handle inline or not inline for verbatim
+        getListener().onVerbatim(this.accumulatedText.toString(), true, Collections.<String, String>emptyMap());
+        this.accumulatedText.setLength(0);
+        this.isInVerbatim = false;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Sink#unknown(String, Object[], SinkEventAttributes)
-     */
+    @Override
     public void unknown(String arg0, Object[] arg1, SinkEventAttributes arg2)
     {
         // TODO: Not supported yet by the XDOM.

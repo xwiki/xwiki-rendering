@@ -22,31 +22,31 @@ package org.xwiki.rendering.internal.parser;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.maven.doxia.module.twiki.TWikiParser;
+import org.apache.maven.doxia.module.docbook.DocBookParser;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.internal.parser.doxia.AbstractDoxiaParser;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * TWiki Parser.
+ * DocBook Parser.
  *
  * @version $Id$
- * @since 1.5M2
+ * @since 3.2RC1
  */
 @Component
-@Named("twiki/1.0")
+@Named("docbook/4.4")
 @Singleton
-public class DoxiaTWikiParser extends AbstractDoxiaParser
+public class DoxiaDocBookParser extends AbstractDoxiaParser
 {
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.TWIKI_1_0;
+        return Syntax.DOCBOOK_4_4;
     }
 
     @Override
     public org.apache.maven.doxia.parser.Parser createDoxiaParser()
     {
-        return new TWikiParser();
+        return new DocBookParser();
     }
 }

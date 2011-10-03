@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN"
+ "http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd" [
+  <!ENTITY flo "&#x159;">
+  ]>
+<article id="index">
+  <articleinfo>
+    <title>Geotools2 Developer Guide&flo;</title>
+
+    <author>
+      <firstname>Cameron</firstname>
+
+      <surname>Shorter</surname>
+    </author>
+
+    <date>22 May 2002</date>
+
+    <abstract>
+      <para>Guide to aid <filename>geotools2</filename> development.</para>
+    </abstract>
+  </articleinfo>
+
+  <section id="intro">
+    <title>Introduction</title>
+
+    <para>This document aims to help new geotools developers get up to speed
+    and track practices of existing developers in order to keep the project
+    consistent.</para>
+
+    <para>If you feel something is missing, feel free to contribute a new
+    section.</para>
+  </section>
+
+  <section id="design">
+    <title>Design</title>
+    <figure>
+        <title>Geotools Logo</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/developersguide/geotools_logo.png"
+                    format="PNG"/>
+                </imageobject>
+            <textobject><phrase>Geotools Logo</phrase></textobject>
+        </mediaobject>
+    </figure>
+
+    <para>To do: Explain</para><itemizedlist><listitem><para>Key design structure
+    (core interfaces, data sources, rendering, tools)</para></listitem><listitem><para>Design
+    Drivers (Our design goals: modular, derives structure from netbeans,
+    support multiple version of java, ..)</para></listitem><listitem><para>Directory
+    structure</para></listitem><listitem><para></para></listitem></itemizedlist>
+  </section>
+
+  <section id="development">
+    <title>Development</title>
+
+    <section id="building">
+      <title>Building</title>
+
+      <para>To do:</para><itemizedlist><listitem><para>using ant</para></listitem><listitem><para>what
+      ant checks</para></listitem><listitem><para>insert the
+      &#34;howto-build.html&#34; doc into here</para></listitem><listitem><para></para></listitem></itemizedlist>
+    </section>
+
+    <section id="cvs">
+      <title>Code Versioning (using CVS)</title>
+
+      <para>To do:</para><itemizedlist><listitem><para>Point to sourceforge CVS howto
+      links.</para></listitem><listitem><para>Also point to some HOWTOs for
+      windows users.</para></listitem><listitem><para>What is acceptable to
+      commit to CVS, what is not. (Ie, code should compile)</para></listitem><listitem><para>Talk
+      about version numbering convention, use of branches, etc (if we decide
+      to do this).</para></listitem></itemizedlist>
+
+      <para>To do:</para>
+    </section>
+
+    <section id="CodingStandards">
+      <title>Coding Standards</title>
+
+      <para>To do:</para><itemizedlist><listitem><para>Using Sun&#39;s coding
+      standard, need to note any exceptions to it.</para></listitem><listitem><para>Note
+      the auto checking of coding standards.</para></listitem><listitem><para>Javadocs</para></listitem><listitem><para></para></listitem></itemizedlist>
+    </section>
+
+    <section id="templates">
+      <title>Template File</title>
+
+      <para>To do:</para><itemizedlist><listitem><para>Provide a template file.</para></listitem><listitem><para>Link
+      it to sections explaining the different parts of the template.</para></listitem><listitem><para>Include
+      headers, footers, example logging, example coding style, CVS key tags,
+      sample javadocs.</para></listitem><listitem><para></para></listitem></itemizedlist>
+    </section>
+
+    <section id="logging">
+      <title>Logging</title>
+
+      <para>To do:</para><itemizedlist><listitem><para>Talk about log4j, links to</para></listitem><listitem><para></para></listitem><listitem><para></para></listitem><listitem><para></para></listitem></itemizedlist>
+    </section>
+
+    <section id="testing">
+      <title>Testing</title>
+
+      <para>To do:</para><itemizedlist><listitem><para>Explain use of junit. Might be
+      a link to another web site.</para></listitem><listitem><para></para></listitem><listitem><para></para></listitem><listitem><para></para></listitem></itemizedlist>
+    </section>
+
+    <section>
+      <title>Documentation</title>
+
+      <para>To do:</para><itemizedlist><listitem><para>Talk about docbook, why we
+      decided to use it (most commonly used format of LDP, converts to
+      multiple formats, tools coming which can support it. Need to mention
+      which version of docbook we are using.</para></listitem><listitem><para>Mention
+      tools that can be used.</para></listitem><listitem><para>Links to
+      docbook references.</para></listitem><listitem><para>Process for
+      updating this document.</para></listitem><listitem><para>How to use ant
+      tools to build doc.</para></listitem></itemizedlist>
+    </section>
+  </section>
+
+  <section id="tools">
+    <title>Development Tools</title>
+
+    <section id="netbeans">
+      <title>Netbeans</title>
+
+      <para>To do:</para><itemizedlist><listitem><para>Where to get it.</para></listitem><listitem><para>Aim
+      is to make geotools a module within Netbeans</para></listitem><listitem><para>How
+      to setup getools to fit the multiple directory structure</para></listitem><listitem><para>The
+      extra Netbeans modules that are useful and should be downloaded.</para></listitem></itemizedlist>
+    </section>
+  </section>
+</article>

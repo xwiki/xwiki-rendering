@@ -17,36 +17,44 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser;
+package org.xwiki.rendering.internal.renderer.docbook;
 
 import javax.inject.Named;
-import javax.inject.Singleton;
 
-import org.apache.maven.doxia.module.twiki.TWikiParser;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.internal.parser.doxia.AbstractDoxiaParser;
+import org.xwiki.component.annotation.InstantiationStrategy;
+import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.rendering.internal.parser.doxia.DoxiaGeneratorListener;
+import org.xwiki.rendering.listener.WrappingListener;
+import org.xwiki.rendering.renderer.PrintRenderer;
+import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
 /**
- * TWiki Parser.
+ * Generates Doxbook syntax from a {@link org.xwiki.rendering.block.XDOM} object being traversed.
  *
  * @version $Id$
- * @since 1.5M2
+ * @since 3.2RC1
  */
 @Component
-@Named("twiki/1.0")
-@Singleton
-public class DoxiaTWikiParser extends AbstractDoxiaParser
+@Named("docbook/4.4")
+@InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
+public class DocBookRenderer extends WrappingListener implements PrintRenderer
 {
+    /**
+     * The printer.
+     */
+    private WikiPrinter printer;
+
     @Override
-    public Syntax getSyntax()
+    public WikiPrinter getPrinter()
     {
-        return Syntax.TWIKI_1_0;
+        return this.printer;
     }
 
     @Override
-    public org.apache.maven.doxia.parser.Parser createDoxiaParser()
+    public void setPrinter(WikiPrinter printer)
     {
-        return new TWikiParser();
+        this.printer = printer;
+        setWrappedListener(new DoxiaGeneratorListener(new XWikiDocBookSink(printer)));
     }
 }

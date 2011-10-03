@@ -30,10 +30,28 @@ import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.syntax.Syntax;
 
+/**
+ * Bridge XWiki Rendering Events to Doxia Events. This allows rendering an XDOM using a Doxia Sink.
+ *
+ * @version $Id$
+ */
 public class DoxiaGeneratorListener implements Listener
 {
+    /**
+     * The Doxia Renderer to which to emit events to.
+     */
     private Sink sink;
 
+    /**
+     * Since we need to tell Doxia the section level and since XWiki Events only give the level for begin/endHeader
+     * events, we need to remember the header level in order to be able to properly close the section by sending
+     * the correct Doxia event.
+     */
+    private HeaderLevel headerLevel;
+
+    /**
+     * @param sink the Doxia Renderer to which to emit events to
+     */
     public DoxiaGeneratorListener(Sink sink)
     {
         this.sink = sink;
@@ -41,57 +59,48 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDocument(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
+    @Override
     public void beginDocument(MetaData metaData)
     {
+        this.sink.head();
+        this.sink.head_();
         this.sink.body();
     }
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDocument(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
+    @Override
     public void endDocument(MetaData metaData)
     {
         this.sink.body_();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Listener#beginGroup(Map)
-     */
+    @Override
     public void beginGroup(Map<String, String> parameters)
     {
         // Do nothing since Doxia doesn't support groups
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Listener#endGroup(Map)
-     */
+    @Override
     public void endGroup(Map<String, String> parameters)
     {
         // Do nothing since Doxia doesn't support groups
     }
 
+    @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
-        // TODO Auto-generated method stub
-
+        // TODO: Handle parameters
+        this.sink.verbatim(false);
+        this.sink.text(protectedString);
+        this.sink.verbatim_();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Listener#beginFormat(Format, Map)
-     */
+    @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
         // TODO: Handle parameters
@@ -110,14 +119,12 @@ public class DoxiaGeneratorListener implements Listener
                 // TODO: Implement when we move to Doxia 1.0 beta 1.
                 // See http://jira.codehaus.org/browse/DOXIA-204
                 break;
+            default:
+                // Unhandled format, don't do anything.
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Listener#endFormat(Format, Map)
-     */
+    @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
         // TODO: Handle parameters
@@ -136,9 +143,12 @@ public class DoxiaGeneratorListener implements Listener
                 // TODO: Implement when we move to Doxia 1.0 beta 1.
                 // See http://jira.codehaus.org/browse/DOXIA-204
                 break;
+            default:
+                // Unhandled format, don't do anything.
         }
     }
 
+    @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
         if (listType == ListType.BULLETED) {
@@ -149,45 +159,44 @@ public class DoxiaGeneratorListener implements Listener
         }
     }
 
+    @Override
     public void beginListItem()
     {
         this.sink.listItem();
     }
 
+    @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         // Don't do anything since Doxia doesn't have macro markers and anyway we shouldn't
         // do anything.
     }
 
+    @Override
     public void beginParagraph(Map<String, String> parameters)
     {
         this.sink.paragraph();
     }
 
+    @Override
     public void beginSection(Map<String, String> parameters)
     {
-
+        // Note: The logic is in beginHeader.
     }
 
+    @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        if (level == HeaderLevel.LEVEL1) {
-            this.sink.section1();
-        } else if (level == HeaderLevel.LEVEL2) {
-            this.sink.section2();
-        } else if (level == HeaderLevel.LEVEL3) {
-            this.sink.section3();
-        } else if (level == HeaderLevel.LEVEL4) {
-            this.sink.section4();
-        } else if (level == HeaderLevel.LEVEL5) {
-            this.sink.section5();
-        } else if (level == HeaderLevel.LEVEL6) {
-            // There's no level 6 in Doxia!
-            this.sink.section5();
-        }
+        // Doxia has only 5 section levels!
+        int levelAsInt = (level.getAsInt() < 6) ? level.getAsInt() : 5;
+        this.sink.section(levelAsInt, null);
+        this.sink.sectionTitle(levelAsInt, null);
+
+        // Remember the header level for endSection() handling.
+        this.headerLevel = level;
     }
 
+    @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
         if (listType == ListType.BULLETED) {
@@ -197,51 +206,49 @@ public class DoxiaGeneratorListener implements Listener
         }
     }
 
+    @Override
     public void endListItem()
     {
         this.sink.listItem_();
     }
 
+    @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         // Don't do anything since Doxia doesn't have macro markers and anyway we shouldn't
         // do anything.
     }
 
+    @Override
     public void endParagraph(Map<String, String> parameters)
     {
         this.sink.paragraph_();
     }
 
+    @Override
     public void endSection(Map<String, String> parameters)
     {
-
+        // Doxia has only 5 section levels!
+        int levelAsInt = (this.headerLevel.getAsInt() < 6) ? this.headerLevel.getAsInt() : 5;
+        this.sink.section_(levelAsInt);
     }
 
+    @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        if (level == HeaderLevel.LEVEL1) {
-            this.sink.section1_();
-        } else if (level == HeaderLevel.LEVEL2) {
-            this.sink.section2_();
-        } else if (level == HeaderLevel.LEVEL3) {
-            this.sink.section3_();
-        } else if (level == HeaderLevel.LEVEL4) {
-            this.sink.section4_();
-        } else if (level == HeaderLevel.LEVEL5) {
-            this.sink.section5_();
-        } else if (level == HeaderLevel.LEVEL6) {
-            // There's no level 6 in Doxia!
-            this.sink.section5_();
-        }
+        // Doxia has only 5 section levels!
+        int levelAsInt = (level.getAsInt() < 6) ? level.getAsInt() : 5;
+        this.sink.sectionTitle_(levelAsInt);
     }
 
+    @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {
         // Don't do anything since macros have already been transformed so this method
         // should not be called.
     }
 
+    @Override
     public void onNewLine()
     {
         // TODO: Decide when to generate a line break and when to generate a new line
@@ -250,33 +257,33 @@ public class DoxiaGeneratorListener implements Listener
         this.sink.text("\n");
     }
 
+    @Override
     public void onSpace()
     {
         // Since there's no On Space event in Doxia we simply generate text
         this.sink.text(" ");
     }
 
+    @Override
     public void onSpecialSymbol(char symbol)
     {
         // Since there's no On Special Symbol event in Doxia we simply generate text
         this.sink.text("" + symbol);
     }
 
+    @Override
     public void onWord(String word)
     {
         this.sink.text(word);
     }
 
+    @Override
     public void onId(String name)
     {
         // TODO: Find out what to do...
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onRawText(String, Syntax)
-     */
+    @Override
     public void onRawText(String text, Syntax syntax)
     {
         // TODO: Ensure this is correct. The problem is that Doxia doesn't seem to have a syntax
@@ -285,22 +292,14 @@ public class DoxiaGeneratorListener implements Listener
         this.sink.rawText(text);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onHorizontalLine(Map)
-     */
+    @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
         // TODO: Handle parameters
         this.sink.horizontalRule();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onEmptyLines(int)
-     */
+    @Override
     public void onEmptyLines(int count)
     {
         // TODO: Find what to do...
@@ -308,23 +307,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onVerbatim(String, boolean, java.util.Map)
-     */
-    public void onVerbatim(String protectedString, Map<String, String> parameters, boolean isInline)
-    {
-        // TODO: Handle parameters
-        this.sink.verbatim(false);
-        this.sink.rawText(protectedString);
-        this.sink.verbatim_();
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionList(java.util.Map)
      * @since 2.0RC1
      */
+    @Override
     public void beginDefinitionList(Map<String, String> parameters)
     {
         // TODO: Handle parameters
@@ -333,10 +318,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionList(java.util.Map)
      * @since 2.0RC1
      */
+    @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
         // TODO: Handle parameters
@@ -345,10 +329,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionTerm()
      * @since 1.6M2
      */
+    @Override
     public void beginDefinitionTerm()
     {
         this.sink.definedTerm();
@@ -356,10 +339,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionDescription()
      * @since 1.6M2
      */
+    @Override
     public void beginDefinitionDescription()
     {
         this.sink.definition();
@@ -367,10 +349,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionTerm()
      * @since 1.6M2
      */
+    @Override
     public void endDefinitionTerm()
     {
         this.sink.definedTerm_();
@@ -378,10 +359,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionDescription()
      * @since 1.6M2
      */
+    @Override
     public void endDefinitionDescription()
     {
         this.sink.definition_();
@@ -389,10 +369,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginQuotation(java.util.Map)
      * @since 1.6M2
      */
+    @Override
     public void beginQuotation(Map<String, String> parameters)
     {
         // TODO: Doxia doesn't seem to have support for quotation... Find out what to do...
@@ -400,10 +379,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endQuotation(java.util.Map)
      * @since 1.6M2
      */
+    @Override
     public void endQuotation(Map<String, String> parameters)
     {
         // TODO: Doxia doesn't seem to have support for quotation... Find out what to do...
@@ -411,10 +389,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginQuotationLine()
      * @since 1.6M2
      */
+    @Override
     public void beginQuotationLine()
     {
         // TODO: Doxia doesn't seem to have support for quotation... Find out what to do...
@@ -422,50 +399,57 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endQuotationLine()
      * @since 1.6M2
      */
+    @Override
     public void endQuotationLine()
     {
         // TODO: Doxia doesn't seem to have support for quotation... Find out what to do...
     }
 
+    @Override
     public void beginTable(Map<String, String> parameters)
     {
         this.sink.table();
     }
 
+    @Override
     public void beginTableCell(Map<String, String> parameters)
     {
         this.sink.tableCell();
     }
 
+    @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
         this.sink.tableHeaderCell();
     }
 
+    @Override
     public void beginTableRow(Map<String, String> parameters)
     {
         this.sink.tableRow();
     }
 
+    @Override
     public void endTable(Map<String, String> parameters)
     {
         this.sink.table_();
     }
 
+    @Override
     public void endTableCell(Map<String, String> parameters)
     {
         this.sink.tableCell_();
     }
 
+    @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
         this.sink.tableHeaderCell_();
     }
 
+    @Override
     public void endTableRow(Map<String, String> parameters)
     {
         this.sink.tableRow_();
@@ -473,11 +457,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean,
-     *      Map)
      * @since 2.5RC1
      */
+    @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         this.sink.link(reference.getReference());
@@ -485,10 +467,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean, Map)
      * @since 2.5RC1
      */
+    @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         this.sink.link_();
@@ -496,11 +477,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onImage(org.xwiki.rendering.listener.reference.ResourceReference , boolean,
-     *      java.util.Map)
      * @since 2.5RC1
      */
+    @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         this.sink.figure();
@@ -513,10 +492,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.Listener#beginMetaData(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
+    @Override
     public void beginMetaData(MetaData metadata)
     {
         // Doxia doesn't support the notion of metadata
@@ -524,10 +502,9 @@ public class DoxiaGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.Listener#endMetaData(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
+    @Override
     public void endMetaData(MetaData metadata)
     {
         // Doxia doesn't support the notion of metadata

@@ -62,11 +62,7 @@ public abstract class AbstractDoxiaParser implements Parser, StreamParser
 
     public abstract org.apache.maven.doxia.parser.Parser createDoxiaParser();
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Parser#parse(Reader)
-     */
+    @Override
     public XDOM parse(Reader source) throws ParseException
     {
         IdGenerator idGenerator = new IdGenerator();
@@ -79,11 +75,7 @@ public abstract class AbstractDoxiaParser implements Parser, StreamParser
         return xdom;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.StreamParser#parse(java.io.Reader, org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void parse(Reader source, Listener listener) throws ParseException
     {
         IdGenerator idGenerator = new IdGenerator();

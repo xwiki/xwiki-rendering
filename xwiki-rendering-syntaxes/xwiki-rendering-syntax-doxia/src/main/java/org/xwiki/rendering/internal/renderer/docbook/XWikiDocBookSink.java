@@ -17,36 +17,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser;
+package org.xwiki.rendering.internal.renderer.docbook;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
-import org.apache.maven.doxia.module.twiki.TWikiParser;
-import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.internal.parser.doxia.AbstractDoxiaParser;
+import org.apache.maven.doxia.module.docbook.DocBookSink;
+import org.xwiki.rendering.internal.renderer.DoxiaPrinterAdapter;
+import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
 /**
- * TWiki Parser.
+ * For some unknown reason {@link DocBookSink} has protected constructors and thus needs to be subclassed.
  *
  * @version $Id$
- * @since 1.5M2
+ * @since 3.2RC1
  */
-@Component
-@Named("twiki/1.0")
-@Singleton
-public class DoxiaTWikiParser extends AbstractDoxiaParser
+public class XWikiDocBookSink extends DocBookSink
 {
-    @Override
-    public Syntax getSyntax()
+    /**
+     * @param printer the wiki printer to which to print to
+     */
+    public XWikiDocBookSink(WikiPrinter printer)
     {
-        return Syntax.TWIKI_1_0;
-    }
-
-    @Override
-    public org.apache.maven.doxia.parser.Parser createDoxiaParser()
-    {
-        return new TWikiParser();
+        super(new DoxiaPrinterAdapter(printer));
     }
 }

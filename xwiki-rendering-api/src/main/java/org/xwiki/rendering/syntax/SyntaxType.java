@@ -49,6 +49,8 @@ public class SyntaxType
 
     public static final SyntaxType TEX = new SyntaxType("tex", "TeX");
 
+    public static final SyntaxType DOCBOOK = new SyntaxType("docbook", "DocBook");
+
     /**
      * @see #getName()
      */
