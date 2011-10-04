@@ -1,5 +1,5 @@
 .#-----------------------------------------------------
-.input|xwiki/2.0
+.inputexpect|xwiki/2.0
 .#-----------------------------------------------------
 This is // italic //
 .#-----------------------------------------------------
@@ -19,25 +19,13 @@ endFormat [ITALIC]
 endParagraph
 endDocument
 .#-----------------------------------------------------
-.expect|xhtml/1.0
+.inputexpect|xhtml/1.0
 .#-----------------------------------------------------
 <p>This is <em>&nbsp;italic&nbsp;</em></p>
 .#-----------------------------------------------------
-.expect|xwiki/2.0
+.inputexpect|docbook/4.4
 .#-----------------------------------------------------
-This is // italic //
-.#-----------------------------------------------------
-.input|xhtml/1.0
-.#-----------------------------------------------------
-<p>This is <em>&nbsp;italic&nbsp;</em></p>
-.#-----------------------------------------------------
-.expect|docbook/4.4
-.#-----------------------------------------------------
-<?xml version="1.0"?><!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN" "http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd"><article><para>This is <emphasis> italic </emphasis></para></article>
-.#-----------------------------------------------------
-.input|docbook/4.4
-.#-----------------------------------------------------
-<?xml version="1.0"?><!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.1//EN" "http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd"><article><para>This is <emphasis> italic </emphasis></para></article>
+<article><para>This is <emphasis> italic </emphasis></para></article>
 .#-----------------------------------------------------
 .expect|plain/1.0
 .#-----------------------------------------------------

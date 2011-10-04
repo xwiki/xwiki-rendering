@@ -2,7 +2,7 @@
 .input|xhtml/1.0
 .# Verify that STRONG tag parameters are recognized.
 .#-----------------------------------------------------
-<html><p><strong a="b">something</strong></p></html>
+<p><strong a="b">something</strong></p>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------

@@ -26,7 +26,7 @@ endFormat [BOLD]
 endParagraph
 endDocument
 .#-----------------------------------------------------
-.expect|xhtml/1.0
+.inputexpect|xhtml/1.0
 .#-----------------------------------------------------
 <p>This is <strong>bold&nbsp;</strong> not bold<strong>&nbsp;bold</strong></p>
 .#-----------------------------------------------------
@@ -34,6 +34,6 @@ endDocument
 .#-----------------------------------------------------
 This is **bold ** not bold** bold**
 .#-----------------------------------------------------
-.input|xhtml/1.0
+.inputexpect|docbook/4.4
 .#-----------------------------------------------------
-<p>This is <strong>bold&nbsp;</strong> not bold<strong>&nbsp;bold</strong></p>
+<article><para>This is <emphasis role="bold">bold </emphasis> not bold<emphasis role="bold"> bold</emphasis></para></article>

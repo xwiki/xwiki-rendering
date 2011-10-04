@@ -88,9 +88,11 @@ public class TestDataGenerator
                 String input = entry.getValue();
 
                 if ("xhtml/1.0".equals(parserId) && !input.startsWith("<?xml") && !input.startsWith("<!DOCTYPE")) {
-                    input = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" "
-                        + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
-                        + "<html>" + input + "</html>";
+                    input = normalizeHTML(input);
+                } else if ("docbook/4.4".equals(parserId) && !input.startsWith("<?xml")
+                    && !input.startsWith("<!DOCTYPE"))
+                {
+                    input = normalizeDocBook(input);
                 }
 
                 // In order to improve test performance we exclude unneeded tests. A test is not required when the
@@ -105,7 +107,15 @@ public class TestDataGenerator
                     Object[] singleResult = new Object[8];
                     singleResult[0] = computeTestName(testResourceName, parserId, targetSyntaxId);
                     singleResult[1] = input;
-                    singleResult[2] = data.expectations.get(targetSyntaxId);
+                    
+                    String expected = data.expectations.get(targetSyntaxId);
+                    if ("docbook/4.4".equals(targetSyntaxId) && !expected.startsWith("<?xml")
+                        && !expected.startsWith("<!DOCTYPE"))
+                    {
+                        expected = normalizeDocBook(expected);
+                    }
+
+                    singleResult[2] = expected;
                     singleResult[3] = parserId;
                     singleResult[4] = targetSyntaxId;
                     singleResult[5] = data.streaming;
@@ -124,6 +134,20 @@ public class TestDataGenerator
         return result;
     }
 
+    private String normalizeHTML(String content)
+    {
+        return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" "
+            + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
+            + "<html>" + content + "</html>";
+    }
+
+    private String normalizeDocBook(String content)
+    {
+        return "<?xml version=\"1.0\"?>"
+            + "<!DOCTYPE article PUBLIC \"-//OASIS//DTD Simplified DocBook XML V1.1//EN\" "
+            + "\"http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd\">" + content;
+    }
+    
     private String computeTestName(String prefix, String parserId, String targetSyntaxId)
     {
         // Note: For some reason the Eclipse JUnit test runner strips the information found in parenthesis. Thus we use
