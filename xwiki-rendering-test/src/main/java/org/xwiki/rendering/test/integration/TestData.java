@@ -20,6 +20,7 @@
 package org.xwiki.rendering.test.integration;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -28,9 +29,9 @@ import java.util.Map;
  */
 public class TestData
 {
-    public Map<String, String> inputs = new HashMap<String, String>();
+    public Map<String, String> inputs = new LinkedHashMap<String, String>();
 
-    public Map<String, String> expectations = new HashMap<String, String>();
+    public Map<String, String> expectations = new LinkedHashMap<String, String>();
 
     /**
      * @since 3.0M3
@@ -45,5 +46,5 @@ public class TestData
     /**
      * @since 2.5RC1
      */
-    public Map<String, String> configuration = new HashMap<String, String>();
+    public Map<String, String> configuration = new LinkedHashMap<String, String>();
 }
