@@ -56,7 +56,7 @@ public class TestDataParser
         // Read each line and look for lines starting with ".". When this happens it means we've found a separate
         // test case.
         try {
-            Map<String, String> map = null;
+            String action = null;
             String keyName = null;
             boolean skip = false;
             StringBuffer buffer = new StringBuffer();
@@ -76,22 +76,15 @@ public class TestDataParser
                         StringTokenizer st = new StringTokenizer(line.substring(".configuration".length() + 1), "=");
                         data.configuration.put(st.nextToken(), st.nextToken());
                     } else {
-                        // If there's already some data, write it to the maps now.
-                        if (map != null) {
-                            if (!skip) {
-                                saveBuffer(buffer, map, data.inputs, keyName);
-                            }
-                            buffer.setLength(0);
+                        if (!skip) {
+                            saveData(action, buffer, data, keyName);
                         }
+                        buffer.setLength(0);
                         // Parse the directive line starting with "." and with "|" separators.
                         // For example ".input|xwiki/2.0|skip" or ".expect|xhtml"
                         StringTokenizer st = new StringTokenizer(line.substring(1), "|");
-                        // First token is "input" or "expect"
-                        if (st.nextToken().equalsIgnoreCase("input")) {
-                            map = data.inputs;
-                        } else {
-                            map = data.expectations;
-                        }
+                        // First token is "input", "expect" or "inputexpect".
+                        action = st.nextToken();
                         // Second token is either the input syntax id or the expectation renderer short name
                         keyName = st.nextToken();
                         // Third (optional) token is whether the test should be skipped (useful while waiting for
@@ -110,7 +103,7 @@ public class TestDataParser
             }
 
             if (!skip) {
-                saveBuffer(buffer, map, data.inputs, keyName);
+                saveData(action, buffer, data, keyName);
             }
 
         } finally {
@@ -120,7 +113,21 @@ public class TestDataParser
         return data;
     }
 
-    private void saveBuffer(StringBuffer buffer, Map<String, String> map, Map<String, String> inputs, String keyName)
+    private void saveData(String action, StringBuffer buffer, TestData data, String keyName)
+    {
+        if (action != null) {
+            if (action.equalsIgnoreCase("input")) {
+                saveBuffer(buffer, data.inputs, keyName);
+            } else if (action.equalsIgnoreCase("expect")) {
+                saveBuffer(buffer, data.expectations, keyName);
+            } else if (action.equalsIgnoreCase("inputexpect")) { 
+                saveBuffer(buffer, data.inputs, keyName);
+                saveBuffer(buffer, data.expectations, keyName);
+            }                            
+        }
+    }
+
+    private void saveBuffer(StringBuffer buffer, Map<String, String> map, String keyName)
     {
         // Remove the last newline since our test format forces an additional new lines
         // at the end of input texts.
