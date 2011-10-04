@@ -32,6 +32,8 @@ import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
 /**
+ * Finds all test files in the current classloader, read them and return test data to represent them.
+ *
  * @version $Id$
  * @since 3.0RC1
  */
@@ -54,6 +56,12 @@ public class TestDataGenerator
         return data;
     }
 
+    /**
+     * Parse a single test data file and return test data objects that represent the file data.
+     *
+     * @param testResourceName the name of the resource file containing the test data in the current classloader
+     * @return the in-memory Objects representing the test data
+     */
     private Collection<Object[]> parseSingleResource(String testResourceName)
     {
         String resourceName = "/" + testResourceName;
@@ -68,9 +76,14 @@ public class TestDataGenerator
             throw new RuntimeException("Failed to read test data from [" + resourceName + "]", e);
         }
 
+        boolean hasEventOutput = false;
+        int inputCounter = 0;
+
         Collection<Object[]> result = new ArrayList<Object[]>();
         for (Map.Entry<String, String> entry : data.inputs.entrySet()) {
+            inputCounter++;
             for (String targetSyntaxId : data.expectations.keySet()) {
+
                 String parserId = entry.getKey();
                 String input = entry.getValue();
 
@@ -80,16 +93,31 @@ public class TestDataGenerator
                         + "<html>" + input + "</html>";
                 }
 
-                Object[] singleResult = new Object[8];
-                singleResult[0] = computeTestName(testResourceName, parserId, targetSyntaxId);
-                singleResult[1] = input;
-                singleResult[2] = data.expectations.get(targetSyntaxId);
-                singleResult[3] = parserId;
-                singleResult[4] = targetSyntaxId;
-                singleResult[5] = data.streaming;
-                singleResult[6] = data.runTransformations;
-                singleResult[7] = data.configuration;
-                result.add(singleResult);
+                // In order to improve test performance we exclude unneeded tests. A test is not required when the
+                // following conditions are met:
+                // - the target syntax is not event/1.0
+                // - there's already another parser with an output of event/1.0
+                // The reason these tests are not needed is because rendering is done from the XDOM and the event/1.0
+                // syntax is an exact representation of the XDOM object and thus we only need to check once the
+                // expected output (except for event/1.0).
+                if (inputCounter < 2 || !hasEventOutput || targetSyntaxId.equals("event/1.0")) {
+
+                    Object[] singleResult = new Object[8];
+                    singleResult[0] = computeTestName(testResourceName, parserId, targetSyntaxId);
+                    singleResult[1] = input;
+                    singleResult[2] = data.expectations.get(targetSyntaxId);
+                    singleResult[3] = parserId;
+                    singleResult[4] = targetSyntaxId;
+                    singleResult[5] = data.streaming;
+                    singleResult[6] = data.runTransformations;
+                    singleResult[7] = data.configuration;
+
+                    result.add(singleResult);
+
+                    if (targetSyntaxId.equals("event/1.0")) {
+                        hasEventOutput = true;
+                    }
+                }
             }
         }
 
