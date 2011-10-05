@@ -37,11 +37,7 @@ import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
 @Singleton
 public class DefaultAttachmentURILabelGenerator implements URILabelGenerator
 {
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.renderer.reference.link.URILabelGenerator#generateLabel(
-     *org.xwiki.rendering.listener.reference.ResourceReference)
-     */
+    @Override
     public String generateLabel(ResourceReference reference)
     {
         return reference.getReference();

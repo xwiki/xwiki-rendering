@@ -95,8 +95,6 @@ public class ImageBlock extends AbstractBlock
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#clone(org.xwiki.rendering.block.BlockFilter)
      * @since 1.8RC2
      */
     @Override

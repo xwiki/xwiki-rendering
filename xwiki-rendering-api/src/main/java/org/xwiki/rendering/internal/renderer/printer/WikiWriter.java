@@ -46,33 +46,18 @@ public class WikiWriter extends Writer
         return (WikiPrinter) this.lock;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see java.io.Writer#close()
-     */
     @Override
     public void close() throws IOException
     {
         // WikiPrinter does not support stream close
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see java.io.Writer#flush()
-     */
     @Override
     public void flush() throws IOException
     {
         // WikiPrinter does not support stream flush
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see java.io.Writer#write(char[], int, int)
-     */
     @Override
     public void write(char[] cbuf, int off, int len) throws IOException
     {
@@ -84,8 +69,6 @@ public class WikiWriter extends Writer
      * <p>
      * Override it to improve speed a little. Otherwise the String is transformed in char table passed to the over
      * methods which recreate a String.
-     * 
-     * @see java.io.Writer#write(java.lang.String)
      */
     @Override
     public void write(String str) throws IOException

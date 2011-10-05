@@ -37,10 +37,7 @@ import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 @Singleton
 public class PlainTextRendererFactory extends AbstractPrintRendererFactory
 {
-    /**
-     * {@inheritDoc}
-     * @see AbstractPrintRendererFactory#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.PLAIN_1_0;

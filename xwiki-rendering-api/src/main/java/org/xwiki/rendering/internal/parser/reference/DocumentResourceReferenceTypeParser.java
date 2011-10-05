@@ -38,20 +38,12 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 @Singleton
 public class DocumentResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
 {
-    /**
-     * {@inheritDoc}
-     * @see AbstractURIResourceReferenceTypeParser#getType()
-     */
+    @Override
     public ResourceType getType()
     {
         return ResourceType.DOCUMENT;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractURIResourceReferenceTypeParser#parse(String)
-     */
     @Override
     public ResourceReference parse(String reference)
     {

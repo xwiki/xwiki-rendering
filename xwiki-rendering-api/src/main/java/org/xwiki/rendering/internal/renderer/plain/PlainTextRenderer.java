@@ -51,10 +51,9 @@ public class PlainTextRenderer extends AbstractChainingPrintRenderer implements 
     
     /**
      * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
      * @since 2.0M3
      */
+    @Override
     public void initialize() throws InitializationException
     {
         ListenerChain chain = new ListenerChain();

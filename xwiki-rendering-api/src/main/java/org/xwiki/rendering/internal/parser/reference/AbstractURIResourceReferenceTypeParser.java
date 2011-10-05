@@ -31,11 +31,7 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
  */
 public abstract class AbstractURIResourceReferenceTypeParser implements ResourceReferenceTypeParser
 {
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.parser.ResourceReferenceTypeParser#parse(String)
-     */
+    @Override
     public ResourceReference parse(String reference)
     {
         return new ResourceReference(reference, getType());

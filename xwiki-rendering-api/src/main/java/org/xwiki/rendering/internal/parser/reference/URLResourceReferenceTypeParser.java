@@ -45,21 +45,12 @@ public class URLResourceReferenceTypeParser extends AbstractURIResourceReference
      */
     private static final Pattern URL_SCHEME_PATTERN = Pattern.compile("[a-zA-Z0-9+.-]*://");
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractURIResourceReferenceTypeParser#getType()
-     */
+    @Override
     public ResourceType getType()
     {
         return ResourceType.URL;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractURIResourceReferenceTypeParser#parse(String)
-     */
     @Override
     public ResourceReference parse(String reference)
     {

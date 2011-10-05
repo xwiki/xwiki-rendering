@@ -43,11 +43,7 @@ public class DefaultSyntaxFactory implements SyntaxFactory
      */
     private static final Pattern SYNTAX_PATTERN = Pattern.compile("(.*)\\/(.*)");
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.syntax.SyntaxFactory#createSyntaxFromIdString(java.lang.String)
-     */
+    @Override
     public Syntax createSyntaxFromIdString(String syntaxIdAsString) throws ParseException
     {
         if (syntaxIdAsString == null) {

@@ -80,11 +80,7 @@ public class VerbatimBlock extends AbstractBlock
         return this.isInline;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#traverse(org.xwiki.rendering.listener.Listener) 
-     */
+    @Override
     public void traverse(Listener listener)
     {
         listener.onVerbatim(getProtectedString(), isInline(), getParameters());
@@ -92,8 +88,6 @@ public class VerbatimBlock extends AbstractBlock
 
     /**
      * {@inheritDoc}
-     * 
-     * @see java.lang.Object#toString()
      * @since 1.8RC2
      */
     @Override

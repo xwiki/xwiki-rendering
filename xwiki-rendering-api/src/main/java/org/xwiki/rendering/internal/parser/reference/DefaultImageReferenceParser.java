@@ -54,10 +54,7 @@ public class DefaultImageReferenceParser implements ResourceReferenceParser
     @Named("image/untyped")
     private ResourceReferenceParser untypedImageReferenceParser;
 
-    /**
-     * {@inheritDoc}
-     * @see ResourceReferenceParser#parse(String)
-     */
+    @Override
     public ResourceReference parse(String rawReference)
     {
         ResourceReference reference = this.defaultResourceReferenceParser.parse(rawReference);

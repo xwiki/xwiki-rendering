@@ -56,23 +56,13 @@ public class DefaultTransformationManager implements TransformationManager
     @Inject
     private Logger logger;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.transformation.TransformationManager#performTransformations(org.xwiki.rendering.block.XDOM,
-     *      org.xwiki.rendering.syntax.Syntax)
-     */
+    @Override
     public void performTransformations(XDOM dom, Syntax syntax) throws TransformationException
     {
         performTransformations(dom, new TransformationContext(dom, syntax));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.transformation.TransformationManager#performTransformations(org.xwiki.rendering.block.Block,
-     *      org.xwiki.rendering.transformation.TransformationContext)
-     */
+    @Override
     public void performTransformations(Block block, TransformationContext context) throws TransformationException
     {
         boolean error = false;

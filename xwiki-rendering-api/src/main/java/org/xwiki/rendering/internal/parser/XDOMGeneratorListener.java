@@ -135,10 +135,9 @@ public class XDOMGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDocument(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
+    @Override
     public void beginDocument(MetaData metaData)
     {
         this.stack.push(this.marker);
@@ -236,10 +235,9 @@ public class XDOMGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.Listener#beginMetaData(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
+    @Override
     public void beginMetaData(MetaData metadata)
     {
         this.stack.push(this.marker);
@@ -265,10 +263,9 @@ public class XDOMGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDocument(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
+    @Override
     public void endDocument(MetaData metaData)
     {
         this.stack.push(new XDOM(generateListFromStack(), metaData));
@@ -370,10 +367,9 @@ public class XDOMGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.Listener#endMetaData(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
+    @Override
     public void endMetaData(MetaData metadata)
     {
         this.stack.push(new MetaDataBlock(generateListFromStack(), metadata));

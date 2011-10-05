@@ -43,20 +43,12 @@ public class InterWikiResourceReferenceTypeParser extends AbstractURIResourceRef
      */
     public static final String INTERWIKI_ALIAS_SEPARATOR = ":";
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractURIResourceReferenceTypeParser#getType()
-     */
+    @Override
     public ResourceType getType()
     {
         return ResourceType.INTERWIKI;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractURIResourceReferenceTypeParser#parse(String)
-     */
     @Override
     public ResourceReference parse(String reference)
     {

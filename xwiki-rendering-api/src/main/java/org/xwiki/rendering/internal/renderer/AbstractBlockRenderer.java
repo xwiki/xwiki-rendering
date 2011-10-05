@@ -40,21 +40,13 @@ public abstract class AbstractBlockRenderer implements BlockRenderer
      */
     protected abstract PrintRendererFactory getPrintRendererFactory();
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see BlockRenderer#render(org.xwiki.rendering.block.Block, org.xwiki.rendering.renderer.printer.WikiPrinter)
-     */
+    @Override
     public void render(Block block, WikiPrinter printer)
     {
         render(Collections.singletonList(block), printer);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see BlockRenderer#render(java.util.Collection, org.xwiki.rendering.renderer.printer.WikiPrinter)
-     */
+    @Override
     public void render(Collection<Block> blocks, WikiPrinter printer)
     {
         PrintRenderer renderer = getPrintRendererFactory().createRenderer(printer);

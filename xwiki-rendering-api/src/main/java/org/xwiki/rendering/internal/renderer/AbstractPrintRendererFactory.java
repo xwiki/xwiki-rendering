@@ -42,11 +42,7 @@ public abstract class AbstractPrintRendererFactory implements PrintRendererFacto
     @Inject
     private ComponentManager componentManager;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see PrintRendererFactory#createRenderer(org.xwiki.rendering.renderer.printer.WikiPrinter)
-     */
+    @Override
     public PrintRenderer createRenderer(WikiPrinter printer)
     {
         PrintRenderer renderer;

@@ -63,11 +63,6 @@ public enum HeaderLevel
         return this.ordinal() + 1;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see java.lang.Enum#toString()
-     */
     @Override
     public String toString()
     {

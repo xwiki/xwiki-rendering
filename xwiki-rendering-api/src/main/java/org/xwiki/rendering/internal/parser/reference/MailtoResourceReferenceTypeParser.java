@@ -36,10 +36,7 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 @Singleton
 public class MailtoResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
 {
-    /**
-     * {@inheritDoc}
-     * @see AbstractURIResourceReferenceTypeParser#getType()
-     */
+    @Override
     public ResourceType getType()
     {
         return ResourceType.MAILTO;

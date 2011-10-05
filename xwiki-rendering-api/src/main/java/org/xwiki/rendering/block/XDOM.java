@@ -104,31 +104,18 @@ public class XDOM extends MetaDataBlock
         this.idGenerator = idGenerator;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#before(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void before(Listener listener)
     {
         listener.beginDocument(getMetaData());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#after(org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void after(Listener listener)
     {
         listener.endDocument(getMetaData());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.AbstractBlock#clone()
-     */
     @Override
     public XDOM clone()
     {

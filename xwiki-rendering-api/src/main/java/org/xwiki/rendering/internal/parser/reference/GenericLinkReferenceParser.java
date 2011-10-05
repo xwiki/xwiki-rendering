@@ -133,11 +133,7 @@ public class GenericLinkReferenceParser implements ResourceReferenceParser
         return URI_PREFIXES;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.ResourceReferenceParser#parse(java.lang.String)
-     */
+    @Override
     public ResourceReference parse(String rawReference)
     {
         // Step 1: If we're not in wiki mode then all links are URL links.

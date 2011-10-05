@@ -37,10 +37,7 @@ import org.xwiki.rendering.syntax.Syntax;
 @Singleton
 public class EventRendererFactory extends AbstractPrintRendererFactory
 {
-    /**
-     * {@inheritDoc}
-     * @see AbstractPrintRendererFactory#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.EVENT_1_0;

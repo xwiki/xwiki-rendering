@@ -42,11 +42,7 @@ public class ClassBlockMatcher implements BlockMatcher
         this.blockClass = blockClass;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.match.BlockMatcher#match(org.xwiki.rendering.block.Block)
-     */
+    @Override
     public boolean match(Block block)
     {
         return this.blockClass.isAssignableFrom(block.getClass());

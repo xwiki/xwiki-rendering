@@ -60,11 +60,7 @@ public class CompositeListener implements Listener
         return this.listeners.get(i);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionDescription()
-     */
+    @Override
     public void beginDefinitionDescription()
     {
         for (Listener listener : listeners) {
@@ -72,11 +68,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionList(java.util.Map)
-     */
+    @Override
     public void beginDefinitionList(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -84,11 +76,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionTerm()
-     */
+    @Override
     public void beginDefinitionTerm()
     {
         for (Listener listener : listeners) {
@@ -98,10 +86,9 @@ public class CompositeListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Listener#beginDocument(MetaData)
      * @since 3.0M2
      */
+    @Override
     public void beginDocument(MetaData metaData)
     {
         for (Listener listener : listeners) {
@@ -109,11 +96,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginFormat(org.xwiki.rendering.listener.Format, java.util.Map)
-     */
+    @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -121,11 +104,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginGroup(java.util.Map)
-     */
+    @Override
     public void beginGroup(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -133,12 +112,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginHeader(org.xwiki.rendering.listener.HeaderLevel,
-     *      java.lang.String, java.util.Map)
-     */
+    @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -146,11 +120,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginList(org.xwiki.rendering.listener.ListType, java.util.Map)
-     */
+    @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -158,11 +128,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginListItem()
-     */
+    @Override
     public void beginListItem()
     {
         for (Listener listener : listeners) {
@@ -170,12 +136,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginMacroMarker(java.lang.String, java.util.Map, java.lang.String,
-     *      boolean)
-     */
+    @Override
     public void beginMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
         for (Listener listener : listeners) {
@@ -183,11 +144,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginParagraph(java.util.Map)
-     */
+    @Override
     public void beginParagraph(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -195,11 +152,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginQuotation(java.util.Map)
-     */
+    @Override
     public void beginQuotation(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -207,11 +160,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginQuotationLine()
-     */
+    @Override
     public void beginQuotationLine()
     {
         for (Listener listener : listeners) {
@@ -219,11 +168,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginSection(java.util.Map)
-     */
+    @Override
     public void beginSection(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -231,11 +176,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTable(java.util.Map)
-     */
+    @Override
     public void beginTable(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -243,11 +184,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTableCell(java.util.Map)
-     */
+    @Override
     public void beginTableCell(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -255,11 +192,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTableHeadCell(java.util.Map)
-     */
+    @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -267,11 +200,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTableRow(java.util.Map)
-     */
+    @Override
     public void beginTableRow(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -279,11 +208,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionDescription()
-     */
+    @Override
     public void endDefinitionDescription()
     {
         for (Listener listener : listeners) {
@@ -291,11 +216,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionList(java.util.Map)
-     */
+    @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -303,11 +224,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionTerm()
-     */
+    @Override
     public void endDefinitionTerm()
     {
         for (Listener listener : listeners) {
@@ -317,10 +234,9 @@ public class CompositeListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Listener#endDocument(MetaData)
      * @since 3.0M2
      */
+    @Override
     public void endDocument(MetaData metaData)
     {
         for (Listener listener : listeners) {
@@ -328,11 +244,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endFormat(org.xwiki.rendering.listener.Format, java.util.Map)
-     */
+    @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -340,11 +252,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endGroup(java.util.Map)
-     */
+    @Override
     public void endGroup(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -352,12 +260,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endHeader(org.xwiki.rendering.listener.HeaderLevel, java.lang.String,
-     *      java.util.Map)
-     */
+    @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -365,11 +268,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endList(org.xwiki.rendering.listener.ListType, java.util.Map)
-     */
+    @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -377,11 +276,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endListItem()
-     */
+    @Override
     public void endListItem()
     {
         for (Listener listener : listeners) {
@@ -389,12 +284,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endMacroMarker(java.lang.String, java.util.Map, java.lang.String,
-     *      boolean)
-     */
+    @Override
     public void endMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
         for (Listener listener : listeners) {
@@ -402,11 +292,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endParagraph(java.util.Map)
-     */
+    @Override
     public void endParagraph(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -414,11 +300,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endQuotation(java.util.Map)
-     */
+    @Override
     public void endQuotation(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -426,11 +308,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endQuotationLine()
-     */
+    @Override
     public void endQuotationLine()
     {
         for (Listener listener : listeners) {
@@ -438,11 +316,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endSection(java.util.Map)
-     */
+    @Override
     public void endSection(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -450,11 +324,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTable(java.util.Map)
-     */
+    @Override
     public void endTable(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -462,11 +332,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTableCell(java.util.Map)
-     */
+    @Override
     public void endTableCell(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -474,11 +340,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTableHeadCell(java.util.Map)
-     */
+    @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -486,11 +348,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTableRow(java.util.Map)
-     */
+    @Override
     public void endTableRow(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -498,11 +356,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onEmptyLines(int)
-     */
+    @Override
     public void onEmptyLines(int count)
     {
         for (Listener listener : listeners) {
@@ -510,11 +364,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onHorizontalLine(java.util.Map)
-     */
+    @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -522,11 +372,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onId(java.lang.String)
-     */
+    @Override
     public void onId(String name)
     {
         for (Listener listener : listeners) {
@@ -534,11 +380,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onMacro(java.lang.String, java.util.Map, java.lang.String, boolean)
-     */
+    @Override
     public void onMacro(String id, Map<String, String> macroParameters, String content, boolean isInline)
     {
         for (Listener listener : listeners) {
@@ -546,11 +388,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onNewLine()
-     */
+    @Override
     public void onNewLine()
     {
         for (Listener listener : listeners) {
@@ -558,11 +396,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onRawText(java.lang.String, org.xwiki.rendering.syntax.Syntax)
-     */
+    @Override
     public void onRawText(String text, Syntax syntax)
     {
         for (Listener listener : listeners) {
@@ -570,11 +404,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onSpace()
-     */
+    @Override
     public void onSpace()
     {
         for (Listener listener : listeners) {
@@ -582,11 +412,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onSpecialSymbol(char)
-     */
+    @Override
     public void onSpecialSymbol(char symbol)
     {
         for (Listener listener : listeners) {
@@ -594,11 +420,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onVerbatim(java.lang.String, boolean, java.util.Map)
-     */
+    @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -606,11 +428,7 @@ public class CompositeListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onWord(java.lang.String)
-     */
+    @Override
     public void onWord(String word)
     {
         for (Listener listener : listeners) {
@@ -620,11 +438,9 @@ public class CompositeListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.LinkListener#beginLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean,
-     *      java.util.Map)
      * @since 2.5RC1
      */
+    @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -634,10 +450,9 @@ public class CompositeListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.LinkListener#endLink(ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
+    @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -647,10 +462,9 @@ public class CompositeListener implements Listener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.ImageListener#onImage(ResourceReference, boolean, java.util.Map)
-     * @since 2.5RC1 
+     * @since 2.5RC1
      */
+    @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         for (Listener listener : listeners) {
@@ -660,10 +474,9 @@ public class CompositeListener implements Listener
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.Listener#beginMetaData(MetaData)
      * @since 3.0M2
      */
+    @Override
     public void beginMetaData(MetaData metadata)
     {
         for (Listener listener : listeners) {
@@ -673,10 +486,9 @@ public class CompositeListener implements Listener
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.Listener#endMetaData(MetaData)
      * @since 3.0M2
      */
+    @Override
     public void endMetaData(MetaData metadata)
     {
         for (Listener listener : listeners) {

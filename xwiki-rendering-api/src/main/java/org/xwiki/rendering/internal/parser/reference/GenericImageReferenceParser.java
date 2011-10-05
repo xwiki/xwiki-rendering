@@ -50,11 +50,7 @@ public class GenericImageReferenceParser implements ResourceReferenceParser
     @Inject
     private ComponentManager componentManager;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.parser.ResourceReferenceParser#parse(String)
-     */
+    @Override
     public ResourceReference parse(String rawReference)
     {
         ResourceType type;

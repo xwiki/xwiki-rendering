@@ -59,11 +59,7 @@ public abstract class AbstractBlockParser implements Parser
         return streamParser;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#parse(java.io.Reader)
-     */
+    @Override
     public XDOM parse(Reader source) throws ParseException
     {
         XDOMGeneratorListener listener = new XDOMGeneratorListener();

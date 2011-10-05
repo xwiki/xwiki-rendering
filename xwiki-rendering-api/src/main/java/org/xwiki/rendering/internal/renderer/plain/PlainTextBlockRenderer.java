@@ -47,11 +47,6 @@ public class PlainTextBlockRenderer extends AbstractBlockRenderer
     @Named("plain/1.0")
     private PrintRendererFactory plainTextRendererFactory;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.internal.renderer.AbstractBlockRenderer#getPrintRendererFactory()
-     */
     @Override
     protected PrintRendererFactory getPrintRendererFactory()
     {

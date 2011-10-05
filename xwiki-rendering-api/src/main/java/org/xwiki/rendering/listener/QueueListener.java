@@ -108,11 +108,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
         offer(new Event(eventType, objects));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionDescription()
-     */
+    @Override
     public void beginDefinitionDescription()
     {
         saveEvent(EventType.BEGIN_DEFINITION_DESCRIPTION);
@@ -120,20 +116,15 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionList(java.util.Map)
      * @since 2.0RC1
      */
+    @Override
     public void beginDefinitionList(Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_DEFINITION_LIST, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionTerm()
-     */
+    @Override
     public void beginDefinitionTerm()
     {
         saveEvent(EventType.BEGIN_DEFINITION_TERM);
@@ -141,41 +132,27 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Listener#beginDocument(MetaData)
      * @since 3.0M2
      */
+    @Override
     public void beginDocument(MetaData metaData)
     {
         saveEvent(EventType.BEGIN_DOCUMENT, metaData);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginGroup(Map)
-     */
+    @Override
     public void beginGroup(Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_GROUP, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginFormat(org.xwiki.rendering.listener.Format, java.util.Map)
-     */
+    @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_FORMAT, format, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginHeader(org.xwiki.rendering.listener.HeaderLevel,
-     *      java.lang.String, java.util.Map)
-     */
+    @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_HEADER, level, id, parameters);
@@ -183,121 +160,75 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginLink(ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
+    @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_LINK, reference, isFreeStandingURI, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginList(org.xwiki.rendering.listener.ListType, java.util.Map)
-     */
+    @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_LIST, listType, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginListItem()
-     */
+    @Override
     public void beginListItem()
     {
         saveEvent(EventType.BEGIN_LIST_ITEM);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginMacroMarker(java.lang.String, java.util.Map, java.lang.String,
-     *      boolean)
-     */
+    @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         saveEvent(EventType.BEGIN_MACRO_MARKER, name, parameters, content, isInline);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginParagraph(java.util.Map)
-     */
+    @Override
     public void beginParagraph(Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_PARAGRAPH, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginQuotation(java.util.Map)
-     */
+    @Override
     public void beginQuotation(Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_QUOTATION, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginQuotationLine()
-     */
+    @Override
     public void beginQuotationLine()
     {
         saveEvent(EventType.BEGIN_QUOTATION_LINE);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginSection(java.util.Map)
-     */
+    @Override
     public void beginSection(Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_SECTION, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTable(java.util.Map)
-     */
+    @Override
     public void beginTable(Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_TABLE, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTableCell(java.util.Map)
-     */
+    @Override
     public void beginTableCell(Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_TABLE_CELL, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTableHeadCell(java.util.Map)
-     */
+    @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_TABLE_HEAD_CELL, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginTableRow(java.util.Map)
-     */
+    @Override
     public void beginTableRow(Map<String, String> parameters)
     {
         saveEvent(EventType.BEGIN_TABLE_ROW, parameters);
@@ -305,20 +236,15 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.Listener#beginMetaData(MetaData)
      * @since 3.0M2
      */
+    @Override
     public void beginMetaData(MetaData metadata)
     {
         saveEvent(EventType.BEGIN_METADATA, metadata);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionDescription()
-     */
+    @Override
     public void endDefinitionDescription()
     {
         saveEvent(EventType.END_DEFINITION_DESCRIPTION);
@@ -326,20 +252,15 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionList(java.util.Map)
      * @since 2.0RC1
      */
+    @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
         saveEvent(EventType.END_DEFINITION_LIST, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionTerm()
-     */
+    @Override
     public void endDefinitionTerm()
     {
         saveEvent(EventType.END_DEFINITION_TERM);
@@ -347,41 +268,27 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Listener#endDocument(MetaData)
      * @since 3.0M2
      */
+    @Override
     public void endDocument(MetaData metaData)
     {
         saveEvent(EventType.END_DOCUMENT, metaData);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endGroup(Map)
-     */
+    @Override
     public void endGroup(Map<String, String> parameters)
     {
         saveEvent(EventType.END_GROUP, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endFormat(org.xwiki.rendering.listener.Format, java.util.Map)
-     */
+    @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
         saveEvent(EventType.END_FORMAT, format, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endHeader(org.xwiki.rendering.listener.HeaderLevel, java.lang.String,
-     *      java.util.Map)
-     */
+    @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         saveEvent(EventType.END_HEADER, level, id, parameters);
@@ -389,81 +296,51 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endLink(ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
+    @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         saveEvent(EventType.END_LINK, reference, isFreeStandingURI, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endList(org.xwiki.rendering.listener.ListType, java.util.Map)
-     */
+    @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
         saveEvent(EventType.END_LIST, listType, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endListItem()
-     */
+    @Override
     public void endListItem()
     {
         saveEvent(EventType.END_LIST_ITEM);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endMacroMarker(java.lang.String, java.util.Map, java.lang.String,
-     *      boolean)
-     */
+    @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         saveEvent(EventType.END_MACRO_MARKER, name, parameters, content, isInline);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endParagraph(java.util.Map)
-     */
+    @Override
     public void endParagraph(Map<String, String> parameters)
     {
         saveEvent(EventType.END_PARAGRAPH, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endQuotation(java.util.Map)
-     */
+    @Override
     public void endQuotation(Map<String, String> parameters)
     {
         saveEvent(EventType.END_QUOTATION, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endQuotationLine()
-     */
+    @Override
     public void endQuotationLine()
     {
         saveEvent(EventType.END_QUOTATION_LINE);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endSection(java.util.Map)
-     */
+    @Override
     public void endSection(Map<String, String> parameters)
     {
         saveEvent(EventType.END_SECTION, parameters);

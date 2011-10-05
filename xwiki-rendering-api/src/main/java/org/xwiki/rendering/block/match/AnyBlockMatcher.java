@@ -34,11 +34,7 @@ public class AnyBlockMatcher implements BlockMatcher
      */
     public static final AnyBlockMatcher ANYBLOCKMATCHER = new AnyBlockMatcher();
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.block.match.BlockMatcher#match(org.xwiki.rendering.block.Block)
-     */
+    @Override
     public boolean match(Block block)
     {
         return true;

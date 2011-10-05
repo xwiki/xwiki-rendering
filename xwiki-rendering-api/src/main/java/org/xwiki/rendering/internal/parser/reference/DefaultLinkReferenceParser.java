@@ -54,10 +54,7 @@ public class DefaultLinkReferenceParser implements ResourceReferenceParser
     @Named("link/untyped")
     private ResourceReferenceParser untypedLinkReferenceParser;
 
-    /**
-     * {@inheritDoc}
-     * @see ResourceReferenceParser#parse(String)
-     */
+    @Override
     public ResourceReference parse(String rawReference)
     {
         ResourceReference reference = this.defaultResourceReferenceParser.parse(rawReference);

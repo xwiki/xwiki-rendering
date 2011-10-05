@@ -54,10 +54,7 @@ public class DefaultUntypedLinkReferenceParser implements ResourceReferenceParse
     @Named("doc")
     private ResourceReferenceTypeParser documentResourceReferenceTypeParser;
 
-    /**
-     * {@inheritDoc}
-     * @see ResourceReferenceParser#parse(String)
-     */
+    @Override
     public ResourceReference parse(String rawReference)
     {
         // Try to guess the link type. It can be either:
