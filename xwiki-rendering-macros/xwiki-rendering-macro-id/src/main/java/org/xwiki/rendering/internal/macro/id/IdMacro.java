@@ -64,21 +64,13 @@ public class IdMacro extends AbstractMacro<IdMacroParameters>
         setDefaultCategory(DEFAULT_CATEGORY_NAVIGATION);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#supportsInlineMode()
-     */
+    @Override
     public boolean supportsInlineMode()
     {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#execute(Object, String, MacroTransformationContext)
-     */
+    @Override
     public List<Block> execute(IdMacroParameters parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {

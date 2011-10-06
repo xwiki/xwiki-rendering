@@ -43,10 +43,7 @@ public class HTMLMacroXHTMLRendererFactory extends AbstractPrintRendererFactory
      */
     private static final Syntax SYNTAX = new Syntax(new SyntaxType("xhtmlmacro", "XHTML Macro"), "1.0");
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractPrintRendererFactory#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return SYNTAX;

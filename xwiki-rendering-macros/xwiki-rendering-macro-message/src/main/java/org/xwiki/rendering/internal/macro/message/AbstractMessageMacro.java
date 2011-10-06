@@ -64,11 +64,7 @@ public abstract class AbstractMessageMacro extends AbstractMacro<Object>
         super(macroName, macroDescription, new DefaultContentDescriptor(true));
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.macro.Macro#execute(Object, String, org.xwiki.rendering.transformation.MacroTransformationContext)
-     */
+    @Override
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
@@ -90,11 +86,7 @@ public abstract class AbstractMessageMacro extends AbstractMacro<Object>
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.macro.Macro#supportsInlineMode()
-     */
+    @Override
     public boolean supportsInlineMode()
     {
         return true;

@@ -60,11 +60,6 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
         return getBlockState().isInMacro();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLChainingRenderer#onSpecialSymbol(char)
-     */
     @Override
     public void onSpecialSymbol(char symbol)
     {
@@ -75,11 +70,6 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLChainingRenderer#onWord(String)
-     */
     @Override
     public void onWord(String word)
     {
@@ -90,11 +80,6 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLChainingRenderer#onNewLine()
-     */
     @Override
     public void onNewLine()
     {
@@ -105,11 +90,6 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLChainingRenderer#onSpace()
-     */
     @Override
     public void onSpace()
     {
@@ -120,11 +100,6 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLChainingRenderer#onEmptyLines(int)
-     */
     @Override
     public void onEmptyLines(int count)
     {
@@ -135,11 +110,6 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLChainingRenderer#beginParagraph(Map)
-     */
     @Override
     public void beginParagraph(Map<String, String> parameters)
     {
@@ -150,11 +120,6 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLChainingRenderer#endParagraph(Map)
-     */
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
@@ -165,36 +130,18 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer#onMacro(java.lang.String,
-     *      java.util.Map, java.lang.String, boolean)
-     */
     @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {
         // Don't print anything since we are already in the html macro.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer#beginMacroMarker(java.lang.String,
-     *      java.util.Map, java.lang.String, boolean)
-     */
     @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         // Don't print anything since we are already in the html macro.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer#endMacroMarker(java.lang.String,
-     *      java.util.Map, java.lang.String, boolean)
-     */
     @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {

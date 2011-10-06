@@ -79,21 +79,13 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
         super(name, description, contentDescriptor, parametersBeanClass);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#supportsInlineMode()
-     */
+    @Override
     public boolean supportsInlineMode()
     {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#execute(Object, String, MacroTransformationContext)
-     */
+    @Override
     public List<Block> execute(P parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {

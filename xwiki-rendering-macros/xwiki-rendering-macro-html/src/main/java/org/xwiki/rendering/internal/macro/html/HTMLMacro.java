@@ -128,21 +128,13 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
         setDefaultCategory(DEFAULT_CATEGORY_DEVELOPMENT);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#supportsInlineMode()
-     */
+    @Override
     public boolean supportsInlineMode()
     {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#execute(Object, String, MacroTransformationContext)
-     */
+    @Override
     public List<Block> execute(HTMLMacroParameters parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {

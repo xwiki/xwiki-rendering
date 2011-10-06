@@ -54,22 +54,13 @@ public class TestTextMacro extends AbstractNoParameterMacro
         super("Text Macro");
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#supportsInlineMode()
-     */
+    @Override
     public boolean supportsInlineMode()
     {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#execute(Object, String,
-     *      org.xwiki.rendering.transformation.MacroTransformationContext)
-     */
+    @Override
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {

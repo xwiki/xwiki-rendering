@@ -63,11 +63,6 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
         setDefaultCategory(DEFAULT_CATEGORY_FORMATTING);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractBoxMacro#parseContent(BoxMacroParameters, String, MacroTransformationContext) 
-     */
     @Override
     protected List<Block> parseContent(P parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException

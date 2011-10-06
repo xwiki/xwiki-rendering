@@ -95,11 +95,7 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
         setDefaultCategory(DEFAULT_CATEGORY_NAVIGATION);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.component.phase.Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         super.initialize();
@@ -107,21 +103,13 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
         this.tocBlockFilter = new TocBlockFilter(this.plainTextParser, this.linkLabelGenerator);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#supportsInlineMode()
-     */
+    @Override
     public boolean supportsInlineMode()
     {
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#execute(Object, String, MacroTransformationContext)
-     */
+    @Override
     public List<Block> execute(TocMacroParameters parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {

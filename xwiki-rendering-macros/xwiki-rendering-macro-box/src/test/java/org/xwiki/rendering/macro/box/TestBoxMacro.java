@@ -47,12 +47,6 @@ public class TestBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
         super("Test Box Macro", "Description", new DefaultContentDescriptor(), BoxMacroParameters.class);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.box.AbstractBoxMacro#parseContent(org.xwiki.rendering.macro.box.BoxMacroParameters,
-     *      java.lang.String, org.xwiki.rendering.transformation.MacroTransformationContext)
-     */
     @Override
     protected List<Block> parseContent(BoxMacroParameters parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
