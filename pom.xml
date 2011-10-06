@@ -167,7 +167,7 @@
               <excludes>
                 <exclude>**/internal/**</exclude>
                 <exclude>**/test/**</exclude>
-                <!-- Remove when Rendering 3.2 has been released -->
+                <!-- Remove when Rendering 3.3 has been released -->
               </excludes>
             </configuration>
           </plugin>
