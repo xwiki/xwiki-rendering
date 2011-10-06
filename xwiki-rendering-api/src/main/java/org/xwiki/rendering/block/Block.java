@@ -231,7 +231,11 @@ public interface Block extends Cloneable
      */
     Block clone(BlockFilter blockFilter);
 
-    @Override
+    /**
+     * {@inheritDoc}
+     *
+     * @see Object#clone()
+     */
     Block clone();
 
     /**
