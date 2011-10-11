@@ -44,11 +44,7 @@ public abstract class AbstractChainingPrintRenderer extends AbstractChainingList
         return this.printers.firstElement();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.PrintRenderer#getPrinter()
-     */
+    @Override
     public WikiPrinter getPrinter()
     {
         return this.printers.peek();
@@ -56,9 +52,9 @@ public abstract class AbstractChainingPrintRenderer extends AbstractChainingList
 
     /**
      * {@inheritDoc}
-     * @see PrintRenderer#setPrinter(org.xwiki.rendering.renderer.printer.WikiPrinter)
      * @since 2.0M3
      */
+    @Override
     public void setPrinter(WikiPrinter printer)
     {
         pushPrinter(printer);
