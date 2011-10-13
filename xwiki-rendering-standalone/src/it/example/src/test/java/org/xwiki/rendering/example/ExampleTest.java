@@ -20,14 +20,16 @@
 package org.xwiki.rendering.example;
 
 import java.io.StringReader;
-import java.lang.ArrayStoreException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 
 import org.junit.Test;
 import org.junit.Assert;
-
+import org.xwiki.component.descriptor.DefaultComponentDescriptor;
 import org.xwiki.component.embed.EmbeddableComponentManager;
+import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.LinkBlock;
@@ -210,7 +212,46 @@ public class ExampleTest
         cm.initialize(this.getClass().getClassLoader());
 
         XDOM xdom = new XDOM(Arrays.<Block>asList(new ParagraphBlock(Arrays.asList((Block) new SpecialSymbolBlock(':'),
-            new SpecialSymbolBlock(')')))));
+            new SpecialSymbolBlock(':')))));
+
+        // Test adding a new Icon Mapping by registering a Configuration Source implementation (note that this can
+        // also be done by writing a Java class, using annotations and registering it in components.txt)
+        ConfigurationSource customConfigurationSource = new ConfigurationSource() {
+            @Override public boolean containsKey(String key)
+            {
+                return key.equals("rendering.transformation.icon.mappings");
+            }
+
+            @Override public List<String> getKeys()
+            {
+                return Arrays.asList("rendering.transformation.icon.mappings");
+            }
+
+            @Override public <T> T getProperty(String key)
+            {
+                return (T) getProperty(key, Properties.class);
+            }
+
+            @Override public <T> T getProperty(String key, T defaultValue)
+            {
+                return (T) getProperty(key, Properties.class);
+            }
+
+            @Override public <T> T getProperty(String key, Class<T> valueClass)
+            {
+                Properties props = new Properties();
+                props.setProperty("::", "something");
+                return (T) props;
+            }
+
+            @Override public boolean isEmpty()
+            {
+                return false;
+            }
+        };
+        DefaultComponentDescriptor<ConfigurationSource> cd = new DefaultComponentDescriptor<ConfigurationSource>();
+        cd.setRole(ConfigurationSource.class);
+        cm.registerComponent(cd, customConfigurationSource);
 
         Transformation transformation = cm.lookup(Transformation.class, "icon");
         TransformationContext txContext = new TransformationContext();
@@ -220,7 +261,7 @@ public class ExampleTest
         BlockRenderer renderer = cm.lookup(BlockRenderer.class, Syntax.XWIKI_2_0.toIdString());
         renderer.render(xdom, printer);
 
-        String expected = "image:emoticon_smile";
+        String expected = "image:something";
 
         Assert.assertEquals(expected, printer.toString());
     }
