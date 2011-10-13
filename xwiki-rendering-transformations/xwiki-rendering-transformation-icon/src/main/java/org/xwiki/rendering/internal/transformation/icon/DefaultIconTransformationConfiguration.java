@@ -56,11 +56,7 @@ public class DefaultIconTransformationConfiguration implements IconTransformatio
     @Inject
     private ConfigurationSource configuration;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.component.phase.Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         // Default Mappings
@@ -83,10 +79,7 @@ public class DefaultIconTransformationConfiguration implements IconTransformatio
         this.defaultMappings.setProperty("(*)", "star");
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.transformation.icon.IconTransformationConfiguration#getMappings()
-     */
+    @Override
     public Properties getMappings()
     {
         // Merge default properties and properties defined in the configuration
