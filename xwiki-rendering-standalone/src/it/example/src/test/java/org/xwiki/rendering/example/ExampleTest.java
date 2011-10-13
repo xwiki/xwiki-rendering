@@ -135,7 +135,8 @@ public class ExampleTest
             + "{{error}}error{{/error}}\n\n"
             + "{{html}}<strong>bold</strong>{{/html}}\n\n"
             + "{{footnote}}footnote{{/footnote}}\n\n"
-            + "{{putFootnotes/}}";
+            + "{{putFootnotes/}}\n\n"
+            + "{{comment}}comment{{/comment}}";
 
         Parser parser = cm.lookup(Parser.class, Syntax.XWIKI_2_0.toIdString());
         XDOM xdom = parser.parse(new StringReader(content));
