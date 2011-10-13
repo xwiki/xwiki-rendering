@@ -20,6 +20,8 @@
 package org.xwiki.rendering.internal.transformation.icon;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.configuration.ConfigurationSource;
@@ -46,15 +48,16 @@ public class DefaultIconTransformationConfiguration implements IconTransformatio
     private static final String PREFIX = "rendering.transformation.icon.";
 
     /**
+     * Used to dynamically look up a Configuration Source in order to handle the use case when there's no
+     * implementation of it available in the current classloader.
+     */
+    @Inject
+    private ComponentManager componentManager;
+
+    /**
      * Default Tools.
      */
     private Properties defaultMappings = new Properties();
-
-    /**
-     * Defines from where to read the rendering configuration data.
-     */
-    @Inject
-    private ConfigurationSource configuration;
 
     @Override
     public void initialize() throws InitializationException
@@ -85,7 +88,14 @@ public class DefaultIconTransformationConfiguration implements IconTransformatio
         // Merge default properties and properties defined in the configuration
         Properties props = new Properties();
         props.putAll(this.defaultMappings);
-        props.putAll(this.configuration.getProperty(PREFIX + "mappings", Properties.class));
+
+        try {
+            ConfigurationSource configuration = this.componentManager.lookup(ConfigurationSource.class);
+            props.putAll(configuration.getProperty(PREFIX + "mappings", Properties.class));
+        } catch (ComponentLookupException e) {
+            // No Configuration Source implementation found, don't add any new mapping
+        }
+
         return props;
     }
 }

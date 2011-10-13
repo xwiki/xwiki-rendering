@@ -20,6 +20,8 @@
 package org.xwiki.rendering.example;
 
 import java.io.StringReader;
+import java.lang.ArrayStoreException;
+import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Test;
@@ -29,6 +31,9 @@ import org.xwiki.component.embed.EmbeddableComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.LinkBlock;
+import org.xwiki.rendering.block.ParagraphBlock;
+import org.xwiki.rendering.block.SpecialSymbolBlock;
+import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.converter.Converter;
@@ -164,6 +169,58 @@ public class ExampleTest
                 + "<ol class=\"footnotes\"><li><span class=\"wikilink\">"
                 + "<a id=\"x_footnote_1\" class=\"footnoteBackRef\" href=\"#x_footnote_ref_1\">^</a>"
                 + "</span> footnote</li></ol>";
+
+        Assert.assertEquals(expected, printer.toString());
+    }
+
+    /**
+     * Verifies that the WikiWord Transformation is bundled and working.
+     */
+    @Test
+    public void executeWikiWordTransformation() throws Exception
+    {
+        // Initialize Rendering components and allow getting instances
+        final EmbeddableComponentManager cm = new EmbeddableComponentManager();
+        cm.initialize(this.getClass().getClassLoader());
+
+        XDOM xdom = new XDOM(
+            Arrays.<Block>asList(new ParagraphBlock(Arrays.asList((Block) new WordBlock("WikiWord")))));
+
+        Transformation transformation = cm.lookup(Transformation.class, "wikiword");
+        TransformationContext txContext = new TransformationContext();
+        transformation.transform(xdom, txContext);
+
+        WikiPrinter printer = new DefaultWikiPrinter();
+        BlockRenderer renderer = cm.lookup(BlockRenderer.class, Syntax.XWIKI_2_0.toIdString());
+        renderer.render(xdom, printer);
+
+        String expected = "[[WikiWord]]";
+
+        Assert.assertEquals(expected, printer.toString());
+    }
+
+    /**
+     * Verifies that the Icon Transformation is bundled and working.
+     */
+    @Test
+    public void executeIconTransformation() throws Exception
+    {
+        // Initialize Rendering components and allow getting instances
+        final EmbeddableComponentManager cm = new EmbeddableComponentManager();
+        cm.initialize(this.getClass().getClassLoader());
+
+        XDOM xdom = new XDOM(Arrays.<Block>asList(new ParagraphBlock(Arrays.asList((Block) new SpecialSymbolBlock(':'),
+            new SpecialSymbolBlock(')')))));
+
+        Transformation transformation = cm.lookup(Transformation.class, "icon");
+        TransformationContext txContext = new TransformationContext();
+        transformation.transform(xdom, txContext);
+
+        WikiPrinter printer = new DefaultWikiPrinter();
+        BlockRenderer renderer = cm.lookup(BlockRenderer.class, Syntax.XWIKI_2_0.toIdString());
+        renderer.render(xdom, printer);
+
+        String expected = "image:emoticon_smile";
 
         Assert.assertEquals(expected, printer.toString());
     }
