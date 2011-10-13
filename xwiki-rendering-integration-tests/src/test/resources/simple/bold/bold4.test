@@ -37,3 +37,7 @@ This is **bold ** not bold** bold**
 .inputexpect|docbook/4.4
 .#-----------------------------------------------------
 <article><para>This is <emphasis role="bold">bold </emphasis> not bold<emphasis role="bold"> bold</emphasis></para></article>
+.#-----------------------------------------------------
+.expect|plain/1.0
+.#-----------------------------------------------------
+This is bold  not bold bold

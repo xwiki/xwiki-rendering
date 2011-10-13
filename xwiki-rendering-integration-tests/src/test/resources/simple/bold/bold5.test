@@ -1,7 +1,8 @@
-.#-----------------------------------------------------
+.#-------------------------------------------------------------------------
 .input|xwiki/2.0
-.# Note that we're testing here the bold syntax at the beginning of a line. We want to verify it's not
-.# mistaken for a list.
+.# Note that we're testing here the bold syntax at the beginning of a line.
+.# We want to verify it's not mistaken for a list for syntaxes having a
+.# similar syntax for list items and bold.
 .#-----------------------------------------------------
 **This is bold and not a list
 .#-----------------------------------------------------
@@ -34,3 +35,11 @@ endDocument
 .expect|xwiki/2.0
 .#-----------------------------------------------------
 **This is bold and not a list**
+.#-----------------------------------------------------
+.inputexpect|docbook/4.4
+.#-----------------------------------------------------
+<article><para><emphasis role="bold">This is bold and not a list</emphasis></para></article>
+.#-----------------------------------------------------
+.expect|plain/1.0
+.#-----------------------------------------------------
+This is bold and not a list

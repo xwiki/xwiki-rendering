@@ -34,3 +34,7 @@ endDocument
 .inputexpect|docbook/4.4
 .#-----------------------------------------------------
 <article><para>This is <emphasis role="bold">bold</emphasis> but this is *not*</para></article>
+.#-----------------------------------------------------
+.expect|plain/1.0
+.#-----------------------------------------------------
+This is bold but this is *not*

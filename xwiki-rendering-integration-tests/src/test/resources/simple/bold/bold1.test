@@ -1,8 +1,8 @@
 .#-----------------------------------------------------
 .inputexpect|xwiki/2.0
-.# Verify spaces are honored inside bold
+.# Standard bold test.
 .#-----------------------------------------------------
-This is ** bold **
+This is **bold**
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -13,21 +13,19 @@ onSpace
 onWord [is]
 onSpace
 beginFormat [BOLD]
-onSpace
 onWord [bold]
-onSpace
 endFormat [BOLD]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .inputexpect|xhtml/1.0
 .#-----------------------------------------------------
-<p>This is <strong>&nbsp;bold&nbsp;</strong></p>
+<p>This is <strong>bold</strong></p>
 .#-----------------------------------------------------
 .inputexpect|docbook/4.4
 .#-----------------------------------------------------
-<article><para>This is <emphasis role="bold"> bold </emphasis></para></article>
+<article><para>This is <emphasis role="bold">bold</emphasis></para></article>
 .#-----------------------------------------------------
 .expect|plain/1.0
 .#-----------------------------------------------------
-This is  bold 
+This is bold

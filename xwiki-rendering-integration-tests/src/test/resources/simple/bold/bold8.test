@@ -26,3 +26,12 @@ endDocument
 .inputexpect|xhtml/1.0
 .#-----------------------------------------------------
 <p>This is <strong>bold and <em>italic</em></strong></p>
+.#-----------------------------------------------------
+.inputexpect|docbook/4.4|skip
+.# See http://jira.xwiki.org/jira/browse/XRENDERING-141
+.#-----------------------------------------------------
+<article><para>This is <emphasis role="bold">bold and <emphasis>italic</emphasis></emphasis></para></article>
+.#-----------------------------------------------------
+.expect|plain/1.0
+.#-----------------------------------------------------
+This is bold and italic
