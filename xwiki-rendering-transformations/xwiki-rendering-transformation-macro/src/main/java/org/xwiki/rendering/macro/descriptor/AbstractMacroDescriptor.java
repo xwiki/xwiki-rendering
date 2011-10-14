@@ -128,10 +128,9 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
 
     /**
      * {@inheritDoc}
-     * 
-     * @see MacroDescriptor#getId()
      * @since 2.3M1
      */
+    @Override
     public MacroId getId()
     {
         return this.id;
@@ -139,59 +138,40 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
 
     /**
      * {@inheritDoc}
-     * 
-     * @see MacroDescriptor#getName()
      * @since 2.0M3
      */
+    @Override
     public String getName()
     {
         return this.name;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.MacroDescriptor#getContentDescriptor()
-     */
+    @Override
     public ContentDescriptor getContentDescriptor()
     {
         return this.contentDescriptor;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.MacroDescriptor#getDescription()
-     */
+    @Override
     public String getDescription()
     {
         return this.description;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.MacroDescriptor#getParametersBeanClass()
-     */
+    @Override
     public Class< ? > getParametersBeanClass()
     {
         return (null != parametersBeanDescriptor) ? this.parametersBeanDescriptor.getBeanClass() : Object.class;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.MacroDescriptor#getParameterDescriptorMap()
-     */
+    @Override
     public Map<String, ParameterDescriptor> getParameterDescriptorMap()
     {
         return (null != parametersBeanDescriptor) ? Collections.unmodifiableMap(this.parameterDescriptorMap)
             : Collections.<String, ParameterDescriptor> emptyMap();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public String getDefaultCategory()
     {
         return this.defaultCategory;

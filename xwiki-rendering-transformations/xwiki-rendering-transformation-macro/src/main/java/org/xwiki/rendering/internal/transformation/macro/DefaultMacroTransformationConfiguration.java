@@ -42,11 +42,7 @@ public class DefaultMacroTransformationConfiguration implements MacroTransformat
      */
     private Properties macroCategories = new Properties();
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.transformation.macro.MacroTransformationConfiguration#getCategories()
-     */
+    @Override
     public Properties getCategories()
     {
         return this.macroCategories;

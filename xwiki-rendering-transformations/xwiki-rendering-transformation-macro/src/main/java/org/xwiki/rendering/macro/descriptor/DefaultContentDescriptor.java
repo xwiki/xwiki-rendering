@@ -70,21 +70,13 @@ public class DefaultContentDescriptor implements ContentDescriptor
         this.mandatory = mandatory;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.ContentDescriptor#getDescription()
-     */
+    @Override
     public String getDescription()
     {
         return this.description;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.ContentDescriptor#isMandatory()
-     */
+    @Override
     public boolean isMandatory()
     {
         return this.mandatory;

@@ -110,10 +110,6 @@ public class MacroTransformation extends AbstractTransformation
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.transformation.AbstractTransformation#getPriority()
-     */
     @Override
     public int getPriority()
     {
@@ -122,12 +118,7 @@ public class MacroTransformation extends AbstractTransformation
         return 100;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.transformation.Transformation#transform(org.xwiki.rendering.block.Block,
-     *      org.xwiki.rendering.transformation.TransformationContext)
-     */
+    @Override
     public void transform(Block rootBlock, TransformationContext context) throws TransformationException
     {
         // Create a macro execution context with all the information required for macros.
