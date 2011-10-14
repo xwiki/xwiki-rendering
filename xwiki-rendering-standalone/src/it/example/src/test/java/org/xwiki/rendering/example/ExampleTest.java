@@ -215,8 +215,7 @@ public class ExampleTest
         XDOM xdom = new XDOM(Arrays.<Block>asList(new ParagraphBlock(Arrays.asList((Block) new SpecialSymbolBlock(':'),
             new SpecialSymbolBlock(':')))));
 
-        // Test adding a new Icon Mapping by registering a Configuration Source implementation (note that this can
-        // also be done by writing a Java class, using annotations and registering it in components.txt)
+        // Test adding a new Icon Mapping.
         cm.lookup(IconTransformationConfiguration.class).addMapping("::", "something");
 
         Transformation transformation = cm.lookup(Transformation.class, "icon");
