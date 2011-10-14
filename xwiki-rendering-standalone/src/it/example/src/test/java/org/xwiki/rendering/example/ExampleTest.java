@@ -47,6 +47,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 
 /**
  * Examples of using the XWiki Rendering API standalone, using the Embedded Component Manager.
@@ -216,42 +217,7 @@ public class ExampleTest
 
         // Test adding a new Icon Mapping by registering a Configuration Source implementation (note that this can
         // also be done by writing a Java class, using annotations and registering it in components.txt)
-        ConfigurationSource customConfigurationSource = new ConfigurationSource() {
-            @Override public boolean containsKey(String key)
-            {
-                return key.equals("rendering.transformation.icon.mappings");
-            }
-
-            @Override public List<String> getKeys()
-            {
-                return Arrays.asList("rendering.transformation.icon.mappings");
-            }
-
-            @Override public <T> T getProperty(String key)
-            {
-                return (T) getProperty(key, Properties.class);
-            }
-
-            @Override public <T> T getProperty(String key, T defaultValue)
-            {
-                return (T) getProperty(key, Properties.class);
-            }
-
-            @Override public <T> T getProperty(String key, Class<T> valueClass)
-            {
-                Properties props = new Properties();
-                props.setProperty("::", "something");
-                return (T) props;
-            }
-
-            @Override public boolean isEmpty()
-            {
-                return false;
-            }
-        };
-        DefaultComponentDescriptor<ConfigurationSource> cd = new DefaultComponentDescriptor<ConfigurationSource>();
-        cd.setRole(ConfigurationSource.class);
-        cm.registerComponent(cd, customConfigurationSource);
+        cm.lookup(IconTransformationConfiguration.class).addMapping("::", "something");
 
         Transformation transformation = cm.lookup(Transformation.class, "icon");
         TransformationContext txContext = new TransformationContext();

@@ -41,4 +41,13 @@ public interface IconTransformationConfiguration
      *         (eg "emoticon_smile", "thumbs_up")
      */
     Properties getMappings();
+
+    /**
+     * Adds a new mapping between a set of characters representing an icon (eg ":)", "(y)") and an icon name
+     * (eg "emoticon_smile", "thumbs_up").
+     *
+     * @param iconCharacters the set of characters representing the icon
+     * @param iconName the icon name based on a well-known list of names
+     */
+    void addMapping(String iconCharacters, String iconName);
 }

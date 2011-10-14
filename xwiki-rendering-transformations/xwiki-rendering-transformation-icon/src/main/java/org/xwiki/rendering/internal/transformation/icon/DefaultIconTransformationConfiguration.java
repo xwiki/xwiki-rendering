@@ -20,16 +20,12 @@
 package org.xwiki.rendering.internal.transformation.icon;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.manager.ComponentLookupException;
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 
 import java.util.Properties;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
@@ -43,59 +39,44 @@ import javax.inject.Singleton;
 public class DefaultIconTransformationConfiguration implements IconTransformationConfiguration, Initializable
 {
     /**
-     * Prefix for configuration keys for the Icon transformation module.
+     * Default Mappings.
      */
-    private static final String PREFIX = "rendering.transformation.icon.";
-
-    /**
-     * Used to dynamically look up a Configuration Source in order to handle the use case when there's no
-     * implementation of it available in the current classloader.
-     */
-    @Inject
-    private ComponentManager componentManager;
-
-    /**
-     * Default Tools.
-     */
-    private Properties defaultMappings = new Properties();
+    private Properties mappings = new Properties();
 
     @Override
     public void initialize() throws InitializationException
     {
         // Default Mappings
-        this.defaultMappings.setProperty(":)", "emoticon_smile");
-        this.defaultMappings.setProperty(":(", "emoticon_unhappy");
-        this.defaultMappings.setProperty(":P", "emoticon_tongue");
-        this.defaultMappings.setProperty(":D", "emoticon_grin");
-        this.defaultMappings.setProperty(";)", "emoticon_wink");
-        this.defaultMappings.setProperty("(y)", "thumb_up");
-        this.defaultMappings.setProperty("(n)", "thumb_down");
-        this.defaultMappings.setProperty("(i)", "information");
-        this.defaultMappings.setProperty("(/)", "accept");
-        this.defaultMappings.setProperty("(x)", "cancel");
-        this.defaultMappings.setProperty("(!)", "error");
-        this.defaultMappings.setProperty("(+)", "add");
-        this.defaultMappings.setProperty("(-)", "delete");
-        this.defaultMappings.setProperty("(?)", "help");
-        this.defaultMappings.setProperty("(on)", "lightbulb");
-        this.defaultMappings.setProperty("(off)", "lightbulb_off");
-        this.defaultMappings.setProperty("(*)", "star");
+        this.mappings.setProperty(":)", "emoticon_smile");
+        this.mappings.setProperty(":(", "emoticon_unhappy");
+        this.mappings.setProperty(":P", "emoticon_tongue");
+        this.mappings.setProperty(":D", "emoticon_grin");
+        this.mappings.setProperty(";)", "emoticon_wink");
+        this.mappings.setProperty("(y)", "thumb_up");
+        this.mappings.setProperty("(n)", "thumb_down");
+        this.mappings.setProperty("(i)", "information");
+        this.mappings.setProperty("(/)", "accept");
+        this.mappings.setProperty("(x)", "cancel");
+        this.mappings.setProperty("(!)", "error");
+        this.mappings.setProperty("(+)", "add");
+        this.mappings.setProperty("(-)", "delete");
+        this.mappings.setProperty("(?)", "help");
+        this.mappings.setProperty("(on)", "lightbulb");
+        this.mappings.setProperty("(off)", "lightbulb_off");
+        this.mappings.setProperty("(*)", "star");
     }
 
     @Override
     public Properties getMappings()
     {
-        // Merge default properties and properties defined in the configuration
-        Properties props = new Properties();
-        props.putAll(this.defaultMappings);
+        Properties properties = new Properties();
+        properties.putAll(this.mappings);
+        return properties;
+    }
 
-        try {
-            ConfigurationSource configuration = this.componentManager.lookup(ConfigurationSource.class);
-            props.putAll(configuration.getProperty(PREFIX + "mappings", Properties.class));
-        } catch (ComponentLookupException e) {
-            // No Configuration Source implementation found, don't add any new mapping
-        }
-
-        return props;
+    @Override
+    public void addMapping(String iconCharacters, String iconName)
+    {
+        this.mappings.setProperty(iconCharacters, iconName);
     }
 }

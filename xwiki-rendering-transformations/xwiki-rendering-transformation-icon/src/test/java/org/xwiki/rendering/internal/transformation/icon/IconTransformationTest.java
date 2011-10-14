@@ -53,21 +53,6 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase
     @MockingRequirement(exceptions = {Parser.class, IconTransformationConfiguration.class})
     private IconTransformation transformation;
 
-    @Override
-    public void configure() throws Exception
-    {
-        super.configure();
-        final ConfigurationSource cs = getMockery().mock(ConfigurationSource.class);
-        DefaultComponentDescriptor<ConfigurationSource> cd = new DefaultComponentDescriptor<ConfigurationSource>();
-        cd.setRole(ConfigurationSource.class);
-        getComponentManager().registerComponent(cd, cs);
-
-        getMockery().checking(new Expectations(){{
-            oneOf(cs).getProperty("rendering.transformation.icon.mappings", Properties.class);
-            will(returnValue(new Properties()));
-        }});
-    }
-
     @Test
     public void testTransform() throws Exception
     {
