@@ -26,26 +26,34 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.rendering</groupId>
-    <artifactId>xwiki-rendering</artifactId>
+    <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>3.3-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntaxes</artifactId>
-  <name>XWiki Rendering - Syntaxes - Parent POM</name>
-  <packaging>pom</packaging>
-  <description>Syntaxes parsers/renderers implementations supported by XWiki Platform</description>
+  <artifactId>xwiki-rendering-syntax-pdf</artifactId>
+  <name>XWiki Rendering - Syntax - PDF</name>
+  <description>XWiki Rendering - Syntax - PDF</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-api</artifactId>
+      <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>itextpdf</artifactId>
+      <version>5.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-xwiki2</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+       <groupId>org.apache.pdfbox</groupId>
+       <artifactId>pdfbox</artifactId>
+       <version>1.6.0</version>
+       <scope>test</scope>
+    </dependency>
   </dependencies>
-  <modules>
-    <module>xwiki-rendering-syntax-doxia</module>
-    <module>xwiki-rendering-syntax-wikimodel</module>
-    <module>xwiki-rendering-syntax-xwiki2</module>
-    <module>xwiki-rendering-syntax-xhtml</module>
-    <module>xwiki-rendering-syntax-xwiki10</module>
-    <module>xwiki-rendering-syntax-pdf</module>
-  </modules>
 </project>

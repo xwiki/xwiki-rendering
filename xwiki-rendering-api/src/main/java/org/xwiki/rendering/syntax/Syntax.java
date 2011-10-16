@@ -43,6 +43,7 @@ public class Syntax
     public static final Syntax CONFLUENCE_1_0 = new Syntax(SyntaxType.CONFLUENCE, "1.0");
     public static final Syntax TWIKI_1_0 = new Syntax(SyntaxType.TWIKI, "1.0");
     public static final Syntax DOCBOOK_4_4 = new Syntax(SyntaxType.DOCBOOK, "4.4");
+    public static final Syntax PDF_1_0 = new Syntax(SyntaxType.PDF, "1.0");
 
     /**
      * This is HTML with annotations (comments) in order to allow round tripping between for example the WYSIWYG editor

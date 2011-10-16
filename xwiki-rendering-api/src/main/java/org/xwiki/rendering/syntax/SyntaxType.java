@@ -51,6 +51,8 @@ public class SyntaxType
 
     public static final SyntaxType DOCBOOK = new SyntaxType("docbook", "DocBook");
 
+    public static final SyntaxType PDF = new SyntaxType("pdf", "PDF");
+
     /**
      * @see #getName()
      */
@@ -94,7 +96,7 @@ public class SyntaxType
      * {@inheritDoc}
      * <p>
      * Display a human readable name of the Syntax type.
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -105,7 +107,7 @@ public class SyntaxType
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see Object#hashCode()
      */
     @Override
@@ -121,7 +123,7 @@ public class SyntaxType
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see Object#equals(Object)
      */
     @Override

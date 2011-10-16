@@ -1,0 +1,3 @@
+org.xwiki.rendering.internal.renderer.pdf.PDFBlockRenderer
+org.xwiki.rendering.internal.renderer.pdf.PDFRenderer
+org.xwiki.rendering.internal.renderer.pdf.PDFRendererFactory
