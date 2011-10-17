@@ -26,8 +26,6 @@ import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
-import org.xwiki.rendering.renderer.printer.OutputStreamWikiPrinter;
-import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
 import com.itextpdf.text.Chapter;
 import com.itextpdf.text.Chunk;
@@ -86,18 +84,8 @@ public class PDFChainingRenderer extends AbstractChainingPrintRenderer
     {
         this.document = new Document();
 
-        // Only make it work with an OutputStreamWikiPrinter
-        // TODO: Have an Adapter that is an OutpStream and send data to a WikiPrinter, then use this
-        // OutputStreamWikiPrinter to convert from WikiPrinter to an output stream. This will allow any printer to be
-        // used.
-        WikiPrinter printer = getPrinter();
-        if (!OutputStreamWikiPrinter.class.isAssignableFrom(printer.getClass())) {
-            throw new RuntimeException("An output stream wiki printer should be used, got ["
-                + printer.getClass().getName() + "] instead");
-        }
-
         try {
-            PdfWriter.getInstance(this.document, (OutputStreamWikiPrinter) printer);
+            PdfWriter.getInstance(this.document, new OutputStreamPrinterAdapter(getPrinter()));
         } catch (DocumentException e) {
             throw new RuntimeException("Failed to prepare PDF output stream", e);
         }
