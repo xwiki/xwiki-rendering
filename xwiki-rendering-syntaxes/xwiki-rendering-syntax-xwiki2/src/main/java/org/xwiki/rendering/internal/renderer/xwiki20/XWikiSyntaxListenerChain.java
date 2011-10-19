@@ -24,7 +24,6 @@ import org.xwiki.rendering.listener.chaining.ConsecutiveNewLineStateChainingList
 import org.xwiki.rendering.listener.chaining.GroupStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.LookaheadChainingListener;
-import org.xwiki.rendering.listener.chaining.TextOnNewLineStateChainingListener;
 
 /**
  * Provides convenient access to listeners in the chain used for
@@ -57,14 +56,6 @@ public class XWikiSyntaxListenerChain extends ListenerChain
     public ConsecutiveNewLineStateChainingListener getConsecutiveNewLineStateChainingListener()
     {
         return (ConsecutiveNewLineStateChainingListener) getListener(ConsecutiveNewLineStateChainingListener.class);
-    }
-
-    /**
-     * @return the stateful {@link TextOnNewLineStateChainingListener} for this rendering session.
-     */
-    public TextOnNewLineStateChainingListener getTextOnNewLineStateChainingListener()
-    {
-        return (TextOnNewLineStateChainingListener) getListener(TextOnNewLineStateChainingListener.class);
     }
 
     /**
