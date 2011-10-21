@@ -48,15 +48,7 @@ public class PDFRendererTest extends AbstractComponentTestCase
     {
         String input = "//one// **two** --three-- __four__!";
         
-        XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.0").parse(new StringReader(input));
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        WikiPrinter printer = new OutputStreamWikiPrinter(baos);
-
-        // Render first in a memory stream for the automated test
-        BlockRenderer renderer = getComponentManager().lookup(BlockRenderer.class, "pdf/1.0");
-        renderer.render(xdom, printer);
-
-        assertPDF("formats.pdf", baos);
+        assertPDF("formats.pdf", input);
     }
 
     @Test
@@ -70,6 +62,31 @@ public class PDFRendererTest extends AbstractComponentTestCase
             + "===== Title level 5\n"
             + "====== Title level 6";
 
+        assertPDF("sections.pdf", input);
+    }
+
+    @Test
+    public void testLists() throws Exception
+    {
+        String input =
+              "1. Item 1\n"
+            + "11. Item 2\n"
+            + "11*. Item 3\n"
+            + "11. Item 4\n"
+            + "1. Item 5\n"
+            + "* Item 1\n"
+            + "** Item 2\n"
+            + "*** Item 3\n"
+            + "***1. Item 4\n"
+            + "** Item 5\n"
+            + "* Item 6\n"
+            + "* Item 7";
+
+        assertPDF("lists.pdf", input);
+    }
+
+    private void assertPDF(String expectedResourceName, String input) throws Exception
+    {
         XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.0").parse(new StringReader(input));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         WikiPrinter printer = new OutputStreamWikiPrinter(baos);
@@ -78,14 +95,9 @@ public class PDFRendererTest extends AbstractComponentTestCase
         BlockRenderer renderer = getComponentManager().lookup(BlockRenderer.class, "pdf/1.0");
         renderer.render(xdom, printer);
 
-        assertPDF("sections.pdf", baos);
-    }
-    
-    private void assertPDF(String expectedResourceName, ByteArrayOutputStream generatedPDF) throws Exception
-    {
         // Read the generated PDF data using PDFBox (since iText is good at generating but less good at reading)
         // in order to get the PDF content stream.
-        PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(generatedPDF.toByteArray()));
+        PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(baos.toByteArray()));
         PDPage page = (PDPage) pdfDocument.getDocumentCatalog().getAllPages().get(0);
         String data = new String(page.getContents().getByteArray());
 

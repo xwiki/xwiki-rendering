@@ -20,9 +20,11 @@
 package org.xwiki.rendering.internal.renderer.pdf;
 
 import java.util.Map;
+import java.util.Stack;
 
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
+import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
@@ -33,6 +35,8 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.List;
+import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -70,6 +74,16 @@ public class PDFChainingRenderer extends AbstractChainingPrintRenderer
      * The current iText Section being handled. A Chapter can have several Sections.
      */
     private Section currentSection;
+
+    /**
+     * The iText List elements that have been started and that are being handled.
+     */
+    private Stack<List> currentLists = new Stack<List>();
+
+    /**
+     * The current iText List Item element being handled.
+     */
+    private ListItem currentListItem;
 
     /**
      * @param listenerChain see {@link PDFRenderer}
@@ -178,6 +192,48 @@ public class PDFChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void endSection(Map<String, String> parameters)
     {
+    }
+
+    @Override
+    public void beginList(ListType listType, Map<String, String> parameters)
+    {
+        // If we're inside a list already then flush the list item
+        if (this.currentLists.size() > 0) {
+            this.currentListItem.add(this.currentChunk);
+            this.currentChunk = null;
+            this.currentLists.peek().add(this.currentListItem);
+        }
+
+        this.currentLists.push(new List(listType.equals(ListType.NUMBERED), 20));
+    }
+
+    @Override
+    public void endList(ListType listType, Map<String, String> parameters)
+    {
+        List list = this.currentLists.pop();
+        if (this.currentLists.size() > 0) {
+            this.currentLists.peek().add(list);
+        } else {
+            addElement(list);
+        }
+    }
+
+    @Override
+    public void beginListItem()
+    {
+        this.currentListItem = new ListItem();
+    }
+
+    @Override
+    public void endListItem()
+    {
+        if (this.currentChunk != null) {
+            this.currentListItem.add(this.currentChunk);
+            this.currentChunk = null;
+
+            this.currentLists.peek().add(this.currentListItem);
+            this.currentListItem = null;
+        }
     }
 
     /**
