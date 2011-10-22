@@ -75,8 +75,8 @@
 
     <!-- Testing dependencies -->
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-core-rendering-tests</artifactId>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-test</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
