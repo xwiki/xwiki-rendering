@@ -23,9 +23,9 @@ import java.util.Map;
 
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
+import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -59,11 +59,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         return this.listenerChain;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginDefinitionDescription()
-     */
+    @Override
     public void beginDefinitionDescription()
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -72,12 +68,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginDefinitionList(java.util.Map)
-     * @since 2.0RC1
-     */
+    @Override
     public void beginDefinitionList(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -86,11 +77,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginDefinitionTerm()
-     */
+    @Override
     public void beginDefinitionTerm()
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -99,12 +86,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDocument(org.xwiki.rendering.listener.MetaData)
-     * @since 3.0M2
-     */
+    @Override
     public void beginDocument(MetaData metaData)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -113,11 +95,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginGroup(Map)
-     */
+    @Override
     public void beginGroup(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -126,11 +104,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginFormat(Format, Map)
-     */
+    @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -139,11 +113,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginHeader(HeaderLevel, String, Map)
-     */
+    @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -152,12 +122,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean, Map)
-     * @since 2.5RC1
-     */
+    @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -166,11 +131,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginList(ListType, Map)
-     */
+    @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -179,11 +140,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginListItem()
-     */
+    @Override
     public void beginListItem()
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -192,11 +149,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginMacroMarker(String, Map, String, boolean)
-     */
+    @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -205,11 +158,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginParagraph(Map)
-     */
+    @Override
     public void beginParagraph(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -218,11 +167,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginQuotation(Map)
-     */
+    @Override
     public void beginQuotation(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -231,11 +176,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginQuotationLine()
-     */
+    @Override
     public void beginQuotationLine()
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -244,11 +185,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginSection(Map)
-     */
+    @Override
     public void beginSection(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -257,11 +194,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginTable(Map)
-     */
+    @Override
     public void beginTable(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -270,11 +203,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginTableCell(Map)
-     */
+    @Override
     public void beginTableCell(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -283,11 +212,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginTableHeadCell(Map)
-     */
+    @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -296,11 +221,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#beginTableRow(Map)
-     */
+    @Override
     public void beginTableRow(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -309,12 +230,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.Listener#beginMetaData(org.xwiki.rendering.listener.MetaData)
-     * @since 3.0M2
-     */
+    @Override
     public void beginMetaData(MetaData metadata)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -323,11 +239,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endDefinitionDescription()
-     */
+    @Override
     public void endDefinitionDescription()
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -336,12 +248,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endDefinitionList(java.util.Map)
-     * @since 2.0RC1
-     */
+    @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -350,11 +257,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endDefinitionTerm()
-     */
+    @Override
     public void endDefinitionTerm()
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -363,12 +266,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDocument(org.xwiki.rendering.listener.MetaData)
-     * @since 3.0M2
-     */
+    @Override
     public void endDocument(MetaData metaData)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -377,11 +275,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endGroup(Map)
-     */
+    @Override
     public void endGroup(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -390,11 +284,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endFormat(Format, Map)
-     */
+    @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -403,11 +293,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endHeader(HeaderLevel, String, Map)
-     */
+    @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -416,12 +302,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean, Map)
-     * @since 2.5RC1
-     */
+    @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -430,11 +311,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endList(ListType, Map)
-     */
+    @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -443,11 +320,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endListItem()
-     */
+    @Override
     public void endListItem()
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -456,11 +329,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endMacroMarker(String, Map, String, boolean)
-     */
+    @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -469,11 +338,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endParagraph(Map)
-     */
+    @Override
     public void endParagraph(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -482,11 +347,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endQuotation(Map)
-     */
+    @Override
     public void endQuotation(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -495,11 +356,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endQuotationLine()
-     */
+    @Override
     public void endQuotationLine()
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -508,11 +365,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endSection(Map)
-     */
+    @Override
     public void endSection(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -521,11 +374,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endTable(Map)
-     */
+    @Override
     public void endTable(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -534,11 +383,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endTableCell(Map)
-     */
+    @Override
     public void endTableCell(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -547,11 +392,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endTableHeadCell(Map)
-     */
+    @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -560,11 +401,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#endTableRow(Map)
-     */
+    @Override
     public void endTableRow(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -573,12 +410,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.Listener#endMetaData(org.xwiki.rendering.listener.MetaData)
-     * @since 3.0M2
-     */
+    @Override
     public void endMetaData(MetaData metadata)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -587,11 +419,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#onEmptyLines(int)
-     */
+    @Override
     public void onEmptyLines(int count)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -600,11 +428,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#onHorizontalLine(Map)
-     */
+    @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -613,11 +437,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#onId(String)
-     */
+    @Override
     public void onId(String name)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -626,12 +446,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#onImage(org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
-     * @since 2.5RC1
-     */
+    @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -640,11 +455,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#onMacro(String, Map, String, boolean)
-     */
+    @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -653,11 +464,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#onNewLine()
-     */
+    @Override
     public void onNewLine()
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -666,11 +473,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#onSpace()
-     */
+    @Override
     public void onSpace()
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -679,11 +482,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#onSpecialSymbol(char)
-     */
+    @Override
     public void onSpecialSymbol(char symbol)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -692,11 +491,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#onVerbatim(String, boolean, Map)
-     */
+    @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -705,11 +500,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#onWord(String)
-     */
+    @Override
     public void onWord(String word)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -718,11 +509,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see ChainingListener#onRawText(String, Syntax)
-     */
+    @Override
     public void onRawText(String text, Syntax syntax)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());

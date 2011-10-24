@@ -41,10 +41,6 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class EventRenderer extends AbstractChainingPrintRenderer implements Initializable
 {
-    /**
-     * {@inheritDoc}
-     * @since 2.0M3
-     */
     @Override
     public void initialize() throws InitializationException
     {
