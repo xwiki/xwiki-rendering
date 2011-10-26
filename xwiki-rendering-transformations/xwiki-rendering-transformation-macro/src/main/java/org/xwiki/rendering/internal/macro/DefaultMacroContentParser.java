@@ -66,23 +66,14 @@ public class DefaultMacroContentParser implements MacroContentParser
      */
     private ParserUtils parserUtils = new ParserUtils();
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see MacroContentParser#parse(String, MacroTransformationContext, boolean, boolean)
-     */
+    @Override
     public List<Block> parse(String content, MacroTransformationContext macroContext, boolean transform,
         boolean removeTopLevelParagraph) throws MacroExecutionException
     {
         return parseXDOM(content, macroContext, transform, removeTopLevelParagraph).getChildren();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.internal.macro.MacroContentParser#parseXDOM(java.lang.String,
-     *      org.xwiki.rendering.transformation.MacroTransformationContext, boolean, boolean)
-     */
+    @Override
     public XDOM parseXDOM(String content, MacroTransformationContext macroContext, boolean transform,
         boolean removeTopLevelParagraph) throws MacroExecutionException
     {
