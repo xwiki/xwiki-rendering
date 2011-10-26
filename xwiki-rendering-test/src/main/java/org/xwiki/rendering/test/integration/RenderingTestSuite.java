@@ -111,9 +111,6 @@ public class RenderingTestSuite extends Suite
             this.parameterSetNumber = i;
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Object createTest() throws Exception
         {
@@ -132,36 +129,24 @@ public class RenderingTestSuite extends Suite
             return newObjects;
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         protected String getName()
         {
             return (String) this.parameterList.get(this.parameterSetNumber)[0];
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         protected String testName(final FrameworkMethod method)
         {
             return getName();
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         protected void validateConstructor(List<Throwable> errors)
         {
             validateOnlyOneConstructor(errors);
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         protected Statement classBlock(RunNotifier notifier)
         {
@@ -238,9 +223,6 @@ public class RenderingTestSuite extends Suite
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected List<Runner> getChildren()
     {
