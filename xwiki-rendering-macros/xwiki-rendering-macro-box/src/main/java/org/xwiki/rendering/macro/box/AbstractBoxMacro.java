@@ -20,9 +20,9 @@
 package org.xwiki.rendering.macro.box;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.LinkedHashMap;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,11 +33,11 @@ import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.ImageBlock;
 import org.xwiki.rendering.block.NewLineBlock;
-import org.xwiki.rendering.internal.macro.MacroContentParser;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.macro.AbstractMacro;
+import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.ContentDescriptor;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
@@ -133,7 +133,7 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
                 // we add the title, if there is one
                 if (!StringUtils.isEmpty(titleParameter)) {
                     // Don't execute transformations explicitly. They'll be executed on the generated content later on.
-                    boxBlock.addChildren(this.contentParser.parse(titleParameter, context, false, true));
+                    boxBlock.addChildren(this.contentParser.parse(titleParameter, context, false, true).getChildren());
                 }
                 if (titleBlockList != null) {
                     boxBlock.addChildren(titleBlockList);

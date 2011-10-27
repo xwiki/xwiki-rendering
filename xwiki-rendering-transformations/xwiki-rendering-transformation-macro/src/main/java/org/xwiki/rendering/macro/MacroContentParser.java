@@ -17,21 +17,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.macro;
-
-import java.util.List;
+package org.xwiki.rendering.macro;
 
 import org.xwiki.component.annotation.ComponentRole;
-import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
  * Parses content of a macro field (parameter, macro content) in a given syntax.
  * 
  * @version $Id$
- * @since 3.0M1
+ * @since 3.3M1
  */
 @ComponentRole
 public interface MacroContentParser
@@ -47,20 +44,14 @@ public interface MacroContentParser
      * @return the result as a {@link org.xwiki.rendering.block.Block}s
      * @throws MacroExecutionException in case of a parsing error
      */
-    List<Block> parse(String content, MacroTransformationContext macroContext, boolean transform,
+    XDOM parse(String content, MacroTransformationContext macroContext, boolean transform,
         boolean removeTopLevelParagraph) throws MacroExecutionException;
 
     /**
-     * Parses content of a macro field (parameter, macro content) in a given syntax and optionally remove the top level
-     * paragraph.
+     * Find the current syntax to use for macro supporting wiki content/parameters/whatever.
      * 
-     * @param content the content to parse
-     * @param macroContext the executing Macro context (from which to get the current syntax, etc)
-     * @param transform if true then executes transformations
-     * @param removeTopLevelParagraph whether the top level paragraph should be removed after parsing
-     * @return the result as a {@link org.xwiki.rendering.block.Block}s
-     * @throws MacroExecutionException in case of a parsing error
+     * @param context the macro execution context containing the default syntax and the current macro block
+     * @return the current syntax
      */
-    XDOM parseXDOM(String content, MacroTransformationContext macroContext, boolean transform,
-        boolean removeTopLevelParagraph) throws MacroExecutionException;
+    Syntax getCurrentSyntax(MacroTransformationContext context);
 }

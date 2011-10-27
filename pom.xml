@@ -170,6 +170,7 @@
                 <!-- Remove when Rendering 3.3 has been released -->
                 <exclude>org/xwiki/rendering/transformation/icon/IconTransformationConfiguration</exclude>
                 <exclude>org/xwiki/rendering/listener/chaining/TextOnNewLineStateChainingListener</exclude>
+                <exclude>org/xwiki/rendering/macro/box/AbstractBoxMacro</exclude>
               </excludes>
             </configuration>
           </plugin>

@@ -68,6 +68,6 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
         throws MacroExecutionException
     {
         // Don't execute transformations explicitly. They'll be executed on the generated content later on.
-        return getMacroContentParser().parse(content, context, false, context.isInline());
+        return getMacroContentParser().parse(content, context, false, context.isInline()).getChildren();
     }
 }

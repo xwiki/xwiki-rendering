@@ -32,12 +32,13 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.match.MetadataBlockMatcher;
 import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
@@ -46,7 +47,7 @@ import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.util.ParserUtils;
 
 /**
- * Default implementation for {@link org.xwiki.rendering.internal.macro.MacroContentParser}.
+ * Default implementation for {@link org.xwiki.rendering.macro.MacroContentParser}.
  * 
  * @version $Id$
  * @since 3.0M1
@@ -66,24 +67,8 @@ public class DefaultMacroContentParser implements MacroContentParser
      */
     private ParserUtils parserUtils = new ParserUtils();
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see MacroContentParser#parse(String, MacroTransformationContext, boolean, boolean)
-     */
-    public List<Block> parse(String content, MacroTransformationContext macroContext, boolean transform,
-        boolean removeTopLevelParagraph) throws MacroExecutionException
-    {
-        return parseXDOM(content, macroContext, transform, removeTopLevelParagraph).getChildren();
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.internal.macro.MacroContentParser#parseXDOM(java.lang.String,
-     *      org.xwiki.rendering.transformation.MacroTransformationContext, boolean, boolean)
-     */
-    public XDOM parseXDOM(String content, MacroTransformationContext macroContext, boolean transform,
+    @Override
+    public XDOM parse(String content, MacroTransformationContext macroContext, boolean transform,
         boolean removeTopLevelParagraph) throws MacroExecutionException
     {
         // If the content is empty return an empty list
@@ -139,13 +124,8 @@ public class DefaultMacroContentParser implements MacroContentParser
         }
     }
 
-    /**
-     * Find the current syntax to use for macro supporting wiki content/parameters/whatever.
-     * 
-     * @param context the macro execution context containing the default syntax and the current macro block
-     * @return the current syntax
-     */
-    protected Syntax getCurrentSyntax(MacroTransformationContext context)
+    @Override
+    public Syntax getCurrentSyntax(MacroTransformationContext context)
     {
         Syntax currentSyntax = context.getSyntax();
 

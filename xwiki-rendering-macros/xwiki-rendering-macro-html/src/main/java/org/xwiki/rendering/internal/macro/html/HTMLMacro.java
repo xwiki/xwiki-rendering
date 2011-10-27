@@ -33,7 +33,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.MacroBlock;
@@ -41,12 +40,11 @@ import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
-import org.xwiki.rendering.internal.macro.MacroContentParser;
 import org.xwiki.rendering.macro.AbstractMacro;
+import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.html.HTMLMacroParameters;
-import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
@@ -97,12 +95,6 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
      */
     @Inject
     private HTMLCleaner htmlCleaner;
-
-    /**
-     * Used to find the parser from syntax identifier.
-     */
-    @Inject
-    private ComponentManager componentManager;
 
     /**
      * Factory to create special XHTML renderer for the HTML Macro. We override the default XHTML renderer since we want
@@ -239,7 +231,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
 
         try {
             // Parse the wiki syntax
-            XDOM xdom = this.contentParser.parseXDOM(content, context, false, false);
+            XDOM xdom = this.contentParser.parse(content, context, false, false);
 
             // Force clean=false for sub HTML macro:
             // - at this point we don't know the context of the macro, it can be some <div> directly followed by the
