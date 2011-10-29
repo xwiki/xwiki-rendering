@@ -94,10 +94,7 @@ public class IconTransformation extends AbstractTransformation implements Initia
      */
     private ProtectedBlockFilter filter = new ProtectedBlockFilter();
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.component.phase.Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         this.mappingTree = new XDOM(Collections.<Block>emptyList());
@@ -116,10 +113,7 @@ public class IconTransformation extends AbstractTransformation implements Initia
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractTransformation#transform(Block, TransformationContext)
-     */
+    @Override
     public void transform(Block source, TransformationContext context) throws TransformationException
     {
         List<Block> filteredBlocks = this.filter.filter(source.getChildren());
