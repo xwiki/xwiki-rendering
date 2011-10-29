@@ -64,11 +64,7 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
     @Inject
     private LinkLabelGenerator linkLabelGenerator;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         // Try to find a WikiModel implementation and set it if it can be found. If not it means we're in
@@ -80,11 +76,7 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLLinkTypeRenderer#beginLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean, Map)
-     */
+    @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         if (this.wikiModel == null) {
@@ -94,20 +86,12 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractXHTMLLinkTypeRenderer#computeLabel(org.xwiki.rendering.listener.reference.ResourceReference)
-     */
     @Override
     protected String computeLabel(ResourceReference reference)
     {
         return this.linkLabelGenerator.generate(reference);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractXHTMLLinkTypeRenderer#beginLinkExtraAttributes(org.xwiki.rendering.listener.reference.ResourceReference , java.util.Map, java.util.Map)
-     */
     @Override
     protected void beginLinkExtraAttributes(ResourceReference reference, Map<String, String> spanAttributes,
         Map<String, String> anchorAttributes)

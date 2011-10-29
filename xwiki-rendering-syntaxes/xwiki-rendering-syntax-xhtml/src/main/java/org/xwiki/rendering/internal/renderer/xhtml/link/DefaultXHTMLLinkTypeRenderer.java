@@ -37,12 +37,6 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class DefaultXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractXHTMLLinkTypeRenderer#beginLinkExtraAttributes(org.xwiki.rendering.listener.reference.ResourceReference
-     *      , java.util.Map, java.util.Map)
-     */
     @Override
     protected void beginLinkExtraAttributes(ResourceReference reference, Map<String, String> spanAttributes,
         Map<String, String> anchorAttributes)
