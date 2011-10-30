@@ -22,8 +22,8 @@ package org.xwiki.rendering.internal.transformation.linkchecker;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.slf4j.Logger;
@@ -53,10 +53,8 @@ public class DefaultHTTPChecker implements HTTPChecker
         HttpClient client = new HttpClient();
         try {
             GetMethod method = new GetMethod(url);
-            // Don't retry automatically since we want it to be as fast as possible to not slow down the rendering
-            // process.
-            method.getParams()
-                .setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(0, false));
+            // Ignore cookies since this can cause errors in logs and we don't need cookies when checking sites.
+            method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
             // Sets the socket timeout (SO_TIMEOUT) in milliseconds to be used when executing the method.
             // We use a small value since we don't want to slow down the rendering process.
             method.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, new Integer(1000));
