@@ -26,37 +26,21 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.rendering</groupId>
-    <artifactId>xwiki-rendering</artifactId>
+    <artifactId>xwiki-rendering-transformations</artifactId>
     <version>3.3-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-transformations</artifactId>
-  <name>XWiki Rendering - Transformations - Parent POM</name>
-  <packaging>pom</packaging>
-  <description>Transformation implementations supported by XWiki Platform</description>
+  <artifactId>xwiki-rendering-transformation-linkchecker</artifactId>
+  <name>XWiki Rendering - Transformation - Link Checker</name>
+  <description>Verifies if external URLs are valid and decorate with parameters if not</description>
   <dependencies>
     <dependency>
-      <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-api</artifactId>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-script</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <!-- Testing dependencies -->
     <dependency>
-      <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-xwiki2</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
     </dependency>
   </dependencies>
-  <modules>
-    <module>xwiki-rendering-transformation-macro</module>
-    <module>xwiki-rendering-transformation-icon</module>
-    <module>xwiki-rendering-transformation-wikiword</module>
-    <module>xwiki-rendering-transformation-linkchecker</module>
-  </modules>
 </project>
