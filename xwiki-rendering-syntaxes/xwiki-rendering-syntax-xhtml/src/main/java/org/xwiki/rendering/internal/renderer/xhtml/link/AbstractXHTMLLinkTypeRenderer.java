@@ -153,7 +153,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
 
         spanAttributes.put(CLASS, "wikiexternallink");
         if (isFreeStandingURI) {
-            anchorAttributes.put(CLASS, "wikimodel-freestanding");
+            anchorAttributes.put(CLASS, addAttributeValue(anchorAttributes.get(CLASS), "wikimodel-freestanding"));
         }
 
         beginLinkExtraAttributes(reference, spanAttributes, anchorAttributes);
@@ -178,5 +178,24 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
 
         getXHTMLWikiPrinter().printXMLEndElement(XHTMLLinkRenderer.ANCHOR);
         getXHTMLWikiPrinter().printXMLEndElement(SPAN);
+    }
+
+    /**
+     * Add an attribute value to an existing attribute. This is useful for example for adding a value to an HTML CLASS
+     * attribute.
+     *
+     * @param currentValue the current value of the attribute (can be null)
+     * @param valueToAdd the value to add
+     * @return the current value augmented by the value to add
+     */
+    private String addAttributeValue(String currentValue, String valueToAdd)
+    {
+        String newValue;
+        if (currentValue == null || currentValue.length() == 0) {
+            newValue = "";
+        } else {
+            newValue = currentValue + " ";
+        }
+        return newValue + valueToAdd;
     }
 }
