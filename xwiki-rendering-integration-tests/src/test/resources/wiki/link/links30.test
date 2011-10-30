@@ -1,26 +1,31 @@
 .#-----------------------------------------------------
-.input|xwiki/2.1
-.# UNC link tests
+.input|xhtml/1.0
+.# Test anchor links coming from plain xhtml
 .#-----------------------------------------------------
-[[unc:\\myserver\myshare\mydoc.txt]]
+<p><a href="#name">label</a></p>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-beginLink [Typed = [true] Type = [unc] Reference = [\\myserver\myshare\mydoc.txt]] [false]
-endLink [Typed = [true] Type = [unc] Reference = [\\myserver\myshare\mydoc.txt]] [false]
+beginLink [Typed = [true] Type = [url] Reference = [#name]] [false]
+onWord [label]
+endLink [Typed = [true] Type = [url] Reference = [#name]] [false]
 endParagraph
 endDocument
 .#-----------------------------------------------------
+.expect|xhtml/1.0|skip
+.#-----------------------------------------------------
+<p><span class="wikilink"><a href="viewurl#name">label</a></span></p>
+.#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:true|-|unc|-|\\\\myserver\\myshare\\mydoc.txt--><span class="wikiexternallink"><a href="file://///myserver/myshare/mydoc.txt"><span class="wikigeneratedlinkcontent">\\myserver\myshare\mydoc.txt</span></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:true|-|url|-|#name--><span class="wikiexternallink"><a href="#name">label</a></span><!--stopwikilink--></p>
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+[[label>>#name]]
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
-[[unc:\\myserver\myshare\mydoc.txt]]
-.#-----------------------------------------------------
-.input|xhtml/1.0
-.#-----------------------------------------------------
-<p><!--startwikilink:true|-|unc|-|\\\\myserver\\myshare\\mydoc.txt--><span class="wikiexternallink"><a href="file://///myserver/myshare/mydoc.txt"><span class="wikigeneratedlinkcontent">\\myserver\myshare\mydoc.txt</span></a></span><!--stopwikilink--></p>
+[[label>>url:#name]]

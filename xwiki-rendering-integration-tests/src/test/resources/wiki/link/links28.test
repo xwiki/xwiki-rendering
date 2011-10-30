@@ -1,41 +1,16 @@
-.#-----------------------------------------------------
-.input|xwiki/2.1
-.# InterWiki link tests
-.#-----------------------------------------------------
-[[interwiki:knownalias:path]]
-[[interwiki:unknownalias:path]]
-.#-----------------------------------------------------
-.input|xwiki/2.0
-.#-----------------------------------------------------
-[[path@knownalias]]
-[[path@unknownalias]]
+.#-------------------------------------------------------
+.input|xhtml/1.0
+.# Verify that query string parameters are not taken into
+.# account by the XHTML parser (only link markers are
+.# taken into account).
+.#-------------------------------------------------------
+<p><!--startwikilink:false|-|doc|-|Space.Page--><span class="wikilink"><a href="viewurl?param=value"><span class="wikigeneratedlinkcontent">Space.Page</span></a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-beginLink [Typed = [true] Type = [interwiki] Reference = [path] Parameters = [[interWikiAlias] = [knownalias]]] [false]
-endLink [Typed = [true] Type = [interwiki] Reference = [path] Parameters = [[interWikiAlias] = [knownalias]]] [false]
-onNewLine
-beginLink [Typed = [true] Type = [interwiki] Reference = [path] Parameters = [[interWikiAlias] = [unknownalias]]] [false]
-endLink [Typed = [true] Type = [interwiki] Reference = [path] Parameters = [[interWikiAlias] = [unknownalias]]] [false]
+beginLink [Typed = [false] Type = [doc] Reference = [Space.Page]] [false]
+endLink [Typed = [false] Type = [doc] Reference = [Space.Page]] [false]
 endParagraph
 endDocument
-.#-----------------------------------------------------
-.expect|annotatedxhtml/1.0
-.#-----------------------------------------------------
-<p><!--startwikilink:true|-|interwiki|-|path|-|interWikiAlias="knownalias"--><span class="wikiexternallink"><a href="http://server/common/url/path"><span class="wikigeneratedlinkcontent">path</span></a></span><!--stopwikilink--><br/><!--startwikilink:true|-|interwiki|-|path|-|interWikiAlias="unknownalias"--><span class="wikiexternallink"><a href="path"><span class="wikigeneratedlinkcontent">path</span></a></span><!--stopwikilink--></p>
-.#-----------------------------------------------------
-.expect|xwiki/2.1
-.#-----------------------------------------------------
-[[interwiki:knownalias:path]]
-[[interwiki:unknownalias:path]]
-.#-----------------------------------------------------
-.input|xhtml/1.0
-.#-----------------------------------------------------
-<p><!--startwikilink:true|-|interwiki|-|path|-|interWikiAlias="knownalias"--><span class="wikiexternallink"><a href="http://server/common/url/path"><span class="wikigeneratedlinkcontent">path</span></a></span><!--stopwikilink--><br/><!--startwikilink:true|-|interwiki|-|path|-|interWikiAlias="unknownalias"--><span class="wikiexternallink"><a href="path"><span class="wikigeneratedlinkcontent">path</span></a></span><!--stopwikilink--></p>
-.#-----------------------------------------------------
-.expect|plain/1.0
-.#-----------------------------------------------------
-path
-path
