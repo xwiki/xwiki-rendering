@@ -29,7 +29,7 @@
     <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>3.3-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntax-xmlxdom</artifactId>
+  <artifactId>xwiki-rendering-syntax-xdomxml</artifactId>
   <name>XWiki Rendering - Syntax - XDOM+XML</name>
   <description>XWiki Rendering - Syntax - XML based XDOM representation</description>
   <properties>
