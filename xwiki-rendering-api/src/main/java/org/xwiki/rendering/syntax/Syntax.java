@@ -45,6 +45,16 @@ public class Syntax
     public static final Syntax DOCBOOK_4_4 = new Syntax(SyntaxType.DOCBOOK, "4.4");
 
     /**
+     * @since 3.3M1
+     */
+    public static final Syntax XDOMXML_CURRENT = new Syntax(SyntaxType.XDOMXML, "current");
+
+    /**
+     * @since 3.3M1
+     */
+    public static final Syntax XDOMXML_1_0 = new Syntax(SyntaxType.XDOMXML, "1.0");
+
+    /**
      * This is HTML with annotations (comments) in order to allow round tripping between for example the WYSIWYG editor
      * and wiki syntax.
      */

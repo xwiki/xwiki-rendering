@@ -17,22 +17,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.parser;
-
-import java.io.Reader;
+package org.xwiki.rendering.parser.xml;
 
 import org.xwiki.component.annotation.ComponentRole;
-import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * Parse content into a XDOM (a tree of {@link org.xwiki.rendering.block.Block}s).
- *
+ * Create instances of {@link ContentHandlerBlockParser}.
+ * 
  * @version $Id$
- * @since 1.5M2
+ * @since 3.3M1
  */
 @ComponentRole
-public interface Parser
+public interface ContentHandlerBlockParserFactory
 {
     /**
      * @return the syntax the parser is implementing
@@ -40,10 +37,7 @@ public interface Parser
     Syntax getSyntax();
 
     /**
-     * @param source the content to parse
-     * @return the tree representation of the content as {@link org.xwiki.rendering.block.Block}s
-     * @throws ParseException if the source cannot be read or an unexpected error happens during the parsing. Parsers
-     *         should be written to not generate any error as much as possible.
+     * @return the new {@link ContentHandlerBlockParser} instance.
      */
-    XDOM parse(Reader source) throws ParseException;
+    ContentHandlerBlockParser createBlockParser();
 }

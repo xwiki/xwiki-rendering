@@ -1,5 +1,5 @@
 .#-----------------------------------------------------
-.input|xwiki/2.0
+.inputexpect|xwiki/2.0
 .#-----------------------------------------------------
 {{testsimplemacro/}}
 
@@ -12,6 +12,14 @@ content
 {{testsimplemacro}}
 content
 {{/testsimplemacro}}
+.#-----------------------------------------------------
+.inputexpect|xdom+xml/1.0
+.#-----------------------------------------------------
+<block name="document" version="1.0"><block name="macro"><id>testsimplemacro</id></block><block name="macro"><parameters><param1>value1</param1><param2>value2</param2></parameters><id>testsimplemacro</id></block><block name="macro"><parameters><param1>value1</param1><param2>value2</param2></parameters><id>testsimplemacro</id><content>content</content></block><block name="macro"><id>testsimplemacro</id><content>content</content></block></block>
+.#-----------------------------------------------------
+.inputexpect|xdom+xml/current
+.#-----------------------------------------------------
+<block name="document"><parameters><meta-data><metadata class="linked-hash-map"></metadata></meta-data></parameters><block name="macro"><parameters><string>testsimplemacro</string><linked-hash-map></linked-hash-map><null></null><boolean>false</boolean></parameters></block><block name="macro"><parameters><string>testsimplemacro</string><linked-hash-map><entry><string>param1</string><string>value1</string></entry><entry><string>param2</string><string>value2</string></entry></linked-hash-map><null></null><boolean>false</boolean></parameters></block><block name="macro"><parameters><string>testsimplemacro</string><linked-hash-map><entry><string>param1</string><string>value1</string></entry><entry><string>param2</string><string>value2</string></entry></linked-hash-map><string>content</string><boolean>false</boolean></parameters></block><block name="macro"><parameters><string>testsimplemacro</string><linked-hash-map></linked-hash-map><string>content</string><boolean>false</boolean></parameters></block></block>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -28,20 +36,6 @@ endDocument
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
 <!--startmacro:testsimplemacro|-|--><!--stopmacro--><!--startmacro:testsimplemacro|-|param1="value1" param2="value2"--><!--stopmacro--><!--startmacro:testsimplemacro|-|param1="value1" param2="value2"|-|content--><!--stopmacro--><!--startmacro:testsimplemacro|-||-|content--><!--stopmacro-->
-.#-----------------------------------------------------
-.expect|xwiki/2.0
-.#-----------------------------------------------------
-{{testsimplemacro/}}
-
-{{testsimplemacro param1="value1" param2="value2"/}}
-
-{{testsimplemacro param1="value1" param2="value2"}}
-content
-{{/testsimplemacro}}
-
-{{testsimplemacro}}
-content
-{{/testsimplemacro}}
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------

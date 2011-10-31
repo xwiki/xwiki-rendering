@@ -17,33 +17,33 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.parser;
+package org.xwiki.rendering.renderer.xml;
 
-import java.io.Reader;
+import java.util.Collection;
 
+import org.xml.sax.ContentHandler;
 import org.xwiki.component.annotation.ComponentRole;
-import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.block.Block;
 
 /**
- * Parse content into a XDOM (a tree of {@link org.xwiki.rendering.block.Block}s).
- *
+ * Convert {@link Block}s into SAX events.
+ * 
  * @version $Id$
- * @since 1.5M2
+ * @since 3.3M1
  */
 @ComponentRole
-public interface Parser
+public interface ContentHandlerBlockRenderer
 {
     /**
-     * @return the syntax the parser is implementing
+     * @param block the block to render in the target syntax
+     * @param contentHandler the object to send SAX event to
      */
-    Syntax getSyntax();
+    void render(Block block, ContentHandler contentHandler);
 
     /**
-     * @param source the content to parse
-     * @return the tree representation of the content as {@link org.xwiki.rendering.block.Block}s
-     * @throws ParseException if the source cannot be read or an unexpected error happens during the parsing. Parsers
-     *         should be written to not generate any error as much as possible.
+     * @param blocks the list of blocks to render in the target syntax
+     * @param contentHandler the object to send SAX event to
+     * @todo remove this API once we introduce the notion of BlockCollection
      */
-    XDOM parse(Reader source) throws ParseException;
+    void render(Collection<Block> blocks, ContentHandler contentHandler);
 }

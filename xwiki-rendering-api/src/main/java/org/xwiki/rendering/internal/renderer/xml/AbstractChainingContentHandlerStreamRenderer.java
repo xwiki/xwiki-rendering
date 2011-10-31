@@ -17,33 +17,34 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.parser;
+package org.xwiki.rendering.internal.renderer.xml;
 
-import java.io.Reader;
-
-import org.xwiki.component.annotation.ComponentRole;
-import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.syntax.Syntax;
+import org.xml.sax.ContentHandler;
+import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
+import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRenderer;
 
 /**
- * Parse content into a XDOM (a tree of {@link org.xwiki.rendering.block.Block}s).
- *
+ * 
  * @version $Id$
- * @since 1.5M2
+ * @since 3.3M1
  */
-@ComponentRole
-public interface Parser
+public abstract class AbstractChainingContentHandlerStreamRenderer extends AbstractChainingListener implements
+    ContentHandlerStreamRenderer
 {
     /**
-     * @return the syntax the parser is implementing
+     * the object to send SAX events to.
      */
-    Syntax getSyntax();
+    private ContentHandler contentHandler;
 
-    /**
-     * @param source the content to parse
-     * @return the tree representation of the content as {@link org.xwiki.rendering.block.Block}s
-     * @throws ParseException if the source cannot be read or an unexpected error happens during the parsing. Parsers
-     *         should be written to not generate any error as much as possible.
-     */
-    XDOM parse(Reader source) throws ParseException;
+    @Override
+    public ContentHandler getContentHandler()
+    {
+        return this.contentHandler;
+    }
+
+    @Override
+    public void setContentHandler(ContentHandler contentHandler)
+    {
+        this.contentHandler = contentHandler;
+    }
 }

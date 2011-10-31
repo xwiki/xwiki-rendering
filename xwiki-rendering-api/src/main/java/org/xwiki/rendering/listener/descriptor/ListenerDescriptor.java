@@ -17,33 +17,29 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.parser;
+package org.xwiki.rendering.listener.descriptor;
 
-import java.io.Reader;
-
-import org.xwiki.component.annotation.ComponentRole;
-import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.syntax.Syntax;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Parse content into a XDOM (a tree of {@link org.xwiki.rendering.block.Block}s).
- *
+ * List all event found in a listener.
+ * 
  * @version $Id$
- * @since 1.5M2
+ * @since 3.3M1
  */
-@ComponentRole
-public interface Parser
+public class ListenerDescriptor
 {
     /**
-     * @return the syntax the parser is implementing
+     * @see #getElements()
      */
-    Syntax getSyntax();
+    private Map<String, ListenerElement> elements = new HashMap<String, ListenerElement>();
 
     /**
-     * @param source the content to parse
-     * @return the tree representation of the content as {@link org.xwiki.rendering.block.Block}s
-     * @throws ParseException if the source cannot be read or an unexpected error happens during the parsing. Parsers
-     *         should be written to not generate any error as much as possible.
+     * @return the listener elements
      */
-    XDOM parse(Reader source) throws ParseException;
+    public Map<String, ListenerElement> getElements()
+    {
+        return this.elements;
+    }
 }

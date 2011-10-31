@@ -17,33 +17,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.parser;
+package org.xwiki.rendering.xdomxml.internal.version10.parser;
 
-import java.io.Reader;
+import java.util.Collections;
+import java.util.Set;
 
-import org.xwiki.component.annotation.ComponentRole;
-import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.syntax.Syntax;
+import org.xml.sax.SAXException;
+import org.xwiki.component.annotation.Component;
+import org.xwiki.component.annotation.InstantiationStrategy;
+import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.rendering.xdomxml.internal.parser.DefaultBlockParser;
 
-/**
- * Parse content into a XDOM (a tree of {@link org.xwiki.rendering.block.Block}s).
- *
- * @version $Id$
- * @since 1.5M2
- */
-@ComponentRole
-public interface Parser
+@Component("special_symbol")
+@InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
+public class SpecialSymbolBlockParser extends DefaultBlockParser
 {
-    /**
-     * @return the syntax the parser is implementing
-     */
-    Syntax getSyntax();
+    private static final Set<String> NAMES = Collections.singleton("symbol");
 
-    /**
-     * @param source the content to parse
-     * @return the tree representation of the content as {@link org.xwiki.rendering.block.Block}s
-     * @throws ParseException if the source cannot be read or an unexpected error happens during the parsing. Parsers
-     *         should be written to not generate any error as much as possible.
-     */
-    XDOM parse(Reader source) throws ParseException;
+    public SpecialSymbolBlockParser()
+    {
+        super(NAMES);
+    }
+
+    @Override
+    protected void endBlock() throws SAXException
+    {
+        getListener().onSpecialSymbol(getParameterAsChar("symbol", (char) 0));
+    }
 }

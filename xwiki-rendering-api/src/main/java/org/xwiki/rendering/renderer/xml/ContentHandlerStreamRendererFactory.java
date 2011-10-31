@@ -17,22 +17,20 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.parser;
+package org.xwiki.rendering.renderer.xml;
 
-import java.io.Reader;
-
+import org.xml.sax.ContentHandler;
 import org.xwiki.component.annotation.ComponentRole;
-import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * Parse content into a XDOM (a tree of {@link org.xwiki.rendering.block.Block}s).
- *
+ * Create instances of {@link ContentHandlerStreamRenderer}.
+ * 
  * @version $Id$
- * @since 1.5M2
+ * @since 3.3M1
  */
 @ComponentRole
-public interface Parser
+public interface ContentHandlerStreamRendererFactory
 {
     /**
      * @return the syntax the parser is implementing
@@ -40,10 +38,8 @@ public interface Parser
     Syntax getSyntax();
 
     /**
-     * @param source the content to parse
-     * @return the tree representation of the content as {@link org.xwiki.rendering.block.Block}s
-     * @throws ParseException if the source cannot be read or an unexpected error happens during the parsing. Parsers
-     *         should be written to not generate any error as much as possible.
+     * @param contentHandler the object to send SAX events to
+     * @return the new {@link ContentHandlerStreamRenderer} instance.
      */
-    XDOM parse(Reader source) throws ParseException;
+    ContentHandlerStreamRenderer createRenderer(ContentHandler contentHandler);
 }

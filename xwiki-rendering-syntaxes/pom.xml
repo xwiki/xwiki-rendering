@@ -41,6 +41,7 @@
     </dependency>
   </dependencies>
   <modules>
+    <module>xwiki-rendering-syntax-xdomxml</module>
     <module>xwiki-rendering-syntax-doxia</module>
     <module>xwiki-rendering-syntax-wikimodel</module>
     <module>xwiki-rendering-syntax-xwiki2</module>

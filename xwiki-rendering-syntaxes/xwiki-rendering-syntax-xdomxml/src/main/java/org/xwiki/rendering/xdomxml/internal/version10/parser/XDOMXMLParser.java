@@ -17,33 +17,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.parser;
+package org.xwiki.rendering.xdomxml.internal.version10.parser;
 
-import java.io.Reader;
-
-import org.xwiki.component.annotation.ComponentRole;
-import org.xwiki.rendering.block.XDOM;
+import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.internal.parser.xml.AbstractParser;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * Parse content into a XDOM (a tree of {@link org.xwiki.rendering.block.Block}s).
- *
+ * XDOM+XML stream based parser.
+ * 
  * @version $Id$
- * @since 1.5M2
  */
-@ComponentRole
-public interface Parser
+@Component("xdom+xml/1.0")
+public class XDOMXMLParser extends AbstractParser
 {
-    /**
-     * @return the syntax the parser is implementing
-     */
-    Syntax getSyntax();
-
-    /**
-     * @param source the content to parse
-     * @return the tree representation of the content as {@link org.xwiki.rendering.block.Block}s
-     * @throws ParseException if the source cannot be read or an unexpected error happens during the parsing. Parsers
-     *         should be written to not generate any error as much as possible.
-     */
-    XDOM parse(Reader source) throws ParseException;
+    @Override
+    public Syntax getSyntax()
+    {
+        return Syntax.XDOMXML_1_0;
+    }
 }

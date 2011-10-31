@@ -4,6 +4,14 @@
 .#-----------------------------------------------------
 This is **bold**
 .#-----------------------------------------------------
+.inputexpect|xdom+xml/1.0
+.#-----------------------------------------------------
+<block name="document" version="1.0"><block name="paragraph"><block name="word"><word>This</word></block><block name="space"></block><block name="word"><word>is</word></block><block name="space"></block><block name="format"><format>bold</format><block name="word"><word>bold</word></block></block></block></block>
+.#-----------------------------------------------------
+.inputexpect|xdom+xml/current
+.#-----------------------------------------------------
+<block name="document"><parameters><meta-data><metadata class="linked-hash-map"></metadata></meta-data></parameters><block name="paragraph"><parameters><linked-hash-map></linked-hash-map></parameters><block name="word"><parameters><string>This</string></parameters></block><block name="space"></block><block name="word"><parameters><string>is</string></parameters></block><block name="space"></block><block name="format"><parameters><org.xwiki.rendering.listener.Format>BOLD</org.xwiki.rendering.listener.Format><linked-hash-map></linked-hash-map></parameters><block name="word"><parameters><string>bold</string></parameters></block></block></block></block>
+.#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument

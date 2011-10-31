@@ -52,6 +52,11 @@ public class SyntaxType
     public static final SyntaxType DOCBOOK = new SyntaxType("docbook", "DocBook");
 
     /**
+     * @since 3.3M1
+     */
+    public static final SyntaxType XDOMXML = new SyntaxType("xdom+xml", "XML based XDOM");
+
+    /**
      * @see #getName()
      */
     private String name;
