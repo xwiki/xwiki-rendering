@@ -1,0 +1,22 @@
+.#-----------------------------------------------------
+.inputexpect|xwiki/2.1|skip
+.#-----------------------------------------------------
+[[[[image:attach.png||height="100" width="100"]]>>url:http://xwiki.org||param=value .param2=value2]]
+.#-----------------------------------------------------
+.inputexpect|xdom+xml/1.0
+.#-----------------------------------------------------
+<block name="document" version="1.0"><block name="paragraph"><block name="link"><parameters><param>value</param><entry name=".param2">value2</entry></parameters><reference><type>url</type><reference>http://xwiki.org</reference></reference><block name="image"><parameters><height>100</height><width>100</width></parameters><freestanding>false</freestanding><reference><type>attach</type><reference>attach.png</reference><typed>false</typed></reference></block></block></block></block>
+.#-----------------------------------------------------
+.inputexpect|xdom+xml/current
+.#-----------------------------------------------------
+<block name="document"><parameters><meta-data><metadata class="linked-hash-map"></metadata></meta-data></parameters><block name="paragraph"><parameters><linked-hash-map></linked-hash-map></parameters><block name="link"><parameters><resource-reference><isTyped>true</isTyped><reference>http://xwiki.org</reference><type><scheme>url</scheme></type><parameters></parameters></resource-reference><boolean>false</boolean><linked-hash-map><entry><string>param</string><string>value</string></entry><entry><string>.param2</string><string>value2</string></entry></linked-hash-map></parameters><block name="image"><parameters><resource-reference><isTyped>false</isTyped><reference>attach.png</reference><type><scheme>attach</scheme></type><parameters></parameters></resource-reference><boolean>false</boolean><linked-hash-map><entry><string>height</string><string>100</string></entry><entry><string>width</string><string>100</string></entry></linked-hash-map></parameters></block></block></block></block>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [true] Type = [url] Reference = [http://xwiki.org]] [false] [[param]=[value][.param2]=[value2]]
+onImage [Typed = [false] Type = [attach] Reference = [attach.png]] [false] [[height]=[100][width]=[100]]
+endLink [Typed = [true] Type = [url] Reference = [http://xwiki.org]] [false] [[param]=[value][.param2]=[value2]]
+endParagraph
+endDocument
