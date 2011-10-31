@@ -22,10 +22,6 @@ package org.xwiki.rendering.internal.parser;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import java.lang.reflect.Proxy;
-
-import javax.inject.Inject;
-
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.syntax.Syntax;
 
@@ -40,28 +36,13 @@ import org.xwiki.rendering.syntax.Syntax;
 @Singleton
 public class PlainTextBlockParser extends AbstractBlockParser
 {
-    @Inject
-    private ParameterManager parameterManager;
-
-    @Inject
-    private ListenerDescriptorManager descriptorManager;
-
-    @Override
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.xwiki.rendering.parser.Parser#getSyntax()
+     */
     public Syntax getSyntax()
     {
         return Syntax.PLAIN_1_0;
-    }
-
-    @Override
-    protected ContentHandlerStreamRenderer createContentHandlerStreamRenderer()
-    {
-        XDOMXMLChainingStreamRenderer handler =
-            new XDOMXMLChainingStreamRenderer(this.parameterManager,
-                this.descriptorManager.getListenerDescriptor(Listener.class));
-        ContentHandlerStreamRenderer instance =
-            (ContentHandlerStreamRenderer) Proxy.newProxyInstance(ContentHandlerStreamRenderer.class.getClassLoader(),
-                new Class[] {ContentHandlerStreamRenderer.class}, handler);
-
-        return instance;
     }
 }
