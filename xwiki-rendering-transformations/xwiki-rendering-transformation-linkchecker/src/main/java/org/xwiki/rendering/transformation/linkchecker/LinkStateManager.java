@@ -33,7 +33,7 @@ import org.xwiki.component.annotation.ComponentRole;
 public interface LinkStateManager
 {
     /**
-     * @return the states of all checked links. The retruend outer map key is the link reference and the inner map
+     * @return the states of all checked links. The returned outer map key is the link reference and the inner map
      *         key is the content reference
      */
     Map<String, Map<String, LinkState>> getLinkStates();
