@@ -28,4 +28,8 @@ public interface XDOMXMLConstants
     String ATT_BLOCK_VERSION = "version";
 
     String ELEM_PARAMETERS = "parameters";
+
+    String ELEM_PARAMETER = "parameter";
+
+    String ATT_PARAMETER_NULL = "null";
 }

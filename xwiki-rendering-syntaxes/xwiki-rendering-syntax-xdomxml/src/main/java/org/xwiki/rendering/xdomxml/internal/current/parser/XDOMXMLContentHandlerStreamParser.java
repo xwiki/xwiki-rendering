@@ -20,12 +20,14 @@
 package org.xwiki.rendering.xdomxml.internal.current.parser;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 import javax.inject.Inject;
 
+import org.dom4j.Attribute;
 import org.dom4j.Element;
 import org.dom4j.io.SAXContentHandler;
 import org.xml.sax.Attributes;
@@ -152,31 +154,40 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
         this.listenerDescriptor = this.listenerDescriptorManager.getListenerDescriptor(Listener.class);
     }
 
-    private boolean onBlockElement(String elementName)
+    private boolean onBlockChild()
     {
-        boolean result = false;
+        boolean result;
 
-        if (XDOMXMLConstants.ELEM_BLOCK.equals(elementName)) {
-            Block currentBlock = this.blockStack.isEmpty() ? null : this.blockStack.peek();
+        if (!this.blockStack.isEmpty()) {
+            Block currentBlock = this.blockStack.peek();
 
-            result = currentBlock == null || currentBlock.parameterDOMBuilder == null;
+            return currentBlock.elementDepth == (this.elementDepth - 1);
+        } else {
+            result = false;
         }
 
         return result;
     }
 
-    private boolean onParameterElement()
+    private boolean onBlockElement(String elementName)
     {
-        Block currentBlock = this.blockStack.isEmpty() ? null : this.blockStack.peek();
+        boolean result;
 
-        return currentBlock != null && currentBlock.elementDepth == (this.elementDepth - 2);
+        if (!this.blockStack.isEmpty()) {
+            Block currentBlock = this.blockStack.peek();
+
+            result =
+                (this.elementDepth - currentBlock.elementDepth <= 1) && XDOMXMLConstants.ELEM_BLOCK.equals(elementName);
+        } else {
+            result = true;
+        }
+
+        return result;
     }
 
-    private boolean onParametersElement()
+    private boolean onParameterElement(String elementName)
     {
-        Block currentBlock = this.blockStack.isEmpty() ? null : this.blockStack.peek();
-
-        return currentBlock != null && currentBlock.elementDepth == (this.elementDepth - 1);
+        return onBlockChild() && XDOMXMLConstants.ELEM_PARAMETER.equals(elementName);
     }
 
     @Override
@@ -197,7 +208,7 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
 
             currentBlock = this.blockStack.push(block);
         } else {
-            if (onParameterElement()) {
+            if (onParameterElement(qName)) {
                 // starting a new block parameter
                 if (currentBlock.listenerElement != null) {
                     currentBlock.parameterDOMBuilder = this.currentDOMBuilder;
@@ -235,22 +246,23 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
                     block.fireOnEvent(this.listener, block.getParametersTable());
                 }
             }
-        } else if (onParametersElement()) {
-            if (currentBlock.listenerElement != null) {
-                // Flush pending begin event
-                if (currentBlock.isContainer() && !currentBlock.beginSent) {
-                    currentBlock.fireBeginEvent(this.listener, currentBlock.getParametersTable());
-                }
-            }
         } else if (currentBlock.parameterDOMBuilder != null) {
             currentBlock.parameterDOMBuilder.endElement(uri, localName, qName);
 
-            if (onParameterElement()) {
+            if (onParameterElement(qName)) {
                 if (currentBlock.listenerElement != null) {
                     currentBlock.parameterDOMBuilder.endDocument();
 
+                    ListenerElement listenerElement = currentBlock.listenerElement;
+                    Type parameterType = listenerElement.getParameters().get(currentBlock.parametersList.size());
                     Element rootElement = currentBlock.parameterDOMBuilder.getDocument().getRootElement();
-                    currentBlock.addParameter(this.parameterManager.unSerialize(rootElement));
+
+                    Attribute nullAttribute = rootElement.attribute(XDOMXMLConstants.ATT_PARAMETER_NULL);
+                    if (nullAttribute != null && "true".equals(nullAttribute.getValue())) {
+                        currentBlock.addParameter(null);
+                    } else {
+                        currentBlock.addParameter(this.parameterManager.unSerialize(parameterType, rootElement));
+                    }
                 }
 
                 currentBlock.parameterDOMBuilder = null;

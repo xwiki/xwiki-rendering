@@ -20,6 +20,7 @@
 package org.xwiki.rendering.listener.descriptor;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class ListenerElement
     /**
      * @see #getParameters()
      */
-    private List<Class< ? >> parameters = new ArrayList<Class< ? >>();
+    private List<Type> parameters = new ArrayList<Type>();
 
     /**
      * @see #getBeginMethod()
@@ -78,7 +79,7 @@ public class ListenerElement
     /**
      * @return the parameters of the element
      */
-    public List<Class< ? >> getParameters()
+    public List<Type> getParameters()
     {
         return this.parameters;
     }

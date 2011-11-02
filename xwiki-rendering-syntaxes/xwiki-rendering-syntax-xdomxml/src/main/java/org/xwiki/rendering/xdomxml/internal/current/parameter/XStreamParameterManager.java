@@ -19,18 +19,25 @@
  */
 package org.xwiki.rendering.xdomxml.internal.current.parameter;
 
+import java.lang.reflect.Type;
+
 import org.dom4j.Element;
 import org.xml.sax.ContentHandler;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.listener.MetaData;
-import org.xwiki.rendering.listener.reference.ResourceReference;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.DataHolder;
+import com.thoughtworks.xstream.core.MapBackedDataHolder;
 import com.thoughtworks.xstream.io.xml.Dom4JReader;
 import com.thoughtworks.xstream.io.xml.SaxWriter;
 
+/**
+ * XStream based implementation of {@link ParameterManager}.
+ * 
+ * @version $Id$
+ */
 @Component
 public class XStreamParameterManager implements ParameterManager, Initializable
 {
@@ -41,22 +48,32 @@ public class XStreamParameterManager implements ParameterManager, Initializable
     {
         this.xstream = new XStream();
 
-        this.xstream.alias("resource-reference", ResourceReference.class);
-        this.xstream.alias("meta-data", MetaData.class);
+        this.xstream.setMarshallingStrategy(new XDOMXMLTreeMarshallingStrategy());
+        
+        this.xstream.registerConverter(new XDOMXMLCollectionConverter(this.xstream.getMapper()));
+        this.xstream.registerConverter(new XDOMXMLMapConverter(this.xstream.getMapper()));
     }
 
     @Override
-    public void serialize(Object object, ContentHandler xmlContent)
+    public void serialize(Type type, Object object, ContentHandler xmlContent)
     {
         SaxWriter saxWriter = new SaxWriter(false);
         saxWriter.setContentHandler(xmlContent);
 
-        this.xstream.marshal(object, saxWriter);
+        DataHolder dataHolder = new MapBackedDataHolder();
+
+        dataHolder.put("type", type);
+
+        this.xstream.marshal(object, saxWriter, dataHolder);
     }
 
     @Override
-    public Object unSerialize(Element rootElement)
+    public Object unSerialize(Type type, Element rootElement)
     {
-        return this.xstream.unmarshal(new Dom4JReader(rootElement));
+        DataHolder dataHolder = new MapBackedDataHolder();
+
+        dataHolder.put("type", type);
+
+        return this.xstream.unmarshal(new Dom4JReader(rootElement), null, dataHolder);
     }
 }

@@ -19,16 +19,26 @@
  */
 package org.xwiki.rendering.xdomxml.internal.current.parameter;
 
-import java.lang.reflect.Type;
+import com.thoughtworks.xstream.converters.ConverterLookup;
+import com.thoughtworks.xstream.core.TreeMarshallingStrategy;
+import com.thoughtworks.xstream.core.TreeUnmarshaller;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.mapper.Mapper;
 
-import org.dom4j.Element;
-import org.xml.sax.ContentHandler;
-import org.xwiki.component.annotation.ComponentRole;
-
-@ComponentRole
-public interface ParameterManager
+public class XDOMXMLTreeMarshallingStrategy extends TreeMarshallingStrategy
 {
-    void serialize(Type type, Object object, ContentHandler xmlContent);
+    @Override
+    protected XDOMXMLTreeMarshaller createMarshallingContext(HierarchicalStreamWriter writer,
+        ConverterLookup converterLookup, Mapper mapper)
+    {
+        return new XDOMXMLTreeMarshaller(writer, converterLookup, mapper);
+    }
 
-    Object unSerialize(Type type, Element rootElement);
+    @Override
+    protected TreeUnmarshaller createUnmarshallingContext(Object root, HierarchicalStreamReader reader,
+        ConverterLookup converterLookup, Mapper mapper)
+    {
+        return new XDOMXMLTreeUnmarshaller(root, reader, converterLookup, mapper);
+    }
 }

@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.listener.descriptor;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -101,7 +102,7 @@ public class DefaultListenerDescriptorManager implements ListenerDescriptorManag
                 if (element == null) {
                     element = new ListenerElement(elementName);
 
-                    for (Class< ? > parameterType : method.getParameterTypes()) {
+                    for (Type parameterType : method.getGenericParameterTypes()) {
                         element.getParameters().add(parameterType);
                     }
 

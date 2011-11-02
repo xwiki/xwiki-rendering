@@ -10,7 +10,7 @@ This is **bold**
 .#-----------------------------------------------------
 .inputexpect|xdom+xml/current
 .#-----------------------------------------------------
-<block name="document"><parameters><meta-data><metadata class="linked-hash-map"></metadata></meta-data></parameters><block name="paragraph"><parameters><linked-hash-map></linked-hash-map></parameters><block name="word"><parameters><string>This</string></parameters></block><block name="space"></block><block name="word"><parameters><string>is</string></parameters></block><block name="space"></block><block name="format"><parameters><org.xwiki.rendering.listener.Format>BOLD</org.xwiki.rendering.listener.Format><linked-hash-map></linked-hash-map></parameters><block name="word"><parameters><string>bold</string></parameters></block></block></block></block>
+<block name="document"><parameter><metadata class="linked-hash-map"></metadata></parameter><block name="paragraph"><parameter></parameter><block name="word"><parameter>This</parameter></block><block name="space"></block><block name="word"><parameter>is</parameter></block><block name="space"></block><block name="format"><parameter>BOLD</parameter><parameter></parameter><block name="word"><parameter>bold</parameter></block></block></block></block>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------

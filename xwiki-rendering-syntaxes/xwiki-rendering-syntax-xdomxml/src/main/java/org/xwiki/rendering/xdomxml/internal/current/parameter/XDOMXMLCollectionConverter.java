@@ -19,16 +19,29 @@
  */
 package org.xwiki.rendering.xdomxml.internal.current.parameter;
 
-import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import org.dom4j.Element;
-import org.xml.sax.ContentHandler;
-import org.xwiki.component.annotation.ComponentRole;
+import com.thoughtworks.xstream.converters.collections.CollectionConverter;
+import com.thoughtworks.xstream.mapper.Mapper;
 
-@ComponentRole
-public interface ParameterManager
+public class XDOMXMLCollectionConverter extends CollectionConverter
 {
-    void serialize(Type type, Object object, ContentHandler xmlContent);
+    public XDOMXMLCollectionConverter(Mapper mapper)
+    {
+        super(mapper);
+    }
 
-    Object unSerialize(Type type, Element rootElement);
+    @Override
+    public boolean canConvert(Class type)
+    {
+        return type.equals(Collection.class) || type.equals(List.class);
+    }
+
+    @Override
+    protected Object createCollection(Class type)
+    {
+        return new ArrayList();
+    }
 }

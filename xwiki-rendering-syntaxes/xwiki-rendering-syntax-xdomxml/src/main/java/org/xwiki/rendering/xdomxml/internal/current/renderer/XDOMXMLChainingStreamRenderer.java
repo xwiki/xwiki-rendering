@@ -21,8 +21,6 @@ package org.xwiki.rendering.xdomxml.internal.current.renderer;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -86,18 +84,20 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
     private void printParameters(Object[] parameters, ListenerElement descriptor)
     {
         if (parameters != null && parameters.length > 0) {
-            startElement(XDOMXMLConstants.ELEM_PARAMETERS, null);
             for (int i = 0; i < parameters.length; ++i) {
-                Object parameter = parameters[i];
+                Object value = parameters[i];
 
-                Class< ? > eventType = descriptor.getParameters().get(i);
-                if (eventType == Map.class) {
-                    parameter = new LinkedHashMap((Map) parameter);
+                if (value != null) {
+                    startElement(XDOMXMLConstants.ELEM_PARAMETER, null);
+                } else {
+                    startElement(XDOMXMLConstants.ELEM_PARAMETER, new String[][] {{XDOMXMLConstants.ATT_PARAMETER_NULL,
+                        "true"}});
                 }
 
-                this.parameterManager.serialize(parameter, this.contentHandler);
+                this.parameterManager.serialize(descriptor.getParameters().get(i), parameters[i], this.contentHandler);
+
+                endElement(XDOMXMLConstants.ELEM_PARAMETER);
             }
-            endElement(XDOMXMLConstants.ELEM_PARAMETERS);
         }
     }
 

@@ -19,16 +19,28 @@
  */
 package org.xwiki.rendering.xdomxml.internal.current.parameter;
 
-import java.lang.reflect.Type;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import org.dom4j.Element;
-import org.xml.sax.ContentHandler;
-import org.xwiki.component.annotation.ComponentRole;
+import com.thoughtworks.xstream.converters.collections.MapConverter;
+import com.thoughtworks.xstream.mapper.Mapper;
 
-@ComponentRole
-public interface ParameterManager
+public class XDOMXMLMapConverter extends MapConverter
 {
-    void serialize(Type type, Object object, ContentHandler xmlContent);
+    public XDOMXMLMapConverter(Mapper mapper)
+    {
+        super(mapper);
+    }
 
-    Object unSerialize(Type type, Element rootElement);
+    @Override
+    public boolean canConvert(Class type)
+    {
+        return type.equals(Map.class);
+    }
+
+    @Override
+    protected Object createCollection(Class type)
+    {
+        return new LinkedHashMap();
+    }
 }
