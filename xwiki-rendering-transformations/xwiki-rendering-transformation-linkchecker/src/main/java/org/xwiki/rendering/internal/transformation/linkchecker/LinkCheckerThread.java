@@ -19,10 +19,16 @@
  */
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.component.phase.InitializationException;
+import org.xwiki.observation.ObservationManager;
+import org.xwiki.rendering.transformation.linkchecker.InvalidURLEvent;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 
@@ -41,6 +47,12 @@ public class LinkCheckerThread extends Thread
      * Wait 5 minutes before rechecking a link.
      */
     private static final long TIMEOUT = 300000L;
+
+    /**
+     * The Component Manager to use to locate other components. For example we use it to dynamically look up an
+     * Observation Manager so that this transformation works even if there isn't one available.
+     */
+    private ComponentManager componentManager;
 
     /**
      * The state manager containing the state of all checked links.
@@ -63,16 +75,22 @@ public class LinkCheckerThread extends Thread
     private volatile boolean shouldStop;
 
     /**
-     * @param linkStateManager the state manager containing the state of all checked links.
-     * @param httpChecker the HTTP checker used to connect to links to verify their validity.
+     * @param componentManager the Component Manager to use to locate other components
      * @param linkQueue the queue containing links to check.
+     * @throws InitializationException when it fails to lookup needed components
      */
-    public LinkCheckerThread(LinkStateManager linkStateManager, HTTPChecker httpChecker,
-        Queue<LinkQueueItem> linkQueue)
+    public LinkCheckerThread(ComponentManager componentManager, Queue<LinkQueueItem> linkQueue)
+        throws InitializationException
     {
-        this.linkStateManager = linkStateManager;
-        this.httpChecker = httpChecker;
+        try {
+            this.linkStateManager = componentManager.lookup(LinkStateManager.class);
+            this.httpChecker = componentManager.lookup(HTTPChecker.class);
+        } catch (ComponentLookupException e) {
+            throw new InitializationException("Failed to initialize the Link Checker Thread. "
+                + "External link states won't be checked.", e);
+        }
         this.linkQueue = linkQueue;
+        this.componentManager = componentManager;
     }
 
     @Override
@@ -149,5 +167,31 @@ public class LinkCheckerThread extends Thread
         }
         contentReferences.put(queueItem.getContentReference(), state);
         this.linkStateManager.getLinkStates().put(queueItem.getLinkReference(), contentReferences);
+
+        // If there's an error, then send an Observation Event so that anyone interested can listen to it.
+        if (responseCode < 200 || responseCode > 299) {
+            Map<String, Object> eventSource = new HashMap<String, Object>();
+            eventSource.put("url", queueItem.getLinkReference());
+            eventSource.put("source", queueItem.getContentReference());
+            eventSource.put("state", state);
+            sendEvent(queueItem.getLinkReference(), eventSource);
+        }
+    }
+
+    /**
+     * Send an {@link InvalidURLEvent} event.
+     *
+     * @param url the failing URL
+     * @param source the Map containing data (link url, link source reference, state object)
+     */
+    private void sendEvent(String url, Map<String, Object> source)
+    {
+        // Dynamically look for an Observation Manager and only send the event if one can be found.
+        try {
+            ObservationManager observationManager = this.componentManager.lookup(ObservationManager.class);
+            observationManager.notify(new InvalidURLEvent(url), source);
+        } catch (ComponentLookupException e) {
+            // No observation manager found, don't send any event.
+        }
     }
 }

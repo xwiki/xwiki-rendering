@@ -27,6 +27,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
@@ -39,7 +40,6 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.transformation.AbstractTransformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
-import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 
 /**
  * Looks for external URLs in links and verify their status (ok, broken, etc). In order to get good performances
@@ -54,17 +54,10 @@ import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 public class LinkCheckerTransformation extends AbstractTransformation implements Initializable
 {
     /**
-     * The component to check if a URL exists or not.
+     * The component to use to locate other components.
      */
     @Inject
-    private HTTPChecker httpChecker;
-
-    /**
-     * The link state manager that we need to pass to the checking thread so that it can update it when it checks
-     * links.
-     */
-    @Inject
-    private LinkStateManager linkStateManager;
+    private ComponentManager componentManager;
 
     /**
      * The link queue that the checker thread will use to check links. We use a separate checked thread and a queue
@@ -84,7 +77,7 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
     @Override
     public void initialize() throws InitializationException
     {
-        this.checkerThread = new LinkCheckerThread(this.linkStateManager, this.httpChecker, this.linkQueue);
+        this.checkerThread = new LinkCheckerThread(this.componentManager, this.linkQueue);
         this.checkerThread.setName("Link Checker Thread");
         this.checkerThread.start();
     }

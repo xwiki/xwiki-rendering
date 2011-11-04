@@ -20,7 +20,6 @@
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
 import java.io.StringReader;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,11 +27,13 @@ import org.jmock.Expectations;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.transformation.TransformationContext;
+import org.xwiki.rendering.transformation.linkchecker.InvalidURLEvent;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 import org.xwiki.script.service.ScriptService;
@@ -47,8 +48,10 @@ import org.xwiki.test.annotation.MockingRequirement;
  */
 public class LinkCheckerTransformationTest extends AbstractMockingComponentTestCase
 {
-    @MockingRequirement(exceptions = {LinkStateManager.class})
+    @MockingRequirement(exceptions = {ComponentManager.class})
     private LinkCheckerTransformation transformation;
+
+    private HTTPChecker httpChecker;
 
     @After
     public void cleanUp()
@@ -58,18 +61,24 @@ public class LinkCheckerTransformationTest extends AbstractMockingComponentTestC
         this.transformation.stopLinkCheckerThread();
     }
 
+    @Override
+    public void configure() throws Exception
+    {
+        this.httpChecker = registerMockComponent(HTTPChecker.class);
+    }
+
     @Test
-    public void testTransform() throws Exception
+    public void transform() throws Exception
     {
         String input = ""
             + "whatever"
             + "[[http://ok||class=\"myclass\"]]"
             + "[[invalid]]";
 
-        final HTTPChecker checker = getComponentManager().lookup(HTTPChecker.class);
-        getMockery().checking(new Expectations() {{
-            oneOf(checker).check("http://ok"); will(returnValue(200));
-            oneOf(checker).check("invalid"); will(returnValue(0));
+        getMockery().checking(new Expectations()
+        {{
+            oneOf(httpChecker).check("http://ok"); will(returnValue(200));
+            oneOf(httpChecker).check("invalid"); will(returnValue(0));
         }});
 
         LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
@@ -91,7 +100,7 @@ public class LinkCheckerTransformationTest extends AbstractMockingComponentTestC
      * expired (for performance reasons we only recheck links after a certain timeout).
      */
     @Test
-    public void testTransformWhenExistingLinkState() throws Exception
+    public void transformWhenExistingLinkState() throws Exception
     {
         // Note: it's important that the first link in the input be the link that we're adding manually to the list
         // of states below since belowe we're waiting to get 2 states before stopping our test. If it were inverted
@@ -130,7 +139,7 @@ public class LinkCheckerTransformationTest extends AbstractMockingComponentTestC
     }
 
     @Test
-    public void testTransformWithSourceMetaData() throws Exception
+    public void transformWithSourceMetaData() throws Exception
     {
         String input = "[[http://ok]]";
         XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.0").parse(new StringReader(input));
@@ -152,8 +161,29 @@ public class LinkCheckerTransformationTest extends AbstractMockingComponentTestC
 
         Assert.assertNotNull(linkStateManager.getLinkStates().get("http://ok").get("source"));
     }
-    
-    private void parseAndwait(String input, LinkStateManager linkStateManager, int numberOfItemsToWaitFor) 
+
+    /**
+     * Verify that when the Observation Manager is available we send an InvalidURLEvent event when there's an invalid
+     * URL.
+     */
+    @Test
+    public void transformAndSendEvent() throws Exception
+    {
+        final ObservationManager observationManager = registerMockComponent(ObservationManager.class);
+        getMockery().checking(new Expectations()
+        {{
+            oneOf(httpChecker).check("http://doesntexist"); 
+            will(returnValue(404));
+            // The test is here: we verify that the event is sent
+            oneOf(observationManager).notify(with(equal(new InvalidURLEvent("http://doesntexist"))),
+                with(any(Map.class)));
+        }});
+
+        LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
+        parseAndwait("[[http://doesntexist]]", linkStateManager, 1);
+    }
+
+    private void parseAndwait(String input, LinkStateManager linkStateManager, int numberOfItemsToWaitFor)
         throws Exception
     {
         XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.0").parse(new StringReader(input));
