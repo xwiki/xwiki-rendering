@@ -19,22 +19,25 @@
  */
 package org.xwiki.rendering.transformation.linkchecker;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
- * Represents a Link State, ie the HTTP response code when the link was checked and the time when the link was last 
+ * Represents a Link State, ie the HTTP response code when the link was checked and the time when the link was last
  * checked.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */
 public class LinkState
 {
     /**
-     * @see #getResponseCode() 
+     * @see #getResponseCode()
      */
     private int responseCode;
 
     /**
-     * @see #getLastCheckedTime() 
+     * @see #getLastCheckedTime()
      */
     private long lastCheckedTime;
 
@@ -49,7 +52,7 @@ public class LinkState
     }
 
     /**
-     * @return the time when the link was last checked 
+     * @return the time when the link was last checked
      */
     public long getLastCheckedTime()
     {
@@ -62,5 +65,33 @@ public class LinkState
     public int getResponseCode()
     {
         return this.responseCode;
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+        if (object == null) {
+            return false;
+        }
+        if (object == this) {
+            return true;
+        }
+        if (object.getClass() != getClass()) {
+            return false;
+        }
+        LinkState rhs = (LinkState) object;
+        return new EqualsBuilder()
+            .append(getResponseCode(), rhs.getResponseCode())
+            .append(getLastCheckedTime(), rhs.getLastCheckedTime())
+            .isEquals();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(9, 15)
+            .append(getResponseCode())
+            .append(getLastCheckedTime())
+            .toHashCode();
     }
 }
