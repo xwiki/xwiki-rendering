@@ -19,11 +19,17 @@
  */
 package org.xwiki.rendering.internal.transformation;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
@@ -56,6 +62,12 @@ public class DefaultTransformationManager implements TransformationManager
     @Inject
     private Logger logger;
 
+    /**
+     * Used to look up transformations at runtime.
+     */
+    @Inject
+    private ComponentManager componentManager;
+
     @Override
     public void performTransformations(XDOM dom, Syntax syntax) throws TransformationException
     {
@@ -66,7 +78,7 @@ public class DefaultTransformationManager implements TransformationManager
     public void performTransformations(Block block, TransformationContext context) throws TransformationException
     {
         boolean error = false;
-        for (Transformation transformation : this.configuration.getTransformations()) {
+        for (Transformation transformation : getTransformations()) {
             try {
                 transformation.transform(block, context);
             } catch (Exception e) {
@@ -79,5 +91,22 @@ public class DefaultTransformationManager implements TransformationManager
             throw new TransformationException("One or several transformations failed to execute properly. "
                 + "See the logs for details.");
         }
+    }
+
+    /**
+     * @return the ordered list of Transformations to execute
+     */
+    public List<Transformation> getTransformations()
+    {
+        List<Transformation> transformations = new ArrayList<Transformation>();
+        for (String hint : this.configuration.getTransformationNames()) {
+            try {
+                transformations.add(this.componentManager.lookup(Transformation.class, hint));
+            } catch (ComponentLookupException e) {
+                this.logger.warn("Failed to locate transformation with hint [" + hint + "], ignoring it.");
+            }
+        }
+        Collections.sort(transformations);
+        return transformations;
     }
 }

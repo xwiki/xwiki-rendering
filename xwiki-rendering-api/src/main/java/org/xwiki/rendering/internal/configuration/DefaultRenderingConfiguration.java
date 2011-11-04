@@ -19,14 +19,16 @@
  */
 package org.xwiki.rendering.internal.configuration;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.descriptor.ComponentDescriptor;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.transformation.Transformation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -44,10 +46,22 @@ import javax.inject.Singleton;
 public class DefaultRenderingConfiguration implements RenderingConfiguration, Initializable
 {
     /**
-     * Holds the list of transformations to apply, sorted by priority in {@link #initialize()}.
+     * The logger to log.
      */
     @Inject
-    private List<Transformation> transformations = new ArrayList<Transformation>();
+    private Logger logger;
+
+    /**
+     * Used to look up Transformations at runtime.
+     */
+    @Inject
+    private ComponentManager componentManager;
+    
+    /**
+     * Holds the names of transformations to apply (in any order, the Transformation Manager will execute them in the
+     * proper order).
+     */
+    private List<String> transformationNames = new ArrayList<String>();
 
     /**
      * @see #getLinkLabelFormat()
@@ -59,22 +73,18 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
      */
     private Properties interWikiDefinitions = new Properties();
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
-        // Sort transformations by priority.
-        Collections.sort(this.transformations);
+        // Find the names of all registered Transformations.
+        for (ComponentDescriptor<Transformation> descriptor
+            : this.componentManager.getComponentDescriptorList(Transformation.class))
+        {
+            transformationNames.add(descriptor.getRoleHint());
+        }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.configuration.RenderingConfiguration#getLinkLabelFormat()
-     */
+    @Override
     public String getLinkLabelFormat()
     {
         return this.linkLabelFormat;
@@ -90,11 +100,7 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
         this.linkLabelFormat = linkLabelFormat;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.configuration.RenderingConfiguration#getInterWikiDefinitions()
-     */
+    @Override
     public Properties getInterWikiDefinitions()
     {
         return this.interWikiDefinitions;
@@ -112,20 +118,16 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
     }
 
     /**
-     * @param transformations the explicit list of transformations to execute (overrides the default list)
+     * @param transformationNames the explicit list of transformation names to execute (overrides the default list)
      */
-    public void setTransformations(List<Transformation> transformations)
+    public void setTransformationNames(List<String> transformationNames)
     {
-        this.transformations = transformations;
+        this.transformationNames = transformationNames;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.configuration.RenderingConfiguration#getTransformations()
-     */
-    public List<Transformation> getTransformations()
+    @Override
+    public List<String> getTransformationNames()
     {
-        return this.transformations;
+        return this.transformationNames;
     }
 }

@@ -20,7 +20,6 @@
 package org.xwiki.rendering.configuration;
 
 import org.xwiki.component.annotation.ComponentRole;
-import org.xwiki.rendering.transformation.Transformation;
 
 import java.util.List;
 import java.util.Properties;
@@ -66,9 +65,9 @@ public interface RenderingConfiguration
     Properties getInterWikiDefinitions();
 
     /**
-     * @return the list of transformations to execute when rendering document content, ordered by transformation
+     * @return the names of transformations to execute when rendering document content, ordered by transformation
      *         priority (highest priority first)
-     * @since 2.6RC1
+     * @since 3.3M1
      */
-    List<Transformation> getTransformations();
+    List<String> getTransformationNames();
 }
