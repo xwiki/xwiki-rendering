@@ -215,7 +215,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
         {{
             oneOf(httpChecker).check("http://doesntexist"); 
             will(returnValue(404));
-            // The test is here: we verify that the event is sent
+            // The real test is here: we verify that the event is sent
             oneOf(observationManager).notify(with(equal(new InvalidURLEvent("http://doesntexist"))),
                 with(any(Map.class)));
         }});
@@ -243,7 +243,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
         while (linkStateManager.getLinkStates().size() != numberOfItemsToWaitFor) {
             Thread.sleep(100L);
             // Protect against infinite loop
-            Assert.assertTrue(System.currentTimeMillis() - time < 10000L);
+            Assert.assertTrue("Killed thread since it took too much time", System.currentTimeMillis() - time < 10000L);
         }
     }
 }

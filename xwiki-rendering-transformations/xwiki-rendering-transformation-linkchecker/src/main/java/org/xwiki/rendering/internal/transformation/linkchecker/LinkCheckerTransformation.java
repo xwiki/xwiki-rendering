@@ -103,10 +103,13 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
 
     /**
      * Stops the checking thread. Should be called when the application is stopped for a clean shutdown.
+     * @throws InterruptedException if the thread failed to be stopped
      */
-    public void stopLinkCheckerThread()
+    public void stopLinkCheckerThread() throws InterruptedException
     {
         this.checkerThread.stopProcessing();
+        // Wait till the thread goes away
+        this.checkerThread.join();
     }
 
     /**
