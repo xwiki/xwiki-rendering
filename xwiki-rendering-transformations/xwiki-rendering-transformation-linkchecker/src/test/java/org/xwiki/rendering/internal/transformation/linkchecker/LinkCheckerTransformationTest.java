@@ -27,18 +27,18 @@ import org.jmock.Expectations;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.parser.Parser;
+import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.linkchecker.InvalidURLEvent;
+import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationConfiguration;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 import org.xwiki.script.service.ScriptService;
-import org.xwiki.test.AbstractMockingComponentTestCase;
-import org.xwiki.test.annotation.MockingRequirement;
+import org.xwiki.test.AbstractComponentTestCase;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.internal.transformation.linkchecker.LinkCheckerTransformation}.
@@ -46,25 +46,15 @@ import org.xwiki.test.annotation.MockingRequirement;
  * @version $Id$
  * @since 3.3M1
  */
-public class LinkCheckerTransformationTest extends AbstractMockingComponentTestCase
+public class LinkCheckerTransformationTest extends AbstractComponentTestCase
 {
-    @MockingRequirement(exceptions = {ComponentManager.class})
-    private LinkCheckerTransformation transformation;
-
-    private HTTPChecker httpChecker;
-
     @After
-    public void cleanUp()
+    public void cleanUp() throws Exception
     {
         // Make sure we stop the Link Checker thread after each test (since it's started automatically when looking
         // up the LinkCheckerTransformation component.
-        this.transformation.stopLinkCheckerThread();
-    }
-
-    @Override
-    public void configure() throws Exception
-    {
-        this.httpChecker = registerMockComponent(HTTPChecker.class);
+        Transformation transformation = getComponentManager().lookup(Transformation.class, "linkchecker");
+        ((LinkCheckerTransformation) transformation).stopLinkCheckerThread();
     }
 
     @Test
@@ -75,6 +65,7 @@ public class LinkCheckerTransformationTest extends AbstractMockingComponentTestC
             + "[[http://ok||class=\"myclass\"]]"
             + "[[invalid]]";
 
+        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
         getMockery().checking(new Expectations()
         {{
             oneOf(httpChecker).check("http://ok"); will(returnValue(200));
@@ -103,7 +94,7 @@ public class LinkCheckerTransformationTest extends AbstractMockingComponentTestC
     public void transformWhenExistingLinkState() throws Exception
     {
         // Note: it's important that the first link in the input be the link that we're adding manually to the list
-        // of states below since belowe we're waiting to get 2 states before stopping our test. If it were inverted
+        // of states below since below we're waiting to get 2 states before stopping our test. If it were inverted
         // then we would get 2 states before we have time to process the link for which the state already exists.
         String input = ""
             + "[[http://ok]]"
@@ -117,10 +108,10 @@ public class LinkCheckerTransformationTest extends AbstractMockingComponentTestC
         contentReferences.put("default", new LinkState(200, initialTime));
         linkStateManager.getLinkStates().put("http://ok", contentReferences);
 
-        final HTTPChecker checker = getComponentManager().lookup(HTTPChecker.class);
+        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
         getMockery().checking(new Expectations() {{
-            never(checker).check("http://ok");
-            oneOf(checker).check("http://newok"); will(returnValue(200));
+            never(httpChecker).check("http://ok");
+            oneOf(httpChecker).check("http://newok"); will(returnValue(200));
         }});
 
         parseAndwait(input, linkStateManager, 2);
@@ -138,6 +129,54 @@ public class LinkCheckerTransformationTest extends AbstractMockingComponentTestC
         Assert.assertEquals(200, state2.getResponseCode());
     }
 
+    /**
+     * Verify behavior when a link has already been checked and it's asked to be checked again but after the timeout
+     * has expired.
+     */
+    @Test
+    public void transformWhenExistingLinkStateButAfterTimeoutHasExpired() throws Exception
+    {
+        // Note: it's important that the first link in the input be the link that we're updating below since below
+        // we're waiting to get 2 states before stopping our test. If it were inverted then we would get 2 states
+        // before we have time to process the link for which the state already exists.
+        String input = ""
+            + "[[http://ok]]"
+            + "[[http://newok]]";
+
+        // Set some state in the Link State Manager to verify that if an item that is on the queue is the same as one
+        // already process not long ago, it's not processed again.
+        LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
+        Map<String, LinkState> contentReferences = new HashMap<String, LinkState>();
+        long initialTime = System.currentTimeMillis();
+        contentReferences.put("default", new LinkState(404, initialTime));
+        linkStateManager.getLinkStates().put("http://ok", contentReferences);
+
+        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
+        getMockery().checking(new Expectations() {{
+            oneOf(httpChecker).check("http://newok"); will(returnValue(200));
+            oneOf(httpChecker).check("http://ok"); will(returnValue(200));
+        }});
+
+        // Modify the default timeout so that we don't have to wait too long for the test...
+        DefaultLinkCheckerTransformationConfiguration configuration =
+            (DefaultLinkCheckerTransformationConfiguration) getComponentManager().lookup(
+                LinkCheckerTransformationConfiguration.class);
+        configuration.setCheckTimeout(0L);
+
+        parseAndwait(input, linkStateManager, 2);
+
+        // We've put a timeout of 0ms but to be on the safe side we wait 1ms (since otherwise it could be possible
+        // that the above executes in less than 1ms.
+        Thread.sleep(1L);
+        
+        // Verify we can access the link states through the Script Service
+        LinkCheckerScriptService service =
+            (LinkCheckerScriptService) getComponentManager().lookup(ScriptService.class, "linkchecker");
+        Map<String, Map<String, LinkState>> states = service.getLinkStates();
+
+        LinkState state = states.get("http://ok").get("default");
+        Assert.assertEquals(200, state.getResponseCode());
+    }
     @Test
     public void transformWithSourceMetaData() throws Exception
     {
@@ -149,12 +188,13 @@ public class LinkCheckerTransformationTest extends AbstractMockingComponentTestC
         metaData.addMetaData(MetaData.SOURCE, "source");
         XDOM newXDOM = new XDOM(xdom.getChildren(), metaData);
 
-        final HTTPChecker checker = getComponentManager().lookup(HTTPChecker.class);
+        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
         getMockery().checking(new Expectations() {{
-            oneOf(checker).check("http://ok"); will(returnValue(200));
+            oneOf(httpChecker).check("http://ok"); will(returnValue(200));
         }});
 
-        this.transformation.transform(newXDOM, new TransformationContext());
+        Transformation transformation = getComponentManager().lookup(Transformation.class, "linkchecker");
+        transformation.transform(newXDOM, new TransformationContext());
 
         LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
         wait(linkStateManager, 1);        
@@ -170,6 +210,7 @@ public class LinkCheckerTransformationTest extends AbstractMockingComponentTestC
     public void transformAndSendEvent() throws Exception
     {
         final ObservationManager observationManager = registerMockComponent(ObservationManager.class);
+        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
         getMockery().checking(new Expectations()
         {{
             oneOf(httpChecker).check("http://doesntexist"); 
@@ -186,8 +227,10 @@ public class LinkCheckerTransformationTest extends AbstractMockingComponentTestC
     private void parseAndwait(String input, LinkStateManager linkStateManager, int numberOfItemsToWaitFor)
         throws Exception
     {
+        Transformation transformation = getComponentManager().lookup(Transformation.class, "linkchecker");
+
         XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.0").parse(new StringReader(input));
-        this.transformation.transform(xdom, new TransformationContext());
+        transformation.transform(xdom, new TransformationContext());
 
         // At this point the links have been put on the queue and we're waiting for the Link Checker Thread to
         // process them

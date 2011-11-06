@@ -25,7 +25,6 @@ import javax.inject.Singleton;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 
@@ -55,9 +54,6 @@ public class DefaultHTTPChecker implements HTTPChecker
             GetMethod method = new GetMethod(url);
             // Ignore cookies since this can cause errors in logs and we don't need cookies when checking sites.
             method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
-            // Sets the socket timeout (SO_TIMEOUT) in milliseconds to be used when executing the method.
-            // We use a small value since we don't want to slow down the rendering process.
-            method.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, new Integer(1000));
 
             // Execute the method.
             responseCode = client.executeMethod(method);

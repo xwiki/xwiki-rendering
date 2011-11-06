@@ -2,3 +2,4 @@ org.xwiki.rendering.internal.transformation.linkchecker.LinkCheckerTransformatio
 org.xwiki.rendering.internal.transformation.linkchecker.DefaultHTTPChecker
 org.xwiki.rendering.internal.transformation.linkchecker.DefaultLinkStateManager
 org.xwiki.rendering.internal.transformation.linkchecker.LinkCheckerScriptService
+org.xwiki.rendering.internal.transformation.linkchecker.DefaultLinkCheckerTransformationConfiguration

@@ -29,6 +29,7 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.transformation.linkchecker.InvalidURLEvent;
+import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationConfiguration;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 
@@ -44,11 +45,6 @@ import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 public class LinkCheckerThread extends Thread
 {
     /**
-     * Wait 5 minutes before rechecking a link.
-     */
-    private static final long TIMEOUT = 300000L;
-
-    /**
      * The Component Manager to use to locate other components. For example we use it to dynamically look up an
      * Observation Manager so that this transformation works even if there isn't one available.
      */
@@ -58,6 +54,11 @@ public class LinkCheckerThread extends Thread
      * The state manager containing the state of all checked links.
      */
     private LinkStateManager linkStateManager;
+
+    /**
+     * The time after which to recheck for link validity.
+     */
+    private long timeout;
 
     /**
      * The HTTP checker used to connect to links to verify their validity.
@@ -85,6 +86,7 @@ public class LinkCheckerThread extends Thread
         try {
             this.linkStateManager = componentManager.lookup(LinkStateManager.class);
             this.httpChecker = componentManager.lookup(HTTPChecker.class);
+            this.timeout = componentManager.lookup(LinkCheckerTransformationConfiguration.class).getCheckTimeout();
         } catch (ComponentLookupException e) {
             throw new InitializationException("Failed to initialize the Link Checker Thread. "
                 + "External link states won't be checked.", e);
@@ -135,7 +137,7 @@ public class LinkCheckerThread extends Thread
             if (contentReferences != null) {
                 LinkState state = contentReferences.get(queueItem.getContentReference());
                 if (state != null) {
-                    if (System.currentTimeMillis() - state.getLastCheckedTime() <= TIMEOUT) {
+                    if (System.currentTimeMillis() - state.getLastCheckedTime() <= this.timeout) {
                         shouldBeChecked = false;
                     }
                 }
@@ -161,10 +163,7 @@ public class LinkCheckerThread extends Thread
         if (contentReferences == null) {
             contentReferences = new ConcurrentHashMap<String, LinkState>();
         }
-        LinkState state = contentReferences.get(queueItem.getContentReference());
-        if (state == null) {
-            state = new LinkState(responseCode, System.currentTimeMillis());
-        }
+        LinkState state = new LinkState(responseCode, System.currentTimeMillis());
         contentReferences.put(queueItem.getContentReference(), state);
         this.linkStateManager.getLinkStates().put(queueItem.getLinkReference(), contentReferences);
 
