@@ -38,5 +38,5 @@ public interface LinkCheckerTransformationConfiguration
     /**
      * @param checkTimeout the time after which a link should be checked again for validity
      */
-    public void setCheckTimeout(long checkTimeout);
+    void setCheckTimeout(long checkTimeout);
 }
