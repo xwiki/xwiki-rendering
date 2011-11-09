@@ -159,9 +159,8 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
         }});
 
         // Modify the default timeout so that we don't have to wait too long for the test...
-        DefaultLinkCheckerTransformationConfiguration configuration =
-            (DefaultLinkCheckerTransformationConfiguration) getComponentManager().lookup(
-                LinkCheckerTransformationConfiguration.class);
+        LinkCheckerTransformationConfiguration configuration =
+            getComponentManager().lookup(LinkCheckerTransformationConfiguration.class);
         configuration.setCheckTimeout(0L);
 
         parseAndwait(input, linkStateManager, 2);
