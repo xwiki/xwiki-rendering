@@ -25,10 +25,6 @@ import java.util.Properties;
 
 /**
  * Configuration properties for the Icon transformation.
- * <p>
- * You can override the default values for each of the configuration properties below by defining them in XWiki's global
- * configuration file using a prefix of "rendering.transformation.icon" followed by the property name. For example:
- * <code>rendering.transformation.icon.mappings = ...</code>
  *
  * @version $Id$
  * @since 2.6RC1
