@@ -29,6 +29,7 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
+import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
 import org.xwiki.rendering.wiki.WikiModel;
 
 /**
@@ -51,21 +52,35 @@ public class GenericImageReferenceParser implements ResourceReferenceParser
     private ComponentManager componentManager;
 
     /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.parser.ResourceReferenceParser#parse(String)
+     * Parser to parse image references pointing to URLs.
      */
+    @Inject
+    @Named("url")
+    private ResourceReferenceTypeParser urlResourceReferenceTypeParser;
+
+    @Override
     public ResourceReference parse(String rawReference)
     {
         ResourceType type;
-        if (rawReference.startsWith("http://") || !isInWikiMode()) {
+
+        if (!isInWikiMode()) {
             type = ResourceType.URL;
         } else {
-            type = ResourceType.ATTACHMENT;
+            // Try to guess the image type. It can be either:
+            // - a URL
+            // - a reference to an attachment
+            ResourceReference reference = this.urlResourceReferenceTypeParser.parse(rawReference);
+            if (reference == null) {
+                type = ResourceType.ATTACHMENT;
+            } else {
+                type = ResourceType.URL;
+            }
         }
+
         ResourceReference result = new ResourceReference(rawReference, type);
         result.setTyped(false);
-        return result; 
+
+        return result;
     }
 
     /**
