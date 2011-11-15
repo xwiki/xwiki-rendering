@@ -58,10 +58,10 @@ public class DefaultImageReferenceParserTest extends AbstractComponentTestCase
         Assert.assertFalse(reference.isTyped());
 
         // Verify that non-typed image referencing a URL works.
-        reference = parser.parse("http://server/path/to/image");
+        reference = parser.parse("scheme://server/path/to/image");
         Assert.assertEquals(ResourceType.URL, reference.getType());
-        Assert.assertEquals("http://server/path/to/image", reference.getReference());
-        Assert.assertEquals("Typed = [false] Type = [url] Reference = [http://server/path/to/image]",
+        Assert.assertEquals("scheme://server/path/to/image", reference.getReference());
+        Assert.assertEquals("Typed = [false] Type = [url] Reference = [scheme://server/path/to/image]",
             reference.toString());
         Assert.assertFalse(reference.isTyped());
     }
