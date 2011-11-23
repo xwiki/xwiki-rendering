@@ -33,6 +33,8 @@ import org.xwiki.rendering.macro.descriptor.DefaultMacroDescriptor;
 import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
 
 /**
+ * Helper to implement Macro, providing some default implementation. We recommend Macro writers to extend this class.
+ *
  * @param <P> the type of the macro parameters bean
  * @version $Id$
  * @since 1.5M2
