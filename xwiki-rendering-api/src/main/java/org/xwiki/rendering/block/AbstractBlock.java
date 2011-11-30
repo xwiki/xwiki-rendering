@@ -44,12 +44,12 @@ public abstract class AbstractBlock implements Block
     /**
      * Store parameters, see {@link #getParameter(String)} for more explanations on what parameters are.
      */
-    private Map<String, String> parameters = new LinkedHashMap<String, String>();
+    private Map<String, String> parameters;
 
     /**
      * The Blocks this Block contains.
      */
-    private List<Block> childrenBlocks = new ArrayList<Block>();
+    private List<Block> childrenBlocks;
 
     /**
      * The Block containing this Block.
@@ -81,7 +81,7 @@ public abstract class AbstractBlock implements Block
      */
     public AbstractBlock(Map<String, String> parameters)
     {
-        this.parameters.putAll(parameters);
+        setParameters(parameters);
     }
 
     /**
@@ -116,6 +116,7 @@ public abstract class AbstractBlock implements Block
     public AbstractBlock(Block childBlock, Map<String, String> parameters)
     {
         this(parameters);
+
         addChild(childBlock);
     }
 
@@ -129,6 +130,7 @@ public abstract class AbstractBlock implements Block
     public AbstractBlock(List< ? extends Block> childrenBlocks, Map<String, String> parameters)
     {
         this(parameters);
+
         addChildren(childrenBlocks);
     }
 
@@ -141,33 +143,40 @@ public abstract class AbstractBlock implements Block
     @Override
     public void addChildren(List< ? extends Block> blocksToAdd)
     {
-        for (Block blockToAdd : blocksToAdd) {
-            addChild(blockToAdd);
+        if (!blocksToAdd.isEmpty()) {
+            if (this.childrenBlocks == null) {
+                // Create the list with just the exact required size
+                this.childrenBlocks = new ArrayList<Block>(blocksToAdd.size());
+            }
+
+            for (Block blockToAdd : blocksToAdd) {
+                addChild(blockToAdd);
+            }
         }
     }
 
     @Override
     public void setChildren(List< ? extends Block> children)
     {
-        this.childrenBlocks.clear();
+        if (children.isEmpty()) {
+            if (this.childrenBlocks != null) {
+                this.childrenBlocks.clear();
+            }
+        } else {
+            if (this.childrenBlocks != null) {
+                this.childrenBlocks.clear();
+            }
 
-        addChildren(children);
+            addChildren(children);
+        }
     }
 
-    /**
-     * {@inheritDoc}
-     * @since 2.6RC1
-     */
     @Override
     public void setNextSiblingBlock(Block nextSiblingBlock)
     {
         this.nextSiblingBlock = nextSiblingBlock;
     }
 
-    /**
-     * {@inheritDoc}
-     * @since 2.6RC1
-     */
     @Override
     public void setPreviousSiblingBlock(Block previousSiblingBlock)
     {
@@ -181,12 +190,16 @@ public abstract class AbstractBlock implements Block
 
         if (nextBlock == null) {
             // Last block becomes last but one
-            if (!this.childrenBlocks.isEmpty()) {
+            if (this.childrenBlocks != null && !this.childrenBlocks.isEmpty()) {
                 Block lastBlock = this.childrenBlocks.get(this.childrenBlocks.size() - 1);
                 blockToInsert.setPreviousSiblingBlock(lastBlock);
                 lastBlock.setNextSiblingBlock(blockToInsert);
             } else {
                 blockToInsert.setPreviousSiblingBlock(null);
+
+                if (this.childrenBlocks == null) {
+                    this.childrenBlocks = new ArrayList<Block>(1);
+                }
             }
             blockToInsert.setNextSiblingBlock(null);
             this.childrenBlocks.add(blockToInsert);
@@ -201,7 +214,12 @@ public abstract class AbstractBlock implements Block
             }
             blockToInsert.setNextSiblingBlock(nextBlock);
             nextBlock.setPreviousSiblingBlock(blockToInsert);
-            this.childrenBlocks.add(indexOfChild(nextBlock), blockToInsert);
+            if (this.childrenBlocks == null || this.childrenBlocks.isEmpty()) {
+                this.childrenBlocks = new ArrayList<Block>(1);
+                this.childrenBlocks.add(blockToInsert);
+            } else {
+                this.childrenBlocks.add(indexOfChild(nextBlock), blockToInsert);
+            }
         }
     }
 
@@ -221,6 +239,9 @@ public abstract class AbstractBlock implements Block
             }
             blockToInsert.setPreviousSiblingBlock(previousBlock);
             previousBlock.setNextSiblingBlock(blockToInsert);
+            if (this.childrenBlocks == null) {
+                this.childrenBlocks = new ArrayList<Block>(1);
+            }
             this.childrenBlocks.add(indexOfChild(previousBlock) + 1, blockToInsert);
         }
     }
@@ -318,7 +339,7 @@ public abstract class AbstractBlock implements Block
     @Override
     public List<Block> getChildren()
     {
-        return this.childrenBlocks;
+        return this.childrenBlocks == null ? Collections.<Block> emptyList() : this.childrenBlocks;
     }
 
     @Override
@@ -330,29 +351,35 @@ public abstract class AbstractBlock implements Block
     @Override
     public Map<String, String> getParameters()
     {
-        return Collections.unmodifiableMap(this.parameters);
+        return this.parameters == null ? Collections.<String, String> emptyMap() : Collections
+            .unmodifiableMap(this.parameters);
     }
 
     @Override
     public String getParameter(String name)
     {
-        return this.parameters.get(name);
+        return this.parameters == null ? null : this.parameters.get(name);
     }
 
     @Override
     public void setParameter(String name, String value)
     {
+        if (this.parameters == null) {
+            this.parameters = new LinkedHashMap<String, String>(1);
+        }
+
         this.parameters.put(name, value);
     }
 
-    /**
-     * {@inheritDoc}
-     * @since 1.7M2
-     */
     @Override
     public void setParameters(Map<String, String> parameters)
     {
-        this.parameters.putAll(parameters);
+        if (this.parameters == null) {
+            this.parameters = new LinkedHashMap<String, String>(parameters);
+        } else {
+            this.parameters.clear();
+            this.parameters.putAll(parameters);
+        }
     }
 
     @Override
@@ -373,30 +400,18 @@ public abstract class AbstractBlock implements Block
         return block;
     }
 
-    /**
-     * {@inheritDoc}
-     * @since 2.6RC1
-     */
     @Override
     public Block getNextSibling()
     {
         return this.nextSiblingBlock;
     }
 
-    /**
-     * {@inheritDoc}
-     * @since 2.6RC1
-     */
     @Override
     public Block getPreviousSibling()
     {
         return this.previousSiblingBlock;
     }
 
-    /**
-     * {@inheritDoc}
-     * @since 2.6RC1
-     */
     @Override
     public void removeBlock(Block childBlockToRemove)
     {
@@ -435,6 +450,7 @@ public abstract class AbstractBlock implements Block
 
     /**
      * {@inheritDoc}
+     * 
      * @since 1.8RC2
      */
     @Override
@@ -448,22 +464,26 @@ public abstract class AbstractBlock implements Block
             throw new RuntimeException("Failed to clone object", e);
         }
 
-        ((AbstractBlock) block).parameters = new LinkedHashMap<String, String>(this.parameters);
+        if (this.parameters != null) {
+            ((AbstractBlock) block).parameters = new LinkedHashMap<String, String>(this.parameters);
+        }
 
-        ((AbstractBlock) block).childrenBlocks = new ArrayList<Block>(this.childrenBlocks.size());
-        for (Block childBlock : this.childrenBlocks) {
-            if (blockFilter != null) {
-                Block clonedChildBlocks = childBlock.clone(blockFilter);
+        if (this.childrenBlocks != null) {
+            ((AbstractBlock) block).childrenBlocks = new ArrayList<Block>(this.childrenBlocks.size());
+            for (Block childBlock : this.childrenBlocks) {
+                if (blockFilter != null) {
+                    Block clonedChildBlocks = childBlock.clone(blockFilter);
 
-                List<Block> filteredBlocks = blockFilter.filter(clonedChildBlocks);
+                    List<Block> filteredBlocks = blockFilter.filter(clonedChildBlocks);
 
-                if (filteredBlocks.size() == 0) {
-                    filteredBlocks = clonedChildBlocks.getChildren();
+                    if (filteredBlocks.size() == 0) {
+                        filteredBlocks = clonedChildBlocks.getChildren();
+                    }
+
+                    block.addChildren(filteredBlocks);
+                } else {
+                    block.addChild(childBlock.clone());
                 }
-
-                block.addChildren(filteredBlocks);
-            } else {
-                block.addChild(childBlock.clone());
             }
         }
 
@@ -617,7 +637,7 @@ public abstract class AbstractBlock implements Block
         Axes nextAxes = axes;
 
         switch (axes) {
-            // FOLLOWING
+        // FOLLOWING
             case FOLLOWING_SIBLING:
                 nextBlock = (T) getNextSibling();
                 blocks = addBlock(nextBlock, matcher, blocks);
@@ -687,8 +707,7 @@ public abstract class AbstractBlock implements Block
      * @return the modified list, null if provided list is null and provided {@link Block} does not validate provided
      *         {@link BlockMatcher}
      */
-    private <T extends Block> List<T> getBlocks(List<T> blocks, BlockMatcher matcher, Axes axes,
-        List<T> blocksOut)
+    private <T extends Block> List<T> getBlocks(List<T> blocks, BlockMatcher matcher, Axes axes, List<T> blocksOut)
     {
         List<T> newBlocks = blocksOut;
 
@@ -792,7 +811,7 @@ public abstract class AbstractBlock implements Block
 
         switch (axes) {
             case CHILD:
-                if (!this.childrenBlocks.isEmpty()) {
+                if (!getChildren().isEmpty()) {
                     nextBlock = this.childrenBlocks.get(0);
                     nextAxes = Axes.FOLLOWING_SIBLING;
                     if (matcher.match(nextBlock)) {
@@ -805,7 +824,7 @@ public abstract class AbstractBlock implements Block
                     return this;
                 }
             case DESCENDANT:
-                for (Block child : this.childrenBlocks) {
+                for (Block child : getChildren()) {
                     Block matchedBlock = child.getFirstBlock(matcher, Axes.DESCENDANT_OR_SELF);
                     if (matchedBlock != null) {
                         return matchedBlock;
