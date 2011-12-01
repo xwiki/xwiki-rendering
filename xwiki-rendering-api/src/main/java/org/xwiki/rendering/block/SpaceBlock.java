@@ -45,10 +45,4 @@ public final class SpaceBlock extends AbstractBlock
     {
         listener.onSpace();
     }
-
-    @Override
-    public Block clone()
-    {
-        return this;
-    }
 }
