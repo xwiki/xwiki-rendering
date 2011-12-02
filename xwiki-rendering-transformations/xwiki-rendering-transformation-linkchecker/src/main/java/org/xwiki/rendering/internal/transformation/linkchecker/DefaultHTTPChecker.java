@@ -58,7 +58,7 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
         this.httpClient = new HttpClient();
 
         // Set our user agent to be a good citizen.
-        this.httpClient.getParams().setParameter(HttpMethodParams.USER_AGENT, "XWiki Link Checker");
+        this.httpClient.getParams().setParameter(HttpMethodParams.USER_AGENT, "XWikiLinkChecker");
     }
 
     @Override
