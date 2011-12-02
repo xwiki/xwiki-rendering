@@ -25,8 +25,11 @@ import javax.inject.Singleton;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.phase.Initializable;
+import org.xwiki.component.phase.InitializationException;
 
 /**
  * Default implementation using Apache Http Client.
@@ -36,7 +39,7 @@ import org.xwiki.component.annotation.Component;
  */
 @Component
 @Singleton
-public class DefaultHTTPChecker implements HTTPChecker
+public class DefaultHTTPChecker implements HTTPChecker, Initializable
 {
     /**
      * The logger to log.
@@ -44,19 +47,32 @@ public class DefaultHTTPChecker implements HTTPChecker
     @Inject
     private Logger logger;
 
+    /**
+     * The client to connect to the remote site using HTTP.
+     */
+    private HttpClient httpClient;
+
+    @Override
+    public void initialize() throws InitializationException
+    {
+        this.httpClient = new HttpClient();
+
+        // Set our user agent to be a good citizen.
+        this.httpClient.getParams().setParameter(HttpMethodParams.USER_AGENT, "XWiki Link Checker");
+    }
+
     @Override
     public int check(String url)
     {
         int responseCode;
 
-        HttpClient client = new HttpClient();
         try {
             GetMethod method = new GetMethod(url);
             // Ignore cookies since this can cause errors in logs and we don't need cookies when checking sites.
             method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
 
             // Execute the method.
-            responseCode = client.executeMethod(method);
+            responseCode = this.httpClient.executeMethod(method);
 
             this.logger.debug("Result of pinging [{}]: code = [{}]", url, responseCode);
         } catch (Exception e) {
