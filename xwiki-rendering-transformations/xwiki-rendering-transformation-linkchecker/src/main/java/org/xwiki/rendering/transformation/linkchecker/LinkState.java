@@ -19,12 +19,14 @@
  */
 package org.xwiki.rendering.transformation.linkchecker;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Represents a Link State, ie the HTTP response code when the link was checked and the time when the link was last
- * checked.
+ * Represents a Link State, ie the HTTP response code when the link was checked, the time when the link was last
+ * checked and context data.
  *
  * @version $Id$
  * @since 3.3M1
@@ -40,6 +42,22 @@ public class LinkState
      * @see #getLastCheckedTime()
      */
     private long lastCheckedTime;
+
+    /**
+     * @see #getContextData()
+     */
+    private Map<String, Object> contextData;
+    
+    /**
+     * @param responseCode see {@link #getResponseCode()}
+     * @param lastCheckedTime see {@link #getLastCheckedTime()}
+     * @param contextData see {@link #getContextData()}
+     */
+    public LinkState(int responseCode, long lastCheckedTime, Map<String, Object> contextData)
+    {
+        this(responseCode, lastCheckedTime);
+        this.contextData = contextData;
+    }
 
     /**
      * @param responseCode see {@link #getResponseCode()}
@@ -67,6 +85,16 @@ public class LinkState
         return this.responseCode;
     }
 
+    /**
+     * @return the context data associated with the content reference. What gets put in the Context Data Map depends
+     *         purely on implementations of
+     *         {@link org.xwiki.rendering.transformation.linkchecker.LinkContextDataProvider}
+     */
+    public Map<String, Object> getContextData()
+    {
+        return this.contextData;
+    }
+    
     @Override
     public boolean equals(Object object)
     {
@@ -83,6 +111,7 @@ public class LinkState
         return new EqualsBuilder()
             .append(getResponseCode(), rhs.getResponseCode())
             .append(getLastCheckedTime(), rhs.getLastCheckedTime())
+            .append(getContextData(), rhs.getContextData())
             .isEquals();
     }
 
@@ -92,6 +121,7 @@ public class LinkState
         return new HashCodeBuilder(9, 15)
             .append(getResponseCode())
             .append(getLastCheckedTime())
+            .append(getContextData())
             .toHashCode();
     }
 }

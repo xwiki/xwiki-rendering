@@ -163,7 +163,7 @@ public class LinkCheckerThread extends Thread
         if (contentReferences == null) {
             contentReferences = new ConcurrentHashMap<String, LinkState>();
         }
-        LinkState state = new LinkState(responseCode, System.currentTimeMillis());
+        LinkState state = new LinkState(responseCode, System.currentTimeMillis(), queueItem.getContextData());
         contentReferences.put(queueItem.getContentReference(), state);
         this.linkStateManager.getLinkStates().put(queueItem.getLinkReference(), contentReferences);
 

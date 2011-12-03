@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
 import java.io.StringReader;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.linkchecker.InvalidURLEvent;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationConfiguration;
+import org.xwiki.rendering.transformation.linkchecker.LinkContextDataProvider;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 import org.xwiki.script.service.ScriptService;
@@ -225,6 +227,34 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
         parseAndwait("[[http://doesntexist]]", linkStateManager, 1);
     }
 
+    /**
+     * Verify that if a LinkContextDataProvider is available it's used to store context data in the LinkStateManager.
+     */
+    @Test
+    public void transformWithLinkContextDataProvider() throws Exception
+    {
+        String input = "[[http://ok]]";
+
+        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
+        getMockery().checking(new Expectations() {{
+            oneOf(httpChecker).check("http://ok"); will(returnValue(200));
+        }});
+
+        // Register a LinkContextDataProvider component
+        final LinkContextDataProvider linkContextDataProvider = registerMockComponent(LinkContextDataProvider.class);
+        getMockery().checking(new Expectations() {{
+            oneOf(linkContextDataProvider).getContextData("http://ok", "default");
+            will(returnValue(Collections.singletonMap("contextKey", "contextValue")));
+        }});
+
+        LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
+        parseAndwait(input, linkStateManager, 1);
+        
+        // Assert states
+        LinkState linkState = linkStateManager.getLinkStates().get("http://ok").get("default");
+        Assert.assertEquals("contextValue", linkState.getContextData().get("contextKey"));
+    }
+    
     private void parseAndwait(String input, LinkStateManager linkStateManager, int numberOfItemsToWaitFor)
         throws Exception
     {

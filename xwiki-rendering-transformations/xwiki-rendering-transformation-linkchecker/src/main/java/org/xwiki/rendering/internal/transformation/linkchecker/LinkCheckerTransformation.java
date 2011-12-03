@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -27,6 +30,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -40,6 +44,7 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.transformation.AbstractTransformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
+import org.xwiki.rendering.transformation.linkchecker.LinkContextDataProvider;
 
 /**
  * Looks for external URLs in links and verify their status (ok, broken, etc). In order to get good performances
@@ -96,7 +101,9 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
                 if (contentReference == null) {
                     contentReference = "default";
                 }
-                this.linkQueue.add(new LinkQueueItem(linkReference, contentReference));
+                // Add Link Context Data
+                Map<String, Object> linkContextData = createLinkContextData(linkReference, contentReference);
+                this.linkQueue.add(new LinkQueueItem(linkReference, contentReference, linkContextData));
             }
         }
     }
@@ -112,6 +119,29 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
         this.checkerThread.join();
     }
 
+    /**
+     * @param linkReference the reference to the link to check (usually a URL)
+     * @param contentReference the reference to the content containing the link to check
+     * @return context data to provide more information about the link being checked (for example it could be useful
+     *         in some situations to store the HTTP request leading to the link being checked since there could be
+     *         HTTP query string parameters useful to see to understand why such a link was generated in the content)
+     */
+    private Map<String, Object> createLinkContextData(String linkReference, String contentReference)
+    {
+        Map<String, Object> linkContextData = new LinkedHashMap<String, Object>();
+        try {
+            List<LinkContextDataProvider> linkContextDataProviders = 
+                this.componentManager.lookupList(LinkContextDataProvider.class);
+            for (LinkContextDataProvider linkContextDataProvider : linkContextDataProviders) {
+                linkContextData.putAll(linkContextDataProvider.getContextData(linkReference, contentReference));
+            }
+        } catch (ComponentLookupException e) {
+            throw new RuntimeException("Failed to look up [" + LinkContextDataProvider.class.getName()
+                + "] components", e);
+        }
+        return linkContextData;
+    }
+    
     /**
      * @param source the blocks from where to try to extract the source content
      * @return the source content reference or null if none is found

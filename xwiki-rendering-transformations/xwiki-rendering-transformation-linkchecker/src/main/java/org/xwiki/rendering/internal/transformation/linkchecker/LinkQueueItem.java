@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
+import java.util.Map;
+
 /**
  * Represents a Link placed on the queue for checking.
  *
@@ -38,13 +40,20 @@ public class LinkQueueItem
     private String contentReference;
 
     /**
+     * @see #getContextData()
+     */
+    private Map<String, Object> contextData;
+    
+    /**
      * @param linkReference see {@link #getLinkReference()}
      * @param contentReference see {@link #getContentReference()}
+     * @param contextData see {@link #getContextData()}
      */
-    public LinkQueueItem(String linkReference, String contentReference)
+    public LinkQueueItem(String linkReference, String contentReference, Map<String, Object> contextData)
     {
         this.linkReference = linkReference;
         this.contentReference = contentReference;
+        this.contextData = contextData;
     }
 
     /**
@@ -61,5 +70,15 @@ public class LinkQueueItem
     public String getContentReference()
     {
         return this.contentReference;
+    }
+
+    /**
+     * @return the context data associated with the content reference. What gets put in the Context Data Map depends
+     *         purely on implementations of
+     *         {@link org.xwiki.rendering.transformation.linkchecker.LinkContextDataProvider}
+     */
+    public Map<String, Object> getContextData()
+    {
+        return this.contextData;
     }
 }
