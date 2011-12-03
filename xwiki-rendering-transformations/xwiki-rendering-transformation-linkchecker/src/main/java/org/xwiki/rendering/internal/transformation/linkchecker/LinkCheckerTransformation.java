@@ -128,12 +128,19 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
      */
     private Map<String, Object> createLinkContextData(String linkReference, String contentReference)
     {
-        Map<String, Object> linkContextData = new LinkedHashMap<String, Object>();
+        // For performance reason we don't want to store an empty map in the Link state cache when there are no
+        // context data.
+        Map<String, Object> linkContextData = null;
         try {
             List<LinkContextDataProvider> linkContextDataProviders = 
                 this.componentManager.lookupList(LinkContextDataProvider.class);
             for (LinkContextDataProvider linkContextDataProvider : linkContextDataProviders) {
-                linkContextData.putAll(linkContextDataProvider.getContextData(linkReference, contentReference));
+                Map<String, Object> contextData =
+                    linkContextDataProvider.getContextData(linkReference, contentReference);
+                if (linkContextData == null) {
+                    linkContextData = new LinkedHashMap<String, Object>(contextData.size());
+                }
+                linkContextData.putAll(contextData);
             }
         } catch (ComponentLookupException e) {
             throw new RuntimeException("Failed to look up [" + LinkContextDataProvider.class.getName()

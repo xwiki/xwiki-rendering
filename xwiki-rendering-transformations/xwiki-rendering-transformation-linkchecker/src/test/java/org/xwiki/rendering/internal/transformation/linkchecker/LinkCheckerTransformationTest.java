@@ -179,6 +179,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
         LinkState state = states.get("http://ok").get("default");
         Assert.assertEquals(200, state.getResponseCode());
     }
+
     @Test
     public void transformWithSourceMetaData() throws Exception
     {
