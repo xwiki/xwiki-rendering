@@ -60,6 +60,8 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
 
         // Set our user agent to be a good citizen.
         this.httpClient.getParams().setParameter(HttpMethodParams.USER_AGENT, "XWikiLinkChecker");
+        // Ignore cookies since this can cause errors in logs and we don't need cookies when checking sites.
+        this.httpClient.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
     }
 
     @Override
@@ -69,9 +71,6 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
         GetMethod method = new GetMethod(url);
 
         try {
-            // Ignore cookies since this can cause errors in logs and we don't need cookies when checking sites.
-            method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
-
             // Execute the method.
             responseCode = this.httpClient.executeMethod(method);
 
