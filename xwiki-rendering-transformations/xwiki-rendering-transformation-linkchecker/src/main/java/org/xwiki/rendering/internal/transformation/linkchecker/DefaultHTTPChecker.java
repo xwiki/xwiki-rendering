@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
@@ -55,7 +56,7 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
     @Override
     public void initialize() throws InitializationException
     {
-        this.httpClient = new HttpClient();
+        this.httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
 
         // Set our user agent to be a good citizen.
         this.httpClient.getParams().setParameter(HttpMethodParams.USER_AGENT, "XWikiLinkChecker");
@@ -65,9 +66,9 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
     public int check(String url)
     {
         int responseCode;
+        GetMethod method = new GetMethod(url);
 
         try {
-            GetMethod method = new GetMethod(url);
             // Ignore cookies since this can cause errors in logs and we don't need cookies when checking sites.
             method.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
 
@@ -80,6 +81,8 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
             // list of allowed response codes, see http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
             responseCode = 0;
             this.logger.debug("Error while checking [{}]", url, e);
+        } finally {
+            method.releaseConnection();
         }
         return responseCode;
     }
