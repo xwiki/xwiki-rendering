@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jmock.Expectations;
+import org.jmock.States;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -210,22 +211,30 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
      * URL.
      */
     @Test
-    @Ignore("Ignored till we find out why this test flickers")
     public void transformAndSendEvent() throws Exception
     {
+        final States eventState = getMockery().states("event");
+
         final ObservationManager observationManager = registerMockComponent(ObservationManager.class);
         final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
         getMockery().checking(new Expectations()
         {{
-            oneOf(httpChecker).check("http://doesntexist"); 
+            oneOf(httpChecker).check("http://doesntexist");
             will(returnValue(404));
             // The real test is here: we verify that the event is sent
             oneOf(observationManager).notify(with(equal(new InvalidURLEvent("http://doesntexist"))),
                 with(any(Map.class)));
+            then(eventState.is("ok"));
         }});
 
         LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
         parseAndwait("[[http://doesntexist]]", linkStateManager, 1);
+
+        // Wait till the event has been sent since parseAndWait only waits for the link state to be in cache but it
+        // doesn't wait for the event to be sent.
+        while (!eventState.is("ok").isActive()) {
+            Thread.sleep(100L);
+        }
     }
 
     /**
