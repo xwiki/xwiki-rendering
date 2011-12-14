@@ -50,11 +50,7 @@ public class DefaultMacroIdFactory implements MacroIdFactory
     @Inject
     private SyntaxFactory syntaxFactory;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.macro.MacroIdFactory#createMacroId(String)
-     */
+    @Override
     public MacroId createMacroId(String macroIdAsString) throws ParseException
     {
         MacroId macroId;

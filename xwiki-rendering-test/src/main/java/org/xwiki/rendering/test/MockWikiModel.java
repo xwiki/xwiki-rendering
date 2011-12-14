@@ -58,42 +58,29 @@ public class MockWikiModel implements WikiModel
 
     /**
      * {@inheritDoc}
-     *
-     * @see WikiModel#getLinkURL(org.xwiki.rendering.listener.reference.ResourceReference)
      * @since 2.5RC1
      */
+    @Override
     public String getLinkURL(ResourceReference linkReference)
     {
         String queryString = linkReference.getParameter(AttachmentResourceReference.QUERY_STRING);
         return "attachmenturl" + (queryString != null ? QM + queryString : "");
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see WikiModel#getImageURL(org.xwiki.rendering.listener.reference.ResourceReference , java.util.Map)
-     */
+    @Override
     public String getImageURL(ResourceReference imageReference, Map<String, String> parameters)
     {
         String queryString = imageReference.getParameter(AttachmentResourceReference.QUERY_STRING);
         return "imageurl" + (queryString != null ? QM + queryString : "");
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see WikiModel#getDocumentEditURL(org.xwiki.rendering.listener.reference.ResourceReference)
-     */
+    @Override
     public String getDocumentEditURL(ResourceReference documentReference)
     {
         return "editurl";
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see WikiModel#getDocumentViewURL(org.xwiki.rendering.listener.reference.ResourceReference)
-     */
+    @Override
     public String getDocumentViewURL(ResourceReference documentReference)
     {
         String queryString = documentReference.getParameter(DocumentResourceReference.QUERY_STRING);
@@ -101,11 +88,7 @@ public class MockWikiModel implements WikiModel
         return "viewurl" + (queryString != null ? QM + queryString : "") + (anchor != null ? "#" + anchor : "");
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see WikiModel#isDocumentAvailable(org.xwiki.rendering.listener.reference.ResourceReference)
-     */
+    @Override
     public boolean isDocumentAvailable(ResourceReference documentReference)
     {
         return "Space.ExistingPage".equals(documentReference.getReference());

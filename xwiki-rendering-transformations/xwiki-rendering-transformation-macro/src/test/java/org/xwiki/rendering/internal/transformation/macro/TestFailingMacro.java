@@ -62,21 +62,13 @@ public class TestFailingMacro extends AbstractNoParameterMacro
         setDefaultCategory("Test");
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.macro.Macro#supportsInlineMode()
-     */
+    @Override
     public boolean supportsInlineMode()
     {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#execute
-     */
+    @Override
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {

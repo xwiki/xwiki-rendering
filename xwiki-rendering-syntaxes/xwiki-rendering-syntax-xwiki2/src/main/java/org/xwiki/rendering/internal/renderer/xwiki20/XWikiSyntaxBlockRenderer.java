@@ -44,10 +44,6 @@ public class XWikiSyntaxBlockRenderer extends AbstractBlockRenderer
     @Named("xwiki/2.0")
     private PrintRendererFactory xwikiSyntaxRendererFactory;
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.internal.renderer.AbstractBlockRenderer#getPrintRendererFactory()
-     */
     @Override
     protected PrintRendererFactory getPrintRendererFactory()
     {

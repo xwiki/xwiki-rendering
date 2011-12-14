@@ -75,11 +75,7 @@ public class DocumentReferenceTypeSerializer implements ResourceReferenceTypeSer
         XWiki20LinkReferenceParser.SEPARATOR_ANCHOR,
         "" + XWiki20LinkReferenceParser.ESCAPE_CHAR };
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer#serialize(org.xwiki.rendering.listener.reference.ResourceReference)
-     */
+    @Override
     public String serialize(ResourceReference reference)
     {
         StringBuilder buffer = new StringBuilder();

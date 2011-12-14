@@ -86,22 +86,12 @@ public class MacroId
         return this.syntax;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see Object#toString()
-     */
     @Override
     public String toString()
     {
         return getId() + ((getSyntax() == null) ? "" : "/" + getSyntax().toIdString());
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see Object#hashCode()
-     */
     @Override
     public int hashCode()
     {
@@ -113,11 +103,6 @@ public class MacroId
         return hash;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see Object#equals(Object)
-     */
     @Override
     public boolean equals(Object object)
     {

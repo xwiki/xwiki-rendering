@@ -46,61 +46,37 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
         this.propertyDescriptor = propertyDescriptor;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.ParameterDescriptor#getId()
-     */
+    @Override
     public String getId()
     {
         return this.propertyDescriptor.getId();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.ParameterDescriptor#getName()
-     */
+    @Override
     public String getName()
     {
         return this.propertyDescriptor.getName();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.ParameterDescriptor#getDescription()
-     */
+    @Override
     public String getDescription()
     {
         return this.propertyDescriptor.getDescription();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.ParameterDescriptor#getType()
-     */
+    @Override
     public Class< ? > getType()
     {
         return this.propertyDescriptor.getPropertyClass();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.ParameterDescriptor#getParameterType()
-     */
+    @Override
     public Type getParameterType()
     {
         return this.propertyDescriptor.getPropertyType();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.ParameterDescriptor#getDefaultValue()
-     */
+    @Override
     public Object getDefaultValue()
     {
         return this.propertyDescriptor.getDefaultValue();
@@ -108,10 +84,9 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.descriptor.ParameterDescriptor#isMandatory()
      * @since 1.7
      */
+    @Override
     public boolean isMandatory()
     {
         return this.propertyDescriptor.isMandatory();

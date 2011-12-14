@@ -71,21 +71,13 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
         boolean match(MacroId macroId);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.macro.MacroCategoryManager#getMacroCategories()
-     */
+    @Override
     public Set<String> getMacroCategories() throws MacroLookupException
     {
         return getMacroCategories(null);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.macro.MacroCategoryManager#getMacroCategories(org.xwiki.rendering.syntax.Syntax)
-     */
+    @Override
     public Set<String> getMacroCategories(final Syntax syntax) throws MacroLookupException
     {
         Set<String> categories = getMacroIdsByCategory(new MacroMatcher() {
@@ -98,21 +90,13 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
         return Collections.unmodifiableSet(categories);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.macro.MacroCategoryManager#getMacroIds(String)
-     */
+    @Override
     public Set<MacroId> getMacroIds(String category) throws MacroLookupException
     {
         return getMacroIds(category, null);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.macro.MacroCategoryManager#getMacroIds(String, org.xwiki.rendering.syntax.Syntax)
-     */
+    @Override
     public Set<MacroId> getMacroIds(String category, final Syntax syntax) throws MacroLookupException
     {
         Set<MacroId> macros = getMacroIdsByCategory(new MacroMatcher() {

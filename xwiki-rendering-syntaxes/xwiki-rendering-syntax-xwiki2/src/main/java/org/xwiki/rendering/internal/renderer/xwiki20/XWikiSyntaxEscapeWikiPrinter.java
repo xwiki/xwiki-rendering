@@ -62,11 +62,6 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
         return escapeHandler;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.LookaheadWikiPrinter#printInternal(java.lang.String)
-     */
     @Override
     protected void printInternal(String text)
     {
@@ -81,11 +76,6 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
         this.lastPrinted = text;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.LookaheadWikiPrinter#println(java.lang.String)
-     */
     @Override
     protected void printlnInternal(String text)
     {
@@ -96,11 +86,6 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
         this.lastPrinted = "\n";
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.LookaheadWikiPrinter#flush()
-     */
     @Override
     public void flush()
     {

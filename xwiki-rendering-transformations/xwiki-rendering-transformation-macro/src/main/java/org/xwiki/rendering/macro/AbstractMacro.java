@@ -169,9 +169,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
         this.parametersBeanClass = parametersBeanClass;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         MacroId macroId = null;
@@ -212,11 +210,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
         return hint;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#getPriority()
-     */
+    @Override
     public int getPriority()
     {
         return this.priority;
@@ -230,21 +224,13 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
         this.priority = priority;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#getDescriptor()
-     */
+    @Override
     public MacroDescriptor getDescriptor()
     {
         return this.macroDescriptor;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
+    @Override
     public int compareTo(Macro< ? > macro)
     {
         return getPriority() - macro.getPriority();

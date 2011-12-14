@@ -43,12 +43,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 @Singleton
 public class XWikiSyntaxImageReferenceSerializer extends XWikiSyntaxLinkReferenceSerializer
 {
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer#serialize(
-     *org.xwiki.rendering.listener.reference.ResourceReference)
-     */
+    @Override
     public String serialize(ResourceReference reference)
     {
         return "image:" + super.serialize(reference);

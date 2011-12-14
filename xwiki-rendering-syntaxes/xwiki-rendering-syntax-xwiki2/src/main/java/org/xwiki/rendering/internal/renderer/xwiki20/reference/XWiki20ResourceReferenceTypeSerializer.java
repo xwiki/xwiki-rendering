@@ -41,11 +41,7 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
 @Singleton
 public class XWiki20ResourceReferenceTypeSerializer implements ResourceReferenceTypeSerializer
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer#serialize(org.xwiki.rendering.listener.reference.ResourceReference)
-     */
+    @Override
     public String serialize(ResourceReference reference)
     {
         StringBuffer result = new StringBuffer();

@@ -69,21 +69,13 @@ public class DefaultMacroManager implements MacroManager
     @Inject
     private Logger logger;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.macro.MacroManager#getMacroIds()
-     */
+    @Override
     public Set<MacroId> getMacroIds() throws MacroLookupException
     {
         return getMacroIds(null);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.MacroManager#getMacroIds(Syntax)
-     */
+    @Override
     public Set<MacroId> getMacroIds(Syntax syntax) throws MacroLookupException
     {
         Set<MacroId> result = new HashSet<MacroId>();
@@ -119,11 +111,7 @@ public class DefaultMacroManager implements MacroManager
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.MacroManager#getMacro(org.xwiki.rendering.macro.MacroId) 
-     */
+    @Override
     public Macro< ? > getMacro(MacroId macroId) throws MacroLookupException
     {
         // First search for a macro registered for the passed macro id.
@@ -143,11 +131,7 @@ public class DefaultMacroManager implements MacroManager
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.MacroManager#exists(org.xwiki.rendering.macro.MacroId)
-     */
+    @Override
     public boolean exists(MacroId macroId)
     {
         String macroHint = macroId.toString();

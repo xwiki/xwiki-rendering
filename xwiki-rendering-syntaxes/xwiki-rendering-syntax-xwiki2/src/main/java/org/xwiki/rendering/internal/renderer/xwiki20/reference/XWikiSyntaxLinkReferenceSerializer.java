@@ -66,11 +66,7 @@ public class XWikiSyntaxLinkReferenceSerializer implements ResourceReferenceSeri
     @Named("xwiki/2.0")
     private ResourceReferenceTypeSerializer defaultResourceReferenceTypeSerializer;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer#serialize(org.xwiki.rendering.listener.reference.ResourceReference)
-     */
+    @Override
     public String serialize(ResourceReference reference)
     {
         String result;

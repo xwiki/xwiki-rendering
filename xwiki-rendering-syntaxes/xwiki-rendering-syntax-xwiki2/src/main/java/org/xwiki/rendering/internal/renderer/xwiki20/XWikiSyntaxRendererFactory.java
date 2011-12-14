@@ -37,10 +37,7 @@ import org.xwiki.rendering.syntax.Syntax;
 @Singleton
 public class XWikiSyntaxRendererFactory extends AbstractPrintRendererFactory
 {
-    /**
-     * {@inheritDoc}
-     * @see AbstractPrintRendererFactory#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.XWIKI_2_0;

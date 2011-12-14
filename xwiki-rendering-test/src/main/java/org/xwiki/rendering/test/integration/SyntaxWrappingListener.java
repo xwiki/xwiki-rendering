@@ -33,11 +33,6 @@ import org.xwiki.rendering.listener.WrappingListener;
  */
 public class SyntaxWrappingListener extends WrappingListener
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.WrappingListener#beginDocument(org.xwiki.rendering.listener.MetaData)
-     */
     @Override
     public void beginDocument(MetaData metaData)
     {
@@ -47,11 +42,6 @@ public class SyntaxWrappingListener extends WrappingListener
         super.beginDocument(new MetaData(metadataMap));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.WrappingListener#endDocument(org.xwiki.rendering.listener.MetaData)
-     */
     @Override
     public void endDocument(MetaData metaData)
     {

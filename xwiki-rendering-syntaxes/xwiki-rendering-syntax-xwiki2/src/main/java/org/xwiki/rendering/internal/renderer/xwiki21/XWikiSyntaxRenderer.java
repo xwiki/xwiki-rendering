@@ -56,10 +56,6 @@ public class XWikiSyntaxRenderer extends AbstractXWikiSyntaxRenderer
     @Named("xwiki/2.1/image")
     protected ResourceReferenceSerializer imageReferenceSerializer;
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractXWikiSyntaxRenderer#createXWikiSyntaxChainingRenderer(ListenerChain)
-     */
     @Override
     protected ChainingListener createXWikiSyntaxChainingRenderer(ListenerChain chain)
     {

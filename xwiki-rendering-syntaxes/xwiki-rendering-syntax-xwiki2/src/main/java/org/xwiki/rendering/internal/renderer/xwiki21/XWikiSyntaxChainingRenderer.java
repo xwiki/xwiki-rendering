@@ -47,11 +47,7 @@ public class XWikiSyntaxChainingRenderer
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxChainingRenderer#createXWikiSyntaxLinkRenderer(
-     *      ListenerChain, org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer)
      * @since 2.5RC1
-     *
      */
     @Override
     protected XWikiSyntaxResourceRenderer
@@ -62,11 +58,7 @@ public class XWikiSyntaxChainingRenderer
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxChainingRenderer#createXWikiSyntaxImageRenderer(
-     *      ListenerChain, org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer)
      * @since 2.5RC1
-     *
      */
     @Override
     protected XWikiSyntaxResourceRenderer

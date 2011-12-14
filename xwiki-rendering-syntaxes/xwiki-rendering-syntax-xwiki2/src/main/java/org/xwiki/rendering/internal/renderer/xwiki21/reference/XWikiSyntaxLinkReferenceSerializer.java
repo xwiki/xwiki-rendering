@@ -41,11 +41,6 @@ public class XWikiSyntaxLinkReferenceSerializer
      */
     private static final String COMPONENT_PREFIX = "xwiki/2.1";
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.internal.renderer.xwiki20.reference.XWikiSyntaxLinkReferenceSerializer#getLinkTypeSerializerComponentPrefix()
-     */
     @Override
     protected String getLinkTypeSerializerComponentPrefix()
     {

@@ -60,11 +60,6 @@ public class XWikiSyntaxResourceRenderer
         super(listenerChain, referenceSerializer);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.internal.renderer.xwiki20.reference.XWikiSyntaxResourceRenderer#printParameters(
-     *      XWikiSyntaxEscapeWikiPrinter, org.xwiki.rendering.listener.reference.ResourceReference , java.util.Map)
-     */
     @Override
     protected void printParameters(XWikiSyntaxEscapeWikiPrinter printer, ResourceReference reference,
         Map<String, String> parameters)

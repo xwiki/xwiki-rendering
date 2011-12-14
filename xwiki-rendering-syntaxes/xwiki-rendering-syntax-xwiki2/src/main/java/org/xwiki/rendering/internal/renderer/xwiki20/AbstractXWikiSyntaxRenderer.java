@@ -46,11 +46,7 @@ public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintR
      */
     protected abstract ChainingListener createXWikiSyntaxChainingRenderer(ListenerChain chain);
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         ListenerChain chain = new XWikiSyntaxListenerChain();

@@ -47,11 +47,6 @@ public class ResourceReferenceConverter extends AbstractConverter
     @Inject
     private ResourceReferenceParser referenceParser;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.apache.commons.beanutils.converters.AbstractConverter#convertToType(java.lang.Class, java.lang.Object)
-     */
     @Override
     protected <T> T convertToType(Class<T> type, Object value)
     {
@@ -63,11 +58,6 @@ public class ResourceReferenceConverter extends AbstractConverter
         return reference;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.apache.commons.beanutils.converters.AbstractConverter#convertToString(java.lang.Object)
-     */
     @Override
     protected String convertToString(Object value)
     {

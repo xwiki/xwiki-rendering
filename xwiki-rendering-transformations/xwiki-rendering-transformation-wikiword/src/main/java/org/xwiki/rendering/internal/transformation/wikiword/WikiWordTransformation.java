@@ -58,10 +58,7 @@ public class WikiWordTransformation extends AbstractTransformation
      */
     private ProtectedBlockFilter filter = new ProtectedBlockFilter();
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractTransformation#transform(Block, TransformationContext)
-     */
+    @Override
     public void transform(Block block, TransformationContext transformationContext) throws TransformationException
     {
         // Find all Word blocks and for each of them check if they're a wiki word or not

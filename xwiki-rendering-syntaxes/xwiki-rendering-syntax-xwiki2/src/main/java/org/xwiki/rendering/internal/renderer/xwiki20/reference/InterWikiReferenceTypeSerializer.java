@@ -67,11 +67,7 @@ public class InterWikiReferenceTypeSerializer implements ResourceReferenceTypeSe
         XWiki20LinkReferenceParser.SEPARATOR_INTERWIKI,
         "" + XWiki20LinkReferenceParser.ESCAPE_CHAR };
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer#serialize(org.xwiki.rendering.listener.reference.ResourceReference)
-     */
+    @Override
     public String serialize(ResourceReference reference)
     {
         String interWikiAlias = reference.getParameter(InterWikiResourceReference.INTERWIKI_ALIAS);

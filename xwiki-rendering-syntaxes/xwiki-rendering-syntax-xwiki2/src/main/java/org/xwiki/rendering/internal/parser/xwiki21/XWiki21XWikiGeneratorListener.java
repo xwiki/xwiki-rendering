@@ -67,11 +67,7 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
         super(parser, listener, linkReferenceParser, imageReferenceParser, plainRendererFactory, idGenerator, syntax);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see DefaultXWikiGeneratorListener#onReference(String, String, boolean, java.util.Map)
-     */
+    @Override
     protected void onReference(ResourceReference reference, String label, boolean isFreeStandingURI,
         Map<String, String> parameters)
     {
@@ -92,12 +88,7 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
         super.onReference(reference, label, isFreeStandingURI, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see DefaultXWikiGeneratorListener#onImage(org.xwiki.rendering.listener.reference.ResourceReference , boolean,
-     *      java.util.Map)
-     */
+    @Override
     protected void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         // Since 2.5M2, handle the special case when the image syntax used for an image has a query string specified.
