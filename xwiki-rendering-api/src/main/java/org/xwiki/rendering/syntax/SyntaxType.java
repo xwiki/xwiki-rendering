@@ -57,6 +57,11 @@ public class SyntaxType
     public static final SyntaxType XDOMXML = new SyntaxType("xdom+xml", "XML based XDOM");
 
     /**
+     * @since 3.4M1
+     */
+    public static final SyntaxType MARKDOWN = new SyntaxType("markdown", "Markdown");
+    
+    /**
      * @see #getName()
      */
     private String name;

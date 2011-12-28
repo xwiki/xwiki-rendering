@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.parser.Parser;
@@ -33,29 +32,29 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.test.AbstractComponentTestCase;
 
 /**
- * Unit tests for {@link DoxiaDocBookParser}.
+ * Unit tests for {@link MarkdownParser}.
  *
  * @version $Id$
- * @since 3.2RC1
+ * @since 3.4M1
  */
-public class DoxiaDocBookParserTest extends AbstractComponentTestCase
+public class MarkdownParserTest extends AbstractComponentTestCase
 {
-    @Ignore("Ignored till we fix the DocBook parser to make it pass!")
-    @Test
-    public void parseDocbookExample() throws Exception
-    {
-        Parser parser = getComponentManager().lookup(Parser.class, "docbook/4.4");
-        XDOM xdom = parser.parse(new InputStreamReader(getClass().getResourceAsStream("/docbook/example.xml")));
 
-            BlockRenderer renderer = getComponentManager().lookup(BlockRenderer.class, "event/1.0");
+    @Test
+    public void parseMarkdownExample() throws Exception
+    {
+        Parser parser = getComponentManager().lookup(Parser.class, "markdown/1.0");
+        XDOM xdom = parser.parse(new InputStreamReader(getClass().getResourceAsStream("/markdown/example.md")));
+
+        BlockRenderer renderer = getComponentManager().lookup(BlockRenderer.class, "event/1.0");
         DefaultWikiPrinter printer = new DefaultWikiPrinter();
         renderer.render(xdom, printer);
 
         // Read expected content and remove license header for comparison.
-        String expected = IOUtils.toString(getClass().getResourceAsStream("/docbook/expected.txt"));
+        String expected = IOUtils.toString(getClass().getResourceAsStream("/markdown/expected.txt"));
         Pattern pattern = Pattern.compile("====.*====\n\n", Pattern.DOTALL);
         expected = pattern.matcher(expected).replaceFirst("");
-
+        
         Assert.assertEquals(expected, printer.toString());
     }
 }
