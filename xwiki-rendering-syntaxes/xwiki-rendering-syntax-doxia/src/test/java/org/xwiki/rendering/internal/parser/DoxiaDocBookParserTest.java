@@ -45,14 +45,14 @@ public class DoxiaDocBookParserTest extends AbstractComponentTestCase
     public void parseDocbookExample() throws Exception
     {
         Parser parser = getComponentManager().lookup(Parser.class, "docbook/4.4");
-        XDOM xdom = parser.parse(new InputStreamReader(getClass().getResourceAsStream("/example.xml")));
+        XDOM xdom = parser.parse(new InputStreamReader(getClass().getResourceAsStream("/docbook/example.xml")));
 
             BlockRenderer renderer = getComponentManager().lookup(BlockRenderer.class, "event/1.0");
         DefaultWikiPrinter printer = new DefaultWikiPrinter();
         renderer.render(xdom, printer);
 
         // Read expected content and remove license header for comparison.
-        String expected = IOUtils.toString(getClass().getResourceAsStream("/expected.txt"));
+        String expected = IOUtils.toString(getClass().getResourceAsStream("/docbook/expected.txt"));
         Pattern pattern = Pattern.compile("====.*====\n\n", Pattern.DOTALL);
         expected = pattern.matcher(expected).replaceFirst("");
 
