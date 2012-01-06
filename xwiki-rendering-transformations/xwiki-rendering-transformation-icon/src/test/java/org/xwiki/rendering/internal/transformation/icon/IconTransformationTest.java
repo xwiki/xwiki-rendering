@@ -56,7 +56,7 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase
     @Test
     public void testTransform() throws Exception
     {
-        String expected = "beginDocument [[syntax]=[XWiki 2.1 (experimental)]]\n"
+        String expected = "beginDocument [[syntax]=[XWiki 2.1]]\n"
             + "beginParagraph\n"
             + "onWord [Some]\n"
             + "onSpace\n"
@@ -80,7 +80,7 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase
             + "onImage [Typed = [true] Type = [icon] Reference = [lightbulb_off]] [true]\n"
             + "onImage [Typed = [true] Type = [icon] Reference = [star]] [true]\n"
             + "endParagraph\n"
-            + "endDocument [[syntax]=[XWiki 2.1 (experimental)]]";
+            + "endDocument [[syntax]=[XWiki 2.1]]";
 
         XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.1").parse(new StringReader(
            "Some :) smileys:(:P:D;)(y)(n)(i)(/)(x)(!)(+)(-)(?)(on)(off)(*)"));
@@ -116,13 +116,13 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase
     @Test
     public void testTransformWhenIncompleteMatchExistsFollowedByMatch() throws Exception
     {
-        String expected = "beginDocument [[syntax]=[XWiki 2.1 (experimental)]]\n"
+        String expected = "beginDocument [[syntax]=[XWiki 2.1]]\n"
             + "beginParagraph\n"
             + "onSpecialSymbol [(]\n"
             + "onSpace\n"
             + "onImage [Typed = [true] Type = [icon] Reference = [information]] [true]\n"
             + "endParagraph\n"
-            + "endDocument [[syntax]=[XWiki 2.1 (experimental)]]";
+            + "endDocument [[syntax]=[XWiki 2.1]]";
 
         XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.1").parse(new StringReader(
            "( (i)"));
