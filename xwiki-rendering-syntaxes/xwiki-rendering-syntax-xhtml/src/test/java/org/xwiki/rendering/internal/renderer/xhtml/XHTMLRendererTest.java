@@ -73,9 +73,9 @@ public class XHTMLRendererTest extends AbstractComponentTestCase
         List<Block> linkBlocks = Arrays.asList((Block) new LinkBlock(Arrays.asList((Block) new WordBlock("label")),
             blockReference, true));
         MetaData metaData1 = new MetaData();
-        metaData1.addMetaData(MetaData.SOURCE, "base1");
+        metaData1.addMetaData(MetaData.BASE, "base1");
         MetaData metaData2 = new MetaData();
-        metaData2.addMetaData(MetaData.SOURCE, "base2");
+        metaData2.addMetaData(MetaData.BASE, "base2");
         XDOM xdom = new XDOM(Arrays.asList((Block) new MetaDataBlock(
             Arrays.asList((Block) new MetaDataBlock(linkBlocks, metaData2)), metaData1)));
 
@@ -108,7 +108,7 @@ public class XHTMLRendererTest extends AbstractComponentTestCase
         List<Block> linkBlocks = Arrays.asList((Block) new LinkBlock(Arrays.asList((Block) new WordBlock("label")),
             blockReference, true));
         MetaData metaData = new MetaData();
-        metaData.addMetaData(MetaData.SOURCE, "base");
+        metaData.addMetaData(MetaData.BASE, "base");
         XDOM xdom = new XDOM(Arrays.asList((Block) new MetaDataBlock(linkBlocks, metaData)));
 
         getMockery().checking(new Expectations() {{
@@ -136,7 +136,7 @@ public class XHTMLRendererTest extends AbstractComponentTestCase
         final ResourceReference blockReference = new ResourceReference("reference", ResourceType.ATTACHMENT);
         List<Block> imageBlocks = Arrays.asList((Block) new ImageBlock(blockReference, true));
         MetaData metaData = new MetaData();
-        metaData.addMetaData(MetaData.SOURCE, "base");
+        metaData.addMetaData(MetaData.BASE, "base");
         XDOM xdom = new XDOM(Arrays.asList((Block) new MetaDataBlock(imageBlocks, metaData)));
 
         getMockery().checking(new Expectations() {{
@@ -164,7 +164,7 @@ public class XHTMLRendererTest extends AbstractComponentTestCase
 
         List<Block> imageBlocks = Arrays.asList((Block) new ImageBlock(blockReference, true));
         MetaData metaData = new MetaData();
-        metaData.addMetaData(MetaData.SOURCE, "base");
+        metaData.addMetaData(MetaData.BASE, "base");
         XDOM xdom = new XDOM(Arrays.asList((Block) new MetaDataBlock(imageBlocks, metaData)));
 
         getMockery().checking(new Expectations() {{

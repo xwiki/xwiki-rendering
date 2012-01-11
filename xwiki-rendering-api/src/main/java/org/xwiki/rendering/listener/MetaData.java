@@ -51,6 +51,13 @@ public class MetaData
     public static final String SYNTAX = "syntax";
 
     /**
+     * Represent the base reference to resolve all the references in the blocks (links, images, macro parameters, etc.).
+     * 
+     * @since 3.4M1
+     */
+    public static final String BASE = "base";
+
+    /**
      * Contains all MetaData for this Block and its children.
      * Note: we preserve the order of metadata elements as they are added as a service for the user so he can count
      * on it.
