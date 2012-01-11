@@ -225,7 +225,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         // events (it's sent in begin/endMetaData events).
         List<String> baseReferences = reference.getBaseReferences();
         if (baseReferences.isEmpty()) {
-            reference.addBaseReferences(getMetaDataState().<String> getAllMetaData(MetaData.SOURCE));
+            reference.addBaseReferences(getMetaDataState().<String> getAllMetaData(MetaData.BASE));
         }
 
         this.linkRenderer.beginLink(reference, isFreeStandingURI, parameters);
@@ -539,7 +539,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         // events (it's sent in begin/endMetaData events).
         List<String> baseReferences = reference.getBaseReferences();
         if (baseReferences.isEmpty()) {
-            reference.addBaseReferences(getMetaDataState().<String> getAllMetaData(MetaData.SOURCE));
+            reference.addBaseReferences(getMetaDataState().<String> getAllMetaData(MetaData.BASE));
         }
 
         this.imageRenderer.onImage(reference, isFreeStandingURI, parameters);
