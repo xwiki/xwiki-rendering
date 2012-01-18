@@ -30,7 +30,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
  * Handle XHTML rendering for UNC links (Universal Naming Convention).
- *
+ * 
  * @version $Id$
  * @since 2.7M1
  */
@@ -39,11 +39,6 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class UNCXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
 {
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractXHTMLLinkTypeRenderer#beginLinkExtraAttributes(ResourceReference, java.util.Map, java.util.Map)
-     */
     @Override
     protected void beginLinkExtraAttributes(ResourceReference reference, Map<String, String> spanAttributes,
         Map<String, String> anchorAttributes)

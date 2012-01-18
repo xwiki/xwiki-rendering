@@ -19,6 +19,12 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml.link;
 
+import java.util.Map;
+import java.util.Properties;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -26,15 +32,9 @@ import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
-import java.util.Map;
-import java.util.Properties;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
 /**
  * Handle XHTML rendering for interwiki links.
- *
+ * 
  * @version $Id$
  * @since 2.5M2
  */
@@ -49,12 +49,6 @@ public class InterWikiXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRendere
     @Inject
     private RenderingConfiguration renderingConfiguration;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractXHTMLLinkTypeRenderer#beginLinkExtraAttributes(org.xwiki.rendering.listener.reference.ResourceReference ,
-     *      java.util.Map, java.util.Map)
-     */
     @Override
     protected void beginLinkExtraAttributes(ResourceReference reference, Map<String, String> spanAttributes,
         Map<String, String> anchorAttributes)
@@ -63,8 +57,8 @@ public class InterWikiXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRendere
         String interWikiAlias = reference.getParameter(InterWikiResourceReference.INTERWIKI_ALIAS);
         Properties definitions = this.renderingConfiguration.getInterWikiDefinitions();
         if (definitions.containsKey(interWikiAlias)) {
-            anchorAttributes.put(XHTMLLinkRenderer.HREF, definitions.getProperty(interWikiAlias)
-                + reference.getReference());
+            anchorAttributes.put(XHTMLLinkRenderer.HREF,
+                definitions.getProperty(interWikiAlias) + reference.getReference());
         } else {
             anchorAttributes.put(XHTMLLinkRenderer.HREF, reference.getReference());
         }

@@ -39,11 +39,6 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class MailtoXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractXHTMLLinkTypeRenderer#beginLinkExtraAttributes(ResourceReference, java.util.Map, java.util.Map)
-     */
     @Override
     protected void beginLinkExtraAttributes(ResourceReference reference, Map<String, String> spanAttributes,
         Map<String, String> anchorAttributes)

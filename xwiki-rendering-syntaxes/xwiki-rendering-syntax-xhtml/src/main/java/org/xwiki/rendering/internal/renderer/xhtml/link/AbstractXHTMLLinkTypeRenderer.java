@@ -19,20 +19,20 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml.link;
 
-import org.xwiki.component.manager.ComponentLookupException;
-import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
-import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
+import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
+
 /**
  * Common code for XHTML Link Type Renderer implementations.
- *  
+ * 
  * @version $Id$
  * @since 2.5M2
  */
@@ -73,31 +73,19 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
         return this.hasLabel;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see XHTMLLinkTypeRenderer#setHasLabel(boolean)
-     */
+    @Override
     public void setHasLabel(boolean hasLabel)
     {
         this.hasLabel = hasLabel;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see XHTMLLinkTypeRenderer#setXHTMLWikiPrinter(org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter)
-     */
+    @Override
     public void setXHTMLWikiPrinter(XHTMLWikiPrinter printer)
     {
         this.xhtmlPrinter = printer;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see XHTMLLinkTypeRenderer#getXHTMLWikiPrinter()
-     */
+    @Override
     public XHTMLWikiPrinter getXHTMLWikiPrinter()
     {
         return this.xhtmlPrinter;
@@ -106,7 +94,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     /**
      * Hook called when rendering the beginning of a link to allow implementation classes to augment the passed span and
      * anchor attributes as they see fit.
-     *
+     * 
      * @param reference the reference of the link being rendered
      * @param spanAttributes the HTML attributes for the SPAN HTML element added around the ANCHOR HTML element
      * @param anchorAttributes the HTML attributes for the ANCHOR element
@@ -117,7 +105,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     /**
      * Default implementation for computing a link label when no label has been specified. Can be overwritten by
      * implementations to provide a different algorithm.
-     *
+     * 
      * @param reference the reference of the link for which to compute the label
      * @return the computed label
      */
@@ -129,8 +117,8 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
         // when we're not in wiki mode (since all links are considered URIs when not in wiki mode).
         String label;
         try {
-            URILabelGenerator uriLabelGenerator = this.componentManager.lookup(URILabelGenerator.class,
-                reference.getType().getScheme());
+            URILabelGenerator uriLabelGenerator =
+                this.componentManager.lookup(URILabelGenerator.class, reference.getType().getScheme());
             label = uriLabelGenerator.generateLabel(reference);
         } catch (ComponentLookupException e) {
             label = reference.getReference();
@@ -138,11 +126,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
         return label;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see XHTMLLinkTypeRenderer#
-     */
+    @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         Map<String, String> spanAttributes = new LinkedHashMap<String, String>();
@@ -162,16 +146,12 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
         getXHTMLWikiPrinter().printXMLStartElement(XHTMLLinkRenderer.ANCHOR, anchorAttributes);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see XHTMLLinkRenderer#endLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean, Map)
-     */
+    @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         // If there was no link content then generate it based on the passed reference
         if (!hasLabel()) {
-            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][]{{CLASS, "wikigeneratedlinkcontent"}});
+            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][] {{CLASS, "wikigeneratedlinkcontent"}});
             getXHTMLWikiPrinter().printXML(computeLabel(reference));
             getXHTMLWikiPrinter().printXMLEndElement(SPAN);
         }
@@ -183,7 +163,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     /**
      * Add an attribute value to an existing attribute. This is useful for example for adding a value to an HTML CLASS
      * attribute.
-     *
+     * 
      * @param currentValue the current value of the attribute (can be null)
      * @param valueToAdd the value to add
      * @return the current value augmented by the value to add

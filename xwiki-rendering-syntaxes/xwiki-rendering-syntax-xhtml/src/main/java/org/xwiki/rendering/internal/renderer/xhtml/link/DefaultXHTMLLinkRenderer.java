@@ -35,7 +35,7 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
  * Default implementation for rendering links as XHTML. The implementation is pluggable in the sense that the
  * implementation is done by {@link org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkTypeRenderer}
  * implementation, each in charge of handling a given {@link org.xwiki.rendering.listener.reference.ResourceType}.
- *
+ * 
  * @version $Id$
  * @since 2.0M3
  */
@@ -59,51 +59,31 @@ public class DefaultXHTMLLinkRenderer implements XHTMLLinkRenderer
      */
     private boolean hasLabel;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLLinkRenderer#setHasLabel(boolean)
-     */
+    @Override
     public void setHasLabel(boolean hasLabel)
     {
         this.hasLabel = hasLabel;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLLinkRenderer#setXHTMLWikiPrinter(XHTMLWikiPrinter)
-     */
+    @Override
     public void setXHTMLWikiPrinter(XHTMLWikiPrinter printer)
     {
         this.xhtmlPrinter = printer;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLLinkRenderer#getXHTMLWikiPrinter()
-     */
+    @Override
     public XHTMLWikiPrinter getXHTMLWikiPrinter()
     {
         return this.xhtmlPrinter;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLLinkRenderer#beginLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean, Map)
-     */
+    @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         getXHTMLLinkTypeRenderer(reference).beginLink(reference, isFreeStandingURI, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLLinkRenderer#endLink(org.xwiki.rendering.listener.reference.ResourceReference , boolean, Map)
-     */
+    @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         getXHTMLLinkTypeRenderer(reference).endLink(reference, isFreeStandingURI, parameters);

@@ -59,11 +59,7 @@ public class AttachmentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRender
      */
     private WikiModel wikiModel;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         // Try to find a WikiModel implementation and set it if it can be found. If not it means we're in
@@ -75,12 +71,6 @@ public class AttachmentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRender
         }
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractXHTMLLinkTypeRenderer#beginLinkExtraAttributes(org.xwiki.rendering.listener.reference.ResourceReference ,
-     *      java.util.Map, java.util.Map)
-     */
     @Override
     protected void beginLinkExtraAttributes(ResourceReference reference, Map<String, String> spanAttributes,
         Map<String, String> anchorAttributes)

@@ -56,32 +56,19 @@ public class AnnotatedXHTMLLinkRenderer implements XHTMLLinkRenderer
     @Inject
     private XHTMLLinkRenderer defaultLinkRenderer;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLLinkRenderer#setXHTMLWikiPrinter(org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter)
-     */
+    @Override
     public void setXHTMLWikiPrinter(XHTMLWikiPrinter printer)
     {
         this.defaultLinkRenderer.setXHTMLWikiPrinter(printer);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLLinkRenderer#setHasLabel(boolean)
-     */
+    @Override
     public void setHasLabel(boolean hasLabel)
     {
         this.defaultLinkRenderer.setHasLabel(hasLabel);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.LinkListener#beginLink(org.xwiki.rendering.listener.reference.ResourceReference ,
-     *      boolean, java.util.Map)
-     */
+    @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         // Add an XML comment as a placeholder so that the XHTML parser can find the document name.
@@ -94,12 +81,7 @@ public class AnnotatedXHTMLLinkRenderer implements XHTMLLinkRenderer
         this.defaultLinkRenderer.beginLink(reference, isFreeStandingURI, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.LinkListener#endLink(org.xwiki.rendering.listener.reference.ResourceReference ,
-     *      boolean, java.util.Map)
-     */
+    @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         this.defaultLinkRenderer.endLink(reference, isFreeStandingURI, parameters);
@@ -108,11 +90,7 @@ public class AnnotatedXHTMLLinkRenderer implements XHTMLLinkRenderer
         getXHTMLWikiPrinter().printXMLComment("stopwikilink");
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLLinkRenderer#getXHTMLWikiPrinter()
-     */
+    @Override
     public XHTMLWikiPrinter getXHTMLWikiPrinter()
     {
         return this.defaultLinkRenderer.getXHTMLWikiPrinter();
