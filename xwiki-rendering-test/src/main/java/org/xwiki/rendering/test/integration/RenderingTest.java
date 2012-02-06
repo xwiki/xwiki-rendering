@@ -110,7 +110,11 @@ public class RenderingTest
                     MockConfigurationSource mockConfigurationSource = (MockConfigurationSource) configurationSource;
 
                     for (Map.Entry<String, String> entry : originalConfiguration.entrySet()) {
-                        mockConfigurationSource.setProperty(entry.getKey(), entry.getValue());
+                        if (entry.getValue() == null) {
+                            mockConfigurationSource.removeProperty(entry.getKey());
+                        } else {
+                            mockConfigurationSource.setProperty(entry.getKey(), entry.getValue());
+                        }
                     }
                 }
             }
