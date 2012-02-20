@@ -39,21 +39,13 @@ public class VoidWikiPrinter implements WikiPrinter
     {
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.WikiPrinter#print(java.lang.String)
-     */
+    @Override
     public void print(String text)
     {
         // Don't do anything
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.WikiPrinter#println(java.lang.String)
-     */
+    @Override
     public void println(String text)
     {
         // Don't do anything

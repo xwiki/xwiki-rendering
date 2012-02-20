@@ -59,11 +59,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         return this.previousEvents.getEvent(depth);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginDefinitionDescription()
-     */
     @Override
     public void beginDefinitionDescription()
     {
@@ -73,8 +68,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginDefinitionList(java.util.Map)
      * @since 2.0RC1
      */
     @Override
@@ -84,11 +77,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginDefinitionTerm()
-     */
     @Override
     public void beginDefinitionTerm()
     {
@@ -98,8 +86,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractChainingListener#beginDocument(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
     @Override
@@ -109,11 +95,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         flush();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginGroup(Map)
-     */
     @Override
     public void beginGroup(Map<String, String> parameters)
     {
@@ -121,12 +102,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginFormat(org.xwiki.rendering.listener.Format,
-     *      java.util.Map)
-     */
     @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
@@ -134,12 +109,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginHeader(org.xwiki.rendering.listener.HeaderLevel,
-     *      java.lang.String, java.util.Map)
-     */
     @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
@@ -149,9 +118,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginLink(
-     *      org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
     @Override
@@ -161,12 +127,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginList(org.xwiki.rendering.listener.ListType,
-     *      java.util.Map)
-     */
     @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
@@ -174,11 +134,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginListItem()
-     */
     @Override
     public void beginListItem()
     {
@@ -186,12 +141,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginMacroMarker(java.lang.String,
-     *      java.util.Map, java.lang.String, boolean)
-     */
     @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
@@ -201,9 +150,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginMetaData(
-     *      org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
     @Override
@@ -213,11 +159,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
     
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginParagraph(java.util.Map)
-     */
     @Override
     public void beginParagraph(Map<String, String> parameters)
     {
@@ -225,11 +166,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginQuotation(java.util.Map)
-     */
     @Override
     public void beginQuotation(Map<String, String> parameters)
     {
@@ -237,11 +173,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginQuotationLine()
-     */
     @Override
     public void beginQuotationLine()
     {
@@ -249,11 +180,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginSection(java.util.Map)
-     */
     @Override
     public void beginSection(Map<String, String> parameters)
     {
@@ -261,11 +187,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginTable(java.util.Map)
-     */
     @Override
     public void beginTable(Map<String, String> parameters)
     {
@@ -273,11 +194,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginTableCell(java.util.Map)
-     */
     @Override
     public void beginTableCell(Map<String, String> parameters)
     {
@@ -285,11 +201,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginTableHeadCell(java.util.Map)
-     */
     @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
@@ -297,11 +208,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginTableRow(java.util.Map)
-     */
     @Override
     public void beginTableRow(Map<String, String> parameters)
     {
@@ -309,11 +215,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endDefinitionDescription()
-     */
     @Override
     public void endDefinitionDescription()
     {
@@ -323,8 +224,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endDefinitionList(java.util.Map)
      * @since 2.0RC1
      */
     @Override
@@ -334,11 +233,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endDefinitionTerm()
-     */
     @Override
     public void endDefinitionTerm()
     {
@@ -348,8 +242,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractChainingListener#endDocument(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
     @Override
@@ -359,23 +251,13 @@ public class LookaheadChainingListener extends AbstractChainingListener
         flush();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endGroup(Map)
-     */
+    @Override
     public void endGroup(Map<String, String> parameters)
     {
         this.previousEvents.endGroup(parameters);
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endFormat(org.xwiki.rendering.listener.Format,
-     *      java.util.Map)
-     */
     @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
@@ -383,12 +265,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endHeader(org.xwiki.rendering.listener.HeaderLevel,
-     *      java.lang.String, java.util.Map)
-     */
     @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
@@ -398,9 +274,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endLink(
-     *      org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
     @Override
@@ -410,12 +283,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endList(org.xwiki.rendering.listener.ListType,
-     *      java.util.Map)
-     */
     @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
@@ -423,11 +290,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endListItem()
-     */
     @Override
     public void endListItem()
     {
@@ -435,12 +297,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endMacroMarker(java.lang.String,
-     *      java.util.Map, java.lang.String, boolean)
-     */
     @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
@@ -450,9 +306,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endMetaData(
-     *      org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
     @Override
@@ -462,11 +315,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
     
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endParagraph(java.util.Map)
-     */
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
@@ -474,11 +322,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endQuotation(java.util.Map)
-     */
     @Override
     public void endQuotation(Map<String, String> parameters)
     {
@@ -486,11 +329,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endQuotationLine()
-     */
     @Override
     public void endQuotationLine()
     {
@@ -498,11 +336,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endSection(java.util.Map)
-     */
     @Override
     public void endSection(Map<String, String> parameters)
     {
@@ -510,11 +343,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTable(java.util.Map)
-     */
     @Override
     public void endTable(Map<String, String> parameters)
     {
@@ -522,11 +350,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTableCell(java.util.Map)
-     */
     @Override
     public void endTableCell(Map<String, String> parameters)
     {
@@ -534,11 +357,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTableHeadCell(java.util.Map)
-     */
     @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
@@ -546,11 +364,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTableRow(java.util.Map)
-     */
     @Override
     public void endTableRow(Map<String, String> parameters)
     {
@@ -558,11 +371,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onRawText(String, Syntax)
-     */
     @Override
     public void onRawText(String text, Syntax syntax)
     {
@@ -570,11 +378,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onEmptyLines(int)
-     */
     @Override
     public void onEmptyLines(int count)
     {
@@ -582,11 +385,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onHorizontalLine(java.util.Map)
-     */
     @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
@@ -594,11 +392,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onId(java.lang.String)
-     */
     @Override
     public void onId(String name)
     {
@@ -608,9 +401,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onImage(
-     *      org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
     @Override
@@ -620,12 +410,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onMacro(java.lang.String, java.util.Map,
-     *      java.lang.String, boolean)
-     */
     @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {
@@ -633,11 +417,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onNewLine()
-     */
     @Override
     public void onNewLine()
     {
@@ -645,11 +424,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onSpace()
-     */
     @Override
     public void onSpace()
     {
@@ -657,11 +431,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onSpecialSymbol(char)
-     */
     @Override
     public void onSpecialSymbol(char symbol)
     {
@@ -669,11 +438,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onVerbatim(String, boolean, Map)
-     */
     @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
@@ -681,11 +445,6 @@ public class LookaheadChainingListener extends AbstractChainingListener
         firePreviousEvent();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onWord(java.lang.String)
-     */
     @Override
     public void onWord(String word)
     {

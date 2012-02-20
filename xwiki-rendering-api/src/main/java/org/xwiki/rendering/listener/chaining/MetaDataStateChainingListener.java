@@ -89,9 +89,6 @@ public class MetaDataStateChainingListener extends AbstractChainingListener
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void beginDocument(MetaData metaData)
     {
@@ -106,9 +103,6 @@ public class MetaDataStateChainingListener extends AbstractChainingListener
         this.metaDataStack.pop();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void beginMetaData(MetaData metaData)
     {
@@ -116,9 +110,6 @@ public class MetaDataStateChainingListener extends AbstractChainingListener
         super.beginMetaData(metaData);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void endMetaData(MetaData metaData)
     {

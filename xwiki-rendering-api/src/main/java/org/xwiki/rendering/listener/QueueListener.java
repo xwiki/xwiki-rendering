@@ -346,41 +346,25 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
         saveEvent(EventType.END_SECTION, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTable(java.util.Map)
-     */
+    @Override
     public void endTable(Map<String, String> parameters)
     {
         saveEvent(EventType.END_TABLE, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTableCell(java.util.Map)
-     */
+    @Override
     public void endTableCell(Map<String, String> parameters)
     {
         saveEvent(EventType.END_TABLE_CELL, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTableHeadCell(java.util.Map)
-     */
+    @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
         saveEvent(EventType.END_TABLE_HEAD_CELL, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endTableRow(java.util.Map)
-     */
+    @Override
     public void endTableRow(Map<String, String> parameters)
     {
         saveEvent(EventType.END_TABLE_ROW, parameters);
@@ -388,50 +372,33 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.Listener#endMetaData(MetaData)
      * @since 3.0M2
      */
+    @Override
     public void endMetaData(MetaData metadata)
     {
         saveEvent(EventType.END_METADATA, metadata);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onRawText(String, Syntax)
-     */
+    @Override
     public void onRawText(String text, Syntax syntax)
     {
         saveEvent(EventType.ON_RAW_TEXT, text, syntax);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onEmptyLines(int)
-     */
+    @Override
     public void onEmptyLines(int count)
     {
         saveEvent(EventType.ON_EMPTY_LINES, count);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onHorizontalLine(java.util.Map)
-     */
+    @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
         saveEvent(EventType.ON_HORIZONTAL_LINE, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onId(java.lang.String)
-     */
+    @Override
     public void onId(String name)
     {
         saveEvent(EventType.ON_ID, name);
@@ -439,70 +406,45 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onImage(ResourceReference, boolean, java.util.Map)
      * @since 2.5RC1
      */
+    @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         saveEvent(EventType.ON_IMAGE, reference, isFreeStandingURI, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onMacro(java.lang.String, java.util.Map, java.lang.String, boolean)
-     */
+    @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {
         saveEvent(EventType.ON_MACRO, id, parameters, content, isInline);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onNewLine()
-     */
+    @Override
     public void onNewLine()
     {
         saveEvent(EventType.ON_NEW_LINE);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onSpace()
-     */
+    @Override
     public void onSpace()
     {
         saveEvent(EventType.ON_SPACE);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onSpecialSymbol(char)
-     */
+    @Override
     public void onSpecialSymbol(char symbol)
     {
         saveEvent(EventType.ON_SPECIAL_SYMBOL, symbol);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onVerbatim(String, boolean, Map)
-     */
+    @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
         saveEvent(EventType.ON_VERBATIM, protectedString, isInline, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onWord(java.lang.String)
-     */
+    @Override
     public void onWord(String word)
     {
         saveEvent(EventType.ON_WORD, word);

@@ -66,31 +66,18 @@ public class DefaultWikiPrinter implements WikiPrinter
         return "\n";
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see WikiPrinter#print(String)
-     */
+    @Override
     public void print(String text)
     {
         getBuffer().append(text);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see WikiPrinter#println(String)
-     */
+    @Override
     public void println(String text)
     {
         getBuffer().append(text).append(getEOL());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString()
     {

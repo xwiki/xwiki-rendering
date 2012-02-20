@@ -36,32 +36,19 @@ public abstract class AbstractTransformation implements Transformation
      */
     private int priority = 1000;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Transformation#getPriority()
-     */
+    @Override
     public int getPriority()
     {
         return this.priority;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Transformation#compareTo(Object)
-     */
+    @Override
     public int compareTo(Transformation transformation)
     {
         return getPriority() - transformation.getPriority();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.transformation.Transformation#transform(org.xwiki.rendering.block.XDOM ,
-     *      org.xwiki.rendering.syntax.Syntax)
-     */
+    @Override
     public void transform(XDOM dom, Syntax syntax) throws TransformationException
     {
         transform(dom, new TransformationContext(dom, syntax));

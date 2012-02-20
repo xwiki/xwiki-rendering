@@ -50,11 +50,7 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         setListenerChain(listenerChain);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see StackableChainingListener#createChainingListenerInstance()
-     */
+    @Override
     public StackableChainingListener createChainingListenerInstance()
     {
         return new ConsecutiveNewLineStateChainingListener(getListenerChain());
@@ -68,11 +64,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         return this.newLineCount;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endDefinitionDescription()
-     */
     @Override
     public void endDefinitionDescription()
     {
@@ -82,8 +73,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endDefinitionList(java.util.Map)
      * @since 2.0RC1
      */
     @Override
@@ -93,11 +82,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endDefinitionList(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endDefinitionTerm()
-     */
     @Override
     public void endDefinitionTerm()
     {
@@ -107,8 +91,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractChainingListener#endDocument(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
     @Override
@@ -118,11 +100,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endDocument(metaData);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endGroup(Map)
-     */
     @Override
     public void endGroup(Map<String, String> parameters)
     {
@@ -130,12 +107,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endGroup(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endFormat(org.xwiki.rendering.listener.Format,
-     *      java.util.Map)
-     */
     @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
@@ -145,9 +116,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endLink(
-     *      org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
     @Override
@@ -157,12 +125,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endLink(reference, isFreeStandingURI, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endList(org.xwiki.rendering.listener.ListType,
-     *      java.util.Map)
-     */
     @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
@@ -170,11 +132,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endList(listType, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endListItem()
-     */
     @Override
     public void endListItem()
     {
@@ -182,12 +139,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endListItem();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endMacroMarker(java.lang.String,
-     *      java.util.Map, java.lang.String, boolean)
-     */
     @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
@@ -195,11 +146,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endMacroMarker(name, parameters, content, isInline);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endParagraph(java.util.Map)
-     */
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
@@ -207,11 +153,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endParagraph(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endQuotation(java.util.Map)
-     */
     @Override
     public void endQuotation(Map<String, String> parameters)
     {
@@ -219,11 +160,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endQuotation(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endQuotationLine()
-     */
     @Override
     public void endQuotationLine()
     {
@@ -231,12 +167,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endQuotationLine();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endHeader(org.xwiki.rendering.listener.HeaderLevel,
-     *      java.lang.String, java.util.Map)
-     */
     @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
@@ -244,11 +174,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endHeader(level, id, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTable(java.util.Map)
-     */
     @Override
     public void endTable(Map<String, String> parameters)
     {
@@ -256,11 +181,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endTable(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTableCell(java.util.Map)
-     */
     @Override
     public void endTableCell(Map<String, String> parameters)
     {
@@ -268,11 +188,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endTableCell(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTableHeadCell(java.util.Map)
-     */
     @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
@@ -280,11 +195,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endTableHeadCell(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTableRow(java.util.Map)
-     */
     @Override
     public void endTableRow(Map<String, String> parameters)
     {
@@ -292,11 +202,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.endTableRow(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onRawText(String, Syntax)
-     */
     @Override
     public void onRawText(String text, Syntax syntax)
     {
@@ -304,11 +209,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.onRawText(text, syntax);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onEmptyLines(int)
-     */
     @Override
     public void onEmptyLines(int count)
     {
@@ -316,11 +216,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.onEmptyLines(count);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onHorizontalLine(java.util.Map)
-     */
     @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
@@ -328,11 +223,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.onHorizontalLine(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onId(java.lang.String)
-     */
     @Override
     public void onId(String name)
     {
@@ -342,9 +232,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onImage(
-     *      org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
     @Override
@@ -354,11 +241,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.onImage(reference, isFreeStandingURI, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onNewLine()
-     */
     @Override
     public void onNewLine()
     {
@@ -366,11 +248,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.onNewLine();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onSpace()
-     */
     @Override
     public void onSpace()
     {
@@ -378,11 +255,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.onSpace();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onSpecialSymbol(char)
-     */
     @Override
     public void onSpecialSymbol(char symbol)
     {
@@ -390,11 +262,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.onSpecialSymbol(symbol);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onMacro(String, Map, String, boolean)
-     */
     @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {
@@ -402,11 +269,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.onMacro(id, parameters, content, isInline);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onVerbatim(String, boolean, Map)
-     */
     @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
@@ -414,11 +276,6 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
         super.onVerbatim(protectedString, isInline, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onWord(java.lang.String)
-     */
     @Override
     public void onWord(String word)
     {

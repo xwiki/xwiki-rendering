@@ -52,11 +52,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         super(printer);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXML(java.lang.String)
-     */
     @Override
     public void printXML(String str)
     {
@@ -65,11 +60,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         this.hasTextBeenPrinted = true;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLElement(java.lang.String)
-     */
     @Override
     public void printXMLElement(String name)
     {
@@ -77,11 +67,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         super.printXMLElement(name);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLElement(java.lang.String, java.lang.String[][])
-     */
     @Override
     public void printXMLElement(String name, String[][] attributes)
     {
@@ -89,11 +74,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         super.printXMLElement(name, attributes);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLElement(java.lang.String, java.util.Map)
-     */
     @Override
     public void printXMLElement(String name, Map<String, String> attributes)
     {
@@ -101,11 +81,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         super.printXMLElement(name, attributes);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLStartElement(java.lang.String)
-     */
     @Override
     public void printXMLStartElement(String name)
     {
@@ -113,12 +88,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         super.printXMLStartElement(name);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLStartElement(java.lang.String,
-     *      java.lang.String[][])
-     */
     @Override
     public void printXMLStartElement(String name, String[][] attributes)
     {
@@ -126,11 +95,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         super.printXMLStartElement(name, attributes);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLStartElement(java.lang.String, java.util.Map)
-     */
     @Override
     public void printXMLStartElement(String name, Map<String, String> attributes)
     {
@@ -138,12 +102,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         super.printXMLStartElement(name, attributes);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLStartElement(java.lang.String,
-     *      org.xml.sax.Attributes)
-     */
     @Override
     public void printXMLStartElement(String name, Attributes attributes)
     {
@@ -151,11 +109,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         super.printXMLStartElement(name, attributes);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLEndElement(java.lang.String)
-     */
     @Override
     public void printXMLEndElement(String name)
     {
@@ -164,22 +117,12 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         this.elementEnded = true;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLComment(java.lang.String)
-     */
     @Override
     public void printXMLComment(String content)
     {
         printXMLComment(content, false);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLComment(java.lang.String, boolean)
-     */
     @Override
     public void printXMLComment(String content, boolean escape)
     {
@@ -188,11 +131,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         this.elementEnded = true;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLStartCData()
-     */
     @Override
     public void printXMLStartCData()
     {
@@ -200,11 +138,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         super.printXMLStartCData();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printXMLEndCData()
-     */
     @Override
     public void printXMLEndCData()
     {
@@ -220,11 +153,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         this.spaceCount++;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.renderer.printer.XMLWikiPrinter#printRaw(java.lang.String)
-     */
     @Override
     public void printRaw(String raw)
     {

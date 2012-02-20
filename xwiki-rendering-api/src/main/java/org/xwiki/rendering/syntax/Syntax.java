@@ -106,11 +106,6 @@ public class Syntax
         return getType().getId() + "/" + getVersion().toLowerCase();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Object#toString()
-     */
     @Override
     public String toString()
     {
@@ -134,11 +129,6 @@ public class Syntax
         return hash;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Object#equals(Object)
-     */
     @Override
     public boolean equals(Object object)
     {

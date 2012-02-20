@@ -113,11 +113,6 @@ public class SyntaxType
         return this.name;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Object#hashCode()
-     */
     @Override
     public int hashCode()
     {
@@ -129,11 +124,6 @@ public class SyntaxType
         return hash;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Object#equals(Object)
-     */
     @Override
     public boolean equals(Object object)
     {

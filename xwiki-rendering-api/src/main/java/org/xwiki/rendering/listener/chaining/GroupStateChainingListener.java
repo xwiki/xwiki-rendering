@@ -51,11 +51,6 @@ public class GroupStateChainingListener extends AbstractChainingListener
 
     // Events
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginGroup(Map)
-     */
     @Override
     public void beginGroup(Map<String, String> parameters)
     {
@@ -64,11 +59,6 @@ public class GroupStateChainingListener extends AbstractChainingListener
         super.beginGroup(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endGroup(Map)
-     */
     @Override
     public void endGroup(Map<String, String> parameters)
     {

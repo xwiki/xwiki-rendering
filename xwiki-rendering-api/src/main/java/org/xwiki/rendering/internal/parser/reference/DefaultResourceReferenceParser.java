@@ -69,6 +69,7 @@ public class DefaultResourceReferenceParser implements ResourceReferenceParser
      *
      * @see org.xwiki.rendering.parser.ResourceReferenceParser#parse(String)
      */
+    @Override
     public ResourceReference parse(String rawReference)
     {
         // Step 1: If we're not in wiki mode then all links are URL links.

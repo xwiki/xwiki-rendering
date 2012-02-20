@@ -54,10 +54,7 @@ public class DefaultUntypedImageReferenceParser implements ResourceReferencePars
     @Named("attach")
     private ResourceReferenceTypeParser attachmentResourceReferenceTypeParser;
 
-    /**
-     * {@inheritDoc}
-     * @see ResourceReferenceParser#parse(String)
-     */
+    @Override
     public ResourceReference parse(String rawReference)
     {
         // Try to guess the link type. It can be either:

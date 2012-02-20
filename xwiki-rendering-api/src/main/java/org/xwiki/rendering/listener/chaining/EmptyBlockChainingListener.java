@@ -53,8 +53,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     *
-     * @see AbstractChainingListener#beginDocument(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
     @Override
@@ -64,11 +62,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginDocument(metaData);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginDefinitionDescription()
-     */
     @Override
     public void beginDefinitionDescription()
     {
@@ -79,8 +72,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     *
-     * @see AbstractChainingListener#beginDefinitionList(java.util.Map)
      * @since 2.0RC1
      */
     @Override
@@ -91,11 +82,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginDefinitionList(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginDefinitionTerm()
-     */
     @Override
     public void beginDefinitionTerm()
     {
@@ -104,11 +90,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginDefinitionTerm();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginGroup(java.util.Map)
-     */
     @Override
     public void beginGroup(Map<String, String> parameters)
     {
@@ -117,11 +98,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginGroup(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractChainingListener#beginFormat(org.xwiki.rendering.listener.Format, java.util.Map) 
-     */
     @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
@@ -132,9 +108,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginLink(
-     *      org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
     @Override
@@ -145,12 +118,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginLink(reference, isFreeStandingURI, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginList(org.xwiki.rendering.listener.ListType,
-     *      java.util.Map)
-     */
     @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
@@ -159,11 +126,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginList(listType, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginListItem()
-     */
     @Override
     public void beginListItem()
     {
@@ -172,12 +134,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginListItem();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginMacroMarker(java.lang.String,
-     *      java.util.Map, java.lang.String, boolean)
-     */
     @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
@@ -186,11 +142,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginMacroMarker(name, parameters, content, isInline);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginParagraph(java.util.Map)
-     */
     @Override
     public void beginParagraph(Map<String, String> parameters)
     {
@@ -199,11 +150,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginParagraph(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginQuotation(java.util.Map)
-     */
     @Override
     public void beginQuotation(Map<String, String> parameters)
     {
@@ -212,11 +158,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginQuotation(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginQuotationLine()
-     */
     @Override
     public void beginQuotationLine()
     {
@@ -225,12 +166,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginQuotationLine();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginHeader(org.xwiki.rendering.listener.HeaderLevel,
-     *      java.lang.String, java.util.Map)
-     */
     @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
@@ -239,11 +174,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginHeader(level, id, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginTable(java.util.Map)
-     */
     @Override
     public void beginTable(Map<String, String> parameters)
     {
@@ -252,11 +182,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginTable(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginTableRow(java.util.Map)
-     */
     @Override
     public void beginTableRow(Map<String, String> parameters)
     {
@@ -265,11 +190,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginTableRow(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginTableCell(java.util.Map)
-     */
     @Override
     public void beginTableCell(Map<String, String> parameters)
     {
@@ -278,11 +198,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginTableCell(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginTableHeadCell(java.util.Map)
-     */
     @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
@@ -291,11 +206,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginTableHeadCell(parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#beginSection(java.util.Map)
-     */
     @Override
     public void beginSection(Map<String, String> parameters)
     {
@@ -306,8 +216,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     *
-     * @see AbstractChainingListener#endDocument(org.xwiki.rendering.listener.MetaData)
      * @since 3.0M2
      */
     @Override
@@ -317,11 +225,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endDefinitionDescription()
-     */
     @Override
     public void endDefinitionDescription()
     {
@@ -331,8 +234,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     *
-     * @see AbstractChainingListener#endDefinitionList(java.util.Map)
      * @since 2.0RC1
      */
     @Override
@@ -342,11 +243,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endDefinitionTerm()
-     */
     @Override
     public void endDefinitionTerm()
     {
@@ -354,11 +250,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractChainingListener#endFormat(org.xwiki.rendering.listener.Format, java.util.Map)
-     */
     @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
@@ -366,11 +257,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endGroup(java.util.Map)
-     */
     @Override
     public void endGroup(Map<String, String> parameters)
     {
@@ -380,9 +266,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endLink(
-     *      org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
     @Override
@@ -392,12 +275,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endList(org.xwiki.rendering.listener.ListType,
-     *      java.util.Map)
-     */
     @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
@@ -405,11 +282,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endListItem()
-     */
     @Override
     public void endListItem()
     {
@@ -417,12 +289,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endMacroMarker(java.lang.String,
-     *      java.util.Map, java.lang.String, boolean)
-     */
     @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
@@ -430,11 +296,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endParagraph(java.util.Map)
-     */
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
@@ -442,11 +303,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endQuotation(java.util.Map)
-     */
     @Override
     public void endQuotation(Map<String, String> parameters)
     {
@@ -454,11 +310,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endQuotationLine()
-     */
     @Override
     public void endQuotationLine()
     {
@@ -466,11 +317,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endSection(java.util.Map)
-     */
     @Override
     public void endSection(Map<String, String> parameters)
     {
@@ -478,12 +324,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endHeader(org.xwiki.rendering.listener.HeaderLevel,
-     *      java.lang.String, java.util.Map)
-     */
     @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
@@ -491,11 +331,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTable(java.util.Map)
-     */
     @Override
     public void endTable(Map<String, String> parameters)
     {
@@ -503,11 +338,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTableCell(java.util.Map)
-     */
     @Override
     public void endTableCell(Map<String, String> parameters)
     {
@@ -515,11 +345,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTableHeadCell(java.util.Map)
-     */
     @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
@@ -527,11 +352,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#endTableRow(java.util.Map)
-     */
     @Override
     public void endTableRow(Map<String, String> parameters)
     {
@@ -539,11 +359,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onRawText(String, org.xwiki.rendering.syntax.Syntax)
-     */
     @Override
     public void onRawText(String text, Syntax syntax)
     {
@@ -551,11 +366,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         markNotEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onEmptyLines(int)
-     */
     @Override
     public void onEmptyLines(int count)
     {
@@ -563,11 +373,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         markNotEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onHorizontalLine(java.util.Map)
-     */
     @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
@@ -575,11 +380,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         markNotEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onId(java.lang.String)
-     */
     @Override
     public void onId(String name)
     {
@@ -589,9 +389,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onImage(
-     *      org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
     @Override
@@ -601,11 +398,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         markNotEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onNewLine()
-     */
     @Override
     public void onNewLine()
     {
@@ -613,11 +405,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         markNotEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onSpace()
-     */
     @Override
     public void onSpace()
     {
@@ -625,11 +412,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         markNotEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onSpecialSymbol(char)
-     */
     @Override
     public void onSpecialSymbol(char symbol)
     {
@@ -637,11 +419,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         markNotEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onVerbatim(String, boolean, Map)
-     */
     @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
@@ -649,11 +426,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         markNotEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onWord(java.lang.String)
-     */
     @Override
     public void onWord(String word)
     {
@@ -661,12 +433,6 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         markNotEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.listener.chaining.AbstractChainingListener#onMacro(java.lang.String, java.util.Map,
-     *      java.lang.String, boolean)
-     */
     @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {

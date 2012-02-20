@@ -36,11 +36,7 @@ import org.xwiki.rendering.syntax.Syntax;
 @Singleton
 public class PlainTextBlockParser extends AbstractBlockParser
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.PLAIN_1_0;

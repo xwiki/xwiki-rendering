@@ -46,9 +46,6 @@ public class MacroBlockMatcher extends ClassBlockMatcher
         this.macroId = macroId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean match(Block block)
     {
