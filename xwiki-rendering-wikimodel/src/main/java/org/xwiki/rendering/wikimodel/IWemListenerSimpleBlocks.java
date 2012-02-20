@@ -24,7 +24,8 @@ package org.xwiki.rendering.wikimodel;
  * Each simple block element (like paragraphs) can not have other block elements
  * or documents. Some of them can contain only formatted in-line elements.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWemListenerSimpleBlocks
 {

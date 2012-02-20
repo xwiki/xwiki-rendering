@@ -24,7 +24,8 @@ import org.xwiki.rendering.wikimodel.WikiParserException;
 import org.xwiki.rendering.wikimodel.confluence.ConfluenceWikiParser;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class ConfluenceWikiParserTest extends AbstractWikiParserTest
 {

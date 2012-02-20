@@ -21,6 +21,10 @@ package org.xwiki.rendering.wikimodel.util.tmp;
 
 import java.util.Stack;
 
+/**
+ * @version $Id$
+ * @since 4.0M1
+ */
 public class TreeBuilder1<T>
 {
     public interface ITreeBuilderListener<T>

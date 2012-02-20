@@ -23,7 +23,8 @@ package org.xwiki.rendering.wikimodel;
  * This interface contains main styles used to define text formatting. Note that
  * individual parsers can extends this set by adding new styles.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWemConstants
 {

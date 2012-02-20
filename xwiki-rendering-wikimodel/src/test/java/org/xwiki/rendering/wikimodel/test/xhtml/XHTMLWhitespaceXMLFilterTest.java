@@ -30,8 +30,8 @@ import org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter;
 import junit.framework.TestCase;
 
 /**
- * @author vmassol
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XHTMLWhitespaceXMLFilterTest extends TestCase
 {

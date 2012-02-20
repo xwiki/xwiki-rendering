@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * @author kotelnikov
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class SectionBuilder<T>
 {

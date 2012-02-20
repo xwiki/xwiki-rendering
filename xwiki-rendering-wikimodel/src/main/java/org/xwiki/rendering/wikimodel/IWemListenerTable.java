@@ -23,7 +23,8 @@ package org.xwiki.rendering.wikimodel;
  * This interface re-groups all methods used to notify about tables and their
  * structural elements.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWemListenerTable
 {

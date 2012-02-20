@@ -42,7 +42,8 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XhtmlParser implements IWikiParser
 {

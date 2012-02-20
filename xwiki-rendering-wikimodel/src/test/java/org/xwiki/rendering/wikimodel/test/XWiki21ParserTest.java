@@ -23,8 +23,8 @@ import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.xwiki.xwiki21.XWikiParser;
 
 /**
- * @author MikhailKotelnikov
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XWiki21ParserTest extends XWiki20ParserTest
 {

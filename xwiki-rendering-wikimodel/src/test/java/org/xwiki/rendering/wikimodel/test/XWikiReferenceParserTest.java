@@ -27,8 +27,8 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**
- * @author VincentMassol
- * @author tmortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XWikiReferenceParserTest extends TestCase
 {

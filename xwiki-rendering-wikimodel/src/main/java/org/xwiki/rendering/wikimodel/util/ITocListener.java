@@ -23,7 +23,8 @@ package org.xwiki.rendering.wikimodel.util;
  * This listener is used to notify about different structural elements of the
  * table of content.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface ITocListener
 {

@@ -25,7 +25,8 @@ import org.xwiki.rendering.wikimodel.WikiReference;
 import junit.framework.TestCase;
 
 /**
- * @author mkirst(at portolancs dot com)
+ * @version $Id$
+ * @since 4.0M1
  */
 public class MediaWikiReferenceParserTest extends TestCase
 {

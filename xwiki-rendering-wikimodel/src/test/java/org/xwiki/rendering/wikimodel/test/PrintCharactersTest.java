@@ -22,7 +22,8 @@ package org.xwiki.rendering.wikimodel.test;
 import junit.framework.TestCase;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class PrintCharactersTest extends TestCase
 {

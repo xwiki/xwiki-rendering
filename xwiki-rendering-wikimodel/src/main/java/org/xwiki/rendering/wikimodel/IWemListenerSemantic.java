@@ -25,7 +25,8 @@ package org.xwiki.rendering.wikimodel;
  * block property can have a document or a simple paragraph as its value. Each
  * inline element contains only formatted inline elements.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWemListenerSemantic
 {

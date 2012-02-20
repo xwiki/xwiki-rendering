@@ -19,6 +19,10 @@
  */
 package org.xwiki.rendering.wikimodel.xml;
 
+/**
+ * @version $Id$
+ * @since 4.0M1
+ */
 public interface ISaxConst
 {
     String DEFINITION_DESCRIPTION = "dd";

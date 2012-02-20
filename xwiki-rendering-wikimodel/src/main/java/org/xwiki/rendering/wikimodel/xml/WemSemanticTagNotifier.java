@@ -22,11 +22,11 @@ package org.xwiki.rendering.wikimodel.xml;
 import org.xwiki.rendering.wikimodel.IWemListenerSemantic;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WemSemanticTagNotifier extends AbstractTagNotifier
-    implements
-    IWemListenerSemantic
+    implements IWemListenerSemantic
 {
     /**
      * @param listener

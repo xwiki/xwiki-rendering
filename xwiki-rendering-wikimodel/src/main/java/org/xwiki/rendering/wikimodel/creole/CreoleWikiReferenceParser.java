@@ -23,7 +23,8 @@ import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.WikiReferenceParser;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  * @see WikiReference
  */
 public class CreoleWikiReferenceParser extends WikiReferenceParser

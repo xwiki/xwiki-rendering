@@ -29,7 +29,8 @@ import org.xwiki.rendering.wikimodel.util.SectionBuilder;
 import org.xwiki.rendering.wikimodel.util.SectionListener;
 
 /**
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiScannerContext implements IWikiScannerContext
 {

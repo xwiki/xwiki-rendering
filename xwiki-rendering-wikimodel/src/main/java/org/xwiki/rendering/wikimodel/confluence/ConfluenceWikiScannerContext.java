@@ -22,6 +22,10 @@ package org.xwiki.rendering.wikimodel.confluence;
 import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 
+/**
+ * @version $Id$
+ * @since 4.0M1
+ */
 public class ConfluenceWikiScannerContext extends WikiScannerContext
 {
     public ConfluenceWikiScannerContext(IWemListener listener)

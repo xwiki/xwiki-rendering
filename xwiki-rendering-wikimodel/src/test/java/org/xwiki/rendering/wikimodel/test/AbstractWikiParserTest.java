@@ -31,7 +31,8 @@ import org.xwiki.rendering.wikimodel.xhtml.PrintListener;
 import junit.framework.TestCase;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public abstract class AbstractWikiParserTest extends TestCase
 {

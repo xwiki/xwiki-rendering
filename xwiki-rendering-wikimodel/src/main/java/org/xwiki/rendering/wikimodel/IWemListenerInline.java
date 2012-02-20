@@ -58,7 +58,8 @@ package org.xwiki.rendering.wikimodel;
  * {@link #onVerbatimInline(String, WikiParameters)}</dd>
  * </dl>
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWemListenerInline
 {

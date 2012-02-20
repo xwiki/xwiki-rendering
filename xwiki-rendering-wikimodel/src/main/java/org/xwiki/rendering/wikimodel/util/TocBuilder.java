@@ -24,7 +24,8 @@ import java.util.Stack;
 /**
  * This is an utility class which is used to build tables of content (TOCs).
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class TocBuilder
 {

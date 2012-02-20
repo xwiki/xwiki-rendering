@@ -20,7 +20,8 @@
 package org.xwiki.rendering.wikimodel.util;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IListListener
 {

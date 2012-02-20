@@ -32,8 +32,8 @@ import com.steadystate.css.parser.CSSOMParser;
 import com.steadystate.css.parser.SACParserCSS21;
 
 /**
- * @author vmassol
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public abstract class AbstractFormatTagHandler extends TagHandler
 {

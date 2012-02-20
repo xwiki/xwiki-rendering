@@ -22,7 +22,8 @@ package org.xwiki.rendering.wikimodel;
 /**
  * A wiki parameter object.
  *
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiParameter
 {

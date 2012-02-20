@@ -25,7 +25,8 @@ import java.util.Arrays;
  * This class contains some utility methods used for escaping xml strings as
  * well as for encoding/decoding http parameters.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiPageUtil
 {

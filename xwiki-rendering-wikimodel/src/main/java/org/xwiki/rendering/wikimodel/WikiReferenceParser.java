@@ -25,8 +25,8 @@ package org.xwiki.rendering.wikimodel;
  * {@link WikiReference}. Methods of this class should be overloaded to parse
  * correctly wiki-specific references.
  *
- * @author kotelnikov
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  * @see WikiReference
  */
 public class WikiReferenceParser implements IWikiReferenceParser

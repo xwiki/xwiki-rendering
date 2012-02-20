@@ -29,7 +29,8 @@ import org.xwiki.rendering.wikimodel.mediawiki.MediaWikiParser;
 import org.xwiki.rendering.wikimodel.xhtml.PrintListener;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class MediawikiParserTest extends AbstractWikiParserTest
 {

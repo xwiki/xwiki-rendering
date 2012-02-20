@@ -23,7 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiEntityUtil
 {

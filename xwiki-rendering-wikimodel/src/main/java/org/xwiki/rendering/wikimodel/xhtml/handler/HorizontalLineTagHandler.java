@@ -22,8 +22,8 @@ package org.xwiki.rendering.wikimodel.xhtml.handler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 
 /**
- * @author kotelnikov
- * @author vmassol
+ * @version $Id$
+ * @since 4.0M1
  */
 public class HorizontalLineTagHandler extends TagHandler
 {

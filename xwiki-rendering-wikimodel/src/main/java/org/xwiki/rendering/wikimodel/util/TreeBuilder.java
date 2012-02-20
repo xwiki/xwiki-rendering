@@ -26,7 +26,8 @@ import java.util.List;
  * This is an internal utility class used as a context to keep in memory the
  * current state of parsed trees (list items).
  *
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public final class TreeBuilder<X extends TreeBuilder.IPos<X>>
 {

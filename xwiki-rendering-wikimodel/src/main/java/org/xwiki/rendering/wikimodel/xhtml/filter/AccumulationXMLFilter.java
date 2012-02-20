@@ -30,7 +30,8 @@ import org.xml.sax.XMLReader;
  * to accumulate the characters in a buffer before we process them. This filter
  * does exactly this.
  *
- * @author vmassol
+ * @version $Id$
+ * @since 4.0M1
  */
 public class AccumulationXMLFilter extends DefaultXMLFilter
 {

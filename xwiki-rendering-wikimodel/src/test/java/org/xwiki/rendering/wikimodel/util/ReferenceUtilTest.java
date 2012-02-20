@@ -26,7 +26,8 @@ import org.xwiki.rendering.wikimodel.WikiReferenceParser;
 import junit.framework.TestCase;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class ReferenceUtilTest extends TestCase
 {

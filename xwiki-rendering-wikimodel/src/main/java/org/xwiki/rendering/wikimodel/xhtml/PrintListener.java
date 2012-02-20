@@ -24,7 +24,8 @@ import org.xwiki.rendering.wikimodel.WikiPageUtil;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class PrintListener extends PrintInlineListener
 {

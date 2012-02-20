@@ -22,9 +22,8 @@ package org.xwiki.rendering.wikimodel.xhtml.handler;
 import org.xwiki.rendering.wikimodel.IWemConstants;
 
 /**
- * @author kotelnikov
- * @author vmassol
- * @author thomass.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class StrikedOutTagHandler extends AbstractFormatTagHandler
 {

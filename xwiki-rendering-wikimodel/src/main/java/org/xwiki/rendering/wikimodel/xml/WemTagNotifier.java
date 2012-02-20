@@ -22,13 +22,11 @@ package org.xwiki.rendering.wikimodel.xml;
 import org.xwiki.rendering.wikimodel.AgregatingWemListener;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WemTagNotifier extends AgregatingWemListener
 {
-    /**
-     *
-     */
     public WemTagNotifier(ITagListener listener)
     {
         super();

@@ -30,7 +30,8 @@ import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
- * @author vmassol
+ * @version $Id$
+ * @since 4.0M1
  */
 public class DefaultXMLFilter extends XMLFilterImpl implements LexicalHandler
 {

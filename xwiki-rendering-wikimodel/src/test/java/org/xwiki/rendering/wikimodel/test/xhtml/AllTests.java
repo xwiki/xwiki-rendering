@@ -22,6 +22,10 @@ package org.xwiki.rendering.wikimodel.test.xhtml;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+/**
+ * @version $Id$
+ * @since 4.0M1
+ */
 public class AllTests
 {
     public static Test suite()

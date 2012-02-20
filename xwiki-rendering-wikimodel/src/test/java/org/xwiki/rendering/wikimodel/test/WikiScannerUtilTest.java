@@ -26,8 +26,8 @@ import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
 import junit.framework.TestCase;
 
 /**
- * @author MikhailKotelnikov
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiScannerUtilTest extends TestCase
 {

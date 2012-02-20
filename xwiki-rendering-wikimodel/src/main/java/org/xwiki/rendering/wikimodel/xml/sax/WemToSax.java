@@ -31,7 +31,8 @@ import org.xwiki.rendering.wikimodel.WikiPageUtil;
 import org.xwiki.rendering.wikimodel.xml.ITagListener;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WemToSax implements ITagListener
 {

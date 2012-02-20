@@ -28,7 +28,8 @@ import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  * @see org.xwiki.rendering.wikimodel.WikiReference
  */
 public class ConfluenceImageWikiReferenceParser implements IWikiReferenceParser

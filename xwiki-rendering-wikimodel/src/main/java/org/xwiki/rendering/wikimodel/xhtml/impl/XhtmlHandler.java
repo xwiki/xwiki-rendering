@@ -64,9 +64,8 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.TeletypeTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.UnderlineTagHandler;
 
 /**
- * @author kotelnikov
- * @author vmassol
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 {

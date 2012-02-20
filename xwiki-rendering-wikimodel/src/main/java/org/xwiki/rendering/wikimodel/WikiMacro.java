@@ -32,7 +32,8 @@ package org.xwiki.rendering.wikimodel;
  * <li>footnotes</li>
  * </ul>
  *
- * @author mkirst(at portolancs dot com)
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiMacro
 {

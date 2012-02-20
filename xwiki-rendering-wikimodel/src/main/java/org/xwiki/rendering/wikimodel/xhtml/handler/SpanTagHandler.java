@@ -20,8 +20,8 @@
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
 /**
- * @author vmassol
- * @author thomass.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class SpanTagHandler extends AbstractFormatTagHandler
 {

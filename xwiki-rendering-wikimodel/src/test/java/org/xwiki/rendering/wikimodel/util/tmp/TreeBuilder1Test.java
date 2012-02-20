@@ -24,7 +24,8 @@ import org.xwiki.rendering.wikimodel.util.tmp.TreeBuilder1.ITreeBuilderListener;
 import junit.framework.TestCase;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class TreeBuilder1Test extends TestCase
 {

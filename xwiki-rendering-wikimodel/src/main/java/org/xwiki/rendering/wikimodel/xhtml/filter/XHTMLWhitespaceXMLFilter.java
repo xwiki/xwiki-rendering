@@ -53,7 +53,8 @@ import org.xml.sax.helpers.AttributesImpl;
  * white spaces</li>
  * <li><b>UC6</b>: Semantic comment count as text when grouping white spaces</li>
  *
- * @author vmassol
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
 {

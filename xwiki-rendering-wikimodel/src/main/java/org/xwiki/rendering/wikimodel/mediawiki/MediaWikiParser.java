@@ -29,7 +29,8 @@ import org.xwiki.rendering.wikimodel.mediawiki.javacc.MediawikiScanner;
 import org.xwiki.rendering.wikimodel.mediawiki.javacc.ParseException;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class MediaWikiParser implements IWikiParser
 {

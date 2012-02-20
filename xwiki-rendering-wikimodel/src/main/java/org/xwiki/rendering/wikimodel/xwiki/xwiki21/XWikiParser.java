@@ -29,16 +29,12 @@ import org.xwiki.rendering.wikimodel.xwiki.xwiki21.javacc.ParseException;
 import org.xwiki.rendering.wikimodel.xwiki.xwiki21.javacc.XWikiScanner;
 
 /**
- * @author thomas;mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XWikiParser implements IWikiParser
 {
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.wikimodel.IWikiParser#parse(java.io.Reader,
-     *      org.xwiki.rendering.wikimodel.IWemListener)
-     */
+    @Override
     public void parse(Reader reader, IWemListener listener)
         throws WikiParserException
     {

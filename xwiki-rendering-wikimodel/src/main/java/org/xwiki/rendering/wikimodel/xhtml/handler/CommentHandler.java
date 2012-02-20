@@ -33,8 +33,8 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
  * since it wouldn't be possible at all to reconstruct them from the result of
  * their execution).
  *
- * @author vmassol
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class CommentHandler
 {

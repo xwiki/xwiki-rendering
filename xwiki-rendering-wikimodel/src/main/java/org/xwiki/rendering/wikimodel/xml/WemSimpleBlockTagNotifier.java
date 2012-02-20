@@ -25,11 +25,11 @@ import org.xwiki.rendering.wikimodel.IWemListenerSimpleBlocks;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WemSimpleBlockTagNotifier extends AbstractTagNotifier
-    implements
-    IWemListenerSimpleBlocks
+    implements IWemListenerSimpleBlocks
 {
     /**
      * @param listener

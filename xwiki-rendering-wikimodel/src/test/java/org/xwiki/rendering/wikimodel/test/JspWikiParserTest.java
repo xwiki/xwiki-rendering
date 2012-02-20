@@ -24,7 +24,8 @@ import org.xwiki.rendering.wikimodel.WikiParserException;
 import org.xwiki.rendering.wikimodel.jspwiki.JspWikiParser;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class JspWikiParserTest extends AbstractWikiParserTest
 {

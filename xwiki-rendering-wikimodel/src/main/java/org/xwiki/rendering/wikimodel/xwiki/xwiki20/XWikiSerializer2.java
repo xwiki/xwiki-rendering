@@ -44,7 +44,8 @@ import org.xwiki.rendering.wikimodel.WikiReference;
  * <li>Nested definition lists are NOT supported</li>
  * </ul>
  *
- * @author mkirst(at portolancs dot com)
+ * @version $Id$
+ * @since 4.0M1
  * @see {@link org.xwiki.rendering.wikimodel.xwiki.xwiki10.XWikiSerializer}
  */
 public class XWikiSerializer2 extends PrintTextListener

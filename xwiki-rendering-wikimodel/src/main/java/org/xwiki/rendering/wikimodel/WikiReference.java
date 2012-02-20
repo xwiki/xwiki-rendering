@@ -31,7 +31,8 @@ package org.xwiki.rendering.wikimodel;
  * Instances of this type are immutable so they can be shared between various
  * contexts (like threads, parser instances and so on).
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiReference
 {

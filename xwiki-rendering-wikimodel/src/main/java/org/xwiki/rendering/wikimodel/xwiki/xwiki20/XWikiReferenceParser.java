@@ -23,9 +23,8 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReferenceParser;
 
 /**
- * @author kotelnikov
- * @author vmassol
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XWikiReferenceParser extends WikiReferenceParser
 {

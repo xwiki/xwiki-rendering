@@ -20,7 +20,8 @@
 package org.xwiki.rendering.wikimodel.xwiki.xwiki20;
 
 /**
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XWikiScannerUtil
 {

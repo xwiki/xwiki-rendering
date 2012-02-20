@@ -24,9 +24,8 @@ package org.xwiki.rendering.wikimodel;
  * label) and delegates to separate methods handling of images, normal
  * references and downloads.
  *
- * @author kotelnikov
- * @author mkirst(at portolancs dot com)
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public abstract class ReferenceHandler
 {

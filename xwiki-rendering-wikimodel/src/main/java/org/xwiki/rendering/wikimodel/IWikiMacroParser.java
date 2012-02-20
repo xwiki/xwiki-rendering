@@ -23,7 +23,8 @@ package org.xwiki.rendering.wikimodel;
  * Instances of this type are used to transform macros found in wiki
  * documents into corresponding structured objects - {@link WikiMacro}.
  *
- * @author mkirst(at portolancs dot com)
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWikiMacroParser
 {

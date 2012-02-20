@@ -27,6 +27,10 @@ import org.xwiki.rendering.wikimodel.WikiStyle;
 
 import junit.framework.TestCase;
 
+/**
+ * @version $Id$
+ * @since 4.0M1
+ */
 public class WikiFormatTest extends TestCase
 {
     public void testOrder()

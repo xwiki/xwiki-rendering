@@ -27,9 +27,8 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
 /**
  * Handles references.
  *
- * @author kotelnikov
- * @author vmassol
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class ReferenceTagHandler extends TagHandler
 {

@@ -25,9 +25,10 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 
 /**
- * Not ready yet
+ * Not ready yet.
  *
- * @author voelkel
+ * @version $Id$
+ * @since 4.0M1
  */
 public class JspWikiSerializer implements IWemListener
 {

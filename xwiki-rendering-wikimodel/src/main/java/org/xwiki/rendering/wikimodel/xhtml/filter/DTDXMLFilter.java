@@ -26,7 +26,8 @@ import org.xml.sax.XMLReader;
 /**
  * Skip all callbacks when parsing the DTD.
  *
- * @author vmassol
+ * @version $Id$
+ * @since 4.0M1
  */
 public class DTDXMLFilter extends DefaultXMLFilter
 {

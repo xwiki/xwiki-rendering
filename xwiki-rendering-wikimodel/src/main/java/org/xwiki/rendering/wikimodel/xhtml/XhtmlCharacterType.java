@@ -19,6 +19,10 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml;
 
+/**
+ * @version $Id$
+ * @since 4.0M1
+ */
 public enum XhtmlCharacterType
 {
     SPECIAL_SYMBOL, CHARACTER, SPACE, NEW_LINE, ESCAPED;

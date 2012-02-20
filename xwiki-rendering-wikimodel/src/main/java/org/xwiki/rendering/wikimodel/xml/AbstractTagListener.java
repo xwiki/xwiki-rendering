@@ -20,13 +20,11 @@
 package org.xwiki.rendering.wikimodel.xml;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class AbstractTagListener
 {
-    /**
-     *
-     */
     public AbstractTagListener()
     {
     }

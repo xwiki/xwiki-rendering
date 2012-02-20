@@ -25,7 +25,8 @@ import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 
 /**
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class ImgTagHandler extends ReferenceTagHandler
 {

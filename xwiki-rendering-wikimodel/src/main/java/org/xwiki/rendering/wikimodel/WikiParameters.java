@@ -31,8 +31,8 @@ import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
 /**
  * This is a default implementation of the {@link IWikiParams} interface.
  *
- * @author kotelnikov
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiParameters implements Iterable<WikiParameter>
 {

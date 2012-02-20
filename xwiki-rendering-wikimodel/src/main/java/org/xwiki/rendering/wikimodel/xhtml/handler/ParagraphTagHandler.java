@@ -22,9 +22,8 @@ package org.xwiki.rendering.wikimodel.xhtml.handler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 
 /**
- * @author kotelnikov
- * @author vmassol
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class ParagraphTagHandler extends TagHandler
 {

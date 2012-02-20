@@ -25,8 +25,8 @@ import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.WikiStyle;
 
 /**
- * @author MikhailKotelnikov
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWikiScannerContext extends IWemConstants
 {

@@ -55,7 +55,8 @@ import org.xml.sax.XMLReader;
  * This class contains various utility methods used to manipulate with DOM
  * nodes.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XmlUtil
 {

@@ -37,7 +37,8 @@ import org.xwiki.rendering.wikimodel.xml.sax.WemReader;
 import junit.framework.TestCase;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WemToSaxTest extends TestCase
 {

@@ -22,7 +22,8 @@ package org.xwiki.rendering.wikimodel.util;
 import junit.framework.TestCase;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class SectionBuilderTest extends TestCase
 {

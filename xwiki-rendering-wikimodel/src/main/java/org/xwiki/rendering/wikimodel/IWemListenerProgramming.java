@@ -30,7 +30,8 @@ package org.xwiki.rendering.wikimodel;
  * elements should be defined by the client code in an implementation-specific
  * way.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWemListenerProgramming
 {

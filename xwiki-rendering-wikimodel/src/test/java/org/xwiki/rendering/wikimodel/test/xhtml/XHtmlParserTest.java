@@ -25,9 +25,8 @@ import org.xwiki.rendering.wikimodel.test.AbstractWikiParserTest;
 import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
 
 /**
- * @author MikhailKotelnikov
- * @author vmassol
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XHtmlParserTest extends AbstractWikiParserTest
 {

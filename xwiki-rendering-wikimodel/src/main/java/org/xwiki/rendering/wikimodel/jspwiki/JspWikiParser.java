@@ -29,7 +29,8 @@ import org.xwiki.rendering.wikimodel.jspwiki.javacc.JspWikiScanner;
 import org.xwiki.rendering.wikimodel.jspwiki.javacc.ParseException;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class JspWikiParser implements IWikiParser
 {

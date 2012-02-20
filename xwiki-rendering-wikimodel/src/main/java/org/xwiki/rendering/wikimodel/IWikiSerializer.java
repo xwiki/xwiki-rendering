@@ -23,6 +23,9 @@ import java.io.Reader;
 
 /**
  * This is a common interface for all wiki syntax serializers.
+ *
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWikiSerializer
 {

@@ -20,8 +20,8 @@
 package org.xwiki.rendering.wikimodel;
 
 /**
- * @author MikhailKotelnikov
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class PrintTextListener implements IWemListener
 {

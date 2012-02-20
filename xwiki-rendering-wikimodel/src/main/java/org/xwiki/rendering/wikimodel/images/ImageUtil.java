@@ -33,7 +33,8 @@ import javax.imageio.stream.ImageInputStream;
  * Contains utility methods dealing with images like image size definition or
  * creation of thumbnails (reduced copies of images).
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class ImageUtil
 {

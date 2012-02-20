@@ -22,8 +22,8 @@ package org.xwiki.rendering.wikimodel.xhtml.handler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
 
 /**
- * @author kotelnikov
- * @author vmassol
+ * @version $Id$
+ * @since 4.0M1
  */
 public class ListItemTagHandler extends TagHandler
 {

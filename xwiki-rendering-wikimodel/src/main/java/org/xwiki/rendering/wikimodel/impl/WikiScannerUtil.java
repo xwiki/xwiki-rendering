@@ -26,8 +26,8 @@ import org.xwiki.rendering.wikimodel.WikiParameter;
 /**
  * This class contains some utility methods used by scanners.
  *
- * @author MikhailKotelnikov
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiScannerUtil
 {

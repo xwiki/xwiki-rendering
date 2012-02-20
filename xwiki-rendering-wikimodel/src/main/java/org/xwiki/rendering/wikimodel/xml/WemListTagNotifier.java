@@ -23,7 +23,8 @@ import org.xwiki.rendering.wikimodel.IWemListenerList;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WemListTagNotifier extends AbstractTagNotifier
     implements

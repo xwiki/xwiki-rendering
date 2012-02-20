@@ -29,8 +29,8 @@ import org.xwiki.rendering.wikimodel.xhtml.PrintListener;
 import org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiParser;
 
 /**
- * @author MikhailKotelnikov
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XWiki20ParserTest extends AbstractWikiParserTest
 {

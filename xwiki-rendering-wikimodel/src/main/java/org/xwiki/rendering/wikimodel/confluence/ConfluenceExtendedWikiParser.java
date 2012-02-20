@@ -33,7 +33,8 @@ import org.xwiki.rendering.wikimodel.WikiParserException;
  * http://confluence.atlassian.com/renderer/notationhelp.action?section=all
  * </pre>
  *
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class ConfluenceExtendedWikiParser extends ConfluenceWikiParser
 {

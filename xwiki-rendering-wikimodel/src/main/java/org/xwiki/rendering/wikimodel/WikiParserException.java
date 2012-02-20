@@ -22,7 +22,8 @@ package org.xwiki.rendering.wikimodel;
 /**
  * Common execption for wiki parsers.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiParserException extends Exception
 {

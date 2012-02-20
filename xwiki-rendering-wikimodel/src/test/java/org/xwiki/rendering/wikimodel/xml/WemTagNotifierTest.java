@@ -28,7 +28,8 @@ import org.xwiki.rendering.wikimodel.test.AbstractWikiParserTest;
 import org.xwiki.rendering.wikimodel.xml.sax.WemReader;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WemTagNotifierTest extends AbstractWikiParserTest
 {

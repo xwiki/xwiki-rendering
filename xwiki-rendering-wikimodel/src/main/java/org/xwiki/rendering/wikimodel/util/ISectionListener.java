@@ -21,7 +21,8 @@ package org.xwiki.rendering.wikimodel.util;
 
 /**
  * @param <T> the type of data managed by this listener
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface ISectionListener<T>
 {

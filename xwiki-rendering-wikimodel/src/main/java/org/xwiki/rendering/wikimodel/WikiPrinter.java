@@ -20,15 +20,13 @@
 package org.xwiki.rendering.wikimodel;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiPrinter implements IWikiPrinter
 {
     private StringBuffer fBuffer;
 
-    /**
-     *
-     */
     public WikiPrinter()
     {
         this(new StringBuffer());

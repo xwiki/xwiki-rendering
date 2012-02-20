@@ -31,7 +31,8 @@ import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.WikiStyle;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class AbstractTagNotifier implements ISaxConst
 {
@@ -40,9 +41,6 @@ public class AbstractTagNotifier implements ISaxConst
 
     protected ITagListener fListener;
 
-    /**
-     *
-     */
     public AbstractTagNotifier(ITagListener listener)
     {
         fListener = listener;

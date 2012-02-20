@@ -29,8 +29,8 @@ import java.util.Set;
 /**
  * An immutable set of styles.
  *
- * @author MikhailKotelnikov
- * @author VincentMassol
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WikiFormat
 {

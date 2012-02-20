@@ -23,9 +23,8 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 
 /**
- * @author kotelnikov
- * @author vmassol
- * @author thomass.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class BreakTagHandler extends TagHandler
 {

@@ -24,7 +24,8 @@ import java.io.Reader;
 /**
  * This is a common interface for all wiki syntax parsers.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWikiParser
 {

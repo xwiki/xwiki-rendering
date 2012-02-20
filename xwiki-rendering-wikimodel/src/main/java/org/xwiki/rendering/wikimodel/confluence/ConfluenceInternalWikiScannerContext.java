@@ -28,6 +28,10 @@ import org.xwiki.rendering.wikimodel.util.IListListener;
 import org.xwiki.rendering.wikimodel.util.ListBuilder;
 import org.xwiki.rendering.wikimodel.util.SectionBuilder;
 
+/**
+ * @version $Id$
+ * @since 4.0M1
+ */
 public class ConfluenceInternalWikiScannerContext extends
     InternalWikiScannerContext
 {

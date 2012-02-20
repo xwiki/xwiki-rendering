@@ -23,7 +23,8 @@ package org.xwiki.rendering.wikimodel;
  * This is a dump listener generating text traces of events for every listener
  * call.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class EventDumpListener extends PrintTextListener
 {

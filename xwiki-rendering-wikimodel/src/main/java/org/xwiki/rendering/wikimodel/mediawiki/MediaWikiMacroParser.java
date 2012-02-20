@@ -24,7 +24,8 @@ import org.xwiki.rendering.wikimodel.WikiMacro;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 
 /**
- * @author mkirst(at portolancs dot com)
+ * @version $Id$
+ * @since 4.0M1
  */
 public class MediaWikiMacroParser implements IWikiMacroParser
 {

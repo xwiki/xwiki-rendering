@@ -29,7 +29,8 @@ import org.xwiki.rendering.wikimodel.common.javacc.ParseException;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 
 /**
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class CommonWikiParser implements IWikiParser
 {

@@ -19,6 +19,10 @@
  */
 package org.xwiki.rendering.wikimodel;
 
+/**
+ * @version $Id$
+ * @since 4.0M1
+ */
 public class WikiStyle
 {
     private String fName;

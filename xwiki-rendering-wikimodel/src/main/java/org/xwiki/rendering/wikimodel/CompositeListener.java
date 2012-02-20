@@ -23,7 +23,8 @@ package org.xwiki.rendering.wikimodel;
  * A composite listener which delegates each listener method call to multiple
  * listeners registered in this composite listener.
  *
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class CompositeListener implements IWemListener
 {

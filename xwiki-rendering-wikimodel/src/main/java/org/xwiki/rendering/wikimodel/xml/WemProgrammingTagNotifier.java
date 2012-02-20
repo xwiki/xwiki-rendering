@@ -25,7 +25,8 @@ import org.xwiki.rendering.wikimodel.IWemListenerProgramming;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class WemProgrammingTagNotifier extends AbstractTagNotifier
     implements

@@ -24,8 +24,8 @@ import org.xml.sax.SAXException;
 import org.xwiki.rendering.wikimodel.xhtml.filter.DefaultXMLFilter;
 
 /**
- * @author vmassol
- * @author thomas.mortagne
+ * @version $Id$
+ * @since 4.0M1
  */
 public class XMLWriter extends DefaultXMLFilter
 {

@@ -27,7 +27,8 @@ import org.xwiki.rendering.wikimodel.WikiParserException;
 import org.xwiki.rendering.wikimodel.common.CommonWikiParser;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class EventDumpListenerTest extends AbstractWikiParserTest
 {

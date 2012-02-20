@@ -29,8 +29,8 @@ import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.WikiReferenceParser;
 
 /**
- * @author kotelnikov
- * @author mkirst(at portolancs dot com)
+ * @version $Id$
+ * @since 4.0M1
  */
 public class MediaWikiReferenceParser extends WikiReferenceParser
 {

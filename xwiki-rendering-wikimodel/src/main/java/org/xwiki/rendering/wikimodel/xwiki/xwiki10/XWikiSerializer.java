@@ -26,6 +26,8 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 /**
  * Serializing XWiki 1.0 syntax ...
  *
+ * @version $Id$
+ * @since 4.0M1
  * @see {@link org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiSerializer2}
  */
 public class XWikiSerializer extends PrintTextListener

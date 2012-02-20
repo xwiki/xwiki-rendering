@@ -25,7 +25,8 @@ package org.xwiki.rendering.wikimodel;
  * contains methods used to notify begin/end of each list as well as begin/end
  * of each list item.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWemListenerList
 {

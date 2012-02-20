@@ -20,7 +20,8 @@
 package org.xwiki.rendering.wikimodel;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class AgregatingWemListener implements IWemListener
 {
@@ -38,9 +39,6 @@ public class AgregatingWemListener implements IWemListener
 
     protected IWemListenerTable fTableListener;
 
-    /**
-     *
-     */
     public AgregatingWemListener()
     {
         // TODO Auto-generated constructor stub

@@ -26,7 +26,8 @@ import java.util.Map;
  * This class provides utility methods to access HTML entities with their
  * respective descriptions and numerical codes.
  *
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public class HtmlEntityUtil
 {

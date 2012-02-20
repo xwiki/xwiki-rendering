@@ -40,7 +40,8 @@ package org.xwiki.rendering.wikimodel;
  * Adapter-based approach is much more flexible and it can be used to
  * transparently extend parsers to handle new types of structural elements.
  *
- * @author MikhailKotelnikov
+ * @version $Id$
+ * @since 4.0M1
  */
 public interface IWemListener
     extends

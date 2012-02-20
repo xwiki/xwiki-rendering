@@ -39,6 +39,7 @@ import org.xml.sax.SAXException;
  * the entity resolution.
  *
  * @version $Id$
+ * @since 4.0M1
  */
 public class LocalEntityResolver implements EntityResolver
 {

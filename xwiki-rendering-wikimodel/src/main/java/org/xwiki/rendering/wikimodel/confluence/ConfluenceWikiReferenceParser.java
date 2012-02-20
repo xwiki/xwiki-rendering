@@ -24,7 +24,8 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 
 /**
- * @author kotelnikov
+ * @version $Id$
+ * @since 4.0M1
  * @see WikiReference
  */
 public class ConfluenceWikiReferenceParser implements IWikiReferenceParser
