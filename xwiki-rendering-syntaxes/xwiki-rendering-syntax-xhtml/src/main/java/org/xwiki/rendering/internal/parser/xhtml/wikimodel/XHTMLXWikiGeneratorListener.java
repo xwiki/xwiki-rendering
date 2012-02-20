@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import org.wikimodel.wem.WikiReference;
+import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -58,7 +58,7 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see DefaultXWikiGeneratorListener#onReference(org.wikimodel.wem.WikiReference)
+     * @see DefaultXWikiGeneratorListener#onReference(org.xwiki.rendering.wikimodel.WikiReference)
      */
     @Override
     public void onReference(WikiReference reference)
@@ -88,7 +88,7 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see DefaultXWikiGeneratorListener#onImage(org.wikimodel.wem.WikiReference)
+     * @see DefaultXWikiGeneratorListener#onImage(org.xwiki.rendering.wikimodel.WikiReference)
      */
     @Override
     public void onImage(WikiReference reference)

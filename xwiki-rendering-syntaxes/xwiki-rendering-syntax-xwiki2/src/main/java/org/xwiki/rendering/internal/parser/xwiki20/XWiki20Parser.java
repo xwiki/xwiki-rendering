@@ -23,8 +23,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.wikimodel.wem.IWikiParser;
-import org.wikimodel.wem.xwiki.xwiki20.XWikiParser;
+import org.xwiki.rendering.wikimodel.IWikiParser;
+import org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiParser;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
 import org.xwiki.rendering.parser.ResourceReferenceParser;

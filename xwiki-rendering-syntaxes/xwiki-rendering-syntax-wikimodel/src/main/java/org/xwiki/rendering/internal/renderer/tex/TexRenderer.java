@@ -21,7 +21,7 @@ package org.xwiki.rendering.internal.renderer.tex;
 
 import javax.inject.Named;
 
-import org.wikimodel.wem.tex.TexSerializer;
+import org.xwiki.rendering.wikimodel.tex.TexSerializer;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;

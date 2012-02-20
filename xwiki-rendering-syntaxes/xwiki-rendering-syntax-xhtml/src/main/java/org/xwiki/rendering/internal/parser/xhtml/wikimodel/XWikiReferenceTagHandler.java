@@ -21,13 +21,13 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import java.util.Collections;
 
-import org.wikimodel.wem.WikiParameter;
-import org.wikimodel.wem.WikiParameters;
-import org.wikimodel.wem.WikiReference;
-import org.wikimodel.wem.impl.WikiScannerContext;
-import org.wikimodel.wem.xhtml.handler.ReferenceTagHandler;
-import org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack;
-import org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack.TagContext;
+import org.xwiki.rendering.wikimodel.WikiParameter;
+import org.xwiki.rendering.wikimodel.WikiParameters;
+import org.xwiki.rendering.wikimodel.WikiReference;
+import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
+import org.xwiki.rendering.wikimodel.xhtml.handler.ReferenceTagHandler;
+import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
+import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
@@ -63,7 +63,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.xhtml.handler.TagHandler#initialize(org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack)
+     * @see org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler#initialize(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack)
      */
     @Override
     public void initialize(TagStack stack)
@@ -76,7 +76,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.xhtml.handler.ReferenceTagHandler#begin(org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack.TagContext)
+     * @see org.xwiki.rendering.wikimodel.xhtml.handler.ReferenceTagHandler#begin(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext)
      */
     @Override
     protected void begin(TagContext context)
@@ -137,7 +137,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.xhtml.handler.ReferenceTagHandler#end(org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack.TagContext)
+     * @see org.xwiki.rendering.wikimodel.xhtml.handler.ReferenceTagHandler#end(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext)
      */
     @Override
     protected void end(TagContext context)

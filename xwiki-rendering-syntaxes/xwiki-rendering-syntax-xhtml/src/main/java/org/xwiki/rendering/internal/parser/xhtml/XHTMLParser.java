@@ -26,9 +26,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.wikimodel.wem.IWikiParser;
-import org.wikimodel.wem.xhtml.XhtmlParser;
-import org.wikimodel.wem.xhtml.handler.TagHandler;
+import org.xwiki.rendering.wikimodel.IWikiParser;
+import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
+import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
@@ -65,7 +65,7 @@ public class XHTMLParser extends AbstractWikiModelParser
      * The parser used for the link label parsing. For (x)html parsing, this will be an xwiki 2.0 parser, since it's
      * more convenient to pass link labels in xwiki syntax. See referred resource for more details.
      * 
-     * @see XWikiCommentHandler#handleLinkCommentStop(String, org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack)
+     * @see XWikiCommentHandler#handleLinkCommentStop(String, org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack)
      */
     @Inject
     @Named("xwiki/2.0")

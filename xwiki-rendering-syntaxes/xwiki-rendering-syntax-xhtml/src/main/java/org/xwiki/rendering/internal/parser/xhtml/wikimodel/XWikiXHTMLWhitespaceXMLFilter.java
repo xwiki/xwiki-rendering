@@ -22,7 +22,7 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.wikimodel.wem.xhtml.filter.XHTMLWhitespaceXMLFilter;
+import org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;

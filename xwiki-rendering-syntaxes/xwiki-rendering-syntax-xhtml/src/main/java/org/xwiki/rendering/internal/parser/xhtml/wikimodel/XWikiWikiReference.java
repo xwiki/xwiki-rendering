@@ -19,8 +19,8 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import org.wikimodel.wem.WikiParameters;
-import org.wikimodel.wem.WikiReference;
+import org.xwiki.rendering.wikimodel.WikiParameters;
+import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**

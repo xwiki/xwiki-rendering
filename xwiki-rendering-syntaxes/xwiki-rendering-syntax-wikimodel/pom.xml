@@ -34,9 +34,9 @@
   <name>XWiki Rendering - Bridge - Wiki Model</name>
   <dependencies>
     <dependency>
-      <groupId>org.wikimodel</groupId>
-      <artifactId>org.wikimodel.wem</artifactId>
-      <version>2.0.7-20110531</version>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-wikimodel</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>

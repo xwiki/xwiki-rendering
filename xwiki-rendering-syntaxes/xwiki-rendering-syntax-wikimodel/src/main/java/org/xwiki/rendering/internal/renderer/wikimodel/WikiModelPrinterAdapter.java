@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.internal.renderer.wikimodel;
 
-import org.wikimodel.wem.IWikiPrinter;
+import org.xwiki.rendering.wikimodel.IWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
 /**

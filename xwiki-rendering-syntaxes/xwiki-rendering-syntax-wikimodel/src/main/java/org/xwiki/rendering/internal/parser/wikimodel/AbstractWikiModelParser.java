@@ -24,7 +24,7 @@ import java.io.Reader;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.wikimodel.wem.IWikiParser;
+import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
 import org.xwiki.rendering.listener.Listener;

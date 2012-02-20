@@ -28,12 +28,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import org.wikimodel.wem.IWemConstants;
-import org.wikimodel.wem.WikiFormat;
-import org.wikimodel.wem.WikiParameter;
-import org.wikimodel.wem.WikiParameters;
-import org.wikimodel.wem.WikiReference;
-import org.wikimodel.wem.WikiStyle;
+import org.xwiki.rendering.wikimodel.IWemConstants;
+import org.xwiki.rendering.wikimodel.WikiFormat;
+import org.xwiki.rendering.wikimodel.WikiParameter;
+import org.xwiki.rendering.wikimodel.WikiParameters;
+import org.xwiki.rendering.wikimodel.WikiReference;
+import org.xwiki.rendering.wikimodel.WikiStyle;
 import org.xwiki.rendering.listener.CompositeListener;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
@@ -301,7 +301,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginDefinitionDescription()
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginDefinitionDescription()
      */
     public void beginDefinitionDescription()
     {
@@ -311,7 +311,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginDefinitionList(org.wikimodel.wem.WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginDefinitionList(org.xwiki.rendering.wikimodel.WikiParameters)
      */
     public void beginDefinitionList(WikiParameters params)
     {
@@ -323,7 +323,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginDefinitionTerm()
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginDefinitionTerm()
      */
     public void beginDefinitionTerm()
     {
@@ -333,7 +333,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginDocument(WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginDocument(WikiParameters)
      */
     public void beginDocument(WikiParameters params)
     {
@@ -393,7 +393,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginSection(int, int, WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginSection(int, int, WikiParameters)
      */
     public void beginSection(int docLevel, int headerLevel, WikiParameters params)
     {
@@ -405,7 +405,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginSectionContent(int, int, WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginSectionContent(int, int, WikiParameters)
      */
     public void beginSectionContent(int docLevel, int headerLevel, WikiParameters params)
     {
@@ -415,7 +415,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginHeader(int, WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginHeader(int, WikiParameters)
      */
     public void beginHeader(int level, WikiParameters params)
     {
@@ -444,7 +444,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginList(WikiParameters, boolean)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginList(WikiParameters, boolean)
      */
     public void beginList(WikiParameters params, boolean ordered)
     {
@@ -460,7 +460,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginListItem()
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginListItem()
      */
     public void beginListItem()
     {
@@ -470,7 +470,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginParagraph(WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginParagraph(WikiParameters)
      */
     public void beginParagraph(WikiParameters params)
     {
@@ -500,7 +500,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginQuotation(WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginQuotation(WikiParameters)
      */
     public void beginQuotation(WikiParameters params)
     {
@@ -510,7 +510,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginQuotationLine()
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginQuotationLine()
      */
     public void beginQuotationLine()
     {
@@ -520,7 +520,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginTable(WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginTable(WikiParameters)
      */
     public void beginTable(WikiParameters params)
     {
@@ -530,7 +530,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginTableCell(boolean, WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginTableCell(boolean, WikiParameters)
      */
     public void beginTableCell(boolean tableHead, WikiParameters params)
     {
@@ -544,7 +544,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#beginTableRow(WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#beginTableRow(WikiParameters)
      */
     public void beginTableRow(WikiParameters params)
     {
@@ -554,7 +554,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endDefinitionDescription()
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endDefinitionDescription()
      */
     public void endDefinitionDescription()
     {
@@ -566,7 +566,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endDefinitionList(WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endDefinitionList(WikiParameters)
      */
     public void endDefinitionList(WikiParameters params)
     {
@@ -576,7 +576,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endDefinitionTerm()
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endDefinitionTerm()
      */
     public void endDefinitionTerm()
     {
@@ -588,7 +588,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endDocument(WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endDocument(WikiParameters)
      */
     public void endDocument(WikiParameters params)
     {
@@ -620,7 +620,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endHeader(int, WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endHeader(int, WikiParameters)
      */
     public void endHeader(int level, WikiParameters params)
     {
@@ -653,7 +653,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endSection(int, int, WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endSection(int, int, WikiParameters)
      */
     public void endSection(int docLevel, int headerLevel, WikiParameters params)
     {
@@ -665,7 +665,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endSectionContent(int, int, WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endSectionContent(int, int, WikiParameters)
      */
     public void endSectionContent(int docLevel, int headerLevel, WikiParameters params)
     {
@@ -685,7 +685,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endList(WikiParameters, boolean)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endList(WikiParameters, boolean)
      */
     public void endList(WikiParameters params, boolean ordered)
     {
@@ -699,7 +699,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endListItem()
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endListItem()
      */
     public void endListItem()
     {
@@ -712,7 +712,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endParagraph(WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endParagraph(WikiParameters)
      */
     public void endParagraph(WikiParameters params)
     {
@@ -744,7 +744,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endQuotation(WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endQuotation(WikiParameters)
      */
     public void endQuotation(WikiParameters params)
     {
@@ -754,7 +754,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endQuotationLine()
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endQuotationLine()
      */
     public void endQuotationLine()
     {
@@ -766,7 +766,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endTable(WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endTable(WikiParameters)
      */
     public void endTable(WikiParameters params)
     {
@@ -776,7 +776,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endTableCell(boolean, WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endTableCell(boolean, WikiParameters)
      */
     public void endTableCell(boolean tableHead, WikiParameters params)
     {
@@ -792,7 +792,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#endTableRow(WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#endTableRow(WikiParameters)
      */
     public void endTableRow(WikiParameters params)
     {
@@ -820,7 +820,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#onEscape(String)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onEscape(String)
      */
     public void onEscape(String str)
     {
@@ -856,7 +856,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#onHorizontalLine(org.wikimodel.wem.WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onHorizontalLine(org.xwiki.rendering.wikimodel.WikiParameters)
      */
     public void onHorizontalLine(WikiParameters params)
     {
@@ -866,7 +866,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#onLineBreak()
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onLineBreak()
      */
     public void onLineBreak()
     {
@@ -877,7 +877,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
     /**
      * A macro block was found and it's separated at least by one new line from the next block. If there's no new line
-     * with the next block then wikimodel calls {@link #onMacroInline(String, org.wikimodel.wem.WikiParameters, String)}
+     * with the next block then wikimodel calls {@link #onMacroInline(String, org.xwiki.rendering.wikimodel.WikiParameters, String)}
      * instead.
      * <p>
      * In wikimodel block elements can be:
@@ -894,7 +894,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#onMacroInline(String, WikiParameters, String)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onMacroInline(String, WikiParameters, String)
      */
     public void onMacroInline(String macroName, WikiParameters params, String content)
     {
@@ -906,7 +906,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#onLineBreak()
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onLineBreak()
      */
     public void onNewLine()
     {
@@ -924,7 +924,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
      * (free-standing URI), as opposed to a link/image inside wiki link/image syntax delimiters.
      * </p>
      * 
-     * @see org.wikimodel.wem.IWemListener#onLineBreak()
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onLineBreak()
      */
     public void onReference(String reference)
     {
@@ -934,7 +934,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#onReference(String)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onReference(String)
      */
     public void onReference(WikiReference reference)
     {
@@ -972,7 +972,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListenerInline#onImage(java.lang.String)
+     * @see org.xwiki.rendering.wikimodel.IWemListenerInline#onImage(java.lang.String)
      */
     public void onImage(String reference)
     {
@@ -982,7 +982,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListenerInline#onImage(org.wikimodel.wem.WikiReference)
+     * @see org.xwiki.rendering.wikimodel.IWemListenerInline#onImage(org.xwiki.rendering.wikimodel.WikiReference)
      */
     public void onImage(WikiReference reference)
     {
@@ -1013,7 +1013,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#onSpace(String)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onSpace(String)
      */
     public void onSpace(String spaces)
     {
@@ -1028,7 +1028,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#onSpecialSymbol(String)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onSpecialSymbol(String)
      */
     public void onSpecialSymbol(String symbol)
     {
@@ -1052,7 +1052,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#onVerbatimBlock(String, WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onVerbatimBlock(String, WikiParameters)
      */
     public void onVerbatimBlock(String protectedString, WikiParameters params)
     {
@@ -1062,7 +1062,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#onVerbatimInline(String, WikiParameters)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onVerbatimInline(String, WikiParameters)
      */
     public void onVerbatimInline(String protectedString, WikiParameters params)
     {
@@ -1074,7 +1074,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.IWemListener#onWord(String)
+     * @see org.xwiki.rendering.wikimodel.IWemListener#onWord(String)
      */
     public void onWord(String str)
     {

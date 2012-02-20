@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.internal.parser.wikimodel;
 
-import org.wikimodel.wem.IWemListener;
+import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.listener.Listener;
 
 /**

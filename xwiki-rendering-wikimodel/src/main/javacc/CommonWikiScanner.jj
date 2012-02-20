@@ -1,0 +1,1164 @@
+/*
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+options
+{
+    STATIC = false;
+    UNICODE_INPUT = true;
+}
+
+PARSER_BEGIN(CommonWikiScanner)
+/*
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.xwiki.rendering.wikimodel.common.javacc;
+
+import org.xwiki.rendering.wikimodel.IWikiReferenceParser;
+import org.xwiki.rendering.wikimodel.WikiStyle;
+import org.xwiki.rendering.wikimodel.WikiParameters;
+import org.xwiki.rendering.wikimodel.WikiReference;
+import org.xwiki.rendering.wikimodel.impl.IWikiScannerContext;
+import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
+import org.xwiki.rendering.wikimodel.common.CommonWikiReferenceParser;
+
+/**
+ * This is the internal wiki page parser generated from the grammar file.
+ * 
+ * <p>This code was originally authored by Mikhail Kotelnikov (Cognium Systems SA) and other contributors (including
+ * XWiki committers), under the ASL 2.0 license (http://www.apache.org/licenses/LICENSE-2.0).</p>
+ */
+public class CommonWikiScanner
+{
+    private IWikiScannerContext fContext;
+
+    private IWikiReferenceParser fReferenceParser = new CommonWikiReferenceParser();
+
+    public void parse(IWikiScannerContext context) throws ParseException
+    {
+        fContext = context;
+        doParse();
+    }
+
+    protected WikiParameters newWikiParameters(String str)
+    {
+        str = WikiScannerUtil.extractSubstring(str, "{{", "}}");
+        return new WikiParameters(str);
+    }
+    
+    protected String unescape(String str)
+    {
+    	return WikiScannerUtil.unescape(str);
+    }
+
+    protected void onExtension(String str, boolean  block)
+    {
+        WikiParameters params = WikiParameters.EMPTY;
+        str = str.trim();
+        str = str.substring(1);
+        int idx = str.indexOf("(");
+        if (idx > 0 && str.endsWith(")")) {
+            String p = str.substring(idx + 1, str.length() - 1);
+            p = unescape(p);
+            params = new WikiParameters(p);
+            str = str.substring(0, idx); 
+        }
+        if (block) {
+            fContext.onExtensionBlock(str, params);
+        } else {
+            fContext.onExtensionInline(str, params);
+        }
+    }
+    
+    protected boolean isTableHeader(String str)
+    {
+    	return str.startsWith("!!") || str.startsWith("||") || str.startsWith("|=");
+    }
+
+}
+
+PARSER_END(CommonWikiScanner)
+
+TOKEN_MGR_DECLS: {
+    int tableDepth = 0; 
+    int verbatimBlockDepth = 0;
+    String macroName = "";
+    int macroDepth = 0;
+    void initMacro(CharSequence buf) {
+        macroName = getMacroName(buf);
+        macroDepth = 1;
+    }
+    String getMacroName(CharSequence buf) {
+        String str = buf.toString();
+        str = str.trim();
+        str = str.substring(1, str.length() - 1);
+        int idx = str.indexOf(" ");
+        if (idx > 0) {
+            str = str.substring(0, idx);
+        }
+        return str;
+    }
+}
+
+<VERBATIM_CONTEXT> TOKEN:
+{
+      <INTERNAL_VERBATIM_START: <VERBATIM_START> > { verbatimBlockDepth++; } : VERBATIM_CONTEXT
+    | <INTERNAL_VERBATIM_END: <VERBATIM_END> > {
+            verbatimBlockDepth--;
+            if (verbatimBlockDepth == 0)  {
+                SwitchTo(DEFAULT);
+            } else {
+                SwitchTo(VERBATIM_CONTEXT);
+            }
+        }
+    | <INTERNAL_VERBATIM_CONTENT: <VERBATIM_CONTENT> > : VERBATIM_CONTEXT
+}
+
+<MACRO_CONTEXT> TOKEN:
+{
+    <INTERNAL_MACRO_START: <MACRO_START> > {
+        {
+            String name = getMacroName(image); 
+            if (name.equals(macroName)) {
+                macroDepth++;
+            }      
+        }
+    } : MACRO_CONTEXT
+    | <INTERNAL_MACRO_END: <MACRO_END> > {
+        {
+            String name = getMacroName(image); 
+            int context = MACRO_CONTEXT;
+            if (name.startsWith("/" + macroName)) {
+                macroDepth--;
+                if (macroDepth == 0) {
+                    context = DEFAULT;
+                }
+            }
+            SwitchTo(context);
+        }
+    }
+    | <INTERNAL_MACRO_CONTENT: <MACRO_CONTENT> > : MACRO_CONTEXT
+}
+
+
+<DEFAULT, INITIAL_CONTEXT> TOKEN:
+{
+      <#LI: [ "+", "-", "*" ]>
+    | <#DL: [";", ":"]>
+    | <#LIST_ITEM:
+          (<SPACE>)* (<LI> | <DL>) (<SPACE>)+ 
+        | <LI> (<LI> | <DL>) (<SPACE>)+ 
+        | <LI> (<LI> | <DL>){2,} (<SPACE>)* 
+        | <DL> <LI> (<SPACE>)+ 
+        | <DL> <LI> (<LI> | <DL>)+ (<SPACE>)*
+        >
+        
+    | <#PROPERTY: "%" ( (<CHAR>)+ | <URI> )>
+    | <#PROPERTY_DOC: <PROPERTY> <DOC_BEGIN> >
+    | <#DOC_BEGIN: (<SPACE>)* "(((" (<SPACE>)* >
+    | <#DOC_END:   (<SPACE>)* ")))" (<SPACE>)* >
+    | <#VERBATIM_START: "{{{" >
+    | <#VERBATIM_END: "}}}" > 
+    | <#ESCAPED: ( "\\\\" | "\\" ~["\\"] ) >
+    | <#VERBATIM_CONTENT: ( 
+          <ESCAPED>
+        | ~["}", "{", "\\"] 
+        | "}" ~["}"] | "}}" ~["}"]
+        | "{" ~["{"] | "{{" ~["{"]
+      )+ >
+    | <#MACRO_NAME: ( <URI> | (<CHAR>)+ ) >
+    | <#MACRO_EMPTY: "{" <MACRO_NAME> (~["}"])* "/}" >
+    | <#MACRO_START: "{" <MACRO_NAME> (~["}"])* "}" >
+    | <#MACRO_END: "{/" <MACRO_NAME> (<SPACE>)* "}" > 
+    | <#MACRO_CONTENT: ( <ESCAPED> | <CHAR> | <SPACE> |<NEW_LINE> | <SPECIAL_SYMBOL> ) >
+    | <#INFO: "/" (<CHAR> | "!" | "?" | "*") "\\" >
+    | <#EXTENSION: "$" (<CHAR>)+ ( (<SPACE>)* "(" ( <ESCAPED> | ~[")", "\\"] )* ")" )? >
+    | <#PARAMS:   "{{" ( <ESCAPED> | ~["}", "{", "\\"] | "}" ~["}", "{"] )* "}}" >
+    | <#HEADER: ("="){1, 6} >
+    | <#BR: "\\" (<SPACE>)* <NEW_LINE> >
+    | <#ESCAPE: ( "\\" ~["\t", "\n", "\r"]) >
+    | <#VERBATIM_INLINE: ["`"] ( <ESCAPED> | ~["`", "\\"] )* ["`"] >
+    | <#REFERENCE:  ( "[" ( <ESCAPED> | ~["]", "\\"] )* "]" | "(=" ( <ESCAPED> | ~["=", "\\"] | "=" ~[")"] )* "=)") >
+    | <#HORLINE: "---" ("-")+ >
+    | <#CELL: ( "|=" | "||" | "|" | "::" | "!!" ) (<PARAMS>)? >
+    | <#QUOT_BLOCK: ("Q" | "q") (<PARAMS>)? ":" >
+    | <#QUOT_LINE: (">")+ >
+    | <#FORMAT_SYMBOL : ( 
+          "*"  // strong
+        | "**" // strong
+        | "__" // em
+        | "$$" // code
+        | "^^" // sup
+        | "^"  // sup
+        | "~~" // sub
+        | "~"  // sub
+        | "++" // big
+        | "--" // small
+        | "@@" // ins
+        | "##" // del
+        ) >
+    | <#SPECIAL_SYMBOLS: (
+          " - "
+        | " -- "
+        | ( " --- " | "---" )
+        | "<<" 
+        | ">>"
+        | "..."  
+        | "(" (<CHAR>|<SPECIAL_SYMBOL>) ")" 
+        | "(tm)" 
+        | "(TM)" 
+        | "&" (<CHAR>)+ ";" 
+
+        | "+/-"
+        | "!="
+        | ("-")* "->"
+        | "<-" ("-")*
+        | "<-" ("-")* ">"
+        | ("=")* "=>"
+        | "<=" ("=")* ">"
+        | "<=" ("=")*
+        | ">="
+        | "!="
+        | "~="        
+        )>
+
+
+// <common-tokens>
+    // =========================================================================
+    // New lines, spaces, special symbols and character definitions
+    // =========================================================================
+    | <#NEW_LINE : "\r\n" | "\r" | "\n" >
+    | <#SPACE : [" ", "\t"] >
+      // All special symbols from the range 0-127
+    | <#SPECIAL_SYMBOL : [
+        "!",     "\"",     "#",     "$",     "%",     "&",     "'",     "(",  
+        ")",     "*",      "+",     ",",     "-",     ".",     "/",     ":",  
+        ";",     "<",      "=",     ">",     "?",     "@",     "[",     "\\", 
+        "]",     "^",      "_",     "`",     "{",     "|",     "}",     "~" 
+     ] >
+      // Characters are defined as all possible symbols excluding special 
+      // symbols, spaces and new lines
+    | <#CHAR : ~[
+        "\t",    "\n",     "\r",    " ",
+        "!",     "\"",     "#",     "$",     "%",     "&",     "'",     "(",  
+        ")",     "*",      "+",     ",",     "-",     ".",     "/",     ":",  
+        ";",     "<",      "=",     ">",     "?",     "@",     "[",     "\\", 
+        "]",     "^",      "_",     "`",     "{",     "|",     "}",     "~" 
+    ] >
+    // =========================================================================
+    // URI syntax recognition.
+    // =========================================================================
+    // This grammar recognize the full URI syntax with following exceptions:
+    //  * It has a simplified hier-part definition: it does not contain an empty 
+    //    path (so the sequences like "here: " are not recognized as URIs).
+    //  * It has a simplified version of the host definition: it does not contain
+    //    explicit IP definitions. 
+    //  * It parses "extended" URI syntax where "opaque" URIs are treated as 
+    //    having multiple schema parts
+    //    Example: in an opaque URI like "download:http://www.foo.com/bar.zip"
+    //    the part "download:http" is treated as a "composite" scheme part.
+    //
+    // See also:
+    //  * http://tools.ietf.org/html/rfc3986#page-49 - the official URI grammar
+    //  * http://en.wikipedia.org/wiki/Uniform_Resource_Identifier
+    //  * http://en.wikipedia.org/wiki/URI_scheme#Generic_syntax
+    //  * http://www.iana.org/assignments/uri-schemes.html
+    // =========================================================================
+    | <#URI: <URI_SCHEME_COMPOSITE> ":" <URI_HIER_PART> ("?" <URI_QUERY>)? ("#" <URI_FRAGMENT>)? >
+
+    | <#ALPHA: ( ["A"-"Z", "a"-"z"] )>
+    | <#DIGIT: ["0"-"9"]>
+    | <#HEXDIG: ( <DIGIT> | ["A"-"F"] | ["a"-"f"] ) >
+    | <#URI_GEN_DELIMS: [ ":", "/", "?", "#", "[", "]", "@" ]>
+
+    // Some default can not be accepted in the text - like "," symbols 
+    //<#URI_SUB_DELIMS: [ "!", "$", "&", "'", "(", ")", "*", "+", ",", ";", "=" ]>
+    | <#URI_SUB_DELIMS: [ "!", "$", "&", "'", "(", ")", "*", "+", /*",",*/ ";", "=" ]>
+    | <#URI_UNRESERVED: ( <ALPHA> | <DIGIT> | "-" | "." | "_" | "~" )>
+    | <#URI_RESERVED: ( <URI_GEN_DELIMS> | <URI_SUB_DELIMS> ) >
+    | <#URI_SCHEME: <ALPHA> ( <ALPHA> | <DIGIT> | "+" | "-" | "." )* >
+    | <#URI_SCHEME_COMPOSITE: <URI_SCHEME> ( ":" <URI_SCHEME> )* >
+    | <#URI_PCT_ENCODED: "%" <HEXDIG> <HEXDIG> >
+    | <#URI_PCHAR_FIRST:  ( <URI_UNRESERVED> | <URI_PCT_ENCODED> | <URI_SUB_DELIMS> ) >
+    | <#URI_PCHAR:  ( <URI_PCHAR_FIRST> | ":" | "@" ) >
+    | <#URI_QUERY:    ( <URI_PCHAR> | "/" | "?" )* >
+    | <#URI_FRAGMENT: ( <URI_PCHAR> | "/" | "?" )* >
+      // A simplified hier-part definition: it does not contain an empty path.
+    | <#URI_HIER_PART: ( "//" <URI_AUTHORITY> <URI_PATH_ABEMPTY> | <URI_PATH_ABSOLUTE> | <URI_PATH_ROOTLESS> )>
+    | <#URI_AUTHORITY: ( <URI_USERINFO> "@" )? <URI_HOST> ( ":" <URI_PORT> )? >
+    | <#URI_USERINFO: ( <URI_UNRESERVED> | <URI_PCT_ENCODED> | <URI_SUB_DELIMS> | ":" )* >
+    | <#URI_PATH_ABEMPTY: ( "/" <URI_SEGMENT> )* >
+    | <#URI_PATH_ABSOLUTE: "/" ( <URI_SEGMENT_NZ> ( "/" <URI_SEGMENT> )* )? >
+    | <#URI_PATH_ROOTLESS: <URI_PCHAR_FIRST> <URI_SEGMENT_NZ_NC> ( "/" <URI_SEGMENT> )* >
+    | <#URI_SEGMENT: (<URI_PCHAR>)* >
+    | <#URI_SEGMENT_NZ: (<URI_PCHAR>)+ >
+    | <#URI_SEGMENT_NZ_NC: (<URI_UNRESERVED> | <URI_PCT_ENCODED> | <URI_SUB_DELIMS> | "@")+ >
+    | <#URI_PORT: (<DIGIT>)+ >
+      // A simplified version of the host: it does not contain explicit IP definitions
+    | <#URI_HOST: ( <URI_REG_NAME> ) >
+    | <#URI_REG_NAME: ( <URI_UNRESERVED> | <URI_PCT_ENCODED> | <URI_SUB_DELIMS> )* >
+    // =========================================================================
+// </common-tokens>
+}
+
+<INITIAL_CONTEXT> TOKEN:
+{
+// <initial-context>
+      <I_DOC_BEGIN: <DOC_BEGIN> > : INITIAL_CONTEXT
+    | <I_DOC_END: <DOC_END> > : DEFAULT
+    | <I_BR : <BR> > : DEFAULT
+    | <I_ESCAPE: <ESCAPE> > : DEFAULT
+    | <I_HORLINE: (<NEW_LINE>)? <HORLINE> > : DEFAULT
+    | <I_TABLE_ROW: (<NEW_LINE>)? ( <PARAMS> )? <CELL> > : DEFAULT
+    | <I_TABLE_CELL : <CELL> > : DEFAULT 
+    | <I_LIST_ITEM: (<NEW_LINE>)? <LIST_ITEM> > : DEFAULT
+    | <I_VERBATIM_INLINE : <VERBATIM_INLINE> > : DEFAULT
+    | <I_VERBATIM_START: (<NEW_LINE>)? <VERBATIM_START> > { verbatimBlockDepth++; } : VERBATIM_CONTEXT
+    | <I_VERBATIM_INLINE_START: <VERBATIM_START> > { verbatimBlockDepth++; } : VERBATIM_CONTEXT
+    | <I_MACRO_EMPTY_BLOCK: (<NEW_LINE>)? <MACRO_EMPTY> > : DEFAULT
+    | <I_MACRO_BLOCK_START: (<NEW_LINE>)? <MACRO_START> > { initMacro(image); } : MACRO_CONTEXT
+    | <I_MACRO_EMPTY_INLINE: <MACRO_EMPTY> > : DEFAULT
+    | <I_MACRO_INLINE_START: <MACRO_START> > { initMacro(image); } : MACRO_CONTEXT
+    | <I_QUOT_BLOCK: (<NEW_LINE>)? <QUOT_BLOCK> > : DEFAULT
+    | <I_QUOT_LINE: (<NEW_LINE>)? <QUOT_LINE> > : DEFAULT
+    | <I_INFO: <INFO> > : DEFAULT
+    | <I_EXTENSION_BLOCK:  (<NEW_LINE>)? <EXTENSION> > : DEFAULT
+    | <I_EXTENSION_INLINE:  <EXTENSION> > : DEFAULT
+    | <I_PROPERTY: (<NEW_LINE>)? (<SPACE>)* <PROPERTY> (<SPACE>)* > : DEFAULT
+    | <I_PROPERTY_DOC: (<NEW_LINE>)? (<SPACE>)* <PROPERTY_DOC> > : INITIAL_CONTEXT
+    | <I_PROPERTY_INLINE: <PROPERTY> "(" > : DEFAULT
+    | <I_HEADER_BEGIN: (<NEW_LINE>)? <HEADER> (<SPACE>)* > : DEFAULT
+    | <I_REFERENCE : <REFERENCE> > : DEFAULT
+    | <I_HEADER_END: <HEADER> > : DEFAULT
+    | <I_FORMAT_SYMBOL : <FORMAT_SYMBOL> > : DEFAULT
+    | <I_BLOCK_PARAMS: (<NEW_LINE>)? <PARAMS> > : DEFAULT
+    | <I_SPECIAL_SYMBOLS: <SPECIAL_SYMBOLS> >: DEFAULT
+
+    // "Standard" tokens. They are the same for all wikis.
+    | <I_URI : <URI> > : DEFAULT
+    | <I_NL: (<NEW_LINE>)? > : DEFAULT
+    | <I_SPACE : ( <SPACE> )+ > : DEFAULT
+    | <I_WORD : ( <CHAR> )+ > : DEFAULT
+    | <I_SPECIAL_SYMBOL : <SPECIAL_SYMBOL> > : DEFAULT
+// </initial-context>    
+}
+
+<DEFAULT> TOKEN:
+{
+// <default-context>
+      <D_DOC_BEGIN: <DOC_BEGIN> > : INITIAL_CONTEXT
+    | <D_DOC_END: <DOC_END> > : DEFAULT
+    | <D_BR : <BR> > : DEFAULT
+    | <D_ESCAPE: <ESCAPE> > : DEFAULT
+    | <D_HORLINE: <NEW_LINE> <HORLINE> > : DEFAULT
+    | <D_TABLE_ROW: <NEW_LINE> ( <PARAMS> )? <CELL> > : DEFAULT
+    | <D_TABLE_CELL : <CELL> > : DEFAULT 
+    | <D_LIST_ITEM: <NEW_LINE> <LIST_ITEM> > : DEFAULT
+    | <D_VERBATIM_INLINE : <VERBATIM_INLINE> > : DEFAULT
+    | <D_VERBATIM_START: <NEW_LINE> <VERBATIM_START> > { verbatimBlockDepth++; } : VERBATIM_CONTEXT
+    | <D_VERBATIM_INLINE_START: <VERBATIM_START> > { verbatimBlockDepth++; } : VERBATIM_CONTEXT
+    | <D_MACRO_EMPTY_BLOCK: <NEW_LINE> <MACRO_EMPTY> > : DEFAULT
+    | <D_MACRO_BLOCK_START: <NEW_LINE> <MACRO_START> > { initMacro(image); } : MACRO_CONTEXT
+    | <D_MACRO_EMPTY_INLINE: <MACRO_EMPTY> > : DEFAULT
+    | <D_MACRO_INLINE_START: <MACRO_START> > { initMacro(image); } : MACRO_CONTEXT
+    | <D_QUOT_BLOCK: <NEW_LINE> <QUOT_BLOCK> > : DEFAULT
+    | <D_QUOT_LINE: <NEW_LINE> <QUOT_LINE> > : DEFAULT
+    | <D_INFO: <INFO> > : DEFAULT
+    | <D_EXTENSION_BLOCK:  <NEW_LINE> <EXTENSION> > : DEFAULT
+    | <D_EXTENSION_INLINE:  <EXTENSION> > : DEFAULT
+    | <D_PROPERTY: <NEW_LINE> (<SPACE>)* <PROPERTY> (<SPACE>)* > : DEFAULT
+    | <D_PROPERTY_DOC: <NEW_LINE> (<SPACE>)* <PROPERTY_DOC> > : INITIAL_CONTEXT
+    | <D_PROPERTY_INLINE: <PROPERTY> "(" > : DEFAULT
+    | <D_HEADER_BEGIN: <NEW_LINE> <HEADER> (<SPACE>)* > : DEFAULT
+    | <D_REFERENCE : <REFERENCE> > : DEFAULT
+    | <D_HEADER_END: <HEADER> > : DEFAULT
+    | <D_FORMAT_SYMBOL : <FORMAT_SYMBOL> > : DEFAULT
+    | <D_BLOCK_PARAMS: <NEW_LINE> <PARAMS> > : DEFAULT
+    | <D_SPECIAL_SYMBOLS: <SPECIAL_SYMBOLS> >: DEFAULT
+
+    // "Standard" tokens. They are the same for all wikis.
+    | <D_URI : <URI> > : DEFAULT
+    | <D_NL: <NEW_LINE> > : DEFAULT
+    | <D_SPACE : ( <SPACE> )+ > : DEFAULT
+    | <D_WORD : ( <CHAR> )+ > : DEFAULT
+    | <D_SPECIAL_SYMBOL : <SPECIAL_SYMBOL> > : DEFAULT
+// </default-context>
+}
+
+    Token getINTERNAL_VERBATIM_START(): {Token t=null;} {(t=<INTERNAL_VERBATIM_START>){return t;}}
+    Token getINTERNAL_VERBATIM_END(): {Token t=null;} {(t=<INTERNAL_VERBATIM_END>){return t;}}
+    Token getINTERNAL_VERBATIM_CONTENT(): {Token t=null;} {(t=<INTERNAL_VERBATIM_CONTENT>){return t;}}
+    Token getINTERNAL_MACRO_START(): {Token t=null;} {(t=<INTERNAL_MACRO_START>){return t;}}
+    Token getINTERNAL_MACRO_END(): {Token t=null;} {(t=<INTERNAL_MACRO_END>){return t;}}
+    Token getINTERNAL_MACRO_CONTENT(): {Token t=null;} {(t=<INTERNAL_MACRO_CONTENT>){return t;}}
+// <getters>
+    Token getDOC_BEGIN(): {Token t=null;} {(t=<I_DOC_BEGIN>|t=<D_DOC_BEGIN>){return t;}}
+    Token getDOC_END(): {Token t=null;} {(t=<I_DOC_END>|t=<D_DOC_END>){return t;}}
+    Token getBR(): {Token t=null;} {(t=<I_BR>|t=<D_BR>){return t;}}
+    Token getESCAPE(): {Token t=null;} {(t=<I_ESCAPE>|t=<D_ESCAPE>){return t;}}
+    Token getHORLINE(): {Token t=null;} {(t=<I_HORLINE>|t=<D_HORLINE>){return t;}}
+    Token getTABLE_ROW(): {Token t=null;} {(t=<I_TABLE_ROW>|t=<D_TABLE_ROW>){return t;}}
+    Token getTABLE_CELL(): {Token t=null;} {(t=<I_TABLE_CELL>|t=<D_TABLE_CELL>){return t;}}
+    Token getLIST_ITEM(): {Token t=null;} {(t=<I_LIST_ITEM>|t=<D_LIST_ITEM>){return t;}}
+    Token getVERBATIM_INLINE(): {Token t=null;} {(t=<I_VERBATIM_INLINE>|t=<D_VERBATIM_INLINE>){return t;}}
+    Token getVERBATIM_START(): {Token t=null;} {(t=<I_VERBATIM_START>|t=<D_VERBATIM_START>){return t;}}
+    Token getVERBATIM_INLINE_START(): {Token t=null;} {(t=<I_VERBATIM_INLINE_START>|t=<D_VERBATIM_INLINE_START>){return t;}}
+    Token getMACRO_EMPTY_BLOCK(): {Token t=null;} {(t=<I_MACRO_EMPTY_BLOCK>|t=<D_MACRO_EMPTY_BLOCK>){return t;}}
+    Token getMACRO_BLOCK_START(): {Token t=null;} {(t=<I_MACRO_BLOCK_START>|t=<D_MACRO_BLOCK_START>){return t;}}
+    Token getMACRO_EMPTY_INLINE(): {Token t=null;} {(t=<I_MACRO_EMPTY_INLINE>|t=<D_MACRO_EMPTY_INLINE>){return t;}}
+    Token getMACRO_INLINE_START(): {Token t=null;} {(t=<I_MACRO_INLINE_START>|t=<D_MACRO_INLINE_START>){return t;}}
+    Token getQUOT_BLOCK(): {Token t=null;} {(t=<I_QUOT_BLOCK>|t=<D_QUOT_BLOCK>){return t;}}
+    Token getQUOT_LINE(): {Token t=null;} {(t=<I_QUOT_LINE>|t=<D_QUOT_LINE>){return t;}}
+    Token getINFO(): {Token t=null;} {(t=<I_INFO>|t=<D_INFO>){return t;}}
+    Token getEXTENSION_BLOCK(): {Token t=null;} {(t=<I_EXTENSION_BLOCK>|t=<D_EXTENSION_BLOCK>){return t;}}
+    Token getEXTENSION_INLINE(): {Token t=null;} {(t=<I_EXTENSION_INLINE>|t=<D_EXTENSION_INLINE>){return t;}}
+    Token getPROPERTY(): {Token t=null;} {(t=<I_PROPERTY>|t=<D_PROPERTY>){return t;}}
+    Token getPROPERTY_DOC(): {Token t=null;} {(t=<I_PROPERTY_DOC>|t=<D_PROPERTY_DOC>){return t;}}
+    Token getPROPERTY_INLINE(): {Token t=null;} {(t=<I_PROPERTY_INLINE>|t=<D_PROPERTY_INLINE>){return t;}}
+    Token getHEADER_BEGIN(): {Token t=null;} {(t=<I_HEADER_BEGIN>|t=<D_HEADER_BEGIN>){return t;}}
+    Token getREFERENCE(): {Token t=null;} {(t=<I_REFERENCE>|t=<D_REFERENCE>){return t;}}
+    Token getHEADER_END(): {Token t=null;} {(t=<I_HEADER_END>|t=<D_HEADER_END>){return t;}}
+    Token getFORMAT_SYMBOL(): {Token t=null;} {(t=<I_FORMAT_SYMBOL>|t=<D_FORMAT_SYMBOL>){return t;}}
+    Token getBLOCK_PARAMS(): {Token t=null;} {(t=<I_BLOCK_PARAMS>|t=<D_BLOCK_PARAMS>){return t;}}
+    Token getSPECIAL_SYMBOLS(): {Token t=null;} {(t=<I_SPECIAL_SYMBOLS>|t=<D_SPECIAL_SYMBOLS>){return t;}}
+
+    // "Standard" tokens. They are the same for all wikis.
+    Token getURI(): {Token t=null;} {(t=<I_URI>|t=<D_URI>){return t;}}
+    Token getNL(): {Token t=null;} {(t=<I_NL>|t=<D_NL>){return t;}}
+    Token getSPACE(): {Token t=null;} {(t=<I_SPACE>|t=<D_SPACE>){return t;}}
+    Token getWORD(): {Token t=null;} {(t=<I_WORD>|t=<D_WORD>){return t;}}
+    Token getSPECIAL_SYMBOL(): {Token t=null;} {(t=<I_SPECIAL_SYMBOL>|t=<D_SPECIAL_SYMBOL>){return t;}}
+// </getters>
+
+void doParse():
+{
+    token_source.SwitchTo(token_source.INITIAL_CONTEXT);
+}
+{
+    {
+        fContext.beginDocument();
+    }
+    ( docElements() | getDOC_END() )*
+    <EOF>
+    {
+        fContext.endDocument();
+    }
+}
+
+void docElements():
+{
+}
+{
+    // Block elements containing other blocks 
+    LOOKAHEAD(2) table() 
+    |
+    LOOKAHEAD(2) list()
+    |
+    LOOKAHEAD(2) info()
+
+    // Semantic blocks and embedded documents.
+    | ( properties() | embeddedDocument() )     
+
+    // Blocks for "hackers" - macros, extensions
+    | 
+    macroBlock()
+    |
+    extensionBlock()
+
+    // Non-interpreted content or empty content
+    | 
+    LOOKAHEAD(2) ( verbatimBlock() | horline() )
+
+    // Content blocks containing only inline tex<NEW_LINE>t
+    | 
+    LOOKAHEAD(2) header()
+    |
+    LOOKAHEAD(2) quot()
+    |
+    LOOKAHEAD(2) quotBlock() 
+    |
+    LOOKAHEAD(2) paragraph()
+    |
+    emptyParagraph()
+}
+
+void embeddedDocument():
+{
+    Token t = null;
+}
+{
+    t = getDOC_BEGIN()
+    {
+        fContext.beginDocument();
+    }
+    ( docElements() )*
+    (
+        getDOC_END() | <EOF>
+    )
+    {
+        fContext.endDocument();
+    }
+} 
+
+void extensionBlock():
+{
+    Token t = null;
+}
+{
+    t = getEXTENSION_BLOCK()
+    {
+        onExtension(t.image, true);
+    }
+}
+
+
+void properties():
+{
+    Token t = null;
+    String str = null;
+}
+{
+    ( 
+        t = getPROPERTY()
+        {
+            str = t.image.trim();
+            str = str.substring(1);
+            fContext.beginPropertyBlock(str, false);
+        }
+        (
+            ( LOOKAHEAD(2) line() )?
+        )
+        {
+            fContext.endPropertyBlock();
+        }
+    )
+    |
+    (
+        t = getPROPERTY_DOC()
+        {
+            str = t.image.trim();
+            str = str.substring(1, str.length() - 3);
+            str = str.trim();
+            fContext.beginPropertyBlock(str, true);
+        }
+        ( docElements() )*
+        (
+            getDOC_END() | <EOF>
+        )
+        {
+            fContext.endPropertyBlock();
+        }
+    ) 
+}
+
+void header():
+{
+   Token t = null;
+   String str = "";
+   WikiParameters params = WikiParameters.EMPTY;
+}
+{
+    ( LOOKAHEAD(2) t = getBLOCK_PARAMS() { str = t.image.trim(); } )?
+    {
+        params = newWikiParameters(str);
+    }
+    t = getHEADER_BEGIN()
+    {
+        int level = t.image.trim().length();
+        fContext.beginHeader(level, params);
+    }
+    (LOOKAHEAD(2) line())?
+    {
+        fContext.endHeader();
+    }
+}
+
+
+void table():
+{
+   Token t = null;
+   String str = "";
+}
+{
+    ( LOOKAHEAD(2) t = getBLOCK_PARAMS() { str = t.image.trim(); } )?
+    {
+        WikiParameters params = newWikiParameters(str);
+        fContext.beginTable(params);
+    }
+    ( LOOKAHEAD(2) tableRow() )+
+    {
+        fContext.endTable();
+    }
+}
+
+void tableRow():
+{
+    Token t = null;
+    WikiParameters rowParams = WikiParameters.EMPTY;
+    WikiParameters cellParams = WikiParameters.EMPTY;
+    boolean head = false; 
+}
+{
+    t = getTABLE_ROW()
+    {
+        String str = t.image.trim();
+        if (str.startsWith("{{"))  {
+            int idx = str.indexOf("}}");
+            String p  = str.substring(2, idx); 
+            str = str.substring(idx + 2);
+            head = isTableHeader(str);
+            rowParams = new WikiParameters(p);
+            cellParams = newWikiParameters(str);
+        } else {
+            head = isTableHeader(str);
+            if (head || str.startsWith("::")) {
+                str = str.substring(2);
+            } else {
+                str = str.substring(1);
+            }
+            cellParams = newWikiParameters(str);
+        }
+        fContext.beginTableRow(head, rowParams, cellParams);
+    }
+    ( LOOKAHEAD(2) block() )*
+    {
+        fContext.endTableRow();
+    }
+}
+
+void list():
+{
+    String str = "";
+    Token t = null;
+}
+{
+    ( LOOKAHEAD(2) t = getBLOCK_PARAMS() { str = t.image.trim(); } )?
+    {
+        WikiParameters params = newWikiParameters(str);
+        fContext.beginList(params);
+    }
+    ( LOOKAHEAD(2) listItem() )+
+    {
+        fContext.endList();
+    }
+}
+
+void listItem():
+{
+    Token t = null;
+    String str = "";
+}
+{
+    t = getLIST_ITEM()   
+    {
+        str = t.image;
+        str = str.replace('+', '#');
+        fContext.beginListItem(str);
+    }
+    ( LOOKAHEAD(2) block() )*
+    {
+        fContext.endListItem();
+    }
+}
+
+
+void info():
+{
+    String str = "";
+    Token t = null;
+    WikiParameters params = WikiParameters.EMPTY;
+}
+{
+    ( LOOKAHEAD(2) t = getBLOCK_PARAMS() { str = t.image.trim(); } )?
+    {
+        params = newWikiParameters(str);
+    }
+    t = getINFO()
+    {
+        str = t.image.trim();
+        str = str.substring(1, str.length() - 1);
+        fContext.beginInfo(str, params);
+    }
+    ( LOOKAHEAD(2) block() )*
+    {
+        fContext.endInfo();
+    }
+}
+
+void block():
+{
+}
+{
+    ( embeddedDocument() | verbatimBlock() | macroBlock() | extensionBlock() | lines() )
+}
+
+void verbatimBlock():
+{
+}
+{
+    getVERBATIM_START()
+    {
+    }
+	verbatimBody(false)
+}
+
+void verbatimBody(boolean inline):
+{
+    Token t = null;
+    StringBuffer buf = new StringBuffer();
+    String str = null;
+}
+{
+    (LOOKAHEAD(2)
+        (
+              t = getINTERNAL_VERBATIM_CONTENT()
+            | t = getINTERNAL_VERBATIM_END()
+            | t = getINTERNAL_VERBATIM_START()
+        )
+        {
+            str = unescape(t.image);
+            buf.append(str);        
+        }
+    )*
+    (LOOKAHEAD(2) ( t = getINTERNAL_VERBATIM_END() | <EOF>) )? 
+    {
+        str = buf.toString();
+        if (str.endsWith("}}}"))
+            str = str.substring(0, str.length() - "}}}".length());
+        fContext.onVerbatim(str, inline);
+    }
+}
+
+void macroBlock():
+{
+    Token t = null;
+}
+{
+    t = getMACRO_EMPTY_BLOCK()
+    {
+        emptyMacro(t, true);
+    }
+    |
+    t = getMACRO_BLOCK_START()
+    {
+        macro(t, true);
+    }
+}
+
+void emptyMacro(Token t, boolean block):
+{
+}
+{
+    {
+        String str = t.image.trim();
+        str = str.substring(1, str.length() - 2);
+        String paramStr = "";
+        int paramStrPos = str.indexOf(" ");
+        String name = "";
+        if (paramStrPos > 0) {
+            paramStr = str.substring(paramStrPos);
+            name = str.substring(0, paramStrPos);
+        } else {
+            name = str;
+        }
+        name = name.trim();
+
+        str = "";
+        WikiParameters params = new WikiParameters(paramStr);
+        if (block) {
+            fContext.onMacroBlock(name, params, str);
+        } else {
+            fContext.onMacroInline(name, params, str);
+        }        
+    }
+}
+void macro(Token t, boolean block):
+{
+    StringBuffer buf = new StringBuffer();
+    String name = "";
+    WikiParameters params;
+    String paramStr = "";
+    int paramStrPos = -1;
+    String str = null;
+    boolean end = false;
+    String prevEnd = null;
+}
+{
+    {
+        str = t.image.trim();
+        str = str.substring(1, str.length() - 1);
+        paramStrPos = str.indexOf(" ");
+        if (paramStrPos > 0) {
+            paramStr = str.substring(paramStrPos);
+            name = str.substring(0, paramStrPos);
+        } else {
+            name = str;
+        }
+        name = name.trim();
+    }
+    (LOOKAHEAD(2)
+        (
+              t = getINTERNAL_MACRO_START() { end = false; }
+            | t = getINTERNAL_MACRO_END() { end = true; }
+            | t = getINTERNAL_MACRO_CONTENT() { end = false; }
+        )
+        {
+            if (prevEnd != null) {
+                buf.append(prevEnd);
+            }
+            if (end) {
+                prevEnd = t.image;
+            } else {
+                prevEnd = null;
+                str = unescape(t.image);
+                buf.append(str);        
+            }
+        }
+    )*
+    {
+        str = buf.toString();
+        params = new WikiParameters(paramStr);
+        if (block) {
+            fContext.onMacroBlock(name, params, str);
+        } else {
+            fContext.onMacroInline(name, params, str);
+        }
+    }
+}
+
+void horline():
+{
+    Token t = null;
+    String str = "";
+    WikiParameters params = WikiParameters.EMPTY;
+}
+{
+    ( LOOKAHEAD(2) t = getBLOCK_PARAMS() { str = t.image.trim(); } )?
+    {
+        params = newWikiParameters(str);
+    }
+    t = getHORLINE()
+    {
+        fContext.onHorizontalLine(params);
+    }
+}
+
+void paragraph():
+{
+    Token t = null;
+    String str = "";
+}
+{
+    (
+        ( t = getBLOCK_PARAMS() { str = t.image.trim(); } (LOOKAHEAD(2) getNL())?  )
+        {
+            WikiParameters params = newWikiParameters(str);
+            fContext.beginParagraph(params);
+        }
+        ( LOOKAHEAD(2) lines() )?
+        {
+            fContext.endParagraph();
+        }
+    )
+    |
+    (
+        {
+            fContext.beginParagraph();
+        }
+        lines()
+        {
+            fContext.endParagraph();
+        }
+    )
+}
+
+void quotBlock():
+{
+    Token t = null;
+    String str = "";
+    WikiParameters params = WikiParameters.EMPTY;
+}
+{
+    t = getQUOT_BLOCK()
+    {
+        str = t.image.trim();
+        params = newWikiParameters(str);
+        fContext.beginQuot(params);
+    }
+    (LOOKAHEAD(2) 
+        (
+            { fContext.beginQuotLine(1); } line() { fContext.endQuotLine(); }
+            ( LOOKAHEAD(2)
+                newLine()
+                { fContext.beginQuotLine(1); } line() { fContext.endQuotLine(); }
+            )*
+        )
+    )?
+    {
+        fContext.endQuot();
+    }
+}
+
+void quot():
+{
+    Token t = null;
+    String str = "";
+}
+{
+    ( LOOKAHEAD(2) t = getBLOCK_PARAMS() { str = t.image.trim(); } )?
+    {
+        WikiParameters params = newWikiParameters(str);
+        fContext.beginQuot(params);
+    }
+    ( LOOKAHEAD(2) quotLine() )+
+    {
+        fContext.endQuot();
+    }
+}
+
+void quotLine():
+{
+    Token t = null;
+    String str = "";
+}
+{
+    t = getQUOT_LINE()
+    {
+        str = t.image.trim();
+        int depth = str.length();
+        fContext.beginQuotLine(depth);
+    }
+    (LOOKAHEAD(2) lines() )?
+    {
+        fContext.endQuotLine();
+    }
+}
+
+void emptyParagraph():
+{
+    int count = 0;
+}
+{
+    getNL()  (LOOKAHEAD(2) getNL() { count++; } )*
+    {
+        if (count > 0) {
+            fContext.onEmptyLines(count);
+        }
+    }
+} 
+
+
+void lines():
+{
+}
+{
+    line()
+    ( LOOKAHEAD(2)
+        newLine()
+        line()
+    )*
+}
+
+void newLine():
+{
+}
+{
+    getNL()
+    {
+        fContext.onNewLine();
+    }
+}
+
+void line():
+{
+    Token t = null;
+    String str = null;
+}
+{
+    ( LOOKAHEAD(2)
+        (
+            t = getBR()
+            {
+                fContext.onLineBreak();
+            }
+            |
+            t = getESCAPE()
+            {
+                fContext.onEscape("" + t.image.charAt(1));
+            }
+            |
+            t = getPROPERTY_INLINE()
+            {
+                str = t.image.trim();
+                str = str.substring(1, str.length() - 1);
+                str = str.trim();
+                fContext.beginPropertyInline(str);
+            }
+            |
+            t = getWORD()
+            {
+                fContext.onWord(t.image);
+            }
+            |
+            t = getSPACE()
+            {
+                fContext.onSpace(t.image);
+            }
+            |
+            t = getSPECIAL_SYMBOLS() // see also getSPECIAL_SYMBOL() below 
+            {
+                fContext.onSpecialSymbol(t.image);
+            }            
+            |
+            t = getFORMAT_SYMBOL()
+            {
+                str = t.image.trim();
+                WikiStyle style = null;
+                switch (str.charAt(0)) {
+                    case '*': 
+                        style  = IWikiScannerContext.STRONG;
+                        break;
+                    case '_': 
+                        style  = IWikiScannerContext.EM;
+                        break;
+                    case '$': 
+                        style  = IWikiScannerContext.CODE;
+                        break;
+                    case '^': 
+                        style  = IWikiScannerContext.SUP;
+                        break;
+                    case '~': 
+                        style  = IWikiScannerContext.SUB;
+                        break;
+                    case '+': 
+                        style  = IWikiScannerContext.BIG;
+                        break;
+                    case '-': 
+                        style  = IWikiScannerContext.SMALL;
+                        break;
+                    case '@': 
+                        style  = IWikiScannerContext.INS;
+                        break;
+                    case '#': 
+                        style  = IWikiScannerContext.DEL;
+                        break;
+                }
+                fContext.onFormat(style);
+            }
+            |
+            (
+			    t = getVERBATIM_INLINE_START()
+			    {
+			    }
+				verbatimBody(true)
+			)
+            |
+            t = getVERBATIM_INLINE()
+            {
+                str = t.image.trim();
+                str = str.substring(1, str.length() - 1);
+                str = unescape(str);
+                fContext.onVerbatim(str, true);
+            }
+            |
+            t = getEXTENSION_INLINE() 
+            {
+                onExtension(t.image, false);
+            }
+            |
+            t = getHEADER_END()
+            {
+                if (!fContext.isInHeader()) {
+                    fContext.onSpecialSymbol(t.image);
+                }
+            }
+            |
+            t = getURI()
+            {
+                fContext.onReference(t.image.trim());
+            }
+            |
+            t = getREFERENCE() 
+            {
+                str = t.image.trim();
+                if (str.startsWith("(=") && str.endsWith("=)")) {
+                    str = str.substring(2, str.length() - 2);
+                } else  if (str.startsWith("[")) {
+                    str = str.substring(1, str.length() - 1);
+                }
+                str = str.trim();
+                str = unescape(str);
+                WikiReference ref = fReferenceParser.parse(str);
+                fContext.onReference(ref);
+            }
+            |
+            t = getTABLE_CELL() 
+            {
+                if (fContext.isInTable()) {
+                    str = t.image.trim();
+                    WikiParameters cellParams = newWikiParameters(str);
+                    boolean head  = isTableHeader(str);
+                    fContext.onTableCell(head, cellParams);
+                } else {
+                    fContext.onSpecialSymbol(t.image);
+                }
+            }
+            |
+            t = getMACRO_EMPTY_INLINE()
+            {
+                emptyMacro(t, false);
+            }
+            |
+            t = getMACRO_INLINE_START() 
+            {
+                macro(t, false);
+            }
+            |
+            t = getSPECIAL_SYMBOL() // see also getSPECIAL_SYMBOLS() above 
+            {
+                if (":".equals(t.image)) {
+                    if (fContext.canApplyDefintionSplitter()) {
+                        fContext.onDefinitionListItemSplit();
+                    } else {
+                        fContext.onSpecialSymbol(t.image);
+                    }
+                } else if (t.image.charAt(0) == ')' && fContext.isInInlineProperty()) {
+                    fContext.endPropertyInline();
+                } else {
+                    fContext.onSpecialSymbol(t.image);
+                }
+            }
+        ) 
+    )+
+}

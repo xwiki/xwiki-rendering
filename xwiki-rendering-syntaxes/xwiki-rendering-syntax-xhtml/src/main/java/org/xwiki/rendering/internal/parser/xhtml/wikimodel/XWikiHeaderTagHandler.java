@@ -19,9 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import org.wikimodel.wem.WikiParameters;
-import org.wikimodel.wem.xhtml.handler.HeaderTagHandler;
-import org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack.TagContext;
+import org.xwiki.rendering.wikimodel.WikiParameters;
+import org.xwiki.rendering.wikimodel.xhtml.handler.HeaderTagHandler;
+import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 
 /**
  * Override the default implementation of hte WikiModel XHTML parser for handling HTML headers. We need to do this in

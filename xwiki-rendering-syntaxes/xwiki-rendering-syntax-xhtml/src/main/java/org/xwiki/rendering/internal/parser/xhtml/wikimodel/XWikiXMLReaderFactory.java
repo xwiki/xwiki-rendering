@@ -24,8 +24,8 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.wikimodel.wem.xhtml.filter.AccumulationXMLFilter;
-import org.wikimodel.wem.xhtml.filter.DTDXMLFilter;
+import org.xwiki.rendering.wikimodel.xhtml.filter.AccumulationXMLFilter;
+import org.xwiki.rendering.wikimodel.xhtml.filter.DTDXMLFilter;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xwiki.component.annotation.Component;

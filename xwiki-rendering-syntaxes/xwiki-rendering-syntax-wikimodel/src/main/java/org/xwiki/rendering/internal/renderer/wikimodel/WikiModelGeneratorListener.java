@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.wikimodel.wem.IWemConstants;
-import org.wikimodel.wem.IWemListener;
-import org.wikimodel.wem.WikiFormat;
-import org.wikimodel.wem.WikiParameter;
-import org.wikimodel.wem.WikiParameters;
+import org.xwiki.rendering.wikimodel.IWemConstants;
+import org.xwiki.rendering.wikimodel.IWemListener;
+import org.xwiki.rendering.wikimodel.WikiFormat;
+import org.xwiki.rendering.wikimodel.WikiParameter;
+import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;

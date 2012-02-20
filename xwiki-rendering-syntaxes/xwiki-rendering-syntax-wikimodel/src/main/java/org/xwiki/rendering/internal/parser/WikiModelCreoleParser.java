@@ -23,8 +23,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.wikimodel.wem.IWikiParser;
-import org.wikimodel.wem.creole.CreoleWikiParser;
+import org.xwiki.rendering.wikimodel.IWikiParser;
+import org.xwiki.rendering.wikimodel.creole.CreoleWikiParser;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.syntax.Syntax;

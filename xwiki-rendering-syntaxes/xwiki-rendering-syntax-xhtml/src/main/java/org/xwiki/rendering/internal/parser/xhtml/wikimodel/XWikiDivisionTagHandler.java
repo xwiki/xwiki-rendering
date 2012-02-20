@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import org.wikimodel.wem.xhtml.handler.DivisionTagHandler;
+import org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler;
 
 /**
  * Change the class value indicating that the division is an embedded document. We do this in order to be independent 
@@ -34,7 +34,7 @@ public class XWikiDivisionTagHandler extends DivisionTagHandler
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.xhtml.handler.DivisionTagHandler#getDocumentClass()
+     * @see org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler#getDocumentClass()
      */
     @Override
     protected String getDocumentClass()

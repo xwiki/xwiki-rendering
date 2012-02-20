@@ -118,10 +118,6 @@
                -->
               <relocations>
                 <relocation>
-                  <pattern>org.wikimodel</pattern>
-                  <shadedPattern>org.xwiki.shaded.wikimodel</shadedPattern>
-                </relocation>
-                <relocation>
                   <pattern>org.htmlcleaner</pattern>
                   <shadedPattern>org.xwiki.shaded.htmlcleaner</shadedPattern>
                 </relocation>

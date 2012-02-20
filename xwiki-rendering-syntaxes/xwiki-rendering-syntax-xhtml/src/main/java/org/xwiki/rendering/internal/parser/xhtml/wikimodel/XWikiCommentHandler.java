@@ -21,11 +21,11 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import java.util.Stack;
 
-import org.wikimodel.wem.WikiParameter;
-import org.wikimodel.wem.WikiParameters;
-import org.wikimodel.wem.WikiReference;
-import org.wikimodel.wem.xhtml.handler.CommentHandler;
-import org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack;
+import org.xwiki.rendering.wikimodel.WikiParameter;
+import org.xwiki.rendering.wikimodel.WikiParameters;
+import org.xwiki.rendering.wikimodel.WikiReference;
+import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
+import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;

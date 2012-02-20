@@ -19,12 +19,12 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import org.wikimodel.wem.WikiParameters;
-import org.wikimodel.wem.WikiParameter;
-import org.wikimodel.wem.WikiReference;
-import org.wikimodel.wem.xhtml.handler.ImgTagHandler;
-import org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack;
-import org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack.TagContext;
+import org.xwiki.rendering.wikimodel.WikiParameters;
+import org.xwiki.rendering.wikimodel.WikiParameter;
+import org.xwiki.rendering.wikimodel.WikiReference;
+import org.xwiki.rendering.wikimodel.xhtml.handler.ImgTagHandler;
+import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
+import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 
 /**
  * Handle IMG tag since we're putting the original image reference into XHTML comments so that we can reconstruct the
@@ -38,7 +38,7 @@ public class XWikiImageTagHandler extends ImgTagHandler
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.xhtml.handler.TagHandler#initialize(org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack)
+     * @see org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler#initialize(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack)
      */
     @Override
     public void initialize(TagStack stack)
@@ -51,7 +51,7 @@ public class XWikiImageTagHandler extends ImgTagHandler
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.xhtml.handler.ReferenceTagHandler#begin(org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack.TagContext)
+     * @see org.xwiki.rendering.wikimodel.xhtml.handler.ReferenceTagHandler#begin(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext)
      */
     @Override
     protected void begin(TagContext context)
@@ -77,7 +77,7 @@ public class XWikiImageTagHandler extends ImgTagHandler
     /**
      * {@inheritDoc}
      * 
-     * @see org.wikimodel.wem.xhtml.handler.ImgTagHandler#end(org.wikimodel.wem.xhtml.impl.XhtmlHandler.TagStack.TagContext)
+     * @see org.xwiki.rendering.wikimodel.xhtml.handler.ImgTagHandler#end(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext)
      */
     @Override
     protected void end(TagContext context)
