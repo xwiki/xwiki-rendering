@@ -23,14 +23,14 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.listener.HeaderLevel;
-import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
-import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
 
 /**
  * Print only plain text information. For example it remove anything which need a specific syntax a simple plain text
@@ -47,6 +47,9 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
      */
     private static final String NL = "\n";
 
+    /**
+     * True if no empty line has been printed.
+     */
     private boolean isFirstElementRendered;
 
     /**
@@ -56,12 +59,18 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * The plain text renderer supports when no link label generator is set.
+     * 
+     * @param listenerChain the listener chain
      */
     public PlainTextChainingRenderer(ListenerChain listenerChain)
     {
         this(null, listenerChain);
     }
 
+    /**
+     * @param linkLabelGenerator the link label generator
+     * @param listenerChain the listener chain
+     */
     public PlainTextChainingRenderer(LinkLabelGenerator linkLabelGenerator, ListenerChain listenerChain)
     {
         setListenerChain(listenerChain);
@@ -71,11 +80,17 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
 
     // State
 
+    /**
+     * @return the {@link BlockStateChainingListener} from the listeners chain
+     */
     private BlockStateChainingListener getBlockState()
     {
         return (BlockStateChainingListener) getListenerChain().getListener(BlockStateChainingListener.class);
     }
 
+    /**
+     * @return the {@link EmptyBlockChainingListener} from the listeners chain
+     */
     protected EmptyBlockChainingListener getEmptyBlockState()
     {
         return (EmptyBlockChainingListener) getListenerChain().getListener(EmptyBlockChainingListener.class);
@@ -172,6 +187,7 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
+     * 
      * @since 2.0RC1
      */
     @Override
@@ -240,6 +256,7 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
+     * 
      * @since 2.5RC1
      */
     @Override
@@ -248,6 +265,9 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
         // TODO: maybe something could be done here
     }
 
+    /**
+     * Add an empty line to the printer.
+     */
     private void printEmptyLine()
     {
         if (this.isFirstElementRendered) {

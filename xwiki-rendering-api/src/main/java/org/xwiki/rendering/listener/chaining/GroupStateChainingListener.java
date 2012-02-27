@@ -32,7 +32,7 @@ import java.util.Map;
  */
 public class GroupStateChainingListener extends AbstractChainingListener
 {
-    private int groupDepth = 0;
+    private int groupDepth;
 
     public GroupStateChainingListener(ListenerChain listenerChain)
     {

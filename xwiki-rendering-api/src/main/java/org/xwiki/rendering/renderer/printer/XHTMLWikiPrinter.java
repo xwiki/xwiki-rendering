@@ -34,7 +34,7 @@ import org.xml.sax.Attributes;
  */
 public class XHTMLWikiPrinter extends XMLWikiPrinter
 {
-    private int spaceCount = 0;
+    private int spaceCount;
 
     private boolean isInCData;
 

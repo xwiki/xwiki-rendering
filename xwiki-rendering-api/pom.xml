@@ -81,10 +81,7 @@
           <excludes>
             org/xwiki/rendering/internal/parser/XDOMGeneratorListener.java,
             org/xwiki/rendering/internal/renderer/event/EventsChainingRenderer.java,
-            org/xwiki/rendering/internal/renderer/event/EventRendererFactory.java,
             org/xwiki/rendering/internal/renderer/event/EventBlockRenderer.java,
-            org/xwiki/rendering/internal/renderer/plain/PlainTextRenderer.java,
-            org/xwiki/rendering/internal/renderer/plain/PlainTextChainingRenderer.java,
             org/xwiki/rendering/internal/renderer/printer/XHTMLWriter.java,
             org/xwiki/rendering/internal/renderer/printer/WikiWriter.java,
             org/xwiki/rendering/listener/chaining/LookaheadChainingListener.java,
@@ -94,7 +91,6 @@
             org/xwiki/rendering/listener/chaining/GroupStateChainingListener.java,
             org/xwiki/rendering/renderer/printer/XHTMLWikiPrinter.java,
             org/xwiki/rendering/renderer/printer/XMLWikiPrinter.java,
-            org/xwiki/rendering/renderer/printer/VoidWikiPrinter.java,
             org/xwiki/rendering/renderer/printer/LookaheadWikiPrinter.java,
             org/xwiki/rendering/renderer/printer/WrappingWikiPrinter.java,
             org/xwiki/rendering/syntax/Syntax.java,

@@ -19,13 +19,12 @@
  */
 package org.xwiki.rendering.renderer.printer;
 
-
 /**
  * A WikiPrinter implementation which does not do anything.
  * 
  * @version $Id$
  */
-public class VoidWikiPrinter implements WikiPrinter
+public final class VoidWikiPrinter implements WikiPrinter
 {
     /**
      * Unique instance of {@link VoidWikiPrinter}.

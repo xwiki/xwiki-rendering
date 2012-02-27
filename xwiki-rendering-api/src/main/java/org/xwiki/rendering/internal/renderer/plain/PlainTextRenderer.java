@@ -22,7 +22,6 @@ package org.xwiki.rendering.internal.renderer.plain;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.xml.sax.ContentHandler;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -31,8 +30,8 @@ import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
-import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
 
 /**
  * Print only plain text information. For example it remove anything which need a specific syntax a simple plain text
@@ -47,13 +46,12 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class PlainTextRenderer extends AbstractChainingPrintRenderer implements Initializable
 {
+    /**
+     * Used to generate link label when not explicitely provided.
+     */
     @Inject
     private LinkLabelGenerator linkLabelGenerator;
-    
-    /**
-     * {@inheritDoc}
-     * @since 2.0M3
-     */
+
     @Override
     public void initialize() throws InitializationException
     {
