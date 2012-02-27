@@ -111,11 +111,6 @@ public class ResourceType
         this.scheme = scheme;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see Object#hashCode()
-     */
     @Override
     public int hashCode()
     {
@@ -126,11 +121,6 @@ public class ResourceType
         return hash;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see Object#equals(Object)
-     */
     @Override
     public boolean equals(Object object)
     {

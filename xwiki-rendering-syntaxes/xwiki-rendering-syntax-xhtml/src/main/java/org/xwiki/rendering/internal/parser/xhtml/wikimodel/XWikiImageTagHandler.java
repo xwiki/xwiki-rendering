@@ -35,11 +35,6 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  */
 public class XWikiImageTagHandler extends ImgTagHandler
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler#initialize(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack)
-     */
     @Override
     public void initialize(TagStack stack)
     {
@@ -48,11 +43,6 @@ public class XWikiImageTagHandler extends ImgTagHandler
         stack.setStackParameter("imageParameters", WikiParameters.EMPTY);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.xhtml.handler.ReferenceTagHandler#begin(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext)
-     */
     @Override
     protected void begin(TagContext context)
     {
@@ -74,11 +64,6 @@ public class XWikiImageTagHandler extends ImgTagHandler
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.xhtml.handler.ImgTagHandler#end(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext)
-     */
     @Override
     protected void end(TagContext context)
     {

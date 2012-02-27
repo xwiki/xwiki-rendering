@@ -41,10 +41,7 @@ public class UnderlineSyntaxFilter extends AbstractSyntaxFilter implements Initi
     private static final Pattern UNDERLINESYNTAX_PATTERN =
         Pattern.compile("(?<!_)__([^\\p{Space}](?:[^_\n]*+|_)*?(?<=[^\\p{Space}]))__(?!_)");
 
-    /**
-     * {@inheritDoc}
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         setPriority(1000);

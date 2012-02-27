@@ -37,10 +37,7 @@ import org.xwiki.rendering.syntax.Syntax;
 @Singleton
 public class AnnotatedXHTMLRendererFactory extends AbstractPrintRendererFactory
 {
-    /**
-     * {@inheritDoc}
-     * @see AbstractPrintRendererFactory#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.ANNOTATED_XHTML_1_0;

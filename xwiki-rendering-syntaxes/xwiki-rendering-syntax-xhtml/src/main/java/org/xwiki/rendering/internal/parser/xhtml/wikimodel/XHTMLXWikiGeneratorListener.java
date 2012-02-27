@@ -55,11 +55,6 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
         super(parser, listener, linkReferenceParser, imageReferenceParser, plainRendererFactory, idGenerator, syntax);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see DefaultXWikiGeneratorListener#onReference(org.xwiki.rendering.wikimodel.WikiReference)
-     */
     @Override
     public void onReference(WikiReference reference)
     {
@@ -85,11 +80,6 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
             convertParameters(reference.getParameters()));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see DefaultXWikiGeneratorListener#onImage(org.xwiki.rendering.wikimodel.WikiReference)
-     */
     @Override
     public void onImage(WikiReference reference)
     {

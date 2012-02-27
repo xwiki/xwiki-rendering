@@ -22,11 +22,11 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
+import org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter;
 
 /**
  * Extension to the WikiModel {@link XHTMLWhitespaceXMLFilter} to support both the ability to not remove spaces inside
@@ -40,9 +40,9 @@ public class XWikiXHTMLWhitespaceXMLFilter extends XHTMLWhitespaceXMLFilter
 {
     /**
      * The SAX property controlling whether XHTML elements can contain wiki syntax or not. This controls the whitespace
-     * stripping behavior. 
+     * stripping behavior.
      */
-    public static final String SAX_CONTAINS_WIKI_SYNTAX_PROPERTY = 
+    public static final String SAX_CONTAINS_WIKI_SYNTAX_PROPERTY =
         "http://xwiki.org/sax/properties/contains-wiki-syntax";
 
     /**
@@ -56,20 +56,13 @@ public class XWikiXHTMLWhitespaceXMLFilter extends XHTMLWhitespaceXMLFilter
     private boolean containsWikiSyntax;
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLWhitespaceXMLFilter#XHTMLWhitespaceXMLFilter(XMLReader)
+     * @param reader the XML reader to use ro parse the input XHTML
      */
     public XWikiXHTMLWhitespaceXMLFilter(XMLReader reader)
     {
         super(reader);
     }
-    
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLWhitespaceXMLFilter#setProperty(String, Object)
-     */
+
     @Override
     public void setProperty(String name, Object value) throws SAXNotRecognizedException, SAXNotSupportedException
     {
@@ -80,11 +73,6 @@ public class XWikiXHTMLWhitespaceXMLFilter extends XHTMLWhitespaceXMLFilter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLWhitespaceXMLFilter#endCDATA()
-     */
     @Override
     public void endCDATA() throws SAXException
     {
@@ -98,11 +86,6 @@ public class XWikiXHTMLWhitespaceXMLFilter extends XHTMLWhitespaceXMLFilter
         super.endCDATA();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLWhitespaceXMLFilter#shouldRemoveWhiteSpaces()
-     */
     @Override
     protected boolean shouldRemoveWhiteSpaces()
     {
@@ -111,11 +94,6 @@ public class XWikiXHTMLWhitespaceXMLFilter extends XHTMLWhitespaceXMLFilter
         return this.containsWikiSyntax || super.shouldRemoveWhiteSpaces();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLWhitespaceXMLFilter#cleanContentExtraWhiteSpaces()
-     */
     @Override
     protected void cleanContentExtraWhiteSpaces()
     {
@@ -132,11 +110,6 @@ public class XWikiXHTMLWhitespaceXMLFilter extends XHTMLWhitespaceXMLFilter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLWhitespaceXMLFilter#isSemanticComment(String)
-     */
     @Override
     protected boolean isSemanticComment(String comment)
     {

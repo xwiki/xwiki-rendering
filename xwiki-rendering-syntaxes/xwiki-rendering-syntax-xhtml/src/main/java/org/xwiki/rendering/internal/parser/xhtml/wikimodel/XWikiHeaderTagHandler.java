@@ -32,11 +32,6 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  */
 public class XWikiHeaderTagHandler extends HeaderTagHandler
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see HeaderTagHandler#begin(TagContext)
-     */
     @Override
     protected void begin(TagContext context)
     {

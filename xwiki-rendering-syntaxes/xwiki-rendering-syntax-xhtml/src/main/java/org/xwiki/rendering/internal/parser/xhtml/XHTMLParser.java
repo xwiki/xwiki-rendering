@@ -26,9 +26,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.xwiki.rendering.wikimodel.IWikiParser;
-import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
-import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
@@ -48,6 +45,9 @@ import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
+import org.xwiki.rendering.wikimodel.IWikiParser;
+import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
+import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.xml.XMLReaderFactory;
 
 /**
@@ -110,32 +110,18 @@ public class XHTMLParser extends AbstractWikiModelParser
     @Named("xwiki")
     private XMLReaderFactory xmlReaderFactory;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.XHTML_1_0;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractWikiModelParser#getLinkLabelParser()
-     */
     @Override
     public StreamParser getLinkLabelParser()
     {
         return this.xwikiParser;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractWikiModelParser#createWikiModelParser()
-     */
     @Override
     public IWikiParser createWikiModelParser() throws ParseException
     {
@@ -169,12 +155,6 @@ public class XHTMLParser extends AbstractWikiModelParser
         return parser;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractWikiModelParser#getLinkReferenceParser()
-     * @since 2.5RC1
-     */
     @Override
     public ResourceReferenceParser getLinkReferenceParser()
     {
@@ -193,11 +173,6 @@ public class XHTMLParser extends AbstractWikiModelParser
         return this.imageReferenceParser;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractWikiModelParser#createXWikiGeneratorListener(org.xwiki.rendering.listener.Listener , org.xwiki.rendering.util.IdGenerator)
-     */
     @Override
     public XWikiGeneratorListener createXWikiGeneratorListener(Listener listener, IdGenerator idGenerator)
     {

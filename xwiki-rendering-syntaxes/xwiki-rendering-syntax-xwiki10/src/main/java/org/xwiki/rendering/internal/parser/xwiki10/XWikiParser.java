@@ -72,11 +72,7 @@ public class XWikiParser implements Parser, Initializable
     @Inject
     private List<Filter> filters;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.component.phase.Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         // order filters
@@ -89,21 +85,13 @@ public class XWikiParser implements Parser, Initializable
         });
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return SYNTAX;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#parse(java.io.Reader)
-     */
+    @Override
     public XDOM parse(Reader source) throws ParseException
     {
         // Convert from 1.0 syntax to 2.0 syntax

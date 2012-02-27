@@ -46,22 +46,13 @@ public class SectionSyntaxFilter extends AbstractFilter implements Initializable
         Pattern.compile("^(" + VelocityFilter.SPACEGROUP_OC_SPATTERN + ")?(1(\\.1){0,5}+)[ \\t]++(.++)$",
             Pattern.MULTILINE);
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         setPriority(1000);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.Filter#filter(java.lang.String,
-     *      org.xwiki.rendering.parser.xwiki10.FilterContext)
-     */
+    @Override
     public String filter(String content, FilterContext filterContext)
     {
         StringBuffer result = new StringBuffer();

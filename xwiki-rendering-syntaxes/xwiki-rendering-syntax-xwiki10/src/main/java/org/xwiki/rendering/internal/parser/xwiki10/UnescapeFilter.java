@@ -46,22 +46,13 @@ public class UnescapeFilter extends AbstractFilter implements Initializable
         Pattern.compile(FilterContext.XWIKI1020TOKEN_OP + FilterContext.XWIKI1020TOKENI_SF_SPATTERN
             + EscapeFilter.ESCAPE_SUFFIX + "(\\d+)" + FilterContext.XWIKI1020TOKEN_CP);
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         setPriority(1500);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.Filter#filter(java.lang.String,
-     *      org.xwiki.rendering.parser.xwiki10.FilterContext)
-     */
+    @Override
     public String filter(String content, FilterContext filterContext)
     {
         StringBuffer result = new StringBuffer();

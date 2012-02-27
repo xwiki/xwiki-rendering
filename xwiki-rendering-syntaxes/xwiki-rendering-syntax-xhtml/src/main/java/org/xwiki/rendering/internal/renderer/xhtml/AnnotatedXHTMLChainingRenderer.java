@@ -53,11 +53,6 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
         this.macroRenderer = new XHTMLMacroRenderer();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.renderer.Renderer#onMacro(String, java.util.Map, String, boolean)
-     */
     @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {
@@ -66,11 +61,6 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
         this.macroRenderer.render(getXHTMLWikiPrinter(), id, parameters, content);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.renderer.Renderer#beginMacroMarker(String, java.util.Map, String, boolean)
-     */
     @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
@@ -81,11 +71,6 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
         }
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.renderer.Renderer#endMacroMarker(String, java.util.Map, String, boolean)
-     */
     @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {

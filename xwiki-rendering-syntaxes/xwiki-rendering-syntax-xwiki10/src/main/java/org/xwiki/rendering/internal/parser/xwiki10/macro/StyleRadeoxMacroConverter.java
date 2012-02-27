@@ -115,11 +115,6 @@ public class StyleRadeoxMacroConverter extends AbstractRadeoxMacroConverter
         return result.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.macro.AbstractRadeoxMacroConverter#convertParameters(org.xwiki.rendering.parser.xwiki10.macro.RadeoxMacroParameters)
-     */
     @Override
     protected Map<String, String> convertParameters(RadeoxMacroParameters parameters)
     {

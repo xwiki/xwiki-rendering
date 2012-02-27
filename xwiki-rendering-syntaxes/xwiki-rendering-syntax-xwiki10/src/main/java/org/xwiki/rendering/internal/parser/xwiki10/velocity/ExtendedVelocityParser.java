@@ -54,12 +54,6 @@ public class ExtendedVelocityParser extends VelocityParser
         this.componentManager = componentManager;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.velocity.internal.util.VelocityParser#getDirective(char[], int, java.lang.StringBuffer,
-     *      org.xwiki.velocity.internal.util.VelocityParserContext)
-     */
     @Override
     public int getDirective(char[] array, int currentIndex, StringBuffer velocityBlock, VelocityParserContext context)
         throws InvalidVelocityException
@@ -203,12 +197,6 @@ public class ExtendedVelocityParser extends VelocityParser
         return i;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.velocity.internal.util.VelocityParser#getSimpleComment(char[], int, java.lang.StringBuffer,
-     *      org.xwiki.velocity.internal.util.VelocityParserContext)
-     */
     @Override
     public int getSimpleComment(char[] array, int currentIndex, StringBuffer velocityBlock,
         VelocityParserContext context)
@@ -219,12 +207,6 @@ public class ExtendedVelocityParser extends VelocityParser
         return super.getSimpleComment(array, currentIndex, velocityBlock, context);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.velocity.internal.util.VelocityParser#getMultilinesComment(char[], int, java.lang.StringBuffer,
-     *      org.xwiki.velocity.internal.util.VelocityParserContext)
-     */
     @Override
     public int getMultilinesComment(char[] array, int currentIndex, StringBuffer velocityBlock,
         VelocityParserContext context)
@@ -235,12 +217,6 @@ public class ExtendedVelocityParser extends VelocityParser
         return super.getMultilinesComment(array, currentIndex, velocityBlock, context);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.velocity.internal.util.VelocityParser#getEscape(char[], int, java.lang.StringBuffer,
-     *      org.xwiki.velocity.internal.util.VelocityParserContext)
-     */
     @Override
     public int getEscape(char[] array, int currentIndex, StringBuffer velocityBlock, VelocityParserContext context)
     {
@@ -283,12 +259,6 @@ public class ExtendedVelocityParser extends VelocityParser
         return i;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.velocity.internal.util.VelocityParser#getVar(char[], int, java.lang.StringBuffer,
-     *      org.xwiki.velocity.internal.util.VelocityParserContext)
-     */
     @Override
     public int getVar(char[] array, int currentIndex, StringBuffer velocityBlock, VelocityParserContext context)
         throws InvalidVelocityException

@@ -55,11 +55,6 @@ public class DivHTMLElementConverter extends AbstractHTMLElementConverter
         return result.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.macro.AbstractHTMLElementConverter#isInline()
-     */
     @Override
     public boolean isInline()
     {

@@ -59,22 +59,13 @@ public class CodeMacroFilter extends AbstractFilter implements Initializable
 
     private EscapeFilter escapeFilter = new EscapeFilter();
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         setPriority(10);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.Filter#filter(java.lang.String,
-     *      org.xwiki.rendering.parser.xwiki10.FilterContext)
-     */
+    @Override
     public String filter(String content, FilterContext filterContext)
     {
         StringBuffer result = new StringBuffer();

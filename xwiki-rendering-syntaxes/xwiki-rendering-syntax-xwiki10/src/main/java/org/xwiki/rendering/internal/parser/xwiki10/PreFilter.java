@@ -54,22 +54,13 @@ public class PreFilter extends AbstractFilter implements Initializable
     @Named("standalonenewlinecleanning")
     public Filter standaloneNewLineCleaningFilter;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         setPriority(100);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.Filter#filter(java.lang.String,
-     *      org.xwiki.rendering.parser.xwiki10.FilterContext)
-     */
+    @Override
     public String filter(String content, FilterContext filterContext)
     {
         StringBuffer result = new StringBuffer();

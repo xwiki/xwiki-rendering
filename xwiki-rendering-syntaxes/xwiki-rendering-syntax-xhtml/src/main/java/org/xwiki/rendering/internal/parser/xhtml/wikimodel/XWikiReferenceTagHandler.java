@@ -60,11 +60,6 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
         this.xwikiSyntaxPrintRendererFactory = xwikiSyntaxPrintRendererFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler#initialize(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack)
-     */
     @Override
     public void initialize(TagStack stack)
     {
@@ -73,11 +68,6 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
         stack.setStackParameter("linkParameters", WikiParameters.EMPTY);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.xhtml.handler.ReferenceTagHandler#begin(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext)
-     */
     @Override
     protected void begin(TagContext context)
     {
@@ -134,11 +124,6 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.xhtml.handler.ReferenceTagHandler#end(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext)
-     */
     @Override
     protected void end(TagContext context)
     {

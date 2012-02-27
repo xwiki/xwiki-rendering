@@ -112,11 +112,6 @@ public class Syntax
         return getType().toString() + " " + getVersion() + (getQualifier() != null ? " (" + getQualifier() + ")" : "");
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Object#hashCode()
-     */
     @Override
     public int hashCode()
     {

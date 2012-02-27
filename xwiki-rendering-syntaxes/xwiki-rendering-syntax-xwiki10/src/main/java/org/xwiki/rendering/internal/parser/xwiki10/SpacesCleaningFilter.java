@@ -44,22 +44,13 @@ public class SpacesCleaningFilter extends AbstractFilter implements Initializabl
 {
     private static final Pattern SPACES_PATTERN = Pattern.compile("([^ ])[ \\t]+([^ ])");
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         setPriority(4001);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.Filter#filter(java.lang.String,
-     *      org.xwiki.rendering.parser.xwiki10.FilterContext)
-     */
+    @Override
     public String filter(String content, FilterContext filterContext)
     {
         return SPACES_PATTERN.matcher(content).replaceAll("$1 $2");

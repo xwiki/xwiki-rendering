@@ -298,21 +298,13 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         this.lastEndFormat = null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginDefinitionDescription()
-     */
+    @Override
     public void beginDefinitionDescription()
     {
         getListener().beginDefinitionDescription();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginDefinitionList(org.xwiki.rendering.wikimodel.WikiParameters)
-     */
+    @Override
     public void beginDefinitionList(WikiParameters params)
     {
         flushInline();
@@ -320,21 +312,13 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().beginDefinitionList(convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginDefinitionTerm()
-     */
+    @Override
     public void beginDefinitionTerm()
     {
         getListener().beginDefinitionTerm();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginDocument(WikiParameters)
-     */
+    @Override
     public void beginDocument(WikiParameters params)
     {
         if (this.documentDepth > 0) {
@@ -390,11 +374,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginSection(int, int, WikiParameters)
-     */
+    @Override
     public void beginSection(int docLevel, int headerLevel, WikiParameters params)
     {
         if (headerLevel > 0) {
@@ -402,21 +382,13 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginSectionContent(int, int, WikiParameters)
-     */
+    @Override
     public void beginSectionContent(int docLevel, int headerLevel, WikiParameters params)
     {
         // TODO add support for it
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginHeader(int, WikiParameters)
-     */
+    @Override
     public void beginHeader(int level, WikiParameters params)
     {
         // Heading needs to have an id generated from a plaintext representation of its content, so the header start
@@ -431,21 +403,13 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         pushListener(composite);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiGeneratorListener#beginInfoBlock(String, WikiParameters)
-     */
+    @Override
     public void beginInfoBlock(String infoType, WikiParameters params)
     {
         // Not used by XWiki Syntax 2.0
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginList(WikiParameters, boolean)
-     */
+    @Override
     public void beginList(WikiParameters params, boolean ordered)
     {
         flushInline();
@@ -457,81 +421,49 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginListItem()
-     */
+    @Override
     public void beginListItem()
     {
         getListener().beginListItem();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginParagraph(WikiParameters)
-     */
+    @Override
     public void beginParagraph(WikiParameters params)
     {
         getListener().beginParagraph(convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiGeneratorListener#beginPropertyBlock(String, boolean)
-     */
+    @Override
     public void beginPropertyBlock(String propertyUri, boolean doc)
     {
         // Not used by XWiki Syntax 2.0
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiGeneratorListener#beginPropertyInline(String)
-     */
+    @Override
     public void beginPropertyInline(String str)
     {
         // Not used by XWiki Syntax 2.0
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginQuotation(WikiParameters)
-     */
+    @Override
     public void beginQuotation(WikiParameters params)
     {
         getListener().beginQuotation(convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginQuotationLine()
-     */
+    @Override
     public void beginQuotationLine()
     {
         getListener().beginQuotationLine();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginTable(WikiParameters)
-     */
+    @Override
     public void beginTable(WikiParameters params)
     {
         getListener().beginTable(convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginTableCell(boolean, WikiParameters)
-     */
+    @Override
     public void beginTableCell(boolean tableHead, WikiParameters params)
     {
         if (tableHead) {
@@ -541,21 +473,13 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#beginTableRow(WikiParameters)
-     */
+    @Override
     public void beginTableRow(WikiParameters params)
     {
         getListener().beginTableRow(convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endDefinitionDescription()
-     */
+    @Override
     public void endDefinitionDescription()
     {
         flushInline();
@@ -563,21 +487,13 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().endDefinitionDescription();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endDefinitionList(WikiParameters)
-     */
+    @Override
     public void endDefinitionList(WikiParameters params)
     {
         getListener().endDefinitionList(convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endDefinitionTerm()
-     */
+    @Override
     public void endDefinitionTerm()
     {
         flushInline();
@@ -585,11 +501,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().endDefinitionTerm();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endDocument(WikiParameters)
-     */
+    @Override
     public void endDocument(WikiParameters params)
     {
         flush();
@@ -603,11 +515,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiGeneratorListener#endFormat(WikiFormat)
-     */
+    @Override
     public void endFormat(WikiFormat format)
     {
         // If there's any style or parameter defined, do something. The reason we need to check for this is because
@@ -617,11 +525,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endHeader(int, WikiParameters)
-     */
+    @Override
     public void endHeader(int level, WikiParameters params)
     {
         // End all formats
@@ -650,11 +554,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().endHeader(headerLevel, id, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endSection(int, int, WikiParameters)
-     */
+    @Override
     public void endSection(int docLevel, int headerLevel, WikiParameters params)
     {
         if (headerLevel > 0) {
@@ -662,31 +562,19 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endSectionContent(int, int, WikiParameters)
-     */
+    @Override
     public void endSectionContent(int docLevel, int headerLevel, WikiParameters params)
     {
         // TODO add support for it
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiGeneratorListener#endInfoBlock(String, WikiParameters)
-     */
+    @Override
     public void endInfoBlock(String infoType, WikiParameters params)
     {
         // Not used by XWiki Syntax 2.0
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endList(WikiParameters, boolean)
-     */
+    @Override
     public void endList(WikiParameters params, boolean ordered)
     {
         if (ordered) {
@@ -696,11 +584,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endListItem()
-     */
+    @Override
     public void endListItem()
     {
         flushInline();
@@ -709,11 +593,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().endListItem();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endParagraph(WikiParameters)
-     */
+    @Override
     public void endParagraph(WikiParameters params)
     {
         flushFormat();
@@ -721,41 +601,25 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().endParagraph(convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiGeneratorListener#endPropertyBlock(String, boolean)
-     */
+    @Override
     public void endPropertyBlock(String propertyUri, boolean doc)
     {
         // Not used by XWiki Syntax 2.0
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiGeneratorListener#endPropertyInline(String)
-     */
+    @Override
     public void endPropertyInline(String inlineProperty)
     {
         // Not used by XWiki Syntax 2.0
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endQuotation(WikiParameters)
-     */
+    @Override
     public void endQuotation(WikiParameters params)
     {
         getListener().endQuotation(convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endQuotationLine()
-     */
+    @Override
     public void endQuotationLine()
     {
         flushInline();
@@ -763,21 +627,13 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().endQuotationLine();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endTable(WikiParameters)
-     */
+    @Override
     public void endTable(WikiParameters params)
     {
         getListener().endTable(convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endTableCell(boolean, WikiParameters)
-     */
+    @Override
     public void endTableCell(boolean tableHead, WikiParameters params)
     {
         flushInline();
@@ -789,11 +645,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#endTableRow(WikiParameters)
-     */
+    @Override
     public void endTableRow(WikiParameters params)
     {
         getListener().endTableRow(convertParameters(params));
@@ -817,11 +669,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().onEmptyLines(count);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#onEscape(String)
-     */
+    @Override
     public void onEscape(String str)
     {
         // The WikiModel XWiki parser has been modified not to generate any onEscape event so do nothing here.
@@ -829,11 +677,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         // responsibility of Renderers to perform escaping as required.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiGeneratorListener#onExtensionBlock(String, WikiParameters)
-     */
+    @Override
     public void onExtensionBlock(String extensionName, WikiParameters params)
     {
         if (EXT_ID.equals(extensionName)) {
@@ -841,11 +685,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiGeneratorListener#onExtensionInline(String, WikiParameters)
-     */
+    @Override
     public void onExtensionInline(String extensionName, WikiParameters params)
     {
         if (EXT_ID.equals(extensionName)) {
@@ -853,21 +693,13 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#onHorizontalLine(org.xwiki.rendering.wikimodel.WikiParameters)
-     */
+    @Override
     public void onHorizontalLine(WikiParameters params)
     {
         getListener().onHorizontalLine(convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#onLineBreak()
-     */
+    @Override
     public void onLineBreak()
     {
         // Note that in XWiki we don't differentiate new lines and line breaks since it's the Renderers that decide
@@ -891,11 +723,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().onMacro(macroName, convertParameters(params), content, false);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#onMacroInline(String, WikiParameters, String)
-     */
+    @Override
     public void onMacroInline(String macroName, WikiParameters params, String content)
     {
         flushFormat();
@@ -903,11 +731,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().onMacro(macroName, convertParameters(params), content, true);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#onLineBreak()
-     */
+    @Override
     public void onNewLine()
     {
         flushFormat();
@@ -926,16 +750,13 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
      * 
      * @see org.xwiki.rendering.wikimodel.IWemListener#onLineBreak()
      */
+    @Override
     public void onReference(String reference)
     {
         onReference(reference, null, true, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#onReference(String)
-     */
+    @Override
     public void onReference(WikiReference reference)
     {
         onReference(reference.getLink(), reference.getLabel(), false, convertParameters(reference.getParameters()));
@@ -969,21 +790,13 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().endLink(reference, isFreeStandingURI, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListenerInline#onImage(java.lang.String)
-     */
+    @Override
     public void onImage(String reference)
     {
         onImage(reference, true, Listener.EMPTY_PARAMETERS);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListenerInline#onImage(org.xwiki.rendering.wikimodel.WikiReference)
-     */
+    @Override
     public void onImage(WikiReference reference)
     {
         onImage(reference.getLink(), false, convertParameters(reference.getParameters()));
@@ -1010,11 +823,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().onImage(reference, isFreeStandingURI, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#onSpace(String)
-     */
+    @Override
     public void onSpace(String spaces)
     {
         flushFormat();
@@ -1025,11 +834,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#onSpecialSymbol(String)
-     */
+    @Override
     public void onSpecialSymbol(String symbol)
     {
         flushFormat();
@@ -1039,31 +844,19 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiGeneratorListener#onTableCaption(String)
-     */
+    @Override
     public void onTableCaption(String str)
     {
         // Not used by XWiki Syntax 2.0
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#onVerbatimBlock(String, WikiParameters)
-     */
+    @Override
     public void onVerbatimBlock(String protectedString, WikiParameters params)
     {
         getListener().onVerbatim(protectedString, false, convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#onVerbatimInline(String, WikiParameters)
-     */
+    @Override
     public void onVerbatimInline(String protectedString, WikiParameters params)
     {
         flushFormat();
@@ -1071,11 +864,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().onVerbatim(protectedString, true, convertParameters(params));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.IWemListener#onWord(String)
-     */
+    @Override
     public void onWord(String str)
     {
         flushFormat();

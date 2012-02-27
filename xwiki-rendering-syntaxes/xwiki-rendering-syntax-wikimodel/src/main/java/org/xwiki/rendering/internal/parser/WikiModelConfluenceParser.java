@@ -56,21 +56,12 @@ public class WikiModelConfluenceParser extends AbstractWikiModelParser
     @Named("default/image")
     private ResourceReferenceParser imageReferenceParser;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Parser#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.CONFLUENCE_1_0;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser#createWikiModelParser()
-     */
     @Override
     public IWikiParser createWikiModelParser()
     {

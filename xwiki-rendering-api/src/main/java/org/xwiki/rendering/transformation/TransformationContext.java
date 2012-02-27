@@ -118,10 +118,6 @@ public class TransformationContext implements Cloneable
         return syntax;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see Object#clone()
-     */
     @Override
     public TransformationContext clone()
     {

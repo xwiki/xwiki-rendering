@@ -53,11 +53,7 @@ public class ExampleMacro extends AbstractMacro<ExampleMacroParameters>
         super("Example", DESCRIPTION, ExampleMacroParameters.class);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#execute(Object, String, MacroTransformationContext)
-     */
+    @Override
     public List<Block> execute(ExampleMacroParameters parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
@@ -77,11 +73,7 @@ public class ExampleMacro extends AbstractMacro<ExampleMacroParameters>
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.macro.Macro#supportsInlineMode()
-     */
+    @Override
     public boolean supportsInlineMode()
     {
         return true;

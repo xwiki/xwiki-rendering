@@ -31,11 +31,6 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler;
  */
 public class XWikiDivisionTagHandler extends DivisionTagHandler
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler#getDocumentClass()
-     */
     @Override
     protected String getDocumentClass()
     {

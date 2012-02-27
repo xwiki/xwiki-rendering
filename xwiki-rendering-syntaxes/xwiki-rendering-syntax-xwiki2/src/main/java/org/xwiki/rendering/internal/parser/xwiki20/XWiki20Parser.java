@@ -53,34 +53,18 @@ public class XWiki20Parser extends AbstractWikiModelParser
     @Named("xwiki/2.0/image")
     private ResourceReferenceParser imageReferenceParser;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     * @see org.xwiki.rendering.parser.StreamParser#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.XWIKI_2_0;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser#createWikiModelParser()
-     */
     @Override
     public IWikiParser createWikiModelParser()
     {
         return new XWikiParser();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractWikiModelParser#getLinkReferenceParser()
-     * @since 2.5RC1
-     */
     @Override
     public ResourceReferenceParser getLinkReferenceParser()
     {

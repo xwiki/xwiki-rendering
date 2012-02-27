@@ -64,11 +64,7 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer, Initializa
     @Inject
     private ComponentManager componentManager;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         // Try to find a WikiModel implementation and set it if it can be found. If not it means we're in
@@ -80,21 +76,13 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer, Initializa
         }
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see XHTMLImageRenderer#setXHTMLWikiPrinter(XHTMLWikiPrinter)
-     */
+    @Override
     public void setXHTMLWikiPrinter(XHTMLWikiPrinter printer)
     {
         this.xhtmlPrinter = printer;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see XHTMLImageRenderer#getXHTMLWikiPrinter()
-     */
+    @Override
     public XHTMLWikiPrinter getXHTMLWikiPrinter()
     {
         return this.xhtmlPrinter;
@@ -106,6 +94,7 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer, Initializa
      * @see XHTMLImageRenderer#onImage(org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
      * @since 2.5RC1
      */
+    @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         Map<String, String> attributes = new LinkedHashMap<String, String>();

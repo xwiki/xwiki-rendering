@@ -52,34 +52,18 @@ public class HTMLParser extends XHTMLParser
     @Inject
     private HTMLCleaner htmlCleaner;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     */
     @Override
     public Syntax getSyntax()
     {
         return Syntax.HTML_4_01;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XHTMLParser#parse(Reader)
-     */
     @Override
     public XDOM parse(Reader source) throws ParseException
     {
         return super.parse(new StringReader(HTMLUtils.toString(this.htmlCleaner.clean(source))));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser#parse(java.io.Reader,
-     *      org.xwiki.rendering.listener.Listener)
-     */
     @Override
     public void parse(Reader source, Listener listener) throws ParseException
     {

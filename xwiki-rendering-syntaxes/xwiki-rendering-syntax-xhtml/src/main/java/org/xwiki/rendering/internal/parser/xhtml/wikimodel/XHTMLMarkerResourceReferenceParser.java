@@ -47,10 +47,7 @@ public class XHTMLMarkerResourceReferenceParser implements ResourceReferencePars
      */
     private static final String COMMENT_SEPARATOR = "|-|";
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.parser.ResourceReferenceParser#parse(String)
-     */
+    @Override
     public ResourceReference parse(String rawReference)
     {
         String[] tokens = StringUtils.splitByWholeSeparatorPreserveAllTokens(rawReference, COMMENT_SEPARATOR);

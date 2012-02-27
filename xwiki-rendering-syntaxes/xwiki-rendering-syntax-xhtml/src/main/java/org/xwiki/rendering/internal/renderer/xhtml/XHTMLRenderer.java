@@ -62,11 +62,7 @@ public class XHTMLRenderer extends AbstractChainingPrintRenderer implements Init
     @Inject
     private XHTMLImageRenderer imageRenderer;
 
-    /**
-     * {@inheritDoc}
-     * @see Initializable#initialize()
-     * @since 2.0M3
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         ListenerChain chain = new ListenerChain();

@@ -52,10 +52,7 @@ public class XHTMLMarkerResourceReferenceSerializer implements ResourceReference
      */
     private ParametersPrinter parametersPrinter = new ParametersPrinter();
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer#serialize(ResourceReference)
-     */
+    @Override
     public String serialize(ResourceReference reference)
     {
         StringBuilder buffer = new StringBuilder();

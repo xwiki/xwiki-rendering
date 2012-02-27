@@ -285,11 +285,6 @@ public class ResourceReference implements Cloneable
         return sb.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Object#clone()
-     */
     @Override
     public ResourceReference clone()
     {
@@ -303,10 +298,6 @@ public class ResourceReference implements Cloneable
         return clone;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see Object#hashCode()
-     */
     @Override
     public int hashCode()
     {
@@ -319,10 +310,6 @@ public class ResourceReference implements Cloneable
             .toHashCode();
     }
 
-    /**
-     * {@inheritDoc}
-     * @see Object#equals(Object)
-     */
     @Override
     public boolean equals(Object object)
     {

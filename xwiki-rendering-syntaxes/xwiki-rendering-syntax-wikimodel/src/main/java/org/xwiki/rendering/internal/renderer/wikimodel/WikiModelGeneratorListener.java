@@ -78,12 +78,7 @@ public class WikiModelGeneratorListener implements Listener
         return this.context.pop();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDocument(org.xwiki.rendering.listener.MetaData)
-     * @since 3.0M2
-     */
+    @Override
     public void beginDocument(MetaData metaData)
     {
         pushContext();
@@ -92,12 +87,7 @@ public class WikiModelGeneratorListener implements Listener
         this.wikimodelListener.beginSection(this.docLevel++, getContext().headerLevel++, WikiParameters.EMPTY);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDocument(org.xwiki.rendering.listener.MetaData)
-     * @since 3.0M2
-     */
+    @Override
     public void endDocument(MetaData metaData)
     {
         this.wikimodelListener.endSection(this.docLevel--, getContext().headerLevel, WikiParameters.EMPTY);
@@ -106,31 +96,19 @@ public class WikiModelGeneratorListener implements Listener
         popContext();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginGroup(Map)
-     */
+    @Override
     public void beginGroup(Map<String, String> parameters)
     {
         this.wikimodelListener.beginDocument(createWikiParameters(parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endGroup(Map)
-     */
+    @Override
     public void endGroup(Map<String, String> parameters)
     {
         this.wikimodelListener.endDocument(createWikiParameters(parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Listener#beginFormat(Format, Map)
-     */
+    @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
         switch (format) {
@@ -168,11 +146,7 @@ public class WikiModelGeneratorListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Listener#endFormat(Format, Map)
-     */
+    @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
         switch (format) {
@@ -322,41 +296,25 @@ public class WikiModelGeneratorListener implements Listener
             .singletonMap("name", name)));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onRawText(String, org.xwiki.rendering.syntax.Syntax)
-     */
+    @Override
     public void onRawText(String text, Syntax syntax)
     {
         // Nothing to do since wikimodel doesn't support raw content.
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onHorizontalLine(Map)
-     */
+    @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
         this.wikimodelListener.onHorizontalLine(createWikiParameters(parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onEmptyLines(int)
-     */
+    @Override
     public void onEmptyLines(int count)
     {
         this.wikimodelListener.onEmptyLines(count);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#onVerbatim(String, boolean, Map)
-     */
+    @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
         if (isInline) {
@@ -368,111 +326,61 @@ public class WikiModelGeneratorListener implements Listener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionList(java.util.Map)
-     * @since 2.0RC1
-     */
+    @Override
     public void beginDefinitionList(Map<String, String> parameters)
     {
         this.wikimodelListener.beginDefinitionList(createWikiParameters(parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionList(java.util.Map)
-     * @since 2.0RC1
-     */
+    @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
         this.wikimodelListener.endDefinitionList(createWikiParameters(parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionTerm()
-     * @since 1.6M2
-     */
+    @Override
     public void beginDefinitionTerm()
     {
         this.wikimodelListener.beginDefinitionTerm();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginDefinitionDescription()
-     * @since 1.6M2
-     */
+    @Override
     public void beginDefinitionDescription()
     {
         this.wikimodelListener.beginDefinitionDescription();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionTerm()
-     * @since 1.6M2
-     */
+    @Override
     public void endDefinitionTerm()
     {
         this.wikimodelListener.endDefinitionTerm();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endDefinitionDescription()
-     * @since 1.6M2
-     */
+    @Override
     public void endDefinitionDescription()
     {
         this.wikimodelListener.endDefinitionDescription();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginQuotation(java.util.Map)
-     * @since 1.6M2
-     */
+    @Override
     public void beginQuotation(Map<String, String> parameters)
     {
         this.wikimodelListener.beginQuotation(createWikiParameters(parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endQuotation(java.util.Map)
-     * @since 1.6M2
-     */
+    @Override
     public void endQuotation(Map<String, String> parameters)
     {
         this.wikimodelListener.endQuotation(createWikiParameters(parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#beginQuotationLine()
-     * @since 1.6M2
-     */
+    @Override
     public void beginQuotationLine()
     {
         this.wikimodelListener.beginQuotationLine();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.listener.Listener#endQuotationLine()
-     * @since 1.6M2
-     */
+    @Override
     public void endQuotationLine()
     {
         this.wikimodelListener.endQuotationLine();
@@ -518,11 +426,7 @@ public class WikiModelGeneratorListener implements Listener
         this.wikimodelListener.endTableRow(createWikiParameters(parameters));
     }
 
-    /**
-     * {@inheritDoc}
-     * @see Listener#onImage(org.xwiki.rendering.listener.reference.ResourceReference, boolean, java.util.Map)
-     * @since 2.5RC1
-     */
+    @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         // Note: This means that any WikiModel listener needs to be overridden with a XWiki specific
@@ -530,11 +434,7 @@ public class WikiModelGeneratorListener implements Listener
         // TODO this.wikimodelListener.onReference("image:" + imageLocation);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see Listener#beginMetaData(org.xwiki.rendering.listener.MetaData)
-     * @since 3.0M2
-     */
+    @Override
     public void beginMetaData(MetaData metadata)
     {
         // WikiModel has a notion of Property but it's different from XWiki's notion of MetaData. We could map some
@@ -542,11 +442,7 @@ public class WikiModelGeneratorListener implements Listener
         // from WikiModel's Renderer implementations and such implementation won't use XWiki's metadata anyway.
     }
 
-    /**
-     * {@inheritDoc}
-     * @see Listener#endMetaData(org.xwiki.rendering.listener.MetaData)
-     * @since 3.0M2
-     */
+    @Override
     public void endMetaData(MetaData metadata)
     {
         // WikiModel has a notion of Property but it's different from XWiki's notion of MetaData. We could map some

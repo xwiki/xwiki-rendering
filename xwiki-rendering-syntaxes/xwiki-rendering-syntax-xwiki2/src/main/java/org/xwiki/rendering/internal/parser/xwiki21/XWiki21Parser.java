@@ -58,22 +58,12 @@ public class XWiki21Parser extends AbstractWikiModelParser
     @Named("image")
     private ResourceReferenceParser imageReferenceParser;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     * @see org.xwiki.rendering.parser.StreamParser#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.XWIKI_2_1;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser#createWikiModelParser()
-     */
     @Override
     public IWikiParser createWikiModelParser()
     {
@@ -104,11 +94,6 @@ public class XWiki21Parser extends AbstractWikiModelParser
         return this.imageReferenceParser;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractWikiModelParser#createXWikiGeneratorListener(Listener, IdGenerator)
-     */
     @Override
     public XWikiGeneratorListener createXWikiGeneratorListener(Listener listener, IdGenerator idGenerator)
     {

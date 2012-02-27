@@ -64,11 +64,6 @@ public class RadeoxMacroParameter
         return this.value;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString()
     {

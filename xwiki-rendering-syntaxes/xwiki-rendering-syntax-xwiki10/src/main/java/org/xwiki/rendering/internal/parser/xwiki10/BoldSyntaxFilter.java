@@ -43,10 +43,7 @@ public class BoldSyntaxFilter extends AbstractSyntaxFilter implements Initializa
     private static final Pattern BOLDSYNTAX_PATTERN =
         Pattern.compile("(?<!\\*)\\*([^\\p{Space}](?:[^*\n]*+|\\*)*?(?<=[^\\p{Space}]))\\*(?!\\*)");
 
-    /**
-     * {@inheritDoc}
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         setPriority(1000);

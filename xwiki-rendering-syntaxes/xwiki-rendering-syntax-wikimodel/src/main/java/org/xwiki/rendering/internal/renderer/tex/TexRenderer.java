@@ -53,10 +53,6 @@ public class TexRenderer extends WrappingListener implements PrintRenderer
         return this.printer;
     }
 
-    /**
-     * {@inheritDoc}
-     * @since 2.0M3
-     */
     @Override
     public void setPrinter(WikiPrinter printer)
     {

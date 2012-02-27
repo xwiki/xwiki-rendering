@@ -32,11 +32,6 @@ public class ParagraphTagHandler extends TagHandler
         super(false, true, true);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see TagHandler#isBlockHandler(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext)
-     */
     @Override
     public boolean isBlockHandler(TagContext context)
     {
@@ -46,11 +41,6 @@ public class ParagraphTagHandler extends TagHandler
         return quoteDepth == 0;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see TagHandler#begin(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext)
-     */
     @Override
     protected void begin(TagContext context)
     {
@@ -60,11 +50,6 @@ public class ParagraphTagHandler extends TagHandler
         }
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see TagHandler#end(org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext)
-     */
     @Override
     protected void end(TagContext context)
     {

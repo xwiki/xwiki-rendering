@@ -47,22 +47,13 @@ public class UnescapeHTMLFilter extends AbstractFilter implements Initializable
         Pattern.compile("(" + VelocityFilter.VELOCITYOPEN_SPATTERN + ")|(" + VelocityFilter.VELOCITYCLOSE_PATTERN
             + ")|(" + HTMLFilter.HTMLOPEN_SPATTERN + ")|(" + HTMLFilter.HTMLCLOSE_SPATTERN + ")");
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         setPriority(3001);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.Filter#filter(java.lang.String,
-     *      org.xwiki.rendering.parser.xwiki10.FilterContext)
-     */
+    @Override
     public String filter(String content, FilterContext filterContext)
     {
         StringBuffer result = new StringBuffer();

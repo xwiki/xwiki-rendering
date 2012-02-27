@@ -53,21 +53,12 @@ public class WikiModelCreoleParser extends AbstractWikiModelParser
     @Named("default/image")
     private ResourceReferenceParser imageReferenceParser;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.CREOLE_1_0;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractWikiModelParser#createWikiModelParser()
-     */
     @Override
     public IWikiParser createWikiModelParser()
     {

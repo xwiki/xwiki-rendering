@@ -56,11 +56,6 @@ public class MessageVelocityMacroConverter extends AbstractVelocityMacroConverte
         return this.velocityFilter.filter(content, context);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.macro.AbstractVelocityMacroConverter#protectResult()
-     */
     @Override
     public boolean protectResult()
     {

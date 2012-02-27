@@ -43,22 +43,13 @@ public class EmptyLineFilter extends AbstractFilter implements Initializable
 {
     public static final Pattern EMPTYLINE_PATTERN = Pattern.compile("\n\n+");
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         setPriority(1000);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.Filter#filter(java.lang.String,
-     *      org.xwiki.rendering.parser.xwiki10.FilterContext)
-     */
+    @Override
     public String filter(String content, FilterContext filterContext)
     {
         return EMPTYLINE_PATTERN.matcher(content).replaceAll("\n\n");

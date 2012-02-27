@@ -82,10 +82,6 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
         return this.propertyDescriptor.getDefaultValue();
     }
 
-    /**
-     * {@inheritDoc}
-     * @since 1.7
-     */
     @Override
     public boolean isMandatory()
     {

@@ -71,22 +71,13 @@ public class RadeoxMacrosFilter extends AbstractFilter implements Initializable
     @Inject
     private Logger logger;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         setPriority(100);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.Filter#filter(java.lang.String,
-     *      org.xwiki.rendering.parser.xwiki10.FilterContext)
-     */
+    @Override
     public String filter(String content, FilterContext filterContext)
     {
         content = filterMacros(content, SINGLE_LINE_MACRO_PATTERN, false, filterContext);

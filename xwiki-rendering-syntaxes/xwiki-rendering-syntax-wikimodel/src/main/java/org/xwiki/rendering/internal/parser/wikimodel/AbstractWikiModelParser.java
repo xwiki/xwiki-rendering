@@ -87,11 +87,7 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Parser#parse(Reader)
-     */
+    @Override
     public XDOM parse(Reader source) throws ParseException
     {
         IdGenerator idGenerator = new IdGenerator();
@@ -104,11 +100,7 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
         return xdom;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.StreamParser#parse(java.io.Reader, org.xwiki.rendering.listener.Listener)
-     */
+    @Override
     public void parse(Reader source, Listener listener) throws ParseException
     {
         IdGenerator idGenerator = new IdGenerator();
@@ -116,11 +108,7 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
         parse(source, listener, idGenerator);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see WikiModelStreamParser#createXWikiGeneratorListener(Listener, IdGenerator)
-     */
+    @Override
     public XWikiGeneratorListener createXWikiGeneratorListener(Listener listener, IdGenerator idGenerator)
     {
         return new DefaultXWikiGeneratorListener(getLinkLabelParser(), listener, getLinkReferenceParser(),

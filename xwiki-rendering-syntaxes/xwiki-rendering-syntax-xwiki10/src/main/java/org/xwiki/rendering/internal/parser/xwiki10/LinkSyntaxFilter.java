@@ -54,11 +54,7 @@ public class LinkSyntaxFilter extends AbstractFilter implements Initializable
     @Named("escape20")
     private Filter escape20Filter;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         // make sure to match link before wiki syntax (which is 1000) since wiki syntax is not supported in links label
@@ -66,12 +62,7 @@ public class LinkSyntaxFilter extends AbstractFilter implements Initializable
         setPriority(900);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.Filter#filter(java.lang.String,
-     *      org.xwiki.rendering.parser.xwiki10.FilterContext)
-     */
+    @Override
     public String filter(String content, FilterContext filterContext)
     {
         StringBuffer result = new StringBuffer();

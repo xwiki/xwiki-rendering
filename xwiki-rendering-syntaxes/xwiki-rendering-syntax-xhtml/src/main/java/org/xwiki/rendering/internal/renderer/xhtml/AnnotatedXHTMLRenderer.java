@@ -72,6 +72,7 @@ public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implem
      * @see org.xwiki.component.phase.Initializable#initialize()
      * @since 2.0M3
      */
+    @Override
     public void initialize() throws InitializationException
     {
         ListenerChain chain = new ListenerChain();

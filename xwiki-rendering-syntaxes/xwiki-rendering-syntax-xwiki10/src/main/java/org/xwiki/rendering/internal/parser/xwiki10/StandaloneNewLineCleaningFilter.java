@@ -45,22 +45,13 @@ public class StandaloneNewLineCleaningFilter extends AbstractFilter implements I
 {
     private static final Pattern SANDALONENEWLINE_PATTERN = Pattern.compile("([^\\n])\\n([^\\n])", Pattern.MULTILINE);
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Initializable#initialize()
-     */
+    @Override
     public void initialize() throws InitializationException
     {
         setPriority(4000);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.xwiki10.Filter#filter(java.lang.String,
-     *      org.xwiki.rendering.parser.xwiki10.FilterContext)
-     */
+    @Override
     public String filter(String content, FilterContext filterContext)
     {
         StringBuffer result = new StringBuffer();

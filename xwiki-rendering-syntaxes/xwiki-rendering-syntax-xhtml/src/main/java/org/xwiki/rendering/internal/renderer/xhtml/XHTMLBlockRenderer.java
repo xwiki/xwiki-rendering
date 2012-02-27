@@ -42,10 +42,6 @@ public class XHTMLBlockRenderer extends AbstractBlockRenderer
     @Named("xhtml/1.0")
     private PrintRendererFactory xhtmlRendererFactory;
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.rendering.internal.renderer.AbstractBlockRenderer#getPrintRendererFactory()
-     */
     @Override
     protected PrintRendererFactory getPrintRendererFactory()
     {

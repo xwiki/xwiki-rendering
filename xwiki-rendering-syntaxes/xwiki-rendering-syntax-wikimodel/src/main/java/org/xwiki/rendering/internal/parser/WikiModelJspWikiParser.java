@@ -53,21 +53,12 @@ public class WikiModelJspWikiParser extends AbstractWikiModelParser
     @Named("default/image")
     private ResourceReferenceParser imageReferenceParser;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.parser.Parser#getSyntax()
-     */
+    @Override
     public Syntax getSyntax()
     {
         return Syntax.JSPWIKI_1_0;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser#createWikiModelParser()
-     */
     @Override
     public IWikiParser createWikiModelParser()
     {

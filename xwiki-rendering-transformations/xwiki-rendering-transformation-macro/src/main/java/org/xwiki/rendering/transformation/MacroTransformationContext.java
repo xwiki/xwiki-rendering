@@ -182,10 +182,6 @@ public class MacroTransformationContext implements Cloneable
         this.transformationContext.setId(id);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see Object#clone()
-     */
     @Override
     public MacroTransformationContext clone()
     {
