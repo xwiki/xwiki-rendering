@@ -101,12 +101,6 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
         }
     }
 
-    private void emptyElement(String elemntName, String[][] parameters)
-    {
-        startElement(elemntName, parameters);
-        endElement(elemntName);
-    }
-
     private void startElement(String elemntName, String[][] parameters)
     {
         try {

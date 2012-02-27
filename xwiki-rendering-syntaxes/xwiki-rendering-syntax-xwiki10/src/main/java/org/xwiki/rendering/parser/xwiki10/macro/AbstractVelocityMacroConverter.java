@@ -54,11 +54,13 @@ public abstract class AbstractVelocityMacroConverter implements VelocityMacroCon
         this.parameterNameList.add(parameterName);
     }
 
+    @Override
     public boolean protectResult()
     {
         return true;
     }
 
+    @Override
     public boolean isInline()
     {
         return true;
@@ -111,6 +113,7 @@ public abstract class AbstractVelocityMacroConverter implements VelocityMacroCon
         return cleaned;
     }
 
+    @Override
     public String convert(String name, List<String> parameters, FilterContext context)
     {
         StringBuffer begin = new StringBuffer();

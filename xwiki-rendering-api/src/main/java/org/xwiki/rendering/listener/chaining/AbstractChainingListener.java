@@ -51,9 +51,7 @@ public abstract class AbstractChainingListener implements ChainingListener
         this.listenerChain = listenerChain;
     }
 
-    /**
-     * @return the listener chain used to know the next listener to call on events
-     */
+    @Override
     public ListenerChain getListenerChain()
     {
         return this.listenerChain;

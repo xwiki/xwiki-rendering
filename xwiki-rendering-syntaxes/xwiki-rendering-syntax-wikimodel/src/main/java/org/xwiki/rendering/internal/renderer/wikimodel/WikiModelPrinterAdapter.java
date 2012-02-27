@@ -38,11 +38,13 @@ public class WikiModelPrinterAdapter implements IWikiPrinter
         this.printer = printer;
     }
 
+    @Override
     public void print(String text)
     {
         this.printer.print(text);
     }
 
+    @Override
     public void println(String text)
     {
         this.printer.println(text);

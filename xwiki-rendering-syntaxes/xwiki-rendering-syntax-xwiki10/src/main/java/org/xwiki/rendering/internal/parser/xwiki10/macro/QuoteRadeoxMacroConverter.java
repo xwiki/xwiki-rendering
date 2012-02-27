@@ -58,6 +58,7 @@ public class QuoteRadeoxMacroConverter extends AbstractRadeoxMacroConverter
         return result.toString();
     }
 
+    @Override
     public boolean supportContent()
     {
         return true;

@@ -30,7 +30,6 @@ import org.xwiki.rendering.parser.xwiki10.macro.AbstractRadeoxMacroConverter;
 import org.xwiki.rendering.parser.xwiki10.macro.RadeoxMacroParameters;
 
 /**
- * 
  * @version $Id$
  * @since 1.8M1
  */
@@ -59,12 +58,13 @@ public class CodeRadeoxMacroConverter extends AbstractRadeoxMacroConverter
     {
         return super.convertContent(content, parameters, filterContext).trim();
     }
-    
+
+    @Override
     public boolean supportContent()
     {
         return true;
     }
-    
+
     @Override
     public boolean isInline()
     {

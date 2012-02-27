@@ -19,11 +19,12 @@
  */
 package org.xwiki.rendering.internal.transformation.icon;
 
-import org.jmock.Expectations;
+import java.io.StringReader;
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.component.descriptor.DefaultComponentDescriptor;
-import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.SpecialSymbolBlock;
@@ -36,11 +37,6 @@ import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 import org.xwiki.test.AbstractMockingComponentTestCase;
 import org.xwiki.test.annotation.MockingRequirement;
-
-import java.io.StringReader;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Properties;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.internal.transformation.icon.IconTransformation}.

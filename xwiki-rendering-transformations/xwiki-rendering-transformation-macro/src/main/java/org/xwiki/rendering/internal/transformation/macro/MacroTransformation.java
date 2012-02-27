@@ -104,6 +104,7 @@ public class MacroTransformation extends AbstractTransformation
             this.macroBlock = macroBlock;
         }
 
+        @Override
         public int compareTo(MacroHolder holder)
         {
             return this.macro.compareTo(holder.macro);

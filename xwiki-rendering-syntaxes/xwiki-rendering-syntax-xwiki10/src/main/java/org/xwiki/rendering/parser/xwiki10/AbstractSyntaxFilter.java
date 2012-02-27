@@ -39,6 +39,7 @@ public abstract class AbstractSyntaxFilter extends AbstractFilter
         this.syntax20 = syntax20;
     }
 
+    @Override
     public String filter(String content, FilterContext filterContext)
     {
         String protectedString = filterContext.addProtectedContent(this.syntax20, true);

@@ -87,6 +87,7 @@ public class XWikiImageTagHandler extends ImgTagHandler
         }
     }
 
+    @Override
     protected WikiParameters removeMeaningfulParameters(WikiParameters parameters)
     {
         WikiParameter classParam = parameters.getParameter("class");

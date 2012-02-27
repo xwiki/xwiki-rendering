@@ -20,7 +20,6 @@
 package org.xwiki.rendering.renderer.printer;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import org.dom4j.Element;
@@ -54,11 +53,7 @@ public class XMLWikiPrinter
     {
         this.wikiWriter = new WikiWriter(printer);
 
-        try {
-            this.xmlWriter = new XHTMLWriter(this.wikiWriter);
-        } catch (UnsupportedEncodingException e) {
-            // TODO: add error log "should not append"
-        }
+        this.xmlWriter = new XHTMLWriter(this.wikiWriter);
     }
 
     public XMLWriter getXMLWriter()

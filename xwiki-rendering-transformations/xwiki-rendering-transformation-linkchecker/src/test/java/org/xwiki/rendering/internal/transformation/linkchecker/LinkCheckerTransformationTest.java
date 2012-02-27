@@ -28,7 +28,6 @@ import org.jmock.Expectations;
 import org.jmock.States;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.block.XDOM;

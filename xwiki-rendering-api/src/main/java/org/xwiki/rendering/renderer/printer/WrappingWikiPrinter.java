@@ -34,11 +34,13 @@ public class WrappingWikiPrinter implements WikiPrinter
         this.printer = printer;
     }
 
+    @Override
     public void print(String text)
     {
         getWrappedPrinter().print(text);
     }
 
+    @Override
     public void println(String text)
     {
         getWrappedPrinter().println(text);

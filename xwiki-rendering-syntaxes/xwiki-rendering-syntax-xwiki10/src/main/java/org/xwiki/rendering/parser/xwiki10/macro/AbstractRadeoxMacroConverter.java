@@ -48,21 +48,23 @@ public abstract class AbstractRadeoxMacroConverter implements RadeoxMacroConvert
         this.name = name;
     }
 
+    @Override
     public String getParameterName(int parameterIndex)
     {
         return getParameterName(this.parametersNames.get(parameterIndex));
     }
 
+    @Override
     public int getParameterType(int parameterIndex)
     {
         return getParameterType(this.parametersNames.get(parameterIndex));
     }
-    
+
     private String getParameterName(Object[] objects)
     {
         return objects == null ? null : (String) objects[0];
     }
-    
+
     private int getParameterType(Object[] objects)
     {
         return objects == null ? PARAMETER_SIMPLE : (Integer) objects[1];
@@ -78,11 +80,13 @@ public abstract class AbstractRadeoxMacroConverter implements RadeoxMacroConvert
         this.parametersNames.add(new Object[] {parameterName, paramType});
     }
 
+    @Override
     public boolean protectResult()
     {
         return true;
     }
 
+    @Override
     public boolean isInline()
     {
         return true;
@@ -119,6 +123,7 @@ public abstract class AbstractRadeoxMacroConverter implements RadeoxMacroConvert
         return content;
     }
 
+    @Override
     public String convert(String name, RadeoxMacroParameters parameters, String content, FilterContext filterContext)
     {
         StringBuffer result = new StringBuffer();

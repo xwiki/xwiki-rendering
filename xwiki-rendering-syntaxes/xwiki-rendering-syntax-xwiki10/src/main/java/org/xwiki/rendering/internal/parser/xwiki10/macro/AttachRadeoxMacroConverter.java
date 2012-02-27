@@ -89,6 +89,7 @@ public class AttachRadeoxMacroConverter extends AbstractRadeoxMacroConverter
         result.append(parameters.containsKey("file") ? parameters.get("file") : parameters.get(""));
     }
 
+    @Override
     public boolean supportContent()
     {
         return false;

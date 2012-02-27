@@ -78,6 +78,7 @@ public class XWikiParser implements Parser, Initializable
         // order filters
         Collections.sort(this.filters, new Comparator<Filter>()
         {
+            @Override
             public int compare(Filter filter1, Filter filter2)
             {
                 return filter1.getPriority() - filter2.getPriority();

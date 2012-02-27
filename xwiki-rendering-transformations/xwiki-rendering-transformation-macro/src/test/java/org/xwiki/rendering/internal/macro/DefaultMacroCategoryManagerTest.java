@@ -46,6 +46,7 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
 {
     private MacroCategoryManager macroCategoryManager;
     
+    @Override
     @Before
     public void setUp() throws Exception
     {

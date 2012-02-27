@@ -29,11 +29,12 @@ public abstract class AbstractFilter implements Filter
 {
     private int priority;
 
+    @Override
     public int getPriority()
     {
         return this.priority;
     }
-    
+
     public void setPriority(int priority)
     {
         this.priority = priority;

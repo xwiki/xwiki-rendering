@@ -56,21 +56,18 @@ public class AnnotatedXHTMLImageRenderer implements XHTMLImageRenderer
     @Inject
     private XHTMLImageRenderer defaultImageRenderer;
 
+    @Override
     public void setXHTMLWikiPrinter(XHTMLWikiPrinter printer)
     {
         this.defaultImageRenderer.setXHTMLWikiPrinter(printer);
     }
 
+    @Override
     public XHTMLWikiPrinter getXHTMLWikiPrinter()
     {
         return this.defaultImageRenderer.getXHTMLWikiPrinter();
     }
 
-    /**
-     * {@inheritDoc}
-     * @see XHTMLImageRenderer#onImage(org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
-     * @since 2.5RC1
-     */
     @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {

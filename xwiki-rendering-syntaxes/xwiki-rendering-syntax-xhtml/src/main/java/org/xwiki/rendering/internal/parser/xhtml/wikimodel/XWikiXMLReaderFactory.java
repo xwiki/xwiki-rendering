@@ -63,6 +63,7 @@ public class XWikiXMLReaderFactory implements XMLReaderFactory
     @Inject
     protected EntityResolver entityResolver;
 
+    @Override
     public XMLReader createXMLReader() throws SAXException, ParserConfigurationException
     {
         XMLReader xmlReader;

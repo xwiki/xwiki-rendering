@@ -58,21 +58,25 @@ public class MacroTransformationContextTest
 
         Transformation transformation = new Transformation()
         {
+            @Override
             public int getPriority()
             {
                 throw new RuntimeException("dummy");
             }
 
+            @Override
             public void transform(XDOM dom, Syntax syntax) throws TransformationException
             {
                 throw new RuntimeException("dummy");
             }
 
+            @Override
             public void transform(Block block, TransformationContext context) throws TransformationException
             {
                 throw new RuntimeException("dummy");
             }
 
+            @Override
             public int compareTo(Transformation transformation)
             {
                 throw new RuntimeException("dummy");

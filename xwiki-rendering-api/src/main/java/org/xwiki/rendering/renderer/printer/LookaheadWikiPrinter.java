@@ -47,12 +47,14 @@ public class LookaheadWikiPrinter extends WrappingWikiPrinter
         super.println(text);
     }
 
+    @Override
     public void print(String text)
     {
         flush();
         printInternal(text);
     }
 
+    @Override
     public void println(String text)
     {
         flush();

@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.renderer.printer;
 
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 import org.dom4j.io.OutputFormat;
@@ -39,7 +38,7 @@ public class XHTMLWriter extends XMLWriter
         DEFAULT_XHTML_FORMAT.setXHTML(true);
     }
 
-    public XHTMLWriter(Writer writer) throws UnsupportedEncodingException
+    public XHTMLWriter(Writer writer)
     {
         super(writer, DEFAULT_XHTML_FORMAT);
 

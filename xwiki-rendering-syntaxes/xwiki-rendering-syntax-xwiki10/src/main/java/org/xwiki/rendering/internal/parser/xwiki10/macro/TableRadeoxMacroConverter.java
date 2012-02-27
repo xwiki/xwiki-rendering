@@ -130,6 +130,7 @@ public class TableRadeoxMacroConverter extends AbstractRadeoxMacroConverter
         return result.toString();
     }
 
+    @Override
     public boolean supportContent()
     {
         return true;

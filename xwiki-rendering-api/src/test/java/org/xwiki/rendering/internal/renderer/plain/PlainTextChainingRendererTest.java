@@ -24,11 +24,9 @@ import java.util.Collections;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
-import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.test.AbstractComponentTestCase;
 
@@ -40,18 +38,19 @@ import org.xwiki.test.AbstractComponentTestCase;
  */
 public class PlainTextChainingRendererTest extends AbstractComponentTestCase
 {
-	private PlainTextRenderer renderer;
-	
-	@Before
-	public void setUp() throws Exception
-	{
-		super.setUp();
+    private PlainTextRenderer renderer;
 
-		// Force the link label generator to be null
-		this.renderer = new PlainTextRenderer();
-		this.renderer.initialize();
-	}
-	
+    @Override
+    @Before
+    public void setUp() throws Exception
+    {
+        super.setUp();
+
+        // Force the link label generator to be null
+        this.renderer = new PlainTextRenderer();
+        this.renderer.initialize();
+    }
+
     @Test
     public void testBeginLinkWhenLinkLabelGeneratorIsNull() throws Exception
     {

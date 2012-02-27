@@ -34,6 +34,7 @@ public class DefaultSyntaxFactoryTest extends AbstractComponentTestCase
 {
     private SyntaxFactory syntaxFactory;
 
+    @Override
     @Before
     public void setUp() throws Exception
     {

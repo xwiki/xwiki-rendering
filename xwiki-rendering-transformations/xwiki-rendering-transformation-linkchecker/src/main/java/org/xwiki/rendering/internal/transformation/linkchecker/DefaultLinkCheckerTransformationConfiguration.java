@@ -83,6 +83,7 @@ public class DefaultLinkCheckerTransformationConfiguration implements LinkChecke
     /**
      * @param checkTimeout the time after which a link should be checked again for validity
      */
+    @Override
     public void setCheckTimeout(long checkTimeout)
     {
         this.checkTimeout = checkTimeout;

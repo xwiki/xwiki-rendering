@@ -25,7 +25,7 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 
 /**
- * Generate a string representation of a {@link}'s reference, in XWiki Syntax 2.1.
+ * Generate a string representation of a link's reference, in XWiki Syntax 2.1.
  *
  * @version $Id$
  * @since 2.3M2

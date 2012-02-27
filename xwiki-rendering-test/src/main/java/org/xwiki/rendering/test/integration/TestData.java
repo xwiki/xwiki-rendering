@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.test.integration;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

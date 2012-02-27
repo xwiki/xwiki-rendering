@@ -72,9 +72,7 @@ public class XWiki20LinkReferenceParser extends GenericLinkReferenceParser
      */
     public static final List<String> URI_PREFIXES = Arrays.asList("mailto", "image", "attach");
 
-    /**
-     * @return the list of URI prefixes the link parser recognizes
-     */
+    @Override
     protected List<String> getAllowedURIPrefixes()
     {
         return URI_PREFIXES;

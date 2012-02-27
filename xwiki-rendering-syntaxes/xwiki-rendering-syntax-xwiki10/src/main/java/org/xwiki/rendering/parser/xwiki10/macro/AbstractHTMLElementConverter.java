@@ -43,21 +43,25 @@ public abstract class AbstractHTMLElementConverter implements HTMLElementConvert
         this.elementName = elementName;
     }
 
+    @Override
     public String getElementName()
     {
         return this.elementName;
     }
 
+    @Override
     public boolean protectResult()
     {
         return false;
     }
 
+    @Override
     public boolean isInline()
     {
         return true;
     }
 
+    @Override
     public abstract String convert(String name, Map<String, String> parameters, String content,
         HTMLFilterContext filterContext);
 
