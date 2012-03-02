@@ -29,10 +29,9 @@ import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
 
 /**
- * Handle Macro definitions in comments (we store macro definitions in a comment
- * since it wouldn't be possible at all to reconstruct them from the result of
- * their execution).
- *
+ * Handle Macro definitions in comments (we store macro definitions in a comment since it wouldn't be possible at all to
+ * reconstruct them from the result of their execution).
+ * 
  * @version $Id$
  * @since 4.0M1
  */
@@ -61,31 +60,24 @@ public class CommentHandler
                     macroName = macroString.substring(0, index);
 
                     // Remove macro name part and continue parsing
-                    macroString = macroString.substring(index
-                        + MACRO_SEPARATOR.length());
+                    macroString = macroString.substring(index + MACRO_SEPARATOR.length());
 
                     index = macroString.indexOf(MACRO_SEPARATOR);
                     if (index != -1) {
                         // Extract macro parameters
                         List<WikiParameter> parameters = new ArrayList<WikiParameter>();
-                        index = WikiScannerUtil.splitToPairs(
-                            macroString,
-                            parameters,
-                            null,
-                            MACRO_SEPARATOR);
+                        index = WikiScannerUtil.splitToPairs(macroString, parameters, null, MACRO_SEPARATOR);
                         macroParams = new WikiParameters(parameters);
 
                         // Extract macro content
                         if (macroString.length() > index) {
-                            macroContent = macroString.substring(index
-                                + MACRO_SEPARATOR.length());
+                            macroContent = macroString.substring(index + MACRO_SEPARATOR.length());
                         }
                     } else {
                         // There is only parameters remaining in the string, the
                         // macro does not have content
                         // Extract macro parameters
-                        macroParams = WikiParameters
-                            .newWikiParameters(macroString);
+                        macroParams = WikiParameters.newWikiParameters(macroString);
                     }
                 } else {
                     // There is only macro name, the macro does not have
@@ -97,20 +89,13 @@ public class CommentHandler
                 // If we're inside a block element then issue an inline macro
                 // event
                 // otherwise issue a block macro event
-                Stack<Boolean> insideBlockElementsStack = (Stack<Boolean>) stack
-                    .getStackParameter("insideBlockElement");
-                if (!insideBlockElementsStack.isEmpty()
-                    && insideBlockElementsStack.peek())
-                {
-                    stack.getScannerContext().onMacroInline(
-                        macroName,
-                        macroParams,
-                        macroContent);
+                Stack<Boolean> insideBlockElementsStack =
+                    (Stack<Boolean>) stack.getStackParameter("insideBlockElement");
+                if (!insideBlockElementsStack.isEmpty() && insideBlockElementsStack.peek()) {
+                    stack.getScannerContext().onMacroInline(macroName, macroParams, macroContent);
                 } else {
-                    stack.getScannerContext().onMacroBlock(
-                        macroName,
-                        macroParams,
-                        macroContent);
+                    TagHandler.sendEmptyLines(stack);
+                    stack.getScannerContext().onMacroBlock(macroName, macroParams, macroContent);
                 }
             }
 

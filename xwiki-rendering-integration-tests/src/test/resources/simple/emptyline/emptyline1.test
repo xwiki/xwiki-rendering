@@ -1,0 +1,28 @@
+.#-------------------------------------------------------------------
+.input|xhtml/1.0
+.# Make sure XHTML comment representing a standalone block is taking care of
+.# trailing empty lines
+.#-------------------------------------------------------------------
+<h1>Foo</h1>
+<div class="wikimodel-emptyline"></div>
+<!--startmacro:toc|-|--><!--stopmacro-->
+<div class="wikimodel-emptyline"></div>
+<h2>Bar</h2>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginSection
+beginHeader [1, HFoo]
+onWord [Foo]
+endHeader [1, HFoo]
+onEmptyLines [1]
+onMacroStandalone [toc] []
+onEmptyLines [1]
+beginSection
+beginHeader [2, HBar]
+onWord [Bar]
+endHeader [2, HBar]
+endSection
+endSection
+endDocument

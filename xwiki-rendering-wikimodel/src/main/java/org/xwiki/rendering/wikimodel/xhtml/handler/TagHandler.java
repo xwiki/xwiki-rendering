@@ -23,6 +23,7 @@ import java.util.Stack;
 
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
+import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
 
 /**
  * @version $Id$
@@ -30,30 +31,6 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
  */
 public class TagHandler
 {
-    /**
-     * @return <code>true</code> if the current tag represented by the given
-     *         context requires a parent document
-     */
-    private static boolean requiresParentDocument(XhtmlHandler.TagStack.TagContext context)
-    {
-        if (context == null) {
-            return true;
-        }
-        if (context.fHandler == null || !context.fHandler.requiresDocument()) {
-            return false;
-        }
-        boolean inContainer = false;
-        XhtmlHandler.TagStack.TagContext parent = context.getParent();
-        while (parent != null) {
-            if (parent.fHandler != null) {
-                inContainer = parent.fHandler.isDocumentContainer();
-                break;
-            }
-            parent = parent.getParent();
-        }
-        return inContainer;
-    }
-
     private boolean fAccumulateContent;
 
     /**
@@ -62,14 +39,12 @@ public class TagHandler
     private final boolean fContentContainer;
 
     /**
-     * This flag shows if the current tag can be used as a container for
-     * embedded documents.
+     * This flag shows if the current tag can be used as a container for embedded documents.
      */
     private final boolean fDocumentContainer;
 
     /**
-     * This flag shows if the current tag should be created as a direct child of
-     * a document.
+     * This flag shows if the current tag should be created as a direct child of a document.
      */
     private final boolean fRequiresDocument;
 
@@ -78,10 +53,7 @@ public class TagHandler
      * @param requiresDocument
      * @param contentContainer
      */
-    public TagHandler(
-        boolean documentContainer,
-        boolean requiresDocument,
-        boolean contentContainer)
+    public TagHandler(boolean documentContainer, boolean requiresDocument, boolean contentContainer)
     {
         fDocumentContainer = documentContainer;
         fRequiresDocument = requiresDocument;
@@ -95,27 +67,21 @@ public class TagHandler
     public void beginElement(XhtmlHandler.TagStack.TagContext context)
     {
 
-        Stack<Boolean> insideBlockElementsStack = (Stack<Boolean>) context
-            .getTagStack()
-            .getStackParameter("insideBlockElement");
+        Stack<Boolean> insideBlockElementsStack =
+            (Stack<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
 
         if (isBlockHandler(context)) {
             // If we're starting a block tag and we're in inline mode (ie inside
             // a block element) then start a nested document
             // and save the parent tag, see endElement().
-            if (!insideBlockElementsStack.isEmpty()
-                && insideBlockElementsStack.peek())
-            {
+            if (!insideBlockElementsStack.isEmpty() && insideBlockElementsStack.peek()) {
                 beginDocument(context);
 
-                context.getTagStack().setStackParameter(
-                    "documentParent",
-                    context.getParent());
+                context.getTagStack().setStackParameter("documentParent", context.getParent());
 
                 // Get the new inside block element state
-                insideBlockElementsStack = (Stack<Boolean>) context
-                    .getTagStack()
-                    .getStackParameter("insideBlockElement");
+                insideBlockElementsStack =
+                    (Stack<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
             }
 
             insideBlockElementsStack.push(true);
@@ -134,18 +100,16 @@ public class TagHandler
         // opened.
         // To verify this we check the current tag being closed and verify if
         // it's the one saved when the nested document was opened.
-        XhtmlHandler.TagStack.TagContext docParent = (XhtmlHandler.TagStack.TagContext) context
-            .getTagStack()
-            .getStackParameter("documentParent");
+        XhtmlHandler.TagStack.TagContext docParent =
+            (XhtmlHandler.TagStack.TagContext) context.getTagStack().getStackParameter("documentParent");
         if (context == docParent) {
             endDocument(context);
         }
 
         end(context);
 
-        Stack<Boolean> insideBlockElementsStack = (Stack<Boolean>) context
-            .getTagStack()
-            .getStackParameter("insideBlockElement");
+        Stack<Boolean> insideBlockElementsStack =
+            (Stack<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
 
         if (isBlockHandler(context)) {
             insideBlockElementsStack.pop();
@@ -182,11 +146,15 @@ public class TagHandler
      */
     public static void sendEmptyLines(XhtmlHandler.TagStack.TagContext context)
     {
-        int lineCount = (Integer) context.getTagStack().getStackParameter(
-            "emptyLinesCount");
+        sendEmptyLines(context.getTagStack());
+    }
+
+    public static void sendEmptyLines(TagStack stack)
+    {
+        int lineCount = (Integer) stack.getStackParameter("emptyLinesCount");
         if (lineCount > 0) {
-            context.getScannerContext().onEmptyLines(lineCount);
-            context.getTagStack().setStackParameter("emptyLinesCount", 0);
+            stack.getScannerContext().onEmptyLines(lineCount);
+            stack.setStackParameter("emptyLinesCount", 0);
         }
     }
 
@@ -196,8 +164,7 @@ public class TagHandler
     }
 
     /**
-     * @return true if the current handler handles block tags (paragraphs,
-     *         lists, tables, headers, etc)
+     * @return true if the current handler handles block tags (paragraphs, lists, tables, headers, etc)
      */
     public boolean isBlockHandler(XhtmlHandler.TagStack.TagContext context)
     {
@@ -218,16 +185,13 @@ public class TagHandler
             context.getScannerContext().beginDocument(params);
         }
 
-        Object ignoreElements = context.getTagStack().getStackParameter(
-            "ignoreElements");
+        Object ignoreElements = context.getTagStack().getStackParameter("ignoreElements");
 
         // Stack context parameters since we enter in a new document
         context.getTagStack().pushStackParameters();
 
         // ignoreElements apply on embedded document
-        context.getTagStack().setStackParameter(
-            "ignoreElements",
-            ignoreElements);
+        context.getTagStack().setStackParameter("ignoreElements", ignoreElements);
     }
 
     protected void endDocument(XhtmlHandler.TagStack.TagContext context)
