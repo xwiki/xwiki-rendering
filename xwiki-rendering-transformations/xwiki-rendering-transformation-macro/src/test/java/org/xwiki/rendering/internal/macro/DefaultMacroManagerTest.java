@@ -49,7 +49,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
 {
     // Mock all required components except for some for which we want to use the real implementations since they make
     // the test easier to write (no need to mock them).
-    @MockingRequirement(exceptions = { ComponentManager.class, MacroIdFactory.class, Logger.class })
+    @MockingRequirement(exceptions = { ComponentManager.class, MacroIdFactory.class })
     private DefaultMacroManager macroManager;
 
     @Test
@@ -140,10 +140,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
         // a mock one.
         final ComponentManager mockRootComponentManager = getMockery().mock(ComponentManager.class);
         ReflectionUtils.setFieldValue(this.macroManager, "rootComponentManager", mockRootComponentManager);
-
-        // Use a mock logger in order to assert what is sent to it.
-        final Logger mockLogger = getMockery().mock(Logger.class);
-        ReflectionUtils.setFieldValue(this.macroManager, "logger", mockLogger);
+        final Logger logger = getComponentManager().lookup(Logger.class);
 
         getMockery().checking(new Expectations() {{
             allowing(mockRootComponentManager).lookup(ComponentManager.class, "context");
@@ -152,7 +149,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
             will(returnValue(Collections.singletonMap("macro/invalidsyntax", "dummy")));
 
             // Test: Make sure the logger is called with the following content. This is the assert for this test.
-            oneOf(mockLogger).warn("Invalid Macro descriptor format for hint "
+            oneOf(logger).warn("Invalid Macro descriptor format for hint "
                 + "[macro/invalidsyntax]. The hint should contain either the macro name only or the macro name "
                 + "followed by the syntax for which it is valid. In that case the macro name should be followed by "
                 + "a \"/\" followed by the syntax name followed by another \"/\" followed by the syntax version. "
