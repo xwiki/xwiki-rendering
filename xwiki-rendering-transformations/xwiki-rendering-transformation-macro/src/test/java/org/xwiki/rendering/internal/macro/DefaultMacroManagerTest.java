@@ -140,7 +140,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
         // a mock one.
         final ComponentManager mockRootComponentManager = getMockery().mock(ComponentManager.class);
         ReflectionUtils.setFieldValue(this.macroManager, "rootComponentManager", mockRootComponentManager);
-        final Logger logger = getComponentManager().lookup(Logger.class);
+        final Logger logger = getMockLogger();
 
         getMockery().checking(new Expectations() {{
             allowing(mockRootComponentManager).lookup(ComponentManager.class, "context");
