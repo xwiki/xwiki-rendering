@@ -35,14 +35,14 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
-import org.xwiki.test.AbstractMockingComponentTestCase;
+import org.xwiki.test.AbstractComponentTestCase;
 
 /**
  * Unit tests for {@link MacroTransformation}.
  * 
  * @version $Id$
  */
-public class MacroTransformationTest extends AbstractMockingComponentTestCase
+public class MacroTransformationTest extends AbstractComponentTestCase
 {
     private Transformation transformation;
     
