@@ -19,7 +19,9 @@
  */
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,6 +31,7 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.transformation.linkchecker.InvalidURLEvent;
+import org.xwiki.rendering.transformation.linkchecker.LinkCheckerThreadInitializer;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationConfiguration;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
@@ -98,6 +101,19 @@ public class LinkCheckerThread extends Thread
     @Override
     public void run()
     {
+        // Allow external code to perform initialization of this thread.
+        // This is useful for example if externa lcode needs to initialize the Execution Context.
+        try {
+            List<LinkCheckerThreadInitializer> initializers =
+                this.componentManager.lookupList((Type) LinkCheckerThreadInitializer.class);
+            for (LinkCheckerThreadInitializer initializer : initializers) {
+                initializer.initialize();
+            }
+        } catch (ComponentLookupException e) {
+            // Failed to run thread initialization. This is critical, stop the thread.
+            throw new RuntimeException("Failed to initialize Link Checker Thread", e);
+        }
+
         while (!this.shouldStop) {
             try {
                 Thread.sleep(300L);
