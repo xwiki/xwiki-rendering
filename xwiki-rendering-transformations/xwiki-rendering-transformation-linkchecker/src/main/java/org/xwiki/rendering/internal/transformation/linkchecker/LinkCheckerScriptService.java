@@ -49,7 +49,7 @@ public class LinkCheckerScriptService implements ScriptService
     private LinkStateManager linkStateManager;
 
     /**
-     * @return the checked link statses, see {@link LinkStateManager}
+     * @return the checked link states, see {@link LinkStateManager}
      */
     public Map<String, Map<String, LinkState>> getLinkStates()
     {
