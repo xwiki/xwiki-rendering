@@ -31,6 +31,24 @@ import org.junit.Test;
 public class ResourceReferenceTest
 {
     @Test
+    public void testToString()
+    {
+        ResourceReference reference = new ResourceReference("reference", ResourceType.DOCUMENT);
+        Assert.assertEquals("Typed = [true] Type = [doc] Reference = [reference]", reference.toString());
+
+        reference.addBaseReference("baseref1");
+        reference.addBaseReference("baseref2");
+        Assert.assertEquals("Typed = [true] Type = [doc] Reference = [reference] "
+            + "Base References = [[baseref1], [baseref2]]", reference.toString());
+
+        reference.setParameter("name1", "value1");
+        reference.setParameter("name2", "value2");
+        Assert.assertEquals("Typed = [true] Type = [doc] Reference = [reference] "
+            + "Base References = [[baseref1], [baseref2]] "
+            + "Parameters = [[name1] = [value1], [name2] = [value2]]", reference.toString());
+    }
+
+    @Test
     public void testEquals()
     {
         ResourceReference reference1 = new ResourceReference("reference", ResourceType.DOCUMENT);
