@@ -22,12 +22,13 @@ package org.xwiki.rendering.listener.reference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.xwiki.rendering.internal.util.XWikiToStringBuilder;
 
 /**
  * Represents a reference to a Resource (document, image, attachment, mail, etc).
@@ -230,123 +231,24 @@ public class ResourceReference implements Cloneable
     @Override
     public String toString()
     {
-        StringBuffer buffer = new StringBuffer();
-        appendPair(buffer, "Typed", isTyped());
-        appendSeparator(buffer);
-        appendPair(buffer, "Type", getType().getScheme());
+        ToStringBuilder builder = new XWikiToStringBuilder(this);
+        builder = builder.append("Typed", isTyped())
+            .append("Type", getType().getScheme());
 
         if (getReference() != null) {
-            appendSeparator(buffer);
-            appendPair(buffer, "Reference", getReference());
+            builder = builder.append("Reference", getReference());
         }
 
         if (!getBaseReferences().isEmpty()) {
-            appendSeparator(buffer);
-            appendList(buffer, "Base References", getBaseReferences());
+            builder = builder.append("Base References", getBaseReferences());
         }
 
         Map<String, String> params = getParameters();
         if (!params.isEmpty()) {
-            appendSeparator(buffer);
-            appendMap(buffer, "Parameters", params);
+            builder = builder.append("Parameters", params);
         }
 
-        return buffer.toString();
-    }
-
-    /**
-     * Appends a Pair of key/value to the passed buffer, using the format {@code key = [value]}.
-     *
-     * @param buffer the buffer to append to
-     * @param key the key to append
-     * @param value the value to append
-     */
-    private void appendPair(StringBuffer buffer, String key, Object value)
-    {
-        buffer.append(key);
-        buffer.append(' ');
-        buffer.append('=');
-        buffer.append(' ');
-        buffer.append('[');
-        buffer.append(value);
-        buffer.append(']');
-    }
-
-    /**
-     * Appends a List of key/values to the passed buffer, using the format {@code key = [[value1], ...[valueN]]}.
-     *
-     * @param buffer the buffer to append to
-     * @param key the key to append
-     * @param values the values to append
-     */
-    private void appendList(StringBuffer buffer, String key, List values)
-    {
-        buffer.append(key);
-        buffer.append(' ');
-        buffer.append('=');
-        buffer.append(' ');
-        buffer.append('[');
-
-        Iterator<String> it = values.listIterator();
-        while (it.hasNext()) {
-            Object value = it.next();
-            buffer.append('[');
-            buffer.append(value);
-            buffer.append(']');
-            if (it.hasNext()) {
-                buffer.append(',');
-                buffer.append(' ');
-            }
-        }
-
-        buffer.append(']');
-    }
-
-    /**
-     * Appends a list of key/values to the passed buffer, using the format
-     * {@code key = [[key1] = [value1], ...[keyN] = [valueN]]}.
-     *
-     * @param buffer the buffer to append to
-     * @param key the key to append
-     * @param values the values to append
-     */
-    private void appendMap(StringBuffer buffer, String key, Map values)
-    {
-        buffer.append(key);
-        buffer.append(' ');
-        buffer.append('=');
-        buffer.append(' ');
-        buffer.append('[');
-
-        Iterator<Map.Entry<String, Object>> it = values.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, Object> entry = it.next();
-            buffer.append('[');
-            buffer.append(entry.getKey());
-            buffer.append(']');
-            buffer.append(' ');
-            buffer.append('=');
-            buffer.append(' ');
-            buffer.append('[');
-            buffer.append(entry.getValue());
-            buffer.append(']');
-            if (it.hasNext()) {
-                buffer.append(',');
-                buffer.append(' ');
-            }
-        }
-
-        buffer.append(']');
-    }
-
-    /**
-     * Appends a separator to the passed buffer.
-     *
-     * @param buffer the buffer to append to
-     */
-    private void appendSeparator(StringBuffer buffer)
-    {
-        buffer.append(' ');
+        return builder.toString();
     }
 
     @Override

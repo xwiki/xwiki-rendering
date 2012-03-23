@@ -53,7 +53,7 @@ public class DefaultImageReferenceParserTest extends AbstractComponentTestCase
         ResourceReference reference = parser.parse("wiki:space.page@filename");
         Assert.assertEquals(ResourceType.ATTACHMENT, reference.getType());
         Assert.assertEquals("wiki:space.page@filename", reference.getReference());
-        Assert.assertEquals("Typed = [false] Type = [attach] Reference = [wiki:space.page@filename]",
+        Assert.assertEquals("Typed = [false], Type = [attach], Reference = [wiki:space.page@filename]",
             reference.toString());
         Assert.assertFalse(reference.isTyped());
 
@@ -61,7 +61,7 @@ public class DefaultImageReferenceParserTest extends AbstractComponentTestCase
         reference = parser.parse("scheme://server/path/to/image");
         Assert.assertEquals(ResourceType.URL, reference.getType());
         Assert.assertEquals("scheme://server/path/to/image", reference.getReference());
-        Assert.assertEquals("Typed = [false] Type = [url] Reference = [scheme://server/path/to/image]",
+        Assert.assertEquals("Typed = [false], Type = [url], Reference = [scheme://server/path/to/image]",
             reference.toString());
         Assert.assertFalse(reference.isTyped());
     }
@@ -73,7 +73,7 @@ public class DefaultImageReferenceParserTest extends AbstractComponentTestCase
         Assert.assertEquals(ResourceType.ATTACHMENT, reference.getType());
         Assert.assertEquals("wiki:space.page@filename", reference.getReference());
         Assert.assertTrue(reference.isTyped());
-        Assert.assertEquals("Typed = [true] Type = [attach] Reference = [wiki:space.page@filename]",
+        Assert.assertEquals("Typed = [true], Type = [attach], Reference = [wiki:space.page@filename]",
             reference.toString());
 
         // Verify path: support
@@ -81,13 +81,13 @@ public class DefaultImageReferenceParserTest extends AbstractComponentTestCase
         Assert.assertEquals(ResourceType.PATH, reference.getType());
         Assert.assertEquals("/some/image", reference.getReference());
         Assert.assertTrue(reference.isTyped());
-        Assert.assertEquals("Typed = [true] Type = [path] Reference = [/some/image]", reference.toString());
+        Assert.assertEquals("Typed = [true], Type = [path], Reference = [/some/image]", reference.toString());
 
         // Verify icon: support
         reference = parser.parse("icon:name");
         Assert.assertEquals(ResourceType.ICON, reference.getType());
         Assert.assertEquals("name", reference.getReference());
         Assert.assertTrue(reference.isTyped());
-        Assert.assertEquals("Typed = [true] Type = [icon] Reference = [name]", reference.toString());
+        Assert.assertEquals("Typed = [true], Type = [icon], Reference = [name]", reference.toString());
     }
 }
