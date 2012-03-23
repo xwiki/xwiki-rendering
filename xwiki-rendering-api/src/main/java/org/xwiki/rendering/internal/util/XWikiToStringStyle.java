@@ -29,7 +29,7 @@ import org.apache.commons.lang3.builder.StandardToStringStyle;
  * Custom XWiki Style for {@link org.apache.commons.lang3.builder.ToStringBuilder}.
  * Generates {@code toString()} result of the format:
  * <pre><code>
- * Typed = [true], Type = [doc], Reference = [reference], Base References = [[baseref1], [baseref2]],
+ * Typed = [true] Type = [doc] Reference = [reference] Base References = [[baseref1], [baseref2]],
  *   Parameters = [[name1] = [value1], [name2] = [value2]]
  * </code></pre>
  *
@@ -39,7 +39,7 @@ import org.apache.commons.lang3.builder.StandardToStringStyle;
 public class XWikiToStringStyle extends StandardToStringStyle
 {
     /**
-     * Sets the Xwiki style.
+     * Sets the XWiki style.
      */
     public XWikiToStringStyle()
     {
@@ -49,7 +49,7 @@ public class XWikiToStringStyle extends StandardToStringStyle
         setContentStart("");
         setContentEnd("]");
         setFieldNameValueSeparator(" = [");
-        setFieldSeparator("], ");
+        setFieldSeparator("] ");
     }
 
     @Override
