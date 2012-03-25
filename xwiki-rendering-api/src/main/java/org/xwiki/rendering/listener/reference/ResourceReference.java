@@ -28,7 +28,7 @@ import java.util.Map;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.xwiki.rendering.internal.util.XWikiToStringBuilder;
+import org.xwiki.text.XWikiToStringStyle;
 
 /**
  * Represents a reference to a Resource (document, image, attachment, mail, etc).
@@ -231,7 +231,11 @@ public class ResourceReference implements Cloneable
     @Override
     public String toString()
     {
-        ToStringBuilder builder = new XWikiToStringBuilder(this);
+        // TODO: This needs to be changed but it involves changing a lot of unit tests
+        XWikiToStringStyle style = new XWikiToStringStyle();
+        style.setSeparator("");
+        ToStringBuilder builder = new ToStringBuilder(this, style);
+
         builder = builder.append("Typed", isTyped())
             .append("Type", getType().getScheme());
 
