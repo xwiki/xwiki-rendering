@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.syntax;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * Represents a wiki syntax that the user can use to enter wiki content. A syntax is made of two parts: a type
  * (eg XWiki, Confluence, MediaWiki, etc) and a version (1.0, 2.0, etc). 
@@ -115,37 +118,30 @@ public class Syntax
     @Override
     public int hashCode()
     {
-        // Random number. See http://www.technofundo.com/tech/java/equalhash.html for the detail of this
-        // algorithm.
-        int hash = 7;
-        hash = 31 * hash + (null == getType() ? 0 : getType().hashCode());
-        hash = 31 * hash + (null == getVersion() ? 0 : getVersion().hashCode());
-        hash = 31 * hash + (null == getQualifier() ? 0 : getQualifier().hashCode());
-        return hash;
+        return new HashCodeBuilder(5, 7)
+            .append(getType())
+            .append(getVersion())
+            .append(getQualifier())
+            .toHashCode();
     }
 
     @Override
     public boolean equals(Object object)
     {
-        boolean result;
-
-        // See http://www.technofundo.com/tech/java/equalhash.html for the detail of this algorithm.
-        if (this == object) {
-            result = true;
-        } else {
-            if ((object == null) || (object.getClass() != this.getClass())) {
-                result = false;
-            } else {
-                // object must be Syntax at this point
-                Syntax syntax = (Syntax) object;
-                result =
-                    (getType() == syntax.getType() || (getType() != null && getType().equals(syntax.getType())))
-                        && (getVersion() == syntax.getVersion() || (getVersion() != null && getVersion().equals(
-                            syntax.getVersion())))
-                        && (getQualifier() == syntax.getQualifier() || (getQualifier() != null && getQualifier().equals(
-                            syntax.getQualifier())));
-            }
+        if (object == null) {
+            return false;
         }
-        return result;
+        if (object == this) {
+            return true;
+        }
+        if (object.getClass() != getClass()) {
+            return false;
+        }
+        Syntax rhs = (Syntax) object;
+        return new EqualsBuilder()
+            .append(getType(), rhs.getType())
+            .append(getVersion(), rhs.getVersion())
+            .append(getQualifier(), rhs.getQualifier())
+            .isEquals();
     }
 }
