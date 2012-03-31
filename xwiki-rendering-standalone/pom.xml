@@ -168,12 +168,6 @@
   <profiles>
     <profile>
       <id>integration-tests</id>
-      <activation>
-        <property>
-          <name>integration-tests</name>
-          <value>true</value>
-        </property>
-      </activation>
       <build>
         <plugins>
           <plugin>
