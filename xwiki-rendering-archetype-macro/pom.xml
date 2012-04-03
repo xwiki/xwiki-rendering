@@ -57,4 +57,31 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <!--Dependencies required by text project -->
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-xwiki2</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-transformation-macro</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
