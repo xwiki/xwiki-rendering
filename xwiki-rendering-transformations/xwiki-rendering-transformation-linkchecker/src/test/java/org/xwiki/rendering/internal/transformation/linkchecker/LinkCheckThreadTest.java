@@ -66,7 +66,7 @@ public class LinkCheckThreadTest extends AbstractComponentTestCase
                 will(returnValue(3600000L));
 
                 // This is the test:
-                oneOf(componentManager).lookupList((Type) LinkCheckerThreadInitializer.class);
+                oneOf(componentManager).getInstanceList((Type) LinkCheckerThreadInitializer.class);
                 will(returnValue(Arrays.asList(initializer)));
                 oneOf(initializer).initialize();
             }

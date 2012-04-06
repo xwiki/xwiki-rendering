@@ -105,7 +105,7 @@ public class LinkCheckerThread extends Thread
         // This is useful for example if externa lcode needs to initialize the Execution Context.
         try {
             List<LinkCheckerThreadInitializer> initializers =
-                this.componentManager.lookupList((Type) LinkCheckerThreadInitializer.class);
+                this.componentManager.getInstanceList((Type) LinkCheckerThreadInitializer.class);
             for (LinkCheckerThreadInitializer initializer : initializers) {
                 initializer.initialize();
             }
