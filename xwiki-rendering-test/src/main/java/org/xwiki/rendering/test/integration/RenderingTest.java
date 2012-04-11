@@ -126,7 +126,7 @@ public class RenderingTest
         WikiPrinter printer = new DefaultWikiPrinter();
 
         if (!this.streaming) {
-            Parser parser = getComponentManager().lookup(Parser.class, this.parserId);
+            Parser parser = getComponentManager().getInstance(Parser.class, this.parserId);
             XDOM xdom = parser.parse(new StringReader(this.input));
 
             if (this.runTransformations) {
@@ -138,7 +138,7 @@ public class RenderingTest
                 transformationManager.performTransformations(xdom, txContext);
             }
 
-            BlockRenderer renderer = getComponentManager().lookup(BlockRenderer.class, this.targetSyntaxId);
+            BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, this.targetSyntaxId);
 
             // remove source syntax from XDOM metadata
             Map<String, Object> metadataMap = new HashMap<String, Object>(xdom.getMetaData().getMetaData());
@@ -147,9 +147,9 @@ public class RenderingTest
 
             renderer.render(xdom, printer);
         } else {
-            StreamParser parser = getComponentManager().lookup(StreamParser.class, this.parserId);
+            StreamParser parser = getComponentManager().getInstance(StreamParser.class, this.parserId);
             PrintRendererFactory printRendererFactory =
-                getComponentManager().lookup(PrintRendererFactory.class, this.targetSyntaxId);
+                getComponentManager().getInstance(PrintRendererFactory.class, this.targetSyntaxId);
 
             // remove source syntax from begin/endDocument metadata
             WrappingListener listener = new SyntaxWrappingListener();

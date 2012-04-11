@@ -86,7 +86,7 @@ public class DefaultResourceReferenceParser implements ResourceReferenceParser
             String reference = rawReference.substring(pos + 1);
             try {
                 ResourceReferenceTypeParser
-                    parser = this.componentManager.lookup(ResourceReferenceTypeParser.class, typePrefix);
+                    parser = this.componentManager.getInstance(ResourceReferenceTypeParser.class, typePrefix);
                 ResourceReference parsedResourceReference = parser.parse(reference);
                 if (parsedResourceReference != null) {
                     return parsedResourceReference;

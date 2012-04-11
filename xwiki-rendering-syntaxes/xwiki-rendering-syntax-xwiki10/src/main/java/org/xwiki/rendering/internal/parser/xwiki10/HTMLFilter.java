@@ -377,7 +377,7 @@ public class HTMLFilter extends AbstractFilter implements Initializable
         context.setConversion(false);
 
         try {
-            HTMLElementConverter currentMacro = this.componentManager.lookup(HTMLElementConverter.class, name);
+            HTMLElementConverter currentMacro = this.componentManager.getInstance(HTMLElementConverter.class, name);
 
             convertedElement = currentMacro.convert(name, parameters, content, context);
 

@@ -70,7 +70,7 @@ public abstract class AbstractStreamParser implements ContentHandlerStreamParser
     {
         ContentHandlerStreamParser parser;
         try {
-            parser = this.componentManager.lookup(ContentHandlerStreamParser.class, getSyntax().toIdString());
+            parser = this.componentManager.getInstance(ContentHandlerStreamParser.class, getSyntax().toIdString());
         } catch (ComponentLookupException e) {
             throw new RuntimeException(
                 "Failed to create [" + getSyntax().toString() + "] ContentHandler stream parser", e);

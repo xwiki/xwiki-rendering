@@ -95,7 +95,7 @@ public class DefaultXHTMLLinkRenderer implements XHTMLLinkRenderer
 
         // TODO: This is probably not very performant since it's called at each begin/endLink.
         try {
-            renderer = this.componentManager.lookup(XHTMLLinkTypeRenderer.class, reference.getType().getScheme());
+            renderer = this.componentManager.getInstance(XHTMLLinkTypeRenderer.class, reference.getType().getScheme());
         } catch (ComponentLookupException e) {
             // There's no specific XHTML Link Type Renderer for the passed link type, use the default renderer.
             renderer = this.defaultLinkTypeRenderer;

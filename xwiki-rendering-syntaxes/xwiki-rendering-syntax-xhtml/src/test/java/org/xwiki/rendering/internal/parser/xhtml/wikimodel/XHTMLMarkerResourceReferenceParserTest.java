@@ -40,7 +40,7 @@ public class XHTMLMarkerResourceReferenceParserTest extends AbstractComponentTes
     @Override
     protected void registerComponents() throws Exception
     {
-        this.parser = getComponentManager().lookup(ResourceReferenceParser.class, "xhtmlmarker");
+        this.parser = getComponentManager().getInstance(ResourceReferenceParser.class, "xhtmlmarker");
     }
 
     @Test

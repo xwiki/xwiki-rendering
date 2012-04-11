@@ -118,7 +118,7 @@ public class DefaultMacroContentParser implements MacroContentParser
     private Parser getSyntaxParser(Syntax syntax) throws MacroExecutionException
     {
         try {
-            return this.componentManager.lookup(Parser.class, syntax.toIdString());
+            return this.componentManager.getInstance(Parser.class, syntax.toIdString());
         } catch (ComponentLookupException e) {
             throw new MacroExecutionException("Failed to find source parser for syntax [" + syntax + "]", e);
         }

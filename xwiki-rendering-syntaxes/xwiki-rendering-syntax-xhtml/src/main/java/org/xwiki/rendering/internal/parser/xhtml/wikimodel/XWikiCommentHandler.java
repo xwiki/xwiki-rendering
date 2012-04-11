@@ -199,7 +199,7 @@ public class XWikiCommentHandler extends CommentHandler
         String label;
         try {
             URILabelGenerator uriLabelGenerator =
-                this.componentManager.lookup(URILabelGenerator.class, reference.getType().getScheme());
+                this.componentManager.getInstance(URILabelGenerator.class, reference.getType().getScheme());
             label = uriLabelGenerator.generateLabel(reference);
         } catch (ComponentLookupException e) {
             label = reference.getReference();

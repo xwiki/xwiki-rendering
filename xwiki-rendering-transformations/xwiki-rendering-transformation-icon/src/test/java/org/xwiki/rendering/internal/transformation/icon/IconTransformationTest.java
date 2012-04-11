@@ -78,12 +78,13 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase
             + "endParagraph\n"
             + "endDocument [[syntax]=[XWiki 2.1]]";
 
-        XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.1").parse(new StringReader(
-           "Some :) smileys:(:P:D;)(y)(n)(i)(/)(x)(!)(+)(-)(?)(on)(off)(*)"));
+        Parser parser = getComponentManager().getInstance(Parser.class, "xwiki/2.1");
+        XDOM xdom = parser.parse(new StringReader("Some :) smileys:(:P:D;)(y)(n)(i)(/)(x)(!)(+)(-)(?)(on)(off)(*)"));
         this.transformation.transform(xdom, new TransformationContext());
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        getComponentManager().lookup(BlockRenderer.class, "event/1.0").render(xdom, printer);
+        BlockRenderer eventBlockRenderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");
+        eventBlockRenderer.render(xdom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
 
@@ -102,7 +103,8 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase
         this.transformation.transform(xdom, new TransformationContext());
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        getComponentManager().lookup(BlockRenderer.class, "event/1.0").render(xdom, printer);
+        BlockRenderer eventBlockRenderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");
+        eventBlockRenderer.render(xdom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
 
@@ -120,12 +122,13 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase
             + "endParagraph\n"
             + "endDocument [[syntax]=[XWiki 2.1]]";
 
-        XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.1").parse(new StringReader(
-           "( (i)"));
+        Parser parser = getComponentManager().getInstance(Parser.class, "xwiki/2.1");
+        XDOM xdom = parser.parse(new StringReader("( (i)"));
         this.transformation.transform(xdom, new TransformationContext());
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        getComponentManager().lookup(BlockRenderer.class, "event/1.0").render(xdom, printer);
+        BlockRenderer eventBlockRenderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");
+        eventBlockRenderer.render(xdom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
 }

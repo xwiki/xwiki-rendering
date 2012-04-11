@@ -34,6 +34,7 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.test.AbstractComponentTestCase;
@@ -53,7 +54,7 @@ public class WikiWordTransformationTest extends AbstractComponentTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        this.wikiWordTransformation = getComponentManager().lookup(Transformation.class, "wikiword");
+        this.wikiWordTransformation = getComponentManager().getInstance(Transformation.class, "wikiword");
     }
 
     @Test
@@ -68,10 +69,12 @@ public class WikiWordTransformationTest extends AbstractComponentTestCase
         //   recognized as a wiki word (eg "XWikiEnterprise")
         String testInput = "This is a WikiWord, Another\u00D9ne, XWikiEnterprise, not one: XWiki";
 
-        XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.1").parse(new StringReader(testInput));
+        Parser parser = getComponentManager().getInstance(Parser.class, "xwiki/2.1");
+        XDOM xdom = parser.parse(new StringReader(testInput));
         this.wikiWordTransformation.transform(xdom, new TransformationContext());
         WikiPrinter printer = new DefaultWikiPrinter();
-        getComponentManager().lookup(BlockRenderer.class, "xwiki/2.1").render(xdom, printer);
+        BlockRenderer xwiki21BlockRenderer = getComponentManager().getInstance(BlockRenderer.class, "xwiki/2.1");
+        xwiki21BlockRenderer.render(xdom, printer);
         Assert.assertEquals("This is a [[doc:WikiWord]], [[doc:Another\u00D9ne]], [[doc:XWikiEnterprise]], "
             + "not one: XWiki", printer.toString());
     }
@@ -90,7 +93,9 @@ public class WikiWordTransformationTest extends AbstractComponentTestCase
         this.wikiWordTransformation.transform(xdom, new TransformationContext());
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        getComponentManager().lookup(BlockRenderer.class, "event/1.0").render(xdom, printer);
+        BlockRenderer eventBlockRenderer =
+            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+        eventBlockRenderer.render(xdom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
 

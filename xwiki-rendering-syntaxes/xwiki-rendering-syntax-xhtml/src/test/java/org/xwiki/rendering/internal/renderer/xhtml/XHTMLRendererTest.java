@@ -59,7 +59,7 @@ public class XHTMLRendererTest extends AbstractComponentTestCase
         cd.setRole(WikiModel.class);
         getComponentManager().registerComponent(cd, this.mockWikiModel);
 
-        this.renderer = getComponentManager().lookup(PrintRenderer.class, "xhtml/1.0");
+        this.renderer = getComponentManager().getInstance(PrintRenderer.class, "xhtml/1.0");
     }
 
     /**

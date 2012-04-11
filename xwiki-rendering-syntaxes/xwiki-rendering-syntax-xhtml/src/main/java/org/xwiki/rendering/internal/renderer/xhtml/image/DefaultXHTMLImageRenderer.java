@@ -138,7 +138,7 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer, Initializa
     {
         String label;
         try {
-            URILabelGenerator uriLabelGenerator = this.componentManager.lookup(URILabelGenerator.class,
+            URILabelGenerator uriLabelGenerator = this.componentManager.getInstance(URILabelGenerator.class,
                 reference.getType().getScheme());
             label = uriLabelGenerator.generateLabel(reference);
         } catch (ComponentLookupException e) {

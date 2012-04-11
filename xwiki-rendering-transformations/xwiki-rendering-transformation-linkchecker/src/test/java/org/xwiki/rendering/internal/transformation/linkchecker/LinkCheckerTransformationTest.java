@@ -56,7 +56,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
     {
         // Make sure we stop the Link Checker thread after each test (since it's started automatically when looking
         // up the LinkCheckerTransformation component.
-        Transformation transformation = getComponentManager().lookup(Transformation.class, "linkchecker");
+        Transformation transformation = getComponentManager().getInstance(Transformation.class, "linkchecker");
         ((LinkCheckerTransformation) transformation).stopLinkCheckerThread();
     }
 
@@ -268,9 +268,9 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
     private void parseAndwait(String input, LinkStateManager linkStateManager, int numberOfItemsToWaitFor)
         throws Exception
     {
-        Transformation transformation = getComponentManager().lookup(Transformation.class, "linkchecker");
-
-        XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.0").parse(new StringReader(input));
+        Transformation transformation = getComponentManager().getInstance(Transformation.class, "linkchecker");
+        Parser xwiki20Parser = getComponentManager().getInstance(Parser.class, "xwiki/2.0");
+        XDOM xdom = xwiki20Parser.parse(new StringReader(input));
         transformation.transform(xdom, new TransformationContext());
 
         // At this point the links have been put on the queue and we're waiting for the Link Checker Thread to

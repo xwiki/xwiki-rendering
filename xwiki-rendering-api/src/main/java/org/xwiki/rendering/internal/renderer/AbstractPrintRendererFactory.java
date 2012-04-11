@@ -47,7 +47,7 @@ public abstract class AbstractPrintRendererFactory implements PrintRendererFacto
     {
         PrintRenderer renderer;
         try {
-            renderer = this.componentManager.lookup(PrintRenderer.class, getSyntax().toIdString());
+            renderer = this.componentManager.getInstance(PrintRenderer.class, getSyntax().toIdString());
         } catch (ComponentLookupException e) {
             throw new RuntimeException("Failed to create [" + getSyntax().toString() + "] renderer", e);
         }

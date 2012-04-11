@@ -143,7 +143,7 @@ public class ExtendedVelocityParser extends VelocityParser
         String convertedMacro = null;
 
         try {
-            VelocityMacroConverter currentMacro = this.componentManager.lookup(VelocityMacroConverter.class, name);
+            VelocityMacroConverter currentMacro = this.componentManager.getInstance(VelocityMacroConverter.class, name);
 
             convertedMacro = currentMacro.convert(name, parameters, context.getFilterContext());
 

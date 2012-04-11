@@ -43,10 +43,10 @@ public class MarkdownParserTest extends AbstractComponentTestCase
     @Test
     public void parseMarkdownExample() throws Exception
     {
-        Parser parser = getComponentManager().lookup(Parser.class, "markdown/1.0");
+        Parser parser = getComponentManager().getInstance(Parser.class, "markdown/1.0");
         XDOM xdom = parser.parse(new InputStreamReader(getClass().getResourceAsStream("/markdown/example.md")));
 
-        BlockRenderer renderer = getComponentManager().lookup(BlockRenderer.class, "event/1.0");
+        BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");
         DefaultWikiPrinter printer = new DefaultWikiPrinter();
         renderer.render(xdom, printer);
 

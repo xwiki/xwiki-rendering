@@ -72,16 +72,17 @@ public class XWikiSyntaxLinkReferenceSerializer implements ResourceReferenceSeri
         String result;
 
         try {
-            result =
-                this.componentManager.lookup(ResourceReferenceTypeSerializer.class,
-                    getLinkTypeSerializerComponentPrefix() + "/" + reference.getType().getScheme())
-                    .serialize(reference);
+            ResourceReferenceTypeSerializer serializer =
+                this.componentManager.getInstance(ResourceReferenceTypeSerializer.class,
+                    getLinkTypeSerializerComponentPrefix() + "/" + reference.getType().getScheme());
+            result = serializer.serialize(reference);
         } catch (ComponentLookupException e) {
             try {
                 // Failed to find serializer for the passed link type. Use the default serializer.
-                result =
-                    this.componentManager.lookup(ResourceReferenceTypeSerializer.class,
-                        getLinkTypeSerializerComponentPrefix()).serialize(reference);
+                ResourceReferenceTypeSerializer serializer =
+                    this.componentManager.getInstance(ResourceReferenceTypeSerializer.class,
+                        getLinkTypeSerializerComponentPrefix());
+                result = serializer.serialize(reference);
             } catch (ComponentLookupException e2) {
                 // Failed to find a default serializer for the current syntax. Use xwiki/2.0 default serializer.
                 result = this.defaultResourceReferenceTypeSerializer.serialize(reference);

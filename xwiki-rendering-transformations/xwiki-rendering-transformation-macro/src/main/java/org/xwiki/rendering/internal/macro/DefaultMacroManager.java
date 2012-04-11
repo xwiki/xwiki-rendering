@@ -117,11 +117,11 @@ public class DefaultMacroManager implements MacroManager
         // First search for a macro registered for the passed macro id.
         String macroHint = macroId.toString();
         try {
-            return getComponentManager().lookup(Macro.class, macroHint);
+            return getComponentManager().getInstance(Macro.class, macroHint);
         } catch (ComponentLookupException ex1) {
             // Now search explicitly for a macro registered for all syntaxes.
             try {
-                return getComponentManager().lookup(Macro.class, macroId.getId());
+                return getComponentManager().getInstance(Macro.class, macroId.getId());
             } catch (ComponentLookupException ex2) {
                 // TODO: Improve this since it's possible the macro wasn't found because it contains some invalid
                 // requirement and since we're not passing the raised exception it's hard to know why the macro
@@ -137,7 +137,7 @@ public class DefaultMacroManager implements MacroManager
         String macroHint = macroId.toString();
         boolean hasMacro = true;
         try {
-            getComponentManager().lookup(Macro.class, macroHint);
+            getComponentManager().getInstance(Macro.class, macroHint);
         } catch (ComponentLookupException ex) {
             hasMacro = false;
         }
@@ -157,7 +157,7 @@ public class DefaultMacroManager implements MacroManager
         // specific wiki, etc. If it's not found use the Root Component Manager. This allows the Rendering module
         // to work outside of XWiki when there's no notion of Execution Context and Wiki Model for example.
         try {
-            componentManagerToUse = this.rootComponentManager.lookup(ComponentManager.class, "context");
+            componentManagerToUse = this.rootComponentManager.getInstance(ComponentManager.class, "context");
         } catch (ComponentLookupException e) {
             // This means the Context CM doesn't exist, use the Root CM.
             componentManagerToUse = this.rootComponentManager;

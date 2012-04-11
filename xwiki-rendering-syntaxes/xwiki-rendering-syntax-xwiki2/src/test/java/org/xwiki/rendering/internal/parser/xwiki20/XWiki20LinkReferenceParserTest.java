@@ -45,7 +45,7 @@ public class XWiki20LinkReferenceParserTest extends AbstractComponentTestCase
         // Create a Mock WikiModel implementation so that the link parser works in wiki mode
         registerMockComponent(WikiModel.class);
 
-        this.parser = getComponentManager().lookup(ResourceReferenceParser.class, "xwiki/2.0/link");
+        this.parser = getComponentManager().getInstance(ResourceReferenceParser.class, "xwiki/2.0/link");
     }
 
     @Test

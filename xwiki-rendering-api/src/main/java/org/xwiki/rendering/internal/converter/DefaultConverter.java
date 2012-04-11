@@ -67,7 +67,7 @@ public class DefaultConverter implements Converter
         // Step 1: Find the parser and generate a XDOM
         XDOM xdom;
         try {
-            Parser parser = this.componentManager.lookup(Parser.class, sourceSyntax.toIdString());
+            Parser parser = this.componentManager.getInstance(Parser.class, sourceSyntax.toIdString());
             xdom = parser.parse(source);
         } catch (ComponentLookupException e) {
             throw new ConversionException("Failed to locate Parser for syntax [" + sourceSyntax + "]", e);
@@ -86,7 +86,7 @@ public class DefaultConverter implements Converter
         // Step 3: Locate the Renderer and render the content in the passed printer
         BlockRenderer renderer;
         try {
-            renderer = this.componentManager.lookup(BlockRenderer.class, targetSyntax.toIdString());
+            renderer = this.componentManager.getInstance(BlockRenderer.class, targetSyntax.toIdString());
         } catch (ComponentLookupException e) {
             throw new ConversionException("Failed to locate Renderer for syntax [" + targetSyntax + "]", e);
         }

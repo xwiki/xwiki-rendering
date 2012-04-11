@@ -249,7 +249,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     protected Parser getSyntaxParser(MacroTransformationContext context) throws MacroExecutionException
     {
         try {
-            return this.componentManager.lookup(Parser.class, context.getSyntax().toIdString());
+            return this.componentManager.getInstance(Parser.class, context.getSyntax().toIdString());
         } catch (ComponentLookupException e) {
             throw new MacroExecutionException("Failed to find source parser", e);
         }

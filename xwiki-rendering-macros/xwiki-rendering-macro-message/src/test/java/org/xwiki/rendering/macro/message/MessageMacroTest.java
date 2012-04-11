@@ -40,13 +40,13 @@ public class MessageMacroTest extends AbstractComponentTestCase
     @Test
     public void testMacroContentDescriptorIsNotNull() throws Exception
     {
-        Macro messageMacro = getComponentManager().lookup(Macro.class, "info");
+        Macro messageMacro = getComponentManager().getInstance(Macro.class, "info");
         Assert.assertNotNull(messageMacro.getDescriptor().getContentDescriptor());
-        messageMacro = getComponentManager().lookup(Macro.class, "warning");
+        messageMacro = getComponentManager().getInstance(Macro.class, "warning");
         Assert.assertNotNull(messageMacro.getDescriptor().getContentDescriptor());
-        messageMacro = getComponentManager().lookup(Macro.class, "error");
+        messageMacro = getComponentManager().getInstance(Macro.class, "error");
         Assert.assertNotNull(messageMacro.getDescriptor().getContentDescriptor());
-        messageMacro = getComponentManager().lookup(Macro.class, "success");
+        messageMacro = getComponentManager().getInstance(Macro.class, "success");
         Assert.assertNotNull(messageMacro.getDescriptor().getContentDescriptor());
     }
 }

@@ -52,7 +52,7 @@ public abstract class AbstractStreamRendererFactory implements PrintRendererFact
     {
         ContentHandlerStreamRenderer renderer;
         try {
-            renderer = this.componentManager.lookup(ContentHandlerStreamRenderer.class, getSyntax().toIdString());
+            renderer = this.componentManager.getInstance(ContentHandlerStreamRenderer.class, getSyntax().toIdString());
         } catch (ComponentLookupException e) {
             throw new RuntimeException("Failed to create [" + getSyntax().toString() + "] renderer", e);
         }

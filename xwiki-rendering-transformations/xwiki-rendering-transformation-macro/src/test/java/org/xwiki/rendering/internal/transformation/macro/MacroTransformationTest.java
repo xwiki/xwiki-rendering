@@ -52,7 +52,7 @@ public class MacroTransformationTest extends AbstractComponentTestCase
     {
         super.setUp();
 
-        this.transformation = getComponentManager().lookup(Transformation.class, "macro");
+        this.transformation = getComponentManager().getInstance(Transformation.class, "macro");
     }
 
     /**
@@ -75,7 +75,9 @@ public class MacroTransformationTest extends AbstractComponentTestCase
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        getComponentManager().lookup(BlockRenderer.class, Syntax.EVENT_1_0.toIdString()).render(dom, printer);
+        BlockRenderer eventBlockRenderer =
+            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+        eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
 
@@ -101,7 +103,9 @@ public class MacroTransformationTest extends AbstractComponentTestCase
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        getComponentManager().lookup(BlockRenderer.class, Syntax.EVENT_1_0.toIdString()).render(dom, printer);
+        BlockRenderer eventBlockRenderer =
+            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+        eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
     
@@ -123,7 +127,9 @@ public class MacroTransformationTest extends AbstractComponentTestCase
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        getComponentManager().lookup(BlockRenderer.class, Syntax.EVENT_1_0.toIdString()).render(dom, printer);
+        BlockRenderer eventBlockRenderer =
+            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+        eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
     
@@ -158,7 +164,9 @@ public class MacroTransformationTest extends AbstractComponentTestCase
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        getComponentManager().lookup(BlockRenderer.class, Syntax.EVENT_1_0.toIdString()).render(dom, printer);
+        BlockRenderer eventBlockRenderer =
+            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+        eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
     
@@ -178,7 +186,9 @@ public class MacroTransformationTest extends AbstractComponentTestCase
         this.transformation.transform(dom, context);
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        getComponentManager().lookup(BlockRenderer.class, Syntax.EVENT_1_0.toIdString()).render(dom, printer);
+        BlockRenderer eventBlockRenderer =
+            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+        eventBlockRenderer.render(dom, printer);
 
         String expected = "beginDocument\n"
             + "beginMacroMarkerStandalone [testsimplemacro] []\n"
@@ -202,7 +212,7 @@ public class MacroTransformationTest extends AbstractComponentTestCase
         this.transformation.transform(dom, context);
 
         printer = new DefaultWikiPrinter();
-        getComponentManager().lookup(BlockRenderer.class, Syntax.EVENT_1_0.toIdString()).render(dom, printer);
+        eventBlockRenderer.render(dom, printer);
 
         expected = "beginDocument\n"
             + "beginMacroMarkerStandalone [testcontentmacro] [] [content]\n"

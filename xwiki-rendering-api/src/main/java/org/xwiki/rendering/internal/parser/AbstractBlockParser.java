@@ -51,7 +51,7 @@ public abstract class AbstractBlockParser implements Parser
     {
         StreamParser streamParser;
         try {
-            streamParser = this.componentManager.lookup(StreamParser.class, getSyntax().toIdString());
+            streamParser = this.componentManager.getInstance(StreamParser.class, getSyntax().toIdString());
         } catch (ComponentLookupException e) {
             throw new RuntimeException("Failed to create [" + getSyntax().toString() + "] renderer", e);
         }

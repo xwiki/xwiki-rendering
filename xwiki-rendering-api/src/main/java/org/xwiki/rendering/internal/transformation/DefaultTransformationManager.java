@@ -101,7 +101,7 @@ public class DefaultTransformationManager implements TransformationManager
         List<Transformation> transformations = new ArrayList<Transformation>();
         for (String hint : this.configuration.getTransformationNames()) {
             try {
-                transformations.add(this.componentManager.lookup(Transformation.class, hint));
+                transformations.add(this.componentManager.getInstance(Transformation.class, hint));
             } catch (ComponentLookupException e) {
                 this.logger.warn("Failed to locate transformation with hint [" + hint + "], ignoring it.");
             }

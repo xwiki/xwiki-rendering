@@ -45,7 +45,7 @@ public class DefaultLinkReferenceParserTest extends AbstractComponentTestCase
         // Create a Mock WikiModel implementation so that the link parser works in wiki mode
         registerMockComponent(WikiModel.class);
 
-        this.parser = getComponentManager().lookup(ResourceReferenceParser.class, "link");
+        this.parser = getComponentManager().getInstance(ResourceReferenceParser.class, "link");
     }
 
     @Test

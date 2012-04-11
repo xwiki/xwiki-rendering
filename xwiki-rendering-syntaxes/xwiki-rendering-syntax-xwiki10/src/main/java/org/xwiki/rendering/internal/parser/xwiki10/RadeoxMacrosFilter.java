@@ -130,7 +130,7 @@ public class RadeoxMacrosFilter extends AbstractFilter implements Initializable
             }
 
             try {
-                currentMacro = this.componentManager.lookup(RadeoxMacroConverter.class, macroName);
+                currentMacro = this.componentManager.getInstance(RadeoxMacroConverter.class, macroName);
 
                 if (currentMacro.supportContent() == supportContent) {
                     // a standalone new line is not interpreted by XWiki 1.0 rendering

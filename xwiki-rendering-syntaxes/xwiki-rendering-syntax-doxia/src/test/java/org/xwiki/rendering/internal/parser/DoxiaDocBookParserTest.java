@@ -44,10 +44,10 @@ public class DoxiaDocBookParserTest extends AbstractComponentTestCase
     @Test
     public void parseDocbookExample() throws Exception
     {
-        Parser parser = getComponentManager().lookup(Parser.class, "docbook/4.4");
+        Parser parser = getComponentManager().getInstance(Parser.class, "docbook/4.4");
         XDOM xdom = parser.parse(new InputStreamReader(getClass().getResourceAsStream("/docbook/example.xml")));
 
-            BlockRenderer renderer = getComponentManager().lookup(BlockRenderer.class, "event/1.0");
+            BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");
         DefaultWikiPrinter printer = new DefaultWikiPrinter();
         renderer.render(xdom, printer);
 

@@ -43,7 +43,7 @@ public class DefaultImageReferenceParserTest extends AbstractComponentTestCase
         // Create a Mock WikiModel implementation so that the link parser works in wiki mode
         registerMockComponent(WikiModel.class);
 
-        this.parser = getComponentManager().lookup(ResourceReferenceParser.class, "image");
+        this.parser = getComponentManager().getInstance(ResourceReferenceParser.class, "image");
     }
 
     @Test
