@@ -83,7 +83,7 @@ public class DefaultMacroManager implements MacroManager
         // Lookup all registered macros
         Map<String, Macro> allMacros;
         try {
-            allMacros = getComponentManager().lookupMap(Macro.class);
+            allMacros = getComponentManager().getInstanceMap(Macro.class);
         } catch (ComponentLookupException e) {
             throw new MacroLookupException("Failed to lookup Macros", e);
         }

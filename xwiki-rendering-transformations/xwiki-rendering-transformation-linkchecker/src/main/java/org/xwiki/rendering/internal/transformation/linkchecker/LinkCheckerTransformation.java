@@ -133,7 +133,7 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
         Map<String, Object> linkContextData = null;
         try {
             List<LinkContextDataProvider> linkContextDataProviders = 
-                this.componentManager.lookupList(LinkContextDataProvider.class);
+                this.componentManager.getInstanceList(LinkContextDataProvider.class);
             for (LinkContextDataProvider linkContextDataProvider : linkContextDataProviders) {
                 Map<String, Object> contextData =
                     linkContextDataProvider.getContextData(linkReference, contentReference);
