@@ -86,7 +86,7 @@ public class RenderingTest
     {
         Map<String, String> originalConfiguration = new HashMap<String, String>();
         if (this.configuration != null) {
-            ConfigurationSource configurationSource = getComponentManager().lookup(ConfigurationSource.class);
+            ConfigurationSource configurationSource = getComponentManager().getInstance(ConfigurationSource.class);
 
             if (configurationSource instanceof MockConfigurationSource) {
                 MockConfigurationSource mockConfigurationSource = (MockConfigurationSource) configurationSource;
@@ -104,7 +104,7 @@ public class RenderingTest
         } finally {
             // Revert Configuration that have been set
             if (this.configuration != null) {
-                ConfigurationSource configurationSource = getComponentManager().lookup(ConfigurationSource.class);
+                ConfigurationSource configurationSource = getComponentManager().getInstance(ConfigurationSource.class);
 
                 if (configurationSource instanceof MockConfigurationSource) {
                     MockConfigurationSource mockConfigurationSource = (MockConfigurationSource) configurationSource;
@@ -130,8 +130,9 @@ public class RenderingTest
             XDOM xdom = parser.parse(new StringReader(this.input));
 
             if (this.runTransformations) {
-                SyntaxFactory syntaxFactory = getComponentManager().lookup(SyntaxFactory.class);
-                TransformationManager transformationManager = getComponentManager().lookup(TransformationManager.class);
+                SyntaxFactory syntaxFactory = getComponentManager().getInstance(SyntaxFactory.class);
+                TransformationManager transformationManager =
+                    getComponentManager().getInstance(TransformationManager.class);
                 TransformationContext txContext =
                     new TransformationContext(xdom, syntaxFactory.createSyntaxFromIdString(this.parserId));
                 transformationManager.performTransformations(xdom, txContext);

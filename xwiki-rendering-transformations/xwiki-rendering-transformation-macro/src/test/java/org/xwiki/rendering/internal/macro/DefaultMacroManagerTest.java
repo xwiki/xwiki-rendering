@@ -143,9 +143,9 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
         final Logger logger = getMockLogger();
 
         getMockery().checking(new Expectations() {{
-            allowing(mockRootComponentManager).lookup(ComponentManager.class, "context");
+            allowing(mockRootComponentManager).getInstance(ComponentManager.class, "context");
             will(returnValue(mockRootComponentManager));
-            allowing(mockRootComponentManager).lookupMap(Macro.class);
+            allowing(mockRootComponentManager).getInstanceMap(Macro.class);
             will(returnValue(Collections.singletonMap("macro/invalidsyntax", "dummy")));
 
             // Test: Make sure the logger is called with the following content. This is the assert for this test.
@@ -156,7 +156,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
                 + "For example \"html/xwiki/2.0\". This macro will not be available in the system.");
         }});
 
-        SyntaxFactory syntaxFactory = getComponentManager().lookup(SyntaxFactory.class);
+        SyntaxFactory syntaxFactory = getComponentManager().getInstance(SyntaxFactory.class);
         this.macroManager.getMacroIds(syntaxFactory.createSyntaxFromIdString("macro/xwiki/2.0"));
     }
 }

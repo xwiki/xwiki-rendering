@@ -221,12 +221,12 @@ public abstract class AbstractBlockParser extends DefaultHandler implements Bloc
     {
         BlockParser blockParser;
         try {
-            blockParser = this.componentManager.lookup(BlockParser.class, name + "/" + getVersion());
+            blockParser = this.componentManager.getInstance(BlockParser.class, name + "/" + getVersion());
         } catch (ComponentLookupException e1) {
             try {
-                blockParser = this.componentManager.lookup(BlockParser.class, name);
+                blockParser = this.componentManager.getInstance(BlockParser.class, name);
             } catch (ComponentLookupException e2) {
-                blockParser = this.componentManager.lookup(BlockParser.class);
+                blockParser = this.componentManager.getInstance(BlockParser.class);
             }
         }
 

@@ -90,7 +90,7 @@ public class GenericImageReferenceParser implements ResourceReferenceParser
     {
         boolean result = true;
         try {
-            this.componentManager.lookup(WikiModel.class);
+            this.componentManager.getInstance(WikiModel.class);
         } catch (ComponentLookupException e) {
             result = false;
         }

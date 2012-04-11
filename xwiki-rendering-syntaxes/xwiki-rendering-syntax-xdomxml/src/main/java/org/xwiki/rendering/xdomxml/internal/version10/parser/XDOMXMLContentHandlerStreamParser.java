@@ -104,12 +104,12 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
         BlockParser blockParser;
         try {
             blockParser =
-                this.componentManager.lookup(BlockParser.class, "document/" + Syntax.XDOMXML_1_0.getVersion());
+                this.componentManager.getInstance(BlockParser.class, "document/" + Syntax.XDOMXML_1_0.getVersion());
         } catch (ComponentLookupException e1) {
             try {
-                blockParser = this.componentManager.lookup(BlockParser.class, "document");
+                blockParser = this.componentManager.getInstance(BlockParser.class, "document");
             } catch (ComponentLookupException e2) {
-                blockParser = this.componentManager.lookup(BlockParser.class);
+                blockParser = this.componentManager.getInstance(BlockParser.class);
             }
         }
 

@@ -56,17 +56,17 @@ public class LinkCheckThreadTest extends AbstractComponentTestCase
         getMockery().checking(new Expectations()
         {
             {
-                oneOf(componentManager).lookup(LinkStateManager.class);
+                oneOf(componentManager).getInstance(LinkStateManager.class);
                 will(returnValue(getMockery().mock(LinkStateManager.class)));
-                oneOf(componentManager).lookup(HTTPChecker.class);
+                oneOf(componentManager).getInstance(HTTPChecker.class);
                 will(returnValue(getMockery().mock(HTTPChecker.class)));
-                oneOf(componentManager).lookup(LinkCheckerTransformationConfiguration.class);
+                oneOf(componentManager).getInstance(LinkCheckerTransformationConfiguration.class);
                 will(returnValue(configuration));
                 oneOf(configuration).getCheckTimeout();
                 will(returnValue(3600000L));
 
                 // This is the test:
-                oneOf(componentManager).getInstanceList((Type) LinkCheckerThreadInitializer.class);
+                oneOf(componentManager).getInstanceList(LinkCheckerThreadInitializer.class);
                 will(returnValue(Arrays.asList(initializer)));
                 oneOf(initializer).initialize();
             }

@@ -44,7 +44,7 @@ public class WikiIntegrationTests
 
         // Add InterWiki Definition for links28 test
         DefaultRenderingConfiguration renderingConfiguration =
-            (DefaultRenderingConfiguration) componentManager.lookup(RenderingConfiguration.class);
+            (DefaultRenderingConfiguration) componentManager.getInstance(RenderingConfiguration.class);
         renderingConfiguration.addInterWikiDefinition("knownalias", "http://server/common/url/");
     }
 }

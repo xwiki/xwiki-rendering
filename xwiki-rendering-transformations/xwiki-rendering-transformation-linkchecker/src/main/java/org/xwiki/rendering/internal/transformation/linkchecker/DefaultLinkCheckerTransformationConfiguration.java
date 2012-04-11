@@ -70,7 +70,7 @@ public class DefaultLinkCheckerTransformationConfiguration implements LinkChecke
         } else {
             ConfigurationSource source;
             try {
-                source = this.componentManager.lookup(ConfigurationSource.class);
+                source = this.componentManager.getInstance(ConfigurationSource.class);
                 result = source.getProperty(PREFIX + "timeout", TIMEOUT);
             } catch (ComponentLookupException e) {
                 result = TIMEOUT;

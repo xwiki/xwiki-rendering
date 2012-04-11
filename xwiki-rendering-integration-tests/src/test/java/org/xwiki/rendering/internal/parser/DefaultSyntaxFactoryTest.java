@@ -38,7 +38,7 @@ public class DefaultSyntaxFactoryTest extends AbstractComponentTestCase
     @Before
     public void setUp() throws Exception
     {
-        this.syntaxFactory = getComponentManager().lookup(SyntaxFactory.class);
+        this.syntaxFactory = getComponentManager().getInstance(SyntaxFactory.class);
     }
 
     @Test

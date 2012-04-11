@@ -75,12 +75,12 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
             oneOf(httpChecker).check("invalid"); will(returnValue(0));
         }});
 
-        LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
+        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
         parseAndwait(input, linkStateManager, 2);
 
         // Verify we can access the link states through the Script Service
         LinkCheckerScriptService service = 
-            (LinkCheckerScriptService) getComponentManager().lookup(ScriptService.class, "linkchecker");
+            (LinkCheckerScriptService) getComponentManager().getInstance(ScriptService.class, "linkchecker");
         Map<String, Map<String, LinkState>> states = service.getLinkStates();
         
         LinkState state1 = states.get("http://ok").get("default");
@@ -105,7 +105,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
 
         // Set some state in the Link State Manager to verify that if an item that is on the queue is the same as one
         // already process not long ago, it's not processed again.
-        LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
+        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
         Map<String, LinkState> contentReferences = new HashMap<String, LinkState>();
         long initialTime = System.currentTimeMillis();
         contentReferences.put("default", new LinkState(200, initialTime));
@@ -121,7 +121,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
 
         // Verify we can access the link states through the Script Service
         LinkCheckerScriptService service =
-            (LinkCheckerScriptService) getComponentManager().lookup(ScriptService.class, "linkchecker");
+            (LinkCheckerScriptService) getComponentManager().getInstance(ScriptService.class, "linkchecker");
         Map<String, Map<String, LinkState>> states = service.getLinkStates();
 
         LinkState state1 = states.get("http://ok").get("default");
@@ -148,7 +148,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
 
         // Set some state in the Link State Manager to verify that if an item that is on the queue is the same as one
         // already process not long ago, it's not processed again.
-        LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
+        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
         Map<String, LinkState> contentReferences = new HashMap<String, LinkState>();
         long initialTime = System.currentTimeMillis();
         contentReferences.put("default", new LinkState(404, initialTime));
@@ -162,7 +162,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
 
         // Modify the default timeout so that we don't have to wait too long for the test...
         LinkCheckerTransformationConfiguration configuration =
-            getComponentManager().lookup(LinkCheckerTransformationConfiguration.class);
+            getComponentManager().getInstance(LinkCheckerTransformationConfiguration.class);
         configuration.setCheckTimeout(0L);
 
         parseAndwait(input, linkStateManager, 2);
@@ -173,7 +173,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
         
         // Verify we can access the link states through the Script Service
         LinkCheckerScriptService service =
-            (LinkCheckerScriptService) getComponentManager().lookup(ScriptService.class, "linkchecker");
+            (LinkCheckerScriptService) getComponentManager().getInstance(ScriptService.class, "linkchecker");
         Map<String, Map<String, LinkState>> states = service.getLinkStates();
 
         LinkState state = states.get("http://ok").get("default");
@@ -184,7 +184,8 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
     public void transformWithSourceMetaData() throws Exception
     {
         String input = "[[http://ok]]";
-        XDOM xdom = getComponentManager().lookup(Parser.class, "xwiki/2.0").parse(new StringReader(input));
+        Parser parser = getComponentManager().getInstance(Parser.class, "xwiki/2.0");
+        XDOM xdom = parser.parse(new StringReader(input));
 
         // Add MetaData Block
         MetaData metaData = new MetaData();
@@ -196,10 +197,10 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
             oneOf(httpChecker).check("http://ok"); will(returnValue(200));
         }});
 
-        Transformation transformation = getComponentManager().lookup(Transformation.class, "linkchecker");
+        Transformation transformation = getComponentManager().getInstance(Transformation.class, "linkchecker");
         transformation.transform(newXDOM, new TransformationContext());
 
-        LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
+        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
         wait(linkStateManager, 1);        
 
         Assert.assertNotNull(linkStateManager.getLinkStates().get("http://ok").get("source"));
@@ -226,7 +227,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
             then(eventState.is("ok"));
         }});
 
-        LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
+        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
         parseAndwait("[[http://doesntexist]]", linkStateManager, 1);
 
         // Wait till the event has been sent since parseAndWait only waits for the link state to be in cache but it
@@ -256,7 +257,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
             will(returnValue(Collections.singletonMap("contextKey", "contextValue")));
         }});
 
-        LinkStateManager linkStateManager = getComponentManager().lookup(LinkStateManager.class);
+        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
         parseAndwait(input, linkStateManager, 1);
         
         // Assert states

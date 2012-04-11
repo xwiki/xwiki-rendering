@@ -87,9 +87,11 @@ public class LinkCheckerThread extends Thread
         throws InitializationException
     {
         try {
-            this.linkStateManager = componentManager.lookup(LinkStateManager.class);
-            this.httpChecker = componentManager.lookup(HTTPChecker.class);
-            this.timeout = componentManager.lookup(LinkCheckerTransformationConfiguration.class).getCheckTimeout();
+            this.linkStateManager = componentManager.getInstance(LinkStateManager.class);
+            this.httpChecker = componentManager.getInstance(HTTPChecker.class);
+            LinkCheckerTransformationConfiguration configuration =
+                componentManager.getInstance(LinkCheckerTransformationConfiguration.class);
+            this.timeout = configuration.getCheckTimeout();
         } catch (ComponentLookupException e) {
             throw new InitializationException("Failed to initialize the Link Checker Thread. "
                 + "External link states won't be checked.", e);
@@ -203,7 +205,7 @@ public class LinkCheckerThread extends Thread
     {
         // Dynamically look for an Observation Manager and only send the event if one can be found.
         try {
-            ObservationManager observationManager = this.componentManager.lookup(ObservationManager.class);
+            ObservationManager observationManager = this.componentManager.getInstance(ObservationManager.class);
             observationManager.notify(new InvalidURLEvent(url), source);
         } catch (ComponentLookupException e) {
             // No observation manager found, don't send any event.

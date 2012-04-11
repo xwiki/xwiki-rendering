@@ -51,7 +51,7 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        this.macroCategoryManager = getComponentManager().lookup(MacroCategoryManager.class);
+        this.macroCategoryManager = getComponentManager().getInstance(MacroCategoryManager.class);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
         // TODO: This test needs to be improved. Right now it's based on the Test Macro located in the transformation
         // package and for 4 of them a "Test" category has been set...
         DefaultMacroTransformationConfiguration configuration =
-            (DefaultMacroTransformationConfiguration) getComponentManager().lookup(
+            (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
                 MacroTransformationConfiguration.class);
         configuration.addCategory(new MacroId("testcontentmacro"), "Content");
         configuration.addCategory(new MacroId("testsimplemacro"), "Simple");
@@ -103,7 +103,7 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
         
         // Override default macro categories. 
         DefaultMacroTransformationConfiguration configuration =
-            (DefaultMacroTransformationConfiguration) getComponentManager().lookup(
+            (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
                 MacroTransformationConfiguration.class);
         configuration.addCategory(new MacroId("mytestmacro1"), "Cat1");
         configuration.addCategory(new MacroId("mytestmacro2"), "Cat2");
@@ -134,7 +134,7 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
         
         // Override the macro category for this macro. 
         DefaultMacroTransformationConfiguration configuration =
-            (DefaultMacroTransformationConfiguration) getComponentManager().lookup(
+            (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
                 MacroTransformationConfiguration.class);
         configuration.addCategory(new MacroId("mytestmacro", Syntax.XWIKI_2_0), "Test");
                 

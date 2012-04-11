@@ -39,7 +39,7 @@ public class TocMacroTest extends AbstractComponentTestCase
     @Override
     protected void registerComponents() throws Exception
     {
-        this.beanManager = getComponentManager().lookup(BeanManager.class);
+        this.beanManager = getComponentManager().getInstance(BeanManager.class);
     }
 
     @Test(expected = PropertyException.class)

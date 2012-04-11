@@ -70,7 +70,7 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer, Initializa
         // Try to find a WikiModel implementation and set it if it can be found. If not it means we're in
         // non wiki mode (i.e. no attachment in wiki documents and no links to documents for example).
         try {
-            this.wikiModel = this.componentManager.lookup(WikiModel.class);
+            this.wikiModel = this.componentManager.getInstance(WikiModel.class);
         } catch (ComponentLookupException e) {
             // There's no WikiModel implementation available. this.wikiModel stays null.
         }
