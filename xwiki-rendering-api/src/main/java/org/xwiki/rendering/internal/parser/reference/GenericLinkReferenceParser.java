@@ -205,8 +205,9 @@ public class GenericLinkReferenceParser implements ResourceReferenceParser
             String reference = rawLink.substring(uriSchemeDelimiterPos + 1);
             if (getAllowedURIPrefixes().contains(scheme)) {
                 try {
-                    ResourceReference resourceReference =
-                        this.componentManager.getInstance(ResourceReferenceTypeParser.class, scheme).parse(reference);
+                    ResourceReferenceTypeParser parser =
+                        this.componentManager.getInstance(ResourceReferenceTypeParser.class, scheme);
+                    ResourceReference resourceReference = parser.parse(reference);
                     if (resourceReference != null) {
                         result = resourceReference;
                     }
