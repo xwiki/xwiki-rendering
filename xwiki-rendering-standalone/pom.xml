@@ -27,6 +27,8 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering</artifactId>
+    <!-- TODO: Building this module currently has an issue if you haven't built xwiki-commons-pom first, see
+         http://jira.codehaus.org/browse/MSHADE-103 -->
     <version>4.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-standalone</artifactId>
