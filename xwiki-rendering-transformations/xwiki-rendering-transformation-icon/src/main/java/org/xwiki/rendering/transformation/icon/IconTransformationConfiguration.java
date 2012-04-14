@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.transformation.icon;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
 import java.util.Properties;
 
@@ -29,7 +29,7 @@ import java.util.Properties;
  * @version $Id$
  * @since 2.6RC1
  */
-@ComponentRole
+@Role
 public interface IconTransformationConfiguration
 {
     /**

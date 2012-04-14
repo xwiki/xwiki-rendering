@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.configuration;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
 import java.util.List;
 import java.util.Properties;
@@ -34,7 +34,7 @@ import java.util.Properties;
  * @version $Id$
  * @since 1.6M1
  */
-@ComponentRole
+@Role
 public interface RenderingConfiguration
 {
     /**

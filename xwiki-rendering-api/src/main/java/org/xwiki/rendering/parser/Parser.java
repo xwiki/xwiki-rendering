@@ -21,7 +21,7 @@ package org.xwiki.rendering.parser;
 
 import java.io.Reader;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
 
@@ -31,7 +31,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 1.5M2
  */
-@ComponentRole
+@Role
 public interface Parser
 {
     /**

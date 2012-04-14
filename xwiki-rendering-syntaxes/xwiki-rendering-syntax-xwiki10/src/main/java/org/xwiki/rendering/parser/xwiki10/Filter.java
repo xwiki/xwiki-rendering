@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.parser.xwiki10;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
 /**
  * Filter provided content into another content.
@@ -27,7 +27,7 @@ import org.xwiki.component.annotation.ComponentRole;
  * @version $Id$
  * @since 1.8M1
  */
-@ComponentRole
+@Role
 public interface Filter
 {
     int getPriority();

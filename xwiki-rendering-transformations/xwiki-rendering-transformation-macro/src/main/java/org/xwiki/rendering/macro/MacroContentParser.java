@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.macro;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
@@ -30,7 +30,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * @version $Id$
  * @since 3.3M1
  */
-@ComponentRole
+@Role
 public interface MacroContentParser
 {
     /**

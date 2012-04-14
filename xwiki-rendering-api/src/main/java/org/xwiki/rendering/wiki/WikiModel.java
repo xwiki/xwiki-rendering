@@ -21,7 +21,7 @@ package org.xwiki.rendering.wiki;
 
 import java.util.Map;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
@@ -33,7 +33,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
  * @version $Id$
  * @since 2.0M1
  */
-@ComponentRole
+@Role
 public interface WikiModel
 {
     /**

@@ -21,7 +21,7 @@ package org.xwiki.rendering.parser.xwiki10.macro;
 
 import java.util.Map;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.internal.parser.xwiki10.HTMLFilter.HTMLFilterContext;
 
 /**
@@ -30,7 +30,7 @@ import org.xwiki.rendering.internal.parser.xwiki10.HTMLFilter.HTMLFilterContext;
  * @version $Id$
  * @since 1.8.2
  */
-@ComponentRole
+@Role
 public interface HTMLElementConverter
 {
     String getElementName();

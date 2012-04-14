@@ -21,7 +21,7 @@ package org.xwiki.rendering.transformation.linkchecker;
 
 import java.util.Map;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
 /**
  * Allows implementation to provide data related to a Link. For example this can be used to add a HTTP Request URL
@@ -35,7 +35,7 @@ import org.xwiki.component.annotation.ComponentRole;
  * @version $Id$
  * @since 3.3RC1
  */
-@ComponentRole
+@Role
 public interface LinkContextDataProvider
 {
     /**

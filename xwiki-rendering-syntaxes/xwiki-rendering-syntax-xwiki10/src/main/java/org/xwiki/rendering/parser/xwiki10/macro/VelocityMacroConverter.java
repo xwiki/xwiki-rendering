@@ -21,7 +21,7 @@ package org.xwiki.rendering.parser.xwiki10.macro;
 
 import java.util.List;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.parser.xwiki10.FilterContext;
 
 /**
@@ -30,7 +30,7 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
  * @version $Id$
  * @since 1.8M1
  */
-@ComponentRole
+@Role
 public interface VelocityMacroConverter
 {
     boolean protectResult();

@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
 /**
  * Verifies if a URL exists.
@@ -27,7 +27,7 @@ import org.xwiki.component.annotation.ComponentRole;
  * @version $Id$
  * @since 3.3M1
  */
-@ComponentRole
+@Role
 public interface HTTPChecker
 {
     /**

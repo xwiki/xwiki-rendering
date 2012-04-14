@@ -20,7 +20,7 @@
 package org.xwiki.rendering.converter;
 
 import java.io.Reader;
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
@@ -30,7 +30,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
  * @version $Id$
  * @since 2.0M3
  */
-@ComponentRole
+@Role
 public interface Converter
 {
     /**

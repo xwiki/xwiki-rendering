@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.listener.descriptor;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
 /**
  * Manager {@link ListenerDescriptor} related to classes.
@@ -27,7 +27,7 @@ import org.xwiki.component.annotation.ComponentRole;
  * @version $Id$
  * @since 3.3M1
  */
-@ComponentRole
+@Role
 public interface ListenerDescriptorManager
 {
     /**

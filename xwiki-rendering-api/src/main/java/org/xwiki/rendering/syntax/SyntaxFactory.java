@@ -19,14 +19,14 @@
  */
 package org.xwiki.rendering.syntax;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.parser.ParseException;
 
 /**
  * @version $Id$
  * @since 2.0RC1
  */
-@ComponentRole
+@Role
 public interface SyntaxFactory
 {
     /**

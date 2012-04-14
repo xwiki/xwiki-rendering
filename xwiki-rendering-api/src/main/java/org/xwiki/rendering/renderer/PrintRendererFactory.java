@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.renderer;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
@@ -32,7 +32,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
  * @version $Id$
  * @since 1.6M2
  */
-@ComponentRole
+@Role
 public interface PrintRendererFactory
 {
     /**

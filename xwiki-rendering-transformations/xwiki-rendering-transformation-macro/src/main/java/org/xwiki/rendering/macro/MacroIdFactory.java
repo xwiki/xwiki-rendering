@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.macro;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.parser.ParseException;
 
 /**
@@ -28,7 +28,7 @@ import org.xwiki.rendering.parser.ParseException;
  * @version $Id$
  * @since 2.0M3
  */
-@ComponentRole
+@Role
 public interface MacroIdFactory
 {
     /**

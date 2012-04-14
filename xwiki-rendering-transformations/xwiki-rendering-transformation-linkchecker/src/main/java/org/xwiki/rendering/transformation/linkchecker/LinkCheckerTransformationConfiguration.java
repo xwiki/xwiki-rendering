@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.transformation.linkchecker;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
 /**
  * Configuration options for the Link Checker Transformation.
@@ -27,7 +27,7 @@ import org.xwiki.component.annotation.ComponentRole;
  * @version $Id$
  * @since 3.3M2
  */
-@ComponentRole
+@Role
 public interface LinkCheckerTransformationConfiguration
 {
     /**

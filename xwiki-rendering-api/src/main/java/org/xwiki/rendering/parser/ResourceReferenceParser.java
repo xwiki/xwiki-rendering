@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.parser;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
@@ -28,7 +28,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
  * @version $Id$
  * @since 2.5RC1
  */
-@ComponentRole
+@Role
 public interface ResourceReferenceParser
 {
     /**

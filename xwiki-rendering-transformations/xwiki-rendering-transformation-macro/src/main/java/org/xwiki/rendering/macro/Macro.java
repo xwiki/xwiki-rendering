@@ -21,7 +21,7 @@ package org.xwiki.rendering.macro;
 
 import java.util.List;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
@@ -31,7 +31,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * @version $Id$
  * @since 1.5M2
  */
-@ComponentRole
+@Role
 public interface Macro<P> extends Comparable<Macro< ? >>
 {
     /**

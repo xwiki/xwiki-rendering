@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml.link;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.listener.LinkListener;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 
@@ -39,7 +39,7 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
  * @version $Id$
  * @since 2.5M2
  */
-@ComponentRole
+@Role
 public interface XHTMLLinkTypeRenderer extends LinkListener
 {
     /**

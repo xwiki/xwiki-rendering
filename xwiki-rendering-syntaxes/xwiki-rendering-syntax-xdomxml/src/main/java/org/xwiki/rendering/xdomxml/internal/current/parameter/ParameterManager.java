@@ -23,9 +23,9 @@ import java.lang.reflect.Type;
 
 import org.dom4j.Element;
 import org.xml.sax.ContentHandler;
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
-@ComponentRole
+@Role
 public interface ParameterManager
 {
     void serialize(Type type, Object object, ContentHandler xmlContent);

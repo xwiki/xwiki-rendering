@@ -21,7 +21,7 @@ package org.xwiki.rendering.transformation.linkchecker;
 
 import java.util.Map;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
 /**
  * Provides the states of all checked links (ie all links that have been visited in the wiki).
@@ -29,7 +29,7 @@ import org.xwiki.component.annotation.ComponentRole;
  * @version $Id$
  * @since 3.3M1
  */
-@ComponentRole
+@Role
 public interface LinkStateManager
 {
     /**

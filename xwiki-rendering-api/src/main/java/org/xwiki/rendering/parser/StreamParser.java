@@ -21,7 +21,7 @@ package org.xwiki.rendering.parser;
 
 import java.io.Reader;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.syntax.Syntax;
 
@@ -31,7 +31,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 2.1M1
  */
-@ComponentRole
+@Role
 public interface StreamParser
 {
     /**

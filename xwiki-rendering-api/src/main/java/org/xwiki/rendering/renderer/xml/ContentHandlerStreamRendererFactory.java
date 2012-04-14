@@ -20,7 +20,7 @@
 package org.xwiki.rendering.renderer.xml;
 
 import org.xml.sax.ContentHandler;
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -29,7 +29,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 3.3M1
  */
-@ComponentRole
+@Role
 public interface ContentHandlerStreamRendererFactory
 {
     /**

@@ -21,7 +21,7 @@ package org.xwiki.rendering.transformation.macro;
 
 import java.util.Properties;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
 /**
  * Configuration properties for the Macro Transformation module.
@@ -33,7 +33,7 @@ import org.xwiki.component.annotation.ComponentRole;
  * @version $Id$
  * @since 2.6RC1
  */
-@ComponentRole
+@Role
 public interface MacroTransformationConfiguration
 {
     /**

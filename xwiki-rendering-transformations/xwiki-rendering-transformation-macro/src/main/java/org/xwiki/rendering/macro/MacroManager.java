@@ -21,7 +21,7 @@ package org.xwiki.rendering.macro;
 
 import java.util.Set;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -38,7 +38,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 1.9M1
  */
-@ComponentRole
+@Role
 public interface MacroManager
 {
     /**

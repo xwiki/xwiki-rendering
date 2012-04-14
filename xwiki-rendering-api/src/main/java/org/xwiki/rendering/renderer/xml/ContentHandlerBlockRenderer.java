@@ -22,7 +22,7 @@ package org.xwiki.rendering.renderer.xml;
 import java.util.Collection;
 
 import org.xml.sax.ContentHandler;
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
 
 /**
@@ -31,7 +31,7 @@ import org.xwiki.rendering.block.Block;
  * @version $Id$
  * @since 3.3M1
  */
-@ComponentRole
+@Role
 public interface ContentHandlerBlockRenderer
 {
     /**
