@@ -27,6 +27,9 @@ import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
+ * Represents a Macro, ie a mechanism to generate Rendering {@link Block}s, that we use as a way to either generate
+ * dynamic content or simply as a way to reuse Blocks in content.
+ *
  * @param <P> the type of the macro parameters bean
  * @version $Id$
  * @since 1.5M2
