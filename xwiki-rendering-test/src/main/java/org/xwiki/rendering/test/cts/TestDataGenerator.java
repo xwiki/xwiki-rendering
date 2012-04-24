@@ -49,10 +49,10 @@ public class TestDataGenerator
      * Read all test data.
      *
      * @param syntaxId the id of the syntax for which to generate data for
-     * @param testPackage the name of a resource directory to look into for {@code *.xdom} resources
-     * @param pattern a regex to decide which {@code *.xdom} resources should be found. The default should be to find
-     *        them all
-     * @return the list of test data, keyed by test prefix (eg {@code simple/bold/bold1})
+     * @param testPackage the name of a resource directory to look into for {@code *.xdom.txt} resources
+     * @param pattern a regex to decide which {@code *.xdom.txt} resources should be found. The default should be to
+     *        find them all
+     * @return the list of test data, keyed by test prefix (eg {@code cts/simple/bold/bold1})
      * @throws IOException in case of error while reading test data
      */
     public Map<String, TestData> generateTestData(String syntaxId, String testPackage, String pattern)
