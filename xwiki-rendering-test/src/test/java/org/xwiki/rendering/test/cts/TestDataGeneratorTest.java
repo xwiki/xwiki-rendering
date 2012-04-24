@@ -41,7 +41,7 @@ public class TestDataGeneratorTest
     public void readTestData() throws Exception
     {
         TestDataGenerator generator = new TestDataGenerator();
-        Map<String, TestData> data = generator.generateTestData("syntax/1.0", "cts", ".*\\.xdom\\.txt");
+        Map<String, TestData> data = generator.generateTestData("syntax/1.0", "cts.type", ".*\\.xdom\\.txt");
         Assert.assertEquals(1, data.size());
 
         Map.Entry<String, TestData> entry = data.entrySet().iterator().next();

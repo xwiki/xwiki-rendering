@@ -193,7 +193,7 @@ public class CompatibilityTestSuite extends Suite
         String packagePrefix = "";
         String pattern = Scope.DEFAULT_PATTERN;
         if (scopeAnnotation != null) {
-            packagePrefix = scopeAnnotation.value();
+            packagePrefix = "cts." + scopeAnnotation.value();
             pattern = scopeAnnotation.pattern();
         }
 
