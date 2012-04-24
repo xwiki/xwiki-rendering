@@ -32,21 +32,21 @@ public class TestDataGeneratorTest
     public void findTestPrefixes()
     {
         TestDataGenerator generator = new TestDataGenerator();
-        List<String> prefixes = generator.findTestPrefixes("cts", ".*\\.xdom");
+        List<String> prefixes = generator.findTestPrefixes("cts", ".*\\.xdom\\.txt");
         Assert.assertEquals(1, prefixes.size());
-        Assert.assertEquals("cts/test/test1", prefixes.get(0));
+        Assert.assertEquals("cts/type/test/test1", prefixes.get(0));
     }
 
     @Test
     public void readTestData() throws Exception
     {
         TestDataGenerator generator = new TestDataGenerator();
-        Map<String, TestData> data = generator.generateTestData("syntax/1.0", "cts", ".*\\.xdom");
+        Map<String, TestData> data = generator.generateTestData("syntax/1.0", "cts", ".*\\.xdom\\.txt");
         Assert.assertEquals(1, data.size());
 
         Map.Entry<String, TestData> entry = data.entrySet().iterator().next();
 
-        Assert.assertEquals("cts/test/test1", entry.getKey());
+        Assert.assertEquals("cts/type/test/test1", entry.getKey());
         TestData testData = entry.getValue();
         Assert.assertEquals(
               "beginDocument\n"
