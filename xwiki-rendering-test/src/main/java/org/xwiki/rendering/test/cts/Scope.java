@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Scope
 {
-    String DEFAULT_PATTERN = ".*\\.xdom";
+    String DEFAULT_PATTERN = ".*\\.xdom\\.txt";
 
     /**
      * @return the classpath prefix to search in

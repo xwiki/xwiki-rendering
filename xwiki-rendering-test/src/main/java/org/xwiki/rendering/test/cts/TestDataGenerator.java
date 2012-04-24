@@ -75,14 +75,24 @@ public class TestDataGenerator
         TestData testData = new TestData();
 
         // Look for xdom file and read its data
-        testData.xdom = readData(testPrefix, ".xdom", classLoader);
+        testData.xdom = readData(testPrefix, ".xdom.txt", classLoader);
 
-        // Look for input file and read its data
-        String testDirectory = syntaxDirectory + "/" + testPrefix;
-        testData.input = readData(testDirectory, ".input", classLoader);
+        // Replace the "cst" prefix by the syntax id
+        String testDirectory = testPrefix.replaceFirst("cts", syntaxDirectory);
 
-        // Look for output file and read its data
-        testData.output = readData(testDirectory, ".output", classLoader);
+        // Look for an inout file
+        String inout = readData(testDirectory, ".inout.txt", classLoader);
+
+        if (inout == null) {
+            // Look for input file and read its data
+            testData.input = readData(testDirectory, ".in.txt", classLoader);
+
+            // Look for output file and read its data
+            testData.output = readData(testDirectory, ".out.txt", classLoader);
+        } else {
+            testData.input = inout;
+            testData.output = inout;
+        }
 
         return testData;
     }
@@ -118,7 +128,7 @@ public class TestDataGenerator
         List<String> prefixes = new ArrayList<String>();
         for (String testResourceName : reflections.getResources(Pattern.compile(pattern))) {
             // Remove the trailing extension
-            prefixes.add(StringUtils.substringBeforeLast(testResourceName, ".xdom"));
+            prefixes.add(StringUtils.substringBeforeLast(testResourceName, ".xdom.txt"));
         }
 
         return prefixes;
