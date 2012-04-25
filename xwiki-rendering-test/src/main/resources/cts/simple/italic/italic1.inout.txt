@@ -1,0 +1,11 @@
+beginDocument [[syntax]=[${{{regex:.*}}}]]
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+beginFormat [ITALIC]
+onWord [italic]
+endFormat [ITALIC]
+endParagraph
+endDocument [[syntax]=[${{{regex:.*}}}]]
