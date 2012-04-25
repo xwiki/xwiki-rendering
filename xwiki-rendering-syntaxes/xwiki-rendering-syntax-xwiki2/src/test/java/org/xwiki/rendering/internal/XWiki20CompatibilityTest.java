@@ -24,6 +24,12 @@ import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
 import org.xwiki.rendering.test.cts.Scope;
 import org.xwiki.rendering.test.cts.Syntax;
 
+/**
+ * Run all CTS tests for the XWiki Syntax 2.0.
+ *
+ * @version $Id$
+ * @since 4.1M1
+ */
 @RunWith(CompatibilityTestSuite.class)
 @Syntax("xwiki/2.0")
 @Scope("simple")

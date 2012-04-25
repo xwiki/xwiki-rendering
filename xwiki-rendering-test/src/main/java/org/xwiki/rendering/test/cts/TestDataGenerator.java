@@ -21,10 +21,10 @@ package org.xwiki.rendering.test.cts;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
@@ -49,8 +49,8 @@ public class TestDataGenerator
      * Read all test data.
      *
      * @param syntaxId the id of the syntax for which to generate data for
-     * @param testPackage the name of a resource directory to look into for {@code *.xdom.txt} resources
-     * @param pattern a regex to decide which {@code *.xdom.txt} resources should be found. The default should be to
+     * @param testPackage the name of a resource directory to look into for {@code *.txt} resources
+     * @param pattern a regex to decide which {@code *.txt} resources should be found. The default should be to
      *        find them all
      * @return the list of test data, keyed by test prefix (eg {@code cts/simple/bold/bold1})
      * @throws IOException in case of error while reading test data
@@ -74,24 +74,27 @@ public class TestDataGenerator
     {
         TestData testData = new TestData();
 
-        // Look for xdom file and read its data
-        testData.xdom = readData(testPrefix, ".xdom.txt", classLoader);
+        // Look for CTS input/output file and read their content
+        String ctsInOut = readData(testPrefix, ".inout.txt", classLoader);
+        if (ctsInOut == null) {
+            testData.ctsInput = readData(testPrefix, ".in.txt", classLoader);
+            testData.ctsOutput = readData(testPrefix, ".out.txt", classLoader);
+        } else {
+            testData.ctsInput = ctsInOut;
+            testData.ctsOutput = ctsInOut;
+        }
 
-        // Replace the "cst" prefix by the syntax id
+        // Replace the "cts" prefix by the syntax id
         String testDirectory = testPrefix.replaceFirst("cts", syntaxDirectory);
 
-        // Look for an inout file
-        String inout = readData(testDirectory, ".inout.txt", classLoader);
-
-        if (inout == null) {
-            // Look for input file and read its data
-            testData.input = readData(testDirectory, ".in.txt", classLoader);
-
-            // Look for output file and read its data
-            testData.output = readData(testDirectory, ".out.txt", classLoader);
+        // Look for syntax-specific input/output file and read their content
+        String syntaxInOut = readData(testDirectory, ".inout.txt", classLoader);
+        if (syntaxInOut == null) {
+            testData.syntaxInput = readData(testDirectory, ".in.txt", classLoader);
+            testData.syntaxOutput = readData(testDirectory, ".out.txt", classLoader);
         } else {
-            testData.input = inout;
-            testData.output = inout;
+            testData.syntaxInput = syntaxInOut;
+            testData.syntaxOutput = syntaxInOut;
         }
 
         return testData;
@@ -109,26 +112,26 @@ public class TestDataGenerator
     }
 
     /**
-     * Find {@code *.xdom} files in the classpath and return the list of all resources found, without their filename
-     * extensions. For example if {@code syntax/simple/bold/bold1.xdom} is found, return
+     * Find {@code *.txt} files in the classpath and return the list of all resources found, without their filename
+     * extensions. For example if {@code syntax/simple/bold/bold1.*.txt} is found, return
      * {@code syntax/simple/bold/bold1}.
      *
-     * @param testPackage the name of a resource directory to look into for {@code *.xdom} resources
-     * @param pattern a regex to decide which {@code *.xdom} resources should be found. The default should be to find
+     * @param testPackage the name of a resource directory to look into for {@code *.txt} resources
+     * @param pattern a regex to decide which {@code *.txt} resources should be found. The default should be to find
      *        them all
      * @return the list of resources found
      */
-    public List<String> findTestPrefixes(String testPackage, String pattern)
+    public Set<String> findTestPrefixes(String testPackage, String pattern)
     {
         Reflections reflections = new Reflections(new ConfigurationBuilder()
             .setScanners(new ResourcesScanner())
             .setUrls(ClasspathHelper.forPackage(""))
             .filterInputsBy(new FilterBuilder.Include(FilterBuilder.prefix(testPackage))));
 
-        List<String> prefixes = new ArrayList<String>();
+        Set<String> prefixes = new TreeSet<String>();
         for (String testResourceName : reflections.getResources(Pattern.compile(pattern))) {
             // Remove the trailing extension
-            prefixes.add(StringUtils.substringBeforeLast(testResourceName, ".xdom.txt"));
+            prefixes.add(StringUtils.substringBeforeLast(testResourceName, ".inout.txt"));
         }
 
         return prefixes;

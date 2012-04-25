@@ -19,8 +19,8 @@
  */
 package org.xwiki.rendering.test.cts;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -32,29 +32,31 @@ public class TestDataGeneratorTest
     public void findTestPrefixes()
     {
         TestDataGenerator generator = new TestDataGenerator();
-        List<String> prefixes = generator.findTestPrefixes("cts", ".*\\.xdom\\.txt");
+        Set<String> prefixes = generator.findTestPrefixes("cts.type", ".*\\.txt");
         Assert.assertEquals(1, prefixes.size());
-        Assert.assertEquals("cts/type/test/test1", prefixes.get(0));
+        Assert.assertEquals("cts/type/test/test1", prefixes.iterator().next());
     }
 
     @Test
     public void readTestData() throws Exception
     {
         TestDataGenerator generator = new TestDataGenerator();
-        Map<String, TestData> data = generator.generateTestData("syntax/1.0", "cts.type", ".*\\.xdom\\.txt");
+        Map<String, TestData> data = generator.generateTestData("syntax/1.0", "cts.type", ".*\\.txt");
         Assert.assertEquals(1, data.size());
 
         Map.Entry<String, TestData> entry = data.entrySet().iterator().next();
 
         Assert.assertEquals("cts/type/test/test1", entry.getKey());
         TestData testData = entry.getValue();
-        Assert.assertEquals(
+        String expectedCTSContent =
               "beginDocument\n"
             + "beginParagraph\n"
             + "onWord [test]\n"
             + "endParagraph\n"
-            + "endDocument", testData.xdom);
-        Assert.assertEquals("test", testData.input);
-        Assert.assertEquals("test", testData.output);
+            + "endDocument";
+        Assert.assertEquals(expectedCTSContent, testData.ctsInput);
+        Assert.assertEquals(expectedCTSContent, testData.ctsOutput);
+        Assert.assertEquals("test", testData.syntaxInput);
+        Assert.assertEquals("test", testData.syntaxOutput);
     }
 }

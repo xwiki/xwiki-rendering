@@ -22,10 +22,10 @@ package org.xwiki.rendering.test.cts;
 /**
  * Contains Test Data for a single test. Specifically contains:
  * <ul>
- *   <li>The XDOM representation content</li>
- *   <li>The input content (or null if not defined)</li>
- *   <li>The output content (or null if not defined)</li>
- *   <li>The config content (or null if no config has been defined)</li>
+ *   <li>The CTS input content</li>
+ *   <li>The CTS output content</li>
+ *   <li>The syntax-specific input content (or null if not defined)</li>
+ *   <li>The syntax-specific output content (or null if not defined)</li>
  * </ul>
  *
  * @version $Id$
@@ -33,9 +33,11 @@ package org.xwiki.rendering.test.cts;
  */
 public class TestData
 {
-    public String xdom;
+    public String ctsInput;
 
-    public String input;
+    public String ctsOutput;
 
-    public String output;
+    public String syntaxInput;
+
+    public String syntaxOutput;
 }
