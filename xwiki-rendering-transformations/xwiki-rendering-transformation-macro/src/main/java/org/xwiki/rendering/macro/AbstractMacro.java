@@ -188,7 +188,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * Extract the Macro Component Hint from the Macro annotation (from the {@link Named} annotation or from the
      * older {@link Component} annotation which is kept for backward compatibility only).
      *
-     * @return the Macro component hint under whicht the macro is registered
+     * @return the Macro component hint under which the macro is registered
      * since 3.1M2
      */
     private String extractMacroComponentHint()
