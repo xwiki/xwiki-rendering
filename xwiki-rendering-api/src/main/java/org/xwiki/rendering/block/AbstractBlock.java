@@ -945,11 +945,4 @@ public abstract class AbstractBlock implements Block
         // recurse
         return recurse ? getParent().getPreviousBlockByType(blockClass, true) : null;
     }
-
-    @Deprecated
-    @Override
-    public <T extends Block> T getParentBlockByType(Class<T> blockClass)
-    {
-        return blockClass.cast(getFirstBlock(new ClassBlockMatcher(blockClass), Axes.ANCESTOR));
-    }
 }

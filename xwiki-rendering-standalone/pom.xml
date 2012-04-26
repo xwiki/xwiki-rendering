@@ -97,10 +97,26 @@
       <artifactId>xwiki-rendering-macro-comment</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!-- Bundle Legacy Commons and Rendering JARs -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-component-default</artifactId>
+      <artifactId>xwiki-commons-legacy-configuration</artifactId>
       <version>${commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-legacy-component-api</artifactId>
+      <version>${commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-legacy-component-default</artifactId>
+      <version>${commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-legacy-api</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
   <build>
@@ -162,6 +178,27 @@
                   <resource>META-INF/components.txt</resource>
                 </transformer>
               </transformers>
+              <!-- Since we're including legacy Rendering JARs we need to exclude the JARs they're wrapping -->
+              <artifactSet>
+                <excludes>
+                  <exclude>org.xwiki.commons:xwiki-commons-component-api</exclude>
+                  <exclude>org.xwiki.commons:xwiki-commons-component-default</exclude>
+                  <exclude>org.xwiki.rendering:xwiki-rendering-api</exclude>
+                </excludes>
+              </artifactSet>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-no-legacy-dependencies</id>
+            <configuration>
+              <!-- Skip Enforcer check on this module since we're bundling legacy modules! -->
+              <skip>true</skip>
             </configuration>
           </execution>
         </executions>

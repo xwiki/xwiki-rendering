@@ -33,6 +33,10 @@
   <name>XWiki Rendering - Api</name>
   <packaging>jar</packaging>
   <description>XWiki Rendering - Api</description>
+  <properties>
+    <!-- Skipping CLIRR since xwiki-rendering-legacy-api wraps this module and runs CLIRR on it -->
+    <xwiki.clirr.skip>true</xwiki.clirr.skip>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>

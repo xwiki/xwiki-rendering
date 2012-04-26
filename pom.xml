@@ -161,4 +161,13 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <!-- Profile to build Legacy modules -->
+    <profile>
+      <id>legacy</id>
+      <modules>
+        <module>xwiki-rendering-legacy</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
