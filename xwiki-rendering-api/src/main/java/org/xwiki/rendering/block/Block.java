@@ -301,7 +301,9 @@ public interface Block extends Cloneable
      * @param recurse if true also search recursively children
      * @return all the matching blocks
      * @since 1.6M1
-     * @deprecated since 3.0M3 use {@link #getBlocks(BlockMatcher, Axes)} instead
+     * @deprecated since 3.0M3 use {@code #getBlocks(new ClassBlockMatcher(blockClass), Axes.DESCENDANT)} instead if
+     *             {@code recurse} was true and {@code #getBlocks(new ClassBlockMatcher(blockClass), Axes.CHILD)}
+     *             otherwise
      */
     @Deprecated
     <T extends Block> List<T> getChildrenByType(Class<T> blockClass, boolean recurse);
