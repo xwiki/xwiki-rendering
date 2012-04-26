@@ -182,26 +182,6 @@ public class BlockTest
     }
 
     @Test
-    public void testGetPreviousBlockByType()
-    {
-        WordBlock lw = new WordBlock("linkword");
-        SpecialSymbolBlock ls = new SpecialSymbolBlock('$');
-
-        DocumentResourceReference linkReference = new DocumentResourceReference("reference");
-        LinkBlock pl = new LinkBlock(Arrays.<Block> asList(lw, ls), linkReference, false);
-
-        ImageBlock pi = new ImageBlock(new ResourceReference("document@attachment", ResourceType.ATTACHMENT), true);
-
-        ParagraphBlock rootBlock = new ParagraphBlock(Arrays.<Block> asList(pi, pl));
-
-        Assert.assertSame(lw, ls.getPreviousBlockByType(WordBlock.class, false));
-        Assert.assertNull(ls.getPreviousBlockByType(ImageBlock.class, false));
-        Assert.assertSame(pl, ls.getPreviousBlockByType(LinkBlock.class, true));
-        Assert.assertSame(pi, ls.getPreviousBlockByType(ImageBlock.class, true));
-        Assert.assertSame(rootBlock, ls.getPreviousBlockByType(ParagraphBlock.class, true));
-    }
-
-    @Test
     public void testGetNextSibling()
     {
         WordBlock b1 = new WordBlock("b1");

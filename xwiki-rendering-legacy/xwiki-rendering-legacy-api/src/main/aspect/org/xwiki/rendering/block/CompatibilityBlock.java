@@ -43,4 +43,20 @@ public interface CompatibilityBlock
      */
     @Deprecated
     <T extends Block> T getParentBlockByType(Class<T> blockClass);
+
+    /**
+     * Look upward to find a block which inherit or is provided type.
+     * <p>
+     * The difference with {@code #getParentBlockByType(Class)} is that this one look also at previous block in the same
+     * parent when {@code #getParentBlockByType(Class)} only look at parents.
+     *
+     * @param <T> the class of the Blocks to return
+     * @param blockClass the block class to look for
+     * @param recurse if true also search in parents levels
+     * @return the found block, null if nothing is found
+     * @since 1.6M1
+     * @deprecated since 3.0M3 use {@link #getBlocks(BlockMatcher, Axes)} instead
+     */
+    @Deprecated
+    <T extends Block> T getPreviousBlockByType(Class<T> blockClass, boolean recurse);
 }

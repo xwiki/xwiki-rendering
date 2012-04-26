@@ -914,35 +914,4 @@ public abstract class AbstractBlock implements Block
     {
         return getBlocks(new ClassBlockMatcher(blockClass), recurse ? Axes.DESCENDANT : Axes.CHILD);
     }
-
-    @Deprecated
-    @Override
-    public <T extends Block> T getPreviousBlockByType(Class<T> blockClass, boolean recurse)
-    {
-        // Don't use #getFirstBlock(BlockMatcher, Axes) for retro-compatibility because it's a bit different:
-        // #getFirstBlock follows XPATH axes specifications and does not include "ancestors" in "preceding" axis
-
-        if (getParent() == null) {
-            return null;
-        }
-
-        int index = indexOfBlock(this, getParent().getChildren());
-
-        // test previous brothers
-        List<Block> blocks = getParent().getChildren();
-        for (int i = index - 1; i >= 0; --i) {
-            Block previousBlock = blocks.get(i);
-            if (blockClass.isAssignableFrom(previousBlock.getClass())) {
-                return blockClass.cast(previousBlock);
-            }
-        }
-
-        // test parent
-        if (blockClass.isAssignableFrom(getParent().getClass())) {
-            return blockClass.cast(getParent());
-        }
-
-        // recurse
-        return recurse ? getParent().getPreviousBlockByType(blockClass, true) : null;
-    }
 }
