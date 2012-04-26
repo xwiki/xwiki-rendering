@@ -65,6 +65,7 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
     }
 
     @Override
+    @Deprecated
     public Class< ? > getType()
     {
         return this.propertyDescriptor.getPropertyClass();
