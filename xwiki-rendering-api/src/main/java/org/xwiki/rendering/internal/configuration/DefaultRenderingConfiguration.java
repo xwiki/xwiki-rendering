@@ -28,6 +28,7 @@ import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.transformation.Transformation;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -77,9 +78,9 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
     public void initialize() throws InitializationException
     {
         // Find the names of all registered Transformations.
-        for (ComponentDescriptor<Transformation> descriptor
-            : this.componentManager.getComponentDescriptorList(Transformation.class))
-        {
+        List<ComponentDescriptor<Transformation>> descriptors =
+            this.componentManager.getComponentDescriptorList((Type) Transformation.class);
+        for (ComponentDescriptor<Transformation> descriptor : descriptors) {
             transformationNames.add(descriptor.getRoleHint());
         }
     }

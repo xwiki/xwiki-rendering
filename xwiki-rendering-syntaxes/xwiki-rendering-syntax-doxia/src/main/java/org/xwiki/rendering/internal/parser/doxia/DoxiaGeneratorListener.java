@@ -95,7 +95,7 @@ public class DoxiaGeneratorListener implements Listener
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
         // TODO: Handle parameters
-        this.sink.verbatim(false);
+        this.sink.verbatim(null);
         this.sink.text(protectedString);
         this.sink.verbatim_();
     }
