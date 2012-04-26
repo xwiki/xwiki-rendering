@@ -26,12 +26,6 @@ import org.junit.Test;
 
 import junit.framework.Assert;
 
-/**
- * Unit tests for {@link TestDataGenerator}.
- *
- * @version $Id$
- * @since 4.1M1
- */
 public class TestDataGeneratorTest
 {
     @Test
