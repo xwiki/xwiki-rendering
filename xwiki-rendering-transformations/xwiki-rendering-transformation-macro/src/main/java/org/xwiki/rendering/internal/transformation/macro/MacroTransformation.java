@@ -41,6 +41,7 @@ import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.VerbatimBlock;
 import org.xwiki.rendering.block.WordBlock;
+import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroId;
@@ -128,12 +129,13 @@ public class MacroTransformation extends AbstractTransformation
 
         // Counter to prevent infinite recursion if a macro generates the same macro for example.
         int executions = 0;
-        List<MacroBlock> macroBlocks = rootBlock.getChildrenByType(MacroBlock.class, true);
+        List<MacroBlock> macroBlocks =
+            rootBlock.getBlocks(new ClassBlockMatcher(MacroBlock.class), Block.Axes.DESCENDANT);
         while (!macroBlocks.isEmpty() && executions < this.maxMacroExecutions) {
             transformOnce(rootBlock, macroContext, context.getSyntax());
 
             // TODO: Make this less inefficient by caching the blocks list.
-            macroBlocks = rootBlock.getChildrenByType(MacroBlock.class, true);
+            macroBlocks = rootBlock.getBlocks(new ClassBlockMatcher(MacroBlock.class), Block.Axes.DESCENDANT);
             executions++;
         }
     }
@@ -219,7 +221,9 @@ public class MacroTransformation extends AbstractTransformation
         List<MacroHolder> macroHolders = new ArrayList<MacroHolder>();
 
         // 1) Sort the macros by priority to find the highest priority macro to execute
-        for (MacroBlock macroBlock : rootBlock.getChildrenByType(MacroBlock.class, true)) {
+        List<MacroBlock> macroBlocks =
+            rootBlock.getBlocks(new ClassBlockMatcher(MacroBlock.class), Block.Axes.DESCENDANT);
+        for (MacroBlock macroBlock : macroBlocks) {
             try {
                 Macro< ? > macro = this.macroManager.getMacro(new MacroId(macroBlock.getId(), syntax));
                 macroHolders.add(new MacroHolder(macro, macroBlock));
