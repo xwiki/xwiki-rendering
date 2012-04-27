@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser;
+package org.xwiki.rendering.internal.docbook;
 
 import java.io.InputStreamReader;
 import java.util.regex.Pattern;
@@ -33,12 +33,12 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.test.AbstractComponentTestCase;
 
 /**
- * Unit tests for {@link DoxiaDocBookParser}.
+ * Unit tests for {@link DocBookParser}.
  *
  * @version $Id$
- * @since 3.2RC1
+ * @since 4.1M1
  */
-public class DoxiaDocBookParserTest extends AbstractComponentTestCase
+public class DocBookParserTest extends AbstractComponentTestCase
 {
     @Ignore("Ignored till we fix the DocBook parser to make it pass!")
     @Test

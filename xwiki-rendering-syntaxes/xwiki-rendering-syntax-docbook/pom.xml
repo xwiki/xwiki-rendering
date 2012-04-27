@@ -29,14 +29,19 @@
     <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>4.1-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntax-doxia</artifactId>
-  <name>XWiki Rendering - Syntax - Doxia Bridge</name>
-  <description>Bridge Doxia Model and XWiki Rendering Model</description>
+  <artifactId>xwiki-rendering-syntax-docbook</artifactId>
+  <name>XWiki Rendering - Syntax - DocBook</name>
+  <description>XWiki Rendering - Syntax - DocBook</description>
   <dependencies>
     <dependency>
-      <groupId>org.tautua.markdownpapers</groupId>
-      <artifactId>markdownpapers-doxia-module</artifactId>
-      <version>1.2.5</version>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-doxia</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.doxia</groupId>
+      <artifactId>doxia-module-docbook-simple</artifactId>
+      <version>1.2</version>
       <exclusions>
         <!-- Plexus draws JUnit that we don't need/want to have at runtime -->
         <exclusion>
@@ -44,7 +49,7 @@
           <artifactId>junit</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>    
+    </dependency>
     <!-- Test Dependencies -->
     <dependency>
       <groupId>commons-io</groupId>
@@ -52,18 +57,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <excludes>
-            **/doxia/AbstractDoxiaParser.java,
-            **/doxia/XWikiGeneratorSink.java
-          </excludes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>

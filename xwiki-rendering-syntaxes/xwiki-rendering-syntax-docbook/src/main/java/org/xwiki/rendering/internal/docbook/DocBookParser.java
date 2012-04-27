@@ -17,12 +17,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser;
+package org.xwiki.rendering.internal.docbook;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.maven.doxia.module.docbook.DocBookParser;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.doxia.AbstractDoxiaParser;
 import org.xwiki.rendering.syntax.Syntax;
@@ -31,12 +30,12 @@ import org.xwiki.rendering.syntax.Syntax;
  * DocBook Parser.
  *
  * @version $Id$
- * @since 3.2RC1
+ * @since 4.1M1
  */
 @Component
 @Named("docbook/4.4")
 @Singleton
-public class DoxiaDocBookParser extends AbstractDoxiaParser
+public class DocBookParser extends AbstractDoxiaParser
 {
     @Override
     public Syntax getSyntax()
@@ -47,6 +46,6 @@ public class DoxiaDocBookParser extends AbstractDoxiaParser
     @Override
     public org.apache.maven.doxia.parser.Parser createDoxiaParser()
     {
-        return new DocBookParser();
+        return new org.apache.maven.doxia.module.docbook.DocBookParser();
     }
 }
