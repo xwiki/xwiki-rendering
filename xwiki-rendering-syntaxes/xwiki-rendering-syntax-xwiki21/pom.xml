@@ -29,32 +29,42 @@
     <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>4.1-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntax-xwiki2</artifactId>
-  <name>XWiki Rendering - Syntax - XWiki 2.x</name>
-  <description>XWiki Rendering - Syntax - XWiki 2.x</description>
+  <artifactId>xwiki-rendering-syntax-xwiki21</artifactId>
+  <name>XWiki Rendering - Syntax - XWiki 2.1</name>
+  <description>XWiki Rendering - Syntax - XWiki 2.1</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
+      <artifactId>xwiki-rendering-syntax-xwiki20</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
     <plugins>
+      <!-- We need to compare against the xwiki-rendering-syntax-xwiki2 artifact since this module is new in 4.1M1 and
+           thus there's no previous version of it.
+           TODO: Remove this after 4.1M1 is released!
+      -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <excludes>
-            org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxEscapeWikiPrinter.java,
-            org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxMacroRenderer.java,
-            org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxChainingRenderer.java,
-            org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxEscapeHandler.java,
-            org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxImageRenderer.java,
-            org/xwiki/rendering/internal/renderer/xwiki20/reference/XWikiSyntaxResourceRenderer.java,
-          </excludes>
-        </configuration>
-      </plugin>
+         <groupId>org.codehaus.mojo</groupId>
+         <artifactId>clirr-maven-plugin</artifactId>
+         <configuration>
+           <comparisonArtifacts>
+             <comparisonArtifact>
+               <groupId>org.xwiki.rendering</groupId>
+               <artifactId>xwiki-rendering-syntax-xwiki2</artifactId>
+               <version>${xwiki.clirr.previous.version}</version>
+             </comparisonArtifact>
+           </comparisonArtifacts>
+         </configuration>
+       </plugin>
     </plugins>
   </build>
 </project>
