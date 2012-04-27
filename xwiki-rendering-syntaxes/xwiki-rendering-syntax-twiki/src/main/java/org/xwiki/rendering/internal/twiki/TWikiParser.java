@@ -17,12 +17,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser;
+package org.xwiki.rendering.internal.twiki;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.maven.doxia.module.twiki.TWikiParser;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.internal.parser.doxia.AbstractDoxiaParser;
@@ -31,12 +30,12 @@ import org.xwiki.rendering.internal.parser.doxia.AbstractDoxiaParser;
  * TWiki Parser.
  *
  * @version $Id$
- * @since 1.5M2
+ * @since 4.1M1
  */
 @Component
 @Named("twiki/1.0")
 @Singleton
-public class DoxiaTWikiParser extends AbstractDoxiaParser
+public class TWikiParser extends AbstractDoxiaParser
 {
     @Override
     public Syntax getSyntax()
@@ -47,6 +46,6 @@ public class DoxiaTWikiParser extends AbstractDoxiaParser
     @Override
     public org.apache.maven.doxia.parser.Parser createDoxiaParser()
     {
-        return new TWikiParser();
+        return new org.apache.maven.doxia.module.twiki.TWikiParser();
     }
 }
