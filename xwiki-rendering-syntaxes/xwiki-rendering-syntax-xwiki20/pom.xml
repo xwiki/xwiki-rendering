@@ -62,23 +62,6 @@
           </excludes>
         </configuration>
       </plugin>
-      <!-- We need to compare against the xwiki-rendering-syntax-xwiki2 artifact since this module is new in 4.1M1 and
-           thus there's no previous version of it.
-           TODO: Remove this after 4.1M1 is released!
-      -->
-      <plugin>
-         <groupId>org.codehaus.mojo</groupId>
-         <artifactId>clirr-maven-plugin</artifactId>
-         <configuration>
-           <comparisonArtifacts>
-             <comparisonArtifact>
-               <groupId>org.xwiki.rendering</groupId>
-               <artifactId>xwiki-rendering-syntax-xwiki2</artifactId>
-               <version>${xwiki.clirr.previous.version}</version>
-             </comparisonArtifact>
-           </comparisonArtifacts>
-         </configuration>
-       </plugin>
     </plugins>
   </build>
 </project>
