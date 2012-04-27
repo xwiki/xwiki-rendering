@@ -20,7 +20,7 @@
 package org.xwiki.rendering.internal.docbook;
 
 import org.apache.maven.doxia.module.docbook.DocBookSink;
-import org.xwiki.rendering.internal.renderer.DoxiaPrinterAdapter;
+import org.xwiki.rendering.internal.doxia.DoxiaPrinterAdapter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
 /**

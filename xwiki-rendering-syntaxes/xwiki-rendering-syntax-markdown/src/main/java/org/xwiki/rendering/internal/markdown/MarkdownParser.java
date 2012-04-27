@@ -17,29 +17,27 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser;
+package org.xwiki.rendering.internal.markdown;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.apache.maven.doxia.parser.Parser;
-import org.tautua.markdownpapers.doxia.MarkdownParser;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.parser.doxia.AbstractDoxiaParser;
+import org.xwiki.rendering.internal.doxia.AbstractDoxiaParser;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Markdown parser based on markdown doxia module.
  * 
  * @version $Id$
- * @since 3.4M1
+ * @since 4.1M1
  */
 @Component
 @Named("markdown/1.0")
 @Singleton
-public class DoxiaMarkdownParser extends AbstractDoxiaParser
+public class MarkdownParser extends AbstractDoxiaParser
 {
-    
     @Override
     public Syntax getSyntax()
     {
@@ -49,7 +47,7 @@ public class DoxiaMarkdownParser extends AbstractDoxiaParser
     @Override
     public Parser createDoxiaParser()
     {
-        return new MarkdownParser();
+        return new org.tautua.markdownpapers.doxia.MarkdownParser();
     }
 
 }

@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser;
+package org.xwiki.rendering.internal.markdown;
 
 import java.io.InputStreamReader;
 import java.util.regex.Pattern;
@@ -32,14 +32,13 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.test.AbstractComponentTestCase;
 
 /**
- * Unit tests for {@link DoxiaMarkdownParser}.
+ * Unit tests for {@link MarkdownParser}.
  *
  * @version $Id$
  * @since 3.4M1
  */
 public class MarkdownParserTest extends AbstractComponentTestCase
 {
-
     @Test
     public void parseMarkdownExample() throws Exception
     {

@@ -23,7 +23,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.parser.doxia.AbstractDoxiaParser;
+import org.xwiki.rendering.internal.doxia.AbstractDoxiaParser;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**

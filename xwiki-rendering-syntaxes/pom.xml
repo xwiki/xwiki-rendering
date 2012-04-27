@@ -52,6 +52,7 @@
     <module>xwiki-rendering-syntax-docbook</module>
     <module>xwiki-rendering-syntax-doxia</module>
     <module>xwiki-rendering-syntax-html</module>
+    <module>xwiki-rendering-syntax-markdown</module>
     <module>xwiki-rendering-syntax-twiki</module>
     <module>xwiki-rendering-syntax-wikimodel</module>
     <module>xwiki-rendering-syntax-xdomxml</module>
