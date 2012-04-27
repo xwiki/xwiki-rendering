@@ -26,44 +26,17 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.rendering</groupId>
-    <artifactId>xwiki-rendering</artifactId>
+    <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>4.1-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntaxes</artifactId>
-  <name>XWiki Rendering - Syntaxes - Parent POM</name>
-  <packaging>pom</packaging>
-  <description>Syntaxes parsers/renderers implementations supported by XWiki Platform</description>
+  <artifactId>xwiki-rendering-syntax-jspwiki</artifactId>
+  <name>XWiki Rendering - Syntax - JSPWiki</name>
+  <description>XWiki Rendering - Syntax - JSPWiki</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-api</artifactId>
+      <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <!-- Test Dependencies -->
-    <dependency>
-      <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-test</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
-  <modules>
-    <!-- Sorted Alphabetically -->
-    <module>xwiki-rendering-syntax-confluence</module>
-    <module>xwiki-rendering-syntax-creole</module>
-    <module>xwiki-rendering-syntax-docbook</module>
-    <module>xwiki-rendering-syntax-doxia</module>
-    <module>xwiki-rendering-syntax-html</module>
-    <module>xwiki-rendering-syntax-jspwiki</module>
-    <module>xwiki-rendering-syntax-markdown</module>
-    <module>xwiki-rendering-syntax-mediawiki</module>
-    <module>xwiki-rendering-syntax-tex</module>
-    <module>xwiki-rendering-syntax-twiki</module>
-    <module>xwiki-rendering-syntax-wikimodel</module>
-    <module>xwiki-rendering-syntax-xdomxml</module>
-    <module>xwiki-rendering-syntax-xhtml</module>
-    <module>xwiki-rendering-syntax-xwiki10</module>
-    <module>xwiki-rendering-syntax-xwiki20</module>
-    <module>xwiki-rendering-syntax-xwiki21</module>
-  </modules>
 </project>

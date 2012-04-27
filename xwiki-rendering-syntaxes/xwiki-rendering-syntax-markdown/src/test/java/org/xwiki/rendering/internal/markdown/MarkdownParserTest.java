@@ -32,7 +32,7 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.test.AbstractComponentTestCase;
 
 /**
- * Unit tests for {@link MarkdownParser}.
+ * Unit tests for {@link org.xwiki.rendering.internal.parser.markdown.MarkdownParser}.
  *
  * @version $Id$
  * @since 3.4M1

@@ -1,0 +1,3 @@
+org.xwiki.rendering.internal.renderer.tex.TexRendererFactory
+org.xwiki.rendering.internal.renderer.tex.TexRenderer
+org.xwiki.rendering.internal.renderer.tex.TexBlockRenderer

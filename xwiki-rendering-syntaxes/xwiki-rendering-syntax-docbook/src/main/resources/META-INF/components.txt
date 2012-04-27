@@ -1,4 +1,4 @@
-org.xwiki.rendering.internal.docbook.DocBookParser
-org.xwiki.rendering.internal.docbook.DocBookRendererFactory
-org.xwiki.rendering.internal.docbook.DocBookRenderer
-org.xwiki.rendering.internal.docbook.DocBookBlockRenderer
+org.xwiki.rendering.internal.parser.docbook.DocBookParser
+org.xwiki.rendering.internal.renderer.docbook.DocBookRendererFactory
+org.xwiki.rendering.internal.renderer.docbook.DocBookRenderer
+org.xwiki.rendering.internal.renderer.docbook.DocBookBlockRenderer

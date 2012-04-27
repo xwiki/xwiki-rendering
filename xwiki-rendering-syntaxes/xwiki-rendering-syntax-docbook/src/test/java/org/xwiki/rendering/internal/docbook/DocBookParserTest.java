@@ -33,7 +33,7 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.test.AbstractComponentTestCase;
 
 /**
- * Unit tests for {@link DocBookParser}.
+ * Unit tests for {@link org.xwiki.rendering.internal.parser.docbook.DocBookParser}.
  *
  * @version $Id$
  * @since 4.1M1
