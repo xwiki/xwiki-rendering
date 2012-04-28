@@ -124,6 +124,18 @@
       <plugin>
         <groupId>com.mycila.maven-license-plugin</groupId>
         <artifactId>maven-license-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- Unfortunately we need to copy some excludes from the top level POM since Maven or the License plugin
+                 don't merge excludes apparently... -->
+            <exclude>**/components.txt</exclude>
+            <!-- Exclude Rendering Test Data files -->
+            <exclude>**/*.in.txt</exclude>
+            <exclude>**/*.out.txt</exclude>
+            <exclude>**/*.inout.txt</exclude>
+            <exclude>**/*.test</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
