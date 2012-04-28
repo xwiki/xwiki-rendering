@@ -24,14 +24,14 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <description>Parsers and renderers based on Wiki Model</description>
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>4.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
-  <name>XWiki Rendering - Bridge - Wiki Model</name>
+  <name>XWiki Rendering - Syntax - WikiModel Bridge</name>
+  <description>Bridge WikiModel Model and XWiki Rendering Model</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
@@ -51,13 +51,10 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <excludes>
-            org/xwiki/rendering/internal/renderer/tex/TexBlockRenderer.java,
-            org/xwiki/rendering/internal/renderer/tex/TexRendererFactory.java,
-            org/xwiki/rendering/internal/renderer/wikimodel/WikiModelGeneratorListener.java,
-            org/xwiki/rendering/internal/renderer/wikimodel/WikiModelPrinterAdapter.java,
-            org/xwiki/rendering/internal/parser/wikimodel/DefaultXWikiGeneratorListener.java,
-            org/xwiki/rendering/internal/parser/wikimodel/WikiModelParserUtils.java,
-            org/xwiki/rendering/internal/parser/WikiModelConfluenceParser.java
+            **/wikimodel/WikiModelGeneratorListener.java,
+            **/wikimodel/WikiModelPrinterAdapter.java,
+            **/wikimodel/DefaultXWikiGeneratorListener.java,
+            **/wikimodel/WikiModelParserUtils.java
           </excludes>
         </configuration>
       </plugin>

@@ -33,6 +33,10 @@
   <name>XWiki Rendering - Legacy - API</name>
   <packaging>jar</packaging>
   <description>Legacy module for xwiki-rendering-api</description>
+  <properties>
+    <!-- The features provided by this module so that it's found when resolving extension -->
+    <xwiki.extension.features>org.xwiki.rendering:xwiki-rendering-api</xwiki.extension.features>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

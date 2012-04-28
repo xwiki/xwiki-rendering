@@ -24,18 +24,18 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <description>Parsers and renderers based on Doxia</description>
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>4.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-syntax-doxia</artifactId>
-  <name>XWiki Rendering - Bridge - Doxia</name>
+  <name>XWiki Rendering - Syntax - Doxia Bridge</name>
+  <description>Bridge Doxia Model and XWiki Rendering Model</description>
   <dependencies>
     <dependency>
       <groupId>org.apache.maven.doxia</groupId>
-      <artifactId>doxia-module-twiki</artifactId>
+      <artifactId>doxia-core</artifactId>
       <version>1.2</version>
       <exclusions>
         <!-- Plexus draws JUnit that we don't need/want to have at runtime -->
@@ -47,7 +47,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.maven.doxia</groupId>
-      <artifactId>doxia-module-docbook-simple</artifactId>
+      <artifactId>doxia-sink-api</artifactId>
       <version>1.2</version>
       <exclusions>
         <!-- Plexus draws JUnit that we don't need/want to have at runtime -->
@@ -56,23 +56,6 @@
           <artifactId>junit</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.tautua.markdownpapers</groupId>
-      <artifactId>markdownpapers-doxia-module</artifactId>
-      <version>1.2.5</version>
-      <exclusions>
-        <!-- Plexus draws JUnit that we don't need/want to have at runtime -->
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>    
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>

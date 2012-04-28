@@ -39,13 +39,31 @@
       <artifactId>xwiki-rendering-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <modules>
-    <module>xwiki-rendering-syntax-xdomxml</module>
+    <!-- Sorted Alphabetically -->
+    <module>xwiki-rendering-syntax-confluence</module>
+    <module>xwiki-rendering-syntax-creole</module>
+    <module>xwiki-rendering-syntax-docbook</module>
     <module>xwiki-rendering-syntax-doxia</module>
+    <module>xwiki-rendering-syntax-html</module>
+    <module>xwiki-rendering-syntax-jspwiki</module>
+    <module>xwiki-rendering-syntax-markdown</module>
+    <module>xwiki-rendering-syntax-mediawiki</module>
+    <module>xwiki-rendering-syntax-tex</module>
+    <module>xwiki-rendering-syntax-twiki</module>
     <module>xwiki-rendering-syntax-wikimodel</module>
-    <module>xwiki-rendering-syntax-xwiki2</module>
+    <module>xwiki-rendering-syntax-xdomxml</module>
     <module>xwiki-rendering-syntax-xhtml</module>
     <module>xwiki-rendering-syntax-xwiki10</module>
+    <module>xwiki-rendering-syntax-xwiki20</module>
+    <module>xwiki-rendering-syntax-xwiki21</module>
   </modules>
 </project>

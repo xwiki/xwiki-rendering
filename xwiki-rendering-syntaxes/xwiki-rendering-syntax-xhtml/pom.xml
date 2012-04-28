@@ -31,7 +31,7 @@
   </parent>
   <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
   <name>XWiki Rendering - Syntax - XHTML</name>
-  <description>XWiki Rendering - Syntax - XHTML and HTML</description>
+  <description>XWiki Rendering - Syntax - XHTML</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

@@ -1,6 +1,0 @@
-org.xwiki.rendering.internal.parser.DoxiaTWikiParser
-org.xwiki.rendering.internal.parser.DoxiaDocBookParser
-org.xwiki.rendering.internal.parser.DoxiaMarkdownParser
-org.xwiki.rendering.internal.renderer.docbook.DocBookRendererFactory
-org.xwiki.rendering.internal.renderer.docbook.DocBookRenderer
-org.xwiki.rendering.internal.renderer.docbook.DocBookBlockRenderer

@@ -18,4 +18,3 @@ org.xwiki.rendering.internal.renderer.xhtml.XHTMLMarkerResourceReferenceSerializ
 org.xwiki.rendering.internal.parser.xhtml.XHTMLParser
 org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiXMLReaderFactory
 org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLMarkerResourceReferenceParser
-org.xwiki.rendering.internal.parser.html.HTMLParser
