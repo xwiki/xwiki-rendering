@@ -423,7 +423,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
         print(this.listStyle.toString());
         if (StringUtils.contains(this.listStyle.toString(), '1')) {
-            print("");
+            print(".");
         }
         print(" ");
     }
@@ -528,7 +528,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         if (this.listStyle.length() > 0) {
             print(this.listStyle.toString());
             if (this.listStyle.charAt(0) == '1') {
-                print("");
+                print(".");
             }
         }
         print(StringUtils.repeat(':', getBlockState().getDefinitionListDepth() - 1));
@@ -549,7 +549,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         if (this.listStyle.length() > 0) {
             print(this.listStyle.toString());
             if (this.listStyle.charAt(0) == '1') {
-                print("");
+                print(".");
             }
         }
         print(StringUtils.repeat(':', getBlockState().getDefinitionListDepth() - 1));
