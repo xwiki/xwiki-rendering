@@ -38,5 +38,12 @@
       <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>

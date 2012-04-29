@@ -35,15 +35,27 @@
   <description>XWiki Rendering - Test Framework</description>
   <dependencies>
     <dependency>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-text</artifactId>
+      <version>${commons.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-api</artifactId>
       <version>${project.version}</version>
+      <!-- TODO: why? -->
       <exclusions>
           <exclusion>
               <artifactId>dom4j</artifactId>
               <groupId>dom4j</groupId>
           </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-xdomxml</artifactId>
+      <version>${project.version}</version>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
@@ -64,6 +76,7 @@
       <version>0.9.6</version>
       <exclusions>
         <!-- We don't need that part of reflections -->
+        <!-- TODO: why? -->
         <exclusion>
           <artifactId>dom4j</artifactId>
           <groupId>dom4j</groupId>

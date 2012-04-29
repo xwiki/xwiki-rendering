@@ -1,5 +1,0 @@
-beginDocument
-beginParagraph
-onWord [test]
-endParagraph
-endDocument

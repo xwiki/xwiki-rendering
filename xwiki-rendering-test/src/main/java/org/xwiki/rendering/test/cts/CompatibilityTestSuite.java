@@ -19,11 +19,11 @@
  */
 package org.xwiki.rendering.test.cts;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
@@ -36,70 +36,95 @@ import org.junit.runners.model.Statement;
 import org.xwiki.test.XWikiComponentInitializer;
 
 /**
- * Run all tests found in resources files located in the classpath. The algorithm is the following:
+ * Run all tests found in resources files located in the classpath, for a given Syntax.
+ *
+ * The algorithm is the following:
  * <ul>
- *   <li>Look for *.xdom resources in the classpath</li>
- *   <li>For each N.xdom resource found try to find a N.input resource. If found, parse the input in the syntax passed
- *       to this suite and verify it generates what's in the N.xdom resource. If no N.input is found, raise a warning
- *       in the logs.</li>
- *   <li>For each N.xdom resource found try to find a N.output resource. If found, render the N.xdom content
- *       using the syntax passed to this suite and verify it matches N.output. If no N.output is found, raise a warning
- *       in the logs.</li>
- *   <li>If a N.config file exists, use its content to customize the process. For example if it mentions to run Macro
- *       transformations, execute it after parsing the N.input file.</li>
+ *   <li>Look for {@code cts/[scope]} resources in the classpath where {@code [scope]} represents the value of the
+ *       {@code &#064;Scope} annotation prefixed by {@code cts\\.}. By default if no Scope annotation is defined,
+ *       {@code .*\\.xml} is used, leading to a total regex of {@code cts\\..*\\.xml}. This is the regex that's used
+ *       to look for resources in the classpath. For example the following test file would match:
+ *       {@code cts/simple/bold/bold1.inout.xml}. We call these {@code CTS} resources.</li>
+ *   <li>For each {@code CTS} resource found look for equivalent test input and output files for the tested Syntax.
+ *       For example if we have {@code cts/simple/bold/bold1.inout.xml} then if the Syntax is {@code xwiki/2.0} look
+ *       for {@code xwiki20/simple/bold/bold1.[in|out|inout].txt} test files. We call them {@code SYN} resources.
+ *   </li>
+ *   <li>For each {@code SYN IN} resource, parse it with the corresponding Syntax parser and render the generated XDOM
+ *       with the CTS Renderer, and compare the results with the {@code CTS OUT} resource. Note that if no
+ *       {@code SYN IN} resource is found generate a warning in the test logs.</li>
+ *   <li>For each {@code SYN OUT} resource, parse the {@code CTS IN} resource with the CTS Syntax parser and render the
+ *       generated XDOM with the Syntax Renderer, and compare the results with the {@code SYN OUT} resource.
+ *       Note that if no {@code SYN OUT} resource is found generate a warning in the test logs.</li>
  * </ul>
  *
- * <p>Usage Example</p>
- * {@code
- * @RunWith(CompatibilityTestSuite.class)
- * @Syntax("xwiki/2.0")
- * @Scope("simple")
+ * <p>
+ * Usage Example
+ * </p>
+ * <pre><code>
+ * &#064;RunWith(CompatibilityTestSuite.class)
+ * &#064;Syntax("xwiki/2.0")
+ * &#064;Scope("simple")
  * public class IntegrationTests
  * {
  * }
- * }
- * <p>It's also possible to get access to the underlying Component Manager used, for example in order to register
- * Mock implementations of components. For example:</p>
- * {@code
- * @RunWith(CompatibilityTestSuite.class)
- * @Syntax("xwiki/2.0")
- * @Scope("simple")
+ * </code></pre>
+ * <p>
+ * It's also possible to get access to the underlying Component Manager used, for example in order to register
+ * Mock implementations of components. For example:
+ * </p>
+ * <pre><code>
+ * &#064;RunWith(CompatibilityTestSuite.class)
+ * &#064;Syntax("xwiki/2.0")
+ * &#064;Scope("simple")
  * public class IntegrationTests
  * {
- *     @Initialized
+ *     &#064;Initialized
  *     public void initialize(ComponentManager componentManager)
  *     {
  *         // Init mocks here for example
  *     }
  * }
- * }
+ * </code></pre>
  *
  * @version $Id$
  * @since 4.1M1
  */
 public class CompatibilityTestSuite extends Suite
 {
+    /**
+     * Used to locate and parse Test Data.
+     */
     private static final TestDataGenerator GENERATOR = new TestDataGenerator();
 
-    private final Object klassInstance;
+    /**
+     * The Test instance (The Test instance is the class on which this Compatibility Test Suite is used).
+     */
+    private final Object testInstance;
 
-    private class TestClassRunnerForParameters extends
-        BlockJUnit4ClassRunner
+    /**
+     * Represents a Test Runner for a single Rendering Test to execute.
+     */
+    private class RenderingTestClassRunner extends BlockJUnit4ClassRunner
     {
+        /**
+         * Used to pass the Component Manager to the Rendering Test instance executing.
+         */
         private final XWikiComponentInitializer componentInitializer = new XWikiComponentInitializer();
 
-        private final String testPrefix;
-
+        /**
+         * @see #RenderingTestClassRunner(Class, TestData)
+         */
         private final TestData testData;
 
-        private final String syntaxId;
-
-        TestClassRunnerForParameters(Class<?> type, String syntaxId, String testPrefix, TestData testData)
+        /**
+         * @param type the {@link RenderingTest} class
+         * @param testData the Test Data, passed to the Rendering Test instance executing
+         * @throws InitializationError if the {@link RenderingTest} isn't a valid JUnit Test class
+         */
+        RenderingTestClassRunner(Class<?> type, TestData testData)
             throws InitializationError
         {
             super(type);
-            this.testPrefix = testPrefix;
-            this.syntaxId = syntaxId;
             this.testData = testData;
         }
 
@@ -107,13 +132,14 @@ public class CompatibilityTestSuite extends Suite
         public Object createTest() throws Exception
         {
             return getTestClass().getOnlyConstructor().newInstance(
-                this.testPrefix, this.syntaxId, this.testData, this.componentInitializer.getComponentManager());
+                this.testData, this.componentInitializer.getComponentManager());
         }
 
         @Override
         protected String getName()
         {
-            return this.testPrefix + " [" + this.syntaxId + "]";
+            return String.format("%s(%s) [%s]", this.testData.prefix, this.testData.isSyntaxInputTest ? "IN" : "OUT",
+                this.testData.syntaxId);
         }
 
         @Override
@@ -135,8 +161,12 @@ public class CompatibilityTestSuite extends Suite
         }
 
         /**
+         * {@inheritDoc}
+         *
+         * <p>
          * Initialize the Component Manager and call all methods annotated with {@link Initialized} in the suite,
          * before each test is executed, to ensure test isolation.
+         * </p>
          */
         @Override
         protected void runChild(FrameworkMethod method, RunNotifier notifier)
@@ -150,11 +180,11 @@ public class CompatibilityTestSuite extends Suite
 
             // Check all methods for a ComponentManager annotation and call the found ones.
             try {
-                for (Method klassMethod : klassInstance.getClass().getMethods()) {
+                for (Method klassMethod : testInstance.getClass().getMethods()) {
                     Initialized componentManagerAnnotation = klassMethod.getAnnotation(Initialized.class);
                     if (componentManagerAnnotation != null) {
                         // Call it!
-                        klassMethod.invoke(klassInstance, this.componentInitializer.getComponentManager());
+                        klassMethod.invoke(testInstance, this.componentInitializer.getComponentManager());
                     }
                 }
             } catch (Exception e) {
@@ -173,19 +203,31 @@ public class CompatibilityTestSuite extends Suite
         }
     }
 
-    private final ArrayList<Runner> runners = new ArrayList<Runner>();
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * We have one Test Runner per Syntax Test to execute, so that each test is reported individually and also to
+     * provide test isolation.
+     * </p>
+     */
+    private final List<Runner> runners = new ArrayList<Runner>();
 
     /**
      * Only called reflectively. Do not use programmatically.
+     *
+     * @param klass the test instance class on which this Test Suite is applied
+     * @throws IOException if we fail to locate or load test data
+     * @throws InitializationError if the {@link RenderingTest} isn't a valid JUnit Test class
      */
-    public CompatibilityTestSuite(Class<?> klass) throws Throwable
+    public CompatibilityTestSuite(Class<?> klass) throws IOException, InitializationError
     {
         super(RenderingTest.class, Collections.<Runner>emptyList());
 
         try {
-            this.klassInstance = klass.newInstance();
+            this.testInstance = klass.newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Failed to construct instance of [" + klass.getName() + "]", e);
+            throw new RuntimeException(String.format("Failed to construct instance of [%s]", klass.getName()), e);
         }
 
         // If a Scope Annotation is present then use it to define the scope
@@ -204,11 +246,9 @@ public class CompatibilityTestSuite extends Suite
         }
         String syntaxId = syntaxAnnotation.value();
 
-        for (Map.Entry<String, TestData> entry :
-            GENERATOR.generateTestData(syntaxId, packagePrefix, pattern).entrySet())
+        for (TestData testData : GENERATOR.generateTestData(syntaxId, packagePrefix, pattern))
         {
-            this.runners.add(new TestClassRunnerForParameters(getTestClass().getJavaClass(),
-                syntaxId, entry.getKey(), entry.getValue()));
+            this.runners.add(new RenderingTestClassRunner(getTestClass().getJavaClass(), testData));
         }
     }
 
@@ -221,8 +261,10 @@ public class CompatibilityTestSuite extends Suite
     /**
      * {@inheritDoc}
      *
+     * <p>
      * We override this method so that the JUnit results are not displayed in a test hierarchy with a single test
      * result for each node (as it would be otherwise since RenderingTest has a single test method).
+     * </p>
      */
     @Override
     public Description getDescription()

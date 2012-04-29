@@ -21,14 +21,17 @@ package org.xwiki.rendering.test.cts;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.util.ClasspathHelper;
@@ -46,58 +49,72 @@ import org.reflections.util.FilterBuilder;
 public class TestDataGenerator
 {
     /**
-     * Read all test data.
+     * Read all test data. See {@link CompatibilityTestSuite} for a detailed explanation of the algorithm.
      *
      * @param syntaxId the id of the syntax for which to generate data for
-     * @param testPackage the name of a resource directory to look into for {@code *.txt} resources
-     * @param pattern a regex to decide which {@code *.txt} resources should be found. The default should be to
+     * @param testPackage the name of a resource directory to look into for {@code *.xml} resources
+     * @param pattern a regex to decide which {@code *.xml} resources should be found. The default should be to
      *        find them all
-     * @return the list of test data, keyed by test prefix (eg {@code cts/simple/bold/bold1})
+     * @return the list of test data
      * @throws IOException in case of error while reading test data
      */
-    public Map<String, TestData> generateTestData(String syntaxId, String testPackage, String pattern)
+    public List<TestData> generateTestData(String syntaxId, String testPackage, String pattern)
         throws IOException
     {
         ClassLoader classLoader = getClass().getClassLoader();
 
-        Map<String, TestData> data = new HashMap<String, TestData>();
+        List<TestData> data = new ArrayList<TestData>();
         String syntaxDirectory = computeSyntaxDirectory(syntaxId);
 
         for (String testPrefix : findTestPrefixes(testPackage, pattern)) {
-            data.put(testPrefix, generateSingleTestData(syntaxDirectory, testPrefix, classLoader));
+            for (TestData testData : generateSingleTestData(syntaxDirectory, testPrefix, classLoader)) {
+                testData.syntaxId = syntaxId;
+                testData.prefix = testPrefix;
+                data.add(testData);
+            }
         }
         return data;
     }
 
-    public TestData generateSingleTestData(String syntaxDirectory, String testPrefix, ClassLoader classLoader)
+    public List<TestData> generateSingleTestData(String syntaxDirectory, String testPrefix, ClassLoader classLoader)
         throws IOException
     {
-        TestData testData = new TestData();
-
-        // Look for CTS input/output file and read their content
-        String ctsInOut = readData(testPrefix, ".inout.txt", classLoader);
-        if (ctsInOut == null) {
-            testData.ctsInput = readData(testPrefix, ".in.txt", classLoader);
-            testData.ctsOutput = readData(testPrefix, ".out.txt", classLoader);
-        } else {
-            testData.ctsInput = ctsInOut;
-            testData.ctsOutput = ctsInOut;
-        }
+        // Look for CTS input/output file and read their contents
+        Pair<String, String> ctsData = readDataForPrefix(testPrefix, "xml", classLoader);
 
         // Replace the "cts" prefix by the syntax id
         String testDirectory = testPrefix.replaceFirst("cts", syntaxDirectory);
 
         // Look for syntax-specific input/output file and read their content
-        String syntaxInOut = readData(testDirectory, ".inout.txt", classLoader);
-        if (syntaxInOut == null) {
-            testData.syntaxInput = readData(testDirectory, ".in.txt", classLoader);
-            testData.syntaxOutput = readData(testDirectory, ".out.txt", classLoader);
+        TestData testDataIN = new TestData();
+        TestData testDataOUT = new TestData();
+
+        Pair<String, String> syntaxData = readDataForPrefix(testDirectory, "txt", classLoader);
+
+        testDataIN.isSyntaxInputTest = true;
+        testDataIN.syntaxData = syntaxData.getLeft();
+        testDataIN.ctsData = ctsData.getRight();
+        testDataOUT.syntaxData = syntaxData.getRight();
+        testDataOUT.ctsData = ctsData.getLeft();
+
+        return Arrays.asList(testDataIN, testDataOUT);
+    }
+
+    private Pair<String, String> readDataForPrefix(String prefix, String fileExtension, ClassLoader classLoader)
+        throws IOException
+    {
+        String inOut = readData(prefix, ".inout." + fileExtension, classLoader);
+        String in;
+        String out;
+        if (inOut == null) {
+            in = readData(prefix, ".in." + fileExtension, classLoader);
+            out = readData(prefix, ".out." + fileExtension, classLoader);
         } else {
-            testData.syntaxInput = syntaxInOut;
-            testData.syntaxOutput = syntaxInOut;
+            in = inOut;
+            out = inOut;
         }
 
-        return testData;
+        return new ImmutablePair<String, String>(in, out);
     }
 
     private String readData(String testPrefix, String suffix, ClassLoader classLoader) throws IOException
@@ -112,12 +129,12 @@ public class TestDataGenerator
     }
 
     /**
-     * Find {@code *.txt} files in the classpath and return the list of all resources found, without their filename
-     * extensions. For example if {@code syntax/simple/bold/bold1.*.txt} is found, return
+     * Find {@code *.xml} files in the classpath and return the list of all resources found, without their filename
+     * extensions. For example if {@code syntax/simple/bold/bold1.*.xml} is found, return
      * {@code syntax/simple/bold/bold1}.
      *
-     * @param testPackage the name of a resource directory to look into for {@code *.txt} resources
-     * @param pattern a regex to decide which {@code *.txt} resources should be found. The default should be to find
+     * @param testPackage the name of a resource directory to look into for {@code *.xml} resources
+     * @param pattern a regex to decide which {@code *.xml} resources should be found. The default should be to find
      *        them all
      * @return the list of resources found
      */
@@ -131,7 +148,7 @@ public class TestDataGenerator
         Set<String> prefixes = new TreeSet<String>();
         for (String testResourceName : reflections.getResources(Pattern.compile(pattern))) {
             // Remove the trailing extension
-            prefixes.add(StringUtils.substringBeforeLast(testResourceName, ".inout.txt"));
+            prefixes.add(StringUtils.substringBeforeLast(testResourceName, ".inout.xml"));
         }
 
         return prefixes;

@@ -40,18 +40,12 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
  */
 public class RenderingTest
 {
-    private String testPrefix;
-
-    private String syntaxId;
-
     private TestData testData;
 
     private ComponentManager componentManager;
 
-    public RenderingTest(String testPrefix, String syntaxId, TestData testData, ComponentManager componentManager)
+    public RenderingTest(TestData testData, ComponentManager componentManager)
     {
-        this.testPrefix = testPrefix;
-        this.syntaxId = syntaxId;
         this.testData = testData;
         this.componentManager = componentManager;
     }
@@ -59,46 +53,55 @@ public class RenderingTest
     @Test
     public void execute() throws Throwable
     {
-        // Step 1: If a syntax-specific input exists then parse it and compare it with the CTS output
-        if (this.testData.syntaxInput != null) {
-            // Parse the input
-            Parser parser = getComponentManager().getInstance(Parser.class, this.syntaxId);
-            XDOM xdom = parser.parse(new StringReader(this.testData.syntaxInput));
-            // Render using the CTS syntax renderer
-            BlockRenderer ctsRenderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");
-            WikiPrinter printer = new DefaultWikiPrinter();
-            ctsRenderer.render(xdom, printer);
-            // Compare
-            assertExpectedResult(this.testData.ctsOutput, printer.toString());
+        if (this.testData.isSyntaxInputTest) {
+            executeInputTest();
         } else {
-            // Generate a warning
-            System.out.println(String.format("No input found for [%s]", this.testPrefix));
+            executeOutputTest();
         }
+    }
 
-        // Step 2: If a syntax-specific output exists then render the CTS input and compare with that syntax-specific
-        // output
-        if (this.testData.syntaxOutput != null) {
-            // Parse the CST format
-            // TODO: Since we don't currently have a Parser for event/1.0 we use the passed input (if any) to generate
-            // the XDOM
-            XDOM xdom;
-            if (this.testData.syntaxInput != null) {
-                Parser parser = getComponentManager().getInstance(Parser.class, this.syntaxId);
-                xdom = parser.parse(new StringReader(this.testData.syntaxInput));
-            } else {
-                throw new RuntimeException(String.format("Can't run output test since there's no input found for [%s]",
-                    this.testPrefix));
-            }
-            // Render using the specified syntax
-            BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, this.syntaxId);
+    private void executeInputTest() throws Throwable
+    {
+        if (!executeTest(this.testData.syntaxData, this.testData.syntaxId, this.testData.ctsData, "xdom+xml/1.0")) {
+            System.out.println(String.format("No input found for [%s]", this.testData.prefix));
+        }
+    }
+
+    private void executeOutputTest() throws Throwable
+    {
+        if (!executeTest(this.testData.ctsData, "xdom+xml/1.0", this.testData.syntaxData, this.testData.syntaxId)) {
+            System.out.println(String.format("No output found for [%s]", this.testData.prefix));
+        }
+    }
+
+    private boolean executeTest(String inputData, String inputSyntaxId, String expectedOutputData, String outputSyntaxId)
+        throws Throwable
+    {
+        boolean executed = false;
+        if (this.testData.syntaxData != null) {
+            Parser parser = getComponentManager().getInstance(Parser.class, inputSyntaxId);
+            XDOM xdom = parser.parse(new StringReader(inputData));
+            BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, outputSyntaxId);
             WikiPrinter printer = new DefaultWikiPrinter();
             renderer.render(xdom, printer);
-            // Compare
-            assertExpectedResult(this.testData.syntaxOutput, printer.toString());
-        } else {
-            // Generate a warning
-            System.out.println(String.format("No output found for [%s]", this.testPrefix));
+            if (outputSyntaxId.contains("xdom+xml")) {
+                assertExpectedResult(normalizeXDOMXMLContent(expectedOutputData), printer.toString());
+            } else {
+                assertExpectedResult(expectedOutputData, printer.toString());
+            }
+            executed = true;
         }
+        return executed;
+    }
+
+    private String normalizeXDOMXMLContent(String content) throws Exception
+    {
+        Parser parser = getComponentManager().getInstance(Parser.class, "xdom+xml/1.0");
+        XDOM xdom = parser.parse(new StringReader(content));
+        BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, "xdom+xml/1.0");
+        WikiPrinter printer = new DefaultWikiPrinter();
+        renderer.render(xdom, printer);
+        return printer.toString();
     }
 
     /**
@@ -117,7 +120,7 @@ public class RenderingTest
      * endDocument
      * </code></pre>
      */
-    private void assertExpectedResult(String expected, String result)
+    private void assertExpectedResult(String expected, String result) throws Exception
     {
         StringBuilder builder = new StringBuilder();
         normalizeExpectedValue(builder, expected);

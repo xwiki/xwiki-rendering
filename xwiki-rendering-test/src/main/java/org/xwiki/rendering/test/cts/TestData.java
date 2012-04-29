@@ -19,25 +19,71 @@
  */
 package org.xwiki.rendering.test.cts;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.xwiki.text.XWikiToStringBuilder;
+
 /**
- * Contains Test Data for a single test. Specifically contains:
- * <ul>
- *   <li>The CTS input content</li>
- *   <li>The CTS output content</li>
- *   <li>The syntax-specific input content (or null if not defined)</li>
- *   <li>The syntax-specific output content (or null if not defined)</li>
- * </ul>
+ * Contains Test Data for a single test.
  *
  * @version $Id$
  * @since 4.1M1
  */
 public class TestData
 {
-    public String ctsInput;
+    public String syntaxId;
 
-    public String ctsOutput;
+    public String prefix;
 
-    public String syntaxInput;
+    public boolean isSyntaxInputTest;
 
-    public String syntaxOutput;
+    public String ctsData;
+
+    public String syntaxData;
+
+    @Override
+    public String toString()
+    {
+        return new XWikiToStringBuilder(this)
+            .append("syntaxId", this.syntaxId)
+            .append("prefix", this.prefix)
+            .append("isSyntaxInputTest", this.isSyntaxInputTest)
+            .append("ctsData", this.ctsData)
+            .append("syntaxData", this.syntaxData)
+            .toString();
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+        if (object == null) {
+            return false;
+        }
+        if (object == this) {
+            return true;
+        }
+        if (object.getClass() != getClass()) {
+            return false;
+        }
+        TestData rhs = (TestData) object;
+        return new EqualsBuilder()
+            .append(this.syntaxId, rhs.syntaxId)
+            .append(this.prefix, rhs.prefix)
+            .append(this.isSyntaxInputTest, rhs.isSyntaxInputTest)
+            .append(this.ctsData, rhs.ctsData)
+            .append(this.syntaxData, rhs.syntaxData)
+            .isEquals();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(3, 17)
+            .append(this.syntaxId)
+            .append(this.prefix)
+            .append(this.isSyntaxInputTest)
+            .append(this.ctsData)
+            .append(this.syntaxData)
+            .toHashCode();
+    }
 }

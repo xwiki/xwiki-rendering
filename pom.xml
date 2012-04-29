@@ -130,10 +130,12 @@
                  don't merge excludes apparently... -->
             <exclude>**/components.txt</exclude>
             <!-- Exclude Rendering Test Data files -->
+            <exclude>**/*.test</exclude>
             <exclude>**/*.in.txt</exclude>
             <exclude>**/*.out.txt</exclude>
             <exclude>**/*.inout.txt</exclude>
-            <exclude>**/*.test</exclude>
+            <!-- Exclude Rendering Test framework test data file -->
+            <exclude>**/cts/type/test/test1.inout.xml</exclude>
           </excludes>
         </configuration>
       </plugin>

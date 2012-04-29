@@ -19,12 +19,14 @@
  */
 package org.xwiki.rendering.test.cts;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
 
 import junit.framework.Assert;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
 /**
  * Unit tests for {@link TestDataGenerator}.
@@ -38,7 +40,7 @@ public class TestDataGeneratorTest
     public void findTestPrefixes()
     {
         TestDataGenerator generator = new TestDataGenerator();
-        Set<String> prefixes = generator.findTestPrefixes("cts.type", ".*\\.txt");
+        Set<String> prefixes = generator.findTestPrefixes("cts.type", ".*\\.xml");
         Assert.assertEquals(1, prefixes.size());
         Assert.assertEquals("cts/type/test/test1", prefixes.iterator().next());
     }
@@ -47,22 +49,23 @@ public class TestDataGeneratorTest
     public void readTestData() throws Exception
     {
         TestDataGenerator generator = new TestDataGenerator();
-        Map<String, TestData> data = generator.generateTestData("syntax/1.0", "cts.type", ".*\\.txt");
-        Assert.assertEquals(1, data.size());
+        List<TestData> data = generator.generateTestData("syntax/1.0", "cts.type", ".*\\.xml");
+        Assert.assertEquals(2, data.size());
 
-        Map.Entry<String, TestData> entry = data.entrySet().iterator().next();
+        TestData dataIn = new TestData();
+        dataIn.isSyntaxInputTest = true;
+        dataIn.prefix = "cts/type/test/test1";
+        dataIn.syntaxData = "in";
+        dataIn.syntaxId = "syntax/1.0";
+        dataIn.ctsData = "<cts/>";
 
-        Assert.assertEquals("cts/type/test/test1", entry.getKey());
-        TestData testData = entry.getValue();
-        String expectedCTSContent =
-              "beginDocument\n"
-            + "beginParagraph\n"
-            + "onWord [test]\n"
-            + "endParagraph\n"
-            + "endDocument";
-        Assert.assertEquals(expectedCTSContent, testData.ctsInput);
-        Assert.assertEquals(expectedCTSContent, testData.ctsOutput);
-        Assert.assertEquals("test", testData.syntaxInput);
-        Assert.assertEquals("test", testData.syntaxOutput);
+        TestData dataOut = new TestData();
+        dataOut.isSyntaxInputTest = false;
+        dataOut.prefix = dataIn.prefix;
+        dataOut.syntaxData = "out";
+        dataOut.syntaxId = dataIn.syntaxId;
+        dataOut.ctsData = dataIn.ctsData;
+
+        assertThat(data, containsInAnyOrder(dataIn, dataOut));
     }
 }
