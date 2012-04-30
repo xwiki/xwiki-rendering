@@ -24,10 +24,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.regex.Matcher;
 
 import javax.inject.Inject;
 
-import org.dom4j.Attribute;
 import org.dom4j.Element;
 import org.dom4j.io.SAXContentHandler;
 import org.xml.sax.Attributes;
@@ -36,6 +36,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.descriptor.ListenerDescriptor;
 import org.xwiki.rendering.listener.descriptor.ListenerDescriptorManager;
@@ -43,6 +44,8 @@ import org.xwiki.rendering.listener.descriptor.ListenerElement;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xdomxml.internal.XDOMXMLConstants;
+import org.xwiki.rendering.xdomxml.internal.current.XDOMXMLCurrentConstants;
+import org.xwiki.rendering.xdomxml.internal.current.XDOMXMLCurrentUtils;
 import org.xwiki.rendering.xdomxml.internal.current.parameter.ParameterManager;
 
 @Component("xdom+xml/current")
@@ -57,6 +60,9 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
     @Inject
     private ListenerDescriptorManager listenerDescriptorManager;
 
+    @Inject
+    private ConverterManager stringConverter;
+
     private ListenerDescriptor listenerDescriptor;
 
     private Listener listener;
@@ -64,6 +70,8 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
     private Stack<Block> blockStack = new Stack<Block>();
 
     private int elementDepth = 0;
+
+    private StringBuilder content;
 
     /**
      * Avoid create a new SAXContentHandler for each block when the same can be used for all.
@@ -95,10 +103,19 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
             return this.listenerElement.getOnMethod() == null;
         }
 
-        public void addParameter(Object parameter)
+        public void setParameter(int index, Object parameter)
         {
-            this.parametersList.add(parameter);
+            while (this.parametersList.size() <= index) {
+                this.parametersList.add(null);
+            }
+
+            this.parametersList.set(index, parameter);
             this.parametersTable = null;
+        }
+
+        public List<Object> getParametersList()
+        {
+            return parametersList;
         }
 
         public Object[] getParametersTable()
@@ -177,7 +194,8 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
             Block currentBlock = this.blockStack.peek();
 
             result =
-                (this.elementDepth - currentBlock.elementDepth <= 1) && XDOMXMLConstants.ELEM_BLOCK.equals(elementName);
+                (this.elementDepth - currentBlock.elementDepth <= 1)
+                    && !XDOMXMLCurrentConstants.PATTERN_ELEM_PARAMETER.matcher(elementName).matches();
         } else {
             result = true;
         }
@@ -187,7 +205,15 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
 
     private boolean onParameterElement(String elementName)
     {
-        return onBlockChild() && XDOMXMLConstants.ELEM_PARAMETER.equals(elementName);
+        return onBlockChild() && XDOMXMLCurrentConstants.PATTERN_ELEM_PARAMETER.matcher(elementName).matches();
+    }
+
+    private int extractParameterIndex(String elementName)
+    {
+        Matcher matcher = XDOMXMLCurrentConstants.PATTERN_ELEM_PARAMETER.matcher(elementName);
+        matcher.find();
+
+        return Integer.valueOf(matcher.group(1));
     }
 
     @Override
@@ -207,6 +233,13 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
             Block block = getBlock(uri, localName, qName, attributes);
 
             currentBlock = this.blockStack.push(block);
+
+            if (!block.isContainer()
+                && this.listenerDescriptor.getElements().get(qName.toLowerCase()).getParameters().size() == 1
+                && XDOMXMLCurrentUtils.isSimpleType(this.listenerDescriptor.getElements().get(qName.toLowerCase())
+                    .getParameters().get(0))) {
+                this.content = new StringBuilder();
+            }
         } else {
             if (onParameterElement(qName)) {
                 // starting a new block parameter
@@ -243,6 +276,15 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
 
                     block.fireEndEvent(this.listener, block.getParametersTable());
                 } else {
+                    if (block.getParametersList().size() == 0
+                        && this.listenerDescriptor.getElements().get(qName.toLowerCase()).getParameters().size() == 1) {
+                        block.setParameter(
+                            0,
+                            this.stringConverter.convert(this.listenerDescriptor.getElements().get(qName.toLowerCase())
+                                .getParameters().get(0), this.content.toString()));
+                        this.content = null;
+                    }
+
                     block.fireOnEvent(this.listener, block.getParametersTable());
                 }
             }
@@ -254,15 +296,12 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
                     currentBlock.parameterDOMBuilder.endDocument();
 
                     ListenerElement listenerElement = currentBlock.listenerElement;
-                    Type parameterType = listenerElement.getParameters().get(currentBlock.parametersList.size());
+                    Type parameterType = listenerElement.getParameters().get(extractParameterIndex(qName));
                     Element rootElement = currentBlock.parameterDOMBuilder.getDocument().getRootElement();
 
-                    Attribute nullAttribute = rootElement.attribute(XDOMXMLConstants.ATT_PARAMETER_NULL);
-                    if (nullAttribute != null && "true".equals(nullAttribute.getValue())) {
-                        currentBlock.addParameter(null);
-                    } else {
-                        currentBlock.addParameter(this.parameterManager.unSerialize(parameterType, rootElement));
-                    }
+                    int parameterIndex = extractParameterIndex(qName);
+                    currentBlock.setParameter(parameterIndex,
+                        this.parameterManager.unSerialize(parameterType, rootElement));
                 }
 
                 currentBlock.parameterDOMBuilder = null;
@@ -275,6 +314,8 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
     {
         if (!this.blockStack.isEmpty() && this.blockStack.peek().parameterDOMBuilder != null) {
             this.blockStack.peek().parameterDOMBuilder.characters(ch, start, length);
+        } else if (this.content != null) {
+            this.content.append(ch, start, length);
         }
     }
 
@@ -296,8 +337,14 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
 
     private Block getBlock(String uri, String localName, String qName, Attributes attributes)
     {
-        String name = attributes.getValue(XDOMXMLConstants.ATT_BLOCK_NAME);
-        ListenerElement element = this.listenerDescriptor.getElements().get(name.toLowerCase());
+        String blockName;
+        if (XDOMXMLConstants.ELEM_BLOCK.equals(qName)) {
+            blockName = attributes.getValue(XDOMXMLConstants.ATT_BLOCK_NAME);
+        } else {
+            blockName = qName;
+        }
+
+        ListenerElement element = this.listenerDescriptor.getElements().get(blockName.toLowerCase());
 
         return new Block(element, this.elementDepth);
     }

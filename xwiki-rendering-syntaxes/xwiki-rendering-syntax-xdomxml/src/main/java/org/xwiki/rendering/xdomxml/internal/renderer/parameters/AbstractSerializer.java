@@ -20,17 +20,15 @@
 package org.xwiki.rendering.xdomxml.internal.renderer.parameters;
 
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
+import org.xwiki.rendering.xdomxml.internal.XDOMXMLConstants;
 
 public abstract class AbstractSerializer
 {
-    public static final Pattern VALIDNAME = Pattern.compile("[A-Za-z][A-Za-z0-9:_.-]*");
-
     public static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
 
     public void serializeParameter(String name, Map<String, String> map, ContentHandler contentHandler)
@@ -79,7 +77,7 @@ public abstract class AbstractSerializer
 
     public boolean isValidNodeName(String name)
     {
-        return VALIDNAME.matcher(name).matches();
+        return XDOMXMLConstants.VALID_ELEMENTNAME.matcher(name).matches();
     }
 
     public void startElement(String elementName, Attributes attributes, ContentHandler contentHandler)

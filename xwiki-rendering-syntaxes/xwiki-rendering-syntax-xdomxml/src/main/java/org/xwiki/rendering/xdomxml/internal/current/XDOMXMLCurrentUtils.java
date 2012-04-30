@@ -17,21 +17,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxml.internal;
+package org.xwiki.rendering.xdomxml.internal.current;
 
-import java.util.regex.Pattern;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-public interface XDOMXMLConstants
+public class XDOMXMLCurrentUtils
 {
-    String ELEM_BLOCK = "block";
+    private static final Set<Class< ? >> SIMPLECLASSES = new HashSet<Class< ? >>(Arrays.<Class< ? >> asList(
+        String.class, Character.class, Boolean.class));
 
-    String ATT_BLOCK_NAME = "name";
+    public static final boolean isSimpleType(Type type)
+    {
+        boolean simpleType = false;
 
-    String ATT_BLOCK_VERSION = "version";
+        if (type instanceof Class) {
+            Class<?> typeClass = (Class<?>) type;
 
-    String ELEM_PARAMETERS = "parameters";
+            simpleType =
+                SIMPLECLASSES.contains(typeClass) || Number.class.isAssignableFrom(typeClass)
+                    || typeClass.isPrimitive() | typeClass.isEnum();
+        }
 
-    String ELEM_PARAMETER = "parameter";
-
-    Pattern VALID_ELEMENTNAME = Pattern.compile("[A-Za-z][A-Za-z0-9:_.-]*");
+        return simpleType;
+    }
 }

@@ -17,21 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxml.internal;
+package org.xwiki.rendering.xdomxml.internal.current;
 
 import java.util.regex.Pattern;
 
-public interface XDOMXMLConstants
+import org.xwiki.rendering.xdomxml.internal.XDOMXMLConstants;
+
+public interface XDOMXMLCurrentConstants extends XDOMXMLConstants
 {
-    String ELEM_BLOCK = "block";
-
-    String ATT_BLOCK_NAME = "name";
-
-    String ATT_BLOCK_VERSION = "version";
-
-    String ELEM_PARAMETERS = "parameters";
-
-    String ELEM_PARAMETER = "parameter";
-
-    Pattern VALID_ELEMENTNAME = Pattern.compile("[A-Za-z][A-Za-z0-9:_.-]*");
+    Pattern PATTERN_ELEM_PARAMETER = Pattern.compile(Pattern.quote(ELEM_PARAMETER) + "(\\d*)");
 }
