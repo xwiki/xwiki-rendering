@@ -78,7 +78,9 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("document");
 
-        serializeParameter("metaData", metaData.getMetaData());
+        if (!metaData.getMetaData().isEmpty()) {
+            serializeParameter("metaData", metaData, false);
+        }
     }
 
     @Override
@@ -92,7 +94,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("format", parameters);
 
-        serializeParameter("format", this.formatConverter.toString(format));
+        serializeParameter("format", this.formatConverter.toString(format), false);
     }
 
     @Override
@@ -108,7 +110,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
 
         this.linkSerializer.serialize(reference, getContentHandler());
         if (isFreeStandingURI) {
-            serializeParameter("freestanding", isFreeStandingURI);
+            serializeParameter("freestanding", isFreeStandingURI, false);
         }
     }
 
@@ -123,8 +125,8 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("header", parameters);
 
-        serializeParameter("level", this.headerLevelConverter.toString(level));
-        serializeParameter("id", id);
+        serializeParameter("level", this.headerLevelConverter.toString(level), false);
+        serializeParameter("id", id, false);
     }
 
     @Override
@@ -132,7 +134,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("list", parameters);
 
-        serializeParameter("type", this.listTypeConverter.toString(listType));
+        serializeParameter("type", this.listTypeConverter.toString(listType), false);
     }
 
     @Override
@@ -188,12 +190,12 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("macroMarker", parameters);
 
-        serializeParameter("id", id);
+        serializeParameter("id", id, false);
         if (content != null) {
-            serializeParameter("content", content);
+            serializeParameter("content", content, false);
         }
         if (isInline) {
-            serializeParameter("inline", isInline);
+            serializeParameter("inline", isInline, false);
         }
     }
 
@@ -207,6 +209,16 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     public void beginQuotationLine()
     {
         startBlock("quotationLine");
+    }
+
+    @Override
+    public void beginMetaData(MetaData metaData)
+    {
+        startBlock("metaData");
+
+        if (!metaData.getMetaData().isEmpty()) {
+            serializeParameter("metaData", metaData, false);
+        }
     }
 
     @Override
@@ -324,6 +336,12 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     }
 
     @Override
+    public void endMetaData(MetaData metadata)
+    {
+        endBlock();
+    }
+
+    @Override
     public void onNewLine()
     {
         emptyBlock("newLine");
@@ -334,12 +352,12 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("macro", parameters);
 
-        serializeParameter("id", id);
+        serializeParameter("id", id, false);
         if (content != null) {
-            serializeParameter("content", content);
+            serializeParameter("content", content, false);
         }
         if (isInline) {
-            serializeParameter("inline", isInline);
+            serializeParameter("inline", isInline, false);
         }
 
         endBlock();
@@ -350,7 +368,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("word");
 
-        serializeParameter("word", word);
+        serializeParameter("word", word, false);
 
         endBlock();
     }
@@ -366,7 +384,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("specialSymbol");
 
-        serializeParameter("symbol", symbol);
+        serializeParameter("symbol", symbol, false);
 
         endBlock();
     }
@@ -376,8 +394,8 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("rawText");
 
-        serializeParameter("content", text);
-        serializeParameter("syntax", syntax.toIdString());
+        serializeParameter("content", text, false);
+        serializeParameter("syntax", syntax.toIdString(), false);
 
         endBlock();
     }
@@ -387,7 +405,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("id");
 
-        serializeParameter("name", name);
+        serializeParameter("name", name, false);
 
         endBlock();
     }
@@ -404,7 +422,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         startBlock("emptyLines");
 
         if (count > 1) {
-            serializeParameter("count", count);
+            serializeParameter("count", count, false);
         }
 
         endBlock();
@@ -415,9 +433,9 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("verbatim");
 
-        serializeParameter("content", protectedString);
+        serializeParameter("content", protectedString, false);
         if (isInline) {
-            serializeParameter("inline", isInline);
+            serializeParameter("inline", isInline, false);
         }
 
         endBlock();
@@ -428,7 +446,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("image", parameters);
 
-        serializeParameter("freestanding", isFreeStandingURI);
+        serializeParameter("freestanding", isFreeStandingURI, false);
         this.linkSerializer.serialize(reference, getContentHandler());
 
         endBlock();
@@ -477,87 +495,113 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     private void serializeCustomParameters(Map<String, String> parameters)
     {
         if (parameters.size() > 0) {
-            serializeParameter(XDOMXMLConstants.ELEM_PARAMETERS, parameters);
+            serializeParameter(XDOMXMLConstants.ELEM_PARAMETERS, parameters, false);
         }
     }
 
-    public void serializeParameter(String name, Map<String, String> map)
+    public void serializeParameter(String name, Map< ? , ? > map, boolean type)
     {
-        SERIALIZER.serializeParameter(name, map, getContentHandler());
+        SERIALIZER.serializeParameter(name, map, type, getContentHandler());
     }
 
-    public void serializeParameter(String name, MetaData metaData)
+    public void serializeParameter(String name, MetaData metaData, boolean type)
     {
-        startElement(name, DefaultSerializer.EMPTY_ATTRIBUTES);
+        Attributes attributes;
+
+        if (type) {
+            AttributesImpl attributesImpl = new AttributesImpl();
+            attributesImpl.addAttribute(null, null, "type", null, "MetaData");
+            attributes = attributesImpl;
+        } else {
+            attributes = DefaultSerializer.EMPTY_ATTRIBUTES;
+        }
+
+        startElement(name, attributes);
         for (Map.Entry<String, Object> entry : metaData.getMetaData().entrySet()) {
-            serializeParameter(entry.getKey(), entry.getValue());
+            serializeParameter(entry.getKey(), entry.getValue(), true);
         }
         endElement(name);
     }
 
-    public void serializeParameter(String name, boolean value)
+    public void serializeParameter(String name, boolean value, boolean type)
     {
-        SERIALIZER.serializeParameter(name, value, getContentHandler());
+        SERIALIZER.serializeParameter(name, value, type, getContentHandler());
     }
 
-    public void serializeParameter(String name, char value)
+    public void serializeParameter(String name, char value, boolean type)
     {
-        SERIALIZER.serializeParameter(name, value, getContentHandler());
+        SERIALIZER.serializeParameter(name, value, type, getContentHandler());
     }
 
-    public void serializeParameter(String name, int value)
+    public void serializeParameter(String name, int value, boolean type)
     {
-        SERIALIZER.serializeParameter(name, value, getContentHandler());
+        SERIALIZER.serializeParameter(name, value, type, getContentHandler());
     }
 
-    public void serializeParameter(String name, String value)
+    public void serializeParameter(String name, String value, boolean type)
     {
-        SERIALIZER.serializeParameter(name, value, getContentHandler());
+        SERIALIZER.serializeParameter(name, value, null, getContentHandler());
     }
 
-    public void serializeParameter(String name, Format value)
+    public void serializeParameter(String name, Format value, boolean type)
     {
-        SERIALIZER.serializeParameter(name, this.formatConverter.toString(value), getContentHandler());
+        SERIALIZER.serializeParameter(name, this.formatConverter.toString(value), type ? "Format" : null,
+            getContentHandler());
     }
 
-    public void serializeParameter(String name, HeaderLevel value)
+    public void serializeParameter(String name, HeaderLevel value, boolean type)
     {
-        SERIALIZER.serializeParameter(name, this.headerLevelConverter.toString(value), getContentHandler());
+        SERIALIZER.serializeParameter(name, this.headerLevelConverter.toString(value), type ? "HeaderLevel" : null,
+            getContentHandler());
     }
 
-    public void serializeParameter(String name, ListType value)
+    public void serializeParameter(String name, ListType value, boolean type)
     {
-        SERIALIZER.serializeParameter(name, this.listTypeConverter.toString(value), getContentHandler());
+        SERIALIZER.serializeParameter(name, this.listTypeConverter.toString(value), type ? "ListType" : null,
+            getContentHandler());
     }
 
-    public void serializeParameter(String name, ResourceReference value)
+    public void serializeParameter(String name, ResourceReference value, boolean type)
     {
-        startElement(name, DefaultSerializer.EMPTY_ATTRIBUTES);
+        Attributes attributes;
+
+        if (type) {
+            AttributesImpl attributesImpl = new AttributesImpl();
+            attributesImpl.addAttribute(null, null, "type", null, "ResourceReference");
+            attributes = attributesImpl;
+        } else {
+            attributes = DefaultSerializer.EMPTY_ATTRIBUTES;
+        }
+
+        startElement(name, attributes);
         this.linkSerializer.serialize(value, getContentHandler());
         endElement(name);
     }
 
-    public void serializeParameter(String name, Number value)
+    public void serializeParameter(String name, Number value, boolean type)
     {
-        SERIALIZER.serializeParameter(name, value.toString(), getContentHandler());
+        SERIALIZER.serializeParameter(name, value.toString(), type ? value.getClass().getSimpleName() : null,
+            getContentHandler());
     }
 
-    public void serializeParameter(String name, Object value)
+    public void serializeParameter(String name, Object value, boolean type)
     {
         if (value instanceof String) {
-            serializeParameter(name, (String) value);
+            serializeParameter(name, (String) value, type);
         } else if (value instanceof Number) {
-            serializeParameter(name, (Number) value);
+            serializeParameter(name, (Number) value, type);
         } else if (value instanceof Format) {
-            serializeParameter(name, (Format) value);
+            serializeParameter(name, (Format) value, type);
         } else if (value instanceof HeaderLevel) {
-            serializeParameter(name, (HeaderLevel) value);
+            serializeParameter(name, (HeaderLevel) value, type);
         } else if (value instanceof ListType) {
-            serializeParameter(name, (ListType) value);
+            serializeParameter(name, (ListType) value, type);
         } else if (value instanceof ResourceReference) {
-            serializeParameter(name, (ResourceReference) value);
-        } else if (value instanceof  MetaData) {
-            serializeParameter(name, (MetaData) value);
+            serializeParameter(name, (ResourceReference) value, type);
+        } else if (value instanceof MetaData) {
+            serializeParameter(name, (MetaData) value, type);
+        } else if (value instanceof Map) {
+            serializeParameter(name, (Map< ? , ? >) value, type);
         }
     }
 

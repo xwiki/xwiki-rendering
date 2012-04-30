@@ -17,31 +17,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxml.internal.version10.parser;
+package org.xwiki.rendering.xdomxml.internal.parser.parameters;
 
-import java.util.Collections;
-import java.util.Set;
+import org.xml.sax.ContentHandler;
 
-import org.xml.sax.SAXException;
-import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.InstantiationStrategy;
-import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
-import org.xwiki.rendering.xdomxml.internal.parser.DefaultBlockParser;
-
-@Component("emptylines")
-@InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class EmptyLinesBlockParser extends DefaultBlockParser
+public interface ValueParser<T> extends ContentHandler
 {
-    private static final Set<String> NAMES = Collections.singleton("count");
-
-    public EmptyLinesBlockParser()
-    {
-        super(NAMES);
-    }
-
-    @Override
-    protected void endBlock() throws SAXException
-    {
-        getListener().onEmptyLines(getParameterAsInt("count", 1));
-    }
+    T getValue();
 }

@@ -30,13 +30,13 @@ public class ResourceReferenceSerializer extends AbstractSerializer
     {
         startElement("reference", EMPTY_ATTRIBUTES, contentHandler);
 
-        serializeParameter("type", reference.getType().getScheme(), contentHandler);
-        serializeParameter("reference", reference.getReference(), contentHandler);
+        serializeParameter("type", reference.getType().getScheme(), null, contentHandler);
+        serializeParameter("reference", reference.getReference(), null, contentHandler);
         if (!reference.isTyped()) {
-            serializeParameter("typed", reference.isTyped(), contentHandler);
+            serializeParameter("typed", reference.isTyped(), false, contentHandler);
         }
         if (reference.getParameters() != null && !reference.getParameters().isEmpty()) {
-          serializeParameter(XDOMXMLConstants.ELEM_PARAMETERS, reference.getParameters(), contentHandler);
+            serializeParameter(XDOMXMLConstants.ELEM_PARAMETERS, reference.getParameters(), false, contentHandler);
         }
 
         endElement("reference", contentHandler);

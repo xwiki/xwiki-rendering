@@ -19,23 +19,65 @@
  */
 package org.xwiki.rendering.xdomxml.internal.parser.parameters;
 
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.listener.MetaData;
 
-//FIXME: support any kind of data and not just String
-public class MetaDataParser extends DefaultHandler
+public class MetaDataParser extends DefaultHandler implements ValueParser<MetaData>
 {
+    private Map<String, Type> typeMapping = new HashMap<String, Type>();
+
+    private Map<String, ValueParser< ? >> handlers = new HashMap<String, ValueParser< ? >>();
+
     private MetaData metaData = new MetaData();
 
-    private StringBuffer value = new StringBuffer();
+    private StringBuffer stringValue = new StringBuffer();
 
     private int level = 0;
 
     private String currentEntry;
 
-    public MetaData getMetaData()
+    private Type currentType = String.class;
+
+    private ValueParser< ? > currentParser;
+
+    private final ConverterManager converter;
+
+    public MetaDataParser(ConverterManager converter)
+    {
+        this.converter = converter;
+
+        this.typeMapping.put(Integer.class.getSimpleName().toLowerCase(), Integer.class);
+        this.typeMapping.put(Long.class.getSimpleName().toLowerCase(), Long.class);
+        this.typeMapping.put(Boolean.class.getSimpleName().toLowerCase(), Boolean.class);
+        this.typeMapping.put(Double.class.getSimpleName().toLowerCase(), Double.class);
+        this.typeMapping.put(Float.class.getSimpleName().toLowerCase(), Float.class);
+        this.typeMapping.put(Character.class.getSimpleName().toLowerCase(), Character.class);
+
+        this.handlers.put("stringmap", new CustomParametersParser());
+    }
+
+    public MetaDataParser(MetaDataParser metaDataParser)
+    {
+        this.converter = metaDataParser.converter;
+
+        this.typeMapping = metaDataParser.typeMapping;
+        this.handlers = metaDataParser.handlers;
+    }
+
+    public void putHandler(String handlerId, ValueParser< ? > handler)
+    {
+        this.handlers.put(handlerId.toLowerCase(), handler);
+    }
+
+    @Override
+    public MetaData getValue()
     {
         return this.metaData;
     }
@@ -45,21 +87,48 @@ public class MetaDataParser extends DefaultHandler
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException
     {
-        this.value.append(ch, start, length);
+        if (this.currentParser != null) {
+            this.currentParser.characters(ch, start, length);
+        } else {
+            this.stringValue.append(ch, start, length);
+        }
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
     {
         if (this.level > 0) {
-            this.currentEntry = qName;
-            String name = attributes.getValue("name");
-            if (name != null) {
-                this.currentEntry = name;
+            if (this.currentParser != null) {
+                this.currentParser.startElement(uri, localName, qName, attributes);
+            } else {
+                this.currentEntry = qName;
+                String name = attributes.getValue("name");
+                if (name != null) {
+                    this.currentEntry = name;
+                }
+                String type = attributes.getValue("type");
+                if (type != null) {
+                    this.currentType = this.typeMapping.get(type.toLowerCase());
+                    if (this.currentType == null) {
+                        this.currentParser = this.handlers.get(type.toLowerCase());
+                        if (this.currentParser == null && "metadata".equalsIgnoreCase(type)) {
+                            this.currentParser = createMetaDataParser();
+                        }
+
+                        if (this.currentParser != null) {
+                            this.currentParser.startElement(uri, localName, qName, attributes);
+                        }
+                    }
+                }
             }
         }
 
         ++this.level;
+    }
+
+    protected MetaDataParser createMetaDataParser()
+    {
+        return new MetaDataParser(this);
     }
 
     @Override
@@ -68,8 +137,32 @@ public class MetaDataParser extends DefaultHandler
         --this.level;
 
         if (this.level > 0) {
-            this.metaData.addMetaData(this.currentEntry, this.value.toString());
-            this.value.setLength(0);
-        }        
+            if (this.currentParser != null) {
+                if (this.level > 1) {
+                    this.currentParser.endElement(uri, localName, qName);
+                } else {
+                    this.metaData.addMetaData(this.currentEntry, this.currentParser.getValue());
+                    this.currentType = null;
+                    this.currentParser = null;
+                }
+            } else {
+                Object value;
+                if (this.currentType != null) {
+                    try {
+                        value = this.converter.convert(this.currentType, this.stringValue.toString());
+                    } catch (Exception e) {
+                        value = this.stringValue.toString();
+                    }
+                } else {
+                    value = this.stringValue.toString();
+                }
+
+                this.metaData.addMetaData(this.currentEntry, value);
+
+                this.stringValue.setLength(0);
+                this.currentType = null;
+                this.currentParser = null;
+            }
+        }
     }
 }

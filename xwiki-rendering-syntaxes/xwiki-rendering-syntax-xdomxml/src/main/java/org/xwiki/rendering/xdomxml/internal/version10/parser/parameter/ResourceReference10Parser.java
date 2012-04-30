@@ -26,8 +26,9 @@ import org.xml.sax.SAXException;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.xdomxml.internal.parser.DefaultBlockParser;
+import org.xwiki.rendering.xdomxml.internal.parser.parameters.ValueParser;
 
-public class ResourceReferenceParser extends DefaultBlockParser
+public class ResourceReference10Parser extends DefaultBlockParser implements ValueParser<ResourceReference>
 {
     private static final Set<String> NAMES = new HashSet<String>()
     {
@@ -40,12 +41,13 @@ public class ResourceReferenceParser extends DefaultBlockParser
 
     public ResourceReference reference;
 
-    public ResourceReferenceParser()
+    public ResourceReference10Parser()
     {
         super(NAMES);
     }
 
-    public ResourceReference getResourceReference()
+    @Override
+    public ResourceReference getValue()
     {
         return this.reference;
     }

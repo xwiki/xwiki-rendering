@@ -28,7 +28,7 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.xdomxml.internal.parser.DefaultBlockParser;
 
-@Component("special_symbol")
+@Component("specialsymbol")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class SpecialSymbolBlockParser extends DefaultBlockParser
 {

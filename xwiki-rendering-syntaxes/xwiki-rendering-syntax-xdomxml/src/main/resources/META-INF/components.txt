@@ -19,6 +19,7 @@ org.xwiki.rendering.xdomxml.internal.version10.parser.LinkBlockParser
 org.xwiki.rendering.xdomxml.internal.version10.parser.ListBlockParser
 org.xwiki.rendering.xdomxml.internal.version10.parser.MacroBlockParser
 org.xwiki.rendering.xdomxml.internal.version10.parser.MacroMarkerBlockParser
+org.xwiki.rendering.xdomxml.internal.version10.parser.MetaDataBlockParser
 org.xwiki.rendering.xdomxml.internal.version10.parser.RawTextBlockParser
 org.xwiki.rendering.xdomxml.internal.version10.parser.SpecialSymbolBlockParser
 org.xwiki.rendering.xdomxml.internal.version10.parser.VerbatimBlockParser
