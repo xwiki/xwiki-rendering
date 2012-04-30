@@ -20,9 +20,12 @@
 package org.xwiki.rendering.test.cts;
 
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
@@ -32,6 +35,7 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.syntax.SyntaxFactory;
 
 /**
  * A generic JUnit Test used by {@link CompatibilityTestSuite} to run a single CTS test.
@@ -47,6 +51,12 @@ public class RenderingTest
     private static final String CTS_SYNTAX_ID = org.xwiki.rendering.syntax.Syntax.XDOMXML_CURRENT.toIdString();
 
     /**
+     * The Velocity Engine we use to evaluate the test data. We do this to allow Velocity scripts to be added to test
+     * data.
+     */
+    private static final VelocityEngine VELOCITY_ENGINE = new VelocityEngine();
+
+    /**
      * @see RenderingTest
      */
     private TestData testData;
@@ -57,6 +67,11 @@ public class RenderingTest
     private ComponentManager componentManager;
 
     /**
+     * The Syntax object representing the Test Syntax.
+     */
+    private org.xwiki.rendering.syntax.Syntax syntax;
+
+    /**
      * @param testData the data for a single test
      * @param componentManager see {@link #getComponentManager()}
      */
@@ -64,6 +79,7 @@ public class RenderingTest
     {
         this.testData = testData;
         this.componentManager = componentManager;
+        this.syntax = parseSyntax(this.testData.syntaxId);
     }
 
     /**
@@ -123,17 +139,20 @@ public class RenderingTest
     private void executeTest(String inputData, String inputSyntaxId, String expectedOutputData, String outputSyntaxId)
         throws Exception
     {
+        String evaluatedInputData = evaluateContent(inputData);
+        String evaluatedOutputData = evaluateContent(expectedOutputData);
+
         Parser parser = getComponentManager().getInstance(Parser.class, inputSyntaxId);
-        XDOM xdom = parser.parse(new StringReader(inputData));
+        XDOM xdom = parser.parse(new StringReader(evaluatedInputData));
         BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, outputSyntaxId);
         WikiPrinter printer = new DefaultWikiPrinter();
         renderer.render(xdom, printer);
         String result = printer.toString();
         try {
             if (isXMLSyntax(outputSyntaxId)) {
-                assertExpectedResult(normalizeXMLContent(expectedOutputData, outputSyntaxId), result);
+                assertExpectedResult(normalizeXMLContent(evaluatedOutputData, outputSyntaxId), result);
             } else {
-                assertExpectedResult(expectedOutputData, result);
+                assertExpectedResult(evaluatedOutputData, result);
             }
         } catch (ParseException e) {
             throw new RuntimeException(String.format("Failed to compare expected result with [%s]", result), e);
@@ -167,6 +186,21 @@ public class RenderingTest
         WikiPrinter printer = new DefaultWikiPrinter();
         renderer.render(xdom, printer);
         return printer.toString();
+    }
+
+    /**
+     * Run Velocity on the passed content. The {@code $syntax} variable is replaced by the test Syntax object.
+     *
+     * @param content the content to run in Velocity
+     * @return the evaluated content
+     */
+    private String evaluateContent(String content)
+    {
+        VelocityContext context = new VelocityContext();
+        context.put("syntax", this.syntax);
+        StringWriter writer = new StringWriter();
+        VELOCITY_ENGINE.evaluate(context, writer, "Rendering CTS", content);
+        return writer.toString();
     }
 
     /**
@@ -232,5 +266,21 @@ public class RenderingTest
     private ComponentManager getComponentManager()
     {
         return this.componentManager;
+    }
+
+    /**
+     * Create a Syntax object from a Syntax id string.
+     *
+     * @param syntaxId the id of the Syntax to create
+     * @return the Syntax object
+     */
+    private org.xwiki.rendering.syntax.Syntax parseSyntax(String syntaxId)
+    {
+        try {
+            SyntaxFactory factory = getComponentManager().getInstance(SyntaxFactory.class);
+            return factory.createSyntaxFromIdString(syntaxId);
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("Failed to parse Syntax [%s]", syntaxId), e);
+        }
     }
 }

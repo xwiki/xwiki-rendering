@@ -27,10 +27,10 @@
         <string>syntax</string>
         <org.xwiki.rendering.syntax.Syntax>
           <type>
-            <name>${{{regex:.*}}}</name>
-            <id>${{{regex:.*}}}</id>
+            <name>$syntax.type.name</name>
+            <id>$syntax.type.id</id>
           </type>
-          <version>${{{regex:.*}}}</version>
+          <version>$syntax.version</version>
         </org.xwiki.rendering.syntax.Syntax>
       </entry>
     </metadata>

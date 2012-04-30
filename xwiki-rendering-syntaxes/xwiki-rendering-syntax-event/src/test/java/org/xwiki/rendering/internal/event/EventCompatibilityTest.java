@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+/*
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  *
@@ -17,34 +16,21 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
--->
+ */
+package org.xwiki.rendering.internal.event;
 
-<!-- Standard Italic Test -->
-<document>
-  <parameter0>
-    <metadata class="linked-hash-map">
-      <entry>
-        <string>syntax</string>
-        <org.xwiki.rendering.syntax.Syntax>
-          <type>
-            <name>$syntax.type.name</name>
-            <id>$syntax.type.id</id>
-          </type>
-          <version>$syntax.version</version>
-        </org.xwiki.rendering.syntax.Syntax>
-      </entry>
-    </metadata>
-  </parameter0>
-  <paragraph>
-    <parameter0></parameter0>
-    <word>This</word>
-    <space></space>
-    <word>is</word>
-    <space></space>
-    <format>
-      <parameter0>ITALIC</parameter0>
-      <parameter1></parameter1>
-      <word>italic</word>
-    </format>
-  </paragraph>
-</document>
+import org.junit.runner.RunWith;
+import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
+import org.xwiki.rendering.test.cts.Syntax;
+
+/**
+ * Run all CTS tests for the Event syntax.
+ *
+ * @version $Id$
+ * @since 4.1M1
+ */
+@RunWith(CompatibilityTestSuite.class)
+@Syntax("event/1.0")
+public class EventCompatibilityTest
+{
+}

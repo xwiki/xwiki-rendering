@@ -280,7 +280,7 @@ public class CompatibilityTestSuite extends Suite
         }
         String syntaxId = syntaxAnnotation.value();
 
-        // Initialize Component Manager
+        // Initialize the Component Manager
         this.componentManager = new XWikiComponentInitializer().getComponentManager();
 
         for (TestData testData : GENERATOR.generateTestData(syntaxId, packagePrefix, pattern))
@@ -290,7 +290,7 @@ public class CompatibilityTestSuite extends Suite
             } else {
                 // We only mark a test as ignored if there's no Parser or Renderer for that Syntax
                 if ((testData.isSyntaxInputTest && hasParserForSyntax(syntaxId))
-                    || hasRendererForSyntax(syntaxId))
+                    || (!testData.isSyntaxInputTest && hasRendererForSyntax(syntaxId)))
                 {
                     this.runners.add(new IgnoredRenderingTestClassRunner(getTestClass().getJavaClass(), testData));
                 }
