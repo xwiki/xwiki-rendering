@@ -29,26 +29,10 @@
     <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>4.1-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
-  <name>XWiki Rendering - Syntax - WikiModel Bridge</name>
-  <description>Bridge WikiModel Model and XWiki Rendering Model</description>
+  <artifactId>xwiki-rendering-syntax-plain</artifactId>
+  <name>XWiki Rendering - Syntax - Plain</name>
+  <description>XWiki Rendering - Syntax - Plain</description>
   <dependencies>
-    <dependency>
-      <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-wikimodel</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-plain</artifactId>
-      <version>${project.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-xml</artifactId>
-      <version>${commons.version}</version>
-    </dependency>
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
@@ -57,20 +41,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <excludes>
-            **/wikimodel/WikiModelGeneratorListener.java,
-            **/wikimodel/WikiModelPrinterAdapter.java,
-            **/wikimodel/DefaultXWikiGeneratorListener.java,
-            **/wikimodel/WikiModelParserUtils.java
-          </excludes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>

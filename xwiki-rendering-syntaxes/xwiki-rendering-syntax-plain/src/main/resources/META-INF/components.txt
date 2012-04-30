@@ -1,0 +1,3 @@
+org.xwiki.rendering.internal.renderer.plain.PlainTextRendererFactory
+org.xwiki.rendering.internal.renderer.plain.PlainTextRenderer
+org.xwiki.rendering.internal.renderer.plain.PlainTextBlockRenderer

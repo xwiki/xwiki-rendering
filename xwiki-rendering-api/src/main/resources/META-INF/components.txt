@@ -21,9 +21,6 @@ org.xwiki.rendering.internal.parser.reference.UNCResourceReferenceTypeParser
 org.xwiki.rendering.internal.renderer.DefaultLinkLabelGenerator
 org.xwiki.rendering.internal.renderer.DefaultAttachmentURILabelGenerator
 org.xwiki.rendering.internal.renderer.MailtoURILabelGenerator
-org.xwiki.rendering.internal.renderer.plain.PlainTextRendererFactory
-org.xwiki.rendering.internal.renderer.plain.PlainTextRenderer
-org.xwiki.rendering.internal.renderer.plain.PlainTextBlockRenderer
 org.xwiki.rendering.internal.renderer.reference.DefaultResourceReferenceTypeSerializer
 org.xwiki.rendering.internal.syntax.DefaultSyntaxFactory
 org.xwiki.rendering.internal.transformation.DefaultTransformationManager
