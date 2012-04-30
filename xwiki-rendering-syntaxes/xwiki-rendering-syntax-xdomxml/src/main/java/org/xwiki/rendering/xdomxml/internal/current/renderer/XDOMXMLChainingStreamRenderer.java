@@ -29,6 +29,7 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.xwiki.rendering.listener.descriptor.ListenerDescriptor;
 import org.xwiki.rendering.listener.descriptor.ListenerElement;
 import org.xwiki.rendering.xdomxml.internal.XDOMXMLConstants;
+import org.xwiki.rendering.xdomxml.internal.current.XDOMXMLCurrentUtils;
 import org.xwiki.rendering.xdomxml.internal.current.parameter.ParameterManager;
 
 /**
@@ -50,6 +51,12 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
         this.descriptor = descriptor;
     }
 
+    private boolean isValidBlockElementName(String blockName)
+    {
+        return XDOMXMLConstants.VALID_ELEMENTNAME.matcher(blockName).matches()
+            && !XDOMXMLConstants.ELEM_PARAMETER.equals(blockName);
+    }
+
     private String getBlockName(String eventName, String prefix)
     {
         String blockName = eventName.substring(prefix.length());
@@ -62,23 +69,55 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
     {
         String blockName = getBlockName(eventName, "begin");
 
-        startElement(XDOMXMLConstants.ELEM_BLOCK, new String[][] {{XDOMXMLConstants.ATT_BLOCK_NAME, blockName}});
+        if (isValidBlockElementName(blockName)) {
+            startElement(blockName);
+        } else {
+            startElement(XDOMXMLConstants.ELEM_BLOCK, new String[][] {{XDOMXMLConstants.ATT_BLOCK_NAME, blockName}});
+        }
 
         printParameters(parameters, this.descriptor.getElements().get(blockName));
     }
 
-    private void endEvent()
+    private void endEvent(String eventName)
     {
-        endElement(XDOMXMLConstants.ELEM_BLOCK);
+        String blockName = getBlockName(eventName, "end");
+
+        if (isValidBlockElementName(blockName)) {
+            endElement(blockName);
+        } else {
+            endElement(XDOMXMLConstants.ELEM_BLOCK);
+        }
     }
 
     private void onEvent(String eventName, Object[] parameters)
     {
         String blockName = getBlockName(eventName, "on");
 
-        startElement(XDOMXMLConstants.ELEM_BLOCK, new String[][] {{XDOMXMLConstants.ATT_BLOCK_NAME, blockName}});
-        printParameters(parameters, this.descriptor.getElements().get(blockName));
-        endEvent();
+        String elementName;
+        AttributesImpl attributes = new AttributesImpl();
+        if (isValidBlockElementName(blockName)) {
+            elementName = blockName;
+        } else {
+            elementName = XDOMXMLConstants.ELEM_BLOCK;
+            attributes.addAttribute(null, null, XDOMXMLConstants.ATT_BLOCK_NAME, null, blockName);
+        }
+
+        startElement(elementName, attributes);
+
+        ListenerElement descriptor = this.descriptor.getElements().get(blockName.toLowerCase());
+        if (parameters != null && parameters.length == 1
+            && XDOMXMLCurrentUtils.isSimpleType(descriptor.getParameters().get(0))) {
+            String value = parameters[0].toString();
+            try {
+                this.contentHandler.characters(value.toCharArray(), 0, value.length());
+            } catch (SAXException e) {
+                throw new RuntimeException("Failed to send sax event", e);
+            }
+        } else {
+            printParameters(parameters, descriptor);
+        }
+
+        endElement(elementName);
     }
 
     private void printParameters(Object[] parameters, ListenerElement descriptor)
@@ -88,23 +127,31 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
                 Object value = parameters[i];
 
                 if (value != null) {
-                    startElement(XDOMXMLConstants.ELEM_PARAMETER, null);
-                } else {
-                    startElement(XDOMXMLConstants.ELEM_PARAMETER, new String[][] {{XDOMXMLConstants.ATT_PARAMETER_NULL,
-                        "true"}});
+                    startElement(XDOMXMLConstants.ELEM_PARAMETER + i);
+
+                    this.parameterManager.serialize(descriptor.getParameters().get(i), parameters[i],
+                        this.contentHandler);
+
+                    endElement(XDOMXMLConstants.ELEM_PARAMETER + i);
                 }
-
-                this.parameterManager.serialize(descriptor.getParameters().get(i), parameters[i], this.contentHandler);
-
-                endElement(XDOMXMLConstants.ELEM_PARAMETER);
             }
         }
     }
 
+    private void startElement(String elemntName)
+    {
+        startElement(elemntName, (String[][]) null);
+    }
+
     private void startElement(String elemntName, String[][] parameters)
     {
+        startElement(elemntName, createAttributes(parameters));
+    }
+
+    private void startElement(String elemntName, Attributes attributes)
+    {
         try {
-            this.contentHandler.startElement("", elemntName, elemntName, createAttributes(parameters));
+            this.contentHandler.startElement("", elemntName, elemntName, attributes);
         } catch (SAXException e) {
             throw new RuntimeException("Failed to send sax event", e);
         }
@@ -147,7 +194,7 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
         } else if (method.getName().startsWith("begin")) {
             beginEvent(method.getName(), args);
         } else if (method.getName().startsWith("end")) {
-            endEvent();
+            endEvent(method.getName());
         } else if (method.getName().startsWith("on")) {
             onEvent(method.getName(), args);
         } else {
