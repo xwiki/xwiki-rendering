@@ -130,6 +130,7 @@
                  don't merge excludes apparently... -->
             <exclude>**/components.txt</exclude>
             <exclude>**/goal.txt</exclude>
+            <exclude>**/it/**/goals.txt</exclude>
             <!-- Exclude Rendering Test Data files -->
             <exclude>**/*.test</exclude>
             <exclude>**/*.in.txt</exclude>
