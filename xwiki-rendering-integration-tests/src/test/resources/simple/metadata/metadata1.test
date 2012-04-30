@@ -5,4 +5,4 @@
 .#-----------------------------------------------------
 .inputexpect|xdom+xml/current
 .#-----------------------------------------------------
-<document><parameter0><metadata class="linked-hash-map"><entry><string>data</string><string>value</string></entry><entry><string>data2</string><int>42</int></entry></metadata></parameter0><metaData><parameter0><metadata class="linked-hash-map"><entry><string>data</string><string>value</string></entry><entry><string>data2</string><linked-hash-map><entry><string>mapdata</string><string>mapvalue</string></entry></linked-hash-map></entry></metadata></parameter0></metaData></document>
+<block name="document"><parameter><metadata class="linked-hash-map"><entry><string>data</string><string>value</string></entry><entry><string>data2</string><int>42</int></entry></metadata></parameter><block name="metaData"><parameter><metadata class="linked-hash-map"><entry><string>data</string><string>value</string></entry><entry><string>data2</string><linked-hash-map><entry><string>mapdata</string><string>mapvalue</string></entry></linked-hash-map></entry></metadata></parameter></block></block>
