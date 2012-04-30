@@ -51,17 +51,17 @@ import java.lang.annotation.Target;
 public @interface Scope
 {
     /**
-     * The default regex to locate test data files.
+     * The default regex to locate test data files, see {@link CompatibilityTestSuite}.
      */
     String DEFAULT_PATTERN = ".*\\.xml";
 
     /**
-     * @return the classpath prefix to search in
+     * The classpath prefix to search in.
      */
     String value() default "";
 
     /**
-     * @return the regex pattern to filter *.test files to execute
+     * The regex pattern to filter files to execute, see {@link CompatibilityTestSuite}.
      */
     String pattern() default DEFAULT_PATTERN;
 }

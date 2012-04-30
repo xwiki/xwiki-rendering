@@ -76,6 +76,16 @@ public class TestDataGenerator
         return data;
     }
 
+    /**
+     * Generate data for single test.
+     *
+     * @param syntaxDirectory the syntax directory from where to read syntax test data (eg "xwiki20" for "xwiki/2.0"
+     *        syntax)
+     * @param testPrefix the CTS test prefix (eg "cts/simple/bold/bold1")
+     * @param classLoader the class loader from which the test data is read from
+     * @return the 2 TestData instances for both input and output tests
+     * @throws IOException in case of error while reading test data
+     */
     public List<TestData> generateSingleTestData(String syntaxDirectory, String testPrefix, ClassLoader classLoader)
         throws IOException
     {
@@ -100,6 +110,15 @@ public class TestDataGenerator
         return Arrays.asList(testDataIN, testDataOUT);
     }
 
+    /**
+     * Read both input and output test data.
+     *
+     * @param prefix the prefix where to look for to read the test data
+     * @param fileExtension the test data file extension to look for
+     * @param classLoader the class loader from which the test data is read from
+     * @return the input and output test content
+     * @throws IOException in case of error while reading test data
+     */
     private Pair<String, String> readDataForPrefix(String prefix, String fileExtension, ClassLoader classLoader)
         throws IOException
     {
@@ -117,11 +136,19 @@ public class TestDataGenerator
         return new ImmutablePair<String, String>(in, out);
     }
 
-    private String readData(String testPrefix, String suffix, ClassLoader classLoader) throws IOException
+    /**
+     *
+     * @param prefix the prefix where to look for to read the test data
+     * @param suffix the suffix including the test type to read (".in.", ".out." or ".inout.") + the file extension
+     * @param classLoader the class loader from which the test data is read from
+     * @return the test content or null if not found
+     * @throws IOException in case of error while reading test data
+     */
+    private String readData(String prefix, String suffix, ClassLoader classLoader) throws IOException
     {
         String input = null;
 
-        URL inputURL = classLoader.getResource(testPrefix + suffix);
+        URL inputURL = classLoader.getResource(prefix + suffix);
         if (inputURL != null) {
             input = IOUtils.toString(inputURL);
         }
@@ -154,6 +181,13 @@ public class TestDataGenerator
         return prefixes;
     }
 
+    /**
+     * Normalize a syntax directory by replacing removing "/" and "." characters. For example "xwiki/2.0" becomes
+     * "xwiki20".
+     *
+     * @param syntaxId the syntax id from which to compute a syntax directory
+     * @return the computed syntax directory
+     */
     private String computeSyntaxDirectory(String syntaxId)
     {
         // Remove "/" and "."

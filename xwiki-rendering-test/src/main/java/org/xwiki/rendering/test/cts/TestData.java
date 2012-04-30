@@ -31,14 +31,30 @@ import org.xwiki.text.XWikiToStringBuilder;
  */
 public class TestData
 {
+    /**
+     * The syntax being tested and in which the syntax data is written in (eg "xwiki/2.0").
+     */
     public String syntaxId;
 
+    /**
+     * The location where this tests is found in the CTS classpath (eg "cts/simple/bold/bold1").
+     */
     public String prefix;
 
+    /**
+     * True if this test is an input test, ie the syntax data represents an input, false otherwise.
+     */
     public boolean isSyntaxInputTest;
 
+    /**
+     * The CTS test data (either input or output, depending on whether the syntax data is input or outut; it's the
+     * opposite of the syntax data).
+     */
     public String ctsData;
 
+    /**
+     * The syntax data (either input or output).
+     */
     public String syntaxData;
 
     @Override
