@@ -40,18 +40,38 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
  */
 public class RenderingTest
 {
+    /**
+     * The Syntax id corresponding to the syntax in which the CTS tests are written in.
+     */
+    private static final String CTS_SYNTAX_ID = org.xwiki.rendering.syntax.Syntax.XDOMXML_1_0.toIdString();
+
+    /**
+     * @see RenderingTest
+     */
     private TestData testData;
 
+    /**
+     * @see RenderingTest
+     */
     private ComponentManager componentManager;
 
+    /**
+     * @param testData the data for a single test
+     * @param componentManager see {@link #getComponentManager()}
+     */
     public RenderingTest(TestData testData, ComponentManager componentManager)
     {
         this.testData = testData;
         this.componentManager = componentManager;
     }
 
+    /**
+     * Executes a single test.
+     *
+     * @throws Exception if an error happened during the test
+     */
     @Test
-    public void execute() throws Throwable
+    public void execute() throws Exception
     {
         if (this.testData.isSyntaxInputTest) {
             executeInputTest();
@@ -60,45 +80,83 @@ public class RenderingTest
         }
     }
 
-    private void executeInputTest() throws Throwable
+    /**
+     * Executes the test as an input test. This means:
+     * <ul>
+     *   <li>Parse the Syntax input</li>
+     *   <li>Render the generated XDOM using the CTS Renderer</li>
+     *   <li>Compare result with the CTS Output</li>
+     * </ul>
+     *
+     * @throws Exception if an error happens, for example if a Parser or Renderer cannot be found
+     */
+    private void executeInputTest() throws Exception
     {
-        if (!executeTest(this.testData.syntaxData, this.testData.syntaxId, this.testData.ctsData, "xdom+xml/1.0")) {
-            System.out.println(String.format("No input found for [%s]", this.testData.prefix));
+        executeTest(this.testData.syntaxData, this.testData.syntaxId, this.testData.ctsData, CTS_SYNTAX_ID);
+    }
+
+    /**
+     * Executes the test as an output test. This means:
+     * <ul>
+     *   <li>Parse the CTS input</li>
+     *   <li>Render the generated XDOM using the Syntax Renderer</li>
+     *   <li>Compare result with the Syntax Output</li>
+     * </ul>
+     *
+     * @throws Exception if an error happens, for example if a Parser or Renderer cannot be found
+     */
+    private void executeOutputTest() throws Exception
+    {
+        executeTest(this.testData.ctsData, CTS_SYNTAX_ID, this.testData.syntaxData, this.testData.syntaxId);
+    }
+
+    /**
+     * Executes a test in a generic manner.
+     *
+     * @param inputData the input data to parse
+     * @param inputSyntaxId the syntax in which the input data is written in
+     * @param expectedOutputData the output data to compare to
+     * @param outputSyntaxId the syntax in which the output data is written in
+     * @throws Exception if an error happens, for example if a Parser or Renderer cannot be found
+     */
+    private void executeTest(String inputData, String inputSyntaxId, String expectedOutputData, String outputSyntaxId)
+        throws Exception
+    {
+        Parser parser = getComponentManager().getInstance(Parser.class, inputSyntaxId);
+        XDOM xdom = parser.parse(new StringReader(inputData));
+        BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, outputSyntaxId);
+        WikiPrinter printer = new DefaultWikiPrinter();
+        renderer.render(xdom, printer);
+        if (isXMLSyntax(outputSyntaxId)) {
+            assertExpectedResult(normalizeXMLContent(expectedOutputData), printer.toString());
+        } else {
+            assertExpectedResult(expectedOutputData, printer.toString());
         }
     }
 
-    private void executeOutputTest() throws Throwable
+    /**
+     * @param syntaxId the syntax to check
+     * @return true if the passed syntax id represents an XML syntax
+     */
+    private boolean isXMLSyntax(String syntaxId)
     {
-        if (!executeTest(this.testData.ctsData, "xdom+xml/1.0", this.testData.syntaxData, this.testData.syntaxId)) {
-            System.out.println(String.format("No output found for [%s]", this.testData.prefix));
-        }
+        return syntaxId.startsWith("xdom+xml");
     }
 
-    private boolean executeTest(String inputData, String inputSyntaxId, String expectedOutputData, String outputSyntaxId)
-        throws Throwable
+    /**
+     * Normalize the expected XML output by reading and rendering the passed content. We do this so that we can easily
+     * compare the expected result with the result of the test and not have to care about license comments, whitespaces,
+     * newlines, etc.
+     *
+     * @param content the XML content to normalize
+     * @return the normalized content
+     * @throws Exception if the XML parser or Renderer cannot be found
+     */
+    private String normalizeXMLContent(String content) throws Exception
     {
-        boolean executed = false;
-        if (this.testData.syntaxData != null) {
-            Parser parser = getComponentManager().getInstance(Parser.class, inputSyntaxId);
-            XDOM xdom = parser.parse(new StringReader(inputData));
-            BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, outputSyntaxId);
-            WikiPrinter printer = new DefaultWikiPrinter();
-            renderer.render(xdom, printer);
-            if (outputSyntaxId.contains("xdom+xml")) {
-                assertExpectedResult(normalizeXDOMXMLContent(expectedOutputData), printer.toString());
-            } else {
-                assertExpectedResult(expectedOutputData, printer.toString());
-            }
-            executed = true;
-        }
-        return executed;
-    }
-
-    private String normalizeXDOMXMLContent(String content) throws Exception
-    {
-        Parser parser = getComponentManager().getInstance(Parser.class, "xdom+xml/1.0");
+        Parser parser = getComponentManager().getInstance(Parser.class, CTS_SYNTAX_ID);
         XDOM xdom = parser.parse(new StringReader(content));
-        BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, "xdom+xml/1.0");
+        BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, CTS_SYNTAX_ID);
         WikiPrinter printer = new DefaultWikiPrinter();
         renderer.render(xdom, printer);
         return printer.toString();
@@ -107,6 +165,7 @@ public class RenderingTest
     /**
      * Compare the passed expected string with the passed result.
      * We support regexes for comparison usng the format: ${{{regex:...}}}. For example:
+     *
      * <pre><code>
      * beginDocument
      * beginMacroMarkerStandalone [useravatar] [username=XWiki.UserNotExisting]
@@ -119,37 +178,51 @@ public class RenderingTest
      * endMacroMarkerStandalone [useravatar] [username=XWiki.UserNotExisting]
      * endDocument
      * </code></pre>
+     *
+     * @param expected the content to compare to
+     * @param result the result from the test
      */
-    private void assertExpectedResult(String expected, String result) throws Exception
+    private void assertExpectedResult(String expected, String result)
     {
-        StringBuilder builder = new StringBuilder();
-        normalizeExpectedValue(builder, expected);
+        String escapedExpected = escapeRegexContent(expected);
 
-        Pattern pattern = Pattern.compile(builder.toString(), Pattern.DOTALL);
+        Pattern pattern = Pattern.compile(escapedExpected, Pattern.DOTALL);
         Matcher matcher = pattern.matcher(result);
         if (!matcher.matches()) {
             throw new ComparisonFailure("", expected, result);
         }
     }
 
-    private void normalizeExpectedValue(StringBuilder builder, String expected)
+    /**
+     * Escape the passed content by locating regex syntaxes inside and regex-escaping the text so that the whole
+     * content can be matched using a Regex Matcher.
+     *
+     * @param content the content to escape
+     * @return the escaped content
+     */
+    private String escapeRegexContent(String content)
     {
-        int pos = expected.indexOf("${{{regex:");
+        StringBuilder builder = new StringBuilder();
+        int pos = content.indexOf("${{{regex:");
         if (pos > -1) {
-            builder.append(Pattern.quote(expected.substring(0, pos)));
+            builder.append(Pattern.quote(content.substring(0, pos)));
             // Find end of regex definition
-            int pos2 = expected.indexOf("}}}", pos + 10);
+            int pos2 = content.indexOf("}}}", pos + 10);
             if (pos2 == -1) {
                 throw new RuntimeException("Invalid regex declaration: missing closing part }}}");
             }
-            builder.append(expected.substring(pos + 10, pos2));
-            normalizeExpectedValue(builder, expected.substring(pos2 + 3));
+            builder.append(content.substring(pos + 10, pos2));
+            builder.append(escapeRegexContent(content.substring(pos2 + 3)));
         } else {
-            builder.append(Pattern.quote(expected));
+            builder.append(Pattern.quote(content));
         }
+        return builder.toString();
     }
 
-    private ComponentManager getComponentManager() throws Exception
+    /**
+     * @return the component manager used to find Parser and Renderers
+     */
+    private ComponentManager getComponentManager()
     {
         return this.componentManager;
     }

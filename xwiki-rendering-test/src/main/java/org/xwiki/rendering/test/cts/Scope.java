@@ -50,6 +50,9 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Scope
 {
+    /**
+     * The default regex to locate test data files.
+     */
     String DEFAULT_PATTERN = ".*\\.xml";
 
     /**

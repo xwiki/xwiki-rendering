@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.internal.builders.IgnoredClassRunner;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
@@ -117,14 +118,13 @@ public class CompatibilityTestSuite extends Suite
         private final TestData testData;
 
         /**
-         * @param type the {@link RenderingTest} class
+         * @param testClass the {@link RenderingTest} class
          * @param testData the Test Data, passed to the Rendering Test instance executing
          * @throws InitializationError if the {@link RenderingTest} isn't a valid JUnit Test class
          */
-        RenderingTestClassRunner(Class<?> type, TestData testData)
-            throws InitializationError
+        RenderingTestClassRunner(Class<?> testClass, TestData testData) throws InitializationError
         {
-            super(type);
+            super(testClass);
             this.testData = testData;
         }
 
@@ -138,8 +138,7 @@ public class CompatibilityTestSuite extends Suite
         @Override
         protected String getName()
         {
-            return String.format("%s(%s) [%s]", this.testData.prefix, this.testData.isSyntaxInputTest ? "IN" : "OUT",
-                this.testData.syntaxId);
+            return computeTestName(this.testData);
         }
 
         @Override
@@ -204,6 +203,33 @@ public class CompatibilityTestSuite extends Suite
     }
 
     /**
+     * Used to ignore tests for which there is CTS data but no Syntax test data.
+     */
+    private class IgnoredRenderingTestClassRunner extends IgnoredClassRunner
+    {
+        /**
+         * @see #IgnoredRenderingTestClassRunner(Class, TestData)
+         */
+        private final TestData testData;
+
+        /**
+         * @param testClass the {@link RenderingTest} class
+         * @param testData the Test Data, passed to the Rendering Test instance executing
+         */
+        public IgnoredRenderingTestClassRunner(Class<?> testClass, TestData testData)
+        {
+            super(testClass);
+            this.testData = testData;
+        }
+
+        @Override
+        public Description getDescription()
+        {
+            return Description.createTestDescription(getTestClass().getJavaClass(), computeTestName(this.testData));
+        }
+    }
+
+    /**
      * {@inheritDoc}
      *
      * <p>
@@ -248,7 +274,11 @@ public class CompatibilityTestSuite extends Suite
 
         for (TestData testData : GENERATOR.generateTestData(syntaxId, packagePrefix, pattern))
         {
-            this.runners.add(new RenderingTestClassRunner(getTestClass().getJavaClass(), testData));
+            if (testData.syntaxData != null) {
+                this.runners.add(new RenderingTestClassRunner(getTestClass().getJavaClass(), testData));
+            } else {
+                this.runners.add(new IgnoredRenderingTestClassRunner(getTestClass().getJavaClass(), testData));
+            }
         }
     }
 
@@ -270,5 +300,17 @@ public class CompatibilityTestSuite extends Suite
     public Description getDescription()
     {
         return Description.createSuiteDescription(getTestClass().getJavaClass());
+    }
+
+    /**
+     * Compute a test name based on the Test Data.
+     *
+     * @param testData the data from which to compute the test name
+     * @return the computed test name (eg "cts/simple/bold/bold1(IN) [xwiki/2.0]")
+     */
+    private String computeTestName(TestData testData)
+    {
+        return String.format("%s(%s) [%s]", testData.prefix, testData.isSyntaxInputTest ? "IN" : "OUT",
+            testData.syntaxId);
     }
 }
