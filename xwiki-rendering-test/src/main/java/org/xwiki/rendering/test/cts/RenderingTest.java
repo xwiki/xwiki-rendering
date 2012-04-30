@@ -131,12 +131,12 @@ public class RenderingTest
         String result = printer.toString();
         try {
             if (isXMLSyntax(outputSyntaxId)) {
-                assertExpectedResult(normalizeXMLContent(expectedOutputData), result);
+                assertExpectedResult(normalizeXMLContent(expectedOutputData, outputSyntaxId), result);
             } else {
                 assertExpectedResult(expectedOutputData, result);
             }
         } catch (ParseException e) {
-            throw new AssertionError(String.format("Failed to compare expected result with [%s]", result));
+            throw new RuntimeException(String.format("Failed to compare expected result with [%s]", result), e);
         }
     }
 
@@ -146,7 +146,7 @@ public class RenderingTest
      */
     private boolean isXMLSyntax(String syntaxId)
     {
-        return syntaxId.startsWith("xdom+xml");
+        return syntaxId.startsWith("xdom+xml") || syntaxId.startsWith("docbook");
     }
 
     /**
@@ -155,14 +155,15 @@ public class RenderingTest
      * newlines, etc.
      *
      * @param content the XML content to normalize
+     * @param syntaxId the syntax in which the XML content is written in
      * @return the normalized content
      * @throws Exception if the XML parser or Renderer cannot be found
      */
-    private String normalizeXMLContent(String content) throws Exception
+    private String normalizeXMLContent(String content, String syntaxId) throws Exception
     {
-        Parser parser = getComponentManager().getInstance(Parser.class, CTS_SYNTAX_ID);
+        Parser parser = getComponentManager().getInstance(Parser.class, syntaxId);
         XDOM xdom = parser.parse(new StringReader(content));
-        BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, CTS_SYNTAX_ID);
+        BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, syntaxId);
         WikiPrinter printer = new DefaultWikiPrinter();
         renderer.render(xdom, printer);
         return printer.toString();

@@ -1,0 +1,1 @@
+<article><para>This is <emphasis>italic</emphasis></para></article>
