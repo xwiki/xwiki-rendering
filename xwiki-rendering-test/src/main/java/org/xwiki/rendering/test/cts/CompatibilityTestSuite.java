@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.test.cts;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +33,10 @@ import org.junit.runners.Suite;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.parser.Parser;
+import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.test.XWikiComponentInitializer;
 
 /**
@@ -101,6 +104,11 @@ public class CompatibilityTestSuite extends Suite
      * The Test instance (The Test instance is the class on which this Compatibility Test Suite is used).
      */
     private final Object testInstance;
+
+    /**
+     * Used to find if there are Parser or Renderers for a given Syntax.
+     */
+    private final ComponentManager componentManager;
 
     /**
      * Represents a Test Runner for a single Rendering Test to execute.
@@ -243,10 +251,10 @@ public class CompatibilityTestSuite extends Suite
      * Only called reflectively. Do not use programmatically.
      *
      * @param klass the test instance class on which this Test Suite is applied
-     * @throws IOException if we fail to locate or load test data
-     * @throws InitializationError if the {@link RenderingTest} isn't a valid JUnit Test class
+     * @throws Exception if we fail to locate or load test data, if the {@link RenderingTest} isn't a valid JUnit Test
+     *         class or if we cannot locate the Component Manager
      */
-    public CompatibilityTestSuite(Class<?> klass) throws IOException, InitializationError
+    public CompatibilityTestSuite(Class<?> klass) throws Exception
     {
         super(RenderingTest.class, Collections.<Runner>emptyList());
 
@@ -272,12 +280,20 @@ public class CompatibilityTestSuite extends Suite
         }
         String syntaxId = syntaxAnnotation.value();
 
+        // Initialize Component Manager
+        this.componentManager = new XWikiComponentInitializer().getComponentManager();
+
         for (TestData testData : GENERATOR.generateTestData(syntaxId, packagePrefix, pattern))
         {
             if (testData.syntaxData != null) {
                 this.runners.add(new RenderingTestClassRunner(getTestClass().getJavaClass(), testData));
             } else {
-                this.runners.add(new IgnoredRenderingTestClassRunner(getTestClass().getJavaClass(), testData));
+                // We only mark a test as ignored if there's no Parser or Renderer for that Syntax
+                if ((testData.isSyntaxInputTest && hasParserForSyntax(syntaxId))
+                    || hasRendererForSyntax(syntaxId))
+                {
+                    this.runners.add(new IgnoredRenderingTestClassRunner(getTestClass().getJavaClass(), testData));
+                }
             }
         }
     }
@@ -312,5 +328,35 @@ public class CompatibilityTestSuite extends Suite
     {
         return String.format("%s(%s) [%s]", testData.prefix, testData.isSyntaxInputTest ? "IN" : "OUT",
             testData.syntaxId);
+    }
+
+    /**
+     * @param syntaxId the syntax for which to verify if there's a Parser
+     * @return true if a Parser exists for the passed syntax, false otherwise
+     */
+    private boolean hasParserForSyntax(String syntaxId)
+    {
+        boolean hasParser = true;
+        try {
+            this.componentManager.getInstance(Parser.class, syntaxId);
+        } catch (ComponentLookupException e) {
+            hasParser = false;
+        }
+        return hasParser;
+    }
+
+    /**
+     * @param syntaxId the syntax for which to verify if there's a Renderer
+     * @return true if a Renderer exists for the passed syntax, false otherwise
+     */
+    private boolean hasRendererForSyntax(String syntaxId)
+    {
+        boolean hasRenderer = true;
+        try {
+            this.componentManager.getInstance(BlockRenderer.class, syntaxId);
+        } catch (ComponentLookupException e) {
+            hasRenderer = false;
+        }
+        return hasRenderer;
     }
 }
