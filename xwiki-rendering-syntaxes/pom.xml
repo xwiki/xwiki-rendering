@@ -46,6 +46,7 @@
     <module>xwiki-rendering-syntax-creole</module>
     <module>xwiki-rendering-syntax-docbook</module>
     <module>xwiki-rendering-syntax-doxia</module>
+    <module>xwiki-rendering-syntax-event</module>
     <module>xwiki-rendering-syntax-html</module>
     <module>xwiki-rendering-syntax-jspwiki</module>
     <module>xwiki-rendering-syntax-markdown</module>

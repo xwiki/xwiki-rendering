@@ -36,6 +36,12 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-event</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-docbook</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>

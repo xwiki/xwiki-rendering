@@ -42,7 +42,7 @@
     <!-- TODO: That's very bad and should be fixed by http://jira.xwiki.org/jira/browse/XRENDERING-83 -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-xwiki2</artifactId>
+      <artifactId>xwiki-rendering-syntax-xwiki21</artifactId>
       <version>${project.version}</version>
     </dependency>
     <!-- Test Dependencies -->

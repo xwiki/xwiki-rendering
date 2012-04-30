@@ -29,42 +29,14 @@
     <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>4.1-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntax-xwiki10</artifactId>
-  <name>XWiki Rendering - Parser - XWiki 1.0</name>
-  <description>XWiki Rendering - Parser - XWiki 1.0</description>
+  <artifactId>xwiki-rendering-syntax-event</artifactId>
+  <name>XWiki Rendering - Syntax - Event</name>
+  <description>XWiki Rendering - Syntax - Event</description>
   <dependencies>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-    </dependency>
-    <!-- Needed at runtime since the XWiki 1.0 parser converts to XWiki Syntax 2.0. It's only needed at runtime
-         since it's a component implementation. -->
-    <dependency>
-      <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-xwiki20</artifactId>
-      <version>${project.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-velocity</artifactId>
-      <version>${commons.version}</version>
-    </dependency>
-
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-test</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-macro-html</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
@@ -75,7 +47,10 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
-          <excludes>**/xwiki10/**/*.java</excludes>
+          <excludes>
+            org/xwiki/rendering/internal/renderer/event/EventsChainingRenderer.java,
+            org/xwiki/rendering/internal/renderer/event/EventBlockRenderer.java
+          </excludes>
         </configuration>
       </plugin>
     </plugins>

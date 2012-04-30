@@ -1,6 +1,6 @@
 .runTransformations
 .#-----------------------------------------------------
-.input|xwiki/2.0
+.input|xwiki/2.1
 .# Test the macro in inline mode
 .#-----------------------------------------------------
 This is inline {{example parameter="hello"/}}
