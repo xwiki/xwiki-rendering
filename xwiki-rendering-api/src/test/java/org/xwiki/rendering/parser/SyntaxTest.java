@@ -65,4 +65,11 @@ public class SyntaxTest
         Assert.assertEquals("XWiki 1.0", syntax.toString());
         Assert.assertEquals("xwiki/1.0", syntax.toIdString());
     }
+
+    @Test
+    public void getWellKnownSyntaxes()
+    {
+        Assert.assertEquals(15, SyntaxType.getSyntaxTypes().size());
+        Assert.assertEquals(new SyntaxType("xwiki", "XWiki"), SyntaxType.getSyntaxTypes().get("xwiki"));
+    }
 }

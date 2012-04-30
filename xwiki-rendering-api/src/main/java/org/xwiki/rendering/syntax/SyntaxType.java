@@ -19,48 +19,78 @@
  */
 package org.xwiki.rendering.syntax;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @version $Id$
  * @since 2.0RC1
  */
 public class SyntaxType
 {
-    public static final SyntaxType XWIKI = new SyntaxType("xwiki", "XWiki");
+    /**
+     * Well-known Syntax types.
+     */
+    private static Map<String, SyntaxType> KNOWN_SYNTAX_TYPES = new HashMap<String, SyntaxType>();
 
-    public static final SyntaxType CONFLUENCE = new SyntaxType("confluence", "Confluence");
+    public static final SyntaxType XWIKI = register("xwiki", "XWiki");
 
-    public static final SyntaxType MEDIAWIKI = new SyntaxType("mediawiki", "MediaWiki");
+    public static final SyntaxType CONFLUENCE = register("confluence", "Confluence");
 
-    public static final SyntaxType CREOLE = new SyntaxType("creole", "Creole");
+    public static final SyntaxType MEDIAWIKI = register("mediawiki", "MediaWiki");
 
-    public static final SyntaxType JSPWIKI = new SyntaxType("jspwiki", "JSPWiki");
+    public static final SyntaxType CREOLE = register("creole", "Creole");
 
-    public static final SyntaxType TWIKI = new SyntaxType("twiki", "TWiki");
+    public static final SyntaxType JSPWIKI = register("jspwiki", "JSPWiki");
 
-    public static final SyntaxType XHTML = new SyntaxType("xhtml", "XHTML");
+    public static final SyntaxType TWIKI = register("twiki", "TWiki");
 
-    public static final SyntaxType ANNOTATED_XHTML = new SyntaxType("annotatedxhtml", "Annotated XHTML");
+    public static final SyntaxType XHTML = register("xhtml", "XHTML");
 
-    public static final SyntaxType HTML = new SyntaxType("html", "HTML");
+    public static final SyntaxType ANNOTATED_XHTML = register("annotatedxhtml", "Annotated XHTML");
 
-    public static final SyntaxType PLAIN = new SyntaxType("plain", "Plain");
+    public static final SyntaxType HTML = register("html", "HTML");
 
-    public static final SyntaxType EVENT = new SyntaxType("event", "Event");
+    public static final SyntaxType PLAIN = register("plain", "Plain");
 
-    public static final SyntaxType TEX = new SyntaxType("tex", "TeX");
+    public static final SyntaxType EVENT = register("event", "Event");
 
-    public static final SyntaxType DOCBOOK = new SyntaxType("docbook", "DocBook");
+    public static final SyntaxType TEX = register("tex", "TeX");
+
+    public static final SyntaxType DOCBOOK = register("docbook", "DocBook");
 
     /**
      * @since 3.3M1
      */
-    public static final SyntaxType XDOMXML = new SyntaxType("xdom+xml", "XML based XDOM");
+    public static final SyntaxType XDOMXML = register("xdom+xml", "XML based XDOM");
 
     /**
      * @since 3.4M1
      */
-    public static final SyntaxType MARKDOWN = new SyntaxType("markdown", "Markdown");
-    
+    public static final SyntaxType MARKDOWN = register("markdown", "Markdown");
+
+    /**
+     * Register a Syntax Type.
+     *
+     * @param id see {@link SyntaxType#SyntaxType(String, String)}
+     * @param name see {@link SyntaxType#SyntaxType(String, String)}
+     * @return the created Syntax Type object
+     */
+    private static SyntaxType register(String id, String name)
+    {
+        SyntaxType syntaxType = new SyntaxType(id, name);
+        KNOWN_SYNTAX_TYPES.put(id, syntaxType);
+        return syntaxType;
+    }
+
+    /**
+     * @return the well-known Syntax types
+     */
+    public static Map<String, SyntaxType> getSyntaxTypes()
+    {
+        return KNOWN_SYNTAX_TYPES;
+    }
+
     /**
      * @see #getName()
      */
