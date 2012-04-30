@@ -98,7 +98,7 @@ public class CompatibilityTestSuite extends Suite
     /**
      * Used to locate and parse Test Data.
      */
-    private static final TestDataGenerator GENERATOR = new TestDataGenerator();
+    private static final TestDataParser PARSER = new TestDataParser();
 
     /**
      * The Test instance (The Test instance is the class on which this Compatibility Test Suite is used).
@@ -283,7 +283,7 @@ public class CompatibilityTestSuite extends Suite
         // Initialize the Component Manager
         this.componentManager = new XWikiComponentInitializer().getComponentManager();
 
-        for (TestData testData : GENERATOR.generateTestData(syntaxId, packagePrefix, pattern))
+        for (TestData testData : PARSER.parseTestData(syntaxId, packagePrefix, pattern))
         {
             if (testData.syntaxData != null) {
                 this.runners.add(new RenderingTestClassRunner(getTestClass().getJavaClass(), testData));

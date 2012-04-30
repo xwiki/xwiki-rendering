@@ -29,18 +29,18 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
 /**
- * Unit tests for {@link TestDataGenerator}.
+ * Unit tests for {@link TestDataParser}.
  *
  * @version $Id$
  * @since 4.1M1
  */
-public class TestDataGeneratorTest
+public class TestDataParserTest
 {
     @Test
     public void findTestPrefixes()
     {
-        TestDataGenerator generator = new TestDataGenerator();
-        Set<String> prefixes = generator.findTestPrefixes("cts.type", ".*\\.xml");
+        TestDataParser parser = new TestDataParser();
+        Set<String> prefixes = parser.findTestPrefixes("cts.type", ".*\\.xml");
         Assert.assertEquals(1, prefixes.size());
         Assert.assertEquals("cts/type/test/test1", prefixes.iterator().next());
     }
@@ -48,8 +48,8 @@ public class TestDataGeneratorTest
     @Test
     public void readTestData() throws Exception
     {
-        TestDataGenerator generator = new TestDataGenerator();
-        List<TestData> data = generator.generateTestData("syntax/1.0", "cts.type", ".*\\.xml");
+        TestDataParser parser = new TestDataParser();
+        List<TestData> data = parser.parseTestData("syntax/1.0", "cts.type", ".*\\.xml");
         Assert.assertEquals(2, data.size());
 
         TestData dataIn = new TestData();

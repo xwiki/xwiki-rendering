@@ -46,19 +46,19 @@ import org.reflections.util.FilterBuilder;
  * @since 4.1M1
  * @see CompatibilityTestSuite
  */
-public class TestDataGenerator
+public class TestDataParser
 {
     /**
      * Read all test data. See {@link CompatibilityTestSuite} for a detailed explanation of the algorithm.
      *
-     * @param syntaxId the id of the syntax for which to generate data for
+     * @param syntaxId the id of the syntax for which to parse data for
      * @param testPackage the name of a resource directory to look into for {@code *.xml} resources
      * @param pattern a regex to decide which {@code *.xml} resources should be found. The default should be to
      *        find them all
      * @return the list of test data
      * @throws IOException in case of error while reading test data
      */
-    public List<TestData> generateTestData(String syntaxId, String testPackage, String pattern)
+    public List<TestData> parseTestData(String syntaxId, String testPackage, String pattern)
         throws IOException
     {
         ClassLoader classLoader = getClass().getClassLoader();
@@ -67,7 +67,7 @@ public class TestDataGenerator
         String syntaxDirectory = computeSyntaxDirectory(syntaxId);
 
         for (String testPrefix : findTestPrefixes(testPackage, pattern)) {
-            for (TestData testData : generateSingleTestData(syntaxDirectory, testPrefix, classLoader)) {
+            for (TestData testData : parseSingleTestData(syntaxDirectory, testPrefix, classLoader)) {
                 testData.syntaxId = syntaxId;
                 testData.prefix = testPrefix;
                 data.add(testData);
@@ -77,7 +77,7 @@ public class TestDataGenerator
     }
 
     /**
-     * Generate data for single test.
+     * Parse data for single test.
      *
      * @param syntaxDirectory the syntax directory from where to read syntax test data (eg "xwiki20" for "xwiki/2.0"
      *        syntax)
@@ -86,7 +86,7 @@ public class TestDataGenerator
      * @return the 2 TestData instances for both input and output tests
      * @throws IOException in case of error while reading test data
      */
-    public List<TestData> generateSingleTestData(String syntaxDirectory, String testPrefix, ClassLoader classLoader)
+    public List<TestData> parseSingleTestData(String syntaxDirectory, String testPrefix, ClassLoader classLoader)
         throws IOException
     {
         // Look for CTS input/output file and read their contents
