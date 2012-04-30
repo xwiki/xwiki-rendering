@@ -21,7 +21,6 @@ package org.xwiki.rendering.internal.xwiki20;
 
 import org.junit.runner.RunWith;
 import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
-import org.xwiki.rendering.test.cts.Scope;
 import org.xwiki.rendering.test.cts.Syntax;
 
 /**
@@ -32,7 +31,6 @@ import org.xwiki.rendering.test.cts.Syntax;
  */
 @RunWith(CompatibilityTestSuite.class)
 @Syntax("xwiki/2.0")
-@Scope("simple")
 public class XWiki20CompatibilityTest
 {
 }

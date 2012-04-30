@@ -258,10 +258,10 @@ public class CompatibilityTestSuite extends Suite
 
         // If a Scope Annotation is present then use it to define the scope
         Scope scopeAnnotation = klass.getAnnotation(Scope.class);
-        String packagePrefix = "";
+        String packagePrefix = "cts.";
         String pattern = Scope.DEFAULT_PATTERN;
         if (scopeAnnotation != null) {
-            packagePrefix = "cts." + scopeAnnotation.value();
+            packagePrefix = packagePrefix + scopeAnnotation.value();
             pattern = scopeAnnotation.pattern();
         }
 
