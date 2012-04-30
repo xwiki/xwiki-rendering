@@ -28,7 +28,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.xdomxml.internal.parser.DefaultBlockParser;
-import org.xwiki.rendering.xdomxml.internal.version10.parser.parameter.ResourceReferenceParser;
+import org.xwiki.rendering.xdomxml.internal.version10.parser.parameter.ResourceReference10Parser;
 
 @Component("link")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
@@ -41,7 +41,7 @@ public class LinkBlockParser extends DefaultBlockParser
         }
     };
 
-    private ResourceReferenceParser referenceParser = new ResourceReferenceParser();
+    private ResourceReference10Parser referenceParser = new ResourceReference10Parser();
 
     public LinkBlockParser()
     {
@@ -62,14 +62,14 @@ public class LinkBlockParser extends DefaultBlockParser
     @Override
     protected void beginBlock() throws SAXException
     {
-        getListener().beginLink(this.referenceParser.getResourceReference(),
+        getListener().beginLink(this.referenceParser.getValue(),
             getParameterAsBoolean("freestanding", false), getCustomParameters());
     }
 
     @Override
     protected void endBlock() throws SAXException
     {
-        getListener().endLink(this.referenceParser.getResourceReference(),
+        getListener().endLink(this.referenceParser.getValue(),
             getParameterAsBoolean("freestanding", false), getCustomParameters());
     }
 }

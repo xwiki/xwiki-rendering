@@ -26,7 +26,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class CustomParametersParser extends DefaultHandler
+public class CustomParametersParser extends DefaultHandler implements ValueParser<Map<String, String>>
 {
     private Map<String, String> parameters = new LinkedHashMap<String, String>();
 
@@ -36,7 +36,8 @@ public class CustomParametersParser extends DefaultHandler
 
     private String currentEntry;
 
-    public Map<String, String> getParameters()
+    @Override
+    public Map<String, String> getValue()
     {
         return this.parameters;
     }
@@ -71,6 +72,6 @@ public class CustomParametersParser extends DefaultHandler
         if (this.level > 0) {
             this.parameters.put(this.currentEntry, this.value.toString());
             this.value.setLength(0);
-        }        
+        }
     }
 }

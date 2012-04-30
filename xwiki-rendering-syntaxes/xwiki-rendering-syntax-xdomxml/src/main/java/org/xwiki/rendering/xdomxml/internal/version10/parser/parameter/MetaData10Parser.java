@@ -17,31 +17,27 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxml.internal.version10.parser;
+package org.xwiki.rendering.xdomxml.internal.version10.parser.parameter;
 
-import java.util.Collections;
-import java.util.Set;
+import org.xwiki.properties.ConverterManager;
 
-import org.xml.sax.SAXException;
-import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.InstantiationStrategy;
-import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
-import org.xwiki.rendering.xdomxml.internal.parser.DefaultBlockParser;
-
-@Component("emptylines")
-@InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class EmptyLinesBlockParser extends DefaultBlockParser
+public class MetaData10Parser extends org.xwiki.rendering.xdomxml.internal.parser.parameters.MetaDataParser
 {
-    private static final Set<String> NAMES = Collections.singleton("count");
-
-    public EmptyLinesBlockParser()
+    public MetaData10Parser(ConverterManager converter)
     {
-        super(NAMES);
+        super(converter);
+
+        putHandler("resourcereference", new ResourceReference10Parser());
+    }
+
+    public MetaData10Parser(MetaData10Parser metaDataParser)
+    {
+        super(metaDataParser);
     }
 
     @Override
-    protected void endBlock() throws SAXException
+    protected MetaData10Parser createMetaDataParser()
     {
-        getListener().onEmptyLines(getParameterAsInt("count", 1));
+        return new MetaData10Parser(this);
     }
 }

@@ -31,38 +31,57 @@ public abstract class AbstractSerializer
 {
     public static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
 
-    public void serializeParameter(String name, Map<String, String> map, ContentHandler contentHandler)
+    // TODO: support more than strings
+    public void serializeParameter(String name, Map< ? , ? > map, boolean type, ContentHandler contentHandler)
     {
-        startElement(name, EMPTY_ATTRIBUTES, contentHandler);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            serializeParameter(entry.getKey(), entry.getValue(), contentHandler);
+        Attributes attributes;
+
+        if (type) {
+            AttributesImpl attributesImpl = new AttributesImpl();
+            attributesImpl.addAttribute(null, null, "type", null, "stringmap");
+            attributes = attributesImpl;
+        } else {
+            attributes = EMPTY_ATTRIBUTES;
+        }
+
+        startElement(name, attributes, contentHandler);
+        for (Map.Entry< ? , ? > entry : map.entrySet()) {
+            if (entry.getValue() != null && entry.getKey() != null) {
+                serializeParameter(entry.getKey().toString(), entry.getValue().toString(), null, contentHandler);
+            }
         }
         endElement(name, contentHandler);
     }
 
-    public void serializeParameter(String name, char value, ContentHandler contentHandler)
+    public void serializeParameter(String name, char value, boolean type, ContentHandler contentHandler)
     {
-        serializeParameter(name, String.valueOf(value), contentHandler);
+        serializeParameter(name, String.valueOf(value), "char", contentHandler);
     }
 
-    public void serializeParameter(String name, int value, ContentHandler contentHandler)
+    public void serializeParameter(String name, int value, boolean type, ContentHandler contentHandler)
     {
-        serializeParameter(name, String.valueOf(value), contentHandler);
+        serializeParameter(name, String.valueOf(value), "int", contentHandler);
     }
 
-    public void serializeParameter(String name, boolean value, ContentHandler contentHandler)
+    public void serializeParameter(String name, boolean value, boolean type, ContentHandler contentHandler)
     {
-        serializeParameter(name, String.valueOf(value), contentHandler);
+        serializeParameter(name, String.valueOf(value), "bool", contentHandler);
     }
 
-    public void serializeParameter(String name, String value, ContentHandler contentHandler)
+    public void serializeParameter(String name, String value, String type, ContentHandler contentHandler)
     {
         String nodeName;
         Attributes attributes;
 
         if (isValidNodeName(name)) {
             nodeName = name;
-            attributes = EMPTY_ATTRIBUTES;
+            if (type == null) {
+                attributes = EMPTY_ATTRIBUTES;
+            } else {
+                AttributesImpl attributesImpl = new AttributesImpl();
+                attributesImpl.addAttribute(null, null, "type", null, type);
+                attributes = attributesImpl;
+            }
         } else {
             nodeName = "entry";
             AttributesImpl attributesImpl = new AttributesImpl();

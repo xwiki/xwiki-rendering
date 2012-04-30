@@ -22,28 +22,35 @@ package org.xwiki.rendering.xdomxml.internal.version10.parser;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.properties.ConverterManager;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.xdomxml.internal.parser.DefaultBlockParser;
-import org.xwiki.rendering.xdomxml.internal.version10.parser.parameter.ResourceReference10Parser;
+import org.xwiki.rendering.xdomxml.internal.version10.parser.parameter.MetaData10Parser;
 
-@Component("image")
+@Component("metadata")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class ImageBlockParser extends DefaultBlockParser
+public class MetaDataBlockParser extends DefaultBlockParser
 {
     private static final Set<String> NAMES = new HashSet<String>()
     {
         {
-            add("freestanding");
+            add("metaData");
         }
     };
 
-    private ResourceReference10Parser referenceParser = new ResourceReference10Parser();
+    @Inject
+    private ConverterManager converter;
 
-    public ImageBlockParser()
+    private MetaData10Parser metaDataParser;
+
+    public MetaDataBlockParser()
     {
         super(NAMES);
     }
@@ -52,8 +59,9 @@ public class ImageBlockParser extends DefaultBlockParser
     protected void startElementInternal(String uri, String localName, String qName, Attributes attributes)
         throws SAXException
     {
-        if (qName.equals("reference")) {
-            setCurrentHandler(this.referenceParser);
+        if (qName.equals("metaData")) {
+            this.metaDataParser = new MetaData10Parser(this.converter);
+            setCurrentHandler(this.metaDataParser);
         } else {
             super.startElementInternal(uri, localName, qName, attributes);
         }
@@ -62,7 +70,12 @@ public class ImageBlockParser extends DefaultBlockParser
     @Override
     protected void beginBlock() throws SAXException
     {
-        getListener().onImage(this.referenceParser.getValue(),
-            getParameterAsBoolean("freestanding", false), getCustomParameters());
+        getListener().beginMetaData(this.metaDataParser != null ? this.metaDataParser.getValue() : MetaData.EMPTY);
+    }
+
+    @Override
+    protected void endBlock() throws SAXException
+    {
+        getListener().endMetaData(this.metaDataParser != null ? this.metaDataParser.getValue() : MetaData.EMPTY);
     }
 }

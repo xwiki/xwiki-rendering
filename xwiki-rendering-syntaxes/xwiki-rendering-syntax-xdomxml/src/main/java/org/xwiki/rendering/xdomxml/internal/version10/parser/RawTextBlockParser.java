@@ -32,7 +32,7 @@ import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.rendering.xdomxml.internal.parser.DefaultBlockParser;
 
-@Component("raw_text")
+@Component("rawtext")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class RawTextBlockParser extends DefaultBlockParser
 {

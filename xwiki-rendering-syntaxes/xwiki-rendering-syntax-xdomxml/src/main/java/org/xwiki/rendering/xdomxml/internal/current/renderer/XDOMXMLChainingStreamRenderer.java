@@ -75,7 +75,7 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
             startElement(XDOMXMLConstants.ELEM_BLOCK, new String[][] {{XDOMXMLConstants.ATT_BLOCK_NAME, blockName}});
         }
 
-        printParameters(parameters, this.descriptor.getElements().get(blockName));
+        printParameters(parameters, this.descriptor.getElements().get(blockName.toLowerCase()));
     }
 
     private void endEvent(String eventName)

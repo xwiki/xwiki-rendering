@@ -148,7 +148,7 @@ public class DefaultBlockParser extends AbstractBlockParser
             } else if (qName.equals(XDOMXMLConstants.ELEM_PARAMETERS)) {
                 // Custom parameters has been parsed
                 CustomParametersParser parametersParser = (CustomParametersParser) getCurrentHandler();
-                this.customParameters = parametersParser.getParameters();
+                this.customParameters = parametersParser.getValue();
             }
         }
     }

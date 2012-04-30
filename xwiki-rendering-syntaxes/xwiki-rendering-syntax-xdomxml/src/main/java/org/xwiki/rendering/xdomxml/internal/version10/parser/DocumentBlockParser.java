@@ -22,14 +22,17 @@ package org.xwiki.rendering.xdomxml.internal.version10.parser;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.xdomxml.internal.parser.DefaultBlockParser;
-import org.xwiki.rendering.xdomxml.internal.parser.parameters.MetaDataParser;
+import org.xwiki.rendering.xdomxml.internal.version10.parser.parameter.MetaData10Parser;
 
 @Component("document")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
@@ -42,7 +45,10 @@ public class DocumentBlockParser extends DefaultBlockParser
         }
     };
 
-    private MetaDataParser metaDataParser;
+    @Inject
+    private ConverterManager converter;
+
+    private MetaData10Parser metaDataParser;
 
     public DocumentBlockParser()
     {
@@ -54,7 +60,7 @@ public class DocumentBlockParser extends DefaultBlockParser
         throws SAXException
     {
         if (qName.equals("metaData")) {
-            this.metaDataParser = new MetaDataParser();
+            this.metaDataParser = new MetaData10Parser(this.converter);
             setCurrentHandler(this.metaDataParser);
         } else {
             super.startElementInternal(uri, localName, qName, attributes);
@@ -64,12 +70,12 @@ public class DocumentBlockParser extends DefaultBlockParser
     @Override
     protected void beginBlock() throws SAXException
     {
-        getListener().beginDocument(this.metaDataParser != null ? this.metaDataParser.getMetaData() : MetaData.EMPTY);
+        getListener().beginDocument(this.metaDataParser != null ? this.metaDataParser.getValue() : MetaData.EMPTY);
     }
 
     @Override
     protected void endBlock() throws SAXException
     {
-        getListener().endDocument(this.metaDataParser != null ? this.metaDataParser.getMetaData() : MetaData.EMPTY);
+        getListener().endDocument(this.metaDataParser != null ? this.metaDataParser.getValue() : MetaData.EMPTY);
     }
 }
