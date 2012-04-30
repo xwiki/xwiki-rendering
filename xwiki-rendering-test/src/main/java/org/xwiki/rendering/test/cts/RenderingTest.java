@@ -27,6 +27,7 @@ import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
@@ -43,7 +44,7 @@ public class RenderingTest
     /**
      * The Syntax id corresponding to the syntax in which the CTS tests are written in.
      */
-    private static final String CTS_SYNTAX_ID = org.xwiki.rendering.syntax.Syntax.XDOMXML_1_0.toIdString();
+    private static final String CTS_SYNTAX_ID = org.xwiki.rendering.syntax.Syntax.XDOMXML_CURRENT.toIdString();
 
     /**
      * @see RenderingTest
@@ -127,10 +128,15 @@ public class RenderingTest
         BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, outputSyntaxId);
         WikiPrinter printer = new DefaultWikiPrinter();
         renderer.render(xdom, printer);
-        if (isXMLSyntax(outputSyntaxId)) {
-            assertExpectedResult(normalizeXMLContent(expectedOutputData), printer.toString());
-        } else {
-            assertExpectedResult(expectedOutputData, printer.toString());
+        String result = printer.toString();
+        try {
+            if (isXMLSyntax(outputSyntaxId)) {
+                assertExpectedResult(normalizeXMLContent(expectedOutputData), result);
+            } else {
+                assertExpectedResult(expectedOutputData, result);
+            }
+        } catch (ParseException e) {
+            throw new AssertionError(String.format("Failed to compare expected result with [%s]", result));
         }
     }
 

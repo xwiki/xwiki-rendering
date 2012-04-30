@@ -18,21 +18,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
-<block name="document" version="1.0">
-  <block name="paragraph">
-    <block name="word">
-      <word>This</word>
-    </block>
-    <block name="space"></block>
-    <block name="word">
-      <word>is</word>
-    </block>
-    <block name="space"></block>
-    <block name="format">
-      <format>bold</format>
-      <block name="word">
-        <word>bold</word>
-      </block>
-    </block>
-  </block>
-</block>
+<document>
+  <parameter0>
+    <metadata class="linked-hash-map">
+      <entry>
+        <string>syntax</string>
+        <org.xwiki.rendering.syntax.Syntax>
+          <type>
+            <name>${{{regex:.*}}}</name>
+            <id>${{{regex:.*}}}</id>
+          </type>
+          <version>${{{regex:.*}}}</version>
+        </org.xwiki.rendering.syntax.Syntax>
+      </entry>
+    </metadata>
+  </parameter0>
+  <paragraph>
+    <parameter0></parameter0>
+    <word>This</word>
+    <space></space>
+    <word>is</word>
+    <space></space>
+    <format>
+      <parameter0>BOLD</parameter0>
+      <parameter1></parameter1>
+      <word>bold</word>
+    </format>
+  </paragraph>
+</document>
