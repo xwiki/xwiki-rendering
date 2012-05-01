@@ -40,24 +40,25 @@ public class TestDataParserTest
     public void findTestPrefixes()
     {
         TestDataParser parser = new TestDataParser();
-        Set<String> prefixes = parser.findTestPrefixes("cts.type", ".*\\.xml");
+        Set<String> prefixes = parser.findTestPrefixes("ctstest.type", ".*\\.xml");
         Assert.assertEquals(1, prefixes.size());
-        Assert.assertEquals("cts/type/test/test1", prefixes.iterator().next());
+        Assert.assertEquals("ctstest/type/test/test1", prefixes.iterator().next());
     }
 
     @Test
     public void readTestData() throws Exception
     {
         TestDataParser parser = new TestDataParser();
-        List<TestData> data = parser.parseTestData("syntax/1.0", "cts.type", ".*\\.xml");
+        List<TestData> data = parser.parseTestData("syntax/1.0", "ctstest.type", ".*\\.xml");
         Assert.assertEquals(2, data.size());
 
         TestData dataIn = new TestData();
         dataIn.isSyntaxInputTest = true;
-        dataIn.prefix = "cts/type/test/test1";
+        dataIn.prefix = "ctstest/type/test/test1";
         dataIn.syntaxData = "in";
         dataIn.syntaxId = "syntax/1.0";
         dataIn.ctsData = "<cts/>";
+        dataIn.configuration = new TestDataConfiguration();
 
         TestData dataOut = new TestData();
         dataOut.isSyntaxInputTest = false;
@@ -65,6 +66,7 @@ public class TestDataParserTest
         dataOut.syntaxData = "out";
         dataOut.syntaxId = dataIn.syntaxId;
         dataOut.ctsData = dataIn.ctsData;
+        dataOut.configuration = new TestDataConfiguration();
 
         assertThat(data, containsInAnyOrder(dataIn, dataOut));
     }

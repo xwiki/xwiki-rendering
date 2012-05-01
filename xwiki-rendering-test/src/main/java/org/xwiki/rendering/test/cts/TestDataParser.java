@@ -23,11 +23,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -49,6 +51,11 @@ import org.reflections.util.FilterBuilder;
 public class TestDataParser
 {
     /**
+     * Represents the Java resource separator.
+     */
+    private static final String SLASH = "/";
+
+    /**
      * Read all test data. See {@link CompatibilityTestSuite} for a detailed explanation of the algorithm.
      *
      * @param syntaxId the id of the syntax for which to parse data for
@@ -56,20 +63,23 @@ public class TestDataParser
      * @param pattern a regex to decide which {@code *.xml} resources should be found. The default should be to
      *        find them all
      * @return the list of test data
-     * @throws IOException in case of error while reading test data
+     * @throws Exception in case of error while reading test data
      */
-    public List<TestData> parseTestData(String syntaxId, String testPackage, String pattern)
-        throws IOException
+    public List<TestData> parseTestData(String syntaxId, String testPackage, String pattern) throws Exception
     {
         ClassLoader classLoader = getClass().getClassLoader();
 
         List<TestData> data = new ArrayList<TestData>();
         String syntaxDirectory = computeSyntaxDirectory(syntaxId);
 
+        // Read the suite-level Configuration data.
+        TestDataConfiguration configuration = parseTestConfiguration(syntaxDirectory, classLoader);
+
         for (String testPrefix : findTestPrefixes(testPackage, pattern)) {
             for (TestData testData : parseSingleTestData(syntaxDirectory, testPrefix, classLoader)) {
                 testData.syntaxId = syntaxId;
                 testData.prefix = testPrefix;
+                testData.configuration = configuration;
                 data.add(testData);
             }
         }
@@ -92,8 +102,8 @@ public class TestDataParser
         // Look for CTS input/output file and read their contents
         Pair<String, String> ctsData = readDataForPrefix(testPrefix, "xml", classLoader);
 
-        // Replace the "cts" prefix by the syntax id
-        String testDirectory = testPrefix.replaceFirst("cts", syntaxDirectory);
+        // Replace the first prefix by the syntax id
+        String testDirectory = String.format("%s/%s", syntaxDirectory, StringUtils.substringAfter(testPrefix, SLASH));
 
         // Look for syntax-specific input/output file and read their content
         TestData testDataIN = new TestData();
@@ -108,6 +118,30 @@ public class TestDataParser
         testDataOUT.ctsData = ctsData.getLeft();
 
         return Arrays.asList(testDataIN, testDataOUT);
+    }
+
+    /**
+     * Parse Test configuration by looking for a {@code config.properties} file in the Syntax directory.
+     *
+     * @param syntaxDirectory the syntax directory under which to look for the configuration file
+     * @param classLoader the class loader from which the test configuration is read from
+     * @return the configuration
+     * @throws Exception in case of error while reading test configuration
+     */
+    public TestDataConfiguration parseTestConfiguration(String syntaxDirectory, ClassLoader classLoader)
+        throws Exception
+    {
+        TestDataConfiguration configuration = new TestDataConfiguration();
+
+        URL configurationURL = classLoader.getResource(syntaxDirectory + "/config.properties");
+        if (configurationURL != null) {
+            PropertiesConfiguration properties = new PropertiesConfiguration(configurationURL);
+            // TODO: Remove this unsafe cast, need to find out how to do that nicely...
+            configuration.ignoredTests =
+                (List<String>) (List<?>) properties.getList("ignoredTests", Collections.emptyList());
+        }
+
+        return configuration;
     }
 
     /**
@@ -191,6 +225,6 @@ public class TestDataParser
     private String computeSyntaxDirectory(String syntaxId)
     {
         // Remove "/" and "."
-        return syntaxId.replace("/", "").replace(".", "");
+        return syntaxId.replace(SLASH, "").replace(".", "");
     }
 }

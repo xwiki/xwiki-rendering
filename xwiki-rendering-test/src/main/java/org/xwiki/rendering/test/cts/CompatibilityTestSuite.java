@@ -19,20 +19,13 @@
  */
 package org.xwiki.rendering.test.cts;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.internal.builders.IgnoredClassRunner;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.Suite;
-import org.junit.runners.model.FrameworkMethod;
-import org.junit.runners.model.InitializationError;
-import org.junit.runners.model.Statement;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.parser.Parser;
@@ -111,133 +104,6 @@ public class CompatibilityTestSuite extends Suite
     private final ComponentManager componentManager;
 
     /**
-     * Represents a Test Runner for a single Rendering Test to execute.
-     */
-    private class RenderingTestClassRunner extends BlockJUnit4ClassRunner
-    {
-        /**
-         * Used to pass the Component Manager to the Rendering Test instance executing.
-         */
-        private final XWikiComponentInitializer componentInitializer = new XWikiComponentInitializer();
-
-        /**
-         * @see #RenderingTestClassRunner(Class, TestData)
-         */
-        private final TestData testData;
-
-        /**
-         * @param testClass the {@link RenderingTest} class
-         * @param testData the Test Data, passed to the Rendering Test instance executing
-         * @throws InitializationError if the {@link RenderingTest} isn't a valid JUnit Test class
-         */
-        RenderingTestClassRunner(Class<?> testClass, TestData testData) throws InitializationError
-        {
-            super(testClass);
-            this.testData = testData;
-        }
-
-        @Override
-        public Object createTest() throws Exception
-        {
-            return getTestClass().getOnlyConstructor().newInstance(
-                this.testData, this.componentInitializer.getComponentManager());
-        }
-
-        @Override
-        protected String getName()
-        {
-            return computeTestName(this.testData);
-        }
-
-        @Override
-        protected String testName(final FrameworkMethod method)
-        {
-            return getName();
-        }
-
-        @Override
-        protected void validateConstructor(List<Throwable> errors)
-        {
-            validateOnlyOneConstructor(errors);
-        }
-
-        @Override
-        protected Statement classBlock(RunNotifier notifier)
-        {
-            return childrenInvoker(notifier);
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * <p>
-         * Initialize the Component Manager and call all methods annotated with {@link Initialized} in the suite,
-         * before each test is executed, to ensure test isolation.
-         * </p>
-         */
-        @Override
-        protected void runChild(FrameworkMethod method, RunNotifier notifier)
-        {
-            try {
-                this.componentInitializer.initializeConfigurationSource();
-                this.componentInitializer.initializeExecution();
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to initialize Component Manager", e);
-            }
-
-            // Check all methods for a ComponentManager annotation and call the found ones.
-            try {
-                for (Method klassMethod : testInstance.getClass().getMethods()) {
-                    Initialized componentManagerAnnotation = klassMethod.getAnnotation(Initialized.class);
-                    if (componentManagerAnnotation != null) {
-                        // Call it!
-                        klassMethod.invoke(testInstance, this.componentInitializer.getComponentManager());
-                    }
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to call Component Manager initialization method", e);
-            }
-
-            try {
-                super.runChild(method, notifier);
-            } finally {
-                try {
-                    this.componentInitializer.shutdown();
-                } catch (Exception e) {
-                    throw new RuntimeException("Failed to shutdown Component Manager", e);
-                }
-            }
-        }
-    }
-
-    /**
-     * Used to ignore tests for which there is CTS data but no Syntax test data.
-     */
-    private class IgnoredRenderingTestClassRunner extends IgnoredClassRunner
-    {
-        /**
-         * @see #IgnoredRenderingTestClassRunner(Class, TestData)
-         */
-        private final TestData testData;
-
-        /**
-         * @param testClass the {@link RenderingTest} class
-         * @param testData the Test Data, passed to the Rendering Test instance executing
-         */
-        public IgnoredRenderingTestClassRunner(Class<?> testClass, TestData testData)
-        {
-            super(testClass);
-            this.testData = testData;
-        }
-
-        @Override
-        public Description getDescription()
-        {
-            return Description.createTestDescription(getTestClass().getJavaClass(), computeTestName(this.testData));
-        }
-    }
-
-    /**
      * {@inheritDoc}
      *
      * <p>
@@ -286,12 +152,10 @@ public class CompatibilityTestSuite extends Suite
         for (TestData testData : PARSER.parseTestData(syntaxId, packagePrefix, pattern))
         {
             if (testData.syntaxData != null) {
-                this.runners.add(new RenderingTestClassRunner(getTestClass().getJavaClass(), testData));
+                this.runners.add(new RenderingTestClassRunner(
+                    this.testInstance, getTestClass().getJavaClass(), testData));
             } else {
-                // We only mark a test as ignored if there's no Parser or Renderer for that Syntax
-                if ((testData.isSyntaxInputTest && hasParserForSyntax(syntaxId))
-                    || (!testData.isSyntaxInputTest && hasRendererForSyntax(syntaxId)))
-                {
+                if (ignoreTest(testData)) {
                     this.runners.add(new IgnoredRenderingTestClassRunner(getTestClass().getJavaClass(), testData));
                 }
             }
@@ -319,15 +183,23 @@ public class CompatibilityTestSuite extends Suite
     }
 
     /**
-     * Compute a test name based on the Test Data.
+     * We ignore a test if there's no Parser or Renderer for that Syntax but also if the test is not marked as ignored
+     * by the user (in this case the test is not even reported in the JUnit Runner console).
      *
-     * @param testData the data from which to compute the test name
-     * @return the computed test name (eg "cts/simple/bold/bold1(IN) [xwiki/2.0]")
+     * @param testData the test data used to decide if the test is ignored or not
+     * @return if the test should be ignored or false otherwise
      */
-    private String computeTestName(TestData testData)
+    private boolean ignoreTest(TestData testData)
     {
-        return String.format("%s(%s) [%s]", testData.prefix, testData.isSyntaxInputTest ? "IN" : "OUT",
-            testData.syntaxId);
+        boolean ignoreTest = false;
+        if (!testData.isIgnored()) {
+            if ((testData.isSyntaxInputTest && hasParserForSyntax(testData.syntaxId))
+                || (!testData.isSyntaxInputTest && hasRendererForSyntax(testData.syntaxId)))
+            {
+                ignoreTest = true;
+            }
+        }
+        return ignoreTest;
     }
 
     /**

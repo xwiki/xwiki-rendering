@@ -137,7 +137,7 @@
             <exclude>**/*.out.txt</exclude>
             <exclude>**/*.inout.txt</exclude>
             <!-- Exclude Rendering Test framework test data file -->
-            <exclude>**/cts/type/test/test1.inout.xml</exclude>
+            <exclude>**/ctstest/type/test/test1.inout.xml</exclude>
           </excludes>
         </configuration>
       </plugin>
