@@ -136,4 +136,10 @@ public class MetaData
 
         return obj instanceof MetaData && this.metadata.equals(((MetaData) obj).metadata);
     }
+
+    @Override
+    public int hashCode()
+    {
+        return this.metadata.hashCode();
+    }
 }
