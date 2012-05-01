@@ -60,9 +60,8 @@
     <dependency>
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
-      <version>1.6.1</version>
     </dependency>
-    
+
     <!-- We need the Xerces dependency at runtime since we have an optimization for the Xerces
          parser (to tell it to cache DTD grammars). If it's not there then there's no DTD
          caching. -->
