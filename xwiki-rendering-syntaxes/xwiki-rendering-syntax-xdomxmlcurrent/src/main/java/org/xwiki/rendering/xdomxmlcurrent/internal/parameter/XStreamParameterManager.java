@@ -21,16 +21,19 @@ package org.xwiki.rendering.xdomxmlcurrent.internal.parameter;
 
 import java.lang.reflect.Type;
 
-import org.dom4j.Element;
+import org.apache.commons.lang3.ObjectUtils;
+import org.w3c.dom.Element;
 import org.xml.sax.ContentHandler;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
+import org.xwiki.component.util.ReflectionUtils;
+import org.xwiki.rendering.xdomxmlcurrent.internal.XDOMXMLCurrentUtils;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.DataHolder;
 import com.thoughtworks.xstream.core.MapBackedDataHolder;
-import com.thoughtworks.xstream.io.xml.Dom4JReader;
+import com.thoughtworks.xstream.io.xml.DomReader;
 import com.thoughtworks.xstream.io.xml.SaxWriter;
 
 /**
@@ -49,7 +52,7 @@ public class XStreamParameterManager implements ParameterManager, Initializable
         this.xstream = new XStream();
 
         this.xstream.setMarshallingStrategy(new XDOMXMLTreeMarshallingStrategy());
-        
+
         this.xstream.registerConverter(new XDOMXMLCollectionConverter(this.xstream.getMapper()));
         this.xstream.registerConverter(new XDOMXMLMapConverter(this.xstream.getMapper()));
     }
@@ -57,6 +60,11 @@ public class XStreamParameterManager implements ParameterManager, Initializable
     @Override
     public void serialize(Type type, Object object, ContentHandler xmlContent)
     {
+        Class< ? > typeClass = ReflectionUtils.getTypeClass(type);
+        if (typeClass != null && ObjectUtils.equals(XDOMXMLCurrentUtils.defaultValue(typeClass), object)) {
+            return;
+        }
+
         SaxWriter saxWriter = new SaxWriter(false);
         saxWriter.setContentHandler(xmlContent);
 
@@ -70,10 +78,17 @@ public class XStreamParameterManager implements ParameterManager, Initializable
     @Override
     public Object unSerialize(Type type, Element rootElement)
     {
+        if (type != null && !rootElement.hasChildNodes()) {
+            Object value = XDOMXMLCurrentUtils.defaultValue(ReflectionUtils.getTypeClass(type));
+            if (value != null) {
+                return value;
+            }
+        }
+
         DataHolder dataHolder = new MapBackedDataHolder();
 
         dataHolder.put("type", type);
 
-        return this.xstream.unmarshal(new Dom4JReader(rootElement), null, dataHolder);
+        return this.xstream.unmarshal(new DomReader(rootElement), null, dataHolder);
     }
 }

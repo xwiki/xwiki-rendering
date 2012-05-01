@@ -27,9 +27,9 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 
 import javax.inject.Inject;
+import javax.xml.parsers.ParserConfigurationException;
 
-import org.dom4j.Element;
-import org.dom4j.io.SAXContentHandler;
+import org.w3c.dom.Element;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -46,6 +46,7 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xdomxmlcurrent.internal.XDOMXMLConstants;
 import org.xwiki.rendering.xdomxmlcurrent.internal.XDOMXMLCurrentUtils;
 import org.xwiki.rendering.xdomxmlcurrent.internal.parameter.ParameterManager;
+import org.xwiki.xml.Sax2Dom;
 
 @Component("xdom+xml/current")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
@@ -72,11 +73,6 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
 
     private StringBuilder content;
 
-    /**
-     * Avoid create a new SAXContentHandler for each block when the same can be used for all.
-     */
-    public SAXContentHandler currentDOMBuilder = new SAXContentHandler();
-
     public static class Block
     {
         public ListenerElement listenerElement;
@@ -85,7 +81,7 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
 
         public List<Object> parametersList = new ArrayList<Object>();
 
-        public SAXContentHandler parameterDOMBuilder;
+        public Sax2Dom parameterDOMBuilder;
 
         public int elementDepth;
 
@@ -272,7 +268,11 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
             if (onParameterElement(qName)) {
                 // starting a new block parameter
                 if (currentBlock.listenerElement != null) {
-                    currentBlock.parameterDOMBuilder = this.currentDOMBuilder;
+                    try {
+                        currentBlock.parameterDOMBuilder = new Sax2Dom();
+                    } catch (ParserConfigurationException e) {
+                        throw new SAXException("Failed to create new Sax2Dom handler", e);
+                    }
                     currentBlock.parameterDOMBuilder.startDocument();
                 }
             }
@@ -325,7 +325,7 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
 
                     ListenerElement listenerElement = currentBlock.listenerElement;
                     Type parameterType = listenerElement.getParameters().get(extractParameterIndex(qName));
-                    Element rootElement = currentBlock.parameterDOMBuilder.getDocument().getRootElement();
+                    Element rootElement = currentBlock.parameterDOMBuilder.getRootElement();
 
                     int parameterIndex = extractParameterIndex(qName);
                     currentBlock.setParameter(parameterIndex,

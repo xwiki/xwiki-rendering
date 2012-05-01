@@ -20,9 +20,14 @@
 package org.xwiki.rendering.xdomxmlcurrent.internal;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,6 +44,10 @@ public class XDOMXMLCurrentUtils
         DEFAULTS.put(long.class, 0L);
         DEFAULTS.put(float.class, 0f);
         DEFAULTS.put(double.class, 0d);
+        DEFAULTS.put(Map.class, new LinkedHashMap());
+        DEFAULTS.put(Set.class, new LinkedHashSet());
+        DEFAULTS.put(List.class, new ArrayList());
+        DEFAULTS.put(Collection.class, new ArrayList());
     }
 
     private static final Set<Class< ? >> SIMPLECLASSES = new HashSet<Class< ? >>(Arrays.<Class< ? >> asList(
@@ -61,6 +70,18 @@ public class XDOMXMLCurrentUtils
 
     public static Object defaultValue(Class< ? > type)
     {
-        return DEFAULTS.get(type);
+        Object defaultValue = null;
+
+        if (DEFAULTS.containsKey(type)) {
+            defaultValue = DEFAULTS.get(type);
+        } else {
+            try {
+                defaultValue = type.newInstance();
+            } catch (Exception e) {
+                // Ignore
+            }
+        }
+
+        return defaultValue;
     }
 }

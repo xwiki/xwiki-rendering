@@ -19,8 +19,9 @@
  */
 package org.xwiki.rendering.xdomxmlcurrent.internal.parameter;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+
+import org.xwiki.component.util.ReflectionUtils;
 
 import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.converters.Converter;
@@ -56,16 +57,12 @@ public class XDOMXMLTreeMarshaller extends TreeMarshaller
     private Converter getConverter(Type type)
     {
         if (type != null) {
-            Class< ? > clazz = null;
-            if (type instanceof ParameterizedType) {
-                clazz = (Class< ? >) ((ParameterizedType) type).getRawType();
-            } else if (type instanceof Class) {
-                clazz = (Class< ? >) type;
-            } else {
+            Class< ? > typeClass = ReflectionUtils.getTypeClass(type);
+            if (typeClass == null) {
                 throw new ConversionException("Can't find any converter for the type [" + type + "]");
             }
 
-            Converter converter = this.converterLookup.lookupConverterForType(clazz);
+            Converter converter = this.converterLookup.lookupConverterForType(typeClass);
 
             if (converter.getClass() != ReflectionConverter.class) {
                 return converter;

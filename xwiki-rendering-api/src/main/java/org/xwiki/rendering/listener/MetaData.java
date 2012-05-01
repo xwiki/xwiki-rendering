@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * Represents a set of MetaData.
- *
+ * 
  * @version $Id$
  * @since 3.0M2
  */
@@ -45,7 +45,7 @@ public class MetaData
     /**
      * Represents the syntax of the content found in macro containing wiki content (like a box macro for example). The
      * value has to be a {@link org.xwiki.rendering.syntax.Syntax} object.
-     *
+     * 
      * @since 3.0M3
      */
     public static final String SYNTAX = "syntax";
@@ -58,9 +58,8 @@ public class MetaData
     public static final String BASE = "base";
 
     /**
-     * Contains all MetaData for this Block and its children.
-     * Note: we preserve the order of metadata elements as they are added as a service for the user so he can count
-     * on it.
+     * Contains all MetaData for this Block and its children. Note: we preserve the order of metadata elements as they
+     * are added as a service for the user so he can count on it.
      */
     private Map<String, Object> metadata = new LinkedHashMap<String, Object>();
 
@@ -124,5 +123,17 @@ public class MetaData
     public Map<String, Object> getMetaData()
     {
         return Collections.unmodifiableMap(this.metadata);
+    }
+
+    // Object
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        return obj instanceof MetaData && this.metadata.equals(((MetaData) obj).metadata);
     }
 }

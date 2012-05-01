@@ -19,8 +19,9 @@
  */
 package org.xwiki.rendering.xdomxmlcurrent.internal.parameter;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+
+import org.xwiki.component.util.ReflectionUtils;
 
 import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.converters.ConverterLookup;
@@ -42,19 +43,19 @@ public class XDOMXMLTreeUnmarshaller extends TreeUnmarshaller
     {
         Type type = (Type) dataHolder.get("type");
 
-        Class< ? > clazz = null;
+        Class< ? > typeClass;
         if (type != null) {
-            if (type instanceof ParameterizedType) {
-                clazz = (Class< ? >) ((ParameterizedType) type).getRawType();
-            } else if (type instanceof Class) {
-                clazz = (Class< ? >) type;
-            } else {
+            typeClass = ReflectionUtils.getTypeClass(type);
+
+            if (typeClass == null) {
                 throw new ConversionException("Can't find any converter for the type [" + type + "]");
             }
+        } else {
+            typeClass = null;
         }
 
-        if (clazz != null) {
-            return convertAnother(null, clazz);
+        if (typeClass != null) {
+            return convertAnother(null, typeClass);
         } else {
             throw new ConversionException("Can't find any converter for the type [" + type + "]");
         }
