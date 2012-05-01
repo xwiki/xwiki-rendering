@@ -21,6 +21,7 @@ package org.xwiki.rendering.xdomxmlcurrent.internal.renderer;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -72,8 +73,7 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
         if (isValidBlockElementName(blockName)) {
             startElement(blockName);
         } else {
-            startElement(XDOMXMLConstants.ELEM_BLOCK, new String[][] {{XDOMXMLConstants.ATT_BLOCK_NAME,
-            blockName}});
+            startElement(XDOMXMLConstants.ELEM_BLOCK, new String[][] {{XDOMXMLConstants.ATT_BLOCK_NAME, blockName}});
         }
 
         printParameters(parameters, this.descriptor.getElements().get(blockName.toLowerCase()));
@@ -121,13 +121,33 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
         endElement(elementName);
     }
 
+    private boolean printParameter(Object value, int index, ListenerElement descriptor)
+    {
+        boolean print = true;
+
+        Type type = descriptor.getParameters().get(index);
+
+        if (type instanceof Class) {
+            Class< ? > typeClass = (Class< ? >) type;
+            try {
+                if (typeClass.isPrimitive()) {
+                    print = !XDOMXMLCurrentUtils.defaultValue(typeClass).equals(value);
+                }
+            } catch (Exception e) {
+                // Should never happen
+            }
+        }
+
+        return print;
+    }
+
     private void printParameters(Object[] parameters, ListenerElement descriptor)
     {
         if (parameters != null && parameters.length > 0) {
             for (int i = 0; i < parameters.length; ++i) {
                 Object value = parameters[i];
 
-                if (value != null) {
+                if (value != null && printParameter(value, i, descriptor)) {
                     startElement(XDOMXMLConstants.ELEM_PARAMETER + i);
 
                     this.parameterManager.serialize(descriptor.getParameters().get(i), parameters[i],

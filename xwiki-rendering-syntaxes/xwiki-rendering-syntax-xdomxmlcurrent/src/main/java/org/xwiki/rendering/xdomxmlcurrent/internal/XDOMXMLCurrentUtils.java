@@ -21,20 +21,35 @@ package org.xwiki.rendering.xdomxmlcurrent.internal;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class XDOMXMLCurrentUtils
 {
+    private static final Map<Class< ? >, Object> DEFAULTS = new HashMap<Class< ? >, Object>();
+
+    static {
+        DEFAULTS.put(boolean.class, false);
+        DEFAULTS.put(char.class, '\0');
+        DEFAULTS.put(byte.class, (byte) 0);
+        DEFAULTS.put(short.class, (short) 0);
+        DEFAULTS.put(int.class, 0);
+        DEFAULTS.put(long.class, 0L);
+        DEFAULTS.put(float.class, 0f);
+        DEFAULTS.put(double.class, 0d);
+    }
+
     private static final Set<Class< ? >> SIMPLECLASSES = new HashSet<Class< ? >>(Arrays.<Class< ? >> asList(
         String.class, Character.class, Boolean.class));
 
-    public static final boolean isSimpleType(Type type)
+    public static boolean isSimpleType(Type type)
     {
         boolean simpleType = false;
 
         if (type instanceof Class) {
-            Class<?> typeClass = (Class<?>) type;
+            Class< ? > typeClass = (Class< ? >) type;
 
             simpleType =
                 SIMPLECLASSES.contains(typeClass) || Number.class.isAssignableFrom(typeClass)
@@ -42,5 +57,10 @@ public class XDOMXMLCurrentUtils
         }
 
         return simpleType;
+    }
+
+    public static Object defaultValue(Class< ? > type)
+    {
+        return DEFAULTS.get(type);
     }
 }

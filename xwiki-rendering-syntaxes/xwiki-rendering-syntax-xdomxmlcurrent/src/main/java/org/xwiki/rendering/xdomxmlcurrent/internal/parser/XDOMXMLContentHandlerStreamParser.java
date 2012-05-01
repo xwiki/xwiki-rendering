@@ -148,8 +148,37 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
 
         private void fireEvent(Method eventMethod, Listener listener, Object[] parameters) throws SAXException
         {
+            Object[] properParameters = parameters;
+            Class< ? >[] methodParameters = eventMethod.getParameterTypes();
+
+            // Missing parameters
+            if (methodParameters.length > parameters.length) {
+                properParameters = new Object[methodParameters.length];
+                for (int i = 0; i < methodParameters.length; ++i) {
+                    if (i < parameters.length) {
+                        properParameters[i] = parameters[i];
+                    } else {
+                        properParameters[i] = null;
+                    }
+                }
+            }
+
+            // Invalid primitive
+            for (int i = 0; i < properParameters.length; ++i) {
+                Object parameter = properParameters[i];
+
+                if (parameter == null) {
+                    Class< ? > methodParameter = methodParameters[i];
+
+                    if (methodParameter.isPrimitive()) {
+                        properParameters[i] = XDOMXMLCurrentUtils.defaultValue(methodParameter);
+                    }
+                }
+            }
+
+            // Send event
             try {
-                eventMethod.invoke(listener, parameters);
+                eventMethod.invoke(listener, properParameters);
             } catch (Exception e) {
                 throw new SAXException("Failed to invoke event [" + eventMethod + "]", e);
             }
