@@ -114,7 +114,13 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-xdomxml</artifactId>
+      <artifactId>xwiki-rendering-syntax-xdomxml10</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-xdomxmlcurrent</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
