@@ -55,7 +55,8 @@
     <module>xwiki-rendering-syntax-tex</module>
     <module>xwiki-rendering-syntax-twiki</module>
     <module>xwiki-rendering-syntax-wikimodel</module>
-    <module>xwiki-rendering-syntax-xdomxml</module>
+    <module>xwiki-rendering-syntax-xdomxml10</module>
+    <module>xwiki-rendering-syntax-xdomxmlcurrent</module>
     <module>xwiki-rendering-syntax-xhtml</module>
     <module>xwiki-rendering-syntax-xwiki10</module>
     <module>xwiki-rendering-syntax-xwiki20</module>
