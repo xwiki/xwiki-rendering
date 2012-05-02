@@ -1,4 +1,4 @@
-beginDocument [[syntax]=[event 1.0]]
+beginDocument [[syntax]=[Event 1.0]]
 beginParagraph
 onWord [This]
 onSpace
@@ -8,4 +8,4 @@ beginFormat [BOLD]
 onWord [bold]
 endFormat [BOLD]
 endParagraph
-endDocument [[syntax]=[event 1.0]]
+endDocument [[syntax]=[Event 1.0]]
