@@ -150,7 +150,7 @@ public class CompatibilityTestSuite extends Suite
         // Initialize the Component Manager
         this.componentManager = new XWikiComponentInitializer().getComponentManager();
 
-        // Note: We use the Reflections framework to find all ClassLoader URLs that contain the "cst" package.
+        // Note: We use the Reflections framework to find all ClassLoader URLs that contain the "cts" package.
         List<TestData> testDatas =
             PARSER.parseTestData(syntaxId, packagePrefix, pattern, ClasspathHelper.forPackage("cts"));
 
