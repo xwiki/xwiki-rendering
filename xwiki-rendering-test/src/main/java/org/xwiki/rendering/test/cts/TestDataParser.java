@@ -25,10 +25,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
+import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -36,6 +38,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
+import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
@@ -55,18 +58,23 @@ public class TestDataParser
     private static final String SLASH = "/";
 
     /**
+     * Represents the dot package separator.
+     */
+    private static final String DOT = ".";
+
+    /**
      * Read all test data. See {@link CompatibilityTestSuite} for a detailed explanation of the algorithm.
      *
      * @param syntaxId the id of the syntax for which to parse data for
-     * @param testPackage the name of a resource directory to look into for {@code *.xml} resources
+     * @param ctsRootPackageName the root of the CTS resources
+     * @param packageFilter the regex to filter packages
      * @param pattern a regex to decide which {@code *.xml} resources should be found. The default should be to
      *        find them all
-     * @param ctsClassLoaderURLs the list of ClassLoader URLs containing the CTS resources
      * @return the list of test data
      * @throws Exception in case of error while reading test data
      */
-    public List<TestData> parseTestData(String syntaxId, String testPackage, String pattern,
-        Set<URL> ctsClassLoaderURLs) throws Exception
+    public List<TestData> parseTestData(String syntaxId, String ctsRootPackageName, String packageFilter,
+        String pattern) throws Exception
     {
         ClassLoader classLoader = getClass().getClassLoader();
 
@@ -74,12 +82,15 @@ public class TestDataParser
         String syntaxDirectory = computeSyntaxDirectory(syntaxId);
 
         // Read the suite-level Configuration data.
-        TestDataConfiguration configuration = parseTestConfiguration(syntaxDirectory, classLoader);
+        TestDataConfiguration configuration = parseTestConfiguration(syntaxDirectory, ctsRootPackageName, classLoader);
 
-        for (String testPrefix : findTestPrefixes(testPackage, pattern, ctsClassLoaderURLs)) {
-            for (TestData testData : parseSingleTestData(syntaxDirectory, testPrefix, classLoader)) {
+        Set<String> relativeDirectoryNames = findRelativeTestDirectoryNames(ctsRootPackageName, packageFilter, pattern);
+        for (String relativeDirectoryName : relativeDirectoryNames) {
+            List<TestData> testDatas =
+                parseSingleTestData(syntaxDirectory, ctsRootPackageName, relativeDirectoryName, classLoader);
+            for (TestData testData : testDatas) {
                 testData.syntaxId = syntaxId;
-                testData.prefix = testPrefix;
+                testData.prefix = relativeDirectoryName;
                 testData.configuration = configuration;
                 data.add(testData);
             }
@@ -92,25 +103,25 @@ public class TestDataParser
      *
      * @param syntaxDirectory the syntax directory from where to read syntax test data (eg "xwiki20" for "xwiki/2.0"
      *        syntax)
-     * @param testPrefix the CTS test prefix (eg "cts/simple/bold/bold1")
+     * @param ctsRootPackageName the root of the CTS resources
+     * @param relativeDirectoryName the name of the relative directory for a CTS test (eg "/simple/bold/bold1")
      * @param classLoader the class loader from which the test data is read from
      * @return the 2 TestData instances for both input and output tests
      * @throws IOException in case of error while reading test data
      */
-    public List<TestData> parseSingleTestData(String syntaxDirectory, String testPrefix, ClassLoader classLoader)
-        throws IOException
+    public List<TestData> parseSingleTestData(String syntaxDirectory, String ctsRootPackageName,
+        String relativeDirectoryName, ClassLoader classLoader) throws IOException
     {
         // Look for CTS input/output file and read their contents
-        Pair<String, String> ctsData = readDataForPrefix(testPrefix, "xml", classLoader);
-
-        // Replace the first prefix by the syntax id
-        String testDirectory = String.format("%s/%s", syntaxDirectory, StringUtils.substringAfter(testPrefix, SLASH));
+        Pair<String, String> ctsData =
+            readDataForPrefix(ctsRootPackageName + SLASH + relativeDirectoryName, "xml", classLoader);
 
         // Look for syntax-specific input/output file and read their content
         TestData testDataIN = new TestData();
         TestData testDataOUT = new TestData();
 
-        Pair<String, String> syntaxData = readDataForPrefix(testDirectory, "txt", classLoader);
+        Pair<String, String> syntaxData =
+            readDataForPrefix(syntaxDirectory + SLASH + relativeDirectoryName, "txt", classLoader);
 
         testDataIN.isSyntaxInputTest = true;
         testDataIN.syntaxData = syntaxData.getLeft();
@@ -125,24 +136,43 @@ public class TestDataParser
      * Parse Test configuration by looking for a {@code config.properties} file in the Syntax directory.
      *
      * @param syntaxDirectory the syntax directory under which to look for the configuration file
+     * @param ctsRootPackageName the root of the CTS resources
      * @param classLoader the class loader from which the test configuration is read from
      * @return the configuration
      * @throws Exception in case of error while reading test configuration
      */
-    public TestDataConfiguration parseTestConfiguration(String syntaxDirectory, ClassLoader classLoader)
-        throws Exception
+    public TestDataConfiguration parseTestConfiguration(String syntaxDirectory, String ctsRootPackageName,
+        ClassLoader classLoader) throws Exception
     {
         TestDataConfiguration configuration = new TestDataConfiguration();
 
-        URL configurationURL = classLoader.getResource(syntaxDirectory + "/config.properties");
-        if (configurationURL != null) {
-            PropertiesConfiguration properties = new PropertiesConfiguration(configurationURL);
-            // TODO: Remove this unsafe cast, need to find out how to do that nicely...
-            configuration.ignoredTests =
-                (List<String>) (List<?>) properties.getList("ignoredTests", Collections.emptyList());
-        }
+        CompositeConfiguration compositeConfiguration = new CompositeConfiguration();
+        addConfigurationData(compositeConfiguration, ctsRootPackageName, classLoader);
+        addConfigurationData(compositeConfiguration, syntaxDirectory, classLoader);
+
+        // TODO: Remove this unsafe cast, need to find out how to do that nicely...
+        configuration.ignoredTests =
+                (List<String>) (List<?>) compositeConfiguration.getList("ignoredTests", Collections.emptyList());
+        configuration.testDescriptions = compositeConfiguration.getProperties("testDescriptions", new Properties());
 
         return configuration;
+    }
+
+    /**
+     * Add Configuration Data loaded from "config.properties" resources.
+     *
+     * @param configuration the composite configuration to add to
+     * @param rootPackageName the package where the configuration properties file is located
+     * @param classLoader the class loader from which the configuration is read from
+     * @throws Exception in case of error while reading test configuration
+     */
+    private void addConfigurationData(CompositeConfiguration configuration, String rootPackageName,
+        ClassLoader classLoader) throws Exception
+    {
+        URL configurationURL = classLoader.getResource(rootPackageName + "/config.properties");
+        if (configurationURL != null) {
+            configuration.addConfiguration(new PropertiesConfiguration(configurationURL));
+        }
     }
 
     /**
@@ -157,12 +187,12 @@ public class TestDataParser
     private Pair<String, String> readDataForPrefix(String prefix, String fileExtension, ClassLoader classLoader)
         throws IOException
     {
-        String inOut = readData(prefix, ".inout." + fileExtension, classLoader);
+        String inOut = readData(prefix + ".inout." + fileExtension, classLoader);
         String in;
         String out;
         if (inOut == null) {
-            in = readData(prefix, ".in." + fileExtension, classLoader);
-            out = readData(prefix, ".out." + fileExtension, classLoader);
+            in = readData(prefix + ".in." + fileExtension, classLoader);
+            out = readData(prefix + ".out." + fileExtension, classLoader);
         } else {
             in = inOut;
             out = inOut;
@@ -172,18 +202,16 @@ public class TestDataParser
     }
 
     /**
-     *
-     * @param prefix the prefix where to look for to read the test data
-     * @param suffix the suffix including the test type to read (".in.", ".out." or ".inout.") + the file extension
+     * @param resourceName the resource to load
      * @param classLoader the class loader from which the test data is read from
      * @return the test content or null if not found
      * @throws IOException in case of error while reading test data
      */
-    private String readData(String prefix, String suffix, ClassLoader classLoader) throws IOException
+    private String readData(String resourceName, ClassLoader classLoader) throws IOException
     {
         String input = null;
 
-        URL inputURL = classLoader.getResource(prefix + suffix);
+        URL inputURL = classLoader.getResource(resourceName);
         if (inputURL != null) {
             input = IOUtils.toString(inputURL);
         }
@@ -192,26 +220,28 @@ public class TestDataParser
 
     /**
      * Find {@code *.xml} files in the classpath and return the list of all resources found, without their filename
-     * extensions. For example if {@code syntax/simple/bold/bold1.*.xml} is found, return
-     * {@code syntax/simple/bold/bold1}.
+     * extensions. For example if {@code {ctsDirectoryName}/simple/bold/bold1.*.xml} is found, return
+     * {@code simple/bold/bold1}.
      *
-     * @param testPackage the name of a resource directory to look into for {@code *.xml} resources
+     * @param ctsRootPackageName the root of the CTS resources
+     * @param packageFilter the regex to filter packages
      * @param pattern a regex to decide which {@code *.xml} resources should be found. The default should be to find
      *        them all
-     * @param ctsClassLoaderURLs the list of ClassLoader URLs containing the CTS resources
-     * @return the list of resources found
+     * @return the list of relative test directories found
      */
-    public Set<String> findTestPrefixes(String testPackage, String pattern, Set<URL> ctsClassLoaderURLs)
+    public Set<String> findRelativeTestDirectoryNames(String ctsRootPackageName, String packageFilter, String pattern)
     {
         Reflections reflections = new Reflections(new ConfigurationBuilder()
             .setScanners(new ResourcesScanner())
-            .setUrls(ctsClassLoaderURLs)
-            .filterInputsBy(new FilterBuilder.Include(FilterBuilder.prefix(testPackage))));
+            .setUrls(ClasspathHelper.forPackage(ctsRootPackageName))
+            .filterInputsBy(new FilterBuilder.Include(FilterBuilder.prefix(ctsRootPackageName + DOT + packageFilter))));
 
         Set<String> prefixes = new TreeSet<String>();
-        for (String testResourceName : reflections.getResources(Pattern.compile(pattern))) {
-            // Remove the trailing extension
-            prefixes.add(StringUtils.substringBeforeLast(testResourceName, ".inout.xml"));
+        for (String fullTestDirectoryName : reflections.getResources(Pattern.compile(pattern))) {
+            // Remove the prefix and trailing extension
+            String testDirectoryName = StringUtils.substringAfter(fullTestDirectoryName, ctsRootPackageName + SLASH);
+            testDirectoryName = StringUtils.substringBeforeLast(testDirectoryName, ".inout.xml");
+            prefixes.add(testDirectoryName);
         }
 
         return prefixes;
@@ -227,6 +257,6 @@ public class TestDataParser
     private String computeSyntaxDirectory(String syntaxId)
     {
         // Remove "/" and "."
-        return syntaxId.replace(SLASH, "").replace(".", "");
+        return syntaxId.replace(SLASH, "").replace(DOT, "");
     }
 }

@@ -21,6 +21,7 @@ package org.xwiki.rendering.test.cts;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -39,11 +40,17 @@ public class TestDataConfiguration
      */
     public List<String> ignoredTests = Collections.emptyList();
 
+    /**
+     * List of test descriptions.
+     */
+    public Properties testDescriptions = new Properties();
+
     @Override
     public String toString()
     {
         return new XWikiToStringBuilder(this)
             .append("ignoredTests", this.ignoredTests)
+            .append("testDescriptions", this.testDescriptions)
             .toString();
     }
 
@@ -62,6 +69,7 @@ public class TestDataConfiguration
         TestDataConfiguration rhs = (TestDataConfiguration) object;
         return new EqualsBuilder()
             .append(this.ignoredTests, rhs.ignoredTests)
+            .append(this.testDescriptions, rhs.testDescriptions)
             .isEquals();
     }
 
@@ -70,6 +78,7 @@ public class TestDataConfiguration
     {
         return new HashCodeBuilder(1, 15)
             .append(this.ignoredTests)
+            .append(this.testDescriptions)
             .toHashCode();
     }
 

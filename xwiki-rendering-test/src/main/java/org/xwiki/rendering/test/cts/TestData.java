@@ -98,7 +98,7 @@ public class TestData
     /**
      * Compute the test name, used to display in the JUnit Test Runner and for ignoring tests.
      *
-     * @return the computed test name (eg "cts/simple/bold/bold1(IN) [xwiki/2.0]")
+     * @return the computed test name (eg "simple/bold/bold1(IN) [xwiki/2.0]")
      */
     public String computeTestName()
     {

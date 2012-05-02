@@ -19,11 +19,12 @@
  */
 package org.xwiki.rendering.test.cts;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import org.junit.Test;
-import org.reflections.util.ClasspathHelper;
 
 import junit.framework.Assert;
 import static org.junit.Assert.assertThat;
@@ -38,30 +39,34 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 public class TestDataParserTest
 {
     @Test
-    public void findTestPrefixes()
+    public void findRelativeTestDirectoryNames()
     {
         TestDataParser parser = new TestDataParser();
-        Set<String> prefixes =
-            parser.findTestPrefixes("ctstest.type", ".*\\.xml", ClasspathHelper.forPackage("ctstest"));
+        Set<String> prefixes = parser.findRelativeTestDirectoryNames("ctstest", "type", ".*\\.xml");
         Assert.assertEquals(1, prefixes.size());
-        Assert.assertEquals("ctstest/type/test/test1", prefixes.iterator().next());
+        Assert.assertEquals("type/test/test1", prefixes.iterator().next());
     }
 
     @Test
     public void readTestData() throws Exception
     {
         TestDataParser parser = new TestDataParser();
-        List<TestData> data =
-            parser.parseTestData("syntax/1.0", "ctstest.type", ".*\\.xml", ClasspathHelper.forPackage("ctstest"));
+        List<TestData> data = parser.parseTestData("syntax/1.0", "ctstest", "type", ".*\\.xml");
         Assert.assertEquals(2, data.size());
+
+        TestDataConfiguration configuration = new TestDataConfiguration();
+        Properties properties = new Properties();
+        properties.setProperty("type/test/test1", "Description1");
+        configuration.testDescriptions = properties;
+        configuration.ignoredTests = Arrays.asList("ignoreregex");
 
         TestData dataIn = new TestData();
         dataIn.isSyntaxInputTest = true;
-        dataIn.prefix = "ctstest/type/test/test1";
+        dataIn.prefix = "type/test/test1";
         dataIn.syntaxData = "in";
         dataIn.syntaxId = "syntax/1.0";
         dataIn.ctsData = "<cts/>";
-        dataIn.configuration = new TestDataConfiguration();
+        dataIn.configuration = configuration;
 
         TestData dataOut = new TestData();
         dataOut.isSyntaxInputTest = false;
@@ -69,7 +74,7 @@ public class TestDataParserTest
         dataOut.syntaxData = "out";
         dataOut.syntaxId = dataIn.syntaxId;
         dataOut.ctsData = dataIn.ctsData;
-        dataOut.configuration = new TestDataConfiguration();
+        dataOut.configuration = configuration;
 
         assertThat(data, containsInAnyOrder(dataIn, dataOut));
     }

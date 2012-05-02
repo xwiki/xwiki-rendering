@@ -26,7 +26,6 @@ import java.util.List;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runners.Suite;
-import org.reflections.util.ClasspathHelper;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.parser.Parser;
@@ -133,10 +132,10 @@ public class CompatibilityTestSuite extends Suite
 
         // If a Scope Annotation is present then use it to define the scope
         Scope scopeAnnotation = klass.getAnnotation(Scope.class);
-        String packagePrefix = "cts.";
+        String packageFilter = "";
         String pattern = Scope.DEFAULT_PATTERN;
         if (scopeAnnotation != null) {
-            packagePrefix = packagePrefix + scopeAnnotation.value();
+            packageFilter = scopeAnnotation.value();
             pattern = scopeAnnotation.pattern();
         }
 
@@ -151,8 +150,7 @@ public class CompatibilityTestSuite extends Suite
         this.componentManager = new XWikiComponentInitializer().getComponentManager();
 
         // Note: We use the Reflections framework to find all ClassLoader URLs that contain the "cts" package.
-        List<TestData> testDatas =
-            PARSER.parseTestData(syntaxId, packagePrefix, pattern, ClasspathHelper.forPackage("cts"));
+        List<TestData> testDatas = PARSER.parseTestData(syntaxId, "cts", packageFilter, pattern);
 
         for (TestData testData : testDatas) {
             if (!testData.isIgnored()) {
