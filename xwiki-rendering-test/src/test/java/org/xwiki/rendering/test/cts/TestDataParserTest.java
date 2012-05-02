@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
+import org.reflections.util.ClasspathHelper;
 
 import junit.framework.Assert;
 import static org.junit.Assert.assertThat;
@@ -40,7 +41,8 @@ public class TestDataParserTest
     public void findTestPrefixes()
     {
         TestDataParser parser = new TestDataParser();
-        Set<String> prefixes = parser.findTestPrefixes("ctstest.type", ".*\\.xml");
+        Set<String> prefixes =
+            parser.findTestPrefixes("ctstest.type", ".*\\.xml", ClasspathHelper.forPackage("ctstest"));
         Assert.assertEquals(1, prefixes.size());
         Assert.assertEquals("ctstest/type/test/test1", prefixes.iterator().next());
     }
@@ -49,7 +51,8 @@ public class TestDataParserTest
     public void readTestData() throws Exception
     {
         TestDataParser parser = new TestDataParser();
-        List<TestData> data = parser.parseTestData("syntax/1.0", "ctstest.type", ".*\\.xml");
+        List<TestData> data =
+            parser.parseTestData("syntax/1.0", "ctstest.type", ".*\\.xml", ClasspathHelper.forPackage("ctstest"));
         Assert.assertEquals(2, data.size());
 
         TestData dataIn = new TestData();

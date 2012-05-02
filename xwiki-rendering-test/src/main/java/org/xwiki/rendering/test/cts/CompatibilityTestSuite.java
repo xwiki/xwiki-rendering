@@ -26,6 +26,7 @@ import java.util.List;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runners.Suite;
+import org.reflections.util.ClasspathHelper;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.parser.Parser;
@@ -149,8 +150,11 @@ public class CompatibilityTestSuite extends Suite
         // Initialize the Component Manager
         this.componentManager = new XWikiComponentInitializer().getComponentManager();
 
-        for (TestData testData : PARSER.parseTestData(syntaxId, packagePrefix, pattern))
-        {
+        // Note: We use the Reflections framework to find all ClassLoader URLs that contain the "cst" package.
+        List<TestData> testDatas =
+            PARSER.parseTestData(syntaxId, packagePrefix, pattern, ClasspathHelper.forPackage("cts"));
+
+        for (TestData testData : testDatas) {
             if (testData.syntaxData != null) {
                 this.runners.add(new RenderingTestClassRunner(
                     this.testInstance, getTestClass().getJavaClass(), testData));

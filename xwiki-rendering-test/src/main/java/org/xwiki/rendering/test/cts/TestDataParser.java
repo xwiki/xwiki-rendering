@@ -36,7 +36,6 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
-import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
@@ -62,10 +61,12 @@ public class TestDataParser
      * @param testPackage the name of a resource directory to look into for {@code *.xml} resources
      * @param pattern a regex to decide which {@code *.xml} resources should be found. The default should be to
      *        find them all
+     * @param ctsClassLoaderURLs the list of ClassLoader URLs containing the CTS resources
      * @return the list of test data
      * @throws Exception in case of error while reading test data
      */
-    public List<TestData> parseTestData(String syntaxId, String testPackage, String pattern) throws Exception
+    public List<TestData> parseTestData(String syntaxId, String testPackage, String pattern,
+        Set<URL> ctsClassLoaderURLs) throws Exception
     {
         ClassLoader classLoader = getClass().getClassLoader();
 
@@ -75,7 +76,7 @@ public class TestDataParser
         // Read the suite-level Configuration data.
         TestDataConfiguration configuration = parseTestConfiguration(syntaxDirectory, classLoader);
 
-        for (String testPrefix : findTestPrefixes(testPackage, pattern)) {
+        for (String testPrefix : findTestPrefixes(testPackage, pattern, ctsClassLoaderURLs)) {
             for (TestData testData : parseSingleTestData(syntaxDirectory, testPrefix, classLoader)) {
                 testData.syntaxId = syntaxId;
                 testData.prefix = testPrefix;
@@ -197,13 +198,14 @@ public class TestDataParser
      * @param testPackage the name of a resource directory to look into for {@code *.xml} resources
      * @param pattern a regex to decide which {@code *.xml} resources should be found. The default should be to find
      *        them all
+     * @param ctsClassLoaderURLs the list of ClassLoader URLs containing the CTS resources
      * @return the list of resources found
      */
-    public Set<String> findTestPrefixes(String testPackage, String pattern)
+    public Set<String> findTestPrefixes(String testPackage, String pattern, Set<URL> ctsClassLoaderURLs)
     {
         Reflections reflections = new Reflections(new ConfigurationBuilder()
             .setScanners(new ResourcesScanner())
-            .setUrls(ClasspathHelper.forPackage(""))
+            .setUrls(ctsClassLoaderURLs)
             .filterInputsBy(new FilterBuilder.Include(FilterBuilder.prefix(testPackage))));
 
         Set<String> prefixes = new TreeSet<String>();
