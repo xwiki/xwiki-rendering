@@ -1,0 +1,41 @@
+.#-----------------------------------------------------
+.input|markdown/1.0
+.# Misc test till we have a better CTS suite.
+.#-----------------------------------------------------
+*emphasis* or _emphasis_
+
+**strong**
+
+    function() {}
+
+# a header
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginFormat [ITALIC]
+onWord [emphasis]
+endFormat [ITALIC]
+onSpace
+onWord [or]
+onSpace
+beginFormat [ITALIC]
+onWord [emphasis]
+endFormat [ITALIC]
+endParagraph
+beginParagraph
+beginFormat [BOLD]
+onWord [strong]
+endFormat [BOLD]
+endParagraph
+onVerbatim [function() {}
+] [false]
+beginSection
+beginHeader [1, Haheader]
+onWord [a]
+onSpace
+onWord [header]
+endHeader [1, Haheader]
+endSection
+endDocument

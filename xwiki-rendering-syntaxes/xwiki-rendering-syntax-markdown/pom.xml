@@ -34,21 +34,18 @@
   <description>XWiki Rendering - Syntax - Markdown</description>
   <dependencies>
     <dependency>
+      <groupId>org.pegdown</groupId>
+      <artifactId>pegdown</artifactId>
+      <version>1.0.2</version>
+    </dependency>
+    <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-doxia</artifactId>
+      <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.tautua.markdownpapers</groupId>
-      <artifactId>markdownpapers-doxia-module</artifactId>
-      <version>1.2.5</version>
-      <exclusions>
-        <!-- Plexus draws JUnit that we don't need/want to have at runtime -->
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
     </dependency>
     <!-- Test Dependencies -->
     <dependency>
@@ -61,11 +58,6 @@
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-event</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

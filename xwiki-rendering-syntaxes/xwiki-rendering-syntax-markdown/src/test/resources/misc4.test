@@ -1,0 +1,12 @@
+.#-----------------------------------------------------
+.input|markdown/1.0
+.# Test Code Syntax.
+.#-----------------------------------------------------
+    public class FormattedCode {}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onVerbatim [public class FormattedCode {}
+] [false]
+endDocument
