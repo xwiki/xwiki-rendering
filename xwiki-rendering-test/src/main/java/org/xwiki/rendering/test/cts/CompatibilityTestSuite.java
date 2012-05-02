@@ -155,12 +155,14 @@ public class CompatibilityTestSuite extends Suite
             PARSER.parseTestData(syntaxId, packagePrefix, pattern, ClasspathHelper.forPackage("cts"));
 
         for (TestData testData : testDatas) {
-            if (testData.syntaxData != null) {
-                this.runners.add(new RenderingTestClassRunner(
-                    this.testInstance, getTestClass().getJavaClass(), testData));
-            } else {
-                if (ignoreTest(testData)) {
-                    this.runners.add(new IgnoredRenderingTestClassRunner(getTestClass().getJavaClass(), testData));
+            if (!testData.isIgnored()) {
+                if (testData.syntaxData != null) {
+                    this.runners.add(new RenderingTestClassRunner(
+                        this.testInstance, getTestClass().getJavaClass(), testData));
+                } else {
+                    if (ignoreTest(testData)) {
+                        this.runners.add(new IgnoredRenderingTestClassRunner(getTestClass().getJavaClass(), testData));
+                    }
                 }
             }
         }
@@ -187,8 +189,7 @@ public class CompatibilityTestSuite extends Suite
     }
 
     /**
-     * We ignore a test if there's no Parser or Renderer for that Syntax but also if the test is not marked as ignored
-     * by the user (in this case the test is not even reported in the JUnit Runner console).
+     * We ignore a test if there's no Parser or Renderer for that Syntax.
      *
      * @param testData the test data used to decide if the test is ignored or not
      * @return if the test should be ignored or false otherwise
@@ -196,12 +197,10 @@ public class CompatibilityTestSuite extends Suite
     private boolean ignoreTest(TestData testData)
     {
         boolean ignoreTest = false;
-        if (!testData.isIgnored()) {
-            if ((testData.isSyntaxInputTest && hasParserForSyntax(testData.syntaxId))
-                || (!testData.isSyntaxInputTest && hasRendererForSyntax(testData.syntaxId)))
-            {
-                ignoreTest = true;
-            }
+        if ((testData.isSyntaxInputTest && hasParserForSyntax(testData.syntaxId))
+            || (!testData.isSyntaxInputTest && hasRendererForSyntax(testData.syntaxId)))
+        {
+            ignoreTest = true;
         }
         return ignoreTest;
     }

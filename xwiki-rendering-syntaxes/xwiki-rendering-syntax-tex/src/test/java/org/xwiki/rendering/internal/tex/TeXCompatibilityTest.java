@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.tex;
+package org.xwiki.rendering.internal.tex;
 
 import org.junit.runner.RunWith;
 import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
@@ -31,6 +31,6 @@ import org.xwiki.rendering.test.cts.Syntax;
  */
 @RunWith(CompatibilityTestSuite.class)
 @Syntax("tex/1.0")
-public class TexCompatibilityTest
+public class TeXCompatibilityTest
 {
 }

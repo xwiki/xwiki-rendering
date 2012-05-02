@@ -67,7 +67,6 @@ public class TexRenderer extends WrappingListener implements PrintRenderer
     @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
-
         switch (format) {
             case BOLD:
                 this.printer.print("\\textbf{");
