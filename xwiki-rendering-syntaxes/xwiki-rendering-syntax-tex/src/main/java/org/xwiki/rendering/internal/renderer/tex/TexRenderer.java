@@ -19,17 +19,20 @@
  */
 package org.xwiki.rendering.internal.renderer.tex;
 
+import java.util.Map;
+
 import javax.inject.Named;
 
-import org.xwiki.rendering.wikimodel.tex.TexSerializer;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
-import org.xwiki.rendering.listener.WrappingListener;
-import org.xwiki.rendering.renderer.printer.WikiPrinter;
-import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.internal.renderer.wikimodel.WikiModelGeneratorListener;
 import org.xwiki.rendering.internal.renderer.wikimodel.WikiModelPrinterAdapter;
+import org.xwiki.rendering.listener.Format;
+import org.xwiki.rendering.listener.WrappingListener;
+import org.xwiki.rendering.renderer.PrintRenderer;
+import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.wikimodel.tex.TexSerializer;
 
 /**
  * Generates LaTeX syntax from a {@link org.xwiki.rendering.block.XDOM} object being traversed.
@@ -59,5 +62,40 @@ public class TexRenderer extends WrappingListener implements PrintRenderer
         this.printer = printer;
         setWrappedListener(new WikiModelGeneratorListener(new TexSerializer(new WikiModelPrinterAdapter(getPrinter()),
             null, null, null)));
+    }
+
+    @Override
+    public void beginFormat(Format format, Map<String, String> parameters)
+    {
+
+        switch (format) {
+            case BOLD:
+                this.printer.print("\\textbf{");
+                break;
+            case ITALIC:
+                this.printer.print("\\textit{");
+                break;
+            case MONOSPACE:
+                this.printer.print("\\texttt{");
+                break;
+            default:
+                // Not supported by default, additional packages are needed
+                break;
+        }
+    }
+
+    @Override
+    public void endFormat(Format format, Map<String, String> parameters)
+    {
+        switch (format) {
+            case BOLD:
+            case ITALIC:
+            case MONOSPACE:
+                this.printer.print("}");
+                break;
+            default:
+                // Not supported by default, additional packages are needed
+                break;
+        }
     }
 }
