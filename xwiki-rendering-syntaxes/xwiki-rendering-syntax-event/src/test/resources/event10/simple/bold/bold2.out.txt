@@ -1,0 +1,13 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+beginFormat [BOLD]
+onSpace
+onWord [bold]
+onSpace
+endFormat [BOLD]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]
