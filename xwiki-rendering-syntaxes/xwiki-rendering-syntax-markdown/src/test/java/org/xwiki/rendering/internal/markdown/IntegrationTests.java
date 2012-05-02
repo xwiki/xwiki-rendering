@@ -23,14 +23,13 @@ import org.junit.runner.RunWith;
 import org.xwiki.rendering.test.integration.RenderingTestSuite;
 
 /**
- * Run all tests found in {@code other/*.test} files located in the classpath. These {@code *.test} files must follow
+ * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow
  * the conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
  *
  * @version $Id$
  * @since 4.1M1
  */
 @RunWith(RenderingTestSuite.class)
-//@RenderingTestSuite.Scope("other")
-public class MarkdownIntegrationTest
+public class IntegrationTests
 {
 }
