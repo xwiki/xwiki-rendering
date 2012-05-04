@@ -36,6 +36,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.descriptor.ListenerDescriptor;
@@ -258,11 +259,27 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
 
             currentBlock = this.blockStack.push(block);
 
-            if (!block.isContainer()
-                && this.listenerDescriptor.getElements().get(qName.toLowerCase()).getParameters().size() == 1
-                && XDOMXMLCurrentUtils.isSimpleType(this.listenerDescriptor.getElements().get(qName.toLowerCase())
-                    .getParameters().get(0))) {
+            if (!block.isContainer() && block.listenerElement.getParameters().size() == 1
+                && XDOMXMLCurrentUtils.isSimpleType(block.listenerElement.getParameters().get(0))) {
                 this.content = new StringBuilder();
+            }
+
+            // Extract simple parameters from attributes
+            for (int i = 0; i < attributes.getLength(); ++i) {
+                String attributeName = attributes.getQName(i);
+
+                if (XDOMXMLConstants.PATTERN_ELEM_PARAMETER.matcher(attributeName).matches()) {
+                    int parameterIndex = extractParameterIndex(attributeName);
+
+                    Type type = block.listenerElement.getParameters().get(parameterIndex);
+                    Class< ? > typeClass = ReflectionUtils.getTypeClass(type);
+
+                    if (XDOMXMLCurrentUtils.isSimpleType(typeClass)) {
+                        block.setParameter(parameterIndex, this.stringConverter.convert(type, attributes.getValue(i)));
+                    } else {
+                        block.setParameter(parameterIndex, XDOMXMLCurrentUtils.defaultValue(typeClass));
+                    }
+                }
             }
         } else {
             if (onParameterElement(qName)) {

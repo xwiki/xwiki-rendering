@@ -34,15 +34,12 @@
       </entry>
     </metadata>
   </parameter0>
-  <paragraph>
-    <parameter0></parameter0>
+  <paragraph parameter0="">
     <word>This</word>
     <space></space>
     <word>is</word>
     <space></space>
-    <format>
-      <parameter0>BOLD</parameter0>
-      <parameter1></parameter1>
+    <format parameter0="BOLD" parameter1="">
       <word>bold</word>
     </format>
   </paragraph>

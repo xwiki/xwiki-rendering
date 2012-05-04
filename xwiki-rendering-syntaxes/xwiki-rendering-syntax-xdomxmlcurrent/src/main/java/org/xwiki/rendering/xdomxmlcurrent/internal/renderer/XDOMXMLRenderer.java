@@ -24,6 +24,7 @@ import java.lang.reflect.Proxy;
 import javax.inject.Inject;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.internal.renderer.xml.AbstractRenderer;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.descriptor.ListenerDescriptorManager;
@@ -40,6 +41,9 @@ public class XDOMXMLRenderer extends AbstractRenderer
     @Inject
     private ListenerDescriptorManager descriptorManager;
 
+    @Inject
+    private ConverterManager converter;
+
     @Override
     public Syntax getSyntax()
     {
@@ -51,7 +55,7 @@ public class XDOMXMLRenderer extends AbstractRenderer
     {
         XDOMXMLChainingStreamRenderer handler =
             new XDOMXMLChainingStreamRenderer(this.parameterManager,
-                this.descriptorManager.getListenerDescriptor(Listener.class));
+                this.descriptorManager.getListenerDescriptor(Listener.class), this.converter);
         ContentHandlerStreamRenderer instance =
             (ContentHandlerStreamRenderer) Proxy.newProxyInstance(ContentHandlerStreamRenderer.class.getClassLoader(),
                 new Class[] {ContentHandlerStreamRenderer.class}, handler);

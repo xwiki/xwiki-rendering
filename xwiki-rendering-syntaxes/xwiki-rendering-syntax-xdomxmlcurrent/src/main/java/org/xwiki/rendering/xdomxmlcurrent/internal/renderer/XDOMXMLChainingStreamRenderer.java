@@ -22,11 +22,16 @@ package org.xwiki.rendering.xdomxmlcurrent.internal.renderer;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
+import org.xwiki.component.util.ReflectionUtils;
+import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.listener.descriptor.ListenerDescriptor;
 import org.xwiki.rendering.listener.descriptor.ListenerElement;
 import org.xwiki.rendering.xdomxmlcurrent.internal.XDOMXMLConstants;
@@ -46,10 +51,14 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
 
     private ListenerDescriptor descriptor;
 
-    public XDOMXMLChainingStreamRenderer(ParameterManager parameterManager, ListenerDescriptor descriptor)
+    private ConverterManager converter;
+
+    public XDOMXMLChainingStreamRenderer(ParameterManager parameterManager, ListenerDescriptor descriptor,
+        ConverterManager converter)
     {
         this.parameterManager = parameterManager;
         this.descriptor = descriptor;
+        this.converter = converter;
     }
 
     private boolean isValidBlockElementName(String blockName)
@@ -66,17 +75,86 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
         return blockName;
     }
 
+    private void addInlineParameters(AttributesImpl attributes, List<Object> parameters, ListenerElement descriptor)
+    {
+        for (int i = 0; i < parameters.size(); ++i) {
+            Object parameter = parameters.get(i);
+
+            if (parameter != null) {
+                Type type = descriptor.getParameters().get(i);
+                Class< ? > typeClass = ReflectionUtils.getTypeClass(type);
+
+                if (XDOMXMLCurrentUtils.isSimpleType(typeClass)) {
+                    attributes.addAttribute(null, null, XDOMXMLConstants.ELEM_PARAMETER + i, null,
+                        this.converter.<String> convert(String.class, parameter));
+
+                    parameters.set(i, null);
+                } else if (ObjectUtils.equals(XDOMXMLCurrentUtils.defaultValue(typeClass), parameter)) {
+                    attributes.addAttribute(null, null, XDOMXMLConstants.ELEM_PARAMETER + i, null, "");
+
+                    parameters.set(i, null);
+                }
+            }
+        }
+    }
+
+    private AttributesImpl createStartAttributes(String blockName, List<Object> parameters)
+    {
+        AttributesImpl attributes = new AttributesImpl();
+
+        if (!isValidBlockElementName(blockName)) {
+            attributes.addAttribute(null, null, XDOMXMLConstants.ATT_BLOCK_NAME, null, blockName);
+        }
+
+        if (parameters != null) {
+            ListenerElement descriptor = this.descriptor.getElements().get(blockName.toLowerCase());
+
+            addInlineParameters(attributes, parameters, descriptor);
+        }
+
+        return attributes;
+    }
+
+    private void removeDefaultParameters(List<Object> parameters, ListenerElement descriptor)
+    {
+        if (parameters != null) {
+            for (int i = 0; i < parameters.size(); ++i) {
+                Object value = parameters.get(i);
+
+                if (value != null && !shouldPrintParameter(value, i, descriptor)) {
+                    parameters.set(i, null);
+                }
+            }
+        }
+    }
+
     private void beginEvent(String eventName, Object[] parameters)
     {
         String blockName = getBlockName(eventName, "begin");
 
+        ListenerElement descriptor = this.descriptor.getElements().get(blockName.toLowerCase());
+
+        List<Object> elementParameters = parameters != null ? Arrays.asList(parameters) : null;
+
+        // Remove useless parameters
+        removeDefaultParameters(elementParameters, descriptor);
+
+        // Put as attributes parameters which are simple enough to not require full XML serialization
+        AttributesImpl attributes = createStartAttributes(blockName, elementParameters);
+
+        // Get proper element name
+        String elementName;
         if (isValidBlockElementName(blockName)) {
-            startElement(blockName);
+            elementName = blockName;
         } else {
-            startElement(XDOMXMLConstants.ELEM_BLOCK, new String[][] {{XDOMXMLConstants.ATT_BLOCK_NAME, blockName}});
+            elementName = XDOMXMLConstants.ELEM_BLOCK;
         }
 
-        printParameters(parameters, this.descriptor.getElements().get(blockName.toLowerCase()));
+        // Print start element
+        startElement(elementName, attributes);
+
+        // Print complex parameters
+        printParameters(elementParameters, descriptor);
     }
 
     private void endEvent(String eventName)
@@ -94,18 +172,30 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
     {
         String blockName = getBlockName(eventName, "on");
 
+        ListenerElement descriptor = this.descriptor.getElements().get(blockName.toLowerCase());
+
+        List<Object> elementParameters = parameters != null ? Arrays.asList(parameters) : null;
+
+        // Remove useless parameters
+        removeDefaultParameters(elementParameters, descriptor);
+
+        // Put as attributes parameters which are simple enough to not require full XML serialization
+        AttributesImpl attributes =
+            (elementParameters != null && elementParameters.size() > 1) ? createStartAttributes(blockName,
+                Arrays.asList(parameters)) : new AttributesImpl();
+
+        // Get proper element name
         String elementName;
-        AttributesImpl attributes = new AttributesImpl();
         if (isValidBlockElementName(blockName)) {
             elementName = blockName;
         } else {
             elementName = XDOMXMLConstants.ELEM_BLOCK;
-            attributes.addAttribute(null, null, XDOMXMLConstants.ATT_BLOCK_NAME, null, blockName);
         }
 
+        // Print start element
         startElement(elementName, attributes);
 
-        ListenerElement descriptor = this.descriptor.getElements().get(blockName.toLowerCase());
+        // Print complex parameters
         if (parameters != null && parameters.length == 1
             && XDOMXMLCurrentUtils.isSimpleType(descriptor.getParameters().get(0))) {
             String value = parameters[0].toString();
@@ -115,13 +205,14 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
                 throw new RuntimeException("Failed to send sax event", e);
             }
         } else {
-            printParameters(parameters, descriptor);
+            printParameters(elementParameters, descriptor);
         }
 
+        // Print end element
         endElement(elementName);
     }
 
-    private boolean printParameter(Object value, int index, ListenerElement descriptor)
+    private boolean shouldPrintParameter(Object value, int index, ListenerElement descriptor)
     {
         boolean print = true;
 
@@ -141,17 +232,16 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
         return print;
     }
 
-    private void printParameters(Object[] parameters, ListenerElement descriptor)
+    private void printParameters(List<Object> parameters, ListenerElement descriptor)
     {
-        if (parameters != null && parameters.length > 0) {
-            for (int i = 0; i < parameters.length; ++i) {
-                Object value = parameters[i];
+        if (parameters != null && !parameters.isEmpty()) {
+            for (int i = 0; i < parameters.size(); ++i) {
+                Object value = parameters.get(i);
 
-                if (value != null && printParameter(value, i, descriptor)) {
+                if (value != null && shouldPrintParameter(value, i, descriptor)) {
                     startElement(XDOMXMLConstants.ELEM_PARAMETER + i);
 
-                    this.parameterManager.serialize(descriptor.getParameters().get(i), parameters[i],
-                        this.contentHandler);
+                    this.parameterManager.serialize(descriptor.getParameters().get(i), value, this.contentHandler);
 
                     endElement(XDOMXMLConstants.ELEM_PARAMETER + i);
                 }

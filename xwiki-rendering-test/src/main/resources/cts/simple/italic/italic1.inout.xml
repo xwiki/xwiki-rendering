@@ -35,15 +35,12 @@
       </entry>
     </metadata>
   </parameter0>
-  <paragraph>
-    <parameter0></parameter0>
+  <paragraph parameter0="">
     <word>This</word>
     <space></space>
     <word>is</word>
     <space></space>
-    <format>
-      <parameter0>ITALIC</parameter0>
-      <parameter1></parameter1>
+    <format parameter0="ITALIC" parameter1="">
       <word>italic</word>
     </format>
   </paragraph>
