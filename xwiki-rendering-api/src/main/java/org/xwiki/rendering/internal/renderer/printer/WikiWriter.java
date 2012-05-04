@@ -31,16 +31,25 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
  */
 public class WikiWriter extends Writer
 {
+    /**
+     * @param printer the actual printer
+     */
     public WikiWriter(WikiPrinter printer)
     {
         super(printer);
     }
 
+    /**
+     * @param printer the actual printer
+     */
     public void setWikiPrinter(WikiPrinter printer)
     {
         this.lock = printer;
     }
 
+    /**
+     * @return the actual printer
+     */
     public WikiPrinter getWikiPrinter()
     {
         return (WikiPrinter) this.lock;
