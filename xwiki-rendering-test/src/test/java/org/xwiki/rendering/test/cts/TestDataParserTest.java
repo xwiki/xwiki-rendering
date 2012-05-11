@@ -58,7 +58,8 @@ public class TestDataParserTest
         Properties properties = new Properties();
         properties.setProperty("type/test/test1", "Description1");
         configuration.testDescriptions = properties;
-        configuration.ignoredTests = Arrays.asList("ignoreregex");
+        configuration.failingTests = Arrays.asList("failingregex");
+        configuration.notApplicableTests = Arrays.asList("notapplicableregex");
 
         TestData dataIn = new TestData();
         dataIn.isSyntaxInputTest = true;

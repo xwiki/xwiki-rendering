@@ -36,9 +36,15 @@ import org.xwiki.text.XWikiToStringBuilder;
 public class TestDataConfiguration
 {
     /**
-     * List of tests to ignore using regexes (eg {@code .*&#47;bold1\\(IN\\).*}).
+     * List of tests that are not applicable, using regexes (eg {@code .*&#47;bold1\\(IN\\).*}).
      */
-    public List<String> ignoredTests = Collections.emptyList();
+    public List<String> notApplicableTests = Collections.emptyList();
+
+    /**
+     * List of tests that are excluded because they're currently failing (they need to be fixed ASAP), using regexes
+     * (eg {@code .*&#47;bold1\\(IN\\).*}).
+     */
+    public List<String> failingTests = Collections.emptyList();
 
     /**
      * List of test descriptions.
@@ -49,7 +55,8 @@ public class TestDataConfiguration
     public String toString()
     {
         return new XWikiToStringBuilder(this)
-            .append("ignoredTests", this.ignoredTests)
+            .append("notApplicableTests", this.notApplicableTests)
+            .append("failingTests", this.failingTests)
             .append("testDescriptions", this.testDescriptions)
             .toString();
     }
@@ -68,7 +75,8 @@ public class TestDataConfiguration
         }
         TestDataConfiguration rhs = (TestDataConfiguration) object;
         return new EqualsBuilder()
-            .append(this.ignoredTests, rhs.ignoredTests)
+            .append(this.notApplicableTests, rhs.notApplicableTests)
+            .append(this.failingTests, rhs.failingTests)
             .append(this.testDescriptions, rhs.testDescriptions)
             .isEquals();
     }
@@ -77,9 +85,9 @@ public class TestDataConfiguration
     public int hashCode()
     {
         return new HashCodeBuilder(1, 15)
-            .append(this.ignoredTests)
+            .append(this.notApplicableTests)
+            .append(this.failingTests)
             .append(this.testDescriptions)
             .toHashCode();
     }
-
 }

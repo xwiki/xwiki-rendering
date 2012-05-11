@@ -153,14 +153,20 @@ public class CompatibilityTestSuite extends Suite
         List<TestData> testDatas = PARSER.parseTestData(syntaxId, "cts", packageFilter, pattern);
 
         for (TestData testData : testDatas) {
-            if (!testData.isIgnored()) {
-                if (testData.syntaxData != null) {
+            // The following cases can happen:
+            // - There's no syntax test for the CTS test and there's no Parser/Renderer for that syntax: we don't add
+            //   the test at all
+            // - The test is configured to be not applicable: we don't add the test at all
+            // - The test is configured as not working: we ignore it in JUnit with a cause message in the test
+            //   description
+            // - There's no syntax test for the CTS test but there's a Parser/Renderer for that syntax: we ignore it in
+            //   JUnit with a cause message in the test description
+            if (isApplicable(testData)) {
+                if (testData.syntaxData != null && !testData.isFailingTest()) {
                     this.runners.add(new RenderingTestClassRunner(
                         this.testInstance, getTestClass().getJavaClass(), testData));
                 } else {
-                    if (ignoreTest(testData)) {
-                        this.runners.add(new IgnoredRenderingTestClassRunner(getTestClass().getJavaClass(), testData));
-                    }
+                    this.runners.add(new IgnoredRenderingTestClassRunner(getTestClass().getJavaClass(), testData));
                 }
             }
         }
@@ -187,20 +193,33 @@ public class CompatibilityTestSuite extends Suite
     }
 
     /**
-     * We ignore a test if there's no Parser or Renderer for that Syntax.
+     * Verify if a test is applicable (ie it should be executed, even as ignored). A test is applicable if:
+     * <ul>
+     *   <li>it's not marked as not applicable</li>
+     *   <li>it has a Syntax test</li>
+     *   <li>it doesn't have a Syntax test but there's a Parser or Renderer for the Syntax</li>
+     * </ul>
      *
-     * @param testData the test data used to decide if the test is ignored or not
-     * @return if the test should be ignored or false otherwise
+     * @param testData the test data used to decide if the test is applicable or not
+     * @return if the test should be executed or false otherwise
      */
-    private boolean ignoreTest(TestData testData)
+    private boolean isApplicable(TestData testData)
     {
-        boolean ignoreTest = false;
-        if ((testData.isSyntaxInputTest && hasParserForSyntax(testData.syntaxId))
-            || (!testData.isSyntaxInputTest && hasRendererForSyntax(testData.syntaxId)))
-        {
-            ignoreTest = true;
+        boolean isApplicable;
+        if (testData.isNotApplicable()) {
+            isApplicable = false;
+        } else if (testData.syntaxData == null) {
+            if ((testData.isSyntaxInputTest && hasParserForSyntax(testData.syntaxId))
+                || (!testData.isSyntaxInputTest && hasRendererForSyntax(testData.syntaxId)))
+            {
+                isApplicable = true;
+            } else {
+                isApplicable = false;
+            }
+        } else {
+            isApplicable = true;
         }
-        return ignoreTest;
+        return isApplicable;
     }
 
     /**

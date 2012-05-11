@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.test.cts;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,20 +80,37 @@ public class TestData
     }
 
     /**
-     * @return if this tests matches the tests to ignore
+     * @return if this test matches a not-applicable-test regex
      */
-    public boolean isIgnored()
+    public boolean isNotApplicable()
     {
-        boolean isIgnored = false;
-        for (String ignoredTest : this.configuration.ignoredTests) {
-            Pattern pattern = Pattern.compile(ignoredTest);
+        return matches(this.configuration.notApplicableTests);
+    }
+
+    /**
+     * @return if this test matches a failing-test regex
+     */
+    public boolean isFailingTest()
+    {
+        return matches(this.configuration.failingTests);
+    }
+
+    /**
+     * @param regexes the list of regexes to match against
+     * @return true if the current test matches at least one of the passed regexes or false otherwise
+     */
+    private boolean matches(List<String> regexes)
+    {
+        boolean matches = false;
+        for (String regex : regexes) {
+            Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(computeTestName());
             if (matcher.matches()) {
-                isIgnored = true;
+                matches = true;
                 break;
             }
         }
-        return isIgnored;
+        return matches;
     }
 
     /**

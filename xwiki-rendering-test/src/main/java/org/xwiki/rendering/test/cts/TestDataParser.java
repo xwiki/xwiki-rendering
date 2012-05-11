@@ -150,9 +150,11 @@ public class TestDataParser
         addConfigurationData(compositeConfiguration, ctsRootPackageName, classLoader);
         addConfigurationData(compositeConfiguration, syntaxDirectory, classLoader);
 
-        // TODO: Remove this unsafe cast, need to find out how to do that nicely...
-        configuration.ignoredTests =
-                (List<String>) (List<?>) compositeConfiguration.getList("ignoredTests", Collections.emptyList());
+        // TODO: Remove these unsafe casts, need to find out how to do that nicely...
+        configuration.notApplicableTests =
+                (List<String>) (List<?>) compositeConfiguration.getList("notApplicableTests", Collections.emptyList());
+        configuration.failingTests =
+                (List<String>) (List<?>) compositeConfiguration.getList("failingTests", Collections.emptyList());
         configuration.testDescriptions = compositeConfiguration.getProperties("testDescriptions", new Properties());
 
         return configuration;
