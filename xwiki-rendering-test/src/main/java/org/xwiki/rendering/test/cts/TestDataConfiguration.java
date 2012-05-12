@@ -51,6 +51,12 @@ public class TestDataConfiguration
      */
     public Properties testDescriptions = new Properties();
 
+    /**
+     * The Syntax to inherit from if any. If an inherited syntax is specified then if a test doesn't exist for the
+     * current Syntax the test runner will look for that test in the inherited syntax.
+     */
+    public String inheritSyntax;
+
     @Override
     public String toString()
     {
@@ -58,6 +64,7 @@ public class TestDataConfiguration
             .append("notApplicableTests", this.notApplicableTests)
             .append("failingTests", this.failingTests)
             .append("testDescriptions", this.testDescriptions)
+            .append("inheritSyntax", this.testDescriptions)
             .toString();
     }
 
@@ -78,6 +85,7 @@ public class TestDataConfiguration
             .append(this.notApplicableTests, rhs.notApplicableTests)
             .append(this.failingTests, rhs.failingTests)
             .append(this.testDescriptions, rhs.testDescriptions)
+            .append(this.inheritSyntax, rhs.inheritSyntax)
             .isEquals();
     }
 
@@ -88,6 +96,7 @@ public class TestDataConfiguration
             .append(this.notApplicableTests)
             .append(this.failingTests)
             .append(this.testDescriptions)
+            .append(this.inheritSyntax)
             .toHashCode();
     }
 }

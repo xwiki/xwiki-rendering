@@ -63,6 +63,11 @@ public class TestDataParser
     private static final String DOT = ".";
 
     /**
+     * Suffix for Syntax tests.
+     */
+    private static final String TEST_SYNTAX_SUFFIX = "txt";
+
+    /**
      * Read all test data. See {@link CompatibilityTestSuite} for a detailed explanation of the algorithm.
      *
      * @param syntaxId the id of the syntax for which to parse data for
@@ -86,8 +91,8 @@ public class TestDataParser
 
         Set<String> relativeDirectoryNames = findRelativeTestDirectoryNames(ctsRootPackageName, packageFilter, pattern);
         for (String relativeDirectoryName : relativeDirectoryNames) {
-            List<TestData> testDatas =
-                parseSingleTestData(syntaxDirectory, ctsRootPackageName, relativeDirectoryName, classLoader);
+            List<TestData> testDatas = parseSingleTestData(syntaxDirectory, ctsRootPackageName, relativeDirectoryName,
+                configuration, classLoader);
             for (TestData testData : testDatas) {
                 testData.syntaxId = syntaxId;
                 testData.prefix = relativeDirectoryName;
@@ -105,12 +110,13 @@ public class TestDataParser
      *        syntax)
      * @param ctsRootPackageName the root of the CTS resources
      * @param relativeDirectoryName the name of the relative directory for a CTS test (eg "/simple/bold/bold1")
+     * @param configuration the test configuration
      * @param classLoader the class loader from which the test data is read from
      * @return the 2 TestData instances for both input and output tests
      * @throws IOException in case of error while reading test data
      */
     public List<TestData> parseSingleTestData(String syntaxDirectory, String ctsRootPackageName,
-        String relativeDirectoryName, ClassLoader classLoader) throws IOException
+        String relativeDirectoryName, TestDataConfiguration configuration, ClassLoader classLoader) throws IOException
     {
         // Look for CTS input/output file and read their contents
         Pair<String, String> ctsData =
@@ -121,13 +127,27 @@ public class TestDataParser
         TestData testDataOUT = new TestData();
 
         Pair<String, String> syntaxData =
-            readDataForPrefix(syntaxDirectory + SLASH + relativeDirectoryName, "txt", classLoader);
+            readDataForPrefix(syntaxDirectory + SLASH + relativeDirectoryName, TEST_SYNTAX_SUFFIX, classLoader);
 
         testDataIN.isSyntaxInputTest = true;
         testDataIN.syntaxData = syntaxData.getLeft();
         testDataIN.ctsData = ctsData.getRight();
         testDataOUT.syntaxData = syntaxData.getRight();
         testDataOUT.ctsData = ctsData.getLeft();
+
+        // If the inherit configuration property is set and if the returned syntax is empty load from the inherit
+        // syntax.
+        if (configuration.inheritSyntax != null) {
+            Pair<String, String> inheritedSyntaxData = readDataForPrefix(
+                computeSyntaxDirectory(configuration.inheritSyntax) + SLASH + relativeDirectoryName, TEST_SYNTAX_SUFFIX,
+                    classLoader);
+            if (testDataIN.syntaxData == null) {
+                testDataIN.syntaxData = inheritedSyntaxData.getLeft();
+            }
+            if (testDataOUT.syntaxData == null) {
+                testDataOUT.syntaxData = inheritedSyntaxData.getRight();
+            }
+        }
 
         return Arrays.asList(testDataIN, testDataOUT);
     }
@@ -156,6 +176,7 @@ public class TestDataParser
         configuration.failingTests =
                 (List<String>) (List<?>) compositeConfiguration.getList("failingTests", Collections.emptyList());
         configuration.testDescriptions = compositeConfiguration.getProperties("testDescriptions", new Properties());
+        configuration.inheritSyntax = compositeConfiguration.getString("inheritSyntax");
 
         return configuration;
     }
