@@ -209,17 +209,29 @@ public class CompatibilityTestSuite extends Suite
         if (testData.isNotApplicable()) {
             isApplicable = false;
         } else if (testData.syntaxData == null) {
-            if ((testData.isSyntaxInputTest && hasParserForSyntax(testData.syntaxId))
-                || (!testData.isSyntaxInputTest && hasRendererForSyntax(testData.syntaxId)))
-            {
+            if (hasParserOrRenderer(testData)) {
                 isApplicable = true;
             } else {
                 isApplicable = false;
             }
         } else {
-            isApplicable = true;
+            if (hasParserOrRenderer(testData)) {
+                isApplicable = true;
+            } else {
+                isApplicable = false;
+            }
         }
         return isApplicable;
+    }
+
+    /**
+     * @param testData the test data used to decide if the test has a Parser or Renderer for it
+     * @return true if there's a Parser or Renderer for the passed test data, false otherwise
+     */
+    private boolean hasParserOrRenderer(TestData testData)
+    {
+        return (testData.isSyntaxInputTest && hasParserForSyntax(testData.syntaxId))
+            || (!testData.isSyntaxInputTest && hasRendererForSyntax(testData.syntaxId));
     }
 
     /**
