@@ -118,34 +118,40 @@ public class TestDataParser
     public List<TestData> parseSingleTestData(String syntaxDirectory, String ctsRootPackageName,
         String relativeDirectoryName, TestDataConfiguration configuration, ClassLoader classLoader) throws IOException
     {
-        // Look for CTS input/output file and read their contents
-        Pair<String, String> ctsData =
-            readDataForPrefix(ctsRootPackageName + SLASH + relativeDirectoryName, "xml", classLoader);
-
         // Look for syntax-specific input/output file and read their content
         TestData testDataIN = new TestData();
+        testDataIN.isSyntaxInputTest = true;
         TestData testDataOUT = new TestData();
 
-        Pair<String, String> syntaxData =
+        // Look for CTS input/output file and read their contents
+        Pair<Pair<String, String>, Pair<String, String>> ctsData =
+            readDataForPrefix(ctsRootPackageName + SLASH + relativeDirectoryName, "xml", classLoader);
+
+        Pair<Pair<String, String>, Pair<String, String>> syntaxData =
             readDataForPrefix(syntaxDirectory + SLASH + relativeDirectoryName, TEST_SYNTAX_SUFFIX, classLoader);
 
-        testDataIN.isSyntaxInputTest = true;
-        testDataIN.syntaxData = syntaxData.getLeft();
-        testDataIN.ctsData = ctsData.getRight();
-        testDataOUT.syntaxData = syntaxData.getRight();
-        testDataOUT.ctsData = ctsData.getLeft();
+        testDataIN.syntaxData = syntaxData.getLeft().getLeft();
+        testDataIN.syntaxExtension = syntaxData.getLeft().getRight();
+        testDataIN.ctsData = ctsData.getRight().getLeft();
+        testDataIN.ctsExtension = ctsData.getRight().getRight();
+        testDataOUT.syntaxData = syntaxData.getRight().getLeft();
+        testDataOUT.syntaxExtension = syntaxData.getRight().getRight();
+        testDataOUT.ctsData = ctsData.getLeft().getLeft();
+        testDataOUT.ctsExtension = ctsData.getLeft().getRight();
 
         // If the inherit configuration property is set and if the returned syntax is empty load from the inherit
         // syntax.
         if (configuration.inheritSyntax != null) {
-            Pair<String, String> inheritedSyntaxData = readDataForPrefix(
+            Pair<Pair<String, String>, Pair<String, String>> inheritedSyntaxData = readDataForPrefix(
                 computeSyntaxDirectory(configuration.inheritSyntax) + SLASH + relativeDirectoryName, TEST_SYNTAX_SUFFIX,
                     classLoader);
             if (testDataIN.syntaxData == null) {
-                testDataIN.syntaxData = inheritedSyntaxData.getLeft();
+                testDataIN.syntaxData = inheritedSyntaxData.getLeft().getLeft();
+                testDataIN.syntaxExtension = inheritedSyntaxData.getLeft().getRight();
             }
             if (testDataOUT.syntaxData == null) {
-                testDataOUT.syntaxData = inheritedSyntaxData.getRight();
+                testDataOUT.syntaxData = inheritedSyntaxData.getRight().getLeft();
+                testDataOUT.syntaxExtension = inheritedSyntaxData.getRight().getRight();
             }
         }
 
@@ -204,24 +210,30 @@ public class TestDataParser
      * @param prefix the prefix where to look for to read the test data
      * @param fileExtension the test data file extension to look for
      * @param classLoader the class loader from which the test data is read from
-     * @return the input and output test content
+     * @return the input and output test content along with their extensions
      * @throws IOException in case of error while reading test data
      */
-    private Pair<String, String> readDataForPrefix(String prefix, String fileExtension, ClassLoader classLoader)
-        throws IOException
+    private Pair<Pair<String, String>, Pair<String, String>> readDataForPrefix(String prefix, String fileExtension,
+        ClassLoader classLoader) throws IOException
     {
-        String inOut = readData(prefix + ".inout." + fileExtension, classLoader);
         String in;
         String out;
+        String inExtension = ".inout." + fileExtension;
+        String outExtension = inExtension;
+        String inOut = readData(prefix + inExtension, classLoader);
         if (inOut == null) {
-            in = readData(prefix + ".in." + fileExtension, classLoader);
-            out = readData(prefix + ".out." + fileExtension, classLoader);
+            inExtension = ".in." + fileExtension;
+            outExtension = ".out." + fileExtension;
+            in = readData(prefix + inExtension, classLoader);
+            out = readData(prefix + outExtension, classLoader);
         } else {
             in = inOut;
             out = inOut;
         }
 
-        return new ImmutablePair<String, String>(in, out);
+        return new ImmutablePair<Pair<String, String>, Pair<String, String>>(
+            new ImmutablePair<String, String>(in, inExtension),
+            new ImmutablePair<String, String>(out, outExtension));
     }
 
     /**

@@ -46,6 +46,16 @@ public class TestData
     public String prefix;
 
     /**
+     * Test Syntax file extension. To compute the full Syntax test name, use: prefix + syntaxExtension.
+     */
+    public String syntaxExtension;
+
+    /**
+     * CTS file extension. To compute the full CTS test name, use: prefix + ctsExtension.
+     */
+    public String ctsExtension;
+
+    /**
      * True if this test is an input test, ie the syntax data represents an input, false otherwise.
      */
     public boolean isSyntaxInputTest;
@@ -72,6 +82,8 @@ public class TestData
         return new XWikiToStringBuilder(this)
             .append("syntaxId", this.syntaxId)
             .append("prefix", this.prefix)
+            .append("syntaxExtension", this.syntaxExtension)
+            .append("ctsExtension", this.ctsExtension)
             .append("isSyntaxInputTest", this.isSyntaxInputTest)
             .append("ctsData", this.ctsData)
             .append("syntaxData", this.syntaxData)
@@ -116,12 +128,12 @@ public class TestData
     /**
      * Compute the test name, used to display in the JUnit Test Runner and for ignoring tests.
      *
-     * @return the computed test name (eg "simple/bold/bold1(IN) [xwiki/2.0]")
+     * @return the computed test name (eg "simple/bold/bold1 [xwiki/2.0, IN:bold1.in.txt, CTS:bold1.inout.xml]")
      */
     public String computeTestName()
     {
-        return String.format("%s(%s) [%s]", this.prefix, this.isSyntaxInputTest ? "IN" : "OUT",
-            this.syntaxId);
+        return String.format("%s [%s, %s:%s, CTS:%s]", this.prefix, this.syntaxId,
+            this.isSyntaxInputTest ? "IN" : "OUT", this.syntaxExtension, this.ctsExtension);
     }
 
     @Override
@@ -140,6 +152,8 @@ public class TestData
         return new EqualsBuilder()
             .append(this.syntaxId, rhs.syntaxId)
             .append(this.prefix, rhs.prefix)
+            .append(this.syntaxExtension, rhs.syntaxExtension)
+            .append(this.ctsExtension, rhs.ctsExtension)
             .append(this.isSyntaxInputTest, rhs.isSyntaxInputTest)
             .append(this.ctsData, rhs.ctsData)
             .append(this.syntaxData, rhs.syntaxData)
@@ -153,6 +167,8 @@ public class TestData
         return new HashCodeBuilder(3, 17)
             .append(this.syntaxId)
             .append(this.prefix)
+            .append(this.syntaxExtension)
+            .append(this.ctsExtension)
             .append(this.isSyntaxInputTest)
             .append(this.ctsData)
             .append(this.syntaxData)

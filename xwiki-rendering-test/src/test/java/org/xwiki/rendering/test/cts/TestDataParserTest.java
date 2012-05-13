@@ -65,16 +65,20 @@ public class TestDataParserTest
         dataIn.isSyntaxInputTest = true;
         dataIn.prefix = "type/test/test1";
         dataIn.syntaxData = "in";
+        dataIn.syntaxExtension = ".in.txt";
         dataIn.syntaxId = "syntax/1.0";
         dataIn.ctsData = "<cts/>";
+        dataIn.ctsExtension = ".inout.xml";
         dataIn.configuration = configuration;
 
         TestData dataOut = new TestData();
         dataOut.isSyntaxInputTest = false;
         dataOut.prefix = dataIn.prefix;
         dataOut.syntaxData = "out";
+        dataOut.syntaxExtension = ".out.txt";
         dataOut.syntaxId = dataIn.syntaxId;
         dataOut.ctsData = dataIn.ctsData;
+        dataOut.ctsExtension = dataIn.ctsExtension;
         dataOut.configuration = configuration;
 
         assertThat(data, containsInAnyOrder(dataIn, dataOut));
