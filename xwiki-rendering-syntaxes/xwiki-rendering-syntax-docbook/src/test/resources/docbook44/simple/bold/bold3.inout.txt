@@ -1,0 +1,1 @@
+<article><para>This is <emphasis role="bold">bold and <emphasis>italic</emphasis></emphasis></para></article>
