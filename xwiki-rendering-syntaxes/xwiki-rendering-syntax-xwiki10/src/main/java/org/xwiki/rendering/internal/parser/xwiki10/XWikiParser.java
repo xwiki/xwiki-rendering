@@ -35,6 +35,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
@@ -99,7 +100,11 @@ public class XWikiParser implements Parser, Initializable
         String content20 = xwiki10To20(source);
 
         // Generate the XDOM using 2.0 syntax parser
-        return this.xwiki20Parser.parse(new StringReader(content20));
+        XDOM xdom = this.xwiki20Parser.parse(new StringReader(content20));
+
+        // Replace the Syntax MetaData which is set with XWiki/2.0 with XWiki/1.0.
+        return new XDOM(xdom.getChildren(),
+            new MetaData(Collections.<String, Object>singletonMap(MetaData.SYNTAX, Syntax.XWIKI_1_0)));
     }
 
     /**
