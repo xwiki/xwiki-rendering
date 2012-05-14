@@ -1,0 +1,28 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginTable
+beginTableRow
+beginTableHeadCell
+onWord [col1]
+endTableHeadCell
+beginTableHeadCell
+onWord [col2]
+endTableHeadCell
+endTableRow
+beginTableRow
+beginTableCell
+onWord [cell11]
+endTableCell
+beginTableCell
+onWord [cell12]
+endTableCell
+endTableRow
+beginTableRow
+beginTableCell
+onWord [cell21]
+endTableCell
+beginTableCell
+onWord [cell22]
+endTableCell
+endTableRow
+endTable
+endDocument [[syntax]=[Event 1.0]]

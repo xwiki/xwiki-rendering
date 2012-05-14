@@ -22,7 +22,6 @@ package org.xwiki.rendering.test.cts;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -112,7 +111,7 @@ public class TestDataParser
      * @param relativeDirectoryName the name of the relative directory for a CTS test (eg "/simple/bold/bold1")
      * @param configuration the test configuration
      * @param classLoader the class loader from which the test data is read from
-     * @return the 2 TestData instances for both input and output tests
+     * @return the TestData instances for both input and output tests, including possible input alias tests
      * @throws IOException in case of error while reading test data
      */
     public List<TestData> parseSingleTestData(String syntaxDirectory, String ctsRootPackageName,
@@ -139,6 +138,10 @@ public class TestDataParser
         testDataOUT.ctsData = ctsData.getLeft().getLeft();
         testDataOUT.ctsExtension = ctsData.getLeft().getRight();
 
+        // Read possible "in" aliases
+        List<TestData> testDataINAliases = parseAliasesTestData(syntaxDirectory, relativeDirectoryName, ctsData,
+            classLoader);
+
         // If the inherit configuration property is set and if the returned syntax is empty load from the inherit
         // syntax.
         if (configuration.inheritSyntax != null) {
@@ -155,7 +158,45 @@ public class TestDataParser
             }
         }
 
-        return Arrays.asList(testDataIN, testDataOUT);
+        List<TestData> result = new ArrayList<TestData>();
+        result.add(testDataIN);
+        result.addAll(testDataINAliases);
+        result.add(testDataOUT);
+        return result;
+    }
+
+    /**
+     * Parse Alias test data for inputs.
+     *
+     * @param syntaxDirectory the syntax directory from where to read syntax test data (eg "xwiki20" for "xwiki/2.0"
+     *        syntax)
+     * @param relativeDirectoryName the name of the relative directory for a CTS test (eg "/simple/bold/bold1")
+     * @param ctsData the CTS data to use to construct the alias test data
+     * @param classLoader the class loader from which the test data is read from
+     * @return the TestData instances for both input and output tests, including possible input alias tests
+     * @throws IOException in case of error while reading test data
+     */
+    private List<TestData> parseAliasesTestData(String syntaxDirectory, String relativeDirectoryName,
+        Pair<Pair<String, String>, Pair<String, String>> ctsData, ClassLoader classLoader) throws IOException
+    {
+        List<TestData> testDataINAliases = new ArrayList<TestData>();
+        Pair<Pair<String, String>, Pair<String, String>> syntaxDataAlias;
+        int i = 1;
+        do {
+            syntaxDataAlias = readDataForPrefix(
+                syntaxDirectory + SLASH + relativeDirectoryName, i + DOT + TEST_SYNTAX_SUFFIX, classLoader);
+            if (syntaxDataAlias.getLeft().getLeft() != null) {
+                TestData testDataINAlias = new TestData();
+                testDataINAlias.isSyntaxInputTest = true;
+                testDataINAlias.syntaxData = syntaxDataAlias.getLeft().getLeft();
+                testDataINAlias.syntaxExtension = syntaxDataAlias.getLeft().getRight();
+                testDataINAlias.ctsData = ctsData.getRight().getLeft();
+                testDataINAlias.ctsExtension = ctsData.getRight().getRight();
+                testDataINAliases.add(testDataINAlias);
+            }
+            i++;
+        } while (syntaxDataAlias.getLeft().getLeft() != null);
+        return testDataINAliases;
     }
 
     /**
