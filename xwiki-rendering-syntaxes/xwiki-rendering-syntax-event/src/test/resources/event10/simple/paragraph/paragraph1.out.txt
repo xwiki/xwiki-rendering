@@ -1,0 +1,8 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+onWord [paragraph1]
+endParagraph
+beginParagraph
+onWord [paragraph2]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]
