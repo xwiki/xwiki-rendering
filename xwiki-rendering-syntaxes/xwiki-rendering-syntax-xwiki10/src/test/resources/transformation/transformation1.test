@@ -1,11 +1,14 @@
 .runTransformations
 .#-----------------------------------------------------
 .input|xwiki/1.0
+.# Make sure html content does not produce infinite loop when executing transformations
 .#-----------------------------------------------------
 <toto/>
 .#-----------------------------------------------------
-.expect|xwiki/2.0
+.expect|event/1.0
 .#-----------------------------------------------------
-{{html clean="false" wiki="true"}}
-<toto/>
-{{/html}}
+beginDocument
+beginMacroMarkerStandalone [html] [clean=false|wiki=true] [<toto/>]
+onRawText [<toto/>] [xhtml/1.0]
+endMacroMarkerStandalone [html] [clean=false|wiki=true] [<toto/>]
+endDocument
