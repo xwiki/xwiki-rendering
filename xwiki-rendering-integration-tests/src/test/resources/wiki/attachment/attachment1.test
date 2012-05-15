@@ -1,0 +1,32 @@
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.#-----------------------------------------------------
+[[My Attachment>>attach:space.document@attach.ext||queryString="param=value"]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [true] Type = [attach] Reference = [space.document@attach.ext] Parameters = [[queryString] = [param=value]]] [false]
+onWord [My]
+onSpace
+onWord [Attachment]
+endLink [Typed = [true] Type = [attach] Reference = [space.document@attach.ext] Parameters = [[queryString] = [param=value]]] [false]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p><span class="wikiexternallink"><a href="attachmenturl?param=value">My Attachment</a></span></p>
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<p><!--startwikilink:true|-|attach|-|space.document@attach.ext|-|queryString="param=value"--><span class="wikiexternallink"><a href="attachmenturl?param=value">My Attachment</a></span><!--stopwikilink--></p>
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+[[My Attachment>>attach:space.document@attach.ext||queryString="param=value"]]
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<p><!--startwikilink:true|-|attach|-|space.document@attach.ext|-|queryString="param=value"--><span class="wikiexternallink"><a href="attachmenturl?param=value">My Attachment</a></span><!--stopwikilink--></p>
