@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.parser.xwiki21;
 import java.util.Map;
 
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
+import org.xwiki.rendering.listener.reference.AttachmentResourceReference;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
@@ -82,6 +83,11 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
             String anchor = parameters.remove(ANCHOR);
             if (anchor != null) {
                 reference.setParameter(DocumentResourceReference.ANCHOR, anchor);
+            }
+        } else if (reference.getType().equals(ResourceType.ATTACHMENT)) {
+            String queryString = parameters.remove(QUERY_STRING);
+            if (queryString != null) {
+                reference.setParameter(AttachmentResourceReference.QUERY_STRING, queryString);
             }
         }
 
