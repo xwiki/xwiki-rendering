@@ -1,0 +1,24 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.#-----------------------------------------------------
+{{ctsdata}}
+simple/italic/italic1 [xwiki/2.0, IN:.inout.txt, CTS:.inout.xml] - Passed
+simple/italic/italic1 [xwiki/2.1, IN:.inout.txt, CTS:.inout.xml] - Passed
+simple/bold/bold1 [xwiki/2.0, IN:.inout.txt, CTS:.inout.xml] - Passed
+simple/bold/bold1 [xwiki/2.0, OUT:.inout.txt, CTS:.inout.xml] - Passed
+{{/ctsdata}}
+.# TODO: Once we have a script macro in Rendering module use it to verify we can access the bound objects
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [ctsdata] [] [simple/italic/italic1 [xwiki/2.0, IN:.inout.txt, CTS:.inout.xml] - Passed
+simple/italic/italic1 [xwiki/2.1, IN:.inout.txt, CTS:.inout.xml] - Passed
+simple/bold/bold1 [xwiki/2.0, IN:.inout.txt, CTS:.inout.xml] - Passed
+simple/bold/bold1 [xwiki/2.0, OUT:.inout.txt, CTS:.inout.xml] - Passed]
+endMacroMarkerStandalone [ctsdata] [] [simple/italic/italic1 [xwiki/2.0, IN:.inout.txt, CTS:.inout.xml] - Passed
+simple/italic/italic1 [xwiki/2.1, IN:.inout.txt, CTS:.inout.xml] - Passed
+simple/bold/bold1 [xwiki/2.0, IN:.inout.txt, CTS:.inout.xml] - Passed
+simple/bold/bold1 [xwiki/2.0, OUT:.inout.txt, CTS:.inout.xml] - Passed]
+endDocument
