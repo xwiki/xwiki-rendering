@@ -1,1 +1,1 @@
-<article><para>paragraph1</para><para>paragraph2</para></article>
+<article><para>paragraph1</para><para>paragraph2</para><para>paragraph3</para></article>

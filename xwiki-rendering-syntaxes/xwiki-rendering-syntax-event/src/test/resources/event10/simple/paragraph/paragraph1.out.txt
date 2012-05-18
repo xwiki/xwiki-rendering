@@ -5,4 +5,7 @@ endParagraph
 beginParagraph
 onWord [paragraph2]
 endParagraph
+beginParagraph
+onWord [paragraph3]
+endParagraph
 endDocument [[syntax]=[Event 1.0]]
