@@ -1,0 +1,9 @@
+\begin{center}
+\begin{footnotesize}
+\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}\hline
+{\bf col1}&{\bf col2}\\\hline
+cell11&cell12\\\hline
+cell21&cell22\\\hline
+\end{tabular}
+\end{footnotesize}
+\end{center}
