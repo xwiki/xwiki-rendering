@@ -40,37 +40,45 @@ public class RenderingTestClassRunner  extends BlockJUnit4ClassRunner
     /**
      * Used to pass the Component Manager to the Rendering Test instance executing.
      */
-    private final XWikiComponentInitializer componentInitializer = new XWikiComponentInitializer();
+    private XWikiComponentInitializer componentInitializer = new XWikiComponentInitializer();
 
     /**
-     * @see #RenderingTestClassRunner(Object, Class, TestData)
+     * @see #RenderingTestClassRunner(Object, Class, TestData, String)
      */
-    private final Object testInstance;
+    private Object testInstance;
 
     /**
-     * @see #RenderingTestClassRunner(Object, Class, TestData)
+     * @see #RenderingTestClassRunner(Object, Class, TestData, String)
      */
-    private final TestData testData;
+    private TestData testData;
+
+    /**
+     * @see #RenderingTestClassRunner(Object, Class, TestData, String)
+     */
+    private String metadataSyntaxId;
 
     /**
      * @param testInstance the Test instance (The Test instance is the class on which this Compatibility Test Suite is
      *        used)
      * @param testClass the {@link RenderingTest} class
      * @param testData the Test Data, passed to the Rendering Test instance executing
+     * @param metadataSyntaxId the Syntax id of the syntax used as Metadata in the generated XDOM for parsers
      * @throws InitializationError if the {@link RenderingTest} isn't a valid JUnit Test class
      */
-    RenderingTestClassRunner(Object testInstance, Class<?> testClass, TestData testData) throws InitializationError
+    RenderingTestClassRunner(Object testInstance, Class<?> testClass, TestData testData, String metadataSyntaxId)
+        throws InitializationError
     {
         super(testClass);
         this.testInstance = testInstance;
         this.testData = testData;
+        this.metadataSyntaxId = metadataSyntaxId;
     }
 
     @Override
     public Object createTest() throws Exception
     {
         return getTestClass().getOnlyConstructor().newInstance(
-            this.testData, this.componentInitializer.getComponentManager());
+            this.testData, this.metadataSyntaxId, this.componentInitializer.getComponentManager());
     }
 
     @Override

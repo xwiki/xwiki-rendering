@@ -30,7 +30,7 @@ import org.xwiki.rendering.test.cts.Syntax;
  * @since 4.1M1
  */
 @RunWith(CompatibilityTestSuite.class)
-@Syntax("xwiki/1.0")
+@Syntax(value = "xwiki/1.0", metadata = "xwiki/2.0")
 public class XWiki10CompatibilityTest
 {
 }

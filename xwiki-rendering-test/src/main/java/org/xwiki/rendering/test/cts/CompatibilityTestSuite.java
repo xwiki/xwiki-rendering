@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runners.Suite;
@@ -145,6 +146,10 @@ public class CompatibilityTestSuite extends Suite
             throw new RuntimeException("You must specify a Syntax using the @Syntax annotation");
         }
         String syntaxId = syntaxAnnotation.value();
+        String metadataSyntaxId = syntaxAnnotation.metadata();
+        if (StringUtils.isEmpty(metadataSyntaxId)) {
+            metadataSyntaxId = syntaxId;
+        }
 
         // Initialize the Component Manager
         this.componentManager = new XWikiComponentInitializer().getComponentManager();
@@ -164,7 +169,7 @@ public class CompatibilityTestSuite extends Suite
             if (isApplicable(testData)) {
                 if (testData.syntaxData != null && !testData.isFailingTest()) {
                     this.runners.add(new RenderingTestClassRunner(
-                        this.testInstance, getTestClass().getJavaClass(), testData));
+                        this.testInstance, getTestClass().getJavaClass(), testData, metadataSyntaxId));
                 } else {
                     this.runners.add(new IgnoredRenderingTestClassRunner(getTestClass().getJavaClass(), testData));
                 }

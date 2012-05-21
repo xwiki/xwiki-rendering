@@ -67,19 +67,20 @@ public class RenderingTest
     private ComponentManager componentManager;
 
     /**
-     * The Syntax object representing the Test Syntax.
+     * @see RenderingTest
      */
-    private org.xwiki.rendering.syntax.Syntax syntax;
+    private org.xwiki.rendering.syntax.Syntax metadataSyntax;
 
     /**
      * @param testData the data for a single test
+     * @param metadataSyntaxId the Syntax id of the syntax used as Metadata in the generated XDOM for parsers
      * @param componentManager see {@link #getComponentManager()}
      */
-    public RenderingTest(TestData testData, ComponentManager componentManager)
+    public RenderingTest(TestData testData, String metadataSyntaxId, ComponentManager componentManager)
     {
         this.testData = testData;
         this.componentManager = componentManager;
-        this.syntax = parseSyntax(this.testData.syntaxId);
+        this.metadataSyntax = parseSyntax(metadataSyntaxId);
     }
 
     /**
@@ -197,7 +198,7 @@ public class RenderingTest
     private String evaluateContent(String content)
     {
         VelocityContext context = new VelocityContext();
-        context.put("syntax", this.syntax);
+        context.put("syntax", this.metadataSyntax);
         StringWriter writer = new StringWriter();
         VELOCITY_ENGINE.evaluate(context, writer, "Rendering CTS", content);
         return writer.toString();
