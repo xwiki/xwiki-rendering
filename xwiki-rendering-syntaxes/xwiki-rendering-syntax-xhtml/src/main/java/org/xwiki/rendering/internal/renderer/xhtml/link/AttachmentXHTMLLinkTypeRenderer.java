@@ -77,9 +77,12 @@ public class AttachmentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRender
     {
         if (this.wikiModel != null) {
             anchorAttributes.put(XHTMLLinkRenderer.HREF, this.wikiModel.getLinkURL(reference));
+            spanAttributes.put(CLASS, "wikiattachmentlink");
         } else {
             anchorAttributes.put(XHTMLLinkRenderer.HREF, this.defaultResourceReferenceTypeSerializer.serialize(
                 reference));
+            // FIXME what should we do here?
+            // spanAttributes.put(CLASS, "wikiunknownlink");
         }
     }
 

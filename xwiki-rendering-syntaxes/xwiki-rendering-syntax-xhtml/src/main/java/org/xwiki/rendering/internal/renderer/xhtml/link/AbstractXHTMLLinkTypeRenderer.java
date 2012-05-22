@@ -137,6 +137,8 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
 
         if (isExternalLink(reference)) {
             spanAttributes.put(CLASS, "wikiexternallink");
+        } else {
+            spanAttributes.put(CLASS, "wikiinternallink");
         }
         if (isFreeStandingURI) {
             anchorAttributes.put(CLASS, addAttributeValue(anchorAttributes.get(CLASS), "wikimodel-freestanding"));

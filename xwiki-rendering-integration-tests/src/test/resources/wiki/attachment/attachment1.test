@@ -17,11 +17,11 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><span class="wikiexternallink"><a href="attachmenturl?param=value">My Attachment</a></span></p>
+<p><span class="wikiattachmentlink"><a href="attachmenturl?param=value">My Attachment</a></span></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:true|-|attach|-|space.document@attach.ext|-|queryString="param=value"--><span class="wikiexternallink"><a href="attachmenturl?param=value">My Attachment</a></span><!--stopwikilink--></p>
+<p><!--startwikilink:true|-|attach|-|space.document@attach.ext|-|queryString="param=value"--><span class="wikiattachmentlink"><a href="attachmenturl?param=value">My Attachment</a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
@@ -29,4 +29,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:true|-|attach|-|space.document@attach.ext|-|queryString="param=value"--><span class="wikiexternallink"><a href="attachmenturl?param=value">My Attachment</a></span><!--stopwikilink--></p>
+<p><!--startwikilink:true|-|attach|-|space.document@attach.ext|-|queryString="param=value"--><span class="wikiattachmentlink"><a href="attachmenturl?param=value">My Attachment</a></span><!--stopwikilink--></p>
