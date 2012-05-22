@@ -19,6 +19,11 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml.link;
 
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -28,11 +33,6 @@ import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
 import org.xwiki.rendering.wiki.WikiModel;
-
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  * Handle XHTML rendering for links to attachments.
@@ -81,5 +81,11 @@ public class AttachmentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRender
             anchorAttributes.put(XHTMLLinkRenderer.HREF, this.defaultResourceReferenceTypeSerializer.serialize(
                 reference));
         }
+    }
+
+    @Override
+    protected boolean isExternalLink(ResourceReference reference)
+    {
+        return false;
     }
 }

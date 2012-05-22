@@ -135,7 +135,9 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
         // Add all parameters to the A attributes
         anchorAttributes.putAll(parameters);
 
-        spanAttributes.put(CLASS, "wikiexternallink");
+        if (isExternalLink(reference)) {
+            spanAttributes.put(CLASS, "wikiexternallink");
+        }
         if (isFreeStandingURI) {
             anchorAttributes.put(CLASS, addAttributeValue(anchorAttributes.get(CLASS), "wikimodel-freestanding"));
         }
@@ -177,5 +179,22 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
             newValue = currentValue + " ";
         }
         return newValue + valueToAdd;
+    }
+
+    /**
+     * Check if this link is internal or external to the application or rendered document. For example, when running the
+     * rendering engine inside a wiki, links to other wiki documents are considered to be internal, while links to HTTP
+     * URLs are considered external. Another example, when rendering standalone documents, references to other parts of
+     * the document are internal, while URLs are external references. Subclasses should override this method to use
+     * their own decision process.
+     *
+     * @param reference the reference used by this link, in case the status of the link depends on the particular
+     *        resource being referenced
+     * @return {@code true} if the referenced resource is external to the containing application or the rendered
+     *         document, or if the notion of "internal references" doesn't even make sense, {@code false} otherwise
+     */
+    protected boolean isExternalLink(ResourceReference reference)
+    {
+        return true;
     }
 }

@@ -159,4 +159,10 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
 
         aAttributes.put(XHTMLLinkRenderer.HREF, buffer.toString());
     }
+
+    @Override
+    protected boolean isExternalLink(ResourceReference reference)
+    {
+        return false;
+    }
 }
