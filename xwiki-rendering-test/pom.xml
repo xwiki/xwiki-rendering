@@ -77,10 +77,8 @@
     <dependency>
       <groupId>org.reflections</groupId>
       <artifactId>reflections</artifactId>
-      <version>0.9.6</version>
       <exclusions>
         <!-- We don't need that part of reflections -->
-        <!-- TODO: why? -->
         <exclusion>
           <artifactId>dom4j</artifactId>
           <groupId>dom4j</groupId>
