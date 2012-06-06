@@ -1,0 +1,20 @@
+.#-----------------------------------------------------------
+.input|xwiki/2.0
+.# Make sure white spaces after table row parameters are supported
+.#-----------------------------------------------------------
+(% param="value" %) |
+.#-----------------------------------------------------------
+.input|xwiki/2.1
+.#-----------------------------------------------------------
+(% param="value" %) |
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginTable
+beginTableRow [[param]=[value]]
+beginTableCell
+endTableCell
+endTableRow [[param]=[value]]
+endTable
+endDocument

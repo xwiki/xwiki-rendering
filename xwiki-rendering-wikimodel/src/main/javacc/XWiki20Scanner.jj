@@ -743,7 +743,7 @@ void tableRow():
 }
 {
     <TABLE_ROW>
-    (<INLINE_PARAMETERS> {rowParams = newWikiParameters(token.image);})?
+    (<INLINE_PARAMETERS> {rowParams = newWikiParameters(token.image);} (<XWIKI_SPACE>)*)?
     tableFirstCell(rowParams)
     (tableCell())*
     {
