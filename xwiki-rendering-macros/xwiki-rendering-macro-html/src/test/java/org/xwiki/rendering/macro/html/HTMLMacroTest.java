@@ -19,14 +19,19 @@
  */
 package org.xwiki.rendering.macro.html;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rendering.internal.macro.html.HTMLMacro;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.html.HTMLMacroParameters;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.test.AbstractComponentTestCase;
+
 
 /**
  * Unit tests for {@link HTMLMacro} that cannot be performed using the Rendering Test framework.
@@ -56,5 +61,22 @@ public class HTMLMacroTest extends AbstractComponentTestCase
 
         Assert.assertEquals("Indicate if the HTML should be transformed into valid XHTML or not.",
             macro.getDescriptor().getParameterDescriptorMap().get("clean").getDescription());
+    }
+
+    @Test
+    public void restrictedHtml() throws Exception
+    {
+        HTMLMacro macro = (HTMLMacro) getComponentManager().getInstance(Macro.class, "html");
+        HTMLMacroParameters parameters = new HTMLMacroParameters();
+        MacroTransformationContext context = new MacroTransformationContext();
+        context.getTransformationContext().setRestricted(true);
+        List<Block> blocks = macro.execute(parameters, "<script>alert('Hello!');</script>", context);
+
+        for (Block block : blocks) {
+            if (block instanceof RawBlock) {
+                RawBlock rawBlock = (RawBlock) block;
+                Assert.assertEquals("<pre>alert('Hello!');</pre>", rawBlock.getRawContent());
+            }
+        }
     }
 }

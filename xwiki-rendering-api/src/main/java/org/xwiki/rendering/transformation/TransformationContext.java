@@ -46,12 +46,17 @@ public class TransformationContext implements Cloneable
     private String id;
 
     /**
+     * In restricted mode, only transformations that are deemed safe for execution by untrusted users will be performed.
+     */
+    private boolean restricted;
+
+    /**
      * Default constructor that doesn't set the XDOM or the Syntax. This is because setting the XDOM and the Syntax is
      * optional and only required by some Macros to behave as expected.
      */
     public TransformationContext()
     {
-        // Voluntarily empty.
+        this(null, null);
     }
 
     /**
@@ -62,8 +67,21 @@ public class TransformationContext implements Cloneable
      */
     public TransformationContext(XDOM xdom, Syntax syntax)
     {
+        this(xdom, syntax, false);
+    }
+
+    /**
+     * Some macros require the XDOM and the Syntax to be set.
+     *
+     * @param xdom see {@link #setXDOM(org.xwiki.rendering.block.XDOM)}
+     * @param syntax see {@link #setSyntax(org.xwiki.rendering.syntax.Syntax)}
+     * @param restricted disables potentially harmful transformations.
+     */
+    public TransformationContext(XDOM xdom, Syntax syntax, boolean restricted)
+    {
         setXDOM(xdom);
         setSyntax(syntax);
+        setRestricted(restricted);
     }
 
     /**
@@ -116,6 +134,20 @@ public class TransformationContext implements Cloneable
     public Syntax getSyntax()
     {
         return syntax;
+    }
+
+    /**
+     * @return indicator of whether the transformation context is restricted or not.
+     */
+    public boolean isRestricted() {
+        return restricted;
+    }
+
+    /**
+     * @param restricted set indicator of whether the transformation context is restricted or not.
+     */
+    public void setRestricted(boolean restricted) {
+        this.restricted = restricted;
     }
 
     @Override

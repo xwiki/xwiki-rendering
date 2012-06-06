@@ -23,6 +23,8 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,6 +56,7 @@ import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.xml.html.HTMLCleaner;
+import org.xwiki.xml.html.HTMLCleanerConfiguration;
 import org.xwiki.xml.html.HTMLConstants;
 import org.xwiki.xml.html.HTMLUtils;
 
@@ -145,7 +148,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
 
             // Clean the HTML into valid XHTML if the user has asked (it's the default).
             if (parameters.getClean()) {
-                normalizedContent = cleanHTML(normalizedContent, context.isInline());
+                normalizedContent = cleanHTML(normalizedContent, context);
             }
 
             blocks = Arrays.asList((Block) new RawBlock(normalizedContent, XHTML_SYNTAX));
@@ -160,18 +163,19 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
      * Clean the HTML entered by the user, transforming it into valid XHTML.
      * 
      * @param content the content to clean
-     * @param isInline true if the content is inline and thus if we need to remove the top level paragraph element
-     *            created by the cleaner
+     * @param context the macro transformation context
      * @return the cleaned HTML as a string representing valid XHTML
      * @throws MacroExecutionException if the macro is inline and the content is not inline HTML
      */
-    private String cleanHTML(String content, boolean isInline) throws MacroExecutionException
+    private String cleanHTML(String content, MacroTransformationContext context) throws MacroExecutionException
     {
         String cleanedContent = content;
 
+        HTMLCleanerConfiguration cleanerConfiguration = getCleanerConfiguration(context);
+
         // Note that we trim the content since we want to be lenient with the user in case he has entered
         // some spaces/newlines before a XML declaration (prolog). Otherwise the XML parser would fail to parse.
-        Document document = this.htmlCleaner.clean(new StringReader(cleanedContent));
+        Document document = this.htmlCleaner.clean(new StringReader(cleanedContent), cleanerConfiguration);
 
         // Since XML can only have a single root node and since we want to allow users to put
         // content such as the following, we need to wrap the content in a root node:
@@ -188,7 +192,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
         HTMLUtils.stripHTMLEnvelope(document);
 
         // If in inline mode verify we have inline HTML content and remove the top level paragraph if there's one
-        if (isInline) {
+        if (context.isInline()) {
             // TODO: Improve this since when're inside a table cell or a list item we can allow non inline items too
             Element root = document.getDocumentElement();
             if (root.getChildNodes().getLength() == 1 && root.getFirstChild().getNodeType() == Node.ELEMENT_NODE
@@ -270,5 +274,23 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
         }
 
         return xhtml;
+    }
+
+    /**
+     * @param context the macro transformation context
+     * @return the appropriate cleaner configuration.
+     */
+    private HTMLCleanerConfiguration getCleanerConfiguration(MacroTransformationContext context)
+    {
+        HTMLCleanerConfiguration cleanerConfiguration = htmlCleaner.getDefaultConfiguration();
+
+        if (context.getTransformationContext().isRestricted()) {
+            Map<String, String> parameters = new HashMap<String, String>();
+            parameters.putAll(cleanerConfiguration.getParameters());
+            parameters.put("restricted", "true");
+            cleanerConfiguration.setParameters(parameters);
+        }
+
+        return cleanerConfiguration;
     }
 }
