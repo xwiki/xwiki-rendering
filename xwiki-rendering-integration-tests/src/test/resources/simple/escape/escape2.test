@@ -79,7 +79,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>**notbold**<br/>##nomono##<br/>//noitalic//<br/>--notrike--<br/>__nounderscore__<br/>^^nosuper^^<br/>,,nosub,,<br/>{{{notverbatim}}}<br/>(((nogroup)))</p>
+<p>**notbold**<br/>##nomono##<br/>//noitalic//<br/>--notrike--<br/>__nounderscore__<br/>^^nosuper^^<br/>,,nosub,,<br/>&#123;&#123;&#123;notverbatim}}}<br/>(((nogroup)))</p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------

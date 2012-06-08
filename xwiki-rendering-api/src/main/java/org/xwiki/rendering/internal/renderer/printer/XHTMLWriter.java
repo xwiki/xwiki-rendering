@@ -58,4 +58,16 @@ public class XHTMLWriter extends XMLWriter
     {
         return super.escapeAttributeEntities(text).replace("&apos;", "&#38;");
     }
+
+    /**
+     * Add left curly to the set of characters that should be encoded.
+     *
+     * @param c Character to encode.
+     * @return  {@code true} if the character should be encoded.
+     */
+    @Override
+    protected boolean shouldEncodeChar(char c) {
+        return super.shouldEncodeChar(c) || c == '{';
+    }
+
 }
