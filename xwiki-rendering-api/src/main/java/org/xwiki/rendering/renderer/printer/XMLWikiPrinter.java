@@ -42,9 +42,6 @@ import org.xwiki.xml.XMLUtils;
  */
 public class XMLWikiPrinter
 {
-    /** XML encoding of the "left curly bracket". */
-    private static final String LCURL = "&#123;";
-
     protected WikiWriter wikiWriter;
 
     protected XMLWriter xmlWriter;
@@ -75,7 +72,7 @@ public class XMLWikiPrinter
     public void printXML(String str)
     {
         try {
-            this.xmlWriter.write(str.replace("{", LCURL));
+            this.xmlWriter.write(str);
         } catch (IOException e) {
             // TODO: add error log here
         }
