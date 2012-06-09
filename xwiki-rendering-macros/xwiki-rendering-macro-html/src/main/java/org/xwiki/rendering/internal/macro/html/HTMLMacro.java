@@ -287,7 +287,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
         if (context.getTransformationContext().isRestricted()) {
             Map<String, String> parameters = new HashMap<String, String>();
             parameters.putAll(cleanerConfiguration.getParameters());
-            parameters.put("restricted", "true");
+            parameters.put(HTMLCleanerConfiguration.RESTRICTED, "true");
             cleanerConfiguration.setParameters(parameters);
         }
 
