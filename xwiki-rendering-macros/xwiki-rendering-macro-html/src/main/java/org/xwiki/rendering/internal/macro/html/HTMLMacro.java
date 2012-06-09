@@ -149,6 +149,8 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             // Clean the HTML into valid XHTML if the user has asked (it's the default).
             if (parameters.getClean()) {
                 normalizedContent = cleanHTML(normalizedContent, context);
+            } else if (context.getTransformationContext().isRestricted()) {
+                throw new MacroExecutionException("The HTML macro may not be used with clean=\"false\" in this context.");
             }
 
             blocks = Arrays.asList((Block) new RawBlock(normalizedContent, XHTML_SYNTAX));
