@@ -60,7 +60,9 @@ public class XHTMLWriter extends XMLWriter
     }
 
     /**
-     * Add left curly to the set of characters that should be encoded.
+     * Add left curly to the set of characters that should be encoded.  This to prepare the generated html for use
+     * between {{html}} {{/html}} in XWiki 2.x syntax.  (The literal string '{{/html}}' must not occur in the generated
+     * html.)
      *
      * @param c Character to encode.
      * @return  {@code true} if the character should be encoded.
