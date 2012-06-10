@@ -190,19 +190,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>enforce-no-legacy-dependencies</id>
-            <configuration>
-              <!-- Skip Enforcer check on this module since we're bundling legacy modules! -->
-              <skip>true</skip>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
   <profiles>
@@ -229,7 +216,10 @@
     </profile>
   </profiles>
   <properties>
-    <!-- Skip Clirr execution since this project only generates an artifact that aggregates other XWiki artifacts -->
+    <!-- Skip some checks since this project only generates an artifact that aggregates other XWiki artifacts -->
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
+    <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
+    <xwiki.enforcer.skip>true</xwiki.enforcer.skip>
+    <xwiki.license.skip>true</xwiki.license.skip>
   </properties>
 </project>
