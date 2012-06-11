@@ -46,12 +46,12 @@ public class BlockAssert
     }
 
     /**
-     * @param expected the expected value of passed Blocks when rendered using the passed Renderer Factory
      * @param blocks the Blocks to assert
-     * @param factory the Renderer Factory to use to serialize the passed Block and to compare them with the passed
-     *        String
+     * @param factory the Renderer Factory to use to serialize the passed Block
+     * @return The serialized block.
+     * @since 4.2M1
      */
-    public static void assertBlocks(String expected, List<Block> blocks, PrintRendererFactory factory)
+    private static String render(List<Block> blocks, PrintRendererFactory factory)
     {
         // Assert the result by parsing it through the EventsRenderer to generate easily
         // assertable events.
@@ -61,6 +61,31 @@ public class BlockAssert
         PrintRenderer eventRenderer = factory.createRenderer(printer);
 
         dom.traverse(eventRenderer);
-        Assert.assertEquals(expected, printer.toString());
+
+        return printer.toString();
     }
+
+    /**
+     * @param expected the expected value of passed Blocks when rendered using the passed Renderer Factory
+     * @param blocks the Blocks to assert
+     * @param factory the Renderer Factory to use to serialize the passed Block and to compare them with the passed
+     *        String
+     */
+    public static void assertBlocks(String expected, List<Block> blocks, PrintRendererFactory factory)
+    {
+        Assert.assertEquals(expected, render(blocks, factory));
+    }
+
+    /**
+     * @param expectedPrefix the expected prefix of the passed Blocks when rendered using the passed Renderer Factory
+     * @param blocks the Blocks to assert
+     * @param factory the Renderer Factory to use to serialize the passed Block and to compare them with the passed
+     *        String
+     * @since 4.2M1
+     */
+    public static void assertBlocksStartsWith(String expectedPrefix, List<Block> blocks, PrintRendererFactory factory)
+    {
+        Assert.assertTrue(render(blocks, factory).startsWith(expectedPrefix));
+    }
+    
 }
