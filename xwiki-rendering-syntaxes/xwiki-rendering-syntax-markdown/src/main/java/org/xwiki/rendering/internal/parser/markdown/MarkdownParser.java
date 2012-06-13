@@ -72,7 +72,7 @@ public class MarkdownParser implements Parser
     }
 
     @Override
-    // FIXME: going through XHTML parse is pretty bad, a mappping between markdown and XWiki events should be done
+    // FIXME: going through XHTML parser is pretty bad, a mapping between Markdown and XWiki events should be done
     // instead
     public XDOM parse(Reader source) throws ParseException
     {
