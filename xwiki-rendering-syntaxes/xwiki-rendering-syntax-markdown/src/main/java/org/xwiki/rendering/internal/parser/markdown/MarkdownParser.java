@@ -54,12 +54,12 @@ public class MarkdownParser implements Parser
     /**
      * The {@link org.pegdown.PegDownProcessor} used to convert Pegdown documents to HTML.
      */
-    private static final PegDownProcessor PEGDOWN_PROCESSOR =
-        new PegDownProcessor(Extensions.ALL & ~Extensions.HARDWRAPS);
+    private static final PegDownProcessor PEGDOWN_PROCESSOR = new PegDownProcessor(Extensions.ALL
+        & ~Extensions.HARDWRAPS);
 
     /**
-     * Pegdown classes can seralize a Markdown tree into XHTML; thus we use our XHMTL parser to convert the XHTML
-     * into an XDOM.
+     * Pegdown classes can seralize a Markdown tree into XHTML; thus we use our XHMTL parser to convert the XHTML into
+     * an XDOM.
      */
     @Inject
     @Named("xhtml/1.0")
@@ -72,16 +72,25 @@ public class MarkdownParser implements Parser
     }
 
     @Override
+    // FIXME: going through XHTML parse is pretty bad, a mappping between markdown and XWiki events should be done
+    // instead
     public XDOM parse(Reader source) throws ParseException
     {
         try {
             RootNode rootNode = PEGDOWN_PROCESSOR.parseMarkdown(IOUtils.toString(source).toCharArray());
             String markdownAsHtml = new ToHtmlSerializer().toHtml(rootNode);
-            XDOM xdom = this.xhtmlParser.parse(new StringReader("<html><body>" + markdownAsHtml + "</body></html>"));
+
+            // Provide proper xhtml header and body elements
+            String markdownAsProperHtml =
+                "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" "
+                    + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" + "<html><body>" + markdownAsHtml
+                    + "</body></html>";
+
+            XDOM xdom = this.xhtmlParser.parse(new StringReader(markdownAsProperHtml));
 
             // Replace the Syntax MetaData which is set with XHTML with Markdown.
-            return new XDOM(xdom.getChildren(),
-                new MetaData(Collections.<String, Object>singletonMap(MetaData.SYNTAX, Syntax.MARKDOWN_1_0)));
+            return new XDOM(xdom.getChildren(), new MetaData(Collections.<String, Object> singletonMap(MetaData.SYNTAX,
+                Syntax.MARKDOWN_1_0)));
 
         } catch (IOException e) {
             throw new ParseException("Failed to convert Markdown to HTML", e);

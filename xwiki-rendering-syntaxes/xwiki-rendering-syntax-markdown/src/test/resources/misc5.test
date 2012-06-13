@@ -1,0 +1,14 @@
+.#-----------------------------------------------------
+.input|markdown/1.0
+.# Make sure special characters are properly handled
+.#-----------------------------------------------------
+'&
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [(((8217)))]
+onSpecialSymbol [&]
+endParagraph
+endDocument
