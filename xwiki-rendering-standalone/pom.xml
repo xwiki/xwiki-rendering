@@ -30,7 +30,7 @@
     <!-- TODO: Building this module with Maven 3.0.4 currently has an issue if you haven't built xwiki-commons-pom
          first, see http://jira.codehaus.org/browse/MSHADE-103
          Note that it works fine with Maven 3.0.3 -->
-    <version>4.1-SNAPSHOT</version>
+    <version>4.1.1</version>
   </parent>
   <artifactId>xwiki-rendering-standalone</artifactId>
   <name>XWiki Rendering - Standalone Distribution</name>
