@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
+import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.Suite;
@@ -164,7 +165,8 @@ public class RenderingTestSuite extends Suite
                 this.componentInitializer.initializeConfigurationSource();
                 this.componentInitializer.initializeExecution();
             } catch (Exception e) {
-                throw new RuntimeException("Failed to initialize Component Manager", e);
+                notifier.fireTestFailure(new Failure(getDescription(),
+                    new RuntimeException("Failed to initialize Component Manager", e)));
             }
 
             // Check all methods for a ComponentManager annotation and call the found ones.
@@ -177,7 +179,8 @@ public class RenderingTestSuite extends Suite
                     }
                 }
             } catch (Exception e) {
-                throw new RuntimeException("Failed to call Component Manager initialization method", e);
+                notifier.fireTestFailure(new Failure(getDescription(),
+                    new RuntimeException("Failed to call Component Manager initialization method", e)));
             }
 
             try {
@@ -186,7 +189,8 @@ public class RenderingTestSuite extends Suite
                 try {
                     this.componentInitializer.shutdown();
                 } catch (Exception e) {
-                    throw new RuntimeException("Failed to shutdown Component Manager", e);
+                    notifier.fireTestFailure(new Failure(getDescription(),
+                        new RuntimeException("Failed to shutdown Component Manager", e)));
                 }
             }
         }

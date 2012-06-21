@@ -22,6 +22,7 @@ package org.xwiki.rendering.test.cts;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
@@ -120,7 +121,8 @@ public class RenderingTestClassRunner  extends BlockJUnit4ClassRunner
             this.componentInitializer.initializeConfigurationSource();
             this.componentInitializer.initializeExecution();
         } catch (Exception e) {
-            throw new RuntimeException("Failed to initialize Component Manager", e);
+            notifier.fireTestFailure(new Failure(getDescription(),
+                new RuntimeException("Failed to initialize Component Manager", e)));
         }
 
         // Check all methods for a ComponentManager annotation and call the found ones.
@@ -133,7 +135,8 @@ public class RenderingTestClassRunner  extends BlockJUnit4ClassRunner
                 }
             }
         } catch (Exception e) {
-            throw new RuntimeException("Failed to call Component Manager initialization method", e);
+            notifier.fireTestFailure(new Failure(getDescription(),
+                new RuntimeException("Failed to call Component Manager initialization method", e)));
         }
 
         try {
@@ -142,7 +145,8 @@ public class RenderingTestClassRunner  extends BlockJUnit4ClassRunner
             try {
                 this.componentInitializer.shutdown();
             } catch (Exception e) {
-                throw new RuntimeException("Failed to shutdown Component Manager", e);
+                notifier.fireTestFailure(new Failure(getDescription(),
+                    new RuntimeException("Failed to shutdown Component Manager", e)));
             }
         }
     }
