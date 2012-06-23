@@ -17,48 +17,33 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.block;
+package org.xwiki.rendering.macro.jira;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
-import org.xwiki.rendering.listener.Listener;
+import org.jdom2.Element;
+import org.xwiki.component.annotation.Role;
+import org.xwiki.rendering.block.Block;
 
 /**
- * Represents a cell of a table.
- * 
+ * A JIRA Displayer is used to display the JIRA issues visually. Example of Displayers: Table displayer which displays
+ * data in a table, Lsit displayer to display data in a list, etc.
+ *
  * @version $Id$
- * @since 1.6M2
+ * @since 4.2M1
  */
-public class TableCellBlock extends AbstractBlock
+@Role
+public interface JIRADisplayer
 {
     /**
-     * @param list the list of children blocks of the table head cell block.
-     * @since 4.2M1
+     * Displays the passed JIRA issues.
+     *
+     * @param issues the issues to display
+     * @param parameters the macro parameters specified by the user; can be used to specify displayer-specific
+     *        configuration data (for example displayers allows the user to specify the list of JIRA issue fields to
+     *        display
+     * @return the list of Blocks rerpesenting what to display
      */
-    public TableCellBlock(List<Block> list)
-    {
-        super(list);
-    }
-
-    /**
-     * @param list the list of children blocks of the table head cell block.
-     * @param parameters the parameters of the table row.
-     */
-    public TableCellBlock(List<Block> list, Map<String, String> parameters)
-    {
-        super(list, parameters);
-    }
-
-    @Override
-    public void before(Listener listener)
-    {
-        listener.beginTableCell(getParameters());
-    }
-
-    @Override
-    public void after(Listener listener)
-    {
-        listener.endTableCell(getParameters());
-    }
+    List<Block> display(Collection<Element> issues, JIRAMacroParameters parameters);
 }

@@ -1,0 +1,13 @@
+org.xwiki.rendering.internal.macro.jira.JIRAMacro
+org.xwiki.rendering.internal.macro.jira.source.ListJIRADataSource
+org.xwiki.rendering.internal.macro.jira.source.JQLJIRADataSource
+org.xwiki.rendering.internal.macro.jira.displayer.TableJIRADisplayer
+org.xwiki.rendering.internal.macro.jira.displayer.ListJIRADisplayer
+org.xwiki.rendering.internal.macro.jira.displayer.EnumJIRADisplayer
+org.xwiki.rendering.internal.macro.jira.displayer.field.DefaultJIRAFieldDisplayer
+org.xwiki.rendering.internal.macro.jira.displayer.field.TypeJIRAFieldDisplayer
+org.xwiki.rendering.internal.macro.jira.displayer.field.KeyJIRAFieldDisplayer
+org.xwiki.rendering.internal.macro.jira.displayer.field.StatusJIRAFieldDisplayer
+org.xwiki.rendering.internal.macro.jira.displayer.field.CreatedJIRAFieldDisplayer
+org.xwiki.rendering.internal.macro.jira.displayer.field.UpdatedJIRAFieldDisplayer
+org.xwiki.rendering.internal.macro.jira.displayer.field.ResolvedJIRAFieldDisplayer

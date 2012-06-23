@@ -34,6 +34,15 @@ public class TableHeadCellBlock extends TableCellBlock
 {
     /**
      * @param list the list of children blocks of the table cell block.
+     * @since 4.2M1
+     */
+    public TableHeadCellBlock(List<Block> list)
+    {
+        super(list);
+    }
+
+    /**
+     * @param list the list of children blocks of the table cell block.
      * @param parameters the parameters of the table head cell.
      */
     public TableHeadCellBlock(List<Block> list, Map<String, String> parameters)
