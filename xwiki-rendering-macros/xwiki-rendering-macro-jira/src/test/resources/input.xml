@@ -1,0 +1,182 @@
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+<rss version="0.92">
+    <channel>
+        <title>XWiki.org JIRA</title>
+        <link>http://jira.xwiki.org/secure/IssueNavigator.jspa?reset=true&amp;jqlQuery=issueKey+in+%28XWIKI-1000%2CXWIKI-1001%29</link>
+        <description>An XML representation of a search request</description>
+                <language>en-uk</language>
+                        <issue start="0" end="2" total="2"/>
+                <build-info>
+            <version>5.0.6</version>
+            <build-number>733</build-number>
+            <build-date>31-05-2012</build-date>
+        </build-info>
+<item>
+            <title>[XWIKI-1001] On jetty, non-default skins are not usable</title>
+                <link>http://jira.xwiki.org/browse/XWIKI-1001</link>
+                <project id="10010" key="XWIKI">XWiki Platform</project>
+                        <description>&lt;p&gt;This is caused by the fact that ServletContext.getResourceAsStream(name) fails if name is not prefixed with /.&lt;/p&gt;</description>
+                <environment></environment>
+            <key id="14234">XWIKI-1001</key>
+            <summary>On jetty, non-default skins are not usable</summary>
+                <type id="1" iconUrl="http://jira.xwiki.org/images/icons/bug.gif">Bug</type>
+                                <priority id="2" iconUrl="http://jira.xwiki.org/images/icons/priority_critical.gif">Critical</priority>
+                    <status id="6" iconUrl="http://jira.xwiki.org/images/icons/status_closed.gif">Closed</status>
+                    <resolution id="1">Fixed</resolution>
+                                <assignee username="sdumitriu">Sergiu Dumitriu</assignee>
+                                <reporter username="sdumitriu">Sergiu Dumitriu</reporter>
+                        <labels>
+                    </labels>
+                <created>Mon, 19 Mar 2007 03:22:05 +0100</created>
+                <updated>Fri, 23 Mar 2007 01:28:04 +0100</updated>
+                    <resolved>Fri, 23 Mar 2007 01:28:04 +0100</resolved>
+                            <version>1.0 B1</version>
+                <version>1.0 B2</version>
+                <version>1.0 B3</version>
+                <version>1.0 B4</version>
+                <version>1.0 B5</version>
+                                <fixVersion>1.0 B6</fixVersion>
+                                <component>{Unused} Core</component>
+                        <due></due>
+                    <votes>0</votes>
+                        <watches>0</watches>
+                        <comments>
+                    <comment id="13566" author="sdumitriu" created="Fri, 23 Mar 2007 01:28:04 +0100"  >&lt;p&gt;Fixed for the moment.&lt;/p&gt;</comment>
+                </comments>
+                    <attachments>
+                </attachments>
+            <subtasks>
+        </subtasks>
+                <customfields>
+                                                                                                                                                                            <customfield id="customfield_10022" key="com.atlassian.jira.ext.charting:timeinstatus">
+                <customfieldname>Time in Status</customfieldname>
+                <customfieldvalues>
+                    
+                </customfieldvalues>
+            </customfield>
+                                                </customfields>
+    </item>
+
+<item>
+            <title>[XWIKI-1000] Improve PDF Output</title>
+                <link>http://jira.xwiki.org/browse/XWIKI-1000</link>
+                <project id="10010" key="XWIKI">XWiki Platform</project>
+                        <description>&lt;p&gt;Improve PDF Output by adding the following features or fix the following bugs:&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;support CSS&lt;/li&gt;
+	&lt;li&gt;support custom page header and footer, content header and footer, custom CSS and xmlfo stylesheet&lt;/li&gt;
+	&lt;li&gt;support all basic elements of the XWiki syntax&lt;/li&gt;
+	&lt;li&gt;support correct image sizing and positionning&lt;/li&gt;
+	&lt;li&gt;support correct table rendering (with and without borders)&lt;/li&gt;
+	&lt;li&gt;move to FOP 0.93&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+                <environment></environment>
+            <key id="14233">XWIKI-1000</key>
+            <summary>Improve PDF Output</summary>
+                <type id="4" iconUrl="http://jira.xwiki.org/images/icons/improvement.gif">Improvement</type>
+                                <priority id="3" iconUrl="http://jira.xwiki.org/images/icons/priority_major.gif">Major</priority>
+                    <status id="6" iconUrl="http://jira.xwiki.org/images/icons/status_closed.gif">Closed</status>
+                    <resolution id="1">Fixed</resolution>
+                                <assignee username="ludovic">Ludovic Dubost</assignee>
+                                <reporter username="ludovic">Ludovic Dubost</reporter>
+                        <labels>
+                    </labels>
+                <created>Mon, 19 Mar 2007 02:11:22 +0100</created>
+                <updated>Thu, 29 Mar 2007 17:45:54 +0200</updated>
+                    <resolved>Thu, 29 Mar 2007 17:45:54 +0200</resolved>
+                            <version>1.0 B5</version>
+                                <fixVersion>1.0 B6</fixVersion>
+                                <component>Other</component>
+                        <due></due>
+                    <votes>0</votes>
+                        <watches>0</watches>
+                        <comments>
+                    <comment id="13484" author="ludovic" created="Mon, 19 Mar 2007 02:12:58 +0100"  >&lt;p&gt;Adding child bugs&lt;/p&gt;</comment>
+                    <comment id="13485" author="ludovic" created="Mon, 19 Mar 2007 02:16:41 +0100"  >&lt;p&gt;Move to 0.93 is complete&lt;br/&gt;
+CSS styling is available&lt;br/&gt;
+Title, Lists (including nested), tables, font, text colors and backgrounds are correctly rendered&lt;br/&gt;
+Basic imaging is available except for setting a max width &lt;br/&gt;
+Custom xsl stylesheets are available&lt;br/&gt;
+Custom css is available&lt;br/&gt;
+Custom content header and footer&lt;br/&gt;
+Custom page header (through title field)&lt;/p&gt;
+
+&lt;p&gt;Positionning still needs to be looked at as well as bug &lt;a href=&quot;http://jira.xwiki.org/browse/XWIKI-185&quot; title=&quot;Line breaks inside {code} ... {code} tags are incorrectly rendered in PDF&quot;&gt;&lt;del&gt;XWIKI-185&lt;/del&gt;&lt;/a&gt; and &lt;a href=&quot;http://jira.xwiki.org/browse/XWIKI-257&quot; title=&quot;PDF generation fails if a header text is repeated due to TOC numbering in headings&quot;&gt;&lt;del&gt;XWIKI-257&lt;/del&gt;&lt;/a&gt; and &lt;a href=&quot;http://jira.xwiki.org/browse/XWIKI-237&quot; title=&quot;PDF export fails if there are some special characters&quot;&gt;&lt;del&gt;XWIKI-237&lt;/del&gt;&lt;/a&gt;&lt;br/&gt;
+Custom page footer is still to be done&lt;/p&gt;</comment>
+                    <comment id="13488" author="ludovic" created="Mon, 19 Mar 2007 03:02:48 +0100"  >&lt;p&gt;Centering of images is also available&lt;/p&gt;
+
+&lt;p&gt;Commited in v2449 in the trunk. Maven build needs to be updated.&lt;/p&gt;</comment>
+                    <comment id="13717" author="vmassol" created="Thu, 29 Mar 2007 17:45:54 +0200"  >&lt;p&gt;Done&lt;/p&gt;</comment>
+                </comments>
+                <issuelinks>
+                        <issuelinktype id="10000">
+                <name>Duplicate</name>
+                                                <inwardlinks description="is duplicated by">
+                            <issuelink>
+            <issuekey id="10570">XWIKI-179</issuekey>
+        </issuelink>
+            <issuelink>
+            <issuekey id="13500">XWIKI-571</issuekey>
+        </issuelink>
+            <issuelink>
+            <issuekey id="13484">XWIKI-561</issuekey>
+        </issuelink>
+                    </inwardlinks>
+                            </issuelinktype>
+                        <issuelinktype id="10010">
+                <name>Related</name>
+                                <outwardlinks description="relates to">
+                            <issuelink>
+            <issuekey id="12509">XWIKI-237</issuekey>
+        </issuelink>
+            <issuelink>
+            <issuekey id="10636">XWIKI-185</issuekey>
+        </issuelink>
+            <issuelink>
+            <issuekey id="12642">XWIKI-257</issuekey>
+        </issuelink>
+                    </outwardlinks>
+                                            </issuelinktype>
+                    </issuelinks>
+                <attachments>
+                </attachments>
+            <subtasks>
+        </subtasks>
+                <customfields>
+                                <customfield id="customfield_10021" key="com.atlassian.jira.ext.charting:firstresponsedate">
+                <customfieldname>Date of First Response</customfieldname>
+                <customfieldvalues>
+                    <customfieldvalue>Thu, 29 Mar 2007 17:45:54 +0200</customfieldvalue>
+
+                </customfieldvalues>
+            </customfield>
+                                                                                                                                                                    <customfield id="customfield_10022" key="com.atlassian.jira.ext.charting:timeinstatus">
+                <customfieldname>Time in Status</customfieldname>
+                <customfieldvalues>
+                    
+                </customfieldvalues>
+            </customfield>
+                                                </customfields>
+    </item>
+</channel>
+</rss>

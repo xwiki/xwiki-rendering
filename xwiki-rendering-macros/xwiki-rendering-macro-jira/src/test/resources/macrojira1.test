@@ -1,0 +1,19 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Test jira macro called without a url parameter
+.#-----------------------------------------------------
+{{jira/}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [jira] []
+beginGroup [[class]=[xwikirenderingerror]]
+onWord [Invalid macro parameters used for the "jira" macro]
+endGroup [[class]=[xwikirenderingerror]]
+beginGroup [[class]=[xwikirenderingerrordescription hidden]]
+onVerbatim [org.xwiki.properties.PropertyMandatoryException: Property [url] mandatory${{{regex:.*}}}] [false]
+endGroup [[class]=[xwikirenderingerrordescription hidden]]
+endMacroMarkerStandalone [jira] []
+endDocument

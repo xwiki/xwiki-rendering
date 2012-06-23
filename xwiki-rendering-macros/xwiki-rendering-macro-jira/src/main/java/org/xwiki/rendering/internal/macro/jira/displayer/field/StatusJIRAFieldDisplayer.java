@@ -17,48 +17,35 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.block;
+package org.xwiki.rendering.internal.macro.jira.displayer.field;
 
-import java.util.List;
-import java.util.Map;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
-import org.xwiki.rendering.listener.Listener;
+import org.jdom2.Element;
+import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.macro.jira.JIRAFields;
 
 /**
- * Represents a cell of a table.
- * 
+ * Displayer for the "status" JIRA field (displayed as an image).
+ *
  * @version $Id$
- * @since 1.6M2
+ * @since 4.2M1
  */
-public class TableCellBlock extends AbstractBlock
+@Component
+@Named("status")
+@Singleton
+public class StatusJIRAFieldDisplayer extends AbstractImageJIRAFieldDisplayer
 {
-    /**
-     * @param list the list of children blocks of the table head cell block.
-     * @since 4.2M1
-     */
-    public TableCellBlock(List<Block> list)
+    @Override
+    protected Element getElement(Element issue)
     {
-        super(list);
-    }
-
-    /**
-     * @param list the list of children blocks of the table head cell block.
-     * @param parameters the parameters of the table row.
-     */
-    public TableCellBlock(List<Block> list, Map<String, String> parameters)
-    {
-        super(list, parameters);
+        return issue.getChild(JIRAFields.STATUS);
     }
 
     @Override
-    public void before(Listener listener)
+    protected String getURL(Element issue)
     {
-        listener.beginTableCell(getParameters());
-    }
-
-    @Override
-    public void after(Listener listener)
-    {
-        listener.endTableCell(getParameters());
+        return getElement(issue).getAttributeValue("iconUrl");
     }
 }

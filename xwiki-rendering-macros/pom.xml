@@ -110,13 +110,15 @@ Thus it is forbidden to depend on the HTML Macro.
     </plugins>
   </build>
   <modules>
-    <module>xwiki-rendering-macro-ctsreport</module>
-    <module>xwiki-rendering-macro-html</module>
-    <module>xwiki-rendering-macro-toc</module>
-    <module>xwiki-rendering-macro-id</module>
+    <!-- Sorted Alphabetically -->
     <module>xwiki-rendering-macro-box</module>
-    <module>xwiki-rendering-macro-message</module>
-    <module>xwiki-rendering-macro-footnotes</module>
     <module>xwiki-rendering-macro-comment</module>
+    <module>xwiki-rendering-macro-ctsreport</module>
+    <module>xwiki-rendering-macro-footnotes</module>
+    <module>xwiki-rendering-macro-html</module>
+    <module>xwiki-rendering-macro-id</module>
+    <module>xwiki-rendering-macro-jira</module>
+    <module>xwiki-rendering-macro-message</module>
+    <module>xwiki-rendering-macro-toc</module>
   </modules>
 </project>

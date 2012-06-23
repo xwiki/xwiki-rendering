@@ -1,0 +1,47 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Test custom fields.
+.#-----------------------------------------------------
+{{jira url="http://localhost" fields="key, note"}}
+XWIKI-1000|Note
+XWIKI-1001
+{{/jira}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [jira] [url=http://localhost|fields=key, note] [XWIKI-1000|Note
+XWIKI-1001]
+beginTable
+beginTableRow
+beginTableHeadCell
+onVerbatim [Key] [true]
+endTableHeadCell
+beginTableHeadCell
+onVerbatim [note] [true]
+endTableHeadCell
+endTableRow
+beginTableRow
+beginTableCell
+beginLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1000]] [true]
+onVerbatim [XWIKI-1000] [true]
+endLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1000]] [true]
+endTableCell
+beginTableCell
+onVerbatim [Note] [true]
+endTableCell
+endTableRow
+beginTableRow
+beginTableCell
+beginLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1001]] [true]
+onVerbatim [XWIKI-1001] [true]
+endLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1001]] [true]
+endTableCell
+beginTableCell
+endTableCell
+endTableRow
+endTable
+endMacroMarkerStandalone [jira] [url=http://localhost|fields=key, note] [XWIKI-1000|Note
+XWIKI-1001]
+endDocument

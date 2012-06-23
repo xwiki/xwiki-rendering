@@ -17,48 +17,29 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.block;
+package org.xwiki.rendering.macro.jira;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 
-import org.xwiki.rendering.listener.Listener;
+import org.jdom2.Element;
+import org.xwiki.component.annotation.Role;
+import org.xwiki.rendering.macro.MacroExecutionException;
 
 /**
- * Represents a cell of a table.
- * 
+ * Source to fetch data from a JIRA instance.
+ *
  * @version $Id$
- * @since 1.6M2
+ * @since 4.2M1
  */
-public class TableCellBlock extends AbstractBlock
+@Role
+public interface JIRADataSource
 {
     /**
-     * @param list the list of children blocks of the table head cell block.
-     * @since 4.2M1
+     * @param macroContent the macro content which contains the source definition
+     * @param parameters the macro parameters which can contain source-specific configuration information
+     * @return the list of matching JIRA issues
+     * @throws MacroExecutionException in case of an error while getting the JIRA data
      */
-    public TableCellBlock(List<Block> list)
-    {
-        super(list);
-    }
-
-    /**
-     * @param list the list of children blocks of the table head cell block.
-     * @param parameters the parameters of the table row.
-     */
-    public TableCellBlock(List<Block> list, Map<String, String> parameters)
-    {
-        super(list, parameters);
-    }
-
-    @Override
-    public void before(Listener listener)
-    {
-        listener.beginTableCell(getParameters());
-    }
-
-    @Override
-    public void after(Listener listener)
-    {
-        listener.endTableCell(getParameters());
-    }
+    Collection<Element> getData(String macroContent, JIRAMacroParameters parameters)
+        throws MacroExecutionException;
 }

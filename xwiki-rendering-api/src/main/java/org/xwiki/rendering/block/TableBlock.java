@@ -34,6 +34,15 @@ public class TableBlock extends AbstractBlock
 {
     /**
      * @param list the list of children blocks of the table block (generally a list of {@link TableRowBlock}).
+     * @since 4.2M1
+     */
+    public TableBlock(List<Block> list)
+    {
+        super(list);
+    }
+
+    /**
+     * @param list the list of children blocks of the table block (generally a list of {@link TableRowBlock}).
      * @param parameters the parameters of the table.
      */
     public TableBlock(List<Block> list, Map<String, String> parameters)
