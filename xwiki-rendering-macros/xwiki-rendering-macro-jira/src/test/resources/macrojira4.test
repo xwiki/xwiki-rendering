@@ -42,7 +42,7 @@ beginTableCell
 onVerbatim [On jetty, non-default skins are not usable] [true]
 endTableCell
 beginTableCell
-onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_closed.gif]] [false] [[title]=[Closed][alt]=[Closed]]
+onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_open.gif]] [false] [[title]=[Open][alt]=[Open]]
 endTableCell
 beginTableCell
 onVerbatim [19-Mar-2007] [true]
@@ -54,7 +54,9 @@ onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/i
 endTableCell
 beginTableCell
 beginLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1000]] [true]
+beginFormat [STRIKEDOUT]
 onVerbatim [XWIKI-1000] [true]
+endFormat [STRIKEDOUT]
 endLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1000]] [true]
 endTableCell
 beginTableCell

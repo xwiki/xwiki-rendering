@@ -29,8 +29,10 @@ import javax.inject.Singleton;
 import org.jdom2.Element;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.VerbatimBlock;
+import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.macro.jira.JIRAFieldDisplayer;
@@ -55,6 +57,14 @@ public class KeyJIRAFieldDisplayer implements JIRAFieldDisplayer
         if (key != null) {
             String link = issue.getChildText(JIRAFields.LINK);
             List<Block> labelBlocks = Arrays.<Block>asList(new VerbatimBlock(key, true));
+
+            // If the Issue is closed then display it striked-out
+            String resolutionId = issue.getChild(JIRAFields.RESOLUTION).getAttributeValue("id");
+            if (!resolutionId.equals("-1")) {
+                // The issue is resolved
+                labelBlocks = Arrays.<Block>asList(new FormatBlock(labelBlocks, Format.STRIKEDOUT));
+            }
+
             if (link != null) {
                 ResourceReference reference = new ResourceReference(link, ResourceType.URL);
                 result = Arrays.<Block>asList(new LinkBlock(labelBlocks, reference, true));

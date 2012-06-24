@@ -25,7 +25,9 @@ endTableRow
 beginTableRow
 beginTableCell
 beginLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1000]] [true]
+beginFormat [STRIKEDOUT]
 onVerbatim [XWIKI-1000] [true]
+endFormat [STRIKEDOUT]
 endLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1000]] [true]
 endTableCell
 beginTableCell
