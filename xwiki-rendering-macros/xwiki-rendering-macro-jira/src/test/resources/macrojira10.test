@@ -1,0 +1,19 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# JQL source but missing the JQL query!
+.#-----------------------------------------------------
+{{jira url="http://localhost" source="jql"/}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [jira] [url=http://localhost|source=jql]
+beginGroup [[class]=[xwikirenderingerror]]
+onWord [Failed to execute the [jira] macro]
+endGroup [[class]=[xwikirenderingerror]]
+beginGroup [[class]=[xwikirenderingerrordescription hidden]]
+onVerbatim [org.xwiki.rendering.macro.MacroExecutionException: Missing JQL query!${{{regex:.*}}}] [false]
+endGroup [[class]=[xwikirenderingerrordescription hidden]]
+endMacroMarkerStandalone [jira] [url=http://localhost|source=jql]
+endDocument
