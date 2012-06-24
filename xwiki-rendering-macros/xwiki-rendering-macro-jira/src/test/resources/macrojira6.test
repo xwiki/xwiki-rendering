@@ -18,13 +18,15 @@ beginListItem
 onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_closed.gif]] [false] [[title]=[Closed][alt]=[Closed]]
 onSpace
 beginLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1000]] [true]
+beginFormat [STRIKEDOUT]
 onVerbatim [XWIKI-1000] [true]
+endFormat [STRIKEDOUT]
 endLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1000]] [true]
 onSpace
 onVerbatim [Improve PDF Output] [true]
 endListItem
 beginListItem
-onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_closed.gif]] [false] [[title]=[Closed][alt]=[Closed]]
+onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_open.gif]] [false] [[title]=[Open][alt]=[Open]]
 onSpace
 beginLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1001]] [true]
 onVerbatim [XWIKI-1001] [true]

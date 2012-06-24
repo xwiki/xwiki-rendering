@@ -39,15 +39,14 @@
             <summary>On jetty, non-default skins are not usable</summary>
                 <type id="1" iconUrl="http://jira.xwiki.org/images/icons/bug.gif">Bug</type>
                                 <priority id="2" iconUrl="http://jira.xwiki.org/images/icons/priority_critical.gif">Critical</priority>
-                    <status id="6" iconUrl="http://jira.xwiki.org/images/icons/status_closed.gif">Closed</status>
-                    <resolution id="1">Fixed</resolution>
+                    <status id="1" iconUrl="http://jira.xwiki.org/images/icons/status_open.gif">Open</status>
+                    <resolution id="-1">Unresolved</resolution>
                                 <assignee username="sdumitriu">Sergiu Dumitriu</assignee>
                                 <reporter username="sdumitriu">Sergiu Dumitriu</reporter>
                         <labels>
                     </labels>
                 <created>Mon, 19 Mar 2007 03:22:05 +0100</created>
                 <updated>Fri, 23 Mar 2007 01:28:04 +0100</updated>
-                    <resolved>Fri, 23 Mar 2007 01:28:04 +0100</resolved>
                             <version>1.0 B1</version>
                 <version>1.0 B2</version>
                 <version>1.0 B3</version>
