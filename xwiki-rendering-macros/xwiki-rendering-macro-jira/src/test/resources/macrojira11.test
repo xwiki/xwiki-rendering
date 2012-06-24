@@ -1,0 +1,19 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Unknown Style parameter
+.#-----------------------------------------------------
+{{jira url="http://localhost" style="unknown"/}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [jira] [url=http://localhost|style=unknown]
+beginGroup [[class]=[xwikirenderingerror]]
+onWord [Failed to execute the [jira] macro]
+endGroup [[class]=[xwikirenderingerror]]
+beginGroup [[class]=[xwikirenderingerrordescription hidden]]
+onVerbatim [org.xwiki.rendering.macro.MacroExecutionException: Unknown JIRA style [unknown]${{{regex:.*}}}] [false]
+endGroup [[class]=[xwikirenderingerrordescription hidden]]
+endMacroMarkerStandalone [jira] [url=http://localhost|style=unknown]
+endDocument
