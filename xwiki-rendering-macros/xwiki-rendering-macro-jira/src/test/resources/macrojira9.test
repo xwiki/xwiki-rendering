@@ -1,9 +1,10 @@
 .runTransformations
 .#-----------------------------------------------------
 .input|xwiki/2.0
-.# Test custom field names.
+.# Test custom field names (also verifies that field
+.# names can contain white spaces).
 .#-----------------------------------------------------
-{{jira url="http://localhost" fields="key, note" fieldNames="K, N"}}
+{{jira url="http://localhost" fields="key, note" fieldNames="'The key to the issue', 'Some Note'"}}
 XWIKI-1000|Note
 XWIKI-1001
 {{/jira}}
@@ -11,15 +12,15 @@ XWIKI-1001
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginMacroMarkerStandalone [jira] [url=http://localhost|fields=key, note|fieldNames=K, N] [XWIKI-1000|Note
+beginMacroMarkerStandalone [jira] [url=http://localhost|fields=key, note|fieldNames='The key to the issue', 'Some Note'] [XWIKI-1000|Note
 XWIKI-1001]
 beginTable
 beginTableRow
 beginTableHeadCell
-onVerbatim [K] [true]
+onVerbatim [The key to the issue] [true]
 endTableHeadCell
 beginTableHeadCell
-onVerbatim [N] [true]
+onVerbatim [Some Note] [true]
 endTableHeadCell
 endTableRow
 beginTableRow
@@ -44,6 +45,6 @@ beginTableCell
 endTableCell
 endTableRow
 endTable
-endMacroMarkerStandalone [jira] [url=http://localhost|fields=key, note|fieldNames=K, N] [XWIKI-1000|Note
+endMacroMarkerStandalone [jira] [url=http://localhost|fields=key, note|fieldNames='The key to the issue', 'Some Note'] [XWIKI-1000|Note
 XWIKI-1001]
 endDocument
