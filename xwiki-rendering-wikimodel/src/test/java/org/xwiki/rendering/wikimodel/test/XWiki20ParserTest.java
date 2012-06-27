@@ -530,6 +530,10 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("{{macro a='~'' /}}", "<pre class='wikimodel-macro' macroName='macro' a='&#x27;'/>");
 
         test("{{macro a=\"~\"\" /}}", "<pre class='wikimodel-macro' macroName='macro' a='&#x22;'/>");
+
+        test("{{macro a=\"foo\" b=\"bar\" }}content{{/macro}}\n\n{{macro a=\"foo\" b=\"bar\" }}content{{/macro}}",
+             "<pre class='wikimodel-macro' macroName='macro' a='foo' b='bar'><![CDATA[content]]></pre>\n" 
+             + "<pre class='wikimodel-macro' macroName='macro' a='foo' b='bar'><![CDATA[content]]></pre>" );
     }
 
     /**
