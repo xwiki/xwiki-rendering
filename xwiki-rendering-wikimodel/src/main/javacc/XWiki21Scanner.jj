@@ -346,23 +346,27 @@ TOKEN_MGR_DECLS: {
 
 <VERBATIM_CONTEXT> TOKEN:
 {
-      <INTERNAL_VERBATIM_START: <VERBATIM_START> > { 
-          verbatimBlockDepth++;
+      <INTERNAL_VERBATIM_START: "{" ("{")? ("{")?  > {
+          if (image.length() == 3) {
+              verbatimBlockDepth++;
+          }
           matchedToken.kind = VERBATIM_CONTENT;
       } 
-    | <VERBATIM_END: "}}}" > {
-            verbatimBlockDepth--;
-            if (verbatimBlockDepth == 0)  {
-                returnFromSpecialState();
-            } else {
-                matchedToken.kind = VERBATIM_CONTENT;
-            }
-        }
+    | <VERBATIM_END: "}" ("}")? ("}")? > {
+          if (image.length() < 3) {
+              matchedToken.kind = VERBATIM_CONTENT;   
+          } else {
+              verbatimBlockDepth--;
+              if (verbatimBlockDepth == 0)  {
+                  returnFromSpecialState();
+              } else {
+                  matchedToken.kind = VERBATIM_CONTENT;
+              }
+          }
+      }
     | <VERBATIM_CONTENT: ( 
           "~" ~[]
-        | ~["}", "{", "~"] 
-        | "}" ~["}"] | "}}" ~["}"]
-        | "{" ~["{"] | "{{" ~["{"]
+        | ~["}", "{", "~"]
       )+ >
 }
 
@@ -398,17 +402,18 @@ TOKEN_MGR_DECLS: {
 
 <*> TOKEN:
 {
-      <#PARAMS:   "(%" ( "~" ~[] | ~["%"] | ["%"] ~[")"] )* "%)" >
-    | <#DOUBLE_QUOTED: "\"" ( "~" ~[] | ~["\""])* "\"">
-    | <#SINGLE_QUOTED:  "'" ( "~" ~[] | ~[ "'"])*  "'">
+      <#PARAMS:   "(%" ( "~" ~[] | ~["%", "~", "'", "\""] | "%" ~[")", "~", "\"", "'"] | "%~" ~[]
+                  | <DOUBLE_QUOTED> | <SINGLE_QUOTED>)* "%)" >
+    | <#DOUBLE_QUOTED: "\"" ( "~" ~[] | ~["\"", "~"])* "\"">
+    | <#SINGLE_QUOTED:  "'" ( "~" ~[] | ~[ "'", "~"])*  "'">
     | <#HCELL: "!=" | "|=">
     | <#CELL:  "|"  | "!!">
     | <#MACRO_NAME: (<XWIKI_CHAR>)+ (["-", "_", ".", ":"] (<XWIKI_CHAR>)+)* >
-    | <#MACRO_PARAMS: (  <DOUBLE_QUOTED> | <SINGLE_QUOTED> | "~" ~[] | ~["}", "\"", "'"] | "}" ~["}"] )* >
+    | <#MACRO_PARAMS: ( <DOUBLE_QUOTED> | <SINGLE_QUOTED> | "~" ~[] | ~["}", "\"", "'", "~"] | "}" ~["}", "~"] | "}~" ~[] )* >
     // TODO: Shouldn't this be "=" ("=")? ("=")? ("=")? ("=")? ("=")? ("=")?
     | <#HEADER_BEGIN_PATTERN: (<SPACE>)* ("=")+ (<SPACE>)* >
-    | <#REFERENCE_IMAGE: "[[image:" ("~" ~[] | ~["]"] | "]" ~["]"] )* "]]" >
-    | <#REFERENCE:  ( "[[" ( <REFERENCE_IMAGE> | "~" ~[] | ~["]"] | "]" ~["]"] )* "]]" ) >
+    | <#REFERENCE_IMAGE: "[[image:" ("~" ~[] | ~["]", "~"] | "]" ~["]", "~"] | "]~" ~[] )* "]]" >
+    | <#REFERENCE:  ( "[[" ( <REFERENCE_IMAGE> | "~" ~[] | ~["]", "~"] | "]" ~["]", "~"] | "]~" ~[] )* "]]" ) >
 	| <#IMAGE: "image:" ("~" ~[] | <XWIKI_CHAR> | <XWIKI_SPECIAL_SYMBOL> )* >
 	| <#ATTACH: "attach:" ("~" ~[] | <XWIKI_CHAR> | <XWIKI_SPECIAL_SYMBOL> )* > 
 

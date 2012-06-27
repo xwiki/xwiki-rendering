@@ -534,6 +534,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("{{macro a=\"foo\" b=\"bar\" }}content{{/macro}}\n\n{{macro a=\"foo\" b=\"bar\" }}content{{/macro}}",
              "<pre class='wikimodel-macro' macroName='macro' a='foo' b='bar'><![CDATA[content]]></pre>\n" 
              + "<pre class='wikimodel-macro' macroName='macro' a='foo' b='bar'><![CDATA[content]]></pre>" );
+
+        test("{{box title =  \"1~\"2|-|3=~~~\"4~~\" }}=~\"|-|~~{{/box}}", "<pre class='wikimodel-macro' macroName='box' title='1&#x22;2|-|3=~&#x22;4~'><![CDATA[=~\"|-|~~]]></pre>");
     }
 
     /**
@@ -737,6 +739,12 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
     {
         test("[[label>>reference||param=\"value ~\"value~\"\"]]",
             "<p><a href='reference' param='value &#x22;value&#x22;'>label</a></p>");
+
+        test("~[~[nolink]]\n[[[[>>reference]]\n~[~[whatever\n~[[[link]]\n[http://reference]",
+             "<p>[[nolink]]\n<a href='reference'>[[</a>\n[[whatever\n"
+             + "[<a href='link' class='wikimodel-freestanding'>link</a>\n"
+             + "[<a href='http://reference' class='wikimodel-freestanding'>http://reference</a>]</p>");
+
     }
 
     public void testEmptyLine() throws WikiParserException
