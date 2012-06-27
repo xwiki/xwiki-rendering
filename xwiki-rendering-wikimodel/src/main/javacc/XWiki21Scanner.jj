@@ -399,10 +399,12 @@ TOKEN_MGR_DECLS: {
 <*> TOKEN:
 {
       <#PARAMS:   "(%" ( "~" ~[] | ~["%"] | ["%"] ~[")"] )* "%)" >
+    | <#DOUBLE_QUOTED: "\"" ( "~" ~[] | ~["\""])* "\"">
+    | <#SINGLE_QUOTED:  "'" ( "~" ~[] | ~[ "'"])*  "'">
     | <#HCELL: "!=" | "|=">
     | <#CELL:  "|"  | "!!">
     | <#MACRO_NAME: (<XWIKI_CHAR>)+ (["-", "_", ".", ":"] (<XWIKI_CHAR>)+)* >
-    | <#MACRO_PARAMS: ( "~" ~[] | ~["}"] | "}" ~["}"] )* >
+    | <#MACRO_PARAMS: ( "~" ~[] | ~["}"] | "}" ~["}"] | <DOUBLE_QUOTED> | <SINGLE_QUOTED> )* >
     // TODO: Shouldn't this be "=" ("=")? ("=")? ("=")? ("=")? ("=")? ("=")?
     | <#HEADER_BEGIN_PATTERN: (<SPACE>)* ("=")+ (<SPACE>)* >
     | <#REFERENCE_IMAGE: "[[image:" ("~" ~[] | ~["]"] | "]" ~["]"] )* "]]" >

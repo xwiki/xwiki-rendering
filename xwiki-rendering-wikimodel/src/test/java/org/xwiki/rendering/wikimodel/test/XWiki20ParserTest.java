@@ -505,6 +505,33 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
             "<pre class='wikimodel-macro' macroName='toto' param1='val&#x22;ue1' param2='v~al}}ue2'><![CDATA[a]]></pre>");
     }
 
+    public void testMacroParameterEscaping() throws WikiParserException
+    {
+        test("{{macro a={{b /}}  /}}", "<p><span class='wikimodel-macro' macroName='macro' a='{{b'/>  /}}</p>");
+
+        test("{{macro a=\"{{b /}}\" /}}", "<pre class='wikimodel-macro' macroName='macro' a='{{b /}}'/>");
+
+        test("{{macro a='{{b /}}' /}}", "<pre class='wikimodel-macro' macroName='macro' a='{{b /}}'/>");
+
+        test("{{macro \"{{b /}}\"=a /}}", "<pre class='wikimodel-macro' macroName='macro'/>");
+
+        test("{{macro '{{b /}}'=a /}}", "<pre class='wikimodel-macro' macroName='macro'/>");
+
+        test("{{macro a={{b/~}} /}}", "<pre class='wikimodel-macro' macroName='macro' a='{{b/}}'/>");
+
+        test("{{macro a={{b/}~} /}}", "<pre class='wikimodel-macro' macroName='macro' a='{{b/}}'/>");
+
+        test("{{macro {{b/~}}=a /}}", "<pre class='wikimodel-macro' macroName='macro'/>");
+
+        test("{{macro a=\"{{b /~}}\" /}}", "<pre class='wikimodel-macro' macroName='macro' a='{{b /}}'/>");
+
+        test("{{macro a='{{b /~}}' /}}", "<pre class='wikimodel-macro' macroName='macro' a='{{b /}}'/>");
+
+        test("{{macro a='~'' /}}", "<pre class='wikimodel-macro' macroName='macro' a='&#x27;'/>");
+
+        test("{{macro a=\"~\"\" /}}", "<pre class='wikimodel-macro' macroName='macro' a='&#x22;'/>");
+    }
+
     /**
      * @throws WikiParserException
      */
