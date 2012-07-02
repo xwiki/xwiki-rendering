@@ -127,16 +127,24 @@ public class XWikiScanner {
     }
 
     private void processMacro(String start, String content, boolean inline) {
-	String name;
-        String paramStr = "";
-        int paramStrPos = start.indexOf(" ");
-        if (paramStrPos > 0) {
-            paramStr = start.substring(paramStrPos);
-            name = start.substring(0, paramStrPos);
-        } else {
-            name = start;
+        Matcher nameMatcher = token_source.MACRO_NAME_PATTERN.matcher(start);
+        if (!nameMatcher.find()) {
+             throw new RuntimeException(String.format("Macro name pattern did not match [%s].", start));
         }
-        name = name.trim();
+	String name = nameMatcher.group(1);
+        int beginIndex = nameMatcher.end();
+        int endIndex = start.length() - "}}".length();
+        if (start.charAt(endIndex - 1) == '/') {
+            // Empty macro.  Remove "/}}" at the end.
+            endIndex--;
+        }
+
+        String paramStr;
+        if (beginIndex < endIndex) {
+            paramStr = start.substring(beginIndex, endIndex);
+        } else {
+            paramStr = "";
+        }
 
     	WikiParameters params = new XWikiWikiParameters(paramStr);
         if (inline) {
@@ -192,7 +200,7 @@ PARSER_END(XWikiScanner)
 
 TOKEN_MGR_DECLS: {
 
-    private static final Pattern MACRO_NAME_PATTERN = Pattern.compile("^\\{\\{[/]?[\u0000-\u0020]*(.*?)[\u0000-\u0020\\}/]");
+    public static final Pattern MACRO_NAME_PATTERN = Pattern.compile("^\\{\\{[/]?[\u0000-\u0020]*(.*?)[\u0000-\u0020\\}/]");
 
     int verbatimBlockDepth = 0;
     int tableDepth = 0; 
@@ -666,17 +674,11 @@ void macro(boolean inline):
    )
    {
       {
-         String s = start.image.trim();
-         if (empty) {
-             s = s.substring("{{".length(), s.length() - "/}}".length());
-         } else {
-             s = s.substring("{{".length(), s.length() - "}}".length());
-         }
          String c = null;
          if (!empty) {
              c = normalizeMacroContent(content);
          }
-         processMacro(s, c, inline);
+         processMacro(start.image, c, inline);
       }
    }
    linesMaybeEmpty()
