@@ -503,6 +503,12 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         // escaping
         test("{{toto param1=\"val~\"ue1\" param2=\"v~~al~}}ue2\"}}a{{/toto}}",
             "<pre class='wikimodel-macro' macroName='toto' param1='val&#x22;ue1' param2='v~al}}ue2'><![CDATA[a]]></pre>");
+
+        // parameters on different lines
+        test("{{macro\n   param1=\"val1\"\n   param2=\"val2\"\n/}}",
+             "<pre class='wikimodel-macro' macroName='macro' param1='val1' param2='val2'/>");
+        test("{{macro\n   param1=\"val1\"\n   param2=\"val2\"\n}}foo{{/macro}}",
+             "<pre class='wikimodel-macro' macroName='macro' param1='val1' param2='val2'><![CDATA[foo]]></pre>");
     }
 
     public void testMacroParameterEscaping() throws WikiParserException

@@ -61,6 +61,8 @@ import org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiScannerUtil;
 import org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiWikiParameters;
 
 import java.util.Stack;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * This is the internal wiki page parser generated from the grammar file.
@@ -189,6 +191,9 @@ public class XWikiScanner {
 PARSER_END(XWikiScanner)
 
 TOKEN_MGR_DECLS: {
+
+    private static final Pattern MACRO_NAME_PATTERN = Pattern.compile("^\\{\\{[/]?[\u0000-\u0020]*(.*?)[\u0000-\u0020\\}/]");
+
     int verbatimBlockDepth = 0;
     int tableDepth = 0; 
     String macroName = "";
@@ -198,14 +203,12 @@ TOKEN_MGR_DECLS: {
         macroDepth = 1;
     }
     String getMacroName(CharSequence buf) {
-        String str = buf.toString();
-        str = str.trim();
-        str = str.substring(2, str.length() - 2);
-        int idx = str.indexOf(" ");
-        if (idx > 0) {
-            str = str.substring(0, idx);
+        Matcher matcher = MACRO_NAME_PATTERN.matcher(buf);
+        if (!matcher.find()) {
+            // This must not be reachable.  I.e., make sure MACRO_NAME_PATTERN matches <MACRO_START> and <MACRO_END>.
+            throw new RuntimeException(String.format("Didn't match macro name pattern: [%s].", buf.toString()));
         }
-        return str;
+        return matcher.group(1); 
     }
 
     /*
@@ -275,7 +278,7 @@ TOKEN_MGR_DECLS: {
         }
 
     }
-    private final Stack<ControlState> controlStateStack = new Stack();
+    private final Stack<ControlState> controlStateStack = new Stack<ControlState>();
 
     LexStateControl lexStateControl = new LexStateControl();
 
@@ -384,7 +387,7 @@ TOKEN_MGR_DECLS: {
     | <MACRO_END: "{{/" <MACRO_NAME> (<SPACE>)* "}}" > {
         {
             String name = getMacroName(image); 
-            if (name.equals("/" + macroName)) {
+            if (name.equals(macroName)) {
                 macroDepth--;
                 if (macroDepth == 0) {
                     returnFromSpecialState();
@@ -408,7 +411,7 @@ TOKEN_MGR_DECLS: {
     | <#SINGLE_QUOTED:  "'" ( "~" ~[] | ~[ "'", "~"])*  "'">
     | <#HCELL: "!=" | "|=">
     | <#CELL:  "|"  | "!!">
-    | <#MACRO_NAME: (<XWIKI_CHAR>)+ (["-", "_", ".", ":"] (<XWIKI_CHAR>)+)* >
+    | <#MACRO_NAME: (<CHAR>)+ (["-", "_", ".", ":"] (<CHAR>)+)* >
     | <#MACRO_PARAMS: ( <DOUBLE_QUOTED> | <SINGLE_QUOTED> | "~" ~[] | ~["}", "\"", "'", "~"] | "}" ~["}", "~"] | "}~" ~[] )* >
     // TODO: Shouldn't this be "=" ("=")? ("=")? ("=")? ("=")? ("=")? ("=")?
     | <#HEADER_BEGIN_PATTERN: (<SPACE>)* ("=")+ (<SPACE>)* >
@@ -510,8 +513,8 @@ TOKEN_MGR_DECLS: {
     | <DOC_BEGIN: (<SPACE>)* "(((" (<SPACE>)* > { pushControlState(); } : BEGINNING_OF_LINE
     | <D_REFERENCE : <REFERENCE> >
     | <VERBATIM_START: "{{{" > { verbatimBlockDepth++; }  : VERBATIM_CONTEXT
-    | <MACRO_EMPTY:  "{{" <MACRO_NAME> ((<SPACE>) <MACRO_PARAMS>)? "/}}" >
-    | <MACRO_START: "{{" <MACRO_NAME> ((<SPACE>) <MACRO_PARAMS>)? "}}" > { initMacro(image);} : MACRO_CONTEXT
+    | <MACRO_EMPTY: "{{" <MACRO_NAME> ((<SPACE> | <NEW_LINE>) <MACRO_PARAMS>)? "/}}" >
+    | <MACRO_START: "{{" <MACRO_NAME> ((<SPACE> | <NEW_LINE>) <MACRO_PARAMS>)?  "}}" > { initMacro(image);} : MACRO_CONTEXT
     | <STRONG: "**">
     | <EM:     "//">
     | <STRIKE: "--">
