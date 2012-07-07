@@ -29,14 +29,14 @@ import org.xwiki.properties.annotation.PropertyDescription;
 import org.xwiki.properties.annotation.PropertyHidden;
 import org.xwiki.properties.annotation.PropertyMandatory;
 import org.xwiki.rendering.macro.MacroId;
-import org.xwiki.test.AbstractMockingComponentTestCase;
+import org.xwiki.test.AbstractComponentTestCase;
 
 /**
  * Validate {@link DefaultMacroDescriptor} and {@link AbstractMacroDescriptor}.
  * 
  * @version $Id$
  */
-public class DefaultMacroDescriptorTest extends AbstractMockingComponentTestCase
+public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
 {
     public static class ParametersTests
     {

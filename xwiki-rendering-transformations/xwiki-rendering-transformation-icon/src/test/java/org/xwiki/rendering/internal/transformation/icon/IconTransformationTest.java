@@ -36,6 +36,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 import org.xwiki.test.AbstractMockingComponentTestCase;
+import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.annotation.MockingRequirement;
 
 /**
@@ -44,6 +45,7 @@ import org.xwiki.test.annotation.MockingRequirement;
  * @version $Id$
  * @since 2.6RC1
  */
+@AllComponents
 public class IconTransformationTest extends AbstractMockingComponentTestCase
 {
     @MockingRequirement(exceptions = {Parser.class, IconTransformationConfiguration.class})

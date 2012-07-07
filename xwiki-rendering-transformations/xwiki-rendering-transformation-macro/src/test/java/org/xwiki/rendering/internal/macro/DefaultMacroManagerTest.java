@@ -37,6 +37,7 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.test.AbstractMockingComponentTestCase;
+import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.annotation.MockingRequirement;
 
 /**
@@ -45,6 +46,7 @@ import org.xwiki.test.annotation.MockingRequirement;
  * @version $Id$
  * @since 1.9M1
  */
+@AllComponents
 public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
 {
     // Mock all required components except for some for which we want to use the real implementations since they make
