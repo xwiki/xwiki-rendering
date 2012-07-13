@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-transformations</artifactId>
-    <version>4.1-SNAPSHOT</version>
+    <version>4.1.3</version>
   </parent>
   <artifactId>xwiki-rendering-transformation-icon</artifactId>
   <name>XWiki Rendering - Transformation - Icon</name>
