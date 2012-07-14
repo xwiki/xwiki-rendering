@@ -421,7 +421,6 @@ TOKEN_MGR_DECLS: {
     | <#CELL:  "|"  | "!!">
     | <#MACRO_NAME: (<CHAR>)+ (["-", "_", ".", ":"] (<CHAR>)+)* >
     | <#MACRO_PARAMS: ( <DOUBLE_QUOTED> | <SINGLE_QUOTED> | "~" ~[] | ~["}", "\"", "'", "~"] | "}" ~["}", "~"] | "}~" ~[] )* >
-    // TODO: Shouldn't this be "=" ("=")? ("=")? ("=")? ("=")? ("=")? ("=")?
     | <#HEADER_BEGIN_PATTERN: (<SPACE>)* ("=")+ (<SPACE>)* >
     | <#REFERENCE_IMAGE: "[[image:" ("~" ~[] | ~["]", "~"] | "]" ~["]", "~"]  | "]~" ~[] )* "]]" >
     | <#REFERENCE:  ( "[[" ( <REFERENCE_IMAGE> | "~" ~[] | ~["]", "~"] | "]" ~["]", "~"] | "]~" ~[] )* "]]" ) >
@@ -590,7 +589,7 @@ void doParse():
     {
         fContext.beginDocument();
     }
-    // TODO: First empty line of document doesn't count?
+    // The first empty line in a document will not be considered a verbatim empty line.
     (LOOKAHEAD(1)emptyLine(){emptyLinesCount--;})?
     ( docElements() )*
     <EOF>
@@ -1047,7 +1046,7 @@ void embeddedDocument():
     {
         fContext.beginDocument(params);
     }
-    // TODO: First empty line of document doesn't count?
+    // The first empty line in a document will not be considered a verbatim empty line.
     (LOOKAHEAD(1)emptyLine(){emptyLinesCount--;})?
     ( docElements() )*
     (
