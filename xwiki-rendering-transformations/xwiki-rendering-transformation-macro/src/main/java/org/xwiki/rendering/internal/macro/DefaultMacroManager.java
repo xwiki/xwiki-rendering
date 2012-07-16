@@ -19,11 +19,13 @@
  */
 package org.xwiki.rendering.internal.macro;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.slf4j.Logger;
@@ -31,10 +33,10 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.macro.Macro;
-import org.xwiki.rendering.macro.MacroLookupException;
-import org.xwiki.rendering.macro.MacroManager;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroIdFactory;
+import org.xwiki.rendering.macro.MacroLookupException;
+import org.xwiki.rendering.macro.MacroManager;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
 
@@ -56,12 +58,12 @@ public class DefaultMacroManager implements MacroManager
     private MacroIdFactory macroIdFactory;
 
     /**
-     * The Root Component Manager we use find the Context Component Manager (if it exists) to lookup macro
-     * implementations registered as components. Note that Context Component Manager allows Macros to be 
-     * registered for a specific user, for a specific wiki, etc. 
+     * We use the Context Component Manager (if it exists) to lookup macro implementations registered as components.
+     * Note that Context Component Manager allows Macros to be registered for a specific user, for a specific wiki, etc.
      */
     @Inject
-    private ComponentManager rootComponentManager;
+    @Named("context")
+    private Provider<ComponentManager> componentManager;
 
     /**
      * The logger to log.
@@ -83,7 +85,7 @@ public class DefaultMacroManager implements MacroManager
         // Lookup all registered macros
         Map<String, Macro> allMacros;
         try {
-            allMacros = getComponentManager().getInstanceMap(Macro.class);
+            allMacros = this.componentManager.get().getInstanceMap(Macro.class);
         } catch (ComponentLookupException e) {
             throw new MacroLookupException("Failed to lookup Macros", e);
         }
@@ -117,11 +119,11 @@ public class DefaultMacroManager implements MacroManager
         // First search for a macro registered for the passed macro id.
         String macroHint = macroId.toString();
         try {
-            return getComponentManager().getInstance(Macro.class, macroHint);
+            return this.componentManager.get().getInstance(Macro.class, macroHint);
         } catch (ComponentLookupException ex1) {
             // Now search explicitly for a macro registered for all syntaxes.
             try {
-                return getComponentManager().getInstance(Macro.class, macroId.getId());
+                return this.componentManager.get().getInstance(Macro.class, macroId.getId());
             } catch (ComponentLookupException ex2) {
                 // TODO: Improve this since it's possible the macro wasn't found because it contains some invalid
                 // requirement and since we're not passing the raised exception it's hard to know why the macro
@@ -137,32 +139,10 @@ public class DefaultMacroManager implements MacroManager
         String macroHint = macroId.toString();
         boolean hasMacro = true;
         try {
-            getComponentManager().getInstance(Macro.class, macroHint);
+            this.componentManager.get().getInstance(Macro.class, macroHint);
         } catch (ComponentLookupException ex) {
             hasMacro = false;
         }
         return hasMacro;
-    }
-
-    /**
-     * @return the Component Manager to use to lookup Macros. If the Context Component Manager is available
-     *         we use it thus allowing Macros to be registered only for a given Wiki or for a given User (for example).
-     * @since 2.2M1
-     */
-    private ComponentManager getComponentManager()
-    {
-        ComponentManager componentManagerToUse;
-        
-        // Look for the Context Component Manager so that Macros can be registered for a specific user, for a
-        // specific wiki, etc. If it's not found use the Root Component Manager. This allows the Rendering module
-        // to work outside of XWiki when there's no notion of Execution Context and Wiki Model for example.
-        try {
-            componentManagerToUse = this.rootComponentManager.getInstance(ComponentManager.class, "context");
-        } catch (ComponentLookupException e) {
-            // This means the Context CM doesn't exist, use the Root CM.
-            componentManagerToUse = this.rootComponentManager;
-        }
-        
-        return componentManagerToUse;
     }
 }
