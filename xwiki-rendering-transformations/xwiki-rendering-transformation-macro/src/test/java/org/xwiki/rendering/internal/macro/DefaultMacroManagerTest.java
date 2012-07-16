@@ -21,6 +21,8 @@ package org.xwiki.rendering.internal.macro;
 
 import java.util.Collections;
 
+import javax.inject.Provider;
+
 import org.jmock.Expectations;
 import org.junit.Assert;
 import org.junit.Test;
@@ -51,7 +53,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
 {
     // Mock all required components except for some for which we want to use the real implementations since they make
     // the test easier to write (no need to mock them).
-    @MockingRequirement(exceptions = { ComponentManager.class, MacroIdFactory.class })
+    @MockingRequirement(exceptions = { ComponentManager.class, MacroIdFactory.class, Provider.class })
     private DefaultMacroManager macroManager;
 
     @Test
@@ -140,8 +142,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
     {
         // Control the list of macros found in the system by replacing the real ComponentManager in MacroManager with
         // a mock one.
-        final ComponentManager mockRootComponentManager = getMockery().mock(ComponentManager.class);
-        ReflectionUtils.setFieldValue(this.macroManager, "rootComponentManager", mockRootComponentManager);
+        final ComponentManager mockRootComponentManager = registerMockComponent(ComponentManager.class, "context");
         final Logger logger = getMockLogger();
 
         getMockery().checking(new Expectations() {{
