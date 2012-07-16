@@ -127,8 +127,9 @@ public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
     {
         super.setUp();
         BeanManager propertiesManager = getComponentManager().getInstance(BeanManager.class);
-        this.macroDescriptor = new DefaultMacroDescriptor(new MacroId("Id"), "Name", "Description",
-            new DefaultContentDescriptor(), propertiesManager.getBeanDescriptor(ParametersTests.class));
+        this.macroDescriptor =
+            new DefaultMacroDescriptor(new MacroId("Id"), "Name", "Description", new DefaultContentDescriptor(),
+                propertiesManager.getBeanDescriptor(ParametersTests.class));
     }
 
     @Test
