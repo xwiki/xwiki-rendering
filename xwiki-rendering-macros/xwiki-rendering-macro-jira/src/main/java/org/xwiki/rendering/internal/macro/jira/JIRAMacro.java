@@ -31,6 +31,7 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.jira.JIRADataSource;
 import org.xwiki.rendering.macro.jira.JIRADisplayer;
 import org.xwiki.rendering.macro.jira.JIRAMacroParameters;
@@ -54,6 +55,11 @@ public class JIRAMacro extends AbstractMacro<JIRAMacroParameters>
         "Fetches information from a JIRA server and displays them as a table, list or enumeration.";
 
     /**
+     * The description of the macro content.
+     */
+    private static final String CONTENT_DESCRIPTION = "The JIRA issues to retrieve";
+
+    /**
      * Used to get JIRA Data Source and JIRA Displayer matching what the user has asked for.
      */
     @Inject
@@ -64,7 +70,7 @@ public class JIRAMacro extends AbstractMacro<JIRAMacroParameters>
      */
     public JIRAMacro()
     {
-        super("JIRA", DESCRIPTION, JIRAMacroParameters.class);
+        super("JIRA", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION), JIRAMacroParameters.class);
         setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
     }
 
