@@ -45,7 +45,7 @@ beginTableCell
 onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_open.gif]] [false] [[title]=[Open][alt]=[Open]]
 endTableCell
 beginTableCell
-onVerbatim [19-Mar-2007] [true]
+onVerbatim [${{{regex:.*}}}-Mar-2007] [true]
 endTableCell
 endTableRow
 beginTableRow
@@ -66,7 +66,7 @@ beginTableCell
 onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_closed.gif]] [false] [[title]=[Closed][alt]=[Closed]]
 endTableCell
 beginTableCell
-onVerbatim [19-Mar-2007] [true]
+onVerbatim [${{{regex:.*}}}-Mar-2007] [true]
 endTableCell
 endTableRow
 endTable
