@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroMarkerBlock;
@@ -33,6 +34,7 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 import org.xwiki.test.AbstractMockingComponentTestCase;
@@ -46,10 +48,17 @@ import org.xwiki.test.annotation.MockingRequirement;
  * @since 2.6RC1
  */
 @AllComponents
+@MockingRequirement(value = IconTransformation.class,
+    exceptions = {Parser.class, IconTransformationConfiguration.class})
 public class IconTransformationTest extends AbstractMockingComponentTestCase
 {
-    @MockingRequirement(exceptions = {Parser.class, IconTransformationConfiguration.class})
-    private IconTransformation transformation;
+    private Transformation transformation;
+
+    @Before
+    public void configure() throws Exception
+    {
+        this.transformation = getComponentManager().getInstance(Transformation.class, "icon");
+    }
 
     @Test
     public void testTransform() throws Exception

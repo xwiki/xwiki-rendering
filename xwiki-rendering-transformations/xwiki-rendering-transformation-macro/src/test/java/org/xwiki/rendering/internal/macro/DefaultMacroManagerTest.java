@@ -25,16 +25,17 @@ import javax.inject.Provider;
 
 import org.jmock.Expectations;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.xwiki.component.descriptor.DefaultComponentDescriptor;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.rendering.internal.transformation.macro.TestSimpleMacro;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroIdFactory;
 import org.xwiki.rendering.macro.MacroLookupException;
+import org.xwiki.rendering.macro.MacroManager;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.rendering.syntax.SyntaxType;
@@ -48,13 +49,20 @@ import org.xwiki.test.annotation.MockingRequirement;
  * @version $Id$
  * @since 1.9M1
  */
+@MockingRequirement(value = DefaultMacroManager.class,
+    // Mock all required components except for some for which we want to use the real implementations since they make
+    // the test easier to write (no need to mock them).
+    exceptions = { ComponentManager.class, MacroIdFactory.class, Provider.class })
 @AllComponents
 public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
 {
-    // Mock all required components except for some for which we want to use the real implementations since they make
-    // the test easier to write (no need to mock them).
-    @MockingRequirement(exceptions = { ComponentManager.class, MacroIdFactory.class, Provider.class })
-    private DefaultMacroManager macroManager;
+    private MacroManager macroManager;
+
+    @Before
+    public void configure() throws Exception
+    {
+        this.macroManager = getComponentManager().getInstance(MacroManager.class);
+    }
 
     @Test
     public void testMacroExists()
