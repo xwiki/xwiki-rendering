@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.macro.footnote;
 
-import java.io.StringReader;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
@@ -30,24 +29,21 @@ import javax.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.manager.ComponentLookupException;
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.ListItemBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.NumberedListBlock;
-import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.SpaceBlock;
 import org.xwiki.rendering.block.WordBlock;
+import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.macro.AbstractMacro;
+import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.footnote.FootnoteMacroParameters;
-import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
@@ -81,9 +77,11 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     /** Prefix for the ID of the footnote. */
     private static final String FOOTNOTE_REFERENCE_ID_PREFIX = "x_footnote_ref_";
 
-    /** Used to get the current syntax parser. */
+    /**
+     * Used to parse the content of the macro.
+     */
     @Inject
-    private ComponentManager componentManager;
+    private MacroContentParser contentParser;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -108,7 +106,8 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
 
         // Get the list of footnotes in the document
         Block root = context.getXDOM();
-        List<MacroMarkerBlock> footnotes = root.getChildrenByType(MacroMarkerBlock.class, true);
+        List<MacroMarkerBlock> footnotes =
+            root.getBlocks(new ClassBlockMatcher(MacroMarkerBlock.class), Block.Axes.DESCENDANT);
         for (ListIterator<MacroMarkerBlock> it = footnotes.listIterator(); it.hasNext();) {
             MacroMarkerBlock macro = it.next();
             if (FootnoteMacro.MACRO_NAME.equals(macro.getId())) {
@@ -197,8 +196,8 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
         reference.setAnchor(FOOTNOTE_ID_PREFIX + counter);
         result = new LinkBlock(Collections.singletonList(result), reference, false);
         result = new FormatBlock(Collections.singletonList(result), Format.SUPERSCRIPT);
-        ((FormatBlock) result).setParameter(ID_ATTRIBUTE_NAME, FOOTNOTE_REFERENCE_ID_PREFIX + counter);
-        ((FormatBlock) result).setParameter(CLASS_ATTRIBUTE_NAME, "footnoteRef");
+        result.setParameter(ID_ATTRIBUTE_NAME, FOOTNOTE_REFERENCE_ID_PREFIX + counter);
+        result.setParameter(CLASS_ATTRIBUTE_NAME, "footnoteRef");
         return result;
     }
 
@@ -215,43 +214,22 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     private ListItemBlock createFootnoteBlock(String content, int counter, MacroTransformationContext context)
         throws MacroExecutionException
     {
-        Parser parser = getSyntaxParser(context);
-        List<Block> parsedContent = Collections.emptyList();
+        List<Block> parsedContent;
         try {
-            parsedContent = parser.parse(new StringReader(content)).getChildren();
-            if (parsedContent.size() > 0 && parsedContent.get(0) instanceof ParagraphBlock) {
-                Block firstBlock = parsedContent.remove(0);
-                parsedContent.addAll(0, firstBlock.getChildren());
-            }
-        } catch (ParseException e) {
+            parsedContent = this.contentParser.parse(content, context, false, true).getChildren();
+        } catch (MacroExecutionException e) {
             parsedContent = Collections.<Block> singletonList(new WordBlock(content));
         }
         Block result = new WordBlock("^");
         DocumentResourceReference reference = new DocumentResourceReference(null);
         reference.setAnchor(FOOTNOTE_REFERENCE_ID_PREFIX + counter);
         result = new LinkBlock(Collections.singletonList(result), reference, false);
-        ((LinkBlock) result).setParameter(ID_ATTRIBUTE_NAME, FOOTNOTE_ID_PREFIX + counter);
-        ((LinkBlock) result).setParameter(CLASS_ATTRIBUTE_NAME, "footnoteBackRef");
+        result.setParameter(ID_ATTRIBUTE_NAME, FOOTNOTE_ID_PREFIX + counter);
+        result.setParameter(CLASS_ATTRIBUTE_NAME, "footnoteBackRef");
         result = new ListItemBlock(Collections.singletonList(result));
         result.addChild(new SpaceBlock());
         result.addChildren(parsedContent);
-        ((ListItemBlock) result).setParameter(CLASS_ATTRIBUTE_NAME, FootnoteMacro.MACRO_NAME);
+        result.setParameter(CLASS_ATTRIBUTE_NAME, FootnoteMacro.MACRO_NAME);
         return (ListItemBlock) result;
-    }
-
-    /**
-     * Get the parser of the current wiki syntax.
-     * 
-     * @param context the context of the macro transformation.
-     * @return the parser of the current wiki syntax.
-     * @throws MacroExecutionException Failed to find source parser.
-     */
-    protected Parser getSyntaxParser(MacroTransformationContext context) throws MacroExecutionException
-    {
-        try {
-            return this.componentManager.getInstance(Parser.class, context.getSyntax().toIdString());
-        } catch (ComponentLookupException e) {
-            throw new MacroExecutionException("Failed to find source parser", e);
-        }
     }
 }
