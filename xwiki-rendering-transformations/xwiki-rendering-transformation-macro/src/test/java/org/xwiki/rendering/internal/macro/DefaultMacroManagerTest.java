@@ -101,6 +101,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
             new Syntax(SyntaxType.XWIKI, "2.0"))));
     }
 
+    @Test
     public void testMacroRegisteredForAGivenSyntaxOnly() throws Exception
     {
         Macro< ? > macro = new TestSimpleMacro();
