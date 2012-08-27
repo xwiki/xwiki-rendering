@@ -29,6 +29,7 @@ import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.transformation.AbstractTransformation;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
@@ -56,28 +57,10 @@ public class MacroTransformationContextTest
         MacroBlock macroBlock = new MacroBlock("testmacro", Collections.<String, String>emptyMap(), null, false);
         context.setCurrentMacroBlock(macroBlock);
 
-        Transformation transformation = new Transformation()
+        Transformation transformation = new AbstractTransformation()
         {
             @Override
-            public int getPriority()
-            {
-                throw new RuntimeException("dummy");
-            }
-
-            @Override
-            public void transform(XDOM dom, Syntax syntax) throws TransformationException
-            {
-                throw new RuntimeException("dummy");
-            }
-
-            @Override
             public void transform(Block block, TransformationContext context) throws TransformationException
-            {
-                throw new RuntimeException("dummy");
-            }
-
-            @Override
-            public int compareTo(Transformation transformation)
             {
                 throw new RuntimeException("dummy");
             }
