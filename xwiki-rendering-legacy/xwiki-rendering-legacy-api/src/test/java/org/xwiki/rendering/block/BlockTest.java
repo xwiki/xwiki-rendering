@@ -20,12 +20,15 @@
 package org.xwiki.rendering.block;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.listener.HeaderLevel;
 
 /**
  * Unit tests for Block manipulation, testing {@link AbstractBlock}.
@@ -53,5 +56,31 @@ public class BlockTest
         Assert.assertSame(pl, ls.getPreviousBlockByType(LinkBlock.class, true));
         Assert.assertSame(pi, ls.getPreviousBlockByType(ImageBlock.class, true));
         Assert.assertSame(rootBlock, ls.getPreviousBlockByType(ParagraphBlock.class, true));
+    }
+
+    @Test
+    public void testGetChildrenByType()
+    {
+        ParagraphBlock pb1 =
+            new ParagraphBlock(Arrays.<Block> asList(new HeaderBlock(Arrays.<Block> asList(new WordBlock("title1")),
+                    HeaderLevel.LEVEL1)));
+        ParagraphBlock pb2 =
+            new ParagraphBlock(Arrays.<Block> asList(new HeaderBlock(Arrays.<Block> asList(new WordBlock("title2")),
+                    HeaderLevel.LEVEL2)));
+        ParagraphBlock pb3 =
+            new ParagraphBlock(Arrays.<Block> asList(pb1, pb2, new HeaderBlock(Collections.<Block> emptyList(),
+                    HeaderLevel.LEVEL1)));
+
+        List<HeaderBlock> results = pb1.getChildrenByType(HeaderBlock.class, true);
+        Assert.assertEquals(1, results.size());
+
+        results = pb1.getChildrenByType(HeaderBlock.class, false);
+        Assert.assertEquals(1, results.size());
+
+        results = pb3.getChildrenByType(HeaderBlock.class, true);
+        Assert.assertEquals(3, results.size());
+
+        results = pb3.getChildrenByType(HeaderBlock.class, false);
+        Assert.assertEquals(1, results.size());
     }
 }

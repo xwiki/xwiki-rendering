@@ -32,7 +32,6 @@ import org.junit.rules.ExpectedException;
 import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.match.AnyBlockMatcher;
 import org.xwiki.rendering.block.match.SameBlockMatcher;
-import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
@@ -47,32 +46,6 @@ public class BlockTest
 {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
-    @Test
-    public void testGetChildrenByType()
-    {
-        ParagraphBlock pb1 =
-            new ParagraphBlock(Arrays.<Block> asList(new HeaderBlock(Arrays.<Block> asList(new WordBlock("title1")),
-                HeaderLevel.LEVEL1)));
-        ParagraphBlock pb2 =
-            new ParagraphBlock(Arrays.<Block> asList(new HeaderBlock(Arrays.<Block> asList(new WordBlock("title2")),
-                HeaderLevel.LEVEL2)));
-        ParagraphBlock pb3 =
-            new ParagraphBlock(Arrays.<Block> asList(pb1, pb2, new HeaderBlock(Collections.<Block> emptyList(),
-                HeaderLevel.LEVEL1)));
-
-        List<HeaderBlock> results = pb1.getChildrenByType(HeaderBlock.class, true);
-        Assert.assertEquals(1, results.size());
-
-        results = pb1.getChildrenByType(HeaderBlock.class, false);
-        Assert.assertEquals(1, results.size());
-
-        results = pb3.getChildrenByType(HeaderBlock.class, true);
-        Assert.assertEquals(3, results.size());
-
-        results = pb3.getChildrenByType(HeaderBlock.class, false);
-        Assert.assertEquals(1, results.size());
-    }
 
     @Test
     public void testInsertChildAfter()

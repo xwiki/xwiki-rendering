@@ -67,4 +67,10 @@ public privileged aspect AbstractBlockCompatibilityAspect
         // recurse
         return recurse ? getParent().getPreviousBlockByType(blockClass, true) : null;
     }
+
+    @Deprecated
+    public <T extends Block> List<T> AbstractBlock.getChildrenByType(Class<T> blockClass, boolean recurse)
+    {
+        return getBlocks(new ClassBlockMatcher(blockClass), recurse ? Axes.DESCENDANT : Axes.CHILD);
+    }
 }

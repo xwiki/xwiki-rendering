@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.block;
 
+import java.util.List;
+
 import org.xwiki.rendering.block.Block;
 
 /**
@@ -59,4 +61,19 @@ public interface CompatibilityBlock
      */
     @Deprecated
     <T extends Block> T getPreviousBlockByType(Class<T> blockClass, boolean recurse);
+
+    /**
+     * Gets all the Blocks in the tree which are of the passed Block class.
+     *
+     * @param <T> the class of the Blocks to return
+     * @param blockClass the block class to look for
+     * @param recurse if true also search recursively children
+     * @return all the matching blocks
+     * @since 1.6M1
+     * @deprecated since 3.0M3 use {@code #getBlocks(new ClassBlockMatcher(blockClass), Axes.DESCENDANT)} instead if
+     *             {@code recurse} was true and {@code #getBlocks(new ClassBlockMatcher(blockClass), Axes.CHILD)}
+     *             otherwise
+     */
+    @Deprecated
+    <T extends Block> List<T> getChildrenByType(Class<T> blockClass, boolean recurse);
 }

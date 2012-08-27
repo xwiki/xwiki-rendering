@@ -29,7 +29,6 @@ import java.util.Map;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.block.match.BlockMatcher;
-import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.listener.Listener;
 
 /**
@@ -906,12 +905,5 @@ public abstract class AbstractBlock implements Block
         }
 
         return nextBlock != null ? nextBlock.getFirstBlock(matcher, nextAxes) : null;
-    }
-
-    @Deprecated
-    @Override
-    public <T extends Block> List<T> getChildrenByType(Class<T> blockClass, boolean recurse)
-    {
-        return getBlocks(new ClassBlockMatcher(blockClass), recurse ? Axes.DESCENDANT : Axes.CHILD);
     }
 }
