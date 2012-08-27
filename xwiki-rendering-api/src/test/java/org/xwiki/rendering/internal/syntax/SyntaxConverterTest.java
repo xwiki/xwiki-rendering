@@ -23,7 +23,9 @@ import org.jmock.Expectations;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.properties.converter.ConversionException;
 import org.xwiki.properties.converter.Converter;
+import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.test.AbstractMockingComponentTestCase;
@@ -60,6 +62,26 @@ public class SyntaxConverterTest extends AbstractMockingComponentTestCase
 
         Syntax syntax = this.converter.convert(Syntax.class, "xwiki/2.1");
         Assert.assertEquals(Syntax.XWIKI_2_1, syntax);
+    }
+
+    @Test
+    public void convertToSyntaxObjectWhenUnknownSyntax() throws Exception
+    {
+        final SyntaxFactory factory = getComponentManager().getInstance(SyntaxFactory.class);
+        getMockery().checking(new Expectations()
+        {
+            {
+                oneOf(factory).createSyntaxFromIdString("invalid");
+                will(throwException(new ParseException("invalid syntax")));
+            }
+        });
+
+        try {
+            this.converter.convert(Syntax.class, "invalid");
+            Assert.fail("Should have thrown ConversionException");
+        } catch (ConversionException expected) {
+            Assert.assertEquals("Unknown syntax [invalid]", expected.getMessage());
+        }
     }
 
     @Test
