@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser;
+package org.xwiki.rendering.internal.syntax;
 
 import org.junit.Before;
 import org.xwiki.rendering.syntax.SyntaxFactory;
@@ -28,15 +28,16 @@ import org.junit.Test;
 import org.junit.Assert;
 
 /**
+ * Unit tests for {@link DefaultSyntaxFactory}.
+ *
  * @version $Id$
  */
 public class DefaultSyntaxFactoryTest extends AbstractComponentTestCase
 {
     private SyntaxFactory syntaxFactory;
 
-    @Override
     @Before
-    public void setUp() throws Exception
+    public void configure() throws Exception
     {
         this.syntaxFactory = getComponentManager().getInstance(SyntaxFactory.class);
     }
