@@ -1,0 +1,21 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.# When using an invalid syntax
+.#-----------------------------------------------------
+{{content syntax="invalid/1.0"}}
+whatever
+{{/content}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [content] [syntax=invalid/1.0] [whatever]
+beginGroup [[class]=[xwikirenderingerror]]
+onWord [Failed to execute the [content] macro]
+endGroup [[class]=[xwikirenderingerror]]
+beginGroup [[class]=[xwikirenderingerrordescription hidden]]
+onVerbatim [org.xwiki.rendering.macro.MacroExecutionException: Cannot find Parser for syntax [invalid/1.0]${{{regex:.*}}}] [false]
+endGroup [[class]=[xwikirenderingerrordescription hidden]]
+endMacroMarkerStandalone [content] [syntax=invalid/1.0] [whatever]
+endDocument

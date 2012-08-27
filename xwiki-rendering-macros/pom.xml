@@ -113,6 +113,7 @@ Thus it is forbidden to depend on the HTML Macro.
     <!-- Sorted Alphabetically -->
     <module>xwiki-rendering-macro-box</module>
     <module>xwiki-rendering-macro-comment</module>
+    <module>xwiki-rendering-macro-content</module>
     <module>xwiki-rendering-macro-ctsreport</module>
     <module>xwiki-rendering-macro-footnotes</module>
     <module>xwiki-rendering-macro-html</module>
