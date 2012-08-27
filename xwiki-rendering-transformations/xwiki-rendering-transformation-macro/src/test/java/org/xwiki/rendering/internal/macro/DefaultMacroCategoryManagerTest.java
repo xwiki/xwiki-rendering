@@ -26,7 +26,6 @@ import junit.framework.Assert;
 import org.jmock.Expectations;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.component.descriptor.DefaultComponentDescriptor;
 import org.xwiki.rendering.internal.transformation.macro.DefaultMacroTransformationConfiguration;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroCategoryManager;
@@ -81,26 +80,16 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
     @Test
     public void testGetMacroNamesForCategory() throws Exception
     {        
-        // Create two mock macros.
-        final Macro testMacro1 = getMockery().mock(Macro.class, "mock1");
-        final Macro testMacro2 = getMockery().mock(Macro.class, "mock2");
+        // Create two mock macros and register them macros against the CM as macros registered for all syntaxes.
+        final Macro testMacro1 = registerMockComponent(Macro.class, "mytestmacro1", "mock1");
+        final Macro testMacro2 = registerMockComponent(Macro.class, "mytestmacro2", "mock2");
         getMockery().checking(new Expectations(){{
             allowing(testMacro1).getDescriptor();
             will(returnValue(new DefaultMacroDescriptor(new MacroId("macro1"), "Test macro - 1")));
             allowing(testMacro2).getDescriptor();
             will(returnValue(new DefaultMacroDescriptor(new MacroId("macro2"), "Test macro - 2")));
         }});
-        
-        // Register these macros against CM as macros registered for all syntaxes.
-        DefaultComponentDescriptor<Macro> descriptor = new DefaultComponentDescriptor<Macro>();
-        descriptor.setRole(Macro.class);
-        descriptor.setRoleHint("mytestmacro1");
-        getComponentManager().registerComponent(descriptor, testMacro1);
-        descriptor = new DefaultComponentDescriptor<Macro>();
-        descriptor.setRole(Macro.class);
-        descriptor.setRoleHint("mytestmacro2");
-        getComponentManager().registerComponent(descriptor, testMacro1);
-        
+
         // Override default macro categories. 
         DefaultMacroTransformationConfiguration configuration =
             (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
