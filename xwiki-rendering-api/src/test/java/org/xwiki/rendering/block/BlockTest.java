@@ -49,7 +49,7 @@ public class BlockTest
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testGetBlocksByType()
+    public void testGetChildrenByType()
     {
         ParagraphBlock pb1 =
             new ParagraphBlock(Arrays.<Block> asList(new HeaderBlock(Arrays.<Block> asList(new WordBlock("title1")),

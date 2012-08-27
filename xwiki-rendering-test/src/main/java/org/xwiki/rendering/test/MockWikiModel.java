@@ -50,7 +50,7 @@ public class MockWikiModel implements WikiModel
     {
         DefaultComponentDescriptor<WikiModel> componentDescriptor = new DefaultComponentDescriptor<WikiModel>();
 
-        componentDescriptor.setRole(WikiModel.class);
+        componentDescriptor.setRoleType(WikiModel.class);
         componentDescriptor.setImplementation(MockWikiModel.class);
 
         return componentDescriptor;

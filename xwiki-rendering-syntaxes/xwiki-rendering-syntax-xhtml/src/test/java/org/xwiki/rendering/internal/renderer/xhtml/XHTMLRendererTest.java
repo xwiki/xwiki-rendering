@@ -56,7 +56,7 @@ public class XHTMLRendererTest extends AbstractComponentTestCase
         // document and image URLs.
         this.mockWikiModel = getMockery().mock(WikiModel.class);
         DefaultComponentDescriptor<WikiModel> cd = new DefaultComponentDescriptor<WikiModel>();
-        cd.setRole(WikiModel.class);
+        cd.setRoleType(WikiModel.class);
         getComponentManager().registerComponent(cd, this.mockWikiModel);
 
         this.renderer = getComponentManager().getInstance(PrintRenderer.class, "xhtml/1.0");
