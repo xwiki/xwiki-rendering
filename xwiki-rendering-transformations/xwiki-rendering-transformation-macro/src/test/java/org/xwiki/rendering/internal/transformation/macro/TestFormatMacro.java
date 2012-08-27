@@ -30,6 +30,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.WordBlock;
+import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
@@ -56,7 +57,8 @@ public class TestFormatMacro extends AbstractNoParameterMacro
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
-        int wordCount = context.getXDOM().getChildrenByType(WordBlock.class, true).size();
+        int wordCount = context.getXDOM().getBlocks(
+            new ClassBlockMatcher(WordBlock.class), Block.Axes.DESCENDANT).size();
         return Arrays.<Block>asList(new FormatBlock(Arrays.<Block>asList(
             new WordBlock("formatmacro" + wordCount)), Format.NONE, Collections.singletonMap("param", "value")));
     }

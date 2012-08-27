@@ -29,6 +29,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.WordBlock;
+import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
@@ -53,7 +54,8 @@ public class TestSimpleInlineMacro extends AbstractNoParameterMacro
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
-        int wordCount = context.getXDOM().getChildrenByType(WordBlock.class, true).size();
+        int wordCount = context.getXDOM().getBlocks(
+            new ClassBlockMatcher(WordBlock.class), Block.Axes.DESCENDANT).size();
 
         List<Block> result = Arrays.<Block> asList(new WordBlock("simpleinlinemacro" + wordCount));
         return context.isInline() ? result : Arrays.<Block> asList(new ParagraphBlock(result));
