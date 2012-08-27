@@ -157,7 +157,7 @@ public class MacroTransformation extends AbstractTransformation
                 // execution result.
                 generateError(macroHolder.macroBlock, "Not an inline macro",
                     "This macro can only be used by itself on a new line");
-                this.logger.debug("The [" + macroHolder.macroBlock.getId() + "] macro doesn't support inline mode.");
+                this.logger.debug("The [{}] macro doesn't support inline mode.", macroHolder.macroBlock.getId());
                 return;
             }
         } else {
@@ -178,29 +178,25 @@ public class MacroTransformation extends AbstractTransformation
                 // One macro parameter was invalid.
                 // The macro will not be executed and we generate an error message instead of the macro
                 // execution result.
-                generateError(macroHolder.macroBlock, "Invalid macro parameters used for the \""
-                    + macroHolder.macroBlock.getId() + "\" macro", e);
-                this.logger.debug(
-                    "Invalid macro parameter for the [" + macroHolder.macroBlock.getId() + "] macro. Internal error: ["
-                        + e.getMessage() + "]");
+                generateError(macroHolder.macroBlock, String.format(
+                    "Invalid macro parameters used for the \"%s\" macro", macroHolder.macroBlock.getId()), e);
+                this.logger.debug("Invalid macro parameter for the [{}] macro. Internal error: [{}]",
+                    macroHolder.macroBlock.getId(), e.getMessage());
 
                 return;
             }
 
-            newBlocks =
-                ((Macro<Object>) macroHolder.macro).execute(macroParameters, macroHolder.macroBlock.getContent(),
-                    context);
+            newBlocks = ((Macro<Object>) macroHolder.macro).execute(
+                macroParameters, macroHolder.macroBlock.getContent(), context);
         } catch (Throwable e) {
             // The Macro failed to execute.
             // The macro will not be executed and we generate an error message instead of the macro
             // execution result.
             // Note: We catch any Exception because we want to never break the whole rendering.
-            generateError(macroHolder.macroBlock, "Failed to execute the [" + macroHolder.macroBlock.getId()
-                + "] macro", e);
-            this.logger.debug(
-                "Failed to execute the [" + macroHolder.macroBlock.getId() + "]macro. Internal error ["
-                    + e.getMessage() + "]");
-
+            generateError(macroHolder.macroBlock,
+                String.format("Failed to execute the [%s] macro", macroHolder.macroBlock.getId()), e);
+            this.logger.debug("Failed to execute the [{}] macro. Internal error [{}]", macroHolder.macroBlock.getId(),
+                e.getMessage());
             return;
         }
 
@@ -230,10 +226,10 @@ public class MacroTransformation extends AbstractTransformation
             } catch (MacroLookupException e) {
                 // Macro cannot be found. Generate an error message instead of the macro execution result.
                 // TODO: make it internationalized
-                generateError(macroBlock, "Unknown macro: " + macroBlock.getId(), "The \"" + macroBlock.getId()
-                    + "\" macro is not in the list of registered macros. Verify the "
-                    + "spelling or contact your administrator.");
-                this.logger.debug("Failed to locate the [" + macroBlock.getId() + "] macro. Ignoring it.");
+                generateError(macroBlock, String.format("Unknown macro: %s", macroBlock.getId()),
+                    String.format("The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
+                    + "contact your administrator.", macroBlock.getId()));
+                this.logger.debug("Failed to locate the [{}] macro. Ignoring it.", macroBlock.getId());
             }
         }
 
