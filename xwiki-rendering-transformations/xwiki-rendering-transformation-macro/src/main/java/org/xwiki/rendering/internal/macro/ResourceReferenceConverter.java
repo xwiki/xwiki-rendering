@@ -48,6 +48,7 @@ public class ResourceReferenceConverter extends AbstractConverter
     private ResourceReferenceParser referenceParser;
 
     @Override
+    @Deprecated
     protected <T> T convertToType(Class<T> type, Object value)
     {
         T reference = null;

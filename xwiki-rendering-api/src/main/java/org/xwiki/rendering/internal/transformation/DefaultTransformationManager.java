@@ -69,6 +69,7 @@ public class DefaultTransformationManager implements TransformationManager
     private ComponentManager componentManager;
 
     @Override
+    @Deprecated
     public void performTransformations(XDOM dom, Syntax syntax) throws TransformationException
     {
         performTransformations(dom, new TransformationContext(dom, syntax));

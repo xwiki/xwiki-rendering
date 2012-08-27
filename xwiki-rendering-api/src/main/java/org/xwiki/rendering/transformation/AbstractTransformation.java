@@ -49,6 +49,7 @@ public abstract class AbstractTransformation implements Transformation
     }
 
     @Override
+    @Deprecated
     public void transform(XDOM dom, Syntax syntax) throws TransformationException
     {
         transform(dom, new TransformationContext(dom, syntax));
