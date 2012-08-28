@@ -170,9 +170,8 @@ public class MacroTransformation extends AbstractTransformation
             context.setCurrentMacroBlock(macroHolder.macroBlock);
 
             // Populate and validate macro parameters.
-            Object macroParameters;
+            Object macroParameters = macroHolder.macro.getDescriptor().getParametersBeanClass().newInstance();
             try {
-                macroParameters = macroHolder.macro.getDescriptor().getParametersBeanClass().newInstance();
                 this.beanManager.populate(macroParameters, macroHolder.macroBlock.getParameters());
             } catch (Throwable e) {
                 // One macro parameter was invalid.
