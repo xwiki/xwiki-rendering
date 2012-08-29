@@ -53,12 +53,6 @@ import org.xwiki.rendering.syntax.Syntax;
 public class MarkdownParser implements Parser
 {
     /**
-     * The {@link org.pegdown.PegDownProcessor} used to convert Pegdown documents to HTML.
-     */
-    private static final PegDownProcessor PEGDOWN_PROCESSOR = new PegDownProcessor(Extensions.ALL
-        & ~Extensions.HARDWRAPS);
-
-    /**
      * Pegdown classes can seralize a Markdown tree into XHTML; thus we use our XHMTL parser to convert the XHTML into
      * an XDOM.
      */
@@ -77,8 +71,11 @@ public class MarkdownParser implements Parser
     // instead
     public XDOM parse(Reader source) throws ParseException
     {
+        // The Pegdown processor is not thread safe, thus we need one per thread at least.
+        PegDownProcessor processor = new PegDownProcessor(Extensions.ALL & ~Extensions.HARDWRAPS);
+
         try {
-            RootNode rootNode = PEGDOWN_PROCESSOR.parseMarkdown(IOUtils.toString(source).toCharArray());
+            RootNode rootNode = processor.parseMarkdown(IOUtils.toString(source).toCharArray());
             String markdownAsHtml = new ToHtmlSerializer(new LinkRenderer()).toHtml(rootNode);
 
             // Provide proper xhtml header and body elements
