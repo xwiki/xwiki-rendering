@@ -30,6 +30,7 @@ import javax.inject.Singleton;
 
 import org.apache.commons.io.IOUtils;
 import org.pegdown.Extensions;
+import org.pegdown.LinkRenderer;
 import org.pegdown.PegDownProcessor;
 import org.pegdown.ToHtmlSerializer;
 import org.pegdown.ast.RootNode;
@@ -78,7 +79,7 @@ public class MarkdownParser implements Parser
     {
         try {
             RootNode rootNode = PEGDOWN_PROCESSOR.parseMarkdown(IOUtils.toString(source).toCharArray());
-            String markdownAsHtml = new ToHtmlSerializer().toHtml(rootNode);
+            String markdownAsHtml = new ToHtmlSerializer(new LinkRenderer()).toHtml(rootNode);
 
             // Provide proper xhtml header and body elements
             String markdownAsProperHtml =
