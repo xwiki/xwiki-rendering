@@ -40,7 +40,7 @@ public interface LinkContextDataProvider
 {
     /**
      * @param linkURL the URL to the link being checked
-     * @param contentReference the reference to the source where link was found
+     * @param contentReference the reference to the source where the link was found
      * @return the link context data to add to the link information
      */
     Map<String, Object> getContextData(String linkURL, String contentReference);

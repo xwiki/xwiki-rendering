@@ -143,8 +143,10 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
                 linkContextData.putAll(contextData);
             }
         } catch (ComponentLookupException e) {
-            throw new RuntimeException("Failed to look up [" + LinkContextDataProvider.class.getName()
-                + "] components", e);
+            // Shouldn't happen
+            throw new RuntimeException(String.format(
+                "Failed to locate Link Context Data Provider for link [%s] in [%s]", linkReference, contentReference),
+                e);
         }
         return linkContextData;
     }
