@@ -191,6 +191,7 @@ public class LinkCheckerThread extends Thread
             eventSource.put("url", queueItem.getLinkReference());
             eventSource.put("source", queueItem.getContentReference());
             eventSource.put("state", state);
+            eventSource.put("contextData", queueItem.getContextData());
             sendEvent(queueItem.getLinkReference(), eventSource);
         }
     }
