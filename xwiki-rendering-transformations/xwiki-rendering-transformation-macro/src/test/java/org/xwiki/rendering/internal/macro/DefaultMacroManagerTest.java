@@ -145,6 +145,10 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
         // Control the list of macros found in the system by replacing the real ComponentManager in MacroManager with
         // a mock one.
         final ComponentManager mockRootComponentManager = registerMockComponent(ComponentManager.class, "context");
+
+        // Note: Make sure to get the mocked component before calling getMockLogger() since this is what injects the
+        // mock loggers...
+        MacroManager macroManager = getMockedComponent();
         final Logger logger = getMockLogger();
 
         getMockery().checking(new Expectations() {{
@@ -162,6 +166,6 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
         }});
 
         SyntaxFactory syntaxFactory = getComponentManager().getInstance(SyntaxFactory.class);
-        getMockedComponent().getMacroIds(syntaxFactory.createSyntaxFromIdString("macro/xwiki/2.0"));
+        macroManager.getMacroIds(syntaxFactory.createSyntaxFromIdString("macro/xwiki/2.0"));
     }
 }
