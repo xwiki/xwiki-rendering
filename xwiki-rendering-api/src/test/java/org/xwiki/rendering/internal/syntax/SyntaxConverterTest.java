@@ -21,7 +21,6 @@ package org.xwiki.rendering.internal.syntax;
 
 import org.jmock.Expectations;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.properties.converter.ConversionException;
 import org.xwiki.properties.converter.Converter;
@@ -38,16 +37,8 @@ import org.xwiki.test.annotation.MockingRequirement;
  * @since 4.2M3
  */
 @MockingRequirement(SyntaxConverter.class)
-public class SyntaxConverterTest extends AbstractMockingComponentTestCase
+public class SyntaxConverterTest extends AbstractMockingComponentTestCase<Converter>
 {
-    private Converter converter;
-
-    @Before
-    public void configure() throws Exception
-    {
-        this.converter = getComponentManager().getInstance(Converter.class, Syntax.class.getName());
-    }
-
     @Test
     public void convertToSyntaxObject() throws Exception
     {
@@ -60,7 +51,7 @@ public class SyntaxConverterTest extends AbstractMockingComponentTestCase
             }
         });
 
-        Syntax syntax = this.converter.convert(Syntax.class, "xwiki/2.1");
+        Syntax syntax = getMockedComponent().convert(Syntax.class, "xwiki/2.1");
         Assert.assertEquals(Syntax.XWIKI_2_1, syntax);
     }
 
@@ -77,7 +68,7 @@ public class SyntaxConverterTest extends AbstractMockingComponentTestCase
         });
 
         try {
-            this.converter.convert(Syntax.class, "invalid");
+            getMockedComponent().convert(Syntax.class, "invalid");
             Assert.fail("Should have thrown ConversionException");
         } catch (ConversionException expected) {
             Assert.assertEquals("Unknown syntax [invalid]", expected.getMessage());
@@ -87,21 +78,21 @@ public class SyntaxConverterTest extends AbstractMockingComponentTestCase
     @Test
     public void convertToSyntaxObjectWhenNull() throws Exception
     {
-        Syntax syntax = this.converter.convert(Syntax.class, null);
+        Syntax syntax = getMockedComponent().convert(Syntax.class, null);
         Assert.assertNull(syntax);
     }
 
     @Test
     public void convertToString() throws Exception
     {
-        String syntaxId = this.converter.convert(String.class, Syntax.XWIKI_2_1);
+        String syntaxId = getMockedComponent().convert(String.class, Syntax.XWIKI_2_1);
         Assert.assertEquals(Syntax.XWIKI_2_1.toIdString(), syntaxId);
     }
 
     @Test
     public void convertToStringWhenNull() throws Exception
     {
-        String syntaxId = this.converter.convert(String.class, null);
+        String syntaxId = getMockedComponent().convert(String.class, null);
         Assert.assertNull(syntaxId);
     }
 }

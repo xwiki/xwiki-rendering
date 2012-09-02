@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroMarkerBlock;
@@ -50,16 +49,8 @@ import org.xwiki.test.annotation.MockingRequirement;
 @AllComponents
 @MockingRequirement(value = IconTransformation.class,
     exceptions = {Parser.class, IconTransformationConfiguration.class})
-public class IconTransformationTest extends AbstractMockingComponentTestCase
+public class IconTransformationTest extends AbstractMockingComponentTestCase<Transformation>
 {
-    private Transformation transformation;
-
-    @Before
-    public void configure() throws Exception
-    {
-        this.transformation = getComponentManager().getInstance(Transformation.class, "icon");
-    }
-
     @Test
     public void testTransform() throws Exception
     {
@@ -91,7 +82,7 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase
 
         Parser parser = getComponentManager().getInstance(Parser.class, "xwiki/2.1");
         XDOM xdom = parser.parse(new StringReader("Some :) smileys:(:P:D;)(y)(n)(i)(/)(x)(!)(+)(-)(?)(on)(off)(*)"));
-        this.transformation.transform(xdom, new TransformationContext());
+        this.getMockedComponent().transform(xdom, new TransformationContext());
 
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer eventBlockRenderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");
@@ -111,7 +102,7 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase
 
         XDOM xdom = new XDOM(Arrays.asList((Block) new MacroMarkerBlock("code", Collections.<String, String>emptyMap(),
             Arrays.asList((Block) new SpecialSymbolBlock(':'), new SpecialSymbolBlock(')')), false)));
-        this.transformation.transform(xdom, new TransformationContext());
+        getMockedComponent().transform(xdom, new TransformationContext());
 
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer eventBlockRenderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");
@@ -135,7 +126,7 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase
 
         Parser parser = getComponentManager().getInstance(Parser.class, "xwiki/2.1");
         XDOM xdom = parser.parse(new StringReader("( (i)"));
-        this.transformation.transform(xdom, new TransformationContext());
+        getMockedComponent().transform(xdom, new TransformationContext());
 
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer eventBlockRenderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");

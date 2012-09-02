@@ -25,7 +25,6 @@ import javax.inject.Provider;
 
 import org.jmock.Expectations;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.xwiki.component.descriptor.DefaultComponentDescriptor;
@@ -54,33 +53,25 @@ import org.xwiki.test.annotation.MockingRequirement;
     // the test easier to write (no need to mock them).
     exceptions = { ComponentManager.class, MacroIdFactory.class, Provider.class })
 @AllComponents
-public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
+public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<MacroManager>
 {
-    private MacroManager macroManager;
-
-    @Before
-    public void configure() throws Exception
-    {
-        this.macroManager = getComponentManager().getInstance(MacroManager.class);
-    }
-
     @Test
-    public void testMacroExists()
+    public void testMacroExists() throws Exception
     {
-        Assert.assertTrue(this.macroManager.exists(new MacroId("testsimplemacro")));
+        Assert.assertTrue(getMockedComponent().exists(new MacroId("testsimplemacro")));
     }
 
     @Test
     public void testGetExistingMacro() throws Exception
     {
-        Assert.assertNotNull(this.macroManager.getMacro(new MacroId("testsimplemacro")));
+        Assert.assertNotNull(getMockedComponent().getMacro(new MacroId("testsimplemacro")));
     }
 
     @Test
-    public void testGetNotExistingMacro()
+    public void testGetNotExistingMacro() throws Exception
     {
         try {
-            this.macroManager.getMacro(new MacroId("notregisteredmacro"));
+            getMockedComponent().getMacro(new MacroId("notregisteredmacro"));
             Assert.fail("Expected a macro lookup exception when looking for not registered macro");
         } catch (MacroLookupException expected) {
             Assert.assertEquals("No macro [notregisteredmacro] could be found.", expected.getMessage());
@@ -88,16 +79,16 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
     }
 
     @Test
-    public void testSyntaxSpecificMacroExistsWhenMacroIsRegisteredForAllSyntaxes()
+    public void testSyntaxSpecificMacroExistsWhenMacroIsRegisteredForAllSyntaxes() throws Exception
     {
-        Assert.assertFalse(this.macroManager.exists(new MacroId("testsimplemacro",
+        Assert.assertFalse(getMockedComponent().exists(new MacroId("testsimplemacro",
             new Syntax(SyntaxType.XWIKI, "2.0"))));
     }
 
     @Test
     public void testGetExistingMacroForASpecificSyntaxWhenMacroIsRegisteredForAllSyntaxes() throws Exception
     {
-        Assert.assertNotNull(this.macroManager.getMacro(new MacroId("testsimplemacro",
+        Assert.assertNotNull(getMockedComponent().getMacro(new MacroId("testsimplemacro",
             new Syntax(SyntaxType.XWIKI, "2.0"))));
     }
 
@@ -110,10 +101,11 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
         descriptor.setRoleHint("macro/xwiki/2.0");
         getComponentManager().registerComponent(descriptor, macro);
 
-        Assert.assertFalse(this.macroManager.exists(new MacroId("macro")));
-        Assert.assertTrue(this.macroManager.exists(new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0"))));
+        Assert.assertFalse(getMockedComponent().exists(new MacroId("macro")));
+        Assert.assertTrue(getMockedComponent().exists(new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0"))));
 
-        Macro< ? > macroResult = this.macroManager.getMacro(new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0")));
+        Macro< ? > macroResult = getMockedComponent().getMacro(
+            new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0")));
         Assert.assertSame(macro, macroResult);
     }
 
@@ -133,13 +125,14 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
         descriptor.setRoleHint("macro/xwiki/2.0");
         getComponentManager().registerComponent(descriptor, macro2);
 
-        Assert.assertTrue(this.macroManager.exists(new MacroId("macro")));
-        Assert.assertTrue(this.macroManager.exists(new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0"))));
+        Assert.assertTrue(getMockedComponent().exists(new MacroId("macro")));
+        Assert.assertTrue(getMockedComponent().exists(new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0"))));
 
-        Macro< ? > macroResult1 = this.macroManager.getMacro(new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0")));
+        Macro< ? > macroResult1 = getMockedComponent().getMacro(
+            new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0")));
         Assert.assertSame(macro2, macroResult1);
 
-        Macro< ? > macroResult2 = this.macroManager.getMacro(new MacroId("macro"));
+        Macro< ? > macroResult2 = getMockedComponent().getMacro(new MacroId("macro"));
         Assert.assertSame(macro1, macroResult2);
     }
 
@@ -169,6 +162,6 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase
         }});
 
         SyntaxFactory syntaxFactory = getComponentManager().getInstance(SyntaxFactory.class);
-        this.macroManager.getMacroIds(syntaxFactory.createSyntaxFromIdString("macro/xwiki/2.0"));
+        getMockedComponent().getMacroIds(syntaxFactory.createSyntaxFromIdString("macro/xwiki/2.0"));
     }
 }
