@@ -148,25 +148,25 @@ public class MacroTransformation extends AbstractTransformation
             return;
         }
 
-        // 2) Verify if we're in macro inline mode and if the macro supports it. If not, send an error.
-        if (macroHolder.macroBlock.isInline()) {
-            context.setInline(true);
-            if (!macroHolder.macro.supportsInlineMode()) {
-                // The macro doesn't support inline mode, raise a warning but continue.
-                // The macro will not be executed and we generate an error message instead of the macro
-                // execution result.
-                generateError(macroHolder.macroBlock, "Not an inline macro",
-                    "This macro can only be used by itself on a new line");
-                this.logger.debug("The [{}] macro doesn't support inline mode.", macroHolder.macroBlock.getId());
-                return;
-            }
-        } else {
-            context.setInline(false);
-        }
-
-        // 3) Execute the highest priority macro
         List<Block> newBlocks;
         try {
+            // 2) Verify if we're in macro inline mode and if the macro supports it. If not, send an error.
+            if (macroHolder.macroBlock.isInline()) {
+                context.setInline(true);
+                if (!macroHolder.macro.supportsInlineMode()) {
+                    // The macro doesn't support inline mode, raise a warning but continue.
+                    // The macro will not be executed and we generate an error message instead of the macro
+                    // execution result.
+                    generateError(macroHolder.macroBlock, "Not an inline macro",
+                        "This macro can only be used by itself on a new line");
+                    this.logger.debug("The [{}] macro doesn't support inline mode.", macroHolder.macroBlock.getId());
+                    return;
+                }
+            } else {
+                context.setInline(false);
+            }
+
+            // 3) Execute the highest priority macro
             context.setCurrentMacroBlock(macroHolder.macroBlock);
 
             // Populate and validate macro parameters.
