@@ -33,6 +33,7 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.content.ContentMacroParameters;
+import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
@@ -56,6 +57,11 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
     private static final String DESCRIPTION = "Allows writing content in any wiki markup";
 
     /**
+     * The description of the macro content.
+     */
+    private static final String CONTENT_DESCRIPTION = "The content to execute";
+
+    /**
      * Used to find the Parser corresponding to the user-specified syntax for the Macro.
      */
     @Inject
@@ -66,7 +72,7 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
      */
     public ContentMacro()
     {
-        super("Content", DESCRIPTION, ContentMacroParameters.class);
+        super("Content", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION), ContentMacroParameters.class);
         setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
     }
 
