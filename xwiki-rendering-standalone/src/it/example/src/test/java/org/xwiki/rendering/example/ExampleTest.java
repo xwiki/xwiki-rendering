@@ -51,7 +51,7 @@ import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 
 /**
  * Examples of using the XWiki Rendering API standalone, using the Embedded Component Manager.
- *  
+ *
  * @version $Id$
  * @since 2.0M1
  */
@@ -63,28 +63,28 @@ public class ExampleTest
         // Initialize Rendering components and allow getting instances
         EmbeddableComponentManager cm = new EmbeddableComponentManager();
         cm.initialize(this.getClass().getClassLoader());
-        
+
         // Use the Converter component to convert between one syntax to another.
         Converter converter = cm.getInstance(Converter.class);
 
-        // Convert input in XWiki Syntax 2.0 into XHTML. The result is stored in the printer.
+        // Convert input in XWiki Syntax 2.1 into XHTML. The result is stored in the printer.
         WikiPrinter printer = new DefaultWikiPrinter();
-        converter.convert(new StringReader("This is **bold**"), Syntax.XWIKI_2_0, Syntax.XHTML_1_0, printer);
+        converter.convert(new StringReader("This is **bold**"), Syntax.XWIKI_2_1, Syntax.XHTML_1_0, printer);
 
         Assert.assertEquals("<p>This is <strong>bold</strong></p>", printer.toString());
     }
-    
+
     @Test
     public void makeAllLinksItalic() throws Exception
     {
         // Initialize Rendering components and allow getting instances
         EmbeddableComponentManager cm = new EmbeddableComponentManager();
         cm.initialize(this.getClass().getClassLoader());
-        
-        // Parse XWiki 2.0 Syntax using a Parser.
-        Parser parser = cm.getInstance(Parser.class, Syntax.XWIKI_2_0.toIdString());
+
+        // Parse XWiki 2.1 Syntax using a Parser.
+        Parser parser = cm.getInstance(Parser.class, Syntax.XWIKI_2_1.toIdString());
         XDOM xdom = parser.parse(new StringReader("This a [[link>>MyPage]]"));
-        
+
         // Find all links and make them italic by manipulating the XDOM
         for (Block block : xdom.getBlocks(new ClassBlockMatcher(LinkBlock.class), Block.Axes.DESCENDANT)) {
             Block parentBlock = block.getParent();
@@ -92,9 +92,9 @@ public class ExampleTest
             parentBlock.replaceChild(newBlock, block);
         }
 
-        // Generate XWiki 2.0 Syntax as output for example
+        // Generate XWiki 2.1 Syntax as output for example
         WikiPrinter printer = new DefaultWikiPrinter();
-        BlockRenderer renderer = cm.getInstance(BlockRenderer.class, Syntax.XWIKI_2_0.toIdString());
+        BlockRenderer renderer = cm.getInstance(BlockRenderer.class, Syntax.XWIKI_2_1.toIdString());
         renderer.render(xdom, printer);
 
         Assert.assertEquals("This a //[[link>>MyPage]]//", printer.toString());
@@ -107,7 +107,7 @@ public class ExampleTest
         final EmbeddableComponentManager cm = new EmbeddableComponentManager();
         cm.initialize(this.getClass().getClassLoader());
 
-        Parser parser = cm.getInstance(Parser.class, Syntax.XWIKI_2_0.toIdString());
+        Parser parser = cm.getInstance(Parser.class, Syntax.XWIKI_2_1.toIdString());
         XDOM xdom = parser.parse(new StringReader("{{id name=\"test\"/}}"));
 
         // Execute the Macro Transformation to execute Macros.
@@ -115,7 +115,7 @@ public class ExampleTest
         TransformationContext txContext = new TransformationContext(xdom, parser.getSyntax());
         transformation.transform(xdom, txContext);
 
-        // Convert input in XWiki Syntax 2.0 into XHTML. The result is stored in the printer.
+        // Convert input in XWiki Syntax 2.1 into XHTML. The result is stored in the printer.
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer renderer = cm.getInstance(BlockRenderer.class, Syntax.XHTML_1_0.toIdString());
         renderer.render(xdom, printer);
@@ -146,7 +146,7 @@ public class ExampleTest
             + "{{putFootnotes/}}\n\n"
             + "{{comment}}comment{{/comment}}";
 
-        Parser parser = cm.getInstance(Parser.class, Syntax.XWIKI_2_0.toIdString());
+        Parser parser = cm.getInstance(Parser.class, Syntax.XWIKI_2_1.toIdString());
         XDOM xdom = parser.parse(new StringReader(content));
 
         // Execute the Macro Transformation to execute Macros.
@@ -154,7 +154,7 @@ public class ExampleTest
         TransformationContext txContext = new TransformationContext(xdom, parser.getSyntax());
         transformation.transform(xdom, txContext);
 
-        // Convert input in XWiki Syntax 2.0 into XHTML. The result is stored in the printer.
+        // Convert input in XWiki Syntax 2.1 into XHTML. The result is stored in the printer.
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer renderer = cm.getInstance(BlockRenderer.class, Syntax.XHTML_1_0.toIdString());
         renderer.render(xdom, printer);
@@ -168,10 +168,10 @@ public class ExampleTest
             + "<div class=\"box errormessage\">error</div>"
             + "<p><strong>bold</strong></p>"
             + "<sup><span id=\"x_footnote_ref_1\" class=\"footnoteRef\"><span class=\"wikilink\">"
-                + "<a href=\"#x_footnote_1\">1</a></span></span></sup>"
-                + "<ol class=\"footnotes\"><li><span class=\"wikilink\">"
-                + "<a id=\"x_footnote_1\" class=\"footnoteBackRef\" href=\"#x_footnote_ref_1\">^</a>"
-                + "</span> footnote</li></ol>";
+            + "<a href=\"#x_footnote_1\">1</a></span></span></sup>"
+            + "<ol class=\"footnotes\"><li><span class=\"wikilink\">"
+            + "<a id=\"x_footnote_1\" class=\"footnoteBackRef\" href=\"#x_footnote_ref_1\">^</a>"
+            + "</span> footnote</li></ol>";
 
         Assert.assertEquals(expected, printer.toString());
     }
@@ -194,10 +194,10 @@ public class ExampleTest
         transformation.transform(xdom, txContext);
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        BlockRenderer renderer = cm.getInstance(BlockRenderer.class, Syntax.XWIKI_2_0.toIdString());
+        BlockRenderer renderer = cm.getInstance(BlockRenderer.class, Syntax.XWIKI_2_1.toIdString());
         renderer.render(xdom, printer);
 
-        String expected = "[[WikiWord]]";
+        String expected = "[[doc:WikiWord]]";
 
         Assert.assertEquals(expected, printer.toString());
     }
@@ -224,10 +224,10 @@ public class ExampleTest
         transformation.transform(xdom, txContext);
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        BlockRenderer renderer = cm.getInstance(BlockRenderer.class, Syntax.XWIKI_2_0.toIdString());
+        BlockRenderer renderer = cm.getInstance(BlockRenderer.class, Syntax.XWIKI_2_1.toIdString());
         renderer.render(xdom, printer);
 
-        String expected = "image:something";
+        String expected = "image:icon:something";
 
         Assert.assertEquals(expected, printer.toString());
     }
