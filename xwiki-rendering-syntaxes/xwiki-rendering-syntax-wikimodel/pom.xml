@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-syntaxes</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <version>4.3-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
   <name>XWiki Rendering - Syntax - WikiModel Bridge</name>
