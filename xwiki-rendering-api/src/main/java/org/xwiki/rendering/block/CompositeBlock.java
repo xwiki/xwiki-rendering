@@ -23,8 +23,6 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Represent a list of blocks.
- * <p>
  * This block itself does not have any meaning (it does not have any corresponding rendering stream event) and is just
  * here to pass together several Blocks to a method or as a return value as a {@link Block}.
  * 
