@@ -37,6 +37,7 @@ import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroIdFactory;
 import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroManager;
+import org.xwiki.rendering.macro.MacroNotFoundException;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
 
@@ -118,17 +119,24 @@ public class DefaultMacroManager implements MacroManager
     {
         // First search for a macro registered for the passed macro id.
         String macroHint = macroId.toString();
+        ComponentManager cm = this.componentManager.get();
         try {
-            return this.componentManager.get().getInstance(Macro.class, macroHint);
+            return cm.getInstance(Macro.class, macroHint);
         } catch (ComponentLookupException ex1) {
             // Now search explicitly for a macro registered for all syntaxes.
             try {
-                return this.componentManager.get().getInstance(Macro.class, macroId.getId());
+                return cm.getInstance(Macro.class, macroId.getId());
             } catch (ComponentLookupException ex2) {
-                // TODO: Improve this since it's possible the macro wasn't found because it contains some invalid
-                // requirement and since we're not passing the raised exception it's hard to know why the macro
-                // couldn't be found.
-                throw new MacroLookupException(String.format("No macro [%s] could be found.", macroId.toString()));
+                // Throw different exceptions to differentiate if a macro doesn't exist or if it couldn't be
+                // instantiated. Ideally it woukd be the CM that should send different exceptions but fixing that
+                // requires to break the CM API...
+                if (cm.hasComponent(Macro.class, macroId.getId())) {
+                    throw new MacroLookupException(
+                        String.format("Macro [%s] failed to be instantiated.", macroId.toString()), ex2);
+                } else {
+                    throw new MacroNotFoundException(
+                        String.format("No macro [%s] could be found.", macroId.toString()), ex2);
+                }
             }
         }
     }

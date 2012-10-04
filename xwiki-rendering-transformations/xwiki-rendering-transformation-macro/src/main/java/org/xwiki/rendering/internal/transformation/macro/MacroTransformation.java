@@ -47,6 +47,7 @@ import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroManager;
+import org.xwiki.rendering.macro.MacroNotFoundException;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.AbstractTransformation;
@@ -222,13 +223,17 @@ public class MacroTransformation extends AbstractTransformation
             try {
                 Macro< ? > macro = this.macroManager.getMacro(new MacroId(macroBlock.getId(), syntax));
                 macroHolders.add(new MacroHolder(macro, macroBlock));
-            } catch (MacroLookupException e) {
+            } catch (MacroNotFoundException e) {
                 // Macro cannot be found. Generate an error message instead of the macro execution result.
                 // TODO: make it internationalized
                 generateError(macroBlock, String.format("Unknown macro: %s", macroBlock.getId()),
                     String.format("The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
                     + "contact your administrator.", macroBlock.getId()));
                 this.logger.debug("Failed to locate the [{}] macro. Ignoring it.", macroBlock.getId());
+            } catch (MacroLookupException e) {
+                // TODO: make it internationalized
+                generateError(macroBlock, String.format("Invalid macro: %s", macroBlock.getId()), e);
+                this.logger.debug("Failed to instantiate the [{}] macro. Ignoring it.", macroBlock.getId());
             }
         }
 

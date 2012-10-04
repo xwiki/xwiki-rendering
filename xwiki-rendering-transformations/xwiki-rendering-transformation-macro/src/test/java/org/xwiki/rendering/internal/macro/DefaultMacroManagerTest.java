@@ -35,6 +35,7 @@ import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroIdFactory;
 import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroManager;
+import org.xwiki.rendering.macro.MacroNotFoundException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.rendering.syntax.SyntaxType;
@@ -72,9 +73,20 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
     {
         try {
             getMockedComponent().getMacro(new MacroId("notregisteredmacro"));
-            Assert.fail("Expected a macro lookup exception when looking for not registered macro");
-        } catch (MacroLookupException expected) {
+            Assert.fail("Expected a MacroNotFoundException when looking for not registered macro");
+        } catch (MacroNotFoundException expected) {
             Assert.assertEquals("No macro [notregisteredmacro] could be found.", expected.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetInvalidMacro() throws Exception
+    {
+        try {
+            getMockedComponent().getMacro(new MacroId("testinvalidmacro"));
+            Assert.fail("Expected a MacroLookupException when looking for an invalid macro");
+        } catch (MacroLookupException expected) {
+            Assert.assertEquals("Macro [testinvalidmacro] failed to be instantiated.", expected.getMessage());
         }
     }
 
