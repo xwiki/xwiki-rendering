@@ -20,8 +20,6 @@
 package org.xwiki.rendering.wikimodel.xhtml;
 
 import java.io.Reader;
-import java.io.FilterReader;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -31,10 +29,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.SAXException;
 import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.IWikiParser;
-import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiParserException;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.filter.AccumulationXMLFilter;
@@ -106,9 +102,6 @@ public class XhtmlParser implements IWikiParser
     public void parse(Reader reader, IWemListener listener)
         throws WikiParserException
     {
-
-        final CheckEmptyInputFilterReader filterReader = new CheckEmptyInputFilterReader(reader);
-
         try {
             XMLReader xmlReader = getXMLReader();
 
@@ -123,17 +116,8 @@ public class XhtmlParser implements IWikiParser
                 "http://xml.org/sax/properties/lexical-handler",
                 handler);
 
-            InputSource source = new InputSource(filterReader);
+            InputSource source = new InputSource(reader);
             xmlReader.parse(source);
-        } catch (SAXException e) {
-            if (!filterReader.getSomeCharactersWhereRead()) {
-                // We let the XHTML parser support empty input in order to handle unitiated text strings that are
-                // initated to the empty string.  http://jira.xwiki.org/browse/XWIKI-8250
-                listener.beginDocument(WikiParameters.EMPTY);
-                listener.endDocument(WikiParameters.EMPTY);
-            } else {
-                throw new WikiParserException(e);
-            }
         } catch (Exception e) {
             throw new WikiParserException(e);
         }
@@ -169,51 +153,4 @@ public class XhtmlParser implements IWikiParser
 
         return reader;
     }
-
-    /**
-     * Filter to check if any characters where read from a reader.
-     */
-    private static class CheckEmptyInputFilterReader extends FilterReader
-    {
-
-        private boolean someCharactersWhereRead = false;
-
-        /**
-         * @param in a Reader object providing the underlying stream.
-         */
-        public CheckEmptyInputFilterReader(Reader in)
-        {
-            super(in);
-        }
-
-        @Override
-        public int read() throws IOException
-        {
-            int n = in.read();
-
-            someCharactersWhereRead = true;
-
-            return n;
-        }
-
-        @Override
-        public int read(char[] cbuf, int off, int len) throws IOException
-        {
-            int n = in.read(cbuf, off, len);
-
-            if (n > 0) {
-                someCharactersWhereRead = true;
-            }
-
-            return n;
-        }
-
-        /** @return {@code true} if some characters where read. */
-        public boolean getSomeCharactersWhereRead()
-        {
-            return someCharactersWhereRead;
-        }
-
-    }
-
 }
