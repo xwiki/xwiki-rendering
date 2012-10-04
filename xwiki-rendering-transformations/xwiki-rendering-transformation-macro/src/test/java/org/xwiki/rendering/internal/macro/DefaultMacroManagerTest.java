@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.macro;
 
 import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Provider;
 
@@ -29,8 +30,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.xwiki.component.descriptor.DefaultComponentDescriptor;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.internal.transformation.macro.TestSimpleMacro;
+import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.Macro;
+import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroIdFactory;
 import org.xwiki.rendering.macro.MacroLookupException;
@@ -39,6 +43,7 @@ import org.xwiki.rendering.macro.MacroNotFoundException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.rendering.syntax.SyntaxType;
+import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.test.AbstractMockingComponentTestCase;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.annotation.MockingRequirement;
@@ -56,6 +61,30 @@ import org.xwiki.test.annotation.MockingRequirement;
 @AllComponents
 public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<MacroManager>
 {
+    private class TestInvalidMacro extends AbstractNoParameterMacro
+    {
+        /**
+         * @param invalidParameter a parameter that shouldn't be there in a component
+         */
+        public TestInvalidMacro(String invalidParameter)
+        {
+            super("Invalid Macro");
+        }
+
+        @Override
+        public boolean supportsInlineMode()
+        {
+            throw new RuntimeException("Not used");
+        }
+
+        @Override
+        public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
+                throws MacroExecutionException
+        {
+            throw new RuntimeException("Not used");
+        }
+    }
+
     @Test
     public void testMacroExists() throws Exception
     {
@@ -82,6 +111,14 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
     @Test
     public void testGetInvalidMacro() throws Exception
     {
+        // Register the macro. note that we don't register it in components.txt since it would cause some errors in
+        // other tests.
+        DefaultComponentDescriptor<Macro> cd = new DefaultComponentDescriptor<Macro>();
+        cd.setRoleType(Macro.class);
+        cd.setRoleHint("testinvalidmacro");
+        cd.setImplementation(TestInvalidMacro.class);
+        getComponentManager().registerComponent(cd);
+
         try {
             getMockedComponent().getMacro(new MacroId("testinvalidmacro"));
             Assert.fail("Expected a MacroLookupException when looking for an invalid macro");
