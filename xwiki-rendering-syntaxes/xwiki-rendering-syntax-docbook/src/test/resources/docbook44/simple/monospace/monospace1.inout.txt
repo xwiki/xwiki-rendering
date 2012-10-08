@@ -1,1 +1,0 @@
-<article><para>This is <literallayout>monospace</literallayout></para></article>
