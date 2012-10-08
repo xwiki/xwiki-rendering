@@ -57,6 +57,16 @@ public class RenderingTest
     private static final VelocityEngine VELOCITY_ENGINE = new VelocityEngine();
 
     /**
+     * Symbols to start a special syntax block. For example: {@code ${{{regex:...}}}} or {@code ${{{velocity:...}}}}
+     */
+    private static final String SPECIAL_SYNTAX_START = "${{{";
+
+    /**
+     * Symbols to close a special syntax block. For example: {@code ${{{regex:...}}}} or {@code ${{{velocity:...}}}}
+     */
+    private static final String SPECIAL_SYNTAX_END = "}}}";
+
+    /**
      * @see RenderingTest
      */
     private TestData testData;
@@ -190,18 +200,37 @@ public class RenderingTest
     }
 
     /**
-     * Run Velocity on the passed content. The {@code $syntax} variable is replaced by the test Syntax object.
+     * Run Velocity when the {@code ${{{velocity:...}}}} syntax is used. The {@code $syntax} variable is replaced by
+     * the test Syntax object.
      *
-     * @param content the content to run in Velocity
+     * @param content the content to evaluate
      * @return the evaluated content
      */
     private String evaluateContent(String content)
     {
-        VelocityContext context = new VelocityContext();
-        context.put("syntax", this.metadataSyntax);
-        StringWriter writer = new StringWriter();
-        VELOCITY_ENGINE.evaluate(context, writer, "Rendering CTS", content);
-        return writer.toString();
+        StringBuilder builder = new StringBuilder();
+        String fullSpecialSyntaxStart = String.format("%svelocity:", SPECIAL_SYNTAX_START);
+        int pos = content.indexOf(fullSpecialSyntaxStart);
+        if (pos > -1) {
+            builder.append(content.substring(0, pos));
+            // Find end of velocity definition
+            int pos2 = content.indexOf(SPECIAL_SYNTAX_END, pos + fullSpecialSyntaxStart.length());
+            if (pos2 == -1) {
+                throw new RuntimeException("Invalid velocity declaration: missing closing part " + SPECIAL_SYNTAX_END);
+            }
+
+            VelocityContext context = new VelocityContext();
+            context.put("syntax", this.metadataSyntax);
+            StringWriter writer = new StringWriter();
+            VELOCITY_ENGINE.evaluate(context, writer, "Rendering CTS",
+                content.substring(pos + fullSpecialSyntaxStart.length(), pos2));
+            builder.append(writer.toString());
+
+            builder.append(evaluateContent(content.substring(pos2 + SPECIAL_SYNTAX_END.length())));
+        } else {
+            builder.append(content);
+        }
+        return builder.toString();
     }
 
     /**
@@ -245,16 +274,17 @@ public class RenderingTest
     private String escapeRegexContent(String content)
     {
         StringBuilder builder = new StringBuilder();
-        int pos = content.indexOf("${{{regex:");
+        String fullSpecialSyntaxStart = String.format("%sregex:", SPECIAL_SYNTAX_START);
+        int pos = content.indexOf(fullSpecialSyntaxStart);
         if (pos > -1) {
             builder.append(Pattern.quote(content.substring(0, pos)));
             // Find end of regex definition
-            int pos2 = content.indexOf("}}}", pos + 10);
+            int pos2 = content.indexOf(SPECIAL_SYNTAX_END, pos + fullSpecialSyntaxStart.length());
             if (pos2 == -1) {
-                throw new RuntimeException("Invalid regex declaration: missing closing part }}}");
+                throw new RuntimeException("Invalid regex declaration: missing closing part " + SPECIAL_SYNTAX_END);
             }
-            builder.append(content.substring(pos + 10, pos2));
-            builder.append(escapeRegexContent(content.substring(pos2 + 3)));
+            builder.append(content.substring(pos + fullSpecialSyntaxStart.length(), pos2));
+            builder.append(escapeRegexContent(content.substring(pos2 + SPECIAL_SYNTAX_END.length())));
         } else {
             builder.append(Pattern.quote(content));
         }

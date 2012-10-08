@@ -26,10 +26,10 @@
         <string>syntax</string>
         <org.xwiki.rendering.syntax.Syntax>
           <type>
-            <name>$syntax.type.name</name>
-            <id>$syntax.type.id</id>
+            <name>${{{velocity:$syntax.type.name}}}</name>
+            <id>${{{velocity:$syntax.type.id}}}</id>
           </type>
-          <version>$syntax.version</version>
+          <version>${{{velocity:$syntax.version}}}</version>
         </org.xwiki.rendering.syntax.Syntax>
       </entry>
     </metadata>
