@@ -19,7 +19,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<!-- Standard Monospace Test -->
+<!-- Verify that we can have parameters on monospace elements -->
 <document>
   <parameter0>
     <metadata class="linked-hash-map">
@@ -36,11 +36,13 @@
     </metadata>
   </parameter0>
   <paragraph parameter0="">
-    <word>This</word>
-    <space></space>
-    <word>is</word>
-    <space></space>
-    <format parameter0="MONOSPACE" parameter1="">
+    <format parameter0="MONOSPACE">
+      <parameter1>
+        <entry>
+          <string>a</string>
+          <string>b</string>
+        </entry>
+      </parameter1>
       <word>monospace</word>
     </format>
   </paragraph>

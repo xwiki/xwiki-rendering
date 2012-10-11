@@ -1,0 +1,7 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+beginFormat [MONOSPACE] [[a]=[b]]
+onWord [monospace]
+endFormat [MONOSPACE] [[a]=[b]]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]
