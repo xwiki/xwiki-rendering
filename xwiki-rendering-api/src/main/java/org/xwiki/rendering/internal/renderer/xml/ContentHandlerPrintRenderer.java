@@ -54,7 +54,20 @@ public class ContentHandlerPrintRenderer extends WrappingListener implements Pri
 
         this.wikiWriter = new WikiWriter(printer);
 
-        this.xmlWriter = new XMLWriter(this.wikiWriter);
+        this.xmlWriter = new XMLWriter(this.wikiWriter)
+        {
+            @Override
+            // FIXME: remove that when https://sourceforge.net/p/dom4j/bugs/202/ is fixed
+            protected String escapeAttributeEntities(String text)
+            {
+                String escapedTest = super.escapeAttributeEntities(text);
+                escapedTest = escapedTest.replace("\t", "&#9;");
+                escapedTest = escapedTest.replace("\n", "&#10;");
+                escapedTest = escapedTest.replace("\r", "&#13;");
+
+                return escapedTest;
+            }
+        };
         // escape all non US-ASCII to have as less encoding problems as possible
         this.xmlWriter.setMaximumAllowedCharacter(127);
 
