@@ -1,0 +1,9 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+onVerbatim [verbatim] [true]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]

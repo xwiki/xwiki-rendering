@@ -1,0 +1,3 @@
+beginDocument [[syntax]=[Event 1.0]]
+onVerbatim [verbatim] [false]
+endDocument [[syntax]=[Event 1.0]]

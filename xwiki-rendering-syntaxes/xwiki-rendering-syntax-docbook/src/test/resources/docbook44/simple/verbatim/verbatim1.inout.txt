@@ -1,0 +1,1 @@
+<article><para>This is <programlisting>verbatim</programlisting></para></article>

@@ -1,0 +1,1 @@
+<article><programlisting>verbatim</programlisting></article>
