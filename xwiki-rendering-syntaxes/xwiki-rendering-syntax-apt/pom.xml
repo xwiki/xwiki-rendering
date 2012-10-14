@@ -26,41 +26,36 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.rendering</groupId>
-    <artifactId>xwiki-rendering</artifactId>
+    <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>4.3-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntaxes</artifactId>
-  <name>XWiki Rendering - Syntaxes - Parent POM</name>
-  <packaging>pom</packaging>
-  <description>Syntaxes parsers/renderers implementations supported by XWiki Platform</description>
+  <artifactId>xwiki-rendering-syntax-apt</artifactId>
+  <name>XWiki Rendering - Syntax - APT</name>
+  <description>XWiki Rendering - Syntax - APT</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-api</artifactId>
+      <artifactId>xwiki-rendering-syntax-doxia</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.maven.doxia</groupId>
+      <artifactId>doxia-module-apt</artifactId>
+      <version>1.3</version>
+      <exclusions>
+        <!-- Plexus draws JUnit that we don't need/want to have at runtime -->
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
-  <modules>
-    <!-- Sorted Alphabetically -->
-    <module>xwiki-rendering-syntax-apt</module>
-    <module>xwiki-rendering-syntax-confluence</module>
-    <module>xwiki-rendering-syntax-creole</module>
-    <module>xwiki-rendering-syntax-docbook</module>
-    <module>xwiki-rendering-syntax-doxia</module>
-    <module>xwiki-rendering-syntax-event</module>
-    <module>xwiki-rendering-syntax-html</module>
-    <module>xwiki-rendering-syntax-jspwiki</module>
-    <module>xwiki-rendering-syntax-markdown</module>
-    <module>xwiki-rendering-syntax-mediawiki</module>
-    <module>xwiki-rendering-syntax-plain</module>
-    <module>xwiki-rendering-syntax-tex</module>
-    <module>xwiki-rendering-syntax-twiki</module>
-    <module>xwiki-rendering-syntax-wikimodel</module>
-    <module>xwiki-rendering-syntax-xdomxml10</module>
-    <module>xwiki-rendering-syntax-xdomxmlcurrent</module>
-    <module>xwiki-rendering-syntax-xhtml</module>
-    <module>xwiki-rendering-syntax-xwiki10</module>
-    <module>xwiki-rendering-syntax-xwiki20</module>
-    <module>xwiki-rendering-syntax-xwiki21</module>
-  </modules>
 </project>

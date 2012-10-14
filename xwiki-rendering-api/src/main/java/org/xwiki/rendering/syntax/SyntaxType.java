@@ -70,6 +70,11 @@ public class SyntaxType
     public static final SyntaxType MARKDOWN = register("markdown", "Markdown");
 
     /**
+     * @since 4.3M1
+     */
+    public static final SyntaxType APT = register("apt", "APT");
+
+    /**
      * Register a Syntax Type.
      *
      * @param id see {@link SyntaxType#SyntaxType(String, String)}

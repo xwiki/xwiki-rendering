@@ -61,7 +61,12 @@ public class Syntax
      * @since 3.4M1
      */
     public static final Syntax MARKDOWN_1_0 = new Syntax(SyntaxType.MARKDOWN, "1.0");
-    
+
+    /**
+     * @since 4.3M1
+     */
+    public static final Syntax APT_1_0 = new Syntax(SyntaxType.APT, "1.0");
+
     /**
      * This is HTML with annotations (comments) in order to allow round tripping between for example the WYSIWYG editor
      * and wiki syntax.
