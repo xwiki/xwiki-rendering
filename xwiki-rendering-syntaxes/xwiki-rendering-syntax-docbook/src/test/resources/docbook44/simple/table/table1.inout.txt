@@ -1,0 +1,1 @@
+<article><table><thead><row><entry>col1</entry><entry>col2</entry></row></thead><tbody><row><entry>cell11</entry><entry>cell12</entry></row><row><entry>cell21</entry><entry>cell22</entry></row></tbody></table></article>

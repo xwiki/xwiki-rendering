@@ -31,11 +31,12 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * Bridge XWiki Rendering Events to Doxia Events. This allows rendering an XDOM using a Doxia Sink.
+ * Send Listener events to the Sink (except for Table Rows events which are sent in {@link DoxiaListener}.
  *
  * @version $Id$
+ * @since 4.3M1
  */
-public class DoxiaGeneratorListener implements Listener
+public class DoxiaSinkListener implements Listener
 {
     /**
      * The Doxia Renderer to which to emit events to.
@@ -52,7 +53,7 @@ public class DoxiaGeneratorListener implements Listener
     /**
      * @param sink the Doxia Renderer to which to emit events to
      */
-    public DoxiaGeneratorListener(Sink sink)
+    public DoxiaSinkListener(Sink sink)
     {
         this.sink = sink;
     }
