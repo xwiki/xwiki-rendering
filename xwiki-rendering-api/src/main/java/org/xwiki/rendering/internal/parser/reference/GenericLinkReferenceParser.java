@@ -24,6 +24,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
@@ -123,7 +124,8 @@ public class GenericLinkReferenceParser implements ResourceReferenceParser
      * {@link org.xwiki.rendering.wiki.WikiModel}.
      */
     @Inject
-    private ComponentManager componentManager;
+    @Named("context")
+    private Provider<ComponentManager> componentManagerProvider;
 
     /**
      * @return the list of URI prefixes the link parser recognizes
@@ -206,7 +208,7 @@ public class GenericLinkReferenceParser implements ResourceReferenceParser
             if (getAllowedURIPrefixes().contains(scheme)) {
                 try {
                     ResourceReferenceTypeParser parser =
-                        this.componentManager.getInstance(ResourceReferenceTypeParser.class, scheme);
+                        this.componentManagerProvider.get().getInstance(ResourceReferenceTypeParser.class, scheme);
                     ResourceReference resourceReference = parser.parse(reference);
                     if (resourceReference != null) {
                         result = resourceReference;
@@ -283,7 +285,7 @@ public class GenericLinkReferenceParser implements ResourceReferenceParser
     {
         boolean result = true;
         try {
-            this.componentManager.getInstance(WikiModel.class);
+            this.componentManagerProvider.get().getInstance(WikiModel.class);
         } catch (ComponentLookupException e) {
             result = false;
         }

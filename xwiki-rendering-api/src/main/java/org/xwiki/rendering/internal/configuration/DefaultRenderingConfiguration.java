@@ -57,7 +57,7 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
      */
     @Inject
     private ComponentManager componentManager;
-    
+
     /**
      * Holds the names of transformations to apply (in any order, the Transformation Manager will execute them in the
      * proper order).
@@ -81,7 +81,7 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
         List<ComponentDescriptor<Transformation>> descriptors =
             this.componentManager.getComponentDescriptorList((Type) Transformation.class);
         for (ComponentDescriptor<Transformation> descriptor : descriptors) {
-            transformationNames.add(descriptor.getRoleHint());
+            this.transformationNames.add(descriptor.getRoleHint());
         }
     }
 

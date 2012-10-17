@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.slf4j.Logger;
@@ -66,7 +68,8 @@ public class DefaultTransformationManager implements TransformationManager
      * Used to look up transformations at runtime.
      */
     @Inject
-    private ComponentManager componentManager;
+    @Named("context")
+    private Provider<ComponentManager> componentManagerProvider;
 
     @Override
     @Deprecated
@@ -102,7 +105,8 @@ public class DefaultTransformationManager implements TransformationManager
         List<Transformation> transformations = new ArrayList<Transformation>();
         for (String hint : this.configuration.getTransformationNames()) {
             try {
-                transformations.add(this.componentManager.<Transformation>getInstance(Transformation.class, hint));
+                transformations.add(this.componentManagerProvider.get().<Transformation> getInstance(
+                    Transformation.class, hint));
             } catch (ComponentLookupException e) {
                 this.logger.warn("Failed to locate transformation with hint [" + hint + "], ignoring it.");
             }
