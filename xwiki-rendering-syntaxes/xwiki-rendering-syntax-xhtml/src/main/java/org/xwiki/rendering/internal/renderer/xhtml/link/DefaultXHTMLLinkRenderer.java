@@ -22,6 +22,8 @@ package org.xwiki.rendering.internal.renderer.xhtml.link;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Provider;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
@@ -47,7 +49,8 @@ public class DefaultXHTMLLinkRenderer implements XHTMLLinkRenderer
     private XHTMLLinkTypeRenderer defaultLinkTypeRenderer;
 
     @Inject
-    protected ComponentManager componentManager;
+    @Named("context")
+    protected Provider<ComponentManager> componentManagerProvider;
 
     /**
      * The XHTML printer to use to output links as XHTML.
@@ -95,7 +98,9 @@ public class DefaultXHTMLLinkRenderer implements XHTMLLinkRenderer
 
         // TODO: This is probably not very performant since it's called at each begin/endLink.
         try {
-            renderer = this.componentManager.getInstance(XHTMLLinkTypeRenderer.class, reference.getType().getScheme());
+            renderer =
+                this.componentManagerProvider.get().getInstance(XHTMLLinkTypeRenderer.class,
+                    reference.getType().getScheme());
         } catch (ComponentLookupException e) {
             // There's no specific XHTML Link Type Renderer for the passed link type, use the default renderer.
             renderer = this.defaultLinkTypeRenderer;
