@@ -30,8 +30,8 @@
     <version>4.3-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-syntax-xwiki10</artifactId>
-  <name>XWiki Rendering - Parser - XWiki 1.0</name>
-  <description>XWiki Rendering - Parser - XWiki 1.0</description>
+  <name>XWiki Rendering - Syntax - XWiki 1.0</name>
+  <description>XWiki Rendering - Syntax - XWiki 1.0</description>
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
