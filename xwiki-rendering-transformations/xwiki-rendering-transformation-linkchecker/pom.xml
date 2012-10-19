@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-transformation-linkchecker</artifactId>
   <name>XWiki Rendering - Transformation - Link Checker</name>
   <description>Verifies if external URLs are valid and decorate with parameters if not</description>
+  <properties>
+    <xwiki.clover.targetPercentage>77.4%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>

@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-syntax-xwiki10</artifactId>
   <name>XWiki Rendering - Syntax - XWiki 1.0</name>
   <description>XWiki Rendering - Syntax - XWiki 1.0</description>
+  <properties>
+    <xwiki.clover.targetPercentage>88.4%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -54,7 +57,6 @@
       <artifactId>xwiki-commons-velocity</artifactId>
       <version>${commons.version}</version>
     </dependency>
-
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-syntax-apt</artifactId>
   <name>XWiki Rendering - Syntax - APT</name>
   <description>XWiki Rendering - Syntax - APT</description>
+  <properties>
+    <xwiki.clover.targetPercentage>86.7%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

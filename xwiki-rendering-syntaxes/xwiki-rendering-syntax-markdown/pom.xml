@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-syntax-markdown</artifactId>
   <name>XWiki Rendering - Syntax - Markdown</name>
   <description>XWiki Rendering - Syntax - Markdown</description>
+  <properties>
+    <xwiki.clover.targetPercentage>72.7%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.pegdown</groupId>

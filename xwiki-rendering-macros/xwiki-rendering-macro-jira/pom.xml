@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-macro-jira</artifactId>
   <name>XWiki Rendering - Macro - JIRA</name>
   <description>XWiki Rendering - Macro - JIRA</description>
+  <properties>
+    <xwiki.clover.targetPercentage>95.7%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.jdom</groupId>

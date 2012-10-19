@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-syntax-tex</artifactId>
   <name>XWiki Rendering - Syntax - TeX</name>
   <description>XWiki Rendering - Syntax - TeX</description>
+  <properties>
+    <xwiki.clover.targetPercentage>0%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

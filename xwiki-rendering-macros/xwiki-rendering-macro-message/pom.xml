@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-macro-message</artifactId>
   <name>XWiki Rendering - Macro - Message</name>
   <description>XWiki Rendering - Macro - Message</description>
+  <properties>
+    <xwiki.clover.targetPercentage>80.6%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

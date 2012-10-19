@@ -32,4 +32,7 @@
   <artifactId>xwiki-rendering-macro-content</artifactId>
   <name>XWiki Rendering - Macro - Content</name>
   <description>Allows writing a portion of content in any wiki syntax</description>
+  <properties>
+    <xwiki.clover.targetPercentage>82.4%</xwiki.clover.targetPercentage>
+  </properties>
 </project>

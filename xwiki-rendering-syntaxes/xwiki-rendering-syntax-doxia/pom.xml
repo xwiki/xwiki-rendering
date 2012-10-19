@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-syntax-doxia</artifactId>
   <name>XWiki Rendering - Syntax - Doxia Bridge</name>
   <description>Bridge Doxia Model and XWiki Rendering Model</description>
+  <properties>
+    <xwiki.clover.targetPercentage>0%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.apache.maven.doxia</groupId>

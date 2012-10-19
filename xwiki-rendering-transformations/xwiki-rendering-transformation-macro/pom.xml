@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-transformation-macro</artifactId>
   <name>XWiki Rendering - Transformation - Macro</name>
   <description>XWiki Rendering - Transformation - Macro</description>
+  <properties>
+    <xwiki.clover.targetPercentage>63.8%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>

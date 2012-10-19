@@ -33,6 +33,7 @@
   <name>XWiki Rendering - Syntax - XDOM+XML Current</name>
   <description>XML/Reflexion based representation synchronized on current events</description>
   <properties>
+    <xwiki.clover.targetPercentage>0%</xwiki.clover.targetPercentage>
     <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
   </properties>
   <dependencies>

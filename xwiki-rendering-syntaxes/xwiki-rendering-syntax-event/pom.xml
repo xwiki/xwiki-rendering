@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-syntax-event</artifactId>
   <name>XWiki Rendering - Syntax - Event</name>
   <description>XWiki Rendering - Syntax - Event</description>
+  <properties>
+    <xwiki.clover.targetPercentage>47.3%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <!-- Test Dependencies -->
     <dependency>

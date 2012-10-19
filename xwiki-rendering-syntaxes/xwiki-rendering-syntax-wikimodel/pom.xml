@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
   <name>XWiki Rendering - Syntax - WikiModel Bridge</name>
   <description>Bridge WikiModel Model and XWiki Rendering Model</description>
+  <properties>
+    <xwiki.clover.targetPercentage>0%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

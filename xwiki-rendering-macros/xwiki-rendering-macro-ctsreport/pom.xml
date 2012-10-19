@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-macro-ctsreport</artifactId>
   <name>XWiki Rendering - Macro - CTS Report</name>
   <description>Compatibility Test Suite Report Macro</description>
+  <properties>
+    <xwiki.clover.targetPercentage>70.8%</xwiki.clover.targetPercentage>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>

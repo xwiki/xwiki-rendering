@@ -34,6 +34,7 @@
   <packaging>jar</packaging>
   <description>XWiki Rendering - Api</description>
   <properties>
+    <xwiki.clover.targetPercentage>25.8%</xwiki.clover.targetPercentage>
     <!-- Skipping CLIRR since xwiki-rendering-legacy-api wraps this module and runs CLIRR on it -->
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
   </properties>
@@ -66,7 +67,6 @@
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
     </dependency>
-
     <!-- We need the Xerces dependency at runtime since we have an optimization for the Xerces
          parser (to tell it to cache DTD grammars). If it's not there then there's no DTD
          caching. -->
@@ -76,7 +76,6 @@
       <version>2.9.1</version>
       <scope>runtime</scope>
     </dependency>
-      
     <!-- Testing dependencies -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>

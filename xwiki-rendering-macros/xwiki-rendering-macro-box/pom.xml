@@ -32,4 +32,7 @@
   <artifactId>xwiki-rendering-macro-box</artifactId>
   <name>XWiki Rendering - Macro - Box</name>
   <description>XWiki Rendering - Macro - Box</description>
+  <properties>
+    <xwiki.clover.targetPercentage>90.1%</xwiki.clover.targetPercentage>
+  </properties>
 </project>
