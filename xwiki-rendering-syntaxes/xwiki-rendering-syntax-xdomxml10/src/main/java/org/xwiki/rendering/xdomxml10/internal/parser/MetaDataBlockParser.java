@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -33,7 +34,8 @@ import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.xdomxml10.internal.parser.parameter.MetaDataParser;
 
-@Component("metadata")
+@Component
+@Named("metadata")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class MetaDataBlockParser extends DefaultBlockParser
 {
@@ -45,9 +47,9 @@ public class MetaDataBlockParser extends DefaultBlockParser
     };
 
     @Inject
-    private ConverterManager converter;
+    protected ConverterManager converter;
 
-    private MetaDataParser metaDataParser;
+    protected MetaDataParser metaDataParser;
 
     public MetaDataBlockParser()
     {

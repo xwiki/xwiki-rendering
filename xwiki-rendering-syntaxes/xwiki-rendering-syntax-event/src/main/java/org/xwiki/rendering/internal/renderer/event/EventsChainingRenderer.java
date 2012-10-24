@@ -25,12 +25,12 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
-import org.xwiki.rendering.listener.MetaData;
-import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.ListType;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
-import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Prints listener event names in a format useful for testing and debugging.
@@ -49,6 +49,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
+     * 
      * @since 3.0M2
      */
     @Override
@@ -59,6 +60,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
+     * 
      * @since 3.0M2
      */
     @Override
@@ -112,15 +114,15 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        getPrinter().println("beginLink [" + reference + "] [" + isFreeStandingURI + "]"
-            + serializeParameters(parameters));
+        getPrinter().println(
+            "beginLink [" + reference + "] [" + isFreeStandingURI + "]" + serializeParameters(parameters));
     }
 
     @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        getPrinter().println("endLink [" + reference + "] [" + isFreeStandingURI + "]"
-            + serializeParameters(parameters));
+        getPrinter().println(
+            "endLink [" + reference + "] [" + isFreeStandingURI + "]" + serializeParameters(parameters));
     }
 
     @Override
@@ -215,6 +217,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
+     * 
      * @since 3.0M2
      */
     @Override
@@ -222,9 +225,10 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     {
         getPrinter().println("beginMetaData" + serializeParameters(metaData.getMetaData()));
     }
-    
+
     /**
      * {@inheritDoc}
+     * 
      * @since 3.0M2
      */
     @Override
@@ -232,7 +236,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     {
         getPrinter().println("endMetaData" + serializeParameters(metaData.getMetaData()));
     }
-    
+
     @Override
     public void onId(String name)
     {
@@ -260,6 +264,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
+     * 
      * @since 2.0RC1
      */
     @Override
@@ -270,6 +275,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
+     * 
      * @since 2.0RC1
      */
     @Override
@@ -376,13 +382,14 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
+     * 
      * @since 2.5RC1
      */
     @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        getPrinter().println("onImage [" + reference + "] [" + isFreeStandingURI + "]" 
-            + serializeParameters(parameters));
+        getPrinter().println(
+            "onImage [" + reference + "] [" + isFreeStandingURI + "]" + serializeParameters(parameters));
     }
 
     public String getEscaped(String str)
@@ -413,9 +420,9 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
         boolean isInline)
     {
         StringBuffer parametersBuffer = new StringBuffer();
-        for (Iterator<String> paramsIt = parameters.keySet().iterator(); paramsIt.hasNext();) {
-            String paramName = paramsIt.next();
-            parametersBuffer.append(paramName).append("=").append(parameters.get(paramName));
+        for (Iterator<Map.Entry<String, String>> paramsIt = parameters.entrySet().iterator(); paramsIt.hasNext();) {
+            Map.Entry<String, String> entry = paramsIt.next();
+            parametersBuffer.append(entry.getKey()).append("=").append(entry.getValue());
             if (paramsIt.hasNext()) {
                 parametersBuffer.append("|");
             }

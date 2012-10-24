@@ -255,7 +255,7 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
             }
 
             // push new event
-            Block block = getBlock(uri, localName, qName, attributes);
+            Block block = getBlock(qName, attributes);
 
             currentBlock = this.blockStack.push(block);
 
@@ -380,7 +380,7 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
         }
     }
 
-    private Block getBlock(String uri, String localName, String qName, Attributes attributes)
+    private Block getBlock(String qName, Attributes attributes)
     {
         String blockName;
         if (XDOMXMLConstants.ELEM_BLOCK.equals(qName)) {

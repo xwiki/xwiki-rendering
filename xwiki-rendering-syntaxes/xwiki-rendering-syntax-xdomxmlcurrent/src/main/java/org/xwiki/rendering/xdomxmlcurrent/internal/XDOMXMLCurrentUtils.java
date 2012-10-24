@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class XDOMXMLCurrentUtils
+public final class XDOMXMLCurrentUtils
 {
     private static final Map<Class< ? >, Object> DEFAULTS = new HashMap<Class< ? >, Object>();
 
@@ -83,5 +83,12 @@ public class XDOMXMLCurrentUtils
         }
 
         return defaultValue;
+    }
+
+    /**
+     * Utility class.
+     */
+    private XDOMXMLCurrentUtils()
+    {
     }
 }

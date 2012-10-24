@@ -91,30 +91,30 @@ public class DefaultBlockParser extends AbstractBlockParser
 
     public int getParameterAsInt(String name, int defaultValue)
     {
-        String value = getParameters().get(name);
+        String str = getParameters().get(name);
 
-        return value != null ? Integer.valueOf(value) : defaultValue;
+        return str != null ? Integer.valueOf(str) : defaultValue;
     }
 
     public boolean getParameterAsBoolean(String name, boolean defaultValue)
     {
-        String value = getParameters().get(name);
+        String str = getParameters().get(name);
 
-        return value != null ? Boolean.valueOf(value) : defaultValue;
+        return str != null ? Boolean.valueOf(str) : defaultValue;
     }
 
     public char getParameterAsChar(String name, char defaultValue)
     {
-        String value = getParameters().get(name);
+        String str = getParameters().get(name);
 
-        return value != null && value.length() > 0 ? value.charAt(0) : defaultValue;
+        return str != null && str.length() > 0 ? str.charAt(0) : defaultValue;
     }
 
     public String getParameterAsString(String name, String defaultValue)
     {
-        String value = getParameters().get(name);
+        String str = getParameters().get(name);
 
-        return value != null ? value : defaultValue;
+        return str != null ? str : defaultValue;
     }
 
     @Override

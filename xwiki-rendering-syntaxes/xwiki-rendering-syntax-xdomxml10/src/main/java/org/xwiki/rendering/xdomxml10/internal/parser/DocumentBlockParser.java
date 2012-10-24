@@ -19,53 +19,19 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.parser;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.inject.Named;
 
-import javax.inject.Inject;
-
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
-import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.listener.MetaData;
-import org.xwiki.rendering.xdomxml10.internal.parser.parameter.MetaDataParser;
 
-@Component("document")
+@Component
+@Named("document")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class DocumentBlockParser extends DefaultBlockParser
+public class DocumentBlockParser extends MetaDataBlockParser
 {
-    private static final Set<String> NAMES = new HashSet<String>()
-    {
-        {
-            add("metaData");
-        }
-    };
-
-    @Inject
-    private ConverterManager converter;
-
-    private MetaDataParser metaDataParser;
-
-    public DocumentBlockParser()
-    {
-        super(NAMES);
-    }
-
-    @Override
-    protected void startElementInternal(String uri, String localName, String qName, Attributes attributes)
-        throws SAXException
-    {
-        if (qName.equals("metaData")) {
-            this.metaDataParser = new MetaDataParser(this.converter);
-            setCurrentHandler(this.metaDataParser);
-        } else {
-            super.startElementInternal(uri, localName, qName, attributes);
-        }
-    }
-
     @Override
     protected void beginBlock() throws SAXException
     {
