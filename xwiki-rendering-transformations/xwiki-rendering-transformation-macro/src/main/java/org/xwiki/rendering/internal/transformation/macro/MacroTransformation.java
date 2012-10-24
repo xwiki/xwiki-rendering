@@ -19,13 +19,9 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,14 +31,9 @@ import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.FormatBlock;
-import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
-import org.xwiki.rendering.block.VerbatimBlock;
-import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
-import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroLookupException;
@@ -93,6 +84,11 @@ public class MacroTransformation extends AbstractTransformation
      */
     @Inject
     private Logger logger;
+
+    /**
+     * Used to generate Macro error blocks when a Macro fails to execute.
+     */
+    private MacroErrorManager macroErrorManager;
 
     private class MacroHolder implements Comparable<MacroHolder>
     {
@@ -158,8 +154,8 @@ public class MacroTransformation extends AbstractTransformation
                     // The macro doesn't support inline mode, raise a warning but continue.
                     // The macro will not be executed and we generate an error message instead of the macro
                     // execution result.
-                    generateError(macroHolder.macroBlock, "Not an inline macro",
-                        "This macro can only be used by itself on a new line");
+                    this.macroErrorManager.generateError(macroHolder.macroBlock, "Not an inline macro",
+                            "This macro can only be used by itself on a new line");
                     this.logger.debug("The [{}] macro doesn't support inline mode.", macroHolder.macroBlock.getId());
                     return;
                 }
@@ -178,7 +174,7 @@ public class MacroTransformation extends AbstractTransformation
                 // One macro parameter was invalid.
                 // The macro will not be executed and we generate an error message instead of the macro
                 // execution result.
-                generateError(macroHolder.macroBlock, String.format(
+                this.macroErrorManager.generateError(macroHolder.macroBlock, String.format(
                     "Invalid macro parameters used for the \"%s\" macro", macroHolder.macroBlock.getId()), e);
                 this.logger.debug("Invalid macro parameter for the [{}] macro. Internal error: [{}]",
                     macroHolder.macroBlock.getId(), e.getMessage());
@@ -193,8 +189,8 @@ public class MacroTransformation extends AbstractTransformation
             // The macro will not be executed and we generate an error message instead of the macro
             // execution result.
             // Note: We catch any Exception because we want to never break the whole rendering.
-            generateError(macroHolder.macroBlock,
-                String.format("Failed to execute the [%s] macro", macroHolder.macroBlock.getId()), e);
+            this.macroErrorManager.generateError(macroHolder.macroBlock,
+                    String.format("Failed to execute the [%s] macro", macroHolder.macroBlock.getId()), e);
             this.logger.debug("Failed to execute the [{}] macro. Internal error [{}]", macroHolder.macroBlock.getId(),
                 e.getMessage());
             return;
@@ -226,13 +222,16 @@ public class MacroTransformation extends AbstractTransformation
             } catch (MacroNotFoundException e) {
                 // Macro cannot be found. Generate an error message instead of the macro execution result.
                 // TODO: make it internationalized
-                generateError(macroBlock, String.format("Unknown macro: %s", macroBlock.getId()),
-                    String.format("The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
-                    + "contact your administrator.", macroBlock.getId()));
+                this.macroErrorManager.generateError(macroBlock,
+                        String.format("Unknown macro: %s", macroBlock.getId()),
+                        String.format(
+                                "The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
+                                        + "contact your administrator.", macroBlock.getId()));
                 this.logger.debug("Failed to locate the [{}] macro. Ignoring it.", macroBlock.getId());
             } catch (MacroLookupException e) {
                 // TODO: make it internationalized
-                generateError(macroBlock, String.format("Invalid macro: %s", macroBlock.getId()), e);
+                this.macroErrorManager.generateError(macroBlock,
+                        String.format("Invalid macro: %s", macroBlock.getId()), e);
                 this.logger.debug("Failed to instantiate the [{}] macro. Ignoring it.", macroBlock.getId());
             }
         }
@@ -245,7 +244,7 @@ public class MacroTransformation extends AbstractTransformation
 
     /**
      * Wrap the output of a macro block with a {@link MacroMarkerBlock}.
-     * 
+     *
      * @param macroBlockToWrap the block that should be replaced
      * @param newBlocks list of blocks to wrap
      * @return the wrapper
@@ -254,34 +253,5 @@ public class MacroTransformation extends AbstractTransformation
     {
         return new MacroMarkerBlock(macroBlockToWrap.getId(), macroBlockToWrap.getParameters(), macroBlockToWrap
             .getContent(), newBlocks, macroBlockToWrap.isInline());
-    }
-
-    private void generateError(MacroBlock macroToReplace, String message, String description)
-    {
-        List<Block> errorBlocks = new ArrayList<Block>();
-
-        Map<String, String> errorBlockParams = Collections.singletonMap("class", "xwikirenderingerror");
-        Map<String, String> errorDescriptionBlockParams =
-            Collections.singletonMap("class", "xwikirenderingerrordescription hidden");
-
-        Block descriptionBlock = new VerbatimBlock(description, macroToReplace.isInline());
-
-        if (macroToReplace.isInline()) {
-            errorBlocks.add(new FormatBlock(Arrays.<Block> asList(new WordBlock(message)), Format.NONE,
-                errorBlockParams));
-            errorBlocks.add(new FormatBlock(Arrays.asList(descriptionBlock), Format.NONE, errorDescriptionBlockParams));
-        } else {
-            errorBlocks.add(new GroupBlock(Arrays.<Block> asList(new WordBlock(message)), errorBlockParams));
-            errorBlocks.add(new GroupBlock(Arrays.asList(descriptionBlock), errorDescriptionBlockParams));
-        }
-
-        macroToReplace.getParent().replaceChild(wrapInMacroMarker(macroToReplace, errorBlocks), macroToReplace);
-    }
-
-    private void generateError(MacroBlock macroToReplace, String message, Throwable throwable)
-    {
-        StringWriter writer = new StringWriter();
-        throwable.printStackTrace(new PrintWriter(writer));
-        generateError(macroToReplace, message, writer.getBuffer().toString());
     }
 }
