@@ -26,7 +26,7 @@ import org.xwiki.rendering.listener.ListType;
 
 public class ListTypeConverter
 {
-    Map<String, ListType> STRINGTOLISTTYPE = new HashMap<String, ListType>()
+    private static final Map<String, ListType> STRINGTOLISTTYPE = new HashMap<String, ListType>()
     {
         {
             put("bulleted", ListType.BULLETED);
@@ -34,7 +34,7 @@ public class ListTypeConverter
         }
     };
 
-    Map<ListType, String> LISTTYPETOSTRING = new HashMap<ListType, String>()
+    private static final Map<ListType, String> LISTTYPETOSTRING = new HashMap<ListType, String>()
     {
         {
             put(ListType.BULLETED, "bulleted");

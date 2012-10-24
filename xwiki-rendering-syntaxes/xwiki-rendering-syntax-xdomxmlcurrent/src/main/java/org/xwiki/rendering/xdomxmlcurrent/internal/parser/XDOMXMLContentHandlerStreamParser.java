@@ -53,7 +53,7 @@ import org.xwiki.xml.Sax2Dom;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements ContentHandlerStreamParser
 {
-    private static Object[] DEFAULT_PARAMETERS = new Object[] {Listener.EMPTY_PARAMETERS};
+    private static final Object[] DEFAULT_PARAMETERS = new Object[] {Listener.EMPTY_PARAMETERS};
 
     @Inject
     private ParameterManager parameterManager;

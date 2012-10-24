@@ -31,7 +31,7 @@ public class SyntaxType
     /**
      * Well-known Syntax types.
      */
-    private static Map<String, SyntaxType> KNOWN_SYNTAX_TYPES = new HashMap<String, SyntaxType>();
+    private static final Map<String, SyntaxType> KNOWN_SYNTAX_TYPES = new HashMap<String, SyntaxType>();
 
     public static final SyntaxType XWIKI = register("xwiki", "XWiki");
 

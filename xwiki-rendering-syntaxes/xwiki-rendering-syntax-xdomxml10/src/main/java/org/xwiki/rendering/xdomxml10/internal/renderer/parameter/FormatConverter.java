@@ -26,7 +26,7 @@ import org.xwiki.rendering.listener.Format;
 
 public class FormatConverter
 {
-    Map<String, Format> STRINGTOFORMAT = new HashMap<String, Format>()
+    private static final Map<String, Format> STRINGTOFORMAT = new HashMap<String, Format>()
     {
         {
             put("bold", Format.BOLD);
@@ -40,7 +40,7 @@ public class FormatConverter
         }
     };
 
-    Map<Format, String> FORMATTOSTRING = new HashMap<Format, String>()
+    private static final Map<Format, String> FORMATTOSTRING = new HashMap<Format, String>()
     {
         {
             put(Format.BOLD, "bold");

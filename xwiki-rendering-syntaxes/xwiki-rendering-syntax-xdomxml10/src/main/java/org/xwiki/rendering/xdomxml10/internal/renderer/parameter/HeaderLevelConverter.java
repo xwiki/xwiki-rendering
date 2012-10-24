@@ -26,7 +26,7 @@ import org.xwiki.rendering.listener.HeaderLevel;
 
 public class HeaderLevelConverter
 {
-    Map<String, HeaderLevel> STRINGTOHEADERLEVEL = new HashMap<String, HeaderLevel>()
+    private static final Map<String, HeaderLevel> STRINGTOHEADERLEVEL = new HashMap<String, HeaderLevel>()
     {
         {
             put("1", HeaderLevel.LEVEL1);
@@ -38,7 +38,7 @@ public class HeaderLevelConverter
         }
     };
 
-    Map<HeaderLevel, String> HEADERLEVELTOSTRING = new HashMap<HeaderLevel, String>()
+    private static final Map<HeaderLevel, String> HEADERLEVELTOSTRING = new HashMap<HeaderLevel, String>()
     {
         {
             put(HeaderLevel.LEVEL1, "1");
