@@ -88,7 +88,7 @@ public class MacroTransformation extends AbstractTransformation
     /**
      * Used to generate Macro error blocks when a Macro fails to execute.
      */
-    private MacroErrorManager macroErrorManager;
+    private MacroErrorManager macroErrorManager = new MacroErrorManager();
 
     private class MacroHolder implements Comparable<MacroHolder>
     {
