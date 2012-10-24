@@ -75,13 +75,13 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
         return blockName;
     }
 
-    private void addInlineParameters(AttributesImpl attributes, List<Object> parameters, ListenerElement descriptor)
+    private void addInlineParameters(AttributesImpl attributes, List<Object> parameters, ListenerElement element)
     {
         for (int i = 0; i < parameters.size(); ++i) {
             Object parameter = parameters.get(i);
 
             if (parameter != null) {
-                Type type = descriptor.getParameters().get(i);
+                Type type = element.getParameters().get(i);
                 Class< ? > typeClass = ReflectionUtils.getTypeClass(type);
 
                 if (XDOMXMLCurrentUtils.isSimpleType(typeClass)) {
@@ -107,9 +107,9 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
         }
 
         if (parameters != null) {
-            ListenerElement descriptor = this.descriptor.getElements().get(blockName.toLowerCase());
+            ListenerElement element = this.descriptor.getElements().get(blockName.toLowerCase());
 
-            addInlineParameters(attributes, parameters, descriptor);
+            addInlineParameters(attributes, parameters, element);
         }
 
         return attributes;
@@ -132,12 +132,12 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
     {
         String blockName = getBlockName(eventName, "begin");
 
-        ListenerElement descriptor = this.descriptor.getElements().get(blockName.toLowerCase());
+        ListenerElement element = this.descriptor.getElements().get(blockName.toLowerCase());
 
         List<Object> elementParameters = parameters != null ? Arrays.asList(parameters) : null;
 
         // Remove useless parameters
-        removeDefaultParameters(elementParameters, descriptor);
+        removeDefaultParameters(elementParameters, element);
 
         // Put as attributes parameters which are simple enough to not require full XML serialization
         AttributesImpl attributes = createStartAttributes(blockName, elementParameters);
@@ -154,7 +154,7 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
         startElement(elementName, attributes);
 
         // Print complex parameters
-        printParameters(elementParameters, descriptor);
+        printParameters(elementParameters, element);
     }
 
     private void endEvent(String eventName)
@@ -172,12 +172,12 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
     {
         String blockName = getBlockName(eventName, "on");
 
-        ListenerElement descriptor = this.descriptor.getElements().get(blockName.toLowerCase());
+        ListenerElement element = this.descriptor.getElements().get(blockName.toLowerCase());
 
         List<Object> elementParameters = parameters != null ? Arrays.asList(parameters) : null;
 
         // Remove useless parameters
-        removeDefaultParameters(elementParameters, descriptor);
+        removeDefaultParameters(elementParameters, element);
 
         // Put as attributes parameters which are simple enough to not require full XML serialization
         AttributesImpl attributes =
@@ -197,7 +197,7 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
 
         // Print complex parameters
         if (parameters != null && parameters.length == 1
-            && XDOMXMLCurrentUtils.isSimpleType(descriptor.getParameters().get(0))) {
+            && XDOMXMLCurrentUtils.isSimpleType(element.getParameters().get(0))) {
             String value = parameters[0].toString();
             try {
                 this.contentHandler.characters(value.toCharArray(), 0, value.length());
@@ -205,7 +205,7 @@ public class XDOMXMLChainingStreamRenderer implements InvocationHandler
                 throw new RuntimeException("Failed to send sax event", e);
             }
         } else {
-            printParameters(elementParameters, descriptor);
+            printParameters(elementParameters, element);
         }
 
         // Print end element
