@@ -45,6 +45,11 @@ public class ParserUtils
         if ((blocks.size() == 1) && blocks.get(0) instanceof ParagraphBlock) {
             Block paragraphBlock = blocks.remove(0);
             blocks.addAll(0, paragraphBlock.getChildren());
+
+            // Remove parent block
+            for (Block block : blocks) {
+                block.setParent(null);
+            }
         }
     }
 }
