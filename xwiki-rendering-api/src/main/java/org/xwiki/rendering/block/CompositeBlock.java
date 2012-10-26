@@ -47,4 +47,10 @@ public class CompositeBlock extends AbstractBlock
     {
         super(blocks);
     }
+
+    @Override
+    public String toString()
+    {
+        return getChildren().toString();
+    }
 }
