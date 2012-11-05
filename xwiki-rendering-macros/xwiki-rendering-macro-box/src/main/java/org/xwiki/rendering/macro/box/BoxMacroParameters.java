@@ -35,7 +35,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 public class BoxMacroParameters
 {
     /**
-     * @see @getClassProperty
+     * @see #getCssClass()
      */
     private String cssClass = StringUtils.EMPTY;
 
