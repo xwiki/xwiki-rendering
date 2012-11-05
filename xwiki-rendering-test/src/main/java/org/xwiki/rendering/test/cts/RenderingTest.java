@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
@@ -36,6 +37,7 @@ import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.SyntaxFactory;
+import org.xwiki.velocity.internal.log.SLF4JLogChute;
 
 /**
  * A generic JUnit Test used by {@link CompatibilityTestSuite} to run a single CTS test.
@@ -55,6 +57,12 @@ public class RenderingTest
      * data.
      */
     private static final VelocityEngine VELOCITY_ENGINE = new VelocityEngine();
+
+    static
+    {
+        // Make velocity use SLF4J as logger
+        VELOCITY_ENGINE.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, new SLF4JLogChute());
+    }
 
     /**
      * Symbols to start a special syntax block. For example: {@code ${{{regex:...}}}} or {@code ${{{velocity:...}}}}
