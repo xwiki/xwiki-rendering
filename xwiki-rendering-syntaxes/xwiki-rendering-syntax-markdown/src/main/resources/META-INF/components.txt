@@ -1,1 +1,2 @@
 org.xwiki.rendering.internal.parser.markdown.MarkdownParser
+org.xwiki.rendering.internal.parser.markdown.DefaultPegdownToXDOMConverter
