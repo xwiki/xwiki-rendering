@@ -1,14 +1,13 @@
 .#-----------------------------------------------------
 .input|markdown/1.0
-.# Make sure special characters are properly handled
+.# Test standalone code using fenced blocks
 .#-----------------------------------------------------
-'&
+    code line1
+    code line2
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginParagraph
-onWord [(((8217)))]
-onSpecialSymbol [&]
-endParagraph
+onMacroStandalone [code] [] [code line1
+code line2]
 endDocument
