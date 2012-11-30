@@ -70,16 +70,7 @@ import org.pegdown.ast.WikiLinkNode;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
-import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.BulletedListBlock;
-import org.xwiki.rendering.block.FormatBlock;
-import org.xwiki.rendering.block.HeaderBlock;
-import org.xwiki.rendering.block.ListItemBlock;
-import org.xwiki.rendering.block.MacroBlock;
-import org.xwiki.rendering.block.NewLineBlock;
-import org.xwiki.rendering.block.ParagraphBlock;
-import org.xwiki.rendering.block.SectionBlock;
-import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.block.*;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
@@ -419,6 +410,9 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     {
         if (SimpleNode.Type.Linebreak.equals(simpleNode.getType())) {
             this.currentBlock.addChild(new NewLineBlock());
+        } else if (SimpleNode.Type.Apostrophe.equals(simpleNode.getType())) {
+            // TODO I expected the apostrophe to be a SpecialSymbolBlock, but misc4.test says otherwise
+            this.currentBlock.addChild(new WordBlock("\u2019"));
         } else {
             throw new RuntimeException("not implemented yet");
         }
