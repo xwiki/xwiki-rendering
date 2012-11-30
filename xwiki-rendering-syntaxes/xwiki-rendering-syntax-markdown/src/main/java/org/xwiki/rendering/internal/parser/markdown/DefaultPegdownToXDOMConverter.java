@@ -227,7 +227,7 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     @Override
     public void visit(SpecialTextNode specialTextNode)
     {
-        visit(specialTextNode);
+        visit((TextNode)specialTextNode);
     }
 
     @Override
