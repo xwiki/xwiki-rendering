@@ -1,0 +1,26 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+onWord [paragraph]
+endParagraph
+beginQuotation
+beginQuotationLine
+onWord [line1]
+beginQuotation
+beginQuotationLine
+onWord [line2]
+beginQuotation
+beginQuotationLine
+onWord [line3]
+endQuotationLine
+endQuotation
+endQuotationLine
+beginQuotationLine
+onWord [line4]
+endQuotationLine
+endQuotation
+endQuotationLine
+endQuotation
+beginParagraph
+onWord [paragraph]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]
