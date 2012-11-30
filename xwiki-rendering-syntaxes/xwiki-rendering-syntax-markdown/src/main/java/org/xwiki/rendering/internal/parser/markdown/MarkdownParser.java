@@ -21,7 +21,6 @@ package org.xwiki.rendering.internal.parser.markdown;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.*;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,14 +28,10 @@ import javax.inject.Singleton;
 
 import org.apache.commons.io.IOUtils;
 import org.pegdown.Extensions;
-import org.pegdown.LinkRenderer;
 import org.pegdown.PegDownProcessor;
-import org.pegdown.ToHtmlSerializer;
-import org.pegdown.ast.*;
+import org.pegdown.ast.RootNode;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
@@ -52,6 +47,9 @@ import org.xwiki.rendering.syntax.Syntax;
 @Singleton
 public class MarkdownParser implements Parser
 {
+    /**
+     * PegDown AST to XDOM converter.
+     */
     @Inject
     private PegdownToXDOMConverter converter;
 

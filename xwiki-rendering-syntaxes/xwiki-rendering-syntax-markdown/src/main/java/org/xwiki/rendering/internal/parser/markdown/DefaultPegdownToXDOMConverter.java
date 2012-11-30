@@ -19,13 +19,67 @@
  */
 package org.xwiki.rendering.internal.parser.markdown;
 
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Provider;
+
 import org.apache.commons.lang3.StringUtils;
-import org.pegdown.ast.*;
+import org.pegdown.ast.AbbreviationNode;
+import org.pegdown.ast.AutoLinkNode;
+import org.pegdown.ast.BlockQuoteNode;
+import org.pegdown.ast.BulletListNode;
+import org.pegdown.ast.CodeNode;
+import org.pegdown.ast.DefinitionListNode;
+import org.pegdown.ast.DefinitionNode;
+import org.pegdown.ast.DefinitionTermNode;
+import org.pegdown.ast.EmphNode;
+import org.pegdown.ast.ExpImageNode;
+import org.pegdown.ast.ExpLinkNode;
+import org.pegdown.ast.HeaderNode;
+import org.pegdown.ast.HtmlBlockNode;
+import org.pegdown.ast.InlineHtmlNode;
+import org.pegdown.ast.ListItemNode;
+import org.pegdown.ast.MailLinkNode;
+import org.pegdown.ast.Node;
+import org.pegdown.ast.OrderedListNode;
+import org.pegdown.ast.ParaNode;
+import org.pegdown.ast.QuotedNode;
+import org.pegdown.ast.RefImageNode;
+import org.pegdown.ast.RefLinkNode;
+import org.pegdown.ast.ReferenceNode;
+import org.pegdown.ast.RootNode;
+import org.pegdown.ast.SimpleNode;
+import org.pegdown.ast.SpecialTextNode;
+import org.pegdown.ast.StrongNode;
+import org.pegdown.ast.SuperNode;
+import org.pegdown.ast.TableBodyNode;
+import org.pegdown.ast.TableCellNode;
+import org.pegdown.ast.TableColumnNode;
+import org.pegdown.ast.TableHeaderNode;
+import org.pegdown.ast.TableNode;
+import org.pegdown.ast.TableRowNode;
+import org.pegdown.ast.TextNode;
+import org.pegdown.ast.VerbatimNode;
+import org.pegdown.ast.Visitor;
+import org.pegdown.ast.WikiLinkNode;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
-import org.xwiki.rendering.block.*;
-import org.xwiki.rendering.block.match.BlockMatcher;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.BulletedListBlock;
+import org.xwiki.rendering.block.FormatBlock;
+import org.xwiki.rendering.block.HeaderBlock;
+import org.xwiki.rendering.block.ListItemBlock;
+import org.xwiki.rendering.block.MacroBlock;
+import org.xwiki.rendering.block.ParagraphBlock;
+import org.xwiki.rendering.block.SectionBlock;
+import org.xwiki.rendering.block.VerbatimBlock;
+import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
@@ -38,38 +92,44 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Provider;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 /**
- * <a href="https://github.com/sirthias/pegdown">Pegdown</a> visitor 
- * to transform the Pegdown AST into an XDOM representation.
+ * <a href="https://github.com/sirthias/pegdown">Pegdown</a> visitor to transform the Pegdown AST into an XDOM
+ * representation.
  *
  * @version $Id$
- * @since 4.4-milestone-1
+ * @since 4.4M1
  */
 @Component
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConverter {
-
+public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConverter
+{
+    /**
+     * A plain text parser used to convert Pegdown TextNode elements to various Block elements since TextNode's values
+     * contain several words and special characters which we thus need to break down into individual tokens.
+     */
     @Inject
     @Named("plain/1.0")
     private Parser plainTextParser;
 
-    private IdGenerator idGenerator = new IdGenerator();
-
+    /**
+     * Used to generate a unique id for Headings (specifically used to convert the Heading content into a String).
+     */
     @Inject
     @Named("plain/1.0")
     private BlockRenderer plainTextBlockRenderer;
 
+    /**
+     * Used to convert the Pegdown AST subtree for Headings into XWiki Block elements which can then be fed to the
+     * {@link #plainTextBlockRenderer} to convert them to a String, which is then fed to the {@link #idGenerator} to
+     * generate a unique id.
+     */
     @Inject
     private Provider<PegdownToXDOMConverter> converterProvider;
+
+    /**
+     * Used to generate a unique id for Headings.
+     */
+    private IdGenerator idGenerator = new IdGenerator();
 
     /**
      * List of the blocks we'll be building when visiting the Pegdown tree.
@@ -77,36 +137,34 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     private List<Block> blocks = new ArrayList<Block>();
 
     /**
-     *
+     * The top level XWiki Block element to return.
      */
-    private XDOM rootBlock = new XDOM(blocks, new MetaData(Collections.<String, Object> singletonMap(MetaData.SYNTAX,
-            Syntax.MARKDOWN_1_0)));
+    private XDOM rootBlock = new XDOM(blocks, new MetaData(Collections.<String, Object>singletonMap(MetaData.SYNTAX,
+        Syntax.MARKDOWN_1_0)));
 
     /**
-     * The current block that will contain the current XDOM node
+     * The current Block we're on.
      */
     private Block currentBlock = rootBlock;
 
-    private ListItemBlock previousListItemBlock;
-
-    /**
-     * @return Return the XDOM root block
-     */
     @Override
-    public XDOM buildBlocks(SuperNode superNode) {
+    public XDOM buildBlocks(SuperNode superNode)
+    {
         superNode.accept(this);
         return rootBlock;
     }
 
     @Override
-    public void visit(RootNode rootNode) {
-//        for (ReferenceNode ref : rootNode.getReferences()) {
-//            visitChildren(ref);
-//        }
-//
-//        for (AbbreviationNode abbr : rootNode.getAbbreviations()) {
-//            visitChildren(abbr);
-//        }
+    public void visit(RootNode rootNode)
+    {
+        // TODO: Add handling for ReferenceNode and AbbreviationNode
+        //        for (ReferenceNode ref : rootNode.getReferences()) {
+        //            visitChildren(ref);
+        //        }
+        //
+        //        for (AbbreviationNode abbr : rootNode.getAbbreviations()) {
+        //            visitChildren(abbr);
+        //        }
 
         visitChildren(rootNode);
     }
@@ -114,79 +172,94 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     /**
      * Helper method to visit all children nodes.
      *
-     * @param node
+     * @param node the node to visit
      */
-    protected void visitChildren(Node node) {
+    protected void visitChildren(Node node)
+    {
         for (Node child : node.getChildren()) {
             child.accept(this);
         }
     }
 
-    protected void visitChildren(Node node, Block block) {
-        currentBlock.addChild(block);
-        currentBlock = block;
-
+    /**
+     * Helper method to visit all children nodes.
+     *
+     * @param node the node to visit
+     * @param blockToAdd the Block to add and set as the new current block prior to visiting the children
+     */
+    protected void visitChildren(Node node, Block blockToAdd)
+    {
+        currentBlock.addChild(blockToAdd);
+        currentBlock = blockToAdd;
         visitChildren(node);
-
         currentBlock = currentBlock.getParent();
     }
 
     @Override
-    public void visit(Node node) {
-        // not called for top-level class nodes
+    public void visit(Node node)
+    {
+        // Not used.
     }
 
     @Override
-    public void visit(ParaNode paraNode) {
-        ArrayList<Block> paraChildren = new ArrayList<Block>();
+    public void visit(ParaNode paraNode)
+    {
+        List<Block> paraChildren = new ArrayList<Block>();
         ParagraphBlock paragraphBlock = new ParagraphBlock(paraChildren);
 
         visitChildren(paraNode, paragraphBlock);
     }
 
     @Override
-    public void visit(TextNode textNode) {
+    public void visit(TextNode textNode)
+    {
         XDOM xdom;
         try {
             xdom = plainTextParser.parse(new StringReader(textNode.getText()));
         } catch (ParseException e) {
-            throw new RuntimeException(String.format("Problem parsing text [%s]", textNode.getText()), e);
+            throw new RuntimeException(String.format("Error parsing content [%s]", textNode.getText()), e);
         }
 
-        currentBlock.addChildren(xdom.getFirstBlock(new ClassBlockMatcher(ParagraphBlock.class), Block.Axes.CHILD).getChildren());
+        currentBlock.addChildren(
+            xdom.getFirstBlock(new ClassBlockMatcher(ParagraphBlock.class), Block.Axes.CHILD).getChildren());
     }
 
     @Override
-    public void visit(SpecialTextNode specialTextNode) {
+    public void visit(SpecialTextNode specialTextNode)
+    {
         visit(specialTextNode);
     }
 
     @Override
-    public void visit(StrongNode strongNode) {
-        ArrayList<Block> children = new ArrayList<Block>();
+    public void visit(StrongNode strongNode)
+    {
+        List<Block> children = new ArrayList<Block>();
         FormatBlock block = new FormatBlock(children, Format.BOLD);
 
         visitChildren(strongNode, block);
     }
 
     @Override
-    public void visit(EmphNode emphNode) {
-        ArrayList<Block> children = new ArrayList<Block>();
+    public void visit(EmphNode emphNode)
+    {
+        List<Block> children = new ArrayList<Block>();
         FormatBlock block = new FormatBlock(children, Format.ITALIC);
 
         visitChildren(emphNode, block);
     }
 
     @Override
-    public void visit(BulletListNode bulletListNode) {
-        ArrayList<Block> children = new ArrayList<Block>();
+    public void visit(BulletListNode bulletListNode)
+    {
+        List<Block> children = new ArrayList<Block>();
         BulletedListBlock block = new BulletedListBlock(children, Collections.EMPTY_MAP);
 
         visitChildren(bulletListNode, block);
     }
 
     @Override
-    public void visit(ListItemNode listItemNode) {
+    public void visit(ListItemNode listItemNode)
+    {
         ListItemBlock listItemBlock = new ListItemBlock(new ArrayList<Block>());
         currentBlock.addChild(listItemBlock);
         Block originalCurrentBlock = currentBlock;
@@ -200,14 +273,16 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     }
 
     @Override
-    public void visit(CodeNode codeNode) {
+    public void visit(CodeNode codeNode)
+    {
         VerbatimBlock block = new VerbatimBlock(codeNode.getText(), true);
 
         currentBlock.addChild(block);
     }
 
     @Override
-    public void visit(VerbatimNode verbatimNode) {
+    public void visit(VerbatimNode verbatimNode)
+    {
         Block block;
 
         if (verbatimNode.getType().length() == 0) {
@@ -222,133 +297,178 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     }
 
     @Override
-    public void visit(HeaderNode headerNode) {
-        ArrayList<Block> childrenBlocks = new ArrayList<Block>();
-
-        SectionBlock sectionBlock = new SectionBlock(childrenBlocks);
-
+    public void visit(HeaderNode headerNode)
+    {
+        // Step 1: Generate a unique id for the Heading block
         XDOM xdom = this.converterProvider.get().buildBlocks(new SuperNode(headerNode.getChildren()));
-
         WikiPrinter wikiPrinter = new DefaultWikiPrinter();
         this.plainTextBlockRenderer.render(xdom, wikiPrinter);
         String uniqueId = idGenerator.generateUniqueId("H", wikiPrinter.toString());
 
-        ArrayList<Block> headerChildrenBlocks = new ArrayList<Block>();
-        HeaderBlock headerBlock = new HeaderBlock(headerChildrenBlocks, HeaderLevel.parseInt(headerNode.getLevel()), uniqueId);
+        // Step 2: Create Section and Heading Blocks
+        List<Block> childrenBlocks = new ArrayList<Block>();
+        SectionBlock sectionBlock = new SectionBlock(childrenBlocks);
+        List<Block> headerChildrenBlocks = new ArrayList<Block>();
+        HeaderBlock headerBlock =
+            new HeaderBlock(headerChildrenBlocks, HeaderLevel.parseInt(headerNode.getLevel()), uniqueId);
         sectionBlock.addChild(headerBlock);
-
         currentBlock.addChild(sectionBlock);
 
         currentBlock = headerBlock;
-
-        for (Node node: headerNode.getChildren()) {
+        for (Node node : headerNode.getChildren()) {
             node.accept(this);
         }
 
         currentBlock = sectionBlock;
     }
 
-
-
     @Override
-    public void visit(AbbreviationNode abbreviationNode) {
+    public void visit(AbbreviationNode abbreviationNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(AutoLinkNode autoLinkNode) {
+    public void visit(AutoLinkNode autoLinkNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(BlockQuoteNode blockQuoteNode) {
+    public void visit(BlockQuoteNode blockQuoteNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(DefinitionListNode definitionListNode) {
+    public void visit(DefinitionListNode definitionListNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(DefinitionNode definitionNode) {
+    public void visit(DefinitionNode definitionNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(DefinitionTermNode definitionTermNode) {
+    public void visit(DefinitionTermNode definitionTermNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(ExpImageNode expImageNode) {
+    public void visit(ExpImageNode expImageNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(ExpLinkNode expLinkNode) {
+    public void visit(ExpLinkNode expLinkNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(HtmlBlockNode htmlBlockNode) {
+    public void visit(HtmlBlockNode htmlBlockNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(InlineHtmlNode inlineHtmlNode) {
+    public void visit(InlineHtmlNode inlineHtmlNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(MailLinkNode mailLinkNode) {
+    public void visit(MailLinkNode mailLinkNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(OrderedListNode orderedListNode) {
+    public void visit(OrderedListNode orderedListNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(QuotedNode quotedNode) {
+    public void visit(QuotedNode quotedNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(ReferenceNode referenceNode) {
+    public void visit(ReferenceNode referenceNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(RefImageNode refImageNode) {
+    public void visit(RefImageNode refImageNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(RefLinkNode refLinkNode) {
+    public void visit(RefLinkNode refLinkNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(SimpleNode simpleNode) {
-    }
-
-
-    @Override
-    public void visit(TableBodyNode tableBodyNode) {
+    public void visit(SimpleNode simpleNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(TableCellNode tableCellNode) {
+    public void visit(TableBodyNode tableBodyNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(TableColumnNode tableColumnNode) {
+    public void visit(TableCellNode tableCellNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(TableHeaderNode tableHeaderNode) {
+    public void visit(TableColumnNode tableColumnNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(TableNode tableNode) {
+    public void visit(TableHeaderNode tableHeaderNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(TableRowNode tableRowNode) {
+    public void visit(TableNode tableNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(WikiLinkNode wikiLinkNode) {
+    public void visit(TableRowNode tableRowNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override
-    public void visit(SuperNode superNode) {
+    public void visit(WikiLinkNode wikiLinkNode)
+    {
+        throw new RuntimeException("not implemented yet");
+    }
+
+    @Override
+    public void visit(SuperNode superNode)
+    {
         visitChildren(superNode);
     }
 }
