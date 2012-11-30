@@ -76,6 +76,7 @@ import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.HeaderBlock;
 import org.xwiki.rendering.block.ListItemBlock;
 import org.xwiki.rendering.block.MacroBlock;
+import org.xwiki.rendering.block.NewLineBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.SectionBlock;
 import org.xwiki.rendering.block.XDOM;
@@ -416,7 +417,11 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     @Override
     public void visit(SimpleNode simpleNode)
     {
-        throw new RuntimeException("not implemented yet");
+        if (SimpleNode.Type.Linebreak.equals(simpleNode.getType())) {
+            this.currentBlock.addChild(new NewLineBlock());
+        } else {
+            throw new RuntimeException("not implemented yet");
+        }
     }
 
     @Override
