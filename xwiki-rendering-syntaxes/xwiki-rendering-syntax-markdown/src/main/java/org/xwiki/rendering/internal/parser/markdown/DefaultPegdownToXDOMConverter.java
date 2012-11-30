@@ -78,7 +78,6 @@ import org.xwiki.rendering.block.ListItemBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.SectionBlock;
-import org.xwiki.rendering.block.VerbatimBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.listener.Format;
@@ -140,7 +139,7 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
      * The top level XWiki Block element to return.
      */
     private XDOM rootBlock = new XDOM(blocks, new MetaData(Collections.<String, Object>singletonMap(MetaData.SYNTAX,
-        Syntax.MARKDOWN_1_0)));
+            Syntax.MARKDOWN_1_0)));
 
     /**
      * The current Block we're on.
@@ -189,10 +188,10 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
      */
     protected void visitChildren(Node node, Block blockToAdd)
     {
-        currentBlock.addChild(blockToAdd);
-        currentBlock = blockToAdd;
+        this.currentBlock.addChild(blockToAdd);
+        this.currentBlock = blockToAdd;
         visitChildren(node);
-        currentBlock = currentBlock.getParent();
+        this.currentBlock = this.currentBlock.getParent();
     }
 
     @Override
@@ -215,19 +214,19 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     {
         XDOM xdom;
         try {
-            xdom = plainTextParser.parse(new StringReader(textNode.getText()));
+            xdom = this.plainTextParser.parse(new StringReader(textNode.getText()));
         } catch (ParseException e) {
             throw new RuntimeException(String.format("Error parsing content [%s]", textNode.getText()), e);
         }
 
-        currentBlock.addChildren(
-            xdom.getFirstBlock(new ClassBlockMatcher(ParagraphBlock.class), Block.Axes.CHILD).getChildren());
+        this.currentBlock.addChildren(
+                xdom.getFirstBlock(new ClassBlockMatcher(ParagraphBlock.class), Block.Axes.CHILD).getChildren());
     }
 
     @Override
     public void visit(SpecialTextNode specialTextNode)
     {
-        visit((TextNode)specialTextNode);
+        visit((TextNode) specialTextNode);
     }
 
     @Override
@@ -261,39 +260,35 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     public void visit(ListItemNode listItemNode)
     {
         ListItemBlock listItemBlock = new ListItemBlock(new ArrayList<Block>());
-        currentBlock.addChild(listItemBlock);
-        Block originalCurrentBlock = currentBlock;
+        this.currentBlock.addChild(listItemBlock);
+        Block originalCurrentBlock = this.currentBlock;
 
         for (Node node : listItemNode.getChildren()) {
-            currentBlock = listItemBlock;
+            this.currentBlock = listItemBlock;
             node.accept(this);
         }
 
-        currentBlock = originalCurrentBlock;
+        this.currentBlock = originalCurrentBlock;
     }
 
     @Override
     public void visit(CodeNode codeNode)
     {
-        VerbatimBlock block = new VerbatimBlock(codeNode.getText(), true);
-
-        currentBlock.addChild(block);
+        // Since XWiki doesn't have a Code Block we generate a Code Macro Block
+        this.currentBlock.addChild(new MacroBlock("code", Collections.EMPTY_MAP, codeNode.getText(), true));
     }
 
     @Override
     public void visit(VerbatimNode verbatimNode)
     {
-        Block block;
+        String text = StringUtils.removeEnd(verbatimNode.getText(), "\n");
+        Block block = new MacroBlock("code", Collections.EMPTY_MAP, text, false);
 
-        if (verbatimNode.getType().length() == 0) {
-            String text = StringUtils.removeEnd(verbatimNode.getText(), "\n");
-            block = new VerbatimBlock(text, false);
-        } else {
-            block = new MacroBlock("code", Collections.singletonMap("language", verbatimNode.getType()),
-                    verbatimNode.getText(), false);
+        if (verbatimNode.getType().length() > 0) {
+            block.setParameters(Collections.singletonMap("language", verbatimNode.getType()));
         }
 
-        currentBlock.addChild(block);
+        this.currentBlock.addChild(block);
     }
 
     @Override
@@ -303,23 +298,23 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
         XDOM xdom = this.converterProvider.get().buildBlocks(new SuperNode(headerNode.getChildren()));
         WikiPrinter wikiPrinter = new DefaultWikiPrinter();
         this.plainTextBlockRenderer.render(xdom, wikiPrinter);
-        String uniqueId = idGenerator.generateUniqueId("H", wikiPrinter.toString());
+        String uniqueId = this.idGenerator.generateUniqueId("H", wikiPrinter.toString());
 
         // Step 2: Create Section and Heading Blocks
         List<Block> childrenBlocks = new ArrayList<Block>();
         SectionBlock sectionBlock = new SectionBlock(childrenBlocks);
         List<Block> headerChildrenBlocks = new ArrayList<Block>();
         HeaderBlock headerBlock =
-            new HeaderBlock(headerChildrenBlocks, HeaderLevel.parseInt(headerNode.getLevel()), uniqueId);
+                new HeaderBlock(headerChildrenBlocks, HeaderLevel.parseInt(headerNode.getLevel()), uniqueId);
         sectionBlock.addChild(headerBlock);
-        currentBlock.addChild(sectionBlock);
+        this.currentBlock.addChild(sectionBlock);
 
-        currentBlock = headerBlock;
+        this.currentBlock = headerBlock;
         for (Node node : headerNode.getChildren()) {
             node.accept(this);
         }
 
-        currentBlock = sectionBlock;
+        this.currentBlock = sectionBlock;
     }
 
     @Override

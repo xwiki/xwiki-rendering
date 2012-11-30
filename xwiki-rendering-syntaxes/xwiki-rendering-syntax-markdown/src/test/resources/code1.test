@@ -1,11 +1,17 @@
 .#-----------------------------------------------------
 .input|markdown/1.0
+.# Test inline code
 .#-----------------------------------------------------
-```ruby
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
-```
+This is `some code`
 .#-----------------------------------------------------
-.expect|xhtml/1.0|skip
+.expect|event/1.0
 .#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+onMacroInline [code] [] [some code]
+endParagraph
+endDocument

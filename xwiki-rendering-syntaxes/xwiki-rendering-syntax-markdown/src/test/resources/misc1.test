@@ -29,8 +29,7 @@ beginFormat [BOLD]
 onWord [strong]
 endFormat [BOLD]
 endParagraph
-onVerbatim [function() {}
-] [false]
+onMacroStandalone [code] [] [function() {}]
 beginSection
 beginHeader [1, Haheader]
 onWord [a]

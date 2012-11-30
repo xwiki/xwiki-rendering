@@ -1,5 +1,5 @@
 .#-----------------------------------------------------
-.input|markdown/1.0|skip
+.input|markdown/1.0
 .# Test quotes.
 .# See http://jira.xwiki.org/jira/browse/XRENDERING-179
 .#-----------------------------------------------------
