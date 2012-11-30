@@ -1,3 +1,7 @@
+.#-----------------------------------------------------
+.input|markdown/1.0
+.# Example containing almost the full markdown syntax
+.#-----------------------------------------------------
 Markdown: Basics
 ================
 
@@ -304,3 +308,6 @@ Output:
         &lt;p&gt;For example.&lt;/p&gt;
     &lt;/blockquote&gt;
     </code></pre>
+.#-----------------------------------------------------
+.expect|event/1.0|skip
+.#-----------------------------------------------------
