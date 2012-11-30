@@ -23,8 +23,8 @@ import org.junit.runner.RunWith;
 import org.xwiki.rendering.test.integration.RenderingTestSuite;
 
 /**
- * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow
- * the conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
+ * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
+ * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
  *
  * @version $Id$
  * @since 4.1M1
