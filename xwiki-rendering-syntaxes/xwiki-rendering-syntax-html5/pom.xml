@@ -20,6 +20,11 @@
             <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.xwiki.rendering</groupId>
+            <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     <!-- Runtime dependency -->
     <!-- TODO: That's very bad and should be fixed by http://jira.xwiki.org/jira/browse/XRENDERING-83 -->
         <dependency>
