@@ -41,6 +41,6 @@ public class DefaultHTML5LinkTypeRenderer extends AbstractHTML5LinkTypeRenderer
     protected void beginLinkExtraAttributes(ResourceReference reference, Map<String, String> spanAttributes,
         Map<String, String> anchorAttributes)
     {
-        anchorAttributes.put(org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer.HREF, reference.getReference());
+        anchorAttributes.put(org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer.HREF, reference.getReference());
     }
 }

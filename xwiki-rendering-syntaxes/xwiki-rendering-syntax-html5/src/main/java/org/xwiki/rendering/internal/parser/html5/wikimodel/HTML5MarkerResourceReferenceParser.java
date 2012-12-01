@@ -32,13 +32,13 @@ import javax.inject.Singleton;
 
 /**
  * Parse a resource reference specified using the syntax used by the XHTML Annotated Renderer to represent resources
- * as XHTML comments, using the syntax {@code (isTyped)|-|(type)|-|(reference)|-|(parameters: key="value")}.
+ * as HTML5 comments, using the syntax {@code (isTyped)|-|(type)|-|(reference)|-|(parameters: key="value")}.
  *
  * @version $Id$
  * @since 2.5RC1
  */
 @Component
-@Named("xhtmlmarker")
+@Named("html5marker")
 @Singleton
 public class HTML5MarkerResourceReferenceParser implements ResourceReferenceParser
 {
@@ -51,14 +51,14 @@ public class HTML5MarkerResourceReferenceParser implements ResourceReferencePars
     public ResourceReference parse(String rawReference)
     {
         String[] tokens = StringUtils.splitByWholeSeparatorPreserveAllTokens(rawReference, COMMENT_SEPARATOR);
-        boolean isTyped = tokens[0].equalsIgnoreCase("true") ? true : false;
+        boolean isTyped = tokens[0].equalsIgnoreCase("true") ? true : false; // remove elvis
         ResourceType type = new ResourceType(tokens[1]);
         String reference = tokens[2];
 
         ResourceReference resourceReference = new ResourceReference(reference, type);
         resourceReference.setTyped(isTyped);
 
-        if (tokens.length == 4) {
+        if (tokens.length == 4) {  // Is this a magick number?
             for (WikiParameter parameter : WikiParameters.newWikiParameters(tokens[3])) {
                 resourceReference.setParameter(parameter.getKey(), parameter.getValue());
             }

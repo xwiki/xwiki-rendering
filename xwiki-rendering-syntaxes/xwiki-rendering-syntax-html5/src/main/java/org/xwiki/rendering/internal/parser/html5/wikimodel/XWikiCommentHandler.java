@@ -21,8 +21,9 @@ package org.xwiki.rendering.internal.parser.html5.wikimodel;
 
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.internal.parser.html5.HTML5Parser;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
-import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
+
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
@@ -49,7 +50,7 @@ import java.util.Stack;
  */
 public class XWikiCommentHandler extends CommentHandler
 {
-    private XHTMLParser parser;
+    private HTML5Parser parser;
 
     private PrintRendererFactory xwikiSyntaxPrintRendererFactory;
 
@@ -68,7 +69,7 @@ public class XWikiCommentHandler extends CommentHandler
      * @todo Remove the need to pass a Parser when WikiModel implements support for wiki syntax in links. See
      *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */
-    public XWikiCommentHandler(ComponentManager componentManager, XHTMLParser parser,
+    public XWikiCommentHandler(ComponentManager componentManager, HTML5Parser parser,
         PrintRendererFactory xwikiSyntaxPrintRendererFactory, ResourceReferenceParser xhtmlMarkerResourceReferenceParser)
     {
         this.componentManager = componentManager;

@@ -24,8 +24,9 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.internal.renderer.xhtml.AnnotatedXHTMLChainingRenderer;
-import org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer;
+import org.xwiki.rendering.internal.renderer.html5.AnnotatedHTML5ChainingRenderer;
+import org.xwiki.rendering.internal.renderer.html5.image.HTML5ImageRenderer;
+import org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
@@ -84,6 +85,6 @@ public class AnnotatedHTML5Renderer extends AbstractChainingPrintRenderer implem
         chain.addListener(new BlockStateChainingListener(chain));
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
-        chain.addListener(new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain));
+        chain.addListener(new AnnotatedHTML5ChainingRenderer(this.linkRenderer, this.imageRenderer, chain));
     }
 }

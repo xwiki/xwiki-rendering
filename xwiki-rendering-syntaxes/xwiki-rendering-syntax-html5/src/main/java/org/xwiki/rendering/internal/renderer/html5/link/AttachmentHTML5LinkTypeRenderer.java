@@ -25,7 +25,7 @@ import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer;
+import org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
 import org.xwiki.rendering.wiki.WikiModel;
@@ -79,7 +79,7 @@ public class AttachmentHTML5LinkTypeRenderer extends AbstractHTML5LinkTypeRender
             anchorAttributes.put(HTML5LinkRenderer.HREF, this.wikiModel.getLinkURL(reference));
             spanAttributes.put(CLASS, "wikiattachmentlink");
         } else {
-            anchorAttributes.put(org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer.HREF, this.defaultResourceReferenceTypeSerializer.serialize(
+            anchorAttributes.put(org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer.HREF, this.defaultResourceReferenceTypeSerializer.serialize(
                 reference));
             spanAttributes.put(CLASS, "wikiattachmentlink wikiexternallink");
         }

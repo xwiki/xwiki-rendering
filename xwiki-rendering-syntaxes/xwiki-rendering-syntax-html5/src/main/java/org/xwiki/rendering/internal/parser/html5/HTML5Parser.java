@@ -23,7 +23,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
-import org.xwiki.rendering.internal.parser.xhtml.wikimodel.*;
+import org.xwiki.rendering.internal.parser.html5.wikimodel.*;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
@@ -43,13 +43,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Parses XHTML and generate a {@link org.xwiki.rendering.block.XDOM} object.
+ * Parses HTML5 and generate a {@link org.xwiki.rendering.block.XDOM} object.
  * 
  * @version $Id$
  * @since 1.5M2
  */
 @Component
-@Named("xhtml/1.0")
+@Named("html/5.0")
 @Singleton
 public class HTML5Parser extends AbstractWikiModelParser
 {
@@ -85,7 +85,7 @@ public class HTML5Parser extends AbstractWikiModelParser
     private ComponentManager componentManager;
 
     @Inject
-    @Named("xhtmlmarker")
+    @Named("html5marker")
     private ResourceReferenceParser xhtmlMarkerResourceReferenceParser;
 
     /**
@@ -105,7 +105,7 @@ public class HTML5Parser extends AbstractWikiModelParser
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.XHTML_1_0;
+        return Syntax.HTML_5_0;
     }
 
     @Override
@@ -168,7 +168,7 @@ public class HTML5Parser extends AbstractWikiModelParser
     @Override
     public XWikiGeneratorListener createXWikiGeneratorListener(Listener listener, IdGenerator idGenerator)
     {
-        return new XHTMLXWikiGeneratorListener(getLinkLabelParser(), listener, getLinkReferenceParser(),
+        return new HTML5XWikiGeneratorListener(getLinkLabelParser(), listener, getLinkReferenceParser(),
             getImageReferenceParser(), this.plainRendererFactory, idGenerator, getSyntax());
     }
 }

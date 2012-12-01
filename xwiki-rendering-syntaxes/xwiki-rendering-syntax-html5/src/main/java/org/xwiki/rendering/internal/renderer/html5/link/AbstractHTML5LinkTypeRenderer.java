@@ -21,7 +21,7 @@ package org.xwiki.rendering.internal.renderer.html5.link;
 
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer;
+import org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
@@ -160,7 +160,7 @@ public abstract class AbstractHTML5LinkTypeRenderer implements HTML5LinkTypeRend
             getXHTMLWikiPrinter().printXMLEndElement(SPAN);
         }
 
-        getXHTMLWikiPrinter().printXMLEndElement(org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer.ANCHOR);
+        getXHTMLWikiPrinter().printXMLEndElement(org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer.ANCHOR);
         getXHTMLWikiPrinter().printXMLEndElement(SPAN);
     }
 

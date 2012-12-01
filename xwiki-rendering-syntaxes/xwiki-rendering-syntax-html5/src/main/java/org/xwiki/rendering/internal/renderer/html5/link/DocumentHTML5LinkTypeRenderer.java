@@ -26,7 +26,7 @@ import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer;
+import org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
@@ -157,7 +157,7 @@ public class DocumentHTML5LinkTypeRenderer extends AbstractHTML5LinkTypeRenderer
             buffer.append(anchor);
         }
 
-        aAttributes.put(org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer.HREF, buffer.toString());
+        aAttributes.put(org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer.HREF, buffer.toString());
     }
 
     @Override

@@ -20,7 +20,7 @@
 package org.xwiki.rendering.internal.renderer.html5;
 
 import org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer;
-import org.xwiki.rendering.internal.renderer.xhtml.image.HTML5ImageRenderer;
+import org.xwiki.rendering.internal.renderer.html5.image.HTML5ImageRenderer;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.ListType;

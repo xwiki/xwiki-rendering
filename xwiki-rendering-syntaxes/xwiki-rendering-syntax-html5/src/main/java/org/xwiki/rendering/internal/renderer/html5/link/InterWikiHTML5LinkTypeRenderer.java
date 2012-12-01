@@ -23,7 +23,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
-import org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer;
+import org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
@@ -60,7 +60,7 @@ public class InterWikiHTML5LinkTypeRenderer extends AbstractHTML5LinkTypeRendere
             anchorAttributes.put(HTML5LinkRenderer.HREF,
                 definitions.getProperty(interWikiAlias) + reference.getReference());
         } else {
-            anchorAttributes.put(org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer.HREF, reference.getReference());
+            anchorAttributes.put(org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer.HREF, reference.getReference());
         }
     }
 }

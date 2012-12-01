@@ -25,7 +25,7 @@ import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer;
-import org.xwiki.rendering.internal.renderer.xhtml.image.HTML5ImageRenderer;
+import org.xwiki.rendering.internal.renderer.html5.image.HTML5ImageRenderer;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
@@ -44,7 +44,7 @@ import javax.inject.Named;
 @Component
 @Named("html/5.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class HTM5Renderer extends AbstractChainingPrintRenderer implements Initializable
+public class HTML5Renderer extends AbstractChainingPrintRenderer implements Initializable
 {
     /**
      * To render link events into XHTML. This is done so that it's pluggable because link rendering depends on how

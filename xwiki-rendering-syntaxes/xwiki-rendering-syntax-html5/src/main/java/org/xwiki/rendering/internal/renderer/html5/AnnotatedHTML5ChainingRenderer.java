@@ -19,10 +19,10 @@
  */
 package org.xwiki.rendering.internal.renderer.html5;
 
-import org.xwiki.rendering.internal.renderer.xhtml.HTML5ChainingRenderer;
-import org.xwiki.rendering.internal.renderer.xhtml.HTML5MacroRenderer;
-import org.xwiki.rendering.internal.renderer.xhtml.image.HTML5ImageRenderer;
-import org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer;
+import org.xwiki.rendering.internal.renderer.html5.HTML5ChainingRenderer;
+import org.xwiki.rendering.internal.renderer.html5.HTML5MacroRenderer;
+import org.xwiki.rendering.internal.renderer.html5.image.HTML5ImageRenderer;
+import org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 
 import java.util.Map;

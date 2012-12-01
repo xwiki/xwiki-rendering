@@ -42,7 +42,7 @@ import java.util.Map;
  */
 @Component
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class DefaultHTML5LinkRenderer implements org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer
+public class DefaultHTML5LinkRenderer implements org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer
 {
     @Inject
     private HTML5LinkTypeRenderer defaultLinkTypeRenderer;

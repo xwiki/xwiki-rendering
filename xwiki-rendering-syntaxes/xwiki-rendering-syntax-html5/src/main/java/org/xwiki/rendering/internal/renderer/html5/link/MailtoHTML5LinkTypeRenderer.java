@@ -36,12 +36,12 @@ import java.util.Map;
 @Component
 @Named("mailto")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class MailtoHTMLLinkTypeRenderer extends AbstractHTML5LinkTypeRenderer
+public class MailtoHTML5LinkTypeRenderer extends AbstractHTML5LinkTypeRenderer
 {
     @Override
     protected void beginLinkExtraAttributes(ResourceReference reference, Map<String, String> spanAttributes,
         Map<String, String> anchorAttributes)
     {
-        anchorAttributes.put(org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer.HREF, reference.getType().getScheme() + ':' + reference.getReference());
+        anchorAttributes.put(org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer.HREF, reference.getType().getScheme() + ':' + reference.getReference());
     }
 }

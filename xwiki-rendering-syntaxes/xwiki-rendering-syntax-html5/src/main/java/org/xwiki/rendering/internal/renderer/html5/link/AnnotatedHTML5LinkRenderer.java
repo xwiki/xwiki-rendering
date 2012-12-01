@@ -22,7 +22,7 @@ package org.xwiki.rendering.internal.renderer.html5.link;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
-import org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer;
+import org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
@@ -54,7 +54,7 @@ public class AnnotatedHTML5LinkRenderer implements HTML5LinkRenderer
      * The default XHTML Link Renderer that we're wrapping.
      */
     @Inject
-    private org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer defaultLinkRenderer;
+    private org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer defaultLinkRenderer;
 
     @Override
     public void setXHTMLWikiPrinter(XHTMLWikiPrinter printer)

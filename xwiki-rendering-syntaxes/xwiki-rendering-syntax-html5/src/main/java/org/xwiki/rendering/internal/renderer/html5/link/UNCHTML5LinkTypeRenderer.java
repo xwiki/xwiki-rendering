@@ -46,6 +46,6 @@ public class UNCHTML5LinkTypeRenderer extends AbstractHTML5LinkTypeRenderer
         // i.e. replace all "\" chars by "/" and prefix with "file:///".
         String fileURL = "file:///" + reference.getReference().replaceAll("\\\\", "/");
 
-        anchorAttributes.put(org.xwiki.rendering.internal.renderer.xhtml.link.HTML5LinkRenderer.HREF, fileURL);
+        anchorAttributes.put(org.xwiki.rendering.internal.renderer.html5.link.HTML5LinkRenderer.HREF, fileURL);
     }
 }
