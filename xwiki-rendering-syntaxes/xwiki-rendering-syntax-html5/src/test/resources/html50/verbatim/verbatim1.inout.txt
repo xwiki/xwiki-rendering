@@ -1,1 +1,0 @@
-<p>This is <code class="wikimodel-verbatim">verbatim</code></p>

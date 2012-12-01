@@ -77,6 +77,8 @@ public class XWikiCommentHandler extends CommentHandler
         this.xhtmlMarkerResourceReferenceParser = xhtmlMarkerResourceReferenceParser;
     }
 
+
+
     @Override
     public void onComment(String content, TagStack stack)
     {
