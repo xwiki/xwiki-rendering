@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * comment placeholders (for recognizing links, images, etc).
  * 
  * @version $Id$
- * @since 2.1RC1
+ * @since 4.4M1
  */
 public class XWikiXHTMLWhitespaceXMLFilter extends XHTMLWhitespaceXMLFilter
 {

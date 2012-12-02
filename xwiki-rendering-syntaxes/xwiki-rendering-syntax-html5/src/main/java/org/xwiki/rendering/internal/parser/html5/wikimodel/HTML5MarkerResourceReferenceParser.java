@@ -35,7 +35,7 @@ import javax.inject.Singleton;
  * as HTML5 comments, using the syntax {@code (isTyped)|-|(type)|-|(reference)|-|(parameters: key="value")}.
  *
  * @version $Id$
- * @since 2.5RC1
+ * @since 4.4M1
  */
 @Component
 @Named("html5marker")

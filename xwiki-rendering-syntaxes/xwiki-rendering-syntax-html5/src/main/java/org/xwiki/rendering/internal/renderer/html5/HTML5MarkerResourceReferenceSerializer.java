@@ -34,7 +34,7 @@ import java.util.Map;
  * Image Reference in XHTML Comment in the Annotated XHTML Renderer.
  *
  * @version $Id$
- * @since 2.5RC1
+ * @since 4.4M1
  */
 @Component
 @Named("html5marker")

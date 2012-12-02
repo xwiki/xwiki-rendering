@@ -28,7 +28,7 @@ import org.xwiki.rendering.wikimodel.WikiReference;
  * XHTML syntax doesn't have to do any link parsing.
  *
  * @version $Id$
- * @since 2.5RC1
+ * @since 4.4M1
  */
 public class XWikiWikiReference extends WikiReference
 {

@@ -43,7 +43,7 @@ import javax.xml.parsers.ParserConfigurationException;
  * </ul>
  * 
  * @version $Id$
- * @since 2.1RC1
+ * @since 4.4M1
  */
 @Component
 @Named("xwiki")

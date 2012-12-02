@@ -38,7 +38,7 @@ import java.util.Map;
  * implementation, each in charge of handling a given {@link org.xwiki.rendering.listener.reference.ResourceType}.
  * 
  * @version $Id$
- * @since 2.0M3
+ * @since 4.4M1
  */
 @Component
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)

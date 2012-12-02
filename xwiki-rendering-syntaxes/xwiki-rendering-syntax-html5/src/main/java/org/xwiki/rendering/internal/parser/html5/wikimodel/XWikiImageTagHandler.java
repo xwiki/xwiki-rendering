@@ -31,7 +31,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * reference when moving back from XHTML to wiki syntax.
  * 
  * @version $Id$
- * @since 1.7M2
+ * @since 4.4M1
  */
 public class XWikiImageTagHandler extends ImgTagHandler
 {

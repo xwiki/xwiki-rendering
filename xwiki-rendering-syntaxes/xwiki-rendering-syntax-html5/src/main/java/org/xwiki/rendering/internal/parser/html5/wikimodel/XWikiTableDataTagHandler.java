@@ -29,7 +29,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * in order to handle clean auto generated scope attributes.
  * 
  * @version $Id$
- * @since 2.4M1
+ * @since 4.4M1
  */
 public class XWikiTableDataTagHandler extends TableDataTagHandler
 {

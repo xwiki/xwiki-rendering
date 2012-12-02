@@ -17,10 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * User: ElderMael
- * Date: 11/30/12
- * Time: 11:38 AM
- * To change this template use File | Settings | File Templates.
+ * Unit tests for {@link HTML5Renderer}.
  */
 public class HTML5RendererTest extends AbstractComponentTestCase {
 

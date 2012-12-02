@@ -32,7 +32,7 @@ import java.util.Map;
  * what Annotated XHTML is.
  *
  * @version $Id$
- * @since 2.0M2
+ * @since 4.4M1
  */
 public class AnnotatedHTML5ChainingRenderer extends HTML5ChainingRenderer
 {

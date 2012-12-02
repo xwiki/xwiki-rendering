@@ -46,7 +46,7 @@ import java.util.Map;
  * Parses HTML5 and generate a {@link org.xwiki.rendering.block.XDOM} object.
  * 
  * @version $Id$
- * @since 1.5M2
+ * @since 4.4M1
  */
 @Component
 @Named("html/5.0")

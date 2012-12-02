@@ -37,7 +37,7 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
  * </ul>
  *
  * @version $Id$
- * @since 2.5M2
+ * @since 4.4M1
  */
 @Role
 public interface HTML5LinkTypeRenderer extends LinkListener

@@ -45,7 +45,7 @@ import java.util.Map;
  * Convert listener events to HTML5.
  * 
  * @version $Id$
- * @since 1.8RC1
+ * @since 4.4M1
  */
 public class HTML5ChainingRenderer extends AbstractChainingPrintRenderer
 {

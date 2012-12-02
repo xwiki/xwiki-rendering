@@ -38,7 +38,7 @@ import java.util.Map;
  * Handle XHTML rendering for links to attachments.
  *
  * @version $Id$
- * @since 2.5M2
+ * @since 4.4M1
  */
 @Component
 @Named("attach")

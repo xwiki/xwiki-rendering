@@ -27,7 +27,7 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler;
  * we won't be tied to WikiModel.
  * 
  * @version $Id$
- * @since 1.8M2
+ * @since 4.4M1
  */
 public class XWikiDivisionTagHandler extends DivisionTagHandler
 {

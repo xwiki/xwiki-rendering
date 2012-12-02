@@ -46,7 +46,7 @@ import java.util.Stack;
  * possible at all to reconstruct the macro).
  * 
  * @version $Id$
- * @since 1.7M1
+ * @since 4.4M1
  */
 public class XWikiCommentHandler extends CommentHandler
 {

@@ -28,7 +28,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * order to handle the <code>id</code> attribute that we generate in our XHTML rendered.
  * 
  * @version $Id$
- * @since 1.6RC1
+ * @since 4.4M1
  */
 public class XWikiHeaderTagHandler extends HeaderTagHandler
 {

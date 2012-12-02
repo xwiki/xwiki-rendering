@@ -34,7 +34,7 @@ import java.util.Map;
  * Common code for XHTML Link Type Renderer implementations.
  * 
  * @version $Id$
- * @since 2.5M2
+ * @since 4.4M1
  */
 public abstract class AbstractHTML5LinkTypeRenderer implements HTML5LinkTypeRenderer
 {

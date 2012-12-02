@@ -39,7 +39,7 @@ import javax.inject.Named;
  * Generates XHTML from a {@link org.xwiki.rendering.block.XDOM} object being traversed.
  * 
  * @version $Id$
- * @since 2.0M3
+ * @since 4.4M1
  */
 @Component
 @Named("html/5.0")

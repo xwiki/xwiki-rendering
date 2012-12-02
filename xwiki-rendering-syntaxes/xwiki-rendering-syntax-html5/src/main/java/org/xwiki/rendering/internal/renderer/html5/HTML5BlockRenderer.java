@@ -31,7 +31,7 @@ import javax.inject.Singleton;
  * Block Renderer for XHTML syntax. To be used to convert XDOM into XHTML.
  *
  * @version $Id$
- * @since 2.0M3
+ * @since 4.4M1
  */
 @Component
 @Named("html/5.0")

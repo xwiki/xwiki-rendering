@@ -43,7 +43,7 @@ import javax.inject.Named;
  * for example for doing round tripping between wiki syntax and XHTML syntax in the WYSIWYG editor.
  *
  * @version $Id$
- * @since 2.0M3
+ * @since 4.4M1
  */
 @Component
 @Named("annotatedhtml/5.0")

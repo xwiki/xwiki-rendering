@@ -31,7 +31,7 @@ import java.util.Map;
  * Handle XHTML rendering for mailto links.
  * 
  * @version $Id$
- * @since 2.5RC1
+ * @since 4.4M1
  */
 @Component
 @Named("mailto")

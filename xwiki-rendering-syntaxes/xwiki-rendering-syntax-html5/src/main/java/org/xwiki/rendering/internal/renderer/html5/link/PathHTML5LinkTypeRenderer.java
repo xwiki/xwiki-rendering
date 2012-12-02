@@ -30,7 +30,7 @@ import javax.inject.Named;
  * Handle XHTML rendering for links towards a relative path.
  * 
  * @version $Id$
- * @since 4.1M2
+ * @since 4.4M1
  */
 @Component
 @Named("path")

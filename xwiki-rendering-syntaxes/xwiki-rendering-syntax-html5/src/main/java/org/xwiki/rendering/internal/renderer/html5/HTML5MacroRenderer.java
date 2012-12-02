@@ -28,7 +28,7 @@ import java.util.Map;
  * Renders a XWiki Macro into Annotated XHTML (ie the macro definition is created as XHTML comments).
  *
  * @version $Id$
- * @since 1.7M2
+ * @since 4.4M1
  */
 public class HTML5MacroRenderer
 {

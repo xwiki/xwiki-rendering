@@ -30,7 +30,7 @@ import javax.inject.Singleton;
  * Create Annotated XHTML Renderers.
  *
  * @version $Id$
- * @since 2.0M3
+ * @since 4.4M1
  */
 @Component
 @Named("annotatedhtml/5.0")

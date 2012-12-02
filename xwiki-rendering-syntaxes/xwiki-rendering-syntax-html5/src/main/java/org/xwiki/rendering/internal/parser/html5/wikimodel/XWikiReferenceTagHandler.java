@@ -51,7 +51,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
     private PrintRendererFactory xwikiSyntaxPrintRendererFactory;
 
     /**
-     * @since 2.2.5
+     * @since 4.4M1
      * @todo Remove the need to pass a Parser when WikiModel implements support for wiki syntax in links. See
      *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */

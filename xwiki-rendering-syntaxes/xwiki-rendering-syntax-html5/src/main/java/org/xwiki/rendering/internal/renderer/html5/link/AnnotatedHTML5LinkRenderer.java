@@ -36,7 +36,7 @@ import java.util.Map;
  * {@link org.xwiki.rendering.internal.renderer.xhtml.AnnotatedXHTMLRenderer} for more details).
  * 
  * @version $Id$
- * @since 2.0M3
+ * @since 4.4M1
  */
 @Component
 @Named("annotated")

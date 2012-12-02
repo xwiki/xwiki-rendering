@@ -31,7 +31,7 @@ import java.util.Map;
  * {@link HTML5LinkTypeRenderer} implementation.
  * 
  * @version $Id$
- * @since 2.5M2
+ * @since 4.4M1
  */
 @Component
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)

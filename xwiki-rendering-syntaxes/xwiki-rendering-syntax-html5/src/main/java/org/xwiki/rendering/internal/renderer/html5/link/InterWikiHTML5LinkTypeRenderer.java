@@ -36,7 +36,7 @@ import java.util.Properties;
  * Handle XHTML rendering for interwiki links.
  * 
  * @version $Id$
- * @since 2.5M2
+ * @since 4.4M1
  */
 @Component
 @Named("interwiki")

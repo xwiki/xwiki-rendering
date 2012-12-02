@@ -46,7 +46,7 @@ public class HTML5XWikiGeneratorListener extends DefaultXWikiGeneratorListener
      * @param plainRendererFactory used to generate header ids
      * @param idGenerator used to generate header ids
      * @param syntax the syntax of the parsed source
-     * @since 3.0M3
+     * @since 4.4M1
      */
     public HTML5XWikiGeneratorListener(StreamParser parser, Listener listener,
                                        ResourceReferenceParser linkReferenceParser, ResourceReferenceParser imageReferenceParser,

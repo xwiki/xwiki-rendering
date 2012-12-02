@@ -31,7 +31,7 @@ import java.util.Map;
  * Handle XHTML rendering for UNC links (Universal Naming Convention).
  * 
  * @version $Id$
- * @since 2.7M1
+ * @since 4.4M1
  */
 @Component
 @Named("unc")

@@ -28,7 +28,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * and also skip the spans for the "?" for links pointing to non existing pages).
  * 
  * @version $Id$
- * @since 1.7M1
+ * @since 4.4M1
  */
 public class XWikiSpanTagHandler extends SpanTagHandler
 {
