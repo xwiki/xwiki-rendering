@@ -19,37 +19,37 @@
  */
 package org.xwiki.rendering.internal.parser.markdown;
 
+import java.io.IOException;
 import java.io.Reader;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Singleton;
 
+import org.apache.commons.io.IOUtils;
+import org.pegdown.Extensions;
+import org.pegdown.PegDownProcessor;
+import org.pegdown.ast.RootNode;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * Markdown parser based on the <a href="https://github.com/sirthias/pegdown">Pegdown Parser</a>.
+ * Markdown Streaming Parser.
  *
  * @version $Id$
- * @since 4.1M1
+ * @since 4.4M1
  */
 @Component
 @Named("markdown/1.0")
-@Singleton
-public class MarkdownParser implements Parser
+public class MarkdownStreamParser implements StreamParser
 {
     /**
-     * Streaming Markdown Parser.
+     * Used to convert Pegdown nodes into XWiki Rendering events.
      */
     @Inject
-    @Named("markdown/1.0")
-    private StreamParser markdownStreamParser;
+    private PegdownVisitor pegdownVisitor;
 
     @Override
     public Syntax getSyntax()
@@ -58,10 +58,16 @@ public class MarkdownParser implements Parser
     }
 
     @Override
-    public XDOM parse(Reader source) throws ParseException
+    public void parse(Reader source, Listener listener) throws ParseException
     {
-        XDOMGeneratorListener xdomGeneratorListener = new XDOMGeneratorListener();
-        this.markdownStreamParser.parse(source, xdomGeneratorListener);
-        return xdomGeneratorListener.getXDOM();
+        // The Pegdown processor is not thread safe, thus we need one per thread at least.
+        PegDownProcessor processor = new PegDownProcessor(Extensions.ALL & ~Extensions.HARDWRAPS);
+
+        try {
+            RootNode rootNode = processor.parseMarkdown(IOUtils.toString(source).toCharArray());
+            this.pegdownVisitor.visit(rootNode, listener);
+        } catch (IOException e) {
+            throw new ParseException("Failed to retrieve ", e);
+        }
     }
 }

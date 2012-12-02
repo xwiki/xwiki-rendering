@@ -20,13 +20,12 @@
 package org.xwiki.rendering.internal.parser.markdown;
 
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 
 import org.apache.commons.lang3.StringUtils;
 import org.pegdown.ast.AbbreviationNode;
@@ -65,57 +64,52 @@ import org.pegdown.ast.TableNode;
 import org.pegdown.ast.TableRowNode;
 import org.pegdown.ast.TextNode;
 import org.pegdown.ast.VerbatimNode;
-import org.pegdown.ast.Visitor;
 import org.pegdown.ast.WikiLinkNode;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
-import org.xwiki.rendering.block.*;
-import org.xwiki.rendering.block.match.ClassBlockMatcher;
+import org.xwiki.rendering.listener.CompositeListener;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
+import org.xwiki.rendering.listener.InlineFilterListener;
+import org.xwiki.rendering.listener.ListType;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.rendering.listener.QueueListener;
+import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.rendering.parser.Parser;
-import org.xwiki.rendering.renderer.BlockRenderer;
+import org.xwiki.rendering.parser.StreamParser;
+import org.xwiki.rendering.renderer.PrintRenderer;
+import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
-import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
 
 /**
- * <a href="https://github.com/sirthias/pegdown">Pegdown</a> visitor to transform the Pegdown AST into an XDOM
- * representation.
+ * <a href="https://github.com/sirthias/pegdown">Pegdown</a> visitor to transform the Pegdown AST into XWiki Rendering
+ * Events.
  *
  * @version $Id$
  * @since 4.4M1
  */
 @Component
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConverter
+public class XWikiPegdownVisitor implements PegdownVisitor
 {
+    /**
+     * Used to generate unique header ids.
+     */
+    @Inject
+    @Named("plain/1.0")
+    protected PrintRendererFactory plainRendererFactory;
+
     /**
      * A plain text parser used to convert Pegdown TextNode elements to various Block elements since TextNode's values
      * contain several words and special characters which we thus need to break down into individual tokens.
      */
     @Inject
     @Named("plain/1.0")
-    private Parser plainTextParser;
-
-    /**
-     * Used to generate a unique id for Headings (specifically used to convert the Heading content into a String).
-     */
-    @Inject
-    @Named("plain/1.0")
-    private BlockRenderer plainTextBlockRenderer;
-
-    /**
-     * Used to convert the Pegdown AST subtree for Headings into XWiki Block elements which can then be fed to the
-     * {@link #plainTextBlockRenderer} to convert them to a String, which is then fed to the {@link #idGenerator} to
-     * generate a unique id.
-     */
-    @Inject
-    private Provider<PegdownToXDOMConverter> converterProvider;
+    private StreamParser plainTextStreamParser;
 
     /**
      * Used to generate a unique id for Headings.
@@ -123,26 +117,30 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     private IdGenerator idGenerator = new IdGenerator();
 
     /**
-     * List of the blocks we'll be building when visiting the Pegdown tree.
+     * Listener(s) for the generated XWiki Events. Organized as a stack so that a buffering listener can hijack all
+     * events for a while, for example. All generated events are sent to the top of the stack.
      */
-    private List<Block> blocks = new ArrayList<Block>();
+    private Stack<Listener> listeners = new Stack<Listener>();
 
     /**
-     * The top level XWiki Block element to return.
+     * @return the top listener on the stack
      */
-    private XDOM rootBlock = new XDOM(blocks, new MetaData(Collections.<String, Object>singletonMap(MetaData.SYNTAX,
-            Syntax.MARKDOWN_1_0)));
-
-    /**
-     * The current Block we're on.
-     */
-    private Block currentBlock = rootBlock;
+    private Listener getListener()
+    {
+        return this.listeners.peek();
+    }
 
     @Override
-    public XDOM buildBlocks(SuperNode superNode)
+    public void visit(SuperNode superNode, Listener listener)
     {
+        SectionListener sectionListener = new SectionListener();
+        sectionListener.setWrappedListener(listener);
+        this.listeners.push(sectionListener);
+
+        MetaData metaData = new MetaData(Collections.singletonMap(MetaData.SYNTAX, (Object) Syntax.MARKDOWN_1_0));
+        getListener().beginDocument(metaData);
         superNode.accept(this);
-        return rootBlock;
+        getListener().endDocument(metaData);
     }
 
     @Override
@@ -156,7 +154,6 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
         //        for (AbbreviationNode abbr : rootNode.getAbbreviations()) {
         //            visitChildren(abbr);
         //        }
-
         visitChildren(rootNode);
     }
 
@@ -172,20 +169,6 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
         }
     }
 
-    /**
-     * Helper method to visit all children nodes.
-     *
-     * @param node the node to visit
-     * @param blockToAdd the Block to add and set as the new current block prior to visiting the children
-     */
-    protected void visitChildren(Node node, Block blockToAdd)
-    {
-        this.currentBlock.addChild(blockToAdd);
-        this.currentBlock = blockToAdd;
-        visitChildren(node);
-        this.currentBlock = this.currentBlock.getParent();
-    }
-
     @Override
     public void visit(Node node)
     {
@@ -195,118 +178,121 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     @Override
     public void visit(ParaNode paraNode)
     {
-        List<Block> paraChildren = new ArrayList<Block>();
-        ParagraphBlock paragraphBlock = new ParagraphBlock(paraChildren);
-
-        visitChildren(paraNode, paragraphBlock);
+        getListener().beginParagraph(Collections.EMPTY_MAP);
+        visitChildren(paraNode);
+        getListener().endParagraph(Collections.EMPTY_MAP);
     }
 
     @Override
     public void visit(TextNode textNode)
     {
-        XDOM xdom;
-        try {
-            xdom = this.plainTextParser.parse(new StringReader(textNode.getText()));
-        } catch (ParseException e) {
-            throw new RuntimeException(String.format("Error parsing content [%s]", textNode.getText()), e);
-        }
+        visit(textNode.getText());
+    }
 
-        this.currentBlock.addChildren(
-                xdom.getFirstBlock(new ClassBlockMatcher(ParagraphBlock.class), Block.Axes.CHILD).getChildren());
+    /**
+     * @param text the text to parse and for which to return XWiki events
+     */
+    private void visit(String text)
+    {
+        try {
+            WrappingListener inlineListener = new InlineFilterListener();
+            inlineListener.setWrappedListener(getListener());
+            this.plainTextStreamParser.parse(new StringReader(text), inlineListener);
+        } catch (ParseException e) {
+            throw new RuntimeException(String.format("Error parsing content [%s]", text), e);
+        }
     }
 
     @Override
     public void visit(SpecialTextNode specialTextNode)
     {
-        visit((TextNode) specialTextNode);
+        visit(specialTextNode.getText());
     }
 
     @Override
     public void visit(StrongNode strongNode)
     {
-        List<Block> children = new ArrayList<Block>();
-        FormatBlock block = new FormatBlock(children, Format.BOLD);
-
-        visitChildren(strongNode, block);
+        getListener().beginFormat(Format.BOLD, Collections.EMPTY_MAP);
+        visitChildren(strongNode);
+        getListener().endFormat(Format.BOLD, Collections.EMPTY_MAP);
     }
 
     @Override
     public void visit(EmphNode emphNode)
     {
-        List<Block> children = new ArrayList<Block>();
-        FormatBlock block = new FormatBlock(children, Format.ITALIC);
-
-        visitChildren(emphNode, block);
+        getListener().beginFormat(Format.ITALIC, Collections.EMPTY_MAP);
+        visitChildren(emphNode);
+        getListener().endFormat(Format.ITALIC, Collections.EMPTY_MAP);
     }
 
     @Override
     public void visit(BulletListNode bulletListNode)
     {
-        List<Block> children = new ArrayList<Block>();
-        BulletedListBlock block = new BulletedListBlock(children, Collections.EMPTY_MAP);
-
-        visitChildren(bulletListNode, block);
+        getListener().beginList(ListType.BULLETED, Collections.EMPTY_MAP);
+        visitChildren(bulletListNode);
+        getListener().endList(ListType.BULLETED, Collections.EMPTY_MAP);
     }
 
     @Override
     public void visit(ListItemNode listItemNode)
     {
-        ListItemBlock listItemBlock = new ListItemBlock(new ArrayList<Block>());
-        this.currentBlock.addChild(listItemBlock);
-        Block originalCurrentBlock = this.currentBlock;
-
-        for (Node node : listItemNode.getChildren()) {
-            this.currentBlock = listItemBlock;
-            node.accept(this);
-        }
-
-        this.currentBlock = originalCurrentBlock;
+        getListener().beginListItem();
+        visitChildren(listItemNode);
+        getListener().endListItem();
     }
 
     @Override
     public void visit(CodeNode codeNode)
     {
         // Since XWiki doesn't have a Code Block we generate a Code Macro Block
-        this.currentBlock.addChild(new MacroBlock("code", Collections.EMPTY_MAP, codeNode.getText(), true));
+        getListener().onMacro("code", Collections.EMPTY_MAP, codeNode.getText(), true);
     }
 
     @Override
     public void visit(VerbatimNode verbatimNode)
     {
         String text = StringUtils.removeEnd(verbatimNode.getText(), "\n");
-        Block block = new MacroBlock("code", Collections.EMPTY_MAP, text, false);
 
+        Map<String, String> parameters;
         if (verbatimNode.getType().length() > 0) {
-            block.setParameters(Collections.singletonMap("language", verbatimNode.getType()));
+            parameters = Collections.singletonMap("language", verbatimNode.getType());
+        } else {
+            parameters = Collections.EMPTY_MAP;
         }
 
-        this.currentBlock.addChild(block);
+        getListener().onMacro("code", parameters, text, false);
     }
 
     @Override
     public void visit(HeaderNode headerNode)
     {
-        // Step 1: Generate a unique id for the Heading block
-        XDOM xdom = this.converterProvider.get().buildBlocks(new SuperNode(headerNode.getChildren()));
-        WikiPrinter wikiPrinter = new DefaultWikiPrinter();
-        this.plainTextBlockRenderer.render(xdom, wikiPrinter);
-        String uniqueId = this.idGenerator.generateUniqueId("H", wikiPrinter.toString());
+        // Heading needs to have an id generated from a plaintext representation of its content, so the header start
+        // event will be sent at the end of the header, after reading the content inside and generating the id.
+        // For this:
+        // buffer all events in a queue until the header ends, and also send them to a print renderer to generate the ID
+        CompositeListener composite = new CompositeListener();
+        QueueListener queueListener = new QueueListener();
+        composite.addListener(queueListener);
+        PrintRenderer plainRenderer = this.plainRendererFactory.createRenderer(new DefaultWikiPrinter());
+        composite.addListener(plainRenderer);
 
-        // Step 2: Create Section and Heading Blocks
-        List<Block> childrenBlocks = new ArrayList<Block>();
-        SectionBlock sectionBlock = new SectionBlock(childrenBlocks);
-        List<Block> headerChildrenBlocks = new ArrayList<Block>();
-        HeaderBlock headerBlock =
-                new HeaderBlock(headerChildrenBlocks, HeaderLevel.parseInt(headerNode.getLevel()), uniqueId);
-        sectionBlock.addChild(headerBlock);
-        this.currentBlock.addChild(sectionBlock);
+        // These 2 listeners will receive all events from now on until the header ends
+        this.listeners.push(composite);
 
-        this.currentBlock = headerBlock;
-        for (Node node : headerNode.getChildren()) {
-            node.accept(this);
-        }
+        visitChildren(headerNode);
 
-        this.currentBlock = sectionBlock;
+        // Restore default listener
+        this.listeners.pop();
+
+        String id = this.idGenerator.generateUniqueId("H", plainRenderer.getPrinter().toString());
+
+        HeaderLevel level = HeaderLevel.parseInt(headerNode.getLevel());
+        getListener().beginHeader(level, id, Collections.EMPTY_MAP);
+
+        // Send all buffered events to the 'default' listener
+        queueListener.consumeEvents(getListener());
+
+        getListener().endHeader(level, id, Collections.EMPTY_MAP);
     }
 
     @Override
@@ -409,10 +395,9 @@ public class DefaultPegdownToXDOMConverter implements Visitor, PegdownToXDOMConv
     public void visit(SimpleNode simpleNode)
     {
         if (SimpleNode.Type.Linebreak.equals(simpleNode.getType())) {
-            this.currentBlock.addChild(new NewLineBlock());
+            getListener().onNewLine();
         } else if (SimpleNode.Type.Apostrophe.equals(simpleNode.getType())) {
-            // TODO I expected the apostrophe to be a SpecialSymbolBlock, but misc4.test says otherwise
-            this.currentBlock.addChild(new WordBlock("\u2019"));
+            visit("'");
         } else {
             throw new RuntimeException("not implemented yet");
         }

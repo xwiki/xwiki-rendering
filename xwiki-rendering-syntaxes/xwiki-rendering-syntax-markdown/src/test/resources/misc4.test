@@ -8,7 +8,7 @@
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-onWord [(((8217)))]
+onSpecialSymbol [']
 onSpecialSymbol [&]
 endParagraph
 endDocument

@@ -20,23 +20,25 @@
 package org.xwiki.rendering.internal.parser.markdown;
 
 import org.pegdown.ast.SuperNode;
+import org.pegdown.ast.Visitor;
 import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.listener.Listener;
 
 /**
- * Converts from the Pegdown internal AST Tree to the XWiki XDOM.
+ * <a href="https://github.com/sirthias/pegdown">Pegdown</a> visitor to transform the Pegdown AST into XWiki Rendering
+ * Events.
  *
  * @version $Id$
  * @since 4.4M1
  */
 @Role
-public interface PegdownToXDOMConverter
+public interface PegdownVisitor extends Visitor
 {
     /**
-     * Converts Pegdown Nodes to an XWiki XDOM.
+     * Converts Pegdown Nodes into XWiki Rendering events.
      *
      * @param superNode the root node of the hierarchy to convert
-     * @return the resulting XDOM
+     * @param listener the listener to send the XWiki events to
      */
-    XDOM buildBlocks(SuperNode superNode);
+    void visit(SuperNode superNode, Listener listener);
 }
