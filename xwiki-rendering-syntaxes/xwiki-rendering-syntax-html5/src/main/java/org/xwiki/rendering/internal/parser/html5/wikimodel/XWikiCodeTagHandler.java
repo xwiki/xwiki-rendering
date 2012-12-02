@@ -17,20 +17,20 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.html5;
+package org.xwiki.rendering.internal.parser.html5.wikimodel;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
-import org.xwiki.rendering.test.cts.Syntax;
+import org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler;
+import org.xwiki.rendering.wikimodel.xhtml.handler.TeletypeTagHandler;
 
 /**
- * Run all CTS tests for the HTML 5.0 syntax.
- *
+ * Change the class value indicating that the division is an embedded document. We do this in order to be independent 
+ * of WikiModel in what we expose to the outside world. Thus if one day we need to change to another implementation
+ * we won't be tied to WikiModel.
+ * 
  * @version $Id$
- * @since 4.1M1
+ * @since 1.8M2
  */
-@RunWith(CompatibilityTestSuite.class)
-@Syntax("html/5.0")
-public class HTML5CompatibilityTest
+public class XWikiCodeTagHandler extends TeletypeTagHandler
 {
+
 }

@@ -1,1 +1,1 @@
-<p>This is <tt>monospace</tt></p>
+<p>This is <code>monospace</code></p>

@@ -1,1 +1,1 @@
-<p><tt><span a="b">monospace</span></tt></p>
+<p><code><span a="b">monospace</span></code></p>

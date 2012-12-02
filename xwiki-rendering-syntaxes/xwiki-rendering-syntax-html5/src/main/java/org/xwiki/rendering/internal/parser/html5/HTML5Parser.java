@@ -131,6 +131,7 @@ public class HTML5Parser extends AbstractWikiModelParser
         handlers.put("span", new XWikiSpanTagHandler());
         handlers.put("div", new XWikiDivisionTagHandler());
         handlers.put("th", new XWikiTableDataTagHandler());
+        handlers.put("code", new XWikiCodeTagHandler());
 
         XhtmlParser parser = new XhtmlParser();
         parser.setExtraHandlers(handlers);

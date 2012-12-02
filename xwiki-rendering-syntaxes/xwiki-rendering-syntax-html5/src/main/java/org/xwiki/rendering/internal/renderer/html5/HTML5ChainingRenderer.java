@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Convert listener events to XHTML.
+ * Convert listener events to HTML5.
  * 
  * @version $Id$
  * @since 1.8RC1
@@ -153,7 +153,7 @@ public class HTML5ChainingRenderer extends AbstractChainingPrintRenderer
                 getXHTMLWikiPrinter().printXMLStartElement("sub");
                 break;
             case MONOSPACE:
-                getXHTMLWikiPrinter().printXMLStartElement("tt");
+                getXHTMLWikiPrinter().printXMLStartElement("code");
                 break;
             case NONE:
                 break;
@@ -189,7 +189,7 @@ public class HTML5ChainingRenderer extends AbstractChainingPrintRenderer
                 getXHTMLWikiPrinter().printXMLEndElement("sub");
                 break;
             case MONOSPACE:
-                getXHTMLWikiPrinter().printXMLEndElement("tt");
+                getXHTMLWikiPrinter().printXMLEndElement("code");
                 break;
             case NONE:
                 break;
@@ -360,9 +360,9 @@ public class HTML5ChainingRenderer extends AbstractChainingPrintRenderer
             // tt is the closed to pre for inline.
             // The class is what is expected by wikimodel to understand the tt as meaning a verbatim and not a Monospace
             // element.
-            getXHTMLWikiPrinter().printXMLStartElement("tt", new String[][] {{"class", "wikimodel-verbatim"}});
+            getXHTMLWikiPrinter().printXMLStartElement("code", new String[][] {{"class", "wikimodel-verbatim"}});
             getXHTMLWikiPrinter().printXML(protectedString);
-            getXHTMLWikiPrinter().printXMLEndElement("tt");
+            getXHTMLWikiPrinter().printXMLEndElement("code");
         } else {
             getXHTMLWikiPrinter().printXMLStartElement("pre", parameters);
             getXHTMLWikiPrinter().printXML(protectedString);
