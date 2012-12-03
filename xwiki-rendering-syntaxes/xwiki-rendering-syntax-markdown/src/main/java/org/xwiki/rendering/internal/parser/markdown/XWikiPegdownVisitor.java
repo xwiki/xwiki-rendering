@@ -354,13 +354,13 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(HtmlBlockNode htmlBlockNode)
     {
-        throw new RuntimeException("not implemented yet");
+        getListener().onRawText(htmlBlockNode.getText(), Syntax.HTML_4_01);
     }
 
     @Override
     public void visit(InlineHtmlNode inlineHtmlNode)
     {
-        throw new RuntimeException("not implemented yet");
+        getListener().onRawText(inlineHtmlNode.getText(), Syntax.HTML_4_01);
     }
 
     @Override
