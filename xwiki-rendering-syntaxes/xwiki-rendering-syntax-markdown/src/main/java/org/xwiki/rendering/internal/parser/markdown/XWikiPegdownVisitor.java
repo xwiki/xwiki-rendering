@@ -310,7 +310,15 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(BlockQuoteNode blockQuoteNode)
     {
-        throw new RuntimeException("not implemented yet");
+        getListener().beginQuotation(Collections.EMPTY_MAP);
+        // XWiki only supports paragraph in quotations, see http://jira.xwiki.org/browse/XRENDERING-259.
+        // We need to replace Paragraph events by Quotation Line events.
+        QuoteListener quoteListener = new QuoteListener();
+        quoteListener.setWrappedListener(getListener());
+        this.listeners.push(quoteListener);
+        visitChildren(blockQuoteNode);
+        this.listeners.pop();
+        getListener().endQuotation(Collections.EMPTY_MAP);
     }
 
     @Override

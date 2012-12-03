@@ -1,12 +1,14 @@
 .#-----------------------------------------------------
 .input|markdown/1.0
-.# Test quotes.
-.# See http://jira.xwiki.org/jira/browse/XRENDERING-179
+.# Make sure special characters are properly handled
 .#-----------------------------------------------------
-> quote
-
-> several
-> lines
+'&
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
+beginDocument
+beginParagraph
+onSpecialSymbol [']
+onSpecialSymbol [&]
+endParagraph
+endDocument
