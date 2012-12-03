@@ -122,6 +122,8 @@ public class XWikiPegdownVisitor implements PegdownVisitor
      */
     private Stack<Listener> listeners = new Stack<Listener>();
 
+    private Stack<Boolean> isInTableHeaderStack = new Stack<Boolean>();
+
     /**
      * @return the top listener on the stack
      */
@@ -416,13 +418,26 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(TableBodyNode tableBodyNode)
     {
-        throw new RuntimeException("not implemented yet");
+        this.isInTableHeaderStack.push(false);
+        visitChildren(tableBodyNode);
+        this.isInTableHeaderStack.pop();
     }
 
     @Override
     public void visit(TableCellNode tableCellNode)
     {
-        throw new RuntimeException("not implemented yet");
+        boolean isInHeader = this.isInTableHeaderStack.peek();
+        if (isInHeader) {
+            getListener().beginTableHeadCell(Collections.EMPTY_MAP);
+        } else {
+            getListener().beginTableCell(Collections.EMPTY_MAP);
+        }
+        visitChildren(tableCellNode);
+        if (isInHeader) {
+            getListener().endTableHeadCell(Collections.EMPTY_MAP);
+        } else {
+            getListener().endTableCell(Collections.EMPTY_MAP);
+        }
     }
 
     @Override
@@ -434,19 +449,25 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(TableHeaderNode tableHeaderNode)
     {
-        throw new RuntimeException("not implemented yet");
+        this.isInTableHeaderStack.push(true);
+        visitChildren(tableHeaderNode);
+        this.isInTableHeaderStack.pop();
     }
 
     @Override
     public void visit(TableNode tableNode)
     {
-        throw new RuntimeException("not implemented yet");
+        getListener().beginTable(Collections.EMPTY_MAP);
+        visitChildren(tableNode);
+        getListener().endTable(Collections.EMPTY_MAP);
     }
 
     @Override
     public void visit(TableRowNode tableRowNode)
     {
-        throw new RuntimeException("not implemented yet");
+        getListener().beginTableRow(Collections.EMPTY_MAP);
+        visitChildren(tableRowNode);
+        getListener().endTableRow(Collections.EMPTY_MAP);
     }
 
     @Override
