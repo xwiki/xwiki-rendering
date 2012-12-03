@@ -1,0 +1,3 @@
+beginDocument [[syntax]=[Event 1.0]]
+onHorizontalLine
+endDocument [[syntax]=[Event 1.0]]
