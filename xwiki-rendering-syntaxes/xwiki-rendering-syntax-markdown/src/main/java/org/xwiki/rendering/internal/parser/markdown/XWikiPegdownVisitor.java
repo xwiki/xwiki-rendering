@@ -406,6 +406,8 @@ public class XWikiPegdownVisitor implements PegdownVisitor
             getListener().onNewLine();
         } else if (SimpleNode.Type.Apostrophe.equals(simpleNode.getType())) {
             visit("'");
+        } else if (SimpleNode.Type.HRule.equals(simpleNode.getType())) {
+            getListener().onHorizontalLine(Collections.EMPTY_MAP);
         } else {
             throw new RuntimeException("not implemented yet");
         }
