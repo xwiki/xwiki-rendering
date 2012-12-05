@@ -219,7 +219,7 @@
                   <goal>test</goal>
                 </goals>
                 <configuration>
-                  <flags>-Dslf4j.version=${slf4j.version} -Djunit.version=4.8.2</flags>
+                  <flags>-Dslf4j.version=${slf4j.version} -Djunit.version=${junit.version}</flags>
                 </configuration>
               </execution>
             </executions>
