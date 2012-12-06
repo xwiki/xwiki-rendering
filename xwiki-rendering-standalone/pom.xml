@@ -27,15 +27,16 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering</artifactId>
-    <!-- TODO: Building this module with Maven 3.0.4 currently has an issue if you haven't built xwiki-commons-pom
-         first, see http://jira.codehaus.org/browse/MSHADE-103
-         Note that it works fine with Maven 3.0.3 -->
     <version>4.4-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-standalone</artifactId>
   <name>XWiki Rendering - Standalone Distribution</name>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <description>XWiki Rendering - Standalone Distribution</description>
+  <properties>
+    <!-- Skip CLIRR since this is not a Java module -->
+    <xwiki.clirr.skip>true</xwiki.clirr.skip>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
@@ -118,121 +119,96 @@
       <artifactId>xwiki-rendering-legacy-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!-- Include Logging -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
-      <version>${slf4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>log4j-over-slf4j</artifactId>
-      <version>${slf4j.version}</version>
     </dependency>
   </dependencies>
   <build>
     <plugins>
+      <!--  Force compilation of tests as the packaging being pom tests won't be compiled with the default pom
+            lifecycle -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
+        <artifactId>maven-compiler-plugin</artifactId>
         <executions>
           <execution>
             <goals>
-              <goal>shade</goal>
+              <goal>testCompile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Force execution of tests as the packaging being pom tests won't be executed with the default pom
+           lifecycle -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test</goal>
             </goals>
             <configuration>
-              <!-- We don't relocate the following packages since they cause runtime issues:
-                   - javax.xml
-                   - org.w3c
-                   - org.apache.xerces
-               -->
-              <relocations>
-                <relocation>
-                  <pattern>org.htmlcleaner</pattern>
-                  <shadedPattern>org.xwiki.shaded.htmlcleaner</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.apache.commons</pattern>
-                  <shadedPattern>org.xwiki.shaded.apache.commons</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.apache.html</pattern>
-                  <shadedPattern>org.xwiki.shaded.apache.html</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.apache.wml</pattern>
-                  <shadedPattern>org.xwiki.shaded.apache.wml</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.apache.xml</pattern>
-                  <shadedPattern>org.xwiki.shaded.apache.xml</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.javacc</pattern>
-                  <shadedPattern>org.xwiki.shaded.javacc</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.jdom</pattern>
-                  <shadedPattern>org.xwiki.shaded.jdom</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.dom4j</pattern>
-                  <shadedPattern>org.xwiki.shaded.dom4j</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.xml</pattern>
-                  <shadedPattern>org.xwiki.shaded.xml</shadedPattern>
-                </relocation>
-              </relocations>
-              <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                  <resource>META-INF/components.txt</resource>
-                </transformer>
-              </transformers>
-              <!-- Since we're including legacy Rendering JARs we need to exclude the JARs they're wrapping -->
-              <artifactSet>
-                <excludes>
-                  <exclude>org.xwiki.commons:xwiki-commons-component-api</exclude>
-                  <exclude>org.xwiki.commons:xwiki-commons-component-default</exclude>
-                  <exclude>org.xwiki.rendering:xwiki-rendering-api</exclude>
-                </excludes>
-              </artifactSet>
+              <!-- Removed modules for which a Legacy module exist and wraps it -->
+              <classpathDependencyExcludes>
+                <classpathDependencyExcludes>org.xwiki.commons:xwiki-commons-component-api</classpathDependencyExcludes>
+                <classpathDependencyExcludes>org.xwiki.commons:xwiki-commons-component-default</classpathDependencyExcludes>
+                <classpathDependencyExcludes>org.xwiki.rendering:xwiki-rendering-api</classpathDependencyExcludes>
+              </classpathDependencyExcludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Add License/Notice files -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>xwiki-license-resources</id>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>${basedir}/src/assemble/zip-with-dependencies.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-no-legacy-dependencies</id>
+            <configuration>
+              <!-- Skip Enforcer check on legacy dependencies since we want to bundle the legacy modules -->
+              <skip>true</skip>
             </configuration>
           </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>integration-tests</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>shitty-maven-plugin</artifactId>
-            <version>1.0-alpha-3</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>clean</goal>
-                  <goal>install</goal>
-                  <goal>test</goal>
-                </goals>
-                <configuration>
-                  <flags>-Dslf4j.version=${slf4j.version} -Djunit.version=${junit.version}</flags>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-  <properties>
-    <!-- Skip some checks since this project only generates an artifact that aggregates other XWiki artifacts -->
-    <xwiki.clirr.skip>true</xwiki.clirr.skip>
-    <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
-    <xwiki.enforcer.skip>true</xwiki.enforcer.skip>
-    <xwiki.license.skip>true</xwiki.license.skip>
-  </properties>
 </project>
