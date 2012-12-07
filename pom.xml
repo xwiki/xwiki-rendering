@@ -69,7 +69,7 @@
     <!-- Testing Dependencies -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-test</artifactId>
+      <artifactId>xwiki-commons-test-component</artifactId>
       <version>${commons.version}</version>
       <scope>test</scope>
     </dependency>
