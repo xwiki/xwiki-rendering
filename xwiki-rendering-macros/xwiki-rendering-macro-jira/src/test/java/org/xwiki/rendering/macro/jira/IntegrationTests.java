@@ -26,6 +26,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.runner.RunWith;
 import org.xwiki.component.manager.ComponentManager;
@@ -46,6 +47,11 @@ public class IntegrationTests
     public void initialize(ComponentManager componentManager) throws Exception
     {
         Mockery mockery = new JUnit4Mockery();
+
+        // The SAXBuilder we mock below somehow executes in different threads (apparently in a Finalizer thread) and
+        // thus we must make it thread safe.
+        mockery.setThreadingPolicy(new Synchroniser());
+
         // SAXBuilder is a class and not an interface which is why we need to set up the Class Imposteriser
         mockery.setImposteriser(ClassImposteriser.INSTANCE);
 

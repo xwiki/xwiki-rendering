@@ -36,7 +36,7 @@ import org.xwiki.test.XWikiComponentInitializer;
  * @version $Id$
  * @since 4.1M1
  */
-public class RenderingTestClassRunner  extends BlockJUnit4ClassRunner
+public class RenderingTestClassRunner extends BlockJUnit4ClassRunner
 {
     /**
      * Used to pass the Component Manager to the Rendering Test instance executing.
