@@ -28,7 +28,7 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
-import org.xwiki.test.XWikiComponentInitializer;
+import org.xwiki.test.jmock.XWikiComponentInitializer;
 
 /**
  * Represents a Test Runner for a single Rendering Test to execute.

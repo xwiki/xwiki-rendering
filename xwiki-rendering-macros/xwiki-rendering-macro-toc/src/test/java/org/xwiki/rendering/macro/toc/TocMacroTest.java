@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.properties.PropertyException;
 import org.xwiki.rendering.internal.macro.toc.TocMacro;
-import org.xwiki.test.AbstractComponentTestCase;
+import org.xwiki.test.jmock.AbstractComponentTestCase;
 
 /**
  * Validate {@link TocMacro}.
