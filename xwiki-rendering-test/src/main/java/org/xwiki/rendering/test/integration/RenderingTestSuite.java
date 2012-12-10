@@ -37,7 +37,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
-import org.xwiki.test.XWikiComponentInitializer;
+import org.xwiki.test.jmock.XWikiComponentInitializer;
 
 /**
  * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the

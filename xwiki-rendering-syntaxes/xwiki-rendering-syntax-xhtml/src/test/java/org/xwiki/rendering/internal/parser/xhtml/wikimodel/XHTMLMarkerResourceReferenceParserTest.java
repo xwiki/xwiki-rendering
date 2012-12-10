@@ -25,7 +25,7 @@ import org.xwiki.rendering.internal.renderer.ParametersPrinter;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
-import org.xwiki.test.AbstractComponentTestCase;
+import org.xwiki.test.jmock.AbstractComponentTestCase;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.internal.parser.xwiki20.XWiki20ImageReferenceParser}.

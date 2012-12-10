@@ -23,7 +23,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.xwiki.rendering.macro.Macro;
-import org.xwiki.test.AbstractComponentTestCase;
+import org.xwiki.test.jmock.AbstractComponentTestCase;
 
 /**
  * Unit test for {@link org.xwiki.rendering.internal.macro.message.AbstractMessageMacro} macros (for tests that cannot

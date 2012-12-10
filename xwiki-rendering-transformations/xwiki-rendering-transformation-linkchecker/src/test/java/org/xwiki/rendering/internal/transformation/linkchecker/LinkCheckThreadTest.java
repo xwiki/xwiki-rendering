@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -31,7 +30,7 @@ import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerThreadInitializer;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationConfiguration;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
-import org.xwiki.test.AbstractComponentTestCase;
+import org.xwiki.test.jmock.AbstractComponentTestCase;
 
 /**
  * Unit tests for {@link LinkCheckerThread}. Note that the LinkChecker Thread is also tested by
