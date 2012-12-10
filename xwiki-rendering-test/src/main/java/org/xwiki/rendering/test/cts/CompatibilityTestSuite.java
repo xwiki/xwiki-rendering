@@ -31,7 +31,7 @@ import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
-import org.xwiki.test.XWikiComponentInitializer;
+import org.xwiki.test.jmock.XWikiComponentInitializer;
 
 /**
  * Run all tests found in resources files located in the classpath, for a given Syntax.

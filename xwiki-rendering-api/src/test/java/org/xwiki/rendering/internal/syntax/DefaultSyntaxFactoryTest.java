@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.test.AbstractComponentTestCase;
+import org.xwiki.test.jmock.AbstractComponentTestCase;
 import org.junit.Test;
 import org.junit.Assert;
 
