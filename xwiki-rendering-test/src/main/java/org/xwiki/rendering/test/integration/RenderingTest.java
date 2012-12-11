@@ -41,7 +41,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationManager;
-import org.xwiki.test.MockConfigurationSource;
+import org.xwiki.test.internal.MockConfigurationSource;
 
 /**
  * A generic JUnit Test used by {@link RenderingTestSuite} to parse some passed content and verify it matches some
