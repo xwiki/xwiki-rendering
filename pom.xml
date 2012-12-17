@@ -39,7 +39,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-rendering.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-rendering.git</developerConnection>
     <url>https://github.com/xwiki/xwiki-rendering</url>
-    <tag>xwiki-rendering-4.4-milestone-1</tag>
+    <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
