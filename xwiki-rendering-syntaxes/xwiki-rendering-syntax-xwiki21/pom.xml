@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-syntaxes</artifactId>
-    <version>4.4-SNAPSHOT</version>
+    <version>4.5-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-syntax-xwiki21</artifactId>
   <name>XWiki Rendering - Syntax - XWiki 2.1</name>
