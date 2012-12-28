@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.parser.markdown;
 
 import java.io.StringReader;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
@@ -78,11 +79,13 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.QueueListener;
 import org.xwiki.rendering.listener.WrappingListener;
+import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
+import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
 
@@ -126,6 +129,12 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     private Stack<Boolean> isInTableHeaderStack = new Stack<Boolean>();
 
     /**
+     * Link References.
+     * @see #visit(org.pegdown.ast.ReferenceNode)
+     */
+    private Map<String, ReferenceNode> references = new HashMap<String, ReferenceNode>();
+
+    /**
      * @return the top listener on the stack
      */
     private Listener getListener()
@@ -149,11 +158,11 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(RootNode rootNode)
     {
-        // TODO: Add handling for ReferenceNode and AbbreviationNode
-        //        for (ReferenceNode ref : rootNode.getReferences()) {
-        //            visitChildren(ref);
-        //        }
-        //
+        for (ReferenceNode ref : rootNode.getReferences()) {
+            visit(ref);
+        }
+
+        // TODO: Add handling for AbbreviationNode
         //        for (AbbreviationNode abbr : rootNode.getAbbreviations()) {
         //            visitChildren(abbr);
         //        }
@@ -390,7 +399,18 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(ReferenceNode referenceNode)
     {
-        throw new RuntimeException("not implemented yet");
+        // Since XWiki doesn't support reference links, we store reference definitions and memory and when a reference
+        // is used we generate a standard link.
+        this.references.put(extractText(referenceNode), referenceNode);
+    }
+
+    private String extractText(SuperNode superNode)
+    {
+        WikiPrinter printer = new DefaultWikiPrinter();
+        this.listeners.push(this.plainRendererFactory.createRenderer(printer));
+        visitChildren(superNode);
+        this.listeners.pop();
+        return printer.toString();
     }
 
     @Override
@@ -402,7 +422,23 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(RefLinkNode refLinkNode)
     {
-        throw new RuntimeException("not implemented yet");
+        // Since XWiki doesn't support reference links, we generate a standard link instead
+        String label = extractText(refLinkNode.referenceKey);
+
+        ReferenceNode referenceNode = this.references.get(label);
+        if (referenceNode != null) {
+            DocumentResourceReference ref = new DocumentResourceReference(referenceNode.getUrl());
+
+            // Handle an optional link title
+            Map<String, String> parameters = Collections.EMPTY_MAP;
+            if (StringUtils.isNotEmpty(referenceNode.getTitle())) {
+                parameters = Collections.singletonMap("title", referenceNode.getTitle());
+            }
+
+            getListener().beginLink(ref, false, parameters);
+            visitChildren(refLinkNode);
+            getListener().endLink(ref, false, parameters);
+        }
     }
 
     @Override
