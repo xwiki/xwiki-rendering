@@ -393,7 +393,8 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(QuotedNode quotedNode)
     {
-        throw new RuntimeException("not implemented yet");
+        // Don't do anything, this is just some quoted content but XWiki doesn't handle quoted content in any specific
+        // manner.
     }
 
     @Override
@@ -450,8 +451,14 @@ public class XWikiPegdownVisitor implements PegdownVisitor
             visit("'");
         } else if (SimpleNode.Type.HRule.equals(simpleNode.getType())) {
             getListener().onHorizontalLine(Collections.EMPTY_MAP);
-        } else {
-            throw new RuntimeException("not implemented yet");
+        } else if (SimpleNode.Type.Endash.equals(simpleNode.getType())) {
+            visit("\u2013");
+        } else if (SimpleNode.Type.Emdash.equals(simpleNode.getType())) {
+            visit("\u2014");
+        } else if (SimpleNode.Type.Nbsp.equals(simpleNode.getType())) {
+            visit(" ");
+        } else if (SimpleNode.Type.Ellipsis.equals(simpleNode.getType())) {
+            visit("...");
         }
     }
 
