@@ -57,6 +57,7 @@ import org.pegdown.ast.SpecialTextNode;
 import org.pegdown.ast.StrongNode;
 import org.pegdown.ast.SuperNode;
 import org.pegdown.ast.TableBodyNode;
+import org.pegdown.ast.TableCaptionNode;
 import org.pegdown.ast.TableCellNode;
 import org.pegdown.ast.TableColumnNode;
 import org.pegdown.ast.TableHeaderNode;
@@ -313,13 +314,16 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     public void visit(BlockQuoteNode blockQuoteNode)
     {
         getListener().beginQuotation(Collections.EMPTY_MAP);
+
         // XWiki only supports paragraph in quotations, see http://jira.xwiki.org/browse/XRENDERING-259.
-        // We need to replace Paragraph events by Quotation Line events.
+        // We replace Paragraph events with QuotationLine events.
         QuoteListener quoteListener = new QuoteListener();
         quoteListener.setWrappedListener(getListener());
         this.listeners.push(quoteListener);
         visitChildren(blockQuoteNode);
         this.listeners.pop();
+        quoteListener.closeOpenedQuotationLines();
+
         getListener().endQuotation(Collections.EMPTY_MAP);
     }
 
@@ -468,6 +472,12 @@ public class XWikiPegdownVisitor implements PegdownVisitor
         getListener().beginTableRow(Collections.EMPTY_MAP);
         visitChildren(tableRowNode);
         getListener().endTableRow(Collections.EMPTY_MAP);
+    }
+
+    @Override
+    public void visit(TableCaptionNode tableCaptionNode)
+    {
+        throw new RuntimeException("not implemented yet");
     }
 
     @Override

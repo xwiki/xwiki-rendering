@@ -25,15 +25,29 @@ import org.xwiki.rendering.listener.WrappingListener;
 
 public class QuoteListener extends WrappingListener
 {
+    /**
+     * Whether a quotation line has been started or not.
+     */
+    private boolean quotationLineStarted;
+
+    public void closeOpenedQuotationLines()
+    {
+        if (this.quotationLineStarted) {
+            endQuotationLine();
+        }
+        this.quotationLineStarted = false;
+    }
+
     @Override
     public void beginParagraph(Map<String, String> parameters)
     {
-        super.beginQuotationLine();
+        closeOpenedQuotationLines();
+        beginQuotationLine();
+        this.quotationLineStarted = true;
     }
 
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
-        super.endQuotationLine();
     }
 }
