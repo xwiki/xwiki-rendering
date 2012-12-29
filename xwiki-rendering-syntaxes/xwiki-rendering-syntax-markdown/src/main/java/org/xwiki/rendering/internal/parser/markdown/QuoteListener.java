@@ -23,6 +23,12 @@ import java.util.Map;
 
 import org.xwiki.rendering.listener.WrappingListener;
 
+/**
+ * Special listener for handling blockquotes and converting them from the Pegdown Model to the XWiki Model.
+ *
+ * @version $Id$
+ * @since 4.5M1
+ */
 public class QuoteListener extends WrappingListener
 {
     /**
@@ -30,6 +36,9 @@ public class QuoteListener extends WrappingListener
      */
     private boolean quotationLineStarted;
 
+    /**
+     * Close open quotation lines events.
+     */
     public void closeOpenedQuotationLines()
     {
         if (this.quotationLineStarted) {

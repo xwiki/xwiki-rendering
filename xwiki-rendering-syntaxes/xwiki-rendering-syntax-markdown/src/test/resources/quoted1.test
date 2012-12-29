@@ -1,0 +1,24 @@
+.#-----------------------------------------------------
+.input|markdown/1.0
+.# Test quoted nodes. This notion doesn't exist in the
+.# XWiki Model so we don't do any special handling.
+.#-----------------------------------------------------
+'single' "double" <<angle>>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onSpecialSymbol [']
+onWord [single]
+onSpecialSymbol [']
+onSpace
+onSpecialSymbol ["]
+onWord [double]
+onSpecialSymbol ["]
+onSpace
+onWord [(((171)))]
+onWord [angle]
+onWord [(((187)))]
+endParagraph
+endDocument

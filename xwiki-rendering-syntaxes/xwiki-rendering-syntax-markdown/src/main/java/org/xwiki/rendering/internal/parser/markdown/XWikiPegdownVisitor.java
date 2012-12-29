@@ -395,6 +395,23 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     {
         // Don't do anything, this is just some quoted content but XWiki doesn't handle quoted content in any specific
         // manner.
+        if (QuotedNode.Type.Double.equals(quotedNode.getType())) {
+            visit("\"");
+        } else if (QuotedNode.Type.Single.equals(quotedNode.getType())) {
+            visit("'");
+        } else {
+            visit("\u00AB");
+        }
+
+        visitChildren(quotedNode);
+
+        if (QuotedNode.Type.Double.equals(quotedNode.getType())) {
+            visit("\"");
+        } else if (QuotedNode.Type.Single.equals(quotedNode.getType())) {
+            visit("'");
+        } else {
+            visit("\u00BB");
+        }
     }
 
     @Override
