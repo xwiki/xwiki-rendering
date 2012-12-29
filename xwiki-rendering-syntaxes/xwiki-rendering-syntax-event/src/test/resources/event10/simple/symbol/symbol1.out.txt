@@ -1,0 +1,51 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+onSpecialSymbol [@]
+onSpace
+onSpecialSymbol [#]
+onSpace
+onSpecialSymbol [$]
+onSpace
+onSpecialSymbol [*]
+onSpace
+onSpecialSymbol [%]
+onSpace
+onSpecialSymbol [']
+onSpace
+onSpecialSymbol [(]
+onSpace
+onSpecialSymbol [!]
+onSpace
+onSpecialSymbol [)]
+onSpace
+onSpecialSymbol [-]
+onSpace
+onSpecialSymbol [_]
+onSpace
+onSpecialSymbol [^]
+onSpace
+onSpecialSymbol [`]
+onSpace
+onSpecialSymbol [?]
+onSpace
+onSpecialSymbol [,]
+onSpace
+onSpecialSymbol [;]
+onSpace
+onSpecialSymbol [.]
+onSpace
+onSpecialSymbol [/]
+onSpace
+onSpecialSymbol [:]
+onSpace
+onSpecialSymbol [=]
+onSpace
+onSpecialSymbol [+]
+onSpace
+onSpecialSymbol [<]
+onSpace
+onSpecialSymbol [|]
+onSpace
+onSpecialSymbol [>]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]
