@@ -1,0 +1,20 @@
+.#-----------------------------------------------------
+.inputexpect|xwiki/2.0
+.#-----------------------------------------------------
+This is ***bold***
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+beginFormat [BOLD]
+onSpecialSymbol [*]
+onWord [bold]
+endFormat [BOLD]
+onSpecialSymbol [*]
+endParagraph
+endDocument

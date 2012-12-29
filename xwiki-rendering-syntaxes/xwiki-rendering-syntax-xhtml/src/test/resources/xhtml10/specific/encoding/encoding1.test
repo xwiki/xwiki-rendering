@@ -19,6 +19,5 @@ endParagraph [[param1]=[val(((252)))e]]
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
-.# TODO: Re-enable this test once we reach a decision about non-ASCII characters
 .#-----------------------------------------------------
 <p>&nbsp;˜€</p><p param1="valüe">&nbsp;˜€</p>
