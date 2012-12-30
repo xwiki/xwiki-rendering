@@ -1,0 +1,14 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+onWord [verify]
+onSpace
+onSpace
+onSpace
+onSpace
+onWord [spaces]
+onSpace
+onWord [are]
+onSpace
+onWord [honored]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]
