@@ -29,23 +29,16 @@
     <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>4.5-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
-  <name>XWiki Rendering - Syntax - XHTML</name>
-  <description>XWiki Rendering - Syntax - XHTML</description>
+  <artifactId>xwiki-rendering-syntax-annotatedxhtml</artifactId>
+  <name>XWiki Rendering - Syntax - Annotated XHTML</name>
+  <description>XWiki Rendering - Syntax - Annotated XHTML</description>
   <properties>
-    <xwiki.clover.targetPercentage>37.2%</xwiki.clover.targetPercentage>
+    <xwiki.clover.targetPercentage>51.4%</xwiki.clover.targetPercentage>
   </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <!-- Runtime dependency -->
-    <!-- TODO: That's very bad and should be fixed by http://jira.xwiki.org/jira/browse/XRENDERING-83 -->
-    <dependency>
-      <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-xwiki21</artifactId>
+      <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
       <version>${project.version}</version>
     </dependency>
     <!-- Test Dependencies -->
@@ -57,42 +50,20 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-event</artifactId>
+      <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
+      <type>test-jar</type>
     </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>test-jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <excludes>
-            org/xwiki/rendering/internal/parser/xhtml/XHTMLParser.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXHTMLWhitespaceXMLFilter.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiImageTagHandler.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiReferenceTagHandler.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiCommentHandler.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiHeaderTagHandler.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiSpanTagHandler.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXMLReaderFactory.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiWikiReference.java,
-            org/xwiki/rendering/internal/renderer/xhtml/link/DefaultXHTMLLinkRenderer.java,
-            org/xwiki/rendering/internal/renderer/xhtml/XHTMLChainingRenderer.java,
-            org/xwiki/rendering/internal/renderer/xhtml/XHTMLBlockRenderer.java,
-            org/xwiki/rendering/internal/renderer/xhtml/image/DefaultXHTMLImageRenderer.java
+            org/xwiki/rendering/internal/renderer/xhtml/XHTMLMacroRenderer.java
           </excludes>
         </configuration>
       </plugin>

@@ -42,6 +42,7 @@
   </dependencies>
   <modules>
     <!-- Sorted Alphabetically -->
+    <module>xwiki-rendering-syntax-annotatedxhtml</module>
     <module>xwiki-rendering-syntax-apt</module>
     <module>xwiki-rendering-syntax-confluence</module>
     <module>xwiki-rendering-syntax-creole</module>

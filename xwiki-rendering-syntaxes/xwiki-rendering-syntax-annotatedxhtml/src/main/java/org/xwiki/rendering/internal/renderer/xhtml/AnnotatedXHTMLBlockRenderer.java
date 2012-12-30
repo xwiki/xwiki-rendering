@@ -38,6 +38,9 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 @Singleton
 public class AnnotatedXHTMLBlockRenderer extends AbstractBlockRenderer
 {
+    /**
+     * Factory to create Annotated XHTML Print Renderers.
+     */
     @Inject
     @Named("annotatedxhtml/1.0")
     private PrintRendererFactory annotatedXHTMLRendererFactory;

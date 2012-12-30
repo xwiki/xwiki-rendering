@@ -34,6 +34,9 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
  */
 public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
 {
+    /**
+     * Renders a Macro definition into Annotated XHTML.
+     */
     private XHTMLMacroRenderer macroRenderer;
 
     /**
