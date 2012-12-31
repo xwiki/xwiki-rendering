@@ -399,7 +399,9 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(OrderedListNode orderedListNode)
     {
-        throw new RuntimeException("not implemented yet");
+        getListener().beginList(ListType.NUMBERED, Collections.EMPTY_MAP);
+        visitChildren(orderedListNode);
+        getListener().endList(ListType.NUMBERED, Collections.EMPTY_MAP);
     }
 
     @Override
