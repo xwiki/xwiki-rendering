@@ -339,19 +339,31 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(DefinitionListNode definitionListNode)
     {
-        throw new RuntimeException("not implemented yet");
+        getListener().beginDefinitionList(Collections.EMPTY_MAP);
+        visitChildren(definitionListNode);
+        getListener().endDefinitionList(Collections.EMPTY_MAP);
     }
 
     @Override
     public void visit(DefinitionNode definitionNode)
     {
-        throw new RuntimeException("not implemented yet");
+        getListener().beginDefinitionDescription();
+
+        DefinitionListListener listener = new DefinitionListListener();
+        listener.setWrappedListener(getListener());
+        this.listeners.push(listener);
+        visitChildren(definitionNode);
+        this.listeners.pop();
+
+        getListener().endDefinitionDescription();
     }
 
     @Override
     public void visit(DefinitionTermNode definitionTermNode)
     {
-        throw new RuntimeException("not implemented yet");
+        getListener().beginDefinitionTerm();
+        visitChildren(definitionTermNode);
+        getListener().endDefinitionTerm();
     }
 
     @Override

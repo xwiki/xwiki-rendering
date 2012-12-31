@@ -24,35 +24,18 @@ import java.util.Map;
 import org.xwiki.rendering.listener.WrappingListener;
 
 /**
- * Special listener for handling blockquotes and converting them from the Pegdown Model to the XWiki Model.
+ * Special listener for handling Definition Lists: Pegdown issues a Paragraph event for definition description which
+ * we don't want (even though it's not technically wrong).
  *
  * @version $Id$
  * @since 4.5M1
  */
-public class QuoteListener extends WrappingListener
+public class DefinitionListListener extends WrappingListener
 {
-    /**
-     * Whether a quotation line has been started or not.
-     */
-    private boolean quotationLineStarted;
-
-    /**
-     * Close open quotation lines events.
-     */
-    public void closeOpenedQuotationLines()
-    {
-        if (this.quotationLineStarted) {
-            endQuotationLine();
-        }
-        this.quotationLineStarted = false;
-    }
-
     @Override
     public void beginParagraph(Map<String, String> parameters)
     {
-        closeOpenedQuotationLines();
-        beginQuotationLine();
-        this.quotationLineStarted = true;
+        // Ignore
     }
 
     @Override
