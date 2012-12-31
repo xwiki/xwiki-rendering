@@ -1,0 +1,6 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+beginLink [Typed = [false] Type = [url] Reference = [http://xwiki.org]] [true]
+endLink [Typed = [false] Type = [url] Reference = [http://xwiki.org]] [true]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]

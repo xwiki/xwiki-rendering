@@ -35,15 +35,15 @@
     </metadata>
   </parameter0>
   <paragraph parameter0="">
-    <link parameter2="">
+    <image parameter2="">
       <parameter0>
         <isTyped>false</isTyped>
-        <reference>reference</reference>
+        <reference>image.png</reference>
         <type>
           <scheme>url</scheme>
         </type>
         <parameters></parameters>
       </parameter0>
-    </link>
+    </image>
   </paragraph>
 </document>

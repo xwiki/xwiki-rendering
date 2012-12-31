@@ -1,0 +1,1 @@
+<p><img src="image.png" alt="image.png"/></p>

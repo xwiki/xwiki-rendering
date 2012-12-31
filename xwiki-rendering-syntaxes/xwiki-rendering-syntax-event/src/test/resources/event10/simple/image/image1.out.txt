@@ -1,0 +1,5 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+onImage [Typed = [false] Type = [url] Reference = [image.png]] [false]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]
