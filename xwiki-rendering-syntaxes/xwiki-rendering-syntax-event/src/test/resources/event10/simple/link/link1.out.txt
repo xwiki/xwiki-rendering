@@ -1,0 +1,11 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+beginLink [Typed = [false] Type = [url] Reference = [attach:attach.ext]] [true]
+endLink [Typed = [false] Type = [url] Reference = [attach:attach.ext]] [true]
+onNewLine
+onImage [Typed = [false] Type = [url] Reference = [image.png]] [true]
+onNewLine
+beginLink [Typed = [false] Type = [url] Reference = [NotWikiPage]] [false]
+endLink [Typed = [false] Type = [url] Reference = [NotWikiPage]] [false]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]
