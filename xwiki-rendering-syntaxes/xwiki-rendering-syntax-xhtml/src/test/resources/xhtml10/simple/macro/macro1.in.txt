@@ -1,0 +1,1 @@
+<html><!--startmacro:testsimplemacro|-|--><!--stopmacro--><!--startmacro:testsimplemacro|-|param1="value1" param2="value2"--><!--stopmacro--><!--startmacro:testsimplemacro|-|param1="value1" param2="value2"|-|content--><!--stopmacro--><!--startmacro:testsimplemacro|-||-|content--><!--stopmacro--></html>

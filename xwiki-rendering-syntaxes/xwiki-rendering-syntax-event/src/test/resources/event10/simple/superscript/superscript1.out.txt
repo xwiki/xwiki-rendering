@@ -1,0 +1,11 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+beginFormat [SUPERSCRIPT]
+onWord [superscript]
+endFormat [SUPERSCRIPT]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]

@@ -1,0 +1,9 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+onWord [hello]
+endParagraph
+onHorizontalLine
+beginParagraph
+onWord [world]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]

@@ -1,0 +1,29 @@
+.#-------------------------------------------------------------------------
+.input|xwiki/2.0
+.# Note that we're testing here the bold syntax at the beginning of a line.
+.# We want to verify it's not mistaken for a list for syntaxes having a
+.# similar syntax for list items and bold.
+.#-----------------------------------------------------
+**This is bold and not a list
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginFormat [BOLD]
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+onWord [bold]
+onSpace
+onWord [and]
+onSpace
+onWord [not]
+onSpace
+onWord [a]
+onSpace
+onWord [list]
+endFormat [BOLD]
+endParagraph
+endDocument

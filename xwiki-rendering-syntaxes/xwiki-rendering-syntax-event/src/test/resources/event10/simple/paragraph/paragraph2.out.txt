@@ -1,0 +1,14 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginParagraph
+onWord [paragraph1]
+onSpace
+onWord [on]
+onNewLine
+onWord [multiple]
+onNewLine
+onWord [lines]
+endParagraph
+beginParagraph
+onWord [paragraph2]
+endParagraph
+endDocument [[syntax]=[Event 1.0]]
