@@ -1,0 +1,24 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginDefinitionList
+beginDefinitionTerm
+onWord [title1]
+endDefinitionTerm
+beginDefinitionDescription
+onWord [definition1]
+beginDefinitionList
+beginDefinitionTerm
+onWord [title2]
+endDefinitionTerm
+beginDefinitionDescription
+onWord [definition2]
+endDefinitionDescription
+endDefinitionList
+endDefinitionDescription
+beginDefinitionTerm
+onWord [title3]
+endDefinitionTerm
+beginDefinitionDescription
+onWord [definition3]
+endDefinitionDescription
+endDefinitionList
+endDocument [[syntax]=[Event 1.0]]
