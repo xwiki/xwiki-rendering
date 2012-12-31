@@ -33,7 +33,7 @@
   <name>XWiki Rendering - Syntax - Plain</name>
   <description>XWiki Rendering - Syntax - Plain</description>
   <properties>
-    <xwiki.clover.targetPercentage>40.9%</xwiki.clover.targetPercentage>
+    <xwiki.clover.targetPercentage>50.3%</xwiki.clover.targetPercentage>
   </properties>
   <dependencies>
     <!-- Test Dependencies -->
