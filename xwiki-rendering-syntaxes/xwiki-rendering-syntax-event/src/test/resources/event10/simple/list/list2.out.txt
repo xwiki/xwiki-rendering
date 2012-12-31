@@ -1,0 +1,57 @@
+beginDocument [[syntax]=[Event 1.0]]
+beginList [NUMBERED]
+beginListItem
+onWord [Item]
+onSpace
+onWord [1]
+beginList [NUMBERED]
+beginListItem
+onWord [Item]
+onSpace
+onWord [2]
+beginList [NUMBERED]
+beginListItem
+onWord [Item]
+onSpace
+onWord [3]
+beginList [NUMBERED]
+beginListItem
+onWord [Item]
+onSpace
+onWord [4]
+beginList [NUMBERED]
+beginListItem
+onWord [Item]
+onSpace
+onWord [5]
+endListItem
+endList [NUMBERED]
+endListItem
+beginListItem
+onWord [Item]
+onSpace
+onWord [6]
+endListItem
+endList [NUMBERED]
+endListItem
+beginListItem
+onWord [Item]
+onSpace
+onWord [7]
+endListItem
+endList [NUMBERED]
+endListItem
+beginListItem
+onWord [Item]
+onSpace
+onWord [8]
+endListItem
+endList [NUMBERED]
+endListItem
+beginListItem
+onWord [Item]
+onSpace
+onWord [9]
+endListItem
+endList [NUMBERED]
+endDocument [[syntax]=[Event 1.0]]
