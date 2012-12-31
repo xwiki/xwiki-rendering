@@ -35,10 +35,10 @@
     </metadata>
   </parameter0>
   <paragraph parameter0="">
-    <link parameter2="">
+    <link parameter1="true" parameter2="">
       <parameter0>
         <isTyped>false</isTyped>
-        <reference>reference</reference>
+        <reference>http://xwiki.org</reference>
         <type>
           <scheme>url</scheme>
         </type>
