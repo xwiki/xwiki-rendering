@@ -1,0 +1,32 @@
+.#-----------------------------------------------------
+.input|markdown/1.0
+.# Test abbreviations
+.#-----------------------------------------------------
+The HTML specification
+is maintained by the W3C.
+
+*[HTML]: Hyper Text Markup Language
+*[W3C]:  World Wide Web Consortium
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [The]
+onSpace
+onRawText [<abbr title="Hyper Text Markup Language">HTML</abbr>] [html/4.01]
+onSpace
+onWord [specification]
+onSpace
+onWord [is]
+onSpace
+onWord [maintained]
+onSpace
+onWord [by]
+onSpace
+onWord [the]
+onSpace
+onRawText [<abbr title="World Wide Web Consortium">W3C</abbr>] [html/4.01]
+onSpecialSymbol [.]
+endParagraph
+endDocument

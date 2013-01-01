@@ -157,6 +157,13 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     private Map<String, ReferenceNode> references = new HashMap<String, ReferenceNode>();
 
     /**
+     * Abbreviation definitions.
+     */
+    private Map<String, AbbreviationNode> abbreviations = new HashMap<String, AbbreviationNode>();
+
+    private boolean isHandlingAbbreviations;
+
+    /**
      * @return the top listener on the stack
      */
     private Listener getListener()
@@ -184,10 +191,10 @@ public class XWikiPegdownVisitor implements PegdownVisitor
             visit(ref);
         }
 
-        // TODO: Add handling for AbbreviationNode
-        //        for (AbbreviationNode abbr : rootNode.getAbbreviations()) {
-        //            visitChildren(abbr);
-        //        }
+        for (AbbreviationNode abbr : rootNode.getAbbreviations()) {
+            visit(abbr);
+        }
+
         visitChildren(rootNode);
     }
 
@@ -220,7 +227,36 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(TextNode textNode)
     {
-        visit(textNode.getText());
+        boolean foundAbbreviation = false;
+        if (!this.isHandlingAbbreviations) {
+            for (Map.Entry<String, AbbreviationNode> abbreviationEntry : this.abbreviations.entrySet()) {
+                int pos = textNode.getText().indexOf(abbreviationEntry.getKey());
+                if (pos > -1) {
+                    visit(new TextNode(textNode.getText().substring(0, pos)));
+
+                    this.isHandlingAbbreviations = true;
+                    String abbreviationDefinition = extractText(abbreviationEntry.getValue().getExpansion());
+                    this.isHandlingAbbreviations = false;
+
+                    String html;
+                    if (StringUtils.isNotEmpty(abbreviationDefinition)) {
+                        html = String.format("<abbr title=\"%s\">%s</abbr>", abbreviationDefinition,
+                            abbreviationEntry.getKey());
+                    } else {
+                        html = String.format("<abbr>%s</abbr>", abbreviationEntry.getKey());
+                    }
+                    getListener().onRawText(html, Syntax.HTML_4_01);
+
+                    visit(new TextNode(textNode.getText().substring(pos + abbreviationEntry.getKey().length())));
+                    foundAbbreviation = true;
+                    break;
+                }
+            }
+        }
+
+        if (!foundAbbreviation) {
+            visit(textNode.getText());
+        }
     }
 
     /**
@@ -332,7 +368,11 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(AbbreviationNode abbreviationNode)
     {
-        throw new RuntimeException("not implemented yet");
+        // Since XWiki doesn't support abbreviations, we store abbreviation definitions in memory and when an
+        // abbrevitation is used in the text we add the <abbr> HTML element around it.
+        this.isHandlingAbbreviations = true;
+        this.abbreviations.put(extractText(abbreviationNode), abbreviationNode);
+        this.isHandlingAbbreviations = false;
     }
 
     @Override
@@ -511,11 +551,11 @@ public class XWikiPegdownVisitor implements PegdownVisitor
         this.references.put(extractText(referenceNode), referenceNode);
     }
 
-    private String extractText(SuperNode superNode)
+    private String extractText(Node node)
     {
         WikiPrinter printer = new DefaultWikiPrinter();
         this.listeners.push(this.plainRendererFactory.createRenderer(printer));
-        visitChildren(superNode);
+        visitChildren(node);
         this.listeners.pop();
         return printer.toString();
     }
