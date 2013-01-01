@@ -243,7 +243,7 @@ public class RenderingTest
 
     /**
      * Compare the passed expected string with the passed result.
-     * We support regexes for comparison usng the format: ${{{regex:...}}}. For example:
+     * We support regexes for comparison using the format: ${{{regex:...}}}. For example:
      *
      * <pre><code>
      * beginDocument
