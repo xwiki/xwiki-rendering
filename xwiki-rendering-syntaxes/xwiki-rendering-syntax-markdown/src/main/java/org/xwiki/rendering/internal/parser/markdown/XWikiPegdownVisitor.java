@@ -82,6 +82,7 @@ import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.QueueListener;
 import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
@@ -337,7 +338,10 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(AutoLinkNode autoLinkNode)
     {
-        throw new RuntimeException("not implemented yet");
+        ResourceReference reference = new ResourceReference(autoLinkNode.getText(), ResourceType.URL);
+        reference.setTyped(false);
+        getListener().beginLink(reference, true, Collections.EMPTY_MAP);
+        getListener().endLink(reference, true, Collections.EMPTY_MAP);
     }
 
     @Override
@@ -461,7 +465,10 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(MailLinkNode mailLinkNode)
     {
-        throw new RuntimeException("not implemented yet");
+        ResourceReference reference = new ResourceReference("mailto:" + mailLinkNode.getText(), ResourceType.MAILTO);
+        reference.setTyped(false);
+        getListener().beginLink(reference, true, Collections.EMPTY_MAP);
+        getListener().endLink(reference, false, Collections.EMPTY_MAP);
     }
 
     @Override
