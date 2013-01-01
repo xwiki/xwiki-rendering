@@ -632,7 +632,9 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(WikiLinkNode wikiLinkNode)
     {
-        throw new RuntimeException("not implemented yet");
+        ResourceReference reference = this.linkResourceReferenceParser.parse(wikiLinkNode.getText());
+        getListener().beginLink(reference, false, Collections.EMPTY_MAP);
+        getListener().endLink(reference, false, Collections.EMPTY_MAP);
     }
 
     @Override
