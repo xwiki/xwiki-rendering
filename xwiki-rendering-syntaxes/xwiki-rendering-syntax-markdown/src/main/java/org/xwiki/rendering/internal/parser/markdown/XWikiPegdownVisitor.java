@@ -468,7 +468,7 @@ public class XWikiPegdownVisitor implements PegdownVisitor
         ResourceReference reference = new ResourceReference("mailto:" + mailLinkNode.getText(), ResourceType.MAILTO);
         reference.setTyped(false);
         getListener().beginLink(reference, true, Collections.EMPTY_MAP);
-        getListener().endLink(reference, false, Collections.EMPTY_MAP);
+        getListener().endLink(reference, true, Collections.EMPTY_MAP);
     }
 
     @Override
