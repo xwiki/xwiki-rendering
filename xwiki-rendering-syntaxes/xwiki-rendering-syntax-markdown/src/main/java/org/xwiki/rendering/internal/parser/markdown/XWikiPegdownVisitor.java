@@ -523,7 +523,21 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(RefImageNode refImageNode)
     {
-        throw new RuntimeException("not implemented yet");
+        // Since XWiki doesn't support reference images, we generate a standard image instead
+        String label = extractText(refImageNode.referenceKey);
+
+        ReferenceNode referenceNode = this.references.get(label);
+        if (referenceNode != null) {
+            ResourceReference reference = this.imageResourceReferenceParser.parse(referenceNode.getUrl());
+
+            // Handle an optional link title
+            Map<String, String> parameters = Collections.EMPTY_MAP;
+            if (StringUtils.isNotEmpty(referenceNode.getTitle())) {
+                parameters = Collections.singletonMap("title", referenceNode.getTitle());
+            }
+
+            getListener().onImage(reference, false, parameters);
+        }
     }
 
     @Override
