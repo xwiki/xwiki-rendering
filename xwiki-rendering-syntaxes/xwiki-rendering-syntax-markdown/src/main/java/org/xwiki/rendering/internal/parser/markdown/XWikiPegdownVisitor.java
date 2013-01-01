@@ -378,8 +378,7 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(AutoLinkNode autoLinkNode)
     {
-        ResourceReference reference = new ResourceReference(autoLinkNode.getText(), ResourceType.URL);
-        reference.setTyped(false);
+        ResourceReference reference = this.linkResourceReferenceParser.parse(autoLinkNode.getText());
         getListener().beginLink(reference, true, Collections.EMPTY_MAP);
         getListener().endLink(reference, true, Collections.EMPTY_MAP);
     }
@@ -505,8 +504,8 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(MailLinkNode mailLinkNode)
     {
-        ResourceReference reference = new ResourceReference("mailto:" + mailLinkNode.getText(), ResourceType.MAILTO);
-        reference.setTyped(false);
+        ResourceReference reference = this.linkResourceReferenceParser.parse(
+            "mailto:" + mailLinkNode.getText());
         getListener().beginLink(reference, true, Collections.EMPTY_MAP);
         getListener().endLink(reference, true, Collections.EMPTY_MAP);
     }
