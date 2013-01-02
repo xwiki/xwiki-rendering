@@ -39,7 +39,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * Markdown Streaming Parser.
  *
  * @version $Id$
- * @since 4.4M1
+ * @since 4.5M1
  */
 @Component
 @Named("markdown/1.0")

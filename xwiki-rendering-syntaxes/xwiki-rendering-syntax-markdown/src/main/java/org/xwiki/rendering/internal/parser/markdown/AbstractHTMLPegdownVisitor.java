@@ -19,26 +19,27 @@
  */
 package org.xwiki.rendering.internal.parser.markdown;
 
-import org.pegdown.ast.SuperNode;
-import org.pegdown.ast.Visitor;
-import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.listener.Listener;
+import org.pegdown.ast.HtmlBlockNode;
+import org.pegdown.ast.InlineHtmlNode;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * <a href="https://github.com/sirthias/pegdown">Pegdown</a> visitor to transform the Pegdown AST into XWiki Rendering
- * Events.
+ * Implements Pegdown Visitor's HTML events.
  *
  * @version $Id$
  * @since 4.5M1
  */
-@Role
-public interface PegdownVisitor extends Visitor
+public abstract class AbstractHTMLPegdownVisitor extends AbstractTextPegdownVisitor
 {
-    /**
-     * Converts Pegdown Nodes into XWiki Rendering events.
-     *
-     * @param superNode the root node of the hierarchy to convert
-     * @param listener the listener to send the XWiki events to
-     */
-    void visit(SuperNode superNode, Listener listener);
+    @Override
+    public void visit(HtmlBlockNode htmlBlockNode)
+    {
+        getListener().onRawText(htmlBlockNode.getText(), Syntax.HTML_4_01);
+    }
+
+    @Override
+    public void visit(InlineHtmlNode inlineHtmlNode)
+    {
+        getListener().onRawText(inlineHtmlNode.getText(), Syntax.HTML_4_01);
+    }
 }

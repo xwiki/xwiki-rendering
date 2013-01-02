@@ -30,7 +30,7 @@ import org.xwiki.rendering.listener.WrappingListener;
  * Handles Sections since the notion of Section doesn't exist in Pegdown but XWiki requires it.
  *
  * @version $Id$
- * @since 4.4M1
+ * @since 4.5M1
  */
 public class SectionListener extends WrappingListener
 {
