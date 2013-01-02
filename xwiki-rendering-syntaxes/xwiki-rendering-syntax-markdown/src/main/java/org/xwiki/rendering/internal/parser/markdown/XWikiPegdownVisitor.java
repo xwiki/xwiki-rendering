@@ -679,7 +679,11 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(TableCaptionNode tableCaptionNode)
     {
-        throw new RuntimeException("not implemented yet");
+        // TODO: XWiki Rendering doesn't support Caption in tables ATM. Add proper support. Also note that the
+        // HTML caption tag is supposed to be sent just after the <table> tag and thus the limited solution we have
+        // below is probably wrong...
+        String captionText = extractText(tableCaptionNode);
+        getListener().onRawText(String.format("<caption>%s</caption>", captionText), Syntax.HTML_4_01);
     }
 
     @Override
