@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.parser.markdown;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -82,7 +83,6 @@ import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.QueueListener;
 import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
@@ -149,6 +149,10 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     private Stack<Listener> listeners = new Stack<Listener>();
 
     private Stack<Boolean> isInTableHeaderStack = new Stack<Boolean>();
+
+    private Stack<TableNode> currentTableStack = new Stack<TableNode>();
+
+    private Stack<Integer> currentTableColumnPositionStack = new Stack<Integer>();
 
     /**
      * Link References.
@@ -633,23 +637,50 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     public void visit(TableCellNode tableCellNode)
     {
         boolean isInHeader = this.isInTableHeaderStack.peek();
-        if (isInHeader) {
-            getListener().beginTableHeadCell(Collections.EMPTY_MAP);
-        } else {
-            getListener().beginTableCell(Collections.EMPTY_MAP);
+
+        List<TableColumnNode> columns = this.currentTableStack.peek().getColumns();
+        TableColumnNode column = columns.get(Math.min(this.currentTableColumnPositionStack.peek(), columns.size() - 1));
+
+        // Compute cell parameters
+        Map<String, String> parameters = new HashMap<String, String>();
+        if (tableCellNode.getColSpan() > 1) {
+            parameters.put("colspan", "" + tableCellNode.getColSpan());
         }
+
+        switch (column.getAlignment()) {
+            case Left:
+                parameters.put("align", "left");
+                break;
+            case Right:
+                parameters.put("align", "right");
+                break;
+            case Center:
+                parameters.put("align", "center");
+                break;
+        }
+
+        if (isInHeader) {
+            getListener().beginTableHeadCell(parameters);
+        } else {
+            getListener().beginTableCell(parameters);
+        }
+
         visitChildren(tableCellNode);
+
         if (isInHeader) {
-            getListener().endTableHeadCell(Collections.EMPTY_MAP);
+            getListener().endTableHeadCell(parameters);
         } else {
-            getListener().endTableCell(Collections.EMPTY_MAP);
+            getListener().endTableCell(parameters);
         }
+
+        int currentTableColumn = this.currentTableColumnPositionStack.pop();
+        this.currentTableColumnPositionStack.push(currentTableColumn + tableCellNode.getColSpan());
     }
 
     @Override
     public void visit(TableColumnNode tableColumnNode)
     {
-        throw new RuntimeException("not implemented yet");
+        // No need to do anything here, it's handled already in visit(TableCellNode tableCellNode)
     }
 
     @Override
@@ -663,17 +694,21 @@ public class XWikiPegdownVisitor implements PegdownVisitor
     @Override
     public void visit(TableNode tableNode)
     {
+        this.currentTableStack.push(tableNode);
         getListener().beginTable(Collections.EMPTY_MAP);
         visitChildren(tableNode);
         getListener().endTable(Collections.EMPTY_MAP);
+        this.currentTableStack.pop();
     }
 
     @Override
     public void visit(TableRowNode tableRowNode)
     {
+        this.currentTableColumnPositionStack.push(0);
         getListener().beginTableRow(Collections.EMPTY_MAP);
         visitChildren(tableRowNode);
         getListener().endTableRow(Collections.EMPTY_MAP);
+        this.currentTableColumnPositionStack.pop();
     }
 
     @Override
