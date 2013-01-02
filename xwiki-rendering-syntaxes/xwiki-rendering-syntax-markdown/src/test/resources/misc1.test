@@ -1,40 +1,20 @@
 .#-----------------------------------------------------
 .input|markdown/1.0
-.# Misc test till we have a better CTS suite.
+.# Verify that 2 white spaces at end of line doesn't
+.# generate new lines for all subsequent text.
+.# See http://jira.xwiki.org/browse/XRENDERING-178
 .#-----------------------------------------------------
-*emphasis* or _emphasis_
-
-**strong**
-
-    function() {}
-
-# a header
+paragraph  
+one two
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-beginFormat [ITALIC]
-onWord [emphasis]
-endFormat [ITALIC]
+onWord [paragraph]
+onNewLine
+onWord [one]
 onSpace
-onWord [or]
-onSpace
-beginFormat [ITALIC]
-onWord [emphasis]
-endFormat [ITALIC]
+onWord [two]
 endParagraph
-beginParagraph
-beginFormat [BOLD]
-onWord [strong]
-endFormat [BOLD]
-endParagraph
-onMacroStandalone [code] [] [function() {}]
-beginSection
-beginHeader [1, Haheader]
-onWord [a]
-onSpace
-onWord [header]
-endHeader [1, Haheader]
-endSection
 endDocument

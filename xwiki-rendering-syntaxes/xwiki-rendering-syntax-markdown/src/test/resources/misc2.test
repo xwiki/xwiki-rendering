@@ -1,20 +1,14 @@
 .#-----------------------------------------------------
 .input|markdown/1.0
-.# Verify that 2 white spaces at end of line doesn't
-.# generate new lines for all subsequent text.
-.# See http://jira.xwiki.org/browse/XRENDERING-178
+.# Make sure special characters are properly handled
 .#-----------------------------------------------------
-paragraph  
-one two
+'&
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-onWord [paragraph]
-onNewLine
-onWord [one]
-onSpace
-onWord [two]
+onSpecialSymbol [']
+onSpecialSymbol [&]
 endParagraph
 endDocument
