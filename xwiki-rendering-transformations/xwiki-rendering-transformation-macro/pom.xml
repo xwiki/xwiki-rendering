@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-transformations</artifactId>
-    <version>4.4-SNAPSHOT</version>
+    <version>4.4</version>
   </parent>
   <artifactId>xwiki-rendering-transformation-macro</artifactId>
   <name>XWiki Rendering - Transformation - Macro</name>
