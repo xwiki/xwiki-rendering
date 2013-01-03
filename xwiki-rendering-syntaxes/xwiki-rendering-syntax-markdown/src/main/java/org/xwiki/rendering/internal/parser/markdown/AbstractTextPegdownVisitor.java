@@ -187,15 +187,16 @@ public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
                 visitChildren(quotedNode);
                 visit("\u201D");
                 break;
-            case Double:
-                visit("\u00AB");
-                visitChildren(quotedNode);
-                visit("\u00BB");
-                break;
             case Single:
                 visit("\u2018");
                 visitChildren(quotedNode);
                 visit("\u2019");
+                break;
+            case Double:
+            default:
+                visit("\u00AB");
+                visitChildren(quotedNode);
+                visit("\u00BB");
                 break;
         }
     }
@@ -203,20 +204,29 @@ public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
     @Override
     public void visit(SimpleNode simpleNode)
     {
-        if (SimpleNode.Type.Linebreak.equals(simpleNode.getType())) {
-            getListener().onNewLine();
-        } else if (SimpleNode.Type.Apostrophe.equals(simpleNode.getType())) {
-            visit("'");
-        } else if (SimpleNode.Type.HRule.equals(simpleNode.getType())) {
-            getListener().onHorizontalLine(Collections.EMPTY_MAP);
-        } else if (SimpleNode.Type.Endash.equals(simpleNode.getType())) {
-            visit("\u2013");
-        } else if (SimpleNode.Type.Emdash.equals(simpleNode.getType())) {
-            visit("\u2014");
-        } else if (SimpleNode.Type.Nbsp.equals(simpleNode.getType())) {
-            visit(" ");
-        } else if (SimpleNode.Type.Ellipsis.equals(simpleNode.getType())) {
-            visit("...");
+        switch (simpleNode.getType()) {
+            case Linebreak:
+                getListener().onNewLine();
+                break;
+            case Apostrophe:
+                visit("'");
+                break;
+            case HRule:
+                getListener().onHorizontalLine(Collections.EMPTY_MAP);
+                break;
+            case Endash:
+                visit("\u2013");
+                break;
+            case Emdash:
+                visit("\u2014");
+                break;
+            case Ellipsis:
+                visit("\u2026");
+                break;
+            case Nbsp:
+            default:
+                visit(" ");
+                break;
         }
     }
 

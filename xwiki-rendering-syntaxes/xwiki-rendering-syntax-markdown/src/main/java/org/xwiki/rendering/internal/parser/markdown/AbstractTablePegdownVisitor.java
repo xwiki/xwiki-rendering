@@ -78,6 +78,7 @@ public abstract class AbstractTablePegdownVisitor extends AbstractListPegdownVis
                 parameters.put("align", "right");
                 break;
             case Center:
+            default:
                 parameters.put("align", "center");
                 break;
         }
