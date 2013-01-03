@@ -129,7 +129,7 @@ public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
     /**
      * @param text the text to parse and for which to return XWiki events
      */
-    private void visit(String text)
+    protected void visit(String text)
     {
         try {
             WrappingListener inlineListener = new InlineFilterListener();

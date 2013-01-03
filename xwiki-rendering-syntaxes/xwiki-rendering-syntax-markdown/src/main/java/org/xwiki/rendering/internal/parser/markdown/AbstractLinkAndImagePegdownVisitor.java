@@ -55,6 +55,16 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
     private static final String TITLE_ATTRIBUTE = "title";
 
     /**
+     * Character in Markdown syntax to open a link.
+     */
+    private static final String LINK_OPEN_CHAR = "[";
+
+    /**
+     * Character in Markdown syntax to close a link.
+     */
+    private static final String LINK_CLOSE_CHAR = "]";
+
+    /**
      * We parse link references with the default reference parser (i.e. the same one used by XWiki Syntax 2.1).
      */
     @Inject
@@ -194,14 +204,14 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
     {
         // Since XWiki doesn't support reference links, we generate a standard link instead
         // If the reference key is null then the node content is considered to be the key!
-        String label;
+        String key;
         if (refLinkNode.referenceKey == null) {
-            label = extractText(refLinkNode);
+            key = extractText(refLinkNode);
         } else {
-            label = extractText(refLinkNode.referenceKey);
+            key = extractText(refLinkNode.referenceKey);
         }
 
-        ReferenceNode referenceNode = this.references.get(label);
+        ReferenceNode referenceNode = this.references.get(key);
         if (referenceNode != null) {
             ResourceReference reference = this.linkResourceReferenceParser.parse(referenceNode.getUrl());
 
@@ -214,6 +224,18 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
             getListener().beginLink(reference, false, parameters);
             visitChildren(refLinkNode);
             getListener().endLink(reference, false, parameters);
+        } else {
+            visit(LINK_OPEN_CHAR);
+            visitChildren(refLinkNode);
+            visit(LINK_CLOSE_CHAR);
+            if (refLinkNode.separatorSpace != null) {
+                visit(refLinkNode.separatorSpace);
+                visit(LINK_OPEN_CHAR);
+                if (refLinkNode.referenceKey != null) {
+                    visit(key);
+                }
+                visit(LINK_CLOSE_CHAR);
+            }
         }
     }
 
