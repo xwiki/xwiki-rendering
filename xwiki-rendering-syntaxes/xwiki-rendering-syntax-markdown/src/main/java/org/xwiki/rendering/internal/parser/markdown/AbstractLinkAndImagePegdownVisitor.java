@@ -193,7 +193,13 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
     public void visit(RefLinkNode refLinkNode)
     {
         // Since XWiki doesn't support reference links, we generate a standard link instead
-        String label = extractText(refLinkNode.referenceKey);
+        // If the reference key is null then the node content is considered to be the key!
+        String label;
+        if (refLinkNode.referenceKey == null) {
+            label = extractText(refLinkNode);
+        } else {
+            label = extractText(refLinkNode.referenceKey);
+        }
 
         ReferenceNode referenceNode = this.references.get(label);
         if (referenceNode != null) {
