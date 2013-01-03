@@ -42,10 +42,24 @@ import org.xwiki.rendering.syntax.Syntax;
  */
 public abstract class AbstractTablePegdownVisitor extends AbstractListPegdownVisitor
 {
+    /**
+     * HTML Align attribute for table cells.
+     */
+    private static final String ALIGN_ATTRIBUTE = "align";
+
+    /**
+     * Whether we're currently in a table header or not. It's stacked to support nested tables.
+     */
     private Stack<Boolean> isInTableHeaderStack = new Stack<Boolean>();
 
+    /**
+     * The current table node we're in. It's stacked to support nested tables.
+     */
     private Stack<TableNode> currentTableStack = new Stack<TableNode>();
 
+    /**
+     * The current column position in the current table; used to handle colspan. It's stacked to support nested tables.
+     */
     private Stack<Integer> currentTableColumnPositionStack = new Stack<Integer>();
 
     @Override
@@ -72,14 +86,15 @@ public abstract class AbstractTablePegdownVisitor extends AbstractListPegdownVis
 
         switch (column.getAlignment()) {
             case Left:
-                parameters.put("align", "left");
+                parameters.put(ALIGN_ATTRIBUTE, "left");
                 break;
             case Right:
-                parameters.put("align", "right");
+                parameters.put(ALIGN_ATTRIBUTE, "right");
                 break;
             case Center:
+                parameters.put(ALIGN_ATTRIBUTE, "center");
+                break;
             default:
-                parameters.put("align", "center");
                 break;
         }
 

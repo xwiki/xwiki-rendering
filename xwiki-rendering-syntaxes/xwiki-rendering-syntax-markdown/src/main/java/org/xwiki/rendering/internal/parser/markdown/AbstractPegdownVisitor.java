@@ -126,6 +126,12 @@ public abstract class AbstractPegdownVisitor implements PegdownVisitor
         visitChildren(superNode);
     }
 
+    /**
+     * Extracts the content of the passed Node as a String.
+     *
+     * @param node the node from which to extract the content
+     * @return the textual content of the passed node and children
+     */
     protected String extractText(Node node)
     {
         WikiPrinter printer = new DefaultWikiPrinter();

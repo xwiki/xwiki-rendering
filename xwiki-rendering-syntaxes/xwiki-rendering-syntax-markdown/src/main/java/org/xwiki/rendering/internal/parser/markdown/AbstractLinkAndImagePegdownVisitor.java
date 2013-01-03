@@ -50,6 +50,11 @@ import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
 public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPegdownVisitor
 {
     /**
+     * HTML title attribute.
+     */
+    private static final String TITLE_ATTRIBUTE = "title";
+
+    /**
      * We parse link references with the default reference parser (i.e. the same one used by XWiki Syntax 2.1).
      */
     @Inject
@@ -63,6 +68,9 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
     @Named("image")
     private ResourceReferenceParser imageResourceReferenceParser;
 
+    /**
+     * Used to find out at runtime a link label generator matching the link reference type.
+     */
     @Inject
     private ComponentManager componentManager;
 
@@ -100,6 +108,10 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
         getListener().onImage(reference, false, parameters);
     }
 
+    /**
+     * @param reference the reference for which to compute the alt attribute value
+     * @return the alt attribute value that would get generated if not specified by the user
+     */
     private String computeAltAttributeValue(ResourceReference reference)
     {
         String label;
@@ -127,15 +139,16 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
         getListener().endLink(reference, false, parameters);
     }
 
+    /**
+     * Add a title parameter.
+     *
+     * @param parameters the map to which to add the title parameter
+     * @param title the title parameter value to add
+     */
     private void addTitle(Map<String, String> parameters, String title)
     {
-        addParameter(parameters, "title", title);
-    }
-
-    private void addParameter(Map<String, String> parameters, String key, String value)
-    {
-        if (StringUtils.isNotEmpty(value)) {
-            parameters.put(key, value);
+        if (StringUtils.isNotEmpty(title)) {
+            parameters.put(TITLE_ATTRIBUTE, title);
         }
     }
 
@@ -169,7 +182,7 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
             // Handle an optional link title
             Map<String, String> parameters = Collections.EMPTY_MAP;
             if (StringUtils.isNotEmpty(referenceNode.getTitle())) {
-                parameters = Collections.singletonMap("title", referenceNode.getTitle());
+                parameters = Collections.singletonMap(TITLE_ATTRIBUTE, referenceNode.getTitle());
             }
 
             getListener().onImage(reference, false, parameters);
@@ -189,7 +202,7 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
             // Handle an optional link title
             Map<String, String> parameters = Collections.EMPTY_MAP;
             if (StringUtils.isNotEmpty(referenceNode.getTitle())) {
-                parameters = Collections.singletonMap("title", referenceNode.getTitle());
+                parameters = Collections.singletonMap(TITLE_ATTRIBUTE, referenceNode.getTitle());
             }
 
             getListener().beginLink(reference, false, parameters);

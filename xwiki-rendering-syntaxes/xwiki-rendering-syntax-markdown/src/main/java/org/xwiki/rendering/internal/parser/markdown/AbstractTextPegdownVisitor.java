@@ -51,10 +51,19 @@ import org.xwiki.rendering.syntax.Syntax;
 public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
 {
     /**
+     * Id of the code macro.
+     */
+    private static final String CODE_MACRO_ID = "code";
+
+    /**
      * Abbreviation definitions.
      */
     private Map<String, AbbreviationNode> abbreviations = new HashMap<String, AbbreviationNode>();
 
+    /**
+     * Whether we're currently in the code that handles abbreviations or not. This is to prevent recursive abbreviation
+     * handling.
+     */
     private boolean isHandlingAbbreviations;
 
     @Override
@@ -140,7 +149,7 @@ public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
     public void visit(CodeNode codeNode)
     {
         // Since XWiki doesn't have a Code Block we generate a Code Macro Block
-        getListener().onMacro("code", Collections.EMPTY_MAP, codeNode.getText(), true);
+        getListener().onMacro(CODE_MACRO_ID, Collections.EMPTY_MAP, codeNode.getText(), true);
     }
 
     @Override
@@ -155,7 +164,7 @@ public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
             parameters = Collections.EMPTY_MAP;
         }
 
-        getListener().onMacro("code", parameters, text, false);
+        getListener().onMacro(CODE_MACRO_ID, parameters, text, false);
     }
 
     @Override
