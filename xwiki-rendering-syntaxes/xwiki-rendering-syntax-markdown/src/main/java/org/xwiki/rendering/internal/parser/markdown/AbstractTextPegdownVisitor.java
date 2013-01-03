@@ -178,24 +178,25 @@ public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
     @Override
     public void visit(QuotedNode quotedNode)
     {
-        // Don't do anything, this is just some quoted content but XWiki doesn't handle quoted content in any specific
-        // manner.
-        if (QuotedNode.Type.Double.equals(quotedNode.getType())) {
-            visit("\"");
-        } else if (QuotedNode.Type.Single.equals(quotedNode.getType())) {
-            visit("'");
-        } else {
-            visit("\u00AB");
-        }
-
-        visitChildren(quotedNode);
-
-        if (QuotedNode.Type.Double.equals(quotedNode.getType())) {
-            visit("\"");
-        } else if (QuotedNode.Type.Single.equals(quotedNode.getType())) {
-            visit("'");
-        } else {
-            visit("\u00BB");
+        // XWiki doesn't have a notion of Quote block and thus we can't store the quote in a manner independent of the
+        // rendering... Thus in order to get the same kind of output as users would expect from Markdown we generate
+        // "beautified" quotes in our AST. Ideally those should be get beautified by the renderer only.
+        switch (quotedNode.getType()) {
+            case DoubleAngle:
+                visit("\u201C");
+                visitChildren(quotedNode);
+                visit("\u201D");
+                break;
+            case Double:
+                visit("\u00AB");
+                visitChildren(quotedNode);
+                visit("\u00BB");
+                break;
+            case Single:
+                visit("\u2018");
+                visitChildren(quotedNode);
+                visit("\u2019");
+                break;
         }
     }
 
