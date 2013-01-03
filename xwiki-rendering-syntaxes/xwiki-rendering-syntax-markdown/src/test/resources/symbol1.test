@@ -1,0 +1,48 @@
+.#-----------------------------------------------------
+.input|markdown/1.0
+.# Markdown supports entering HTML entities
+.#-----------------------------------------------------
+AT&T has an ampersand in their name.
+
+AT&amp;T is another way to write it.
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [AT]
+onSpecialSymbol [&]
+onWord [T]
+onSpace
+onWord [has]
+onSpace
+onWord [an]
+onSpace
+onWord [ampersand]
+onSpace
+onWord [in]
+onSpace
+onWord [their]
+onSpace
+onWord [name]
+onSpecialSymbol [.]
+endParagraph
+beginParagraph
+onWord [AT]
+onSpecialSymbol [&]
+onWord [T]
+onSpace
+onWord [is]
+onSpace
+onWord [another]
+onSpace
+onWord [way]
+onSpace
+onWord [to]
+onSpace
+onWord [write]
+onSpace
+onWord [it]
+onSpecialSymbol [.]
+endParagraph
+endDocument
