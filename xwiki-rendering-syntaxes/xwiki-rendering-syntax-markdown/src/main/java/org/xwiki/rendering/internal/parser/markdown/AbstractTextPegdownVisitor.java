@@ -193,20 +193,20 @@ public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
         // "beautified" quotes in our AST. Ideally those should be get beautified by the renderer only.
         switch (quotedNode.getType()) {
             case DoubleAngle:
-                visit("\u201C");
+                getListener().onSpecialSymbol('\u201C');
                 visitChildren(quotedNode);
-                visit("\u201D");
+                getListener().onSpecialSymbol('\u201D');
                 break;
             case Single:
-                visit("\u2018");
+                getListener().onSpecialSymbol('\'');
                 visitChildren(quotedNode);
-                visit("\u2019");
+                getListener().onSpecialSymbol('\'');
                 break;
             case Double:
             default:
-                visit("\u00AB");
+                getListener().onSpecialSymbol('\"');
                 visitChildren(quotedNode);
-                visit("\u00BB");
+                getListener().onSpecialSymbol('\"');
                 break;
         }
     }
@@ -219,23 +219,23 @@ public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
                 getListener().onNewLine();
                 break;
             case Apostrophe:
-                visit("'");
+                getListener().onSpecialSymbol('\'');
                 break;
             case HRule:
                 getListener().onHorizontalLine(Collections.EMPTY_MAP);
                 break;
             case Endash:
-                visit("\u2013");
+                getListener().onSpecialSymbol('\u2013');
                 break;
             case Emdash:
-                visit("\u2014");
+                getListener().onSpecialSymbol('\u2014');
                 break;
             case Ellipsis:
-                visit("\u2026");
+                getListener().onSpecialSymbol('\u2026');
                 break;
             case Nbsp:
             default:
-                visit(" ");
+                getListener().onSpace();
                 break;
         }
     }

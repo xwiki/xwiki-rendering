@@ -9,16 +9,16 @@
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-onWord [(((8216)))]
+onSpecialSymbol [']
 onWord [single]
-onWord [(((8217)))]
+onSpecialSymbol [']
 onSpace
-onWord [(((171)))]
+onSpecialSymbol ["]
 onWord [double]
-onWord [(((187)))]
+onSpecialSymbol ["]
 onSpace
-onWord [(((8220)))]
+onSpecialSymbol [(((8220)))]
 onWord [angle]
-onWord [(((8221)))]
+onSpecialSymbol [(((8221)))]
 endParagraph
 endDocument
