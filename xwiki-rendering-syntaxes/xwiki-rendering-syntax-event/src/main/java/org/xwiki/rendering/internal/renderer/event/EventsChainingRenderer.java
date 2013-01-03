@@ -194,7 +194,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void onSpecialSymbol(char symbol)
     {
-        getPrinter().println("onSpecialSymbol [" + symbol + "]");
+        getPrinter().println("onSpecialSymbol [" + getEscaped(Character.toString(symbol)) + "]");
     }
 
     @Override
