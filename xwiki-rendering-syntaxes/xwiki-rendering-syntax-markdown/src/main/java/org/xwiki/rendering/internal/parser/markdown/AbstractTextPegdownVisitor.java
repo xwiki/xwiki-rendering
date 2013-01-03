@@ -23,20 +23,19 @@ import java.io.StringReader;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.pegdown.ast.AbbreviationNode;
 import org.pegdown.ast.BlockQuoteNode;
 import org.pegdown.ast.CodeNode;
-import org.pegdown.ast.EmphNode;
 import org.pegdown.ast.ParaNode;
 import org.pegdown.ast.QuotedNode;
 import org.pegdown.ast.SimpleNode;
 import org.pegdown.ast.SpecialTextNode;
-import org.pegdown.ast.StrongNode;
 import org.pegdown.ast.TextNode;
 import org.pegdown.ast.VerbatimNode;
-import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.InlineFilterListener;
 import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.parser.ParseException;
@@ -54,6 +53,11 @@ public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
      * Id of the code macro.
      */
     private static final String CODE_MACRO_ID = "code";
+
+    /**
+     * Regex to recognize an HTML entity.
+     */
+    private static final Pattern HTML_ENTITY_PATTERN = Pattern.compile("&[^\\s]*;");
 
     /**
      * Abbreviation definitions.
@@ -105,7 +109,20 @@ public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
         }
 
         if (!foundAbbreviation) {
-            visit(textNode.getText());
+            // Mardkown supports embedding HTML entities directly in the content. Thus we need to find them and replace
+            // them with a RawBlock
+            Matcher matcher = HTML_ENTITY_PATTERN.matcher(textNode.getText());
+            if (matcher.find()) {
+                if (matcher.start() > 0) {
+                    visit(textNode.getText().substring(0, matcher.start()));
+                }
+                getListener().onRawText(matcher.group(), Syntax.HTML_4_01);
+                if (matcher.end() < textNode.getText().length()) {
+                    visit(new TextNode(textNode.getText().substring(matcher.end())));
+                }
+            } else {
+                visit(textNode.getText());
+            }
         }
     }
 
@@ -127,22 +144,6 @@ public abstract class AbstractTextPegdownVisitor extends AbstractPegdownVisitor
     public void visit(SpecialTextNode specialTextNode)
     {
         visit(specialTextNode.getText());
-    }
-
-    @Override
-    public void visit(StrongNode strongNode)
-    {
-        getListener().beginFormat(Format.BOLD, Collections.EMPTY_MAP);
-        visitChildren(strongNode);
-        getListener().endFormat(Format.BOLD, Collections.EMPTY_MAP);
-    }
-
-    @Override
-    public void visit(EmphNode emphNode)
-    {
-        getListener().beginFormat(Format.ITALIC, Collections.EMPTY_MAP);
-        visitChildren(emphNode);
-        getListener().endFormat(Format.ITALIC, Collections.EMPTY_MAP);
     }
 
     @Override

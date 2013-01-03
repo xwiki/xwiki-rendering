@@ -19,27 +19,33 @@
  */
 package org.xwiki.rendering.internal.parser.markdown;
 
-import org.pegdown.ast.HtmlBlockNode;
-import org.pegdown.ast.InlineHtmlNode;
-import org.xwiki.rendering.syntax.Syntax;
+import java.util.Collections;
+
+import org.pegdown.ast.EmphNode;
+import org.pegdown.ast.StrongNode;
+import org.xwiki.rendering.listener.Format;
 
 /**
- * Implements Pegdown Visitor's HTML events.
+ * Implements Pegdown Visitor's formatting events.
  *
  * @version $Id$
  * @since 4.5M1
  */
-public abstract class AbstractHTMLPegdownVisitor extends AbstractFormattingPegdownVisitor
+public abstract class AbstractFormattingPegdownVisitor extends AbstractTextPegdownVisitor
 {
     @Override
-    public void visit(HtmlBlockNode htmlBlockNode)
+    public void visit(StrongNode strongNode)
     {
-        getListener().onRawText(htmlBlockNode.getText(), Syntax.HTML_4_01);
+        getListener().beginFormat(Format.BOLD, Collections.EMPTY_MAP);
+        visitChildren(strongNode);
+        getListener().endFormat(Format.BOLD, Collections.EMPTY_MAP);
     }
 
     @Override
-    public void visit(InlineHtmlNode inlineHtmlNode)
+    public void visit(EmphNode emphNode)
     {
-        getListener().onRawText(inlineHtmlNode.getText(), Syntax.HTML_4_01);
+        getListener().beginFormat(Format.ITALIC, Collections.EMPTY_MAP);
+        visitChildren(emphNode);
+        getListener().endFormat(Format.ITALIC, Collections.EMPTY_MAP);
     }
 }
