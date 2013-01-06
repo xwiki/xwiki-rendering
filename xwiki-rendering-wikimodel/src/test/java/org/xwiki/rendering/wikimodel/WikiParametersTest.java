@@ -23,13 +23,18 @@ import org.junit.Test;
 
 import junit.framework.Assert;
 
+/**
+ * Validate {@link WikiParameters}.
+ * 
+ * @version $Id$
+ */
 public class WikiParametersTest
 {
     @Test
     public void testParametersValuewithoutEndingDoubleQuote()
     {
         WikiParameters wikiParameters = WikiParameters.newWikiParameters("key=\"value");
-        
+
         Assert.assertEquals(1, wikiParameters.getSize());
         Assert.assertEquals("value", wikiParameters.getParameter("key").getValue());
     }
