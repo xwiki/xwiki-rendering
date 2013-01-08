@@ -59,9 +59,7 @@ public class DefaultXMLFilter extends XMLFilterImpl implements LexicalHandler
     }
 
     @Override
-    public void setProperty(String name, Object value)
-        throws SAXNotRecognizedException,
-        SAXNotSupportedException
+    public void setProperty(String name, Object value) throws SAXNotRecognizedException, SAXNotSupportedException
     {
         // We save the lexical handler so that we can use it in the
         // implementation of the LexicalHandler interface methods.
@@ -73,9 +71,7 @@ public class DefaultXMLFilter extends XMLFilterImpl implements LexicalHandler
     }
 
     @Override
-    public Object getProperty(String name)
-        throws SAXNotRecognizedException,
-        SAXNotSupportedException
+    public Object getProperty(String name) throws SAXNotRecognizedException, SAXNotSupportedException
     {
         if (SAX_LEXICAL_HANDLER_PROPERTY.equals(name)) {
             return this.lexicalHandler;
@@ -84,6 +80,7 @@ public class DefaultXMLFilter extends XMLFilterImpl implements LexicalHandler
         }
     }
 
+    @Override
     public void comment(char[] ch, int start, int length) throws SAXException
     {
         if (this.lexicalHandler != null) {
@@ -91,6 +88,7 @@ public class DefaultXMLFilter extends XMLFilterImpl implements LexicalHandler
         }
     }
 
+    @Override
     public void endCDATA() throws SAXException
     {
         if (this.lexicalHandler != null) {
@@ -98,6 +96,7 @@ public class DefaultXMLFilter extends XMLFilterImpl implements LexicalHandler
         }
     }
 
+    @Override
     public void endDTD() throws SAXException
     {
         if (this.lexicalHandler != null) {
@@ -105,6 +104,7 @@ public class DefaultXMLFilter extends XMLFilterImpl implements LexicalHandler
         }
     }
 
+    @Override
     public void endEntity(String name) throws SAXException
     {
         if (this.lexicalHandler != null) {
@@ -112,6 +112,7 @@ public class DefaultXMLFilter extends XMLFilterImpl implements LexicalHandler
         }
     }
 
+    @Override
     public void startCDATA() throws SAXException
     {
         if (this.lexicalHandler != null) {
@@ -119,14 +120,15 @@ public class DefaultXMLFilter extends XMLFilterImpl implements LexicalHandler
         }
     }
 
-    public void startDTD(String name, String publicId, String systemId)
-        throws SAXException
+    @Override
+    public void startDTD(String name, String publicId, String systemId) throws SAXException
     {
         if (this.lexicalHandler != null) {
             this.lexicalHandler.startDTD(name, publicId, systemId);
         }
     }
 
+    @Override
     public void startEntity(String name) throws SAXException
     {
         if (this.lexicalHandler != null) {
