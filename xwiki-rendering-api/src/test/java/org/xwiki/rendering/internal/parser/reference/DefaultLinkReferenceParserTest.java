@@ -20,6 +20,8 @@
 package org.xwiki.rendering.internal.parser.reference;
 
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
@@ -27,7 +29,8 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.wiki.WikiModel;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.mockito.MockitoComponentManagerRule;
 
 /**
  * Unit tests for {@link DefaultLinkReferenceParser}.
@@ -35,17 +38,21 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
  * @version $Id$
  * @since 2.6M1
  */
-public class DefaultLinkReferenceParserTest extends AbstractComponentTestCase
+@AllComponents
+public class DefaultLinkReferenceParserTest
 {
+    @Rule
+    public final MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
+
     private ResourceReferenceParser parser;
 
-    @Override
-    protected void registerComponents() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
         // Create a Mock WikiModel implementation so that the link parser works in wiki mode
-        registerMockComponent(WikiModel.class);
+        this.componentManager.registerMockComponent(WikiModel.class);
 
-        this.parser = getComponentManager().getInstance(ResourceReferenceParser.class, "link");
+        this.parser = this.componentManager.getInstance(ResourceReferenceParser.class, "link");
     }
 
     @Test
