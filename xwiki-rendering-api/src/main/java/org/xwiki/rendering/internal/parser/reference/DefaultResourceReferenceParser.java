@@ -19,19 +19,13 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
-import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
-import org.xwiki.rendering.wiki.WikiModel;
 
 /**
  * Parses the content of resource references. The format of a resource reference is the following:
@@ -48,20 +42,12 @@ import org.xwiki.rendering.wiki.WikiModel;
  */
 @Component
 @Singleton
-public class DefaultResourceReferenceParser implements ResourceReferenceParser
+public class DefaultResourceReferenceParser extends AbstractResourceReferenceParser
 {
     /**
      * Link Reference Type separator (eg "mailto:mail@address").
      */
     public static final String TYPE_SEPARATOR = ":";
-
-    /**
-     * Used to verify if we're in wiki mode or not by looking up an implementation of
-     * {@link org.xwiki.rendering.wiki.WikiModel}.
-     */
-    @Inject
-    @Named("context")
-    private Provider<ComponentManager> componentManagerProvider;
 
     /**
      * {@inheritDoc}
@@ -73,14 +59,9 @@ public class DefaultResourceReferenceParser implements ResourceReferenceParser
     @Override
     public ResourceReference parse(String rawReference)
     {
-        // Step 1: If we're not in wiki mode then all links are URL links.
-        if (!isInWikiMode()) {
-            ResourceReference resourceReference = new ResourceReference(rawReference, ResourceType.URL);
-            resourceReference.setTyped(false);
-            return resourceReference;
-        }
-
-        // Step 2: Find the type parser matching the specified prefix type (if any).
+        ResourceReference parsedResourceReference = null;
+        
+        // Step 1: Find the type parser matching the specified prefix type (if any).
         int pos = rawReference.indexOf(TYPE_SEPARATOR);
         if (pos > -1) {
             String typePrefix = rawReference.substring(0, pos);
@@ -88,32 +69,26 @@ public class DefaultResourceReferenceParser implements ResourceReferenceParser
             try {
                 ResourceReferenceTypeParser parser =
                     this.componentManagerProvider.get().getInstance(ResourceReferenceTypeParser.class, typePrefix);
-                ResourceReference parsedResourceReference = parser.parse(reference);
-                if (parsedResourceReference != null) {
-                    return parsedResourceReference;
-                }
+                parsedResourceReference = parser.parse(reference);
             } catch (ComponentLookupException e) {
-                // Couldn't find a link type parser for the specified type. Will try to autodiscover the type.
+                // Couldn't find a link type parser for the specified type.
             }
         }
 
-        // Step 3: There's no specific type parser found.
-        return new ResourceReference(rawReference, ResourceType.UNKNOWN);
-    }
-
-    /**
-     * @return true if we're in wiki mode (ie there's no implementing class for
-     *         {@link org.xwiki.rendering.wiki.WikiModel})
-     */
-    private boolean isInWikiMode()
-    {
-        boolean result = true;
-        try {
-            this.componentManagerProvider.get().getInstance(WikiModel.class);
-        } catch (ComponentLookupException e) {
-            result = false;
+        // Step 2: If there's no specific type parser found, then consider it's an Unknown type.
+        if (parsedResourceReference == null) {
+            parsedResourceReference = new ResourceReference(rawReference, ResourceType.UNKNOWN);
         }
 
-        return result;
+        // Step 3: If we're not in wiki mode then wiki references are considered URLs.
+        if (!isInWikiMode()
+            && (parsedResourceReference.getType().equals(ResourceType.ATTACHMENT)
+            || parsedResourceReference.getType().equals(ResourceType.DOCUMENT)))
+        {
+            parsedResourceReference = new ResourceReference(rawReference, ResourceType.URL);
+            parsedResourceReference.setTyped(false);
+        }
+
+        return parsedResourceReference;
     }
 }

@@ -51,6 +51,12 @@
       <artifactId>cssparser</artifactId>
       <version>0.9.5</version>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-xml</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <!-- Testing dependencies -->
     <dependency>
       <groupId>junit</groupId>

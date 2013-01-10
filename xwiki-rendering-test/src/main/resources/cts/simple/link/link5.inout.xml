@@ -37,10 +37,10 @@
   <paragraph parameter0="">
     <link parameter1="true" parameter2="">
       <parameter0>
-        <isTyped>false</isTyped>
-        <reference>mailto:john@doe.com</reference>
+        <isTyped>true</isTyped>
+        <reference>john@doe.com</reference>
         <type>
-          <scheme>url</scheme>
+          <scheme>mailto</scheme>
         </type>
         <parameters></parameters>
       </parameter0>

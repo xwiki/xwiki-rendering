@@ -1,1 +1,1 @@
-mailto:john@doe.com
+john@doe.com

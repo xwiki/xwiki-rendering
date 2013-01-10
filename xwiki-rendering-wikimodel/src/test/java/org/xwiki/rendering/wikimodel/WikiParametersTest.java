@@ -17,15 +17,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.wikimodel.xhtml.impl;
+package org.xwiki.rendering.wikimodel;
+
+import org.junit.Test;
+
+import junit.framework.Assert;
 
 /**
+ * Validate {@link WikiParameters}.
+ * 
  * @version $Id$
- * @since 4.0M1
- * @deprecated use org.xwiki.xml.internal.LocalEntityResolver instead
  */
-@Deprecated
-public class LocalEntityResolver extends org.xwiki.xml.internal.LocalEntityResolver
+public class WikiParametersTest
 {
+    @Test
+    public void testParametersValuewithoutEndingDoubleQuote()
+    {
+        WikiParameters wikiParameters = WikiParameters.newWikiParameters("key=\"value");
 
+        Assert.assertEquals(1, wikiParameters.getSize());
+        Assert.assertEquals("value", wikiParameters.getParameter("key").getValue());
+    }
 }

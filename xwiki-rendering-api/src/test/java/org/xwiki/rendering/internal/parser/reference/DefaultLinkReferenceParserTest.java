@@ -20,6 +20,8 @@
 package org.xwiki.rendering.internal.parser.reference;
 
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
@@ -27,7 +29,8 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.wiki.WikiModel;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.mockito.MockitoComponentManagerRule;
 
 /**
  * Unit tests for {@link DefaultLinkReferenceParser}.
@@ -35,22 +38,26 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
  * @version $Id$
  * @since 2.6M1
  */
-public class DefaultLinkReferenceParserTest extends AbstractComponentTestCase
+@AllComponents
+public class DefaultLinkReferenceParserTest
 {
+    @Rule
+    public final MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
+
     private ResourceReferenceParser parser;
 
-    @Override
-    protected void registerComponents() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
-        // Create a Mock WikiModel implementation so that the link parser works in wiki mode
-        registerMockComponent(WikiModel.class);
-
-        this.parser = getComponentManager().getInstance(ResourceReferenceParser.class, "link");
+        this.parser = this.componentManager.getInstance(ResourceReferenceParser.class, "link");
     }
 
     @Test
-    public void testParseLinksWhenInWikiModeCommon() throws Exception
+    public void testParseWhenInWikiMode() throws Exception
     {
+        // Create a Mock WikiModel implementation so that the link parser works in wiki mode
+        this.componentManager.registerMockComponent(WikiModel.class);
+
         ResourceReference reference = parser.parse("");
         Assert.assertEquals("", reference.getReference());
         Assert.assertFalse(reference.isTyped());
@@ -92,12 +99,9 @@ public class DefaultLinkReferenceParserTest extends AbstractComponentTestCase
         Assert.assertFalse(reference.isTyped());
         Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
         Assert.assertEquals("Typed = [false] Type = [doc] Reference = [mywiki:http://xwiki.org]", reference.toString());
-    }
 
-    @Test
-    public void testParseLinks() throws Exception
-    {
-        ResourceReference reference = parser.parse("doc:wiki:space.page");
+        // Verify doc links work
+        reference = parser.parse("doc:wiki:space.page");
         Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
         Assert.assertEquals("wiki:space.page", reference.getReference());
         Assert.assertEquals("Typed = [true] Type = [doc] Reference = [wiki:space.page]", reference.toString());
@@ -158,14 +162,42 @@ public class DefaultLinkReferenceParserTest extends AbstractComponentTestCase
         Assert.assertEquals("\\\\myserver\\myshare\\mydoc.txt", reference.getReference());
         Assert.assertEquals("Typed = [true] Type = [unc] Reference = [\\\\myserver\\myshare\\mydoc.txt]",
             reference.toString());
+
+        // Verify that reference escapes are left as is by the link parser
+        reference = this.parser.parse("pa\\.ge");
+        Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
+        Assert.assertEquals("pa\\.ge", reference.getReference());
     }
 
     @Test
-    public void testParseLinksWithEscapes() throws Exception
+    public void testParseWhenNotInWikiMode() throws Exception
     {
-        // Veirfy that reference escapes are left as is by the link parser
-        ResourceReference resourceReference = parser.parse("pa\\.ge");
-        Assert.assertEquals(ResourceType.DOCUMENT, resourceReference.getType());
-        Assert.assertEquals("pa\\.ge", resourceReference.getReference());
+        // Verify that mailto: links are treated normally even when in non wiki mode
+        ResourceReference reference = parser.parse("mailto:something");
+        Assert.assertEquals("something", reference.getReference());
+        Assert.assertTrue(reference.isTyped());
+        Assert.assertEquals(ResourceType.MAILTO, reference.getType());
+        Assert.assertEquals("Typed = [true] Type = [mailto] Reference = [something]", reference.toString());
+
+        // Verify that non typed links are treated as URLs
+        reference = parser.parse("something");
+        Assert.assertEquals("something", reference.getReference());
+        Assert.assertFalse(reference.isTyped());
+        Assert.assertEquals(ResourceType.URL, reference.getType());
+        Assert.assertEquals("Typed = [false] Type = [url] Reference = [something]", reference.toString());
+
+        // Verify that doc: links are treated as URLs
+        reference = parser.parse("doc:something");
+        Assert.assertEquals("doc:something", reference.getReference());
+        Assert.assertFalse(reference.isTyped());
+        Assert.assertEquals(ResourceType.URL, reference.getType());
+        Assert.assertEquals("Typed = [false] Type = [url] Reference = [doc:something]", reference.toString());
+
+        // Verify that attach: links are treated as URLs
+        reference = parser.parse("attach:something");
+        Assert.assertEquals("attach:something", reference.getReference());
+        Assert.assertFalse(reference.isTyped());
+        Assert.assertEquals(ResourceType.URL, reference.getType());
+        Assert.assertEquals("Typed = [false] Type = [url] Reference = [attach:something]", reference.toString());
     }
 }
