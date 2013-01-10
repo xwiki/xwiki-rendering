@@ -1,12 +1,17 @@
 .#-----------------------------------------------------
 .input|markdown/1.0
-.# Test Code Syntax.
+.# Test inline code using alternate syntax
 .#-----------------------------------------------------
-    public class FormattedCode {}
+This is ``some code``
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-onVerbatim [public class FormattedCode {}
-] [false]
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+onMacroInline [code] [] [some code]
+endParagraph
 endDocument

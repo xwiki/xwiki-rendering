@@ -17,19 +17,35 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.markdown;
+package org.xwiki.rendering.internal.parser.markdown;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import java.util.Collections;
+
+import org.pegdown.ast.EmphNode;
+import org.pegdown.ast.StrongNode;
+import org.xwiki.rendering.listener.Format;
 
 /**
- * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
- * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
+ * Implements Pegdown Visitor's formatting events.
  *
  * @version $Id$
- * @since 4.1M1
+ * @since 4.5M1
  */
-@RunWith(RenderingTestSuite.class)
-public class IntegrationTests
+public abstract class AbstractFormattingPegdownVisitor extends AbstractTextPegdownVisitor
 {
+    @Override
+    public void visit(StrongNode strongNode)
+    {
+        getListener().beginFormat(Format.BOLD, Collections.EMPTY_MAP);
+        visitChildren(strongNode);
+        getListener().endFormat(Format.BOLD, Collections.EMPTY_MAP);
+    }
+
+    @Override
+    public void visit(EmphNode emphNode)
+    {
+        getListener().beginFormat(Format.ITALIC, Collections.EMPTY_MAP);
+        visitChildren(emphNode);
+        getListener().endFormat(Format.ITALIC, Collections.EMPTY_MAP);
+    }
 }

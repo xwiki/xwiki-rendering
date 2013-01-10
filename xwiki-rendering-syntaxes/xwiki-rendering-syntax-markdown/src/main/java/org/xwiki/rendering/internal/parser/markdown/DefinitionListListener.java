@@ -17,19 +17,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.markdown;
+package org.xwiki.rendering.internal.parser.markdown;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import java.util.Map;
+
+import org.xwiki.rendering.listener.WrappingListener;
 
 /**
- * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
- * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
+ * Special listener for handling Definition Lists: Pegdown issues a Paragraph event for definition description which
+ * we don't want (even though it's not technically wrong).
  *
  * @version $Id$
- * @since 4.1M1
+ * @since 4.5M1
  */
-@RunWith(RenderingTestSuite.class)
-public class IntegrationTests
+public class DefinitionListListener extends WrappingListener
 {
+    @Override
+    public void beginParagraph(Map<String, String> parameters)
+    {
+        // Ignore
+    }
+
+    @Override
+    public void endParagraph(Map<String, String> parameters)
+    {
+        // Ignore
+    }
 }
