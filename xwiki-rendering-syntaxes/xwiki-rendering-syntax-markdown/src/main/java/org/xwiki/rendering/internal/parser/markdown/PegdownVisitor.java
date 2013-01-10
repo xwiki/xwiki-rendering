@@ -17,19 +17,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.markdown;
+package org.xwiki.rendering.internal.parser.markdown;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.pegdown.ast.SuperNode;
+import org.pegdown.ast.Visitor;
+import org.xwiki.component.annotation.Role;
+import org.xwiki.rendering.listener.Listener;
 
 /**
- * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
- * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
+ * <a href="https://github.com/sirthias/pegdown">Pegdown</a> visitor to transform the Pegdown AST into XWiki Rendering
+ * Events.
  *
  * @version $Id$
- * @since 4.1M1
+ * @since 4.5M1
  */
-@RunWith(RenderingTestSuite.class)
-public class IntegrationTests
+@Role
+public interface PegdownVisitor extends Visitor
 {
+    /**
+     * Converts Pegdown Nodes into XWiki Rendering events.
+     *
+     * @param superNode the root node of the hierarchy to convert
+     * @param listener the listener to send the XWiki events to
+     */
+    void visit(SuperNode superNode, Listener listener);
 }

@@ -1,14 +1,29 @@
 .#-----------------------------------------------------
 .input|markdown/1.0
-.# Make sure special characters are properly handled
+.# Tables are expressed in HTML in Markdown
 .#-----------------------------------------------------
-'&
+hello
+
+<table>
+  <tr>
+    <td>Foo</td>
+  </tr>
+</table>
+
+world
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-onWord [(((8217)))]
-onSpecialSymbol [&]
+onWord [hello]
+endParagraph
+onRawText [<table>
+  <tr>
+    <td>Foo</td>
+  </tr>
+</table>] [html/4.01]
+beginParagraph
+onWord [world]
 endParagraph
 endDocument

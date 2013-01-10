@@ -17,19 +17,21 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.markdown;
+package org.xwiki.rendering.internal.parser.markdown;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.component.annotation.Component;
+import org.xwiki.component.annotation.InstantiationStrategy;
+import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
 /**
- * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
- * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
+ * <a href="https://github.com/sirthias/pegdown">Pegdown</a> visitor to transform the Pegdown AST into XWiki Rendering
+ * Events.
  *
  * @version $Id$
- * @since 4.1M1
+ * @since 4.5M1
  */
-@RunWith(RenderingTestSuite.class)
-public class IntegrationTests
+@Component
+@InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
+public class XWikiPegdownVisitor extends AbstractTablePegdownVisitor
 {
 }
