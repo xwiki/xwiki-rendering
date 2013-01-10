@@ -1,6 +1,6 @@
 beginDocument [[syntax]=[Event 1.0]]
 beginParagraph
-beginLink [Typed = [false] Type = [url] Reference = [mailto:john@doe.com]] [true]
-endLink [Typed = [false] Type = [url] Reference = [mailto:john@doe.com]] [true]
+beginLink [Typed = [true] Type = [mailto] Reference = [john@doe.com]] [true]
+endLink [Typed = [true] Type = [mailto] Reference = [john@doe.com]] [true]
 endParagraph
 endDocument [[syntax]=[Event 1.0]]

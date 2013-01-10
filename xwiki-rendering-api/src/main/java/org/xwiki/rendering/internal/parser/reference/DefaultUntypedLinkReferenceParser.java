@@ -25,7 +25,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.parser.ResourceReferenceParser;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
 
 /**
@@ -38,7 +38,7 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
 @Component
 @Named("link/untyped")
 @Singleton
-public class DefaultUntypedLinkReferenceParser implements ResourceReferenceParser
+public class DefaultUntypedLinkReferenceParser extends AbstractResourceReferenceParser
 {
     /**
      * Parser to parse link references pointing to URLs.
@@ -57,13 +57,20 @@ public class DefaultUntypedLinkReferenceParser implements ResourceReferenceParse
     @Override
     public ResourceReference parse(String rawReference)
     {
-        // Try to guess the link type. It can be either:
-        // - a URL (specified without the "url" type)
-        // - a reference to a document (specified without the "doc" type)
-        ResourceReference reference = this.urlResourceReferenceTypeParser.parse(rawReference);
-        if (reference == null) {
-            // What remains is considered to be a link to a document, use the document link type parser to parse it.
-            reference = this.documentResourceReferenceTypeParser.parse(rawReference);
+        ResourceReference reference;
+
+        // If we're not in wiki mode then references are considered URLs.
+        if (!isInWikiMode()) {
+            reference = new ResourceReference(rawReference, ResourceType.URL);
+        } else {
+            // Try to guess the link type. It can be either:
+            // - a URL (specified without the "url" type)
+            // - a reference to a document (specified without the "doc" type)
+            reference = this.urlResourceReferenceTypeParser.parse(rawReference);
+            if (reference == null) {
+                // What remains is considered to be a link to a document, use the document link type parser to parse it.
+                reference = this.documentResourceReferenceTypeParser.parse(rawReference);
+            }
         }
         reference.setTyped(false);
 

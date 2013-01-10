@@ -1,1 +1,1 @@
-<p><span class="wikiexternallink"><a class="wikimodel-freestanding" href="mailto:john@doe.com"><span class="wikigeneratedlinkcontent">mailto:john@doe.com</span></a></span></p>
+<p><span class="wikiexternallink"><a class="wikimodel-freestanding" href="mailto:john@doe.com"><span class="wikigeneratedlinkcontent">john@doe.com</span></a></span></p>

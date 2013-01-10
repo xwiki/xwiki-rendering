@@ -24,20 +24,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
-import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
-import org.xwiki.rendering.wiki.WikiModel;
 
 /**
  * Each syntax should have its own resource reference parser. However while we wait for syntax specific parser to be
@@ -49,7 +45,7 @@ import org.xwiki.rendering.wiki.WikiModel;
 @Component
 @Named("default/link")
 @Singleton
-public class GenericLinkReferenceParser implements ResourceReferenceParser
+public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
 {
     /**
      * Interwiki separator.
@@ -120,14 +116,6 @@ public class GenericLinkReferenceParser implements ResourceReferenceParser
     private ResourceReferenceTypeParser urlResourceReferenceTypeParser;
 
     /**
-     * Used to verify if we're in wiki mode or not by looking up an implementation of
-     * {@link org.xwiki.rendering.wiki.WikiModel}.
-     */
-    @Inject
-    @Named("context")
-    private Provider<ComponentManager> componentManagerProvider;
-
-    /**
      * @return the list of URI prefixes the link parser recognizes
      */
     protected List<String> getAllowedURIPrefixes()
@@ -138,27 +126,27 @@ public class GenericLinkReferenceParser implements ResourceReferenceParser
     @Override
     public ResourceReference parse(String rawReference)
     {
-        // Step 1: If we're not in wiki mode then all links are URL links.
-        if (!isInWikiMode()) {
-            ResourceReference resourceReference = new ResourceReference(rawReference, ResourceType.URL);
-            resourceReference.setTyped(false);
-            return resourceReference;
-        }
-
-        // Step 2: Check if it's a known URI by looking for one of the known URI schemes. If not, check if it's a URL.
+        // Step 1: Check if it's a known URI by looking for one of the known URI schemes. If not, check if it's a URL.
         ResourceReference resourceReference = parseURILinks(rawReference);
         if (resourceReference != null) {
             return resourceReference;
         }
 
-        // Step 3: Look for an InterWiki link
+        // Step 2: Look for an InterWiki link
         StringBuffer content = new StringBuffer(rawReference);
         resourceReference = parseInterWikiLinks(content);
         if (resourceReference != null) {
             return resourceReference;
         }
 
-        // Step 4: Consider that we have a reference to a document.
+        // Step 3: If we're in non wiki mode, we consider the reference to be a URL.
+        if (!isInWikiMode()) {
+            resourceReference = new ResourceReference(rawReference, ResourceType.URL);
+            resourceReference.setTyped(false);
+            return resourceReference;
+        }
+
+        // Step 4: Consider that we have a reference to a document
         return parseDocumentLink(content);
     }
 
@@ -275,21 +263,6 @@ public class GenericLinkReferenceParser implements ResourceReferenceParser
         }
 
         return element;
-    }
-
-    /**
-     * @return true if we're in wiki mode (ie there's no implementing class for
-     *         {@link org.xwiki.rendering.wiki.WikiModel})
-     */
-    private boolean isInWikiMode()
-    {
-        boolean result = true;
-        try {
-            this.componentManagerProvider.get().getInstance(WikiModel.class);
-        } catch (ComponentLookupException e) {
-            result = false;
-        }
-        return result;
     }
 
     /**

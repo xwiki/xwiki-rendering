@@ -68,13 +68,36 @@ import org.xwiki.rendering.internal.parser.reference.GenericLinkReferenceParser;
 public class XWiki20LinkReferenceParser extends GenericLinkReferenceParser
 {
     /**
-     * The list of recognized URL prefixes.
+     * Mailto URI scheme.
+     *
      */
-    public static final List<String> URI_PREFIXES = Arrays.asList("mailto", "image", "attach");
+    public static final String MAILTO_SCHEME = "mailto";
+
+    /**
+     * Attachment URI scheme.
+     *
+     */
+    public static final String ATTACH_SCHEME = "attach";
+
+    /**
+     * The list of recognized URL prefixes when in wiki mode.
+     */
+    public static final List<String> URI_PREFIXES = Arrays.asList(MAILTO_SCHEME, ATTACH_SCHEME);
+
+    /**
+     * The list of recognized URL prefixes when in non wiki mode.
+     */
+    public static final List<String> URI_PREFIXES_NON_WIKI_MODE = Arrays.asList(MAILTO_SCHEME);
 
     @Override
     protected List<String> getAllowedURIPrefixes()
     {
-        return URI_PREFIXES;
+        List<String> allowedURIs;
+        if (!isInWikiMode()) {
+            allowedURIs = URI_PREFIXES_NON_WIKI_MODE;
+        } else {
+            allowedURIs = URI_PREFIXES;
+        }
+        return allowedURIs;
     }
 }
