@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-transformations</artifactId>
-    <version>4.4-SNAPSHOT</version>
+    <version>4.4.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-transformation-linkchecker</artifactId>
   <name>XWiki Rendering - Transformation - Link Checker</name>
