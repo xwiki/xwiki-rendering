@@ -34,6 +34,7 @@
   <description>Compatibility Test Suite Report Macro</description>
   <properties>
     <xwiki.clover.targetPercentage>70.8%</xwiki.clover.targetPercentage>
+    <xwiki.jacoco.instructionRatio>71.77</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>

@@ -34,5 +34,6 @@
   <description>XWiki Rendering - Transformation - Icon</description>
   <properties>
     <xwiki.clover.targetPercentage>96.2%</xwiki.clover.targetPercentage>
+    <xwiki.jacoco.instructionRatio>93.82</xwiki.jacoco.instructionRatio>
   </properties>
 </project>

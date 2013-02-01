@@ -34,5 +34,6 @@
   <description>Allows writing a portion of content in any wiki syntax</description>
   <properties>
     <xwiki.clover.targetPercentage>82.4%</xwiki.clover.targetPercentage>
+    <xwiki.jacoco.instructionRatio>76.71</xwiki.jacoco.instructionRatio>
   </properties>
 </project>

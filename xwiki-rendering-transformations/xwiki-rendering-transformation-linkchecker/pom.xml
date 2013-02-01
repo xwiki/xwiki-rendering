@@ -34,6 +34,7 @@
   <description>Verifies if external URLs are valid and decorate with parameters if not</description>
   <properties>
     <xwiki.clover.targetPercentage>77.4%</xwiki.clover.targetPercentage>
+    <xwiki.jacoco.instructionRatio>74.35</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>

@@ -34,6 +34,7 @@
   <description>XWiki Rendering - Syntax - Annotated XHTML</description>
   <properties>
     <xwiki.clover.targetPercentage>51.4%</xwiki.clover.targetPercentage>
+    <xwiki.jacoco.instructionRatio>90.15</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>

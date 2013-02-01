@@ -35,6 +35,7 @@
   <description>XWiki Rendering - Api</description>
   <properties>
     <xwiki.clover.targetPercentage>25.8%</xwiki.clover.targetPercentage>
+    <xwiki.jacoco.instructionRatio>31.70</xwiki.jacoco.instructionRatio>
     <!-- Skipping CLIRR since xwiki-rendering-legacy-api wraps this module and runs CLIRR on it -->
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
   </properties>

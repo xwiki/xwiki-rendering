@@ -34,6 +34,7 @@
   <description>XWiki Rendering - Syntax - APT</description>
   <properties>
     <xwiki.clover.targetPercentage>86.7%</xwiki.clover.targetPercentage>
+    <xwiki.jacoco.instructionRatio>93.47</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>
