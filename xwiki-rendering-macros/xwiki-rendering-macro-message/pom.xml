@@ -33,7 +33,6 @@
   <name>XWiki Rendering - Macro - Message</name>
   <description>XWiki Rendering - Macro - Message</description>
   <properties>
-    <xwiki.clover.targetPercentage>80.6%</xwiki.clover.targetPercentage>
     <xwiki.jacoco.instructionRatio>84.44</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>

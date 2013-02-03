@@ -33,7 +33,6 @@
   <name>XWiki Rendering - Macro - Toc</name>
   <description>XWiki Rendering - Macro - Toc</description>
   <properties>
-    <xwiki.clover.targetPercentage>96.7%</xwiki.clover.targetPercentage>
     <xwiki.jacoco.instructionRatio>97.98</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>

@@ -33,7 +33,7 @@
   <name>XWiki Rendering - Syntax - Doxia Bridge</name>
   <description>Bridge Doxia Model and XWiki Rendering Model</description>
   <properties>
-    <xwiki.clover.targetPercentage>0%</xwiki.clover.targetPercentage>
+    <xwiki.jacoco.instructionRatio>0</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>

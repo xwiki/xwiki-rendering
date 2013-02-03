@@ -34,7 +34,6 @@
   <packaging>jar</packaging>
   <description>XWiki Rendering - WikiModel</description>
   <properties>
-    <xwiki.clover.targetPercentage>59.3%</xwiki.clover.targetPercentage>
     <xwiki.jacoco.instructionRatio>50.64</xwiki.jacoco.instructionRatio>
     <!-- Skip checkstyle checks for now since aligning WikiModel code base to the XWiki coding style is going to take
          some time and this module is temporary anyway. -->

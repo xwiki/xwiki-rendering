@@ -34,7 +34,6 @@
   <packaging>jar</packaging>
   <description>XWiki Rendering - Test Framework</description>
   <properties>
-    <xwiki.clover.targetPercentage>17%</xwiki.clover.targetPercentage>
     <xwiki.jacoco.instructionRatio>20.40</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>

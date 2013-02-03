@@ -33,7 +33,6 @@
   <name>XWiki Rendering - Macro - Footnotes</name>
   <description>Rendering macro for generating footnotes</description>
   <properties>
-    <xwiki.clover.targetPercentage>77.2%</xwiki.clover.targetPercentage>
     <xwiki.jacoco.instructionRatio>88.28</xwiki.jacoco.instructionRatio>
   </properties>
 </project>

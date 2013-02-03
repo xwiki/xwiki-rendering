@@ -33,7 +33,6 @@
   <name>XWiki Rendering - Syntax - Event</name>
   <description>XWiki Rendering - Syntax - Event</description>
   <properties>
-    <xwiki.clover.targetPercentage>72.5%</xwiki.clover.targetPercentage>
     <xwiki.jacoco.instructionRatio>84.39</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>

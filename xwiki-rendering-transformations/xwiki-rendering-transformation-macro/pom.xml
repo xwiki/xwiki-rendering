@@ -33,7 +33,6 @@
   <name>XWiki Rendering - Transformation - Macro</name>
   <description>XWiki Rendering - Transformation - Macro</description>
   <properties>
-    <xwiki.clover.targetPercentage>63.8%</xwiki.clover.targetPercentage>
     <xwiki.jacoco.instructionRatio>66.83</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
