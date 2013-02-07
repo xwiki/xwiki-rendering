@@ -17,18 +17,40 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxmlcurrent.internal.parameter;
+package org.xwiki.rendering.xml.internal.parameter;
 
-import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import org.w3c.dom.Element;
-import org.xml.sax.ContentHandler;
-import org.xwiki.component.annotation.Role;
+import com.thoughtworks.xstream.converters.collections.CollectionConverter;
+import com.thoughtworks.xstream.mapper.Mapper;
 
-@Role
-public interface ParameterManager
+/**
+ * Customize {@link CollectionConverter}.
+ * 
+ * @version $Id$
+ * @since 5.0M1
+ */
+public class XMLCollectionConverter extends CollectionConverter
 {
-    void serialize(Type type, Object object, ContentHandler xmlContent);
+    /**
+     * @param mapper the mapper
+     */
+    public XMLCollectionConverter(Mapper mapper)
+    {
+        super(mapper);
+    }
 
-    Object unSerialize(Type type, Element rootElement);
+    @Override
+    public boolean canConvert(Class type)
+    {
+        return type.equals(Collection.class) || type.equals(List.class);
+    }
+
+    @Override
+    protected Object createCollection(Class type)
+    {
+        return new ArrayList<Object>();
+    }
 }

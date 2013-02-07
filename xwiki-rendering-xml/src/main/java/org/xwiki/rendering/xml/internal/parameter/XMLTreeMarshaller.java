@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxmlcurrent.internal.parameter;
+package org.xwiki.rendering.xml.internal.parameter;
 
 import java.lang.reflect.Type;
 
@@ -32,9 +32,19 @@ import com.thoughtworks.xstream.core.TreeMarshaller;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.mapper.Mapper;
 
-public class XDOMXMLTreeMarshaller extends TreeMarshaller
+/**
+ * Customize {@link TreeMarshaller}.
+ * 
+ * @version $Id$
+ */
+public class XMLTreeMarshaller extends TreeMarshaller
 {
-    public XDOMXMLTreeMarshaller(HierarchicalStreamWriter writer, ConverterLookup converterLookup, Mapper mapper)
+    /**
+     * @param writer the writer
+     * @param converterLookup the converter provider
+     * @param mapper the mapper
+     */
+    public XMLTreeMarshaller(HierarchicalStreamWriter writer, ConverterLookup converterLookup, Mapper mapper)
     {
         super(writer, converterLookup, mapper);
     }
@@ -54,6 +64,10 @@ public class XDOMXMLTreeMarshaller extends TreeMarshaller
         }
     }
 
+    /**
+     * @param type the type
+     * @return the converter corresponding to the passed type
+     */
     private Converter getConverter(Type type)
     {
         if (type != null) {

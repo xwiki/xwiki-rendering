@@ -55,6 +55,7 @@
     <module>xwiki-rendering-test</module>
     <module>xwiki-rendering-transformations</module>
     <module>xwiki-rendering-wikimodel</module>
+    <module>xwiki-rendering-xml</module>
   </modules>
   <properties>
     <!-- Useful for Rendering extensions -->

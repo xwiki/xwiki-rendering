@@ -1,4 +1,3 @@
-org.xwiki.rendering.xdomxmlcurrent.internal.parameter.XStreamParameterManager
 org.xwiki.rendering.xdomxmlcurrent.internal.parser.XDOMXMLContentHandlerStreamParser
 org.xwiki.rendering.xdomxmlcurrent.internal.parser.XDOMXMLParser
 org.xwiki.rendering.xdomxmlcurrent.internal.renderer.XDOMXMLRenderer

@@ -17,30 +17,38 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxmlcurrent.internal.parameter;
+package org.xwiki.rendering.xml.internal.parameter;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.lang.reflect.Type;
 
-import com.thoughtworks.xstream.converters.collections.MapConverter;
-import com.thoughtworks.xstream.mapper.Mapper;
+import org.w3c.dom.Element;
+import org.xml.sax.ContentHandler;
+import org.xwiki.component.annotation.Role;
 
-public class XDOMXMLMapConverter extends MapConverter
+/**
+ * Parse and serialize object to and from XML.
+ * 
+ * @version $Id$
+ * @since 5.0M1
+ */
+@Role
+public interface ParameterManager
 {
-    public XDOMXMLMapConverter(Mapper mapper)
-    {
-        super(mapper);
-    }
+    /**
+     * Generate SAX events from the passed object.
+     * 
+     * @param type the type of the element to serialize
+     * @param object the object to convert
+     * @param xmlContent the listener to send SAX events to
+     */
+    void serialize(Type type, Object object, ContentHandler xmlContent);
 
-    @Override
-    public boolean canConvert(Class type)
-    {
-        return type.equals(Map.class);
-    }
-
-    @Override
-    protected Object createCollection(Class type)
-    {
-        return new LinkedHashMap();
-    }
+    /**
+     * Convert the passed {@link Element} into an instance of the passed type.
+     * 
+     * @param type the type
+     * @param rootElement the source to convert
+     * @return the object
+     */
+    Object unSerialize(Type type, Element rootElement);
 }

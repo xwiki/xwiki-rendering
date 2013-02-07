@@ -17,24 +17,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxmlcurrent.internal.parser;
+package org.xwiki.rendering.xml.internal.parser;
 
-import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.parser.xml.AbstractParser;
-import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.component.annotation.Role;
+import org.xwiki.rendering.xml.internal.XMLConfiguration;
 
 /**
- * XDOM+XML stream based parser.
+ * Create XML parsers.
  * 
  * @version $Id$
- * @since 3.3M1
  */
-@Component("xdom+xml/current")
-public class XDOMXMLParser extends AbstractParser
+@Role
+public interface XMLParserFactory
 {
-    @Override
-    public Syntax getSyntax()
-    {
-        return Syntax.XDOMXML_CURRENT;
-    }
+    /**
+     * @param listener the listener to send events to
+     * @param configuration the configuration of the parser
+     * @return the parser
+     */
+    XMLParser createContentHandler(Object listener, XMLConfiguration configuration);
 }

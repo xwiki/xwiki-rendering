@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxmlcurrent.internal;
+package org.xwiki.rendering.xml.internal;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -31,8 +31,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class XDOMXMLCurrentUtils
+/**
+ * Various tools.
+ * 
+ * @version $Id$
+ * @since 5.0M1
+ */
+public final class XMLUtils
 {
+    /**
+     * The default mapping between interface and instance.
+     */
     private static final Map<Class< ? >, Object> DEFAULTS = new HashMap<Class< ? >, Object>();
 
     static {
@@ -44,15 +53,29 @@ public final class XDOMXMLCurrentUtils
         DEFAULTS.put(long.class, 0L);
         DEFAULTS.put(float.class, 0f);
         DEFAULTS.put(double.class, 0d);
-        DEFAULTS.put(Map.class, new LinkedHashMap());
-        DEFAULTS.put(Set.class, new LinkedHashSet());
-        DEFAULTS.put(List.class, new ArrayList());
-        DEFAULTS.put(Collection.class, new ArrayList());
+        DEFAULTS.put(Map.class, new LinkedHashMap<Object, Object>());
+        DEFAULTS.put(Set.class, new LinkedHashSet<Object>());
+        DEFAULTS.put(List.class, new ArrayList<Object>());
+        DEFAULTS.put(Collection.class, new ArrayList<Object>());
     }
 
+    /**
+     * The classes of object that can easily be converted to simple String.
+     */
     private static final Set<Class< ? >> SIMPLECLASSES = new HashSet<Class< ? >>(Arrays.<Class< ? >> asList(
         String.class, Character.class, Boolean.class));
 
+    /**
+     * Utility class.
+     */
+    private XMLUtils()
+    {
+    }
+
+    /**
+     * @param type the type can be converted to simple String
+     * @return true of the type is simple
+     */
     public static boolean isSimpleType(Type type)
     {
         boolean simpleType = false;
@@ -68,6 +91,10 @@ public final class XDOMXMLCurrentUtils
         return simpleType;
     }
 
+    /**
+     * @param type the type
+     * @return the default value of the provided type
+     */
     public static Object defaultValue(Class< ? > type)
     {
         Object defaultValue = null;
@@ -83,12 +110,5 @@ public final class XDOMXMLCurrentUtils
         }
 
         return defaultValue;
-    }
-
-    /**
-     * Utility class.
-     */
-    private XDOMXMLCurrentUtils()
-    {
     }
 }

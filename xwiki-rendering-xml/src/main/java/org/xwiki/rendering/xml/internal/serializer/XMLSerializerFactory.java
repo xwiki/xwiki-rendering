@@ -17,19 +17,26 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxmlcurrent.internal;
+package org.xwiki.rendering.xml.internal.serializer;
 
-import java.util.regex.Pattern;
+import org.xml.sax.ContentHandler;
+import org.xwiki.component.annotation.Role;
+import org.xwiki.rendering.xml.internal.XMLConfiguration;
 
-public interface XDOMXMLConstants
+/**
+ * Create XML serializers as listeners.
+ * 
+ * @version $Id$
+ */
+@Role
+public interface XMLSerializerFactory
 {
-    String ELEM_BLOCK = "block";
-
-    String ATT_BLOCK_NAME = "name";
-
-    String ELEM_PARAMETER = "parameter";
-
-    Pattern VALID_ELEMENTNAME = Pattern.compile("[A-Za-z][A-Za-z0-9:_.-]*");
-
-    Pattern PATTERN_ELEM_PARAMETER = Pattern.compile(Pattern.quote(ELEM_PARAMETER) + "(\\d*)");
+    /**
+     * @param listenerClass the class of the listener that will receive events
+     * @param contentHandler the content handler to send SAX event to
+     * @param configuration the configuration of the serializer
+     * @return the listener to send events to
+     * @param <T> the type of the event listener
+     */
+    <T> T createSerializer(Class<T> listenerClass, ContentHandler contentHandler, XMLConfiguration configuration);
 }

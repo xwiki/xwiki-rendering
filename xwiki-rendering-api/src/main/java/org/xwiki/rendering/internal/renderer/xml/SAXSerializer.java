@@ -17,31 +17,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxmlcurrent.internal.parameter;
+package org.xwiki.rendering.internal.renderer.xml;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.io.Writer;
 
-import com.thoughtworks.xstream.converters.collections.CollectionConverter;
-import com.thoughtworks.xstream.mapper.Mapper;
+import org.dom4j.io.XMLWriter;
 
-public class XDOMXMLCollectionConverter extends CollectionConverter
+/**
+ * Fix various issues in {@link XMLWriter}.
+ * 
+ * @version $Id$
+ * @since 5.0M1
+ */
+public class SAXSerializer extends XMLWriter
 {
-    public XDOMXMLCollectionConverter(Mapper mapper)
+    /**
+     * @param writer the actual writer
+     */
+    public SAXSerializer(Writer writer)
     {
-        super(mapper);
+        super(writer);
     }
 
     @Override
-    public boolean canConvert(Class type)
+    // FIXME: remove that when https://sourceforge.net/p/dom4j/bugs/202/ is fixed
+    protected String escapeAttributeEntities(String text)
     {
-        return type.equals(Collection.class) || type.equals(List.class);
-    }
+        String escapedTest = super.escapeAttributeEntities(text);
+        escapedTest = escapedTest.replace("\t", "&#9;");
+        escapedTest = escapedTest.replace("\n", "&#10;");
+        escapedTest = escapedTest.replace("\r", "&#13;");
 
-    @Override
-    protected Object createCollection(Class type)
-    {
-        return new ArrayList();
+        return escapedTest;
     }
 }

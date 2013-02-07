@@ -17,40 +17,33 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxmlcurrent.internal.renderer;
+package org.xwiki.rendering.xml.internal.parameter;
 
-import javax.inject.Inject;
-
-import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.renderer.xml.AbstractRenderer;
-import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRenderer;
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xml.internal.serializer.XMLSerializerFactory;
+import com.thoughtworks.xstream.converters.ConverterLookup;
+import com.thoughtworks.xstream.core.TreeMarshallingStrategy;
+import com.thoughtworks.xstream.core.TreeUnmarshaller;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.mapper.Mapper;
 
 /**
- * Current version of the XDOM+XML renderer.
+ * Customize {@link TreeMarshallingStrategy}.
  * 
  * @version $Id$
- * @since 3.3M1
  */
-@Component("xdom+xml/current")
-public class XDOMXMLRenderer extends AbstractRenderer
+public class XMLTreeMarshallingStrategy extends TreeMarshallingStrategy
 {
-    /**
-     * The actual XML serializer factory.
-     */
-    @Inject
-    private XMLSerializerFactory serializerFactory;
-
     @Override
-    public Syntax getSyntax()
+    protected XMLTreeMarshaller createMarshallingContext(HierarchicalStreamWriter writer,
+        ConverterLookup converterLookup, Mapper mapper)
     {
-        return Syntax.XDOMXML_CURRENT;
+        return new XMLTreeMarshaller(writer, converterLookup, mapper);
     }
 
     @Override
-    protected ContentHandlerStreamRenderer createContentHandlerStreamRenderer()
+    protected TreeUnmarshaller createUnmarshallingContext(Object root, HierarchicalStreamReader reader,
+        ConverterLookup converterLookup, Mapper mapper)
     {
-        return new XDOMXMLChainingStreamRenderer(this.serializerFactory);
+        return new XMLTreeUnmarshaller(root, reader, converterLookup, mapper);
     }
 }

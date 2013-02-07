@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxmlcurrent.internal.parameter;
+package org.xwiki.rendering.xml.internal.parameter;
 
 import java.lang.reflect.Type;
 
@@ -30,9 +30,20 @@ import com.thoughtworks.xstream.core.TreeUnmarshaller;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.mapper.Mapper;
 
-public class XDOMXMLTreeUnmarshaller extends TreeUnmarshaller
+/**
+ * Customize {@link TreeUnmarshaller}.
+ * 
+ * @version $Id$
+ */
+public class XMLTreeUnmarshaller extends TreeUnmarshaller
 {
-    public XDOMXMLTreeUnmarshaller(Object root, HierarchicalStreamReader reader, ConverterLookup converterLookup,
+    /**
+     * @param root the root object
+     * @param reader the reader
+     * @param converterLookup the converter provider
+     * @param mapper the mapper
+     */
+    public XMLTreeUnmarshaller(Object root, HierarchicalStreamReader reader, ConverterLookup converterLookup,
         Mapper mapper)
     {
         super(root, reader, converterLookup, mapper);
@@ -46,10 +57,6 @@ public class XDOMXMLTreeUnmarshaller extends TreeUnmarshaller
         Class< ? > typeClass;
         if (type != null) {
             typeClass = ReflectionUtils.getTypeClass(type);
-
-            if (typeClass == null) {
-                throw new ConversionException("Can't find any converter for the type [" + type + "]");
-            }
         } else {
             typeClass = null;
         }

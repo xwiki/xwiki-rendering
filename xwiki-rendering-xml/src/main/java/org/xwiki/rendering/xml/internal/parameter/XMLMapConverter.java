@@ -17,28 +17,38 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxmlcurrent.internal.parameter;
+package org.xwiki.rendering.xml.internal.parameter;
 
-import com.thoughtworks.xstream.converters.ConverterLookup;
-import com.thoughtworks.xstream.core.TreeMarshallingStrategy;
-import com.thoughtworks.xstream.core.TreeUnmarshaller;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import com.thoughtworks.xstream.converters.collections.MapConverter;
 import com.thoughtworks.xstream.mapper.Mapper;
 
-public class XDOMXMLTreeMarshallingStrategy extends TreeMarshallingStrategy
+/**
+ * Customize {@link MapConverter}.
+ * 
+ * @version $Id$
+ */
+public class XMLMapConverter extends MapConverter
 {
-    @Override
-    protected XDOMXMLTreeMarshaller createMarshallingContext(HierarchicalStreamWriter writer,
-        ConverterLookup converterLookup, Mapper mapper)
+    /**
+     * @param mapper the mapper
+     */
+    public XMLMapConverter(Mapper mapper)
     {
-        return new XDOMXMLTreeMarshaller(writer, converterLookup, mapper);
+        super(mapper);
     }
 
     @Override
-    protected TreeUnmarshaller createUnmarshallingContext(Object root, HierarchicalStreamReader reader,
-        ConverterLookup converterLookup, Mapper mapper)
+    public boolean canConvert(Class type)
     {
-        return new XDOMXMLTreeUnmarshaller(root, reader, converterLookup, mapper);
+        return type.equals(Map.class);
+    }
+
+    @Override
+    protected Object createCollection(Class type)
+    {
+        return new LinkedHashMap<Object, Object>();
     }
 }

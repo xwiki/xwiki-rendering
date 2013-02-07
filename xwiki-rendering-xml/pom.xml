@@ -26,20 +26,38 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.rendering</groupId>
-    <artifactId>xwiki-rendering-syntaxes</artifactId>
-    <version>5.0-SNAPSHOT</version>
+    <artifactId>xwiki-rendering</artifactId>
+    <version>4.5-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntax-xdomxmlcurrent</artifactId>
-  <name>XWiki Rendering - Syntax - XDOM+XML Current</name>
-  <description>XML/Reflexion based representation synchronized on current events</description>
+  <artifactId>xwiki-rendering-xml</artifactId>
+  <name>XWiki Rendering - XML</name>
+  <description>XML related tools for the rendering</description>
   <properties>
     <xwiki.clover.targetPercentage>0%</xwiki.clover.targetPercentage>
   </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-xml</artifactId>
-      <version>${project.version}</version>
+      <artifactId>xwiki-rendering-api</artifactId>
+      <version>${rendering.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <excludes>
+            org/xwiki/rendering/xml/internal/parser/DefaultXMLParser.java,
+            org/xwiki/rendering/xml/internal/serializer/DefaultXMLSerializer.java
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

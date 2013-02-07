@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.xdomxmlcurrent.internal.parameter;
+package org.xwiki.rendering.xml.internal.parameter;
 
 import java.lang.reflect.Type;
 
@@ -28,7 +28,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.component.util.ReflectionUtils;
-import org.xwiki.rendering.xdomxmlcurrent.internal.XDOMXMLCurrentUtils;
+import org.xwiki.rendering.xml.internal.XMLUtils;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.DataHolder;
@@ -44,6 +44,14 @@ import com.thoughtworks.xstream.io.xml.SaxWriter;
 @Component
 public class XStreamParameterManager implements ParameterManager, Initializable
 {
+    /**
+     * The name of the type field.
+     */
+    private static final String TYPE_NAME = "type";
+
+    /**
+     * The XStream entry point.
+     */
     private XStream xstream;
 
     @Override
@@ -51,17 +59,17 @@ public class XStreamParameterManager implements ParameterManager, Initializable
     {
         this.xstream = new XStream();
 
-        this.xstream.setMarshallingStrategy(new XDOMXMLTreeMarshallingStrategy());
+        this.xstream.setMarshallingStrategy(new XMLTreeMarshallingStrategy());
 
-        this.xstream.registerConverter(new XDOMXMLCollectionConverter(this.xstream.getMapper()));
-        this.xstream.registerConverter(new XDOMXMLMapConverter(this.xstream.getMapper()));
+        this.xstream.registerConverter(new XMLCollectionConverter(this.xstream.getMapper()));
+        this.xstream.registerConverter(new XMLMapConverter(this.xstream.getMapper()));
     }
 
     @Override
     public void serialize(Type type, Object object, ContentHandler xmlContent)
     {
         Class< ? > typeClass = ReflectionUtils.getTypeClass(type);
-        if (typeClass != null && ObjectUtils.equals(XDOMXMLCurrentUtils.defaultValue(typeClass), object)) {
+        if (typeClass != null && ObjectUtils.equals(XMLUtils.defaultValue(typeClass), object)) {
             return;
         }
 
@@ -70,7 +78,7 @@ public class XStreamParameterManager implements ParameterManager, Initializable
 
         DataHolder dataHolder = new MapBackedDataHolder();
 
-        dataHolder.put("type", type);
+        dataHolder.put(TYPE_NAME, type);
 
         this.xstream.marshal(object, saxWriter, dataHolder);
     }
@@ -79,7 +87,7 @@ public class XStreamParameterManager implements ParameterManager, Initializable
     public Object unSerialize(Type type, Element rootElement)
     {
         if (type != null && !rootElement.hasChildNodes()) {
-            Object value = XDOMXMLCurrentUtils.defaultValue(ReflectionUtils.getTypeClass(type));
+            Object value = XMLUtils.defaultValue(ReflectionUtils.getTypeClass(type));
             if (value != null) {
                 return value;
             }
@@ -87,7 +95,7 @@ public class XStreamParameterManager implements ParameterManager, Initializable
 
         DataHolder dataHolder = new MapBackedDataHolder();
 
-        dataHolder.put("type", type);
+        dataHolder.put(TYPE_NAME, type);
 
         return this.xstream.unmarshal(new DomReader(rootElement), null, dataHolder);
     }
