@@ -40,6 +40,7 @@ import com.thoughtworks.xstream.io.xml.SaxWriter;
  * XStream based implementation of {@link ParameterManager}.
  * 
  * @version $Id$
+ * @since 5.0M1
  */
 @Component
 public class XStreamParameterManager implements ParameterManager, Initializable

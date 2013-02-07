@@ -25,6 +25,7 @@ import org.xml.sax.ContentHandler;
  * Base interface for a XML parser.
  * 
  * @version $Id$
+ * @since 5.0M1
  */
 public interface XMLParser extends ContentHandler
 {

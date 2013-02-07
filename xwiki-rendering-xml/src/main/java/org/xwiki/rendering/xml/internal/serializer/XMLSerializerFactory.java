@@ -27,6 +27,7 @@ import org.xwiki.rendering.xml.internal.XMLConfiguration;
  * Create XML serializers as listeners.
  * 
  * @version $Id$
+ * @since 5.0M1
  */
 @Role
 public interface XMLSerializerFactory

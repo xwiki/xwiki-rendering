@@ -30,6 +30,7 @@ import com.thoughtworks.xstream.mapper.Mapper;
  * Customize {@link TreeMarshallingStrategy}.
  * 
  * @version $Id$
+ * @since 5.0M1
  */
 public class XMLTreeMarshallingStrategy extends TreeMarshallingStrategy
 {

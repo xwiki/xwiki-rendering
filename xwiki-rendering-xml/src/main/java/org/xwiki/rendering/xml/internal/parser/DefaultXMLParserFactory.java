@@ -32,6 +32,7 @@ import org.xwiki.rendering.xml.internal.parameter.ParameterManager;
  * Default implementation of {@link XMLParserFactory}.
  * 
  * @version $Id$
+ * @since 5.0M1
  */
 @Component
 @Singleton

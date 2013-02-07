@@ -29,6 +29,7 @@ import com.thoughtworks.xstream.mapper.Mapper;
  * Customize {@link MapConverter}.
  * 
  * @version $Id$
+ * @since 5.0M1
  */
 public class XMLMapConverter extends MapConverter
 {

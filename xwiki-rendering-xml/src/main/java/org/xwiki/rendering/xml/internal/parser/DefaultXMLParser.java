@@ -42,6 +42,12 @@ import org.xwiki.rendering.xml.internal.XMLUtils;
 import org.xwiki.rendering.xml.internal.parameter.ParameterManager;
 import org.xwiki.xml.Sax2Dom;
 
+/**
+ * Default implementation of {@link XMLParser}.
+ * 
+ * @version $Id$
+ * @since 5.0M1
+ */
 public class DefaultXMLParser extends DefaultHandler implements XMLParser
 {
     private ParameterManager parameterManager;

@@ -34,6 +34,7 @@ import com.thoughtworks.xstream.mapper.Mapper;
  * Customize {@link TreeUnmarshaller}.
  * 
  * @version $Id$
+ * @since 5.0M1
  */
 public class XMLTreeUnmarshaller extends TreeUnmarshaller
 {

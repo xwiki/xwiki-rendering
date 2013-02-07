@@ -42,6 +42,12 @@ import org.xwiki.rendering.xml.internal.XMLConfiguration;
 import org.xwiki.rendering.xml.internal.XMLUtils;
 import org.xwiki.rendering.xml.internal.parameter.ParameterManager;
 
+/**
+ * Proxy called as an event lister to produce SAX events.
+ * 
+ * @version $Id$
+ * @since 5.0M1
+ */
 @Component
 @Singleton
 public class DefaultXMLSerializer implements InvocationHandler
