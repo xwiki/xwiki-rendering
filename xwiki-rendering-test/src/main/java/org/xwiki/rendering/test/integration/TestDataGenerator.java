@@ -33,7 +33,7 @@ import org.reflections.util.FilterBuilder;
 
 /**
  * Finds all test files in the current classloader, read them and return test data to represent them.
- *
+ * 
  * @version $Id$
  * @since 3.0RC1
  */
@@ -43,10 +43,10 @@ public class TestDataGenerator
 
     public Collection<Object[]> generateData(String testPackage, String pattern)
     {
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-            .setScanners(new ResourcesScanner())
-            .setUrls(ClasspathHelper.forPackage(""))
-            .filterInputsBy(new FilterBuilder.Include(FilterBuilder.prefix(testPackage))));
+        Reflections reflections =
+            new Reflections(new ConfigurationBuilder().setScanners(new ResourcesScanner())
+                .setUrls(ClasspathHelper.forPackage(""))
+                .filterInputsBy(new FilterBuilder.Include(FilterBuilder.prefix(testPackage))));
 
         Collection<Object[]> data = new ArrayList<Object[]>();
         for (String testResourceName : reflections.getResources(Pattern.compile(pattern))) {
@@ -58,7 +58,7 @@ public class TestDataGenerator
 
     /**
      * Parse a single test data file and return test data objects that represent the file data.
-     *
+     * 
      * @param testResourceName the name of the resource file containing the test data in the current classloader
      * @return the in-memory Objects representing the test data
      */
@@ -90,8 +90,7 @@ public class TestDataGenerator
                 if ("xhtml/1.0".equals(parserId) && !input.startsWith("<?xml") && !input.startsWith("<!DOCTYPE")) {
                     input = normalizeHTML(input);
                 } else if ("docbook/4.4".equals(parserId) && !input.startsWith("<?xml")
-                    && !input.startsWith("<!DOCTYPE"))
-                {
+                    && !input.startsWith("<!DOCTYPE")) {
                     input = normalizeDocBook(input);
                 }
 
@@ -107,11 +106,10 @@ public class TestDataGenerator
                     Object[] singleResult = new Object[8];
                     singleResult[0] = computeTestName(testResourceName, parserId, targetSyntaxId);
                     singleResult[1] = input;
-                    
+
                     String expected = data.expectations.get(targetSyntaxId);
                     if ("docbook/4.4".equals(targetSyntaxId) && !expected.startsWith("<?xml")
-                        && !expected.startsWith("<!DOCTYPE"))
-                    {
+                        && !expected.startsWith("<!DOCTYPE")) {
                         expected = normalizeDocBook(expected);
                     }
 
@@ -137,8 +135,7 @@ public class TestDataGenerator
     private String normalizeHTML(String content)
     {
         return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" "
-            + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
-            + "<html>" + content + "</html>";
+            + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" + "<html>" + content + "</html>";
     }
 
     private String normalizeDocBook(String content)
@@ -147,7 +144,7 @@ public class TestDataGenerator
             + "<!DOCTYPE article PUBLIC \"-//OASIS//DTD Simplified DocBook XML V1.1//EN\" "
             + "\"http://www.oasis-open.org/docbook/xml/simple/1.1/sdocbook.dtd\">" + content;
     }
-    
+
     private String computeTestName(String prefix, String parserId, String targetSyntaxId)
     {
         // Note: For some reason the Eclipse JUnit test runner strips the information found in parenthesis. Thus we use

@@ -165,7 +165,7 @@ public class RenderingTest
     /**
      * Compare the passed expected string with the passed result.
      * We support regexes for comparison usng the format: ${{{regex:...}}}. For example:
-     * {@code
+     * <code>
      *  .#-----------------------------------------------------
      *  .expect|event/1.0
      *  .#-----------------------------------------------------
@@ -178,7 +178,8 @@ public class RenderingTest
      *  onVerbatim [org.xwiki.rendering.macro.MacroExecutionException: User [XWiki.UserNotExisting]${{{regex:.*}}}]
      *  endGroup [[class]=[xwikirenderingerrordescription hidden]]
      *  endMacroMarkerStandalone [useravatar] [username=XWiki.UserNotExisting]
-     *  endDocument}
+     *  endDocument
+     * </code>
      */
     private void assertExpectedResult(String expected, String result)
     {

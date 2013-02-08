@@ -43,15 +43,15 @@ import org.xwiki.test.jmock.XWikiComponentInitializer;
  * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
  * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
  * <p>Usage Example</p>
- * {@code
+ * <code>
  * @RunWith(RenderingTestSuite.class)
  * public class IntegrationTests
  * {
  * }
- * }
+ * </code>
  * <p>It's also possible to get access to the underlying Component Manager used, for example in order to register
  * Mock implementations of components. For example:</p>
- * {@code
+ * <code>
  * @RunWith(RenderingTestSuite.class)
  * public class IntegrationTests
  * {
@@ -61,7 +61,7 @@ import org.xwiki.test.jmock.XWikiComponentInitializer;
  *         // Init mocks here for example
  *     }
  * }
- * }
+ * </code>
  *
  * @version $Id$
  * @since 3.0RC1

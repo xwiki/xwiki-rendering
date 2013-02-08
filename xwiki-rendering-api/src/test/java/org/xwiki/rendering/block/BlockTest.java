@@ -195,6 +195,7 @@ public class BlockTest
         final ParagraphBlock precedingBlock =
             new ParagraphBlock(Arrays.<Block> asList(precedingBlockChild1, precedingBlockChild2))
             {
+                @Override
                 public String toString()
                 {
                     return "precedingBlock";
@@ -206,6 +207,7 @@ public class BlockTest
         final ParagraphBlock contextBlockChild2 =
             new ParagraphBlock(Arrays.<Block> asList(contextBlockChild21, contextBlockChild22))
             {
+                @Override
                 public String toString()
                 {
                     return "contextBlockChild2";
@@ -217,6 +219,7 @@ public class BlockTest
         final ParagraphBlock contextBlockChild1 =
             new ParagraphBlock(Arrays.<Block> asList(contextBlockChild11, contextBlockChild12))
             {
+                @Override
                 public String toString()
                 {
                     return "contextBlockChild1";
@@ -226,6 +229,7 @@ public class BlockTest
         final ParagraphBlock contextBlock =
             new ParagraphBlock(Arrays.<Block> asList(contextBlockChild1, contextBlockChild2))
             {
+                @Override
                 public String toString()
                 {
                     return "contextBlock";
@@ -237,6 +241,7 @@ public class BlockTest
         final ParagraphBlock followingBlock =
             new ParagraphBlock(Arrays.<Block> asList(followingBlockChild1, followingBlockChild2))
             {
+                @Override
                 public String toString()
                 {
                     return "followingBlock";
@@ -246,6 +251,7 @@ public class BlockTest
         final ParagraphBlock parentBlock =
             new ParagraphBlock(Arrays.<Block> asList(precedingBlock, contextBlock, followingBlock))
             {
+                @Override
                 public String toString()
                 {
                     return "parentBlock";
@@ -254,6 +260,7 @@ public class BlockTest
 
         final ParagraphBlock rootBlock = new ParagraphBlock(Arrays.<Block> asList(parentBlock))
         {
+            @Override
             public String toString()
             {
                 return "rootBlock";
@@ -298,6 +305,7 @@ public class BlockTest
         final ParagraphBlock precedingBlock =
             new ParagraphBlock(Arrays.<Block> asList(precedingBlockChild1, precedingBlockChild2))
             {
+                @Override
                 public String toString()
                 {
                     return "precedingBlock";
@@ -309,6 +317,7 @@ public class BlockTest
         final ParagraphBlock contextBlockChild2 =
             new ParagraphBlock(Arrays.<Block> asList(contextBlockChild21, contextBlockChild22))
             {
+                @Override
                 public String toString()
                 {
                     return "contextBlockChild2";
@@ -320,6 +329,7 @@ public class BlockTest
         final ParagraphBlock contextBlockChild1 =
             new ParagraphBlock(Arrays.<Block> asList(contextBlockChild11, contextBlockChild12))
             {
+                @Override
                 public String toString()
                 {
                     return "contextBlockChild1";
@@ -329,6 +339,7 @@ public class BlockTest
         final ParagraphBlock contextBlock =
             new ParagraphBlock(Arrays.<Block> asList(contextBlockChild1, contextBlockChild2))
             {
+                @Override
                 public String toString()
                 {
                     return "contextBlock";
@@ -340,6 +351,7 @@ public class BlockTest
         final ParagraphBlock followingBlock =
             new ParagraphBlock(Arrays.<Block> asList(followingBlockChild1, followingBlockChild2))
             {
+                @Override
                 public String toString()
                 {
                     return "followingBlock";
@@ -349,6 +361,7 @@ public class BlockTest
         final ParagraphBlock parentBlock =
             new ParagraphBlock(Arrays.<Block> asList(precedingBlock, contextBlock, followingBlock))
             {
+                @Override
                 public String toString()
                 {
                     return "parentBlock";
@@ -357,6 +370,7 @@ public class BlockTest
 
         final ParagraphBlock rootBlock = new ParagraphBlock(Arrays.<Block> asList(parentBlock))
         {
+            @Override
             public String toString()
             {
                 return "rootBlock";

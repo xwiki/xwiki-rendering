@@ -105,12 +105,8 @@ public class CompatibilityTestSuite extends Suite
     private final ComponentManager componentManager;
 
     /**
-     * {@inheritDoc}
-     *
-     * <p>
      * We have one Test Runner per Syntax Test to execute, so that each test is reported individually and also to
      * provide test isolation.
-     * </p>
      */
     private final List<Runner> runners = new ArrayList<Runner>();
 

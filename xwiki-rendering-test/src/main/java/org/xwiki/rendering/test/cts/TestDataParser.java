@@ -296,7 +296,7 @@ public class TestDataParser
 
     /**
      * Find {@code *.xml} files in the classpath and return the list of all resources found, without their filename
-     * extensions. For example if {@code {ctsDirectoryName}/simple/bold/bold1.*.xml} is found, return
+     * extensions. For example if <code>{ctsDirectoryName}/simple/bold/bold1.*.xml</code> is found, return
      * {@code simple/bold/bold1}.
      *
      * @param ctsRootPackageName the root of the CTS resources
