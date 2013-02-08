@@ -45,7 +45,7 @@ public class ProtectedBlockFilterTest
         Block b2 = new MacroMarkerBlock("code", Collections.<String, String>emptyMap(), Collections.<Block>emptyList(),
             false);
         Block b3 = new ParagraphBlock(Collections.<Block>emptyList());
-        XDOM xdom = new XDOM(Arrays.asList(b1, b2, b3));
+        new XDOM(Arrays.asList(b1, b2, b3));
         Assert.assertEquals(b3, pbf.getNextSibling(b1));
     }
 }
