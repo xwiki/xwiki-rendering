@@ -31,9 +31,11 @@
   </parent>
   <artifactId>xwiki-rendering-macro-jira</artifactId>
   <name>XWiki Rendering - Macro - JIRA</name>
-  <description>XWiki Rendering - Macro - JIRA</description>
+  <description>Fetches information from a JIRA server and displays them as a table, list or enumeration</description>
   <properties>
     <xwiki.jacoco.instructionRatio>96.00</xwiki.jacoco.instructionRatio>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>JIRA Macro</xwiki.extension.name>
   </properties>
   <dependencies>
     <dependency>
