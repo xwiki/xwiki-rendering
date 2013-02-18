@@ -61,14 +61,14 @@ public class MetaData
      * Contains all MetaData for this Block and its children. Note: we preserve the order of metadata elements as they
      * are added as a service for the user so he can count on it.
      */
-    private Map<String, Object> metadata = new LinkedHashMap<String, Object>();
+    private final Map<String, Object> metadata;
 
     /**
      * Empty metaData.
      */
     public MetaData()
     {
-        // Do nothing, the metaData map is empty.
+        this.metadata = new LinkedHashMap<String, Object>();
     }
 
     /**
@@ -76,7 +76,7 @@ public class MetaData
      */
     public MetaData(Map<String, Object> metaData)
     {
-        this.metadata.putAll(metaData);
+        this.metadata = new LinkedHashMap<String, Object>(metaData);
     }
 
     /**
@@ -93,9 +93,7 @@ public class MetaData
      */
     public void addMetaData(MetaData metaData)
     {
-        for (Map.Entry<String, Object> entry : metaData.getMetaData().entrySet()) {
-            addMetaData(entry.getKey(), entry.getValue());
-        }
+        this.metadata.putAll(metaData.getMetaData());
     }
 
     /**

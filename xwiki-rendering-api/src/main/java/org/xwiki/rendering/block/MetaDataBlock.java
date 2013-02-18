@@ -28,7 +28,7 @@ import org.xwiki.rendering.listener.MetaData;
 /**
  * Represents any kind of MetaData in the XDOM (eg saving original blocks so that the XWiki Syntax Renderer can restore
  * them after a transformation has been executed, source reference, etc).
- *
+ * 
  * @version $Id$
  * @since 3.0M2
  */
@@ -52,7 +52,7 @@ public class MetaDataBlock extends AbstractBlock
 
     /**
      * Helper constructor.
-     *
+     * 
      * @param childBlocks the list of children blocks of the block to construct
      * @param key the metadata key to set
      * @param value the metadata value to set
@@ -90,5 +90,15 @@ public class MetaDataBlock extends AbstractBlock
     public void after(Listener listener)
     {
         listener.endMetaData(getMetaData());
+    }
+
+    @Override
+    public MetaDataBlock clone()
+    {
+        MetaDataBlock cloned = (MetaDataBlock) super.clone();
+
+        cloned.metaData = new MetaData(metaData.getMetaData());
+
+        return cloned;
     }
 }
