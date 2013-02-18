@@ -140,18 +140,25 @@ public class BlockTest
         ImageBlock ib = new ImageBlock(new ResourceReference("document@attachment", ResourceType.ATTACHMENT), true);
         DocumentResourceReference linkReference = new DocumentResourceReference("reference");
         LinkBlock lb = new LinkBlock(Arrays.asList((Block) new WordBlock("label")), linkReference, false);
-        Block rootBlock = new ParagraphBlock(Arrays.<Block> asList(wb, ib, lb));
+        Block pb = new ParagraphBlock(Arrays.<Block> asList(wb, ib, lb));
+        XDOM rootBlock = new XDOM(Arrays.<Block> asList(pb));
 
-        Block newRootBlock = rootBlock.clone();
+        XDOM newRootBlock = rootBlock.clone();
 
         Assert.assertNotSame(rootBlock, newRootBlock);
-        Assert.assertNotSame(wb, newRootBlock.getChildren().get(0));
-        Assert.assertNotSame(ib, newRootBlock.getChildren().get(1));
-        Assert.assertNotSame(lb, newRootBlock.getChildren().get(2));
+        Assert.assertNotSame(rootBlock.getMetaData(), newRootBlock.getMetaData());
 
-        Assert.assertEquals(wb.getWord(), ((WordBlock) newRootBlock.getChildren().get(0)).getWord());
-        Assert.assertNotSame(ib.getReference(), ((ImageBlock) newRootBlock.getChildren().get(1)).getReference());
-        Assert.assertNotSame(lb.getReference(), ((LinkBlock) newRootBlock.getChildren().get(2)).getReference());
+        Block newPB = newRootBlock.getChildren().get(0);
+
+        Assert.assertNotSame(pb, newPB);
+
+        Assert.assertNotSame(wb, newPB.getChildren().get(0));
+        Assert.assertNotSame(ib, newPB.getChildren().get(1));
+        Assert.assertNotSame(lb, newPB.getChildren().get(2));
+
+        Assert.assertEquals(wb.getWord(), ((WordBlock) newPB.getChildren().get(0)).getWord());
+        Assert.assertNotSame(ib.getReference(), ((ImageBlock) newPB.getChildren().get(1)).getReference());
+        Assert.assertNotSame(lb.getReference(), ((LinkBlock) newPB.getChildren().get(2)).getReference());
     }
 
     @Test
