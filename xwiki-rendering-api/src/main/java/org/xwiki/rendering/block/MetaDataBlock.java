@@ -93,7 +93,7 @@ public class MetaDataBlock extends AbstractBlock
     }
 
     @Override
-    public MetaDataBlock clone()
+    public Block clone()
     {
         MetaDataBlock cloned = (MetaDataBlock) super.clone();
 
