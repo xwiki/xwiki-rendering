@@ -217,6 +217,13 @@
                <to>org.xwiki.rendering.block.MetaDataBlock</to>
                <justification>Looks like a CLIRR bug, nothing changed in this class and XDOM#clone() return XDOM...</justification>
              </difference>
+             <difference>
+               <differenceType>7006</differenceType>
+               <className>org/xwiki/rendering/block/XDOM</className>
+               <method>java.lang.Object clone()</method>
+               <to>org.xwiki.rendering.block.Block</to>
+               <justification>Seriously...</justification>
+             </difference>
           </ignored>
           <excludes>
             <exclude>**/internal/**</exclude>
