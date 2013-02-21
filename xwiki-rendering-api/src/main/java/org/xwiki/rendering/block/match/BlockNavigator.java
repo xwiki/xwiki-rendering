@@ -78,11 +78,11 @@ public class BlockNavigator
             switch (axes) {
             // SELF
                 case SELF:
-                    blocks = addBlock(block, blocks);
+                    addBlock(block, blocks);
                     break;
                 // ANCESTOR
                 case ANCESTOR_OR_SELF:
-                    blocks = addBlock(block, blocks);
+                    addBlock(block, blocks);
                     nextBlock = block.getParent();
                     break;
                 case ANCESTOR:
@@ -98,11 +98,11 @@ public class BlockNavigator
                     if (!block.getChildren().isEmpty()) {
                         nextBlock = block.getChildren().get(0);
                         axes = Axes.FOLLOWING_SIBLING;
-                        blocks = addBlock(nextBlock, blocks);
+                        addBlock(nextBlock, blocks);
                     }
                     break;
                 case DESCENDANT_OR_SELF:
-                    blocks = addBlock(block, blocks);
+                    addBlock(block, blocks);
                     blocks = getBlocks(block.getChildren(), Axes.DESCENDANT_OR_SELF, blocks);
                     break;
                 case DESCENDANT:
@@ -111,22 +111,22 @@ public class BlockNavigator
                 // FOLLOWING
                 case FOLLOWING_SIBLING:
                     nextBlock = block.getNextSibling();
-                    blocks = addBlock(nextBlock, blocks);
+                    addBlock(nextBlock, blocks);
                     break;
                 case FOLLOWING:
-                    for (Block nextSibling = block.getNextSibling(); nextSibling != null; nextSibling =
-                            nextSibling.getNextSibling()) {
+                    for (Block nextSibling = block.getNextSibling(); nextSibling != null;
+                        nextSibling = nextSibling.getNextSibling()) {
                         blocks = getBlocks(nextSibling, Axes.DESCENDANT_OR_SELF, blocks);
                     }
                     break;
                 // PRECEDING
                 case PRECEDING_SIBLING:
                     nextBlock = block.getPreviousSibling();
-                    blocks = addBlock(nextBlock, blocks);
+                    addBlock(nextBlock, blocks);
                     break;
                 case PRECEDING:
-                    for (Block previousSibling = block.getPreviousSibling(); previousSibling != null; previousSibling =
-                            previousSibling.getPreviousSibling()) {
+                    for (Block previousSibling = block.getPreviousSibling(); previousSibling != null;
+                        previousSibling = previousSibling.getPreviousSibling()) {
                         blocks = getBlocks(previousSibling, Axes.DESCENDANT_OR_SELF, blocks);
                     }
                     break;
@@ -147,21 +147,12 @@ public class BlockNavigator
      * @param <T> the class of the Blocks to return
      * @param currentBlock the block to search from
      * @param blocks the list of blocks to fill
-     * @return the modified list, null if provided list is null and provided {@link Block} does not validate provided
-     *         {@link BlockMatcher}
      */
-    private <T extends Block> List<T> addBlock(Block currentBlock, List<T> blocks)
+    private <T extends Block> void addBlock(Block currentBlock, List<T> blocks)
     {
-        List<T> newBlocks = blocks;
-
         if (currentBlock != null && this.matcher.match(currentBlock)) {
-            if (newBlocks == null) {
-                newBlocks = new ArrayList<T>();
-            }
-            newBlocks.add((T) currentBlock);
+            blocks.add((T) currentBlock);
         }
-
-        return newBlocks;
     }
 
     /**
@@ -220,169 +211,95 @@ public class BlockNavigator
      * 
      * @param <T> the class of the Block to return
      * @param currentBlock the block to start searching from
-     * @param axes indicate the search axes
+     * @param currentAxes indicate the search axes
      * @return the matched {@link Block}, null if none was found
-     * @since 3.0M3
      */
-    public <T extends Block> T getFirstBlock(Block currentBlock, Axes axes)
+    public <T extends Block> T getFirstBlock(Block currentBlock, Axes currentAxes)
     {
-        T block = null;
+        Block block = currentBlock;
+        Axes axes = currentAxes;
 
-        if (axes == Axes.SELF) {
-            if (this.matcher.match(currentBlock)) {
-                block = (T) currentBlock;
+        while (block != null) {
+            Block nextBlock = null;
+            switch (axes) {
+            // SELF
+                case SELF:
+                    if (this.matcher.match(block)) {
+                        return (T) block;
+                    }
+                    break;
+                // ANCESTOR
+                case ANCESTOR_OR_SELF:
+                    if (this.matcher.match(block)) {
+                        return (T) block;
+                    }
+                case ANCESTOR:
+                case PARENT:
+                    axes = axes == Axes.PARENT ? Axes.SELF : Axes.ANCESTOR_OR_SELF;
+                    nextBlock = block.getParent();
+                    break;
+                // DESCENDANT
+                case CHILD:
+                    List<Block> children = block.getChildren();
+                    if (!children.isEmpty()) {
+                        nextBlock = children.get(0);
+                        axes = Axes.FOLLOWING_SIBLING;
+                        if (this.matcher.match(nextBlock)) {
+                            return (T) nextBlock;
+                        }
+                    }
+                    break;
+                case DESCENDANT_OR_SELF:
+                    if (this.matcher.match(block)) {
+                        return (T) block;
+                    }
+                case DESCENDANT:
+                    for (Block child : block.getChildren()) {
+                        Block matchedBlock = getFirstBlock(child, Axes.DESCENDANT_OR_SELF);
+                        if (matchedBlock != null) {
+                            return (T) matchedBlock;
+                        }
+                    }
+                    break;
+                // FOLLOWING
+                case FOLLOWING_SIBLING:
+                    nextBlock = block.getNextSibling();
+                    if (nextBlock != null && this.matcher.match(nextBlock)) {
+                        return (T) nextBlock;
+                    }
+                    break;
+                case FOLLOWING:
+                    for (Block nextSibling = block.getNextSibling(); nextSibling != null;
+                        nextSibling = nextSibling.getNextSibling()) {
+                        Block matchedBlock = getFirstBlock(nextSibling, Axes.DESCENDANT_OR_SELF);
+                        if (matchedBlock != null) {
+                            return (T) matchedBlock;
+                        }
+                    }
+                    break;
+                // PRECEDING
+                case PRECEDING_SIBLING:
+                    nextBlock = block.getPreviousSibling();
+                    if (nextBlock != null && this.matcher.match(nextBlock)) {
+                        return (T) nextBlock;
+                    }
+                    break;
+                case PRECEDING:
+                    for (Block previousSibling = block.getPreviousSibling(); previousSibling != null;
+                        previousSibling = previousSibling.getPreviousSibling()) {
+                        Block matchedBlock = getFirstBlock(previousSibling, Axes.DESCENDANT_OR_SELF);
+                        if (matchedBlock != null) {
+                            return (T) matchedBlock;
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
-        } else if (axes.compareTo(Axes.ANCESTOR_OR_SELF) <= 0) {
-            block = (T) getFirstAncestorBlock(currentBlock, axes);
-        } else if (axes.compareTo(Axes.DESCENDANT_OR_SELF) <= 0) {
-            block = (T) getFirstDescendantBlock(currentBlock, axes);
-        } else if (axes.compareTo(Axes.FOLLOWING_SIBLING) <= 0) {
-            block = (T) getFirstFollowingSiblingBlock(currentBlock, axes);
-        } else {
-            block = (T) getFirstPrecedingSiblingBlock(currentBlock, axes);
+
+            block = nextBlock;
         }
 
-        return block;
-    }
-
-    /**
-     * Get the first matched block in the provided following sibling {@link Axes}.
-     * 
-     * @param currentBlock the block to search from
-     * @param axes the axes
-     * @return the matched {@link Block}, null if none was found
-     */
-    private Block getFirstFollowingSiblingBlock(Block currentBlock, Axes axes)
-    {
-        Block nextBlock = null;
-        Axes nextAxes = axes;
-
-        switch (axes) {
-            case FOLLOWING_SIBLING:
-                nextBlock = currentBlock.getNextSibling();
-                if (nextBlock != null && this.matcher.match(nextBlock)) {
-                    return nextBlock;
-                }
-                break;
-            case FOLLOWING:
-                for (Block nextSibling = currentBlock.getNextSibling(); nextSibling != null; nextSibling =
-                        nextSibling.getNextSibling()) {
-                    Block matchedBlock = getFirstBlock(nextSibling, Axes.DESCENDANT_OR_SELF);
-                    if (matchedBlock != null) {
-                        return matchedBlock;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-
-        return nextBlock != null ? getFirstBlock(nextBlock, nextAxes) : null;
-    }
-
-    /**
-     * Get the first matched block in the provided ancestor {@link Axes}.
-     * 
-     * @param currentBlock the block to search from
-     * @param axes the axes
-     * @return the matched {@link Block}, null if none was found
-     */
-    private Block getFirstAncestorBlock(Block currentBlock, Axes axes)
-    {
-        Block nextBlock = null;
-        Axes nextAxes = axes;
-
-        switch (axes) {
-            case ANCESTOR_OR_SELF:
-                if (this.matcher.match(currentBlock)) {
-                    return currentBlock;
-                }
-            case ANCESTOR:
-            case PARENT:
-                nextAxes = axes == Axes.PARENT ? Axes.SELF : Axes.ANCESTOR_OR_SELF;
-                nextBlock = currentBlock.getParent();
-                break;
-            default:
-                break;
-        }
-
-        return nextBlock != null ? getFirstBlock(nextBlock, nextAxes) : null;
-    }
-
-    /**
-     * Get the first matched block in the provided descendant {@link Axes}.
-     * 
-     * @param currentBlock the block to search from
-     * @param axes the axes
-     * @return the matched {@link Block}, null if none was found
-     */
-    private Block getFirstDescendantBlock(Block currentBlock, Axes axes)
-    {
-        Block nextBlock = null;
-        Axes nextAxes = axes;
-
-        switch (axes) {
-            case CHILD:
-                List<Block> children = currentBlock.getChildren();
-                if (!children.isEmpty()) {
-                    nextBlock = children.get(0);
-                    nextAxes = Axes.FOLLOWING_SIBLING;
-                    if (this.matcher.match(nextBlock)) {
-                        return nextBlock;
-                    }
-                }
-                break;
-            case DESCENDANT_OR_SELF:
-                if (this.matcher.match(currentBlock)) {
-                    return currentBlock;
-                }
-            case DESCENDANT:
-                for (Block child : currentBlock.getChildren()) {
-                    Block matchedBlock = getFirstBlock(child, Axes.DESCENDANT_OR_SELF);
-                    if (matchedBlock != null) {
-                        return matchedBlock;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-
-        return nextBlock != null ? getFirstBlock(nextBlock, nextAxes) : null;
-    }
-
-    /**
-     * Get the first matched block in the provided preceding sibling {@link Axes}.
-     * 
-     * @param currentBlock the block to search from
-     * @param axes the axes
-     * @return the matched {@link Block}, null if none was found
-     */
-    private Block getFirstPrecedingSiblingBlock(Block currentBlock, Axes axes)
-    {
-        Block nextBlock = null;
-        Axes nextAxes = axes;
-
-        switch (axes) {
-            case PRECEDING_SIBLING:
-                nextBlock = currentBlock.getPreviousSibling();
-                if (nextBlock != null && this.matcher.match(nextBlock)) {
-                    return nextBlock;
-                }
-                break;
-            case PRECEDING:
-                for (Block previousSibling = currentBlock.getPreviousSibling(); previousSibling != null;
-                    previousSibling = previousSibling.getPreviousSibling()) {
-                    Block matchedBlock = getFirstBlock(previousSibling, Axes.DESCENDANT_OR_SELF);
-                    if (matchedBlock != null) {
-                        return matchedBlock;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-
-        return nextBlock != null ? getFirstBlock(nextBlock, nextAxes) : null;
+        return (T) block;
     }
 }
