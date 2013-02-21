@@ -83,6 +83,7 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <excludes>
+            org/xwiki/rendering/block/match/BlockNavigator.java,
             org/xwiki/rendering/internal/parser/XDOMGeneratorListener.java,
             org/xwiki/rendering/internal/renderer/printer/XHTMLWriter.java,
             org/xwiki/rendering/listener/chaining/LookaheadChainingListener.java,
