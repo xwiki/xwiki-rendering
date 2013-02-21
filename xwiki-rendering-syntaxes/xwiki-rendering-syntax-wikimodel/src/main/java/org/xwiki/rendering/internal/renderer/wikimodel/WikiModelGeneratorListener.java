@@ -186,7 +186,7 @@ public class WikiModelGeneratorListener implements Listener
 
     public void beginList(ListType listType, Map<String, String> parameters)
     {
-        this.wikimodelListener.beginList(createWikiParameters(parameters), false);
+        this.wikimodelListener.beginList(createWikiParameters(parameters), listType == ListType.NUMBERED);
     }
 
     public void beginListItem()
@@ -218,7 +218,7 @@ public class WikiModelGeneratorListener implements Listener
 
     public void endList(ListType listType, Map<String, String> parameters)
     {
-        this.wikimodelListener.endList(createWikiParameters(parameters), false);
+        this.wikimodelListener.endList(createWikiParameters(parameters), listType == ListType.NUMBERED);
     }
 
     public void endListItem()

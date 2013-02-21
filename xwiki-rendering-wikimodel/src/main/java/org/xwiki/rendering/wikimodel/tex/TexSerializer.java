@@ -240,6 +240,10 @@ public class TexSerializer extends PrintTextListener
 
     private String wikiFileDownloadBaseUrl;
 
+    private boolean isFirstElementRendered = false;
+
+    private int listDepth = 0;
+
     /**
      * @param printer
      */
@@ -258,6 +262,7 @@ public class TexSerializer extends PrintTextListener
     @Override
     public void beginDocument(WikiParameters params)
     {
+        // TODO: For nested documents, call printEmptyLine()
         // if (fContext == null) {
         // println("\\documentclass{article}");
         // println("\\usepackage{graphics} % for pdf, bitmapped graphics files");
@@ -273,7 +278,7 @@ public class TexSerializer extends PrintTextListener
     @Override
     public void beginHeader(int headerLevel, WikiParameters params)
     {
-        println();
+        printEmptyLine();
         print("\\");
         if (headerLevel == 1) {
             print("chapter{");
@@ -290,24 +295,38 @@ public class TexSerializer extends PrintTextListener
     @Override
     public void beginList(WikiParameters parameters, boolean ordered)
     {
-        println("\\begin{itemize}");
+        if (listDepth == 0) {
+            printEmptyLine();
+        } else {
+            print("\n");
+        }
+        if (ordered) {
+            print("\\begin{enumerate}");
+        } else {
+            print("\\begin{itemize}");
+        }
+        listDepth++;
     }
 
     @Override
     public void beginListItem()
     {
+        if (listDepth > 0) {
+            print("\n");
+        }
         print(" \\item ");
     }
 
     @Override
     public void beginParagraph(WikiParameters params)
     {
-        println("");
+        printEmptyLine();
     }
 
     @Override
     public void beginTable(WikiParameters params)
     {
+        printEmptyLine();
         println("\\begin{center}");
         println("\\begin{footnotesize}");
         // System.out.println("Table count: "+tableCount);
@@ -372,19 +391,23 @@ public class TexSerializer extends PrintTextListener
     @Override
     public void endList(WikiParameters parameters, boolean ordered)
     {
-        println("\\end{itemize}");
+        listDepth--;
+        print("\n");
+        if (ordered) {
+            print("\\end{enumerate}");
+        } else {
+            print("\\end{itemize}");
+        }
     }
 
     @Override
     public void endListItem()
     {
-        println("");
     }
 
     @Override
     public void endParagraph(WikiParameters params)
     {
-        println("");
     }
 
     @Override
@@ -398,7 +421,7 @@ public class TexSerializer extends PrintTextListener
     {
         println("\\end{tabular}");
         println("\\end{footnotesize}");
-        println("\\end{center}");
+        print("\\end{center}");
     }
 
     @Override
@@ -647,6 +670,21 @@ public class TexSerializer extends PrintTextListener
         print(str);
     }
 
+    @Override
+    public void onVerbatimInline(String str, WikiParameters params)
+    {
+        print("\\begin{verbatim}");
+        print(str);
+        print("\\end{verbatim}");
+    }
+
+    @Override
+    public void onVerbatimBlock(String str, WikiParameters params)
+    {
+        printEmptyLine();
+        onVerbatimInline(str, params);
+    }
+
     public String texClean(String str)
     {
 
@@ -655,5 +693,14 @@ public class TexSerializer extends PrintTextListener
         str = str.replace("$", "\\$");
 
         return str;
+    }
+
+    private void printEmptyLine()
+    {
+        if (this.isFirstElementRendered) {
+            print("\n\n");
+        } else {
+            this.isFirstElementRendered = true;
+        }
     }
 }

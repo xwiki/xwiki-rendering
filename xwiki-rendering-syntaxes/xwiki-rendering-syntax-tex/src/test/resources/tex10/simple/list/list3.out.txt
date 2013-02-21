@@ -1,0 +1,27 @@
+\begin{enumerate}
+ \item Item 1
+\begin{enumerate}
+ \item Item 2
+\begin{itemize}
+ \item Item 3
+\end{itemize}
+ \item Item 4
+\end{enumerate}
+ \item Item 5
+\end{enumerate}
+
+\begin{itemize}
+ \item Item 1
+\begin{itemize}
+ \item Item 2
+\begin{itemize}
+ \item Item 3
+\begin{enumerate}
+ \item Item 4
+\end{enumerate}
+\end{itemize}
+ \item Item 5
+\end{itemize}
+ \item Item 6
+ \item Item 7
+\end{itemize}
