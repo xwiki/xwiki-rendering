@@ -29,88 +29,94 @@ import org.xwiki.rendering.block.WordBlock;
 
 public class BlockNavigatorTest
 {
+    public static final WordBlock precedingBlockChild1 = new WordBlock("pc1");
+
+    public static final WordBlock precedingBlockChild2 = new WordBlock("pc2");
+
+    public static final ParagraphBlock precedingBlock = new ParagraphBlock(Arrays.<Block> asList(precedingBlockChild1,
+        precedingBlockChild2))
+    {
+        @Override
+        public String toString()
+        {
+            return "precedingBlock";
+        }
+    };
+
+    public static final WordBlock contextBlockChild21 = new WordBlock("cc21");
+
+    public static final WordBlock contextBlockChild22 = new WordBlock("cc22");
+
+    public static final ParagraphBlock contextBlockChild2 = new ParagraphBlock(Arrays.<Block> asList(
+        contextBlockChild21, contextBlockChild22))
+    {
+        @Override
+        public String toString()
+        {
+            return "contextBlockChild2";
+        }
+    };
+
+    public static final WordBlock contextBlockChild11 = new WordBlock("cc11");
+
+    public static final WordBlock contextBlockChild12 = new WordBlock("cc12");
+
+    public static final ParagraphBlock contextBlockChild1 = new ParagraphBlock(Arrays.<Block> asList(
+        contextBlockChild11, contextBlockChild12))
+    {
+        @Override
+        public String toString()
+        {
+            return "contextBlockChild1";
+        }
+    };
+
+    public static final ParagraphBlock contextBlock = new ParagraphBlock(Arrays.<Block> asList(contextBlockChild1,
+        contextBlockChild2))
+    {
+        @Override
+        public String toString()
+        {
+            return "contextBlock";
+        }
+    };
+
+    public static final WordBlock followingBlockChild1 = new WordBlock("fc1");
+
+    public static final WordBlock followingBlockChild2 = new WordBlock("fc2");
+
+    public static final ParagraphBlock followingBlock = new ParagraphBlock(Arrays.<Block> asList(followingBlockChild1,
+        followingBlockChild2))
+    {
+        @Override
+        public String toString()
+        {
+            return "followingBlock";
+        }
+    };
+
+    public static final ParagraphBlock parentBlock = new ParagraphBlock(Arrays.<Block> asList(precedingBlock,
+        contextBlock, followingBlock))
+    {
+        @Override
+        public String toString()
+        {
+            return "parentBlock";
+        }
+    };
+
+    public static final ParagraphBlock rootBlock = new ParagraphBlock(Arrays.<Block> asList(parentBlock))
+    {
+        @Override
+        public String toString()
+        {
+            return "rootBlock";
+        }
+    };
+
     @Test
     public void testGetBlocks()
     {
-        final WordBlock precedingBlockChild1 = new WordBlock("pc1");
-        final WordBlock precedingBlockChild2 = new WordBlock("pc2");
-        final ParagraphBlock precedingBlock =
-            new ParagraphBlock(Arrays.<Block> asList(precedingBlockChild1, precedingBlockChild2))
-            {
-                @Override
-                public String toString()
-                {
-                    return "precedingBlock";
-                }
-            };
-
-        final WordBlock contextBlockChild21 = new WordBlock("cc21");
-        final WordBlock contextBlockChild22 = new WordBlock("cc22");
-        final ParagraphBlock contextBlockChild2 =
-            new ParagraphBlock(Arrays.<Block> asList(contextBlockChild21, contextBlockChild22))
-            {
-                @Override
-                public String toString()
-                {
-                    return "contextBlockChild2";
-                }
-            };
-
-        final WordBlock contextBlockChild11 = new WordBlock("cc11");
-        final WordBlock contextBlockChild12 = new WordBlock("cc12");
-        final ParagraphBlock contextBlockChild1 =
-            new ParagraphBlock(Arrays.<Block> asList(contextBlockChild11, contextBlockChild12))
-            {
-                @Override
-                public String toString()
-                {
-                    return "contextBlockChild1";
-                }
-            };
-
-        final ParagraphBlock contextBlock =
-            new ParagraphBlock(Arrays.<Block> asList(contextBlockChild1, contextBlockChild2))
-            {
-                @Override
-                public String toString()
-                {
-                    return "contextBlock";
-                }
-            };
-
-        final WordBlock followingBlockChild1 = new WordBlock("fc1");
-        final WordBlock followingBlockChild2 = new WordBlock("fc2");
-        final ParagraphBlock followingBlock =
-            new ParagraphBlock(Arrays.<Block> asList(followingBlockChild1, followingBlockChild2))
-            {
-                @Override
-                public String toString()
-                {
-                    return "followingBlock";
-                }
-            };
-
-        final ParagraphBlock parentBlock =
-            new ParagraphBlock(Arrays.<Block> asList(precedingBlock, contextBlock, followingBlock))
-            {
-                @Override
-                public String toString()
-                {
-                    return "parentBlock";
-                }
-            };
-
-        final ParagraphBlock rootBlock = new ParagraphBlock(Arrays.<Block> asList(parentBlock))
-        {
-            @Override
-            public String toString()
-            {
-                return "rootBlock";
-            }
-        };
-
-        // tests
-
         BlockNavigator navigator = new BlockNavigator();
 
         Assert.assertEquals(Arrays.asList(parentBlock, rootBlock),
@@ -140,87 +146,6 @@ public class BlockNavigatorTest
     @Test
     public void testGetFirstBlock()
     {
-        final WordBlock unexistingBlock = new WordBlock("unexistingBlock");
-
-        final WordBlock precedingBlockChild1 = new WordBlock("pc1");
-        final WordBlock precedingBlockChild2 = new WordBlock("pc2");
-        final ParagraphBlock precedingBlock =
-            new ParagraphBlock(Arrays.<Block> asList(precedingBlockChild1, precedingBlockChild2))
-            {
-                @Override
-                public String toString()
-                {
-                    return "precedingBlock";
-                }
-            };
-
-        final WordBlock contextBlockChild21 = new WordBlock("cc21");
-        final WordBlock contextBlockChild22 = new WordBlock("cc22");
-        final ParagraphBlock contextBlockChild2 =
-            new ParagraphBlock(Arrays.<Block> asList(contextBlockChild21, contextBlockChild22))
-            {
-                @Override
-                public String toString()
-                {
-                    return "contextBlockChild2";
-                }
-            };
-
-        final WordBlock contextBlockChild11 = new WordBlock("cc11");
-        final WordBlock contextBlockChild12 = new WordBlock("cc12");
-        final ParagraphBlock contextBlockChild1 =
-            new ParagraphBlock(Arrays.<Block> asList(contextBlockChild11, contextBlockChild12))
-            {
-                @Override
-                public String toString()
-                {
-                    return "contextBlockChild1";
-                }
-            };
-
-        final ParagraphBlock contextBlock =
-            new ParagraphBlock(Arrays.<Block> asList(contextBlockChild1, contextBlockChild2))
-            {
-                @Override
-                public String toString()
-                {
-                    return "contextBlock";
-                }
-            };
-
-        final WordBlock followingBlockChild1 = new WordBlock("fc1");
-        final WordBlock followingBlockChild2 = new WordBlock("fc2");
-        final ParagraphBlock followingBlock =
-            new ParagraphBlock(Arrays.<Block> asList(followingBlockChild1, followingBlockChild2))
-            {
-                @Override
-                public String toString()
-                {
-                    return "followingBlock";
-                }
-            };
-
-        final ParagraphBlock parentBlock =
-            new ParagraphBlock(Arrays.<Block> asList(precedingBlock, contextBlock, followingBlock))
-            {
-                @Override
-                public String toString()
-                {
-                    return "parentBlock";
-                }
-            };
-
-        final ParagraphBlock rootBlock = new ParagraphBlock(Arrays.<Block> asList(parentBlock))
-        {
-            @Override
-            public String toString()
-            {
-                return "rootBlock";
-            }
-        };
-
-        // tests
-
         BlockNavigator navigator = new BlockNavigator();
 
         Assert.assertSame(parentBlock, navigator.getFirstBlock(contextBlock, Block.Axes.ANCESTOR));
@@ -264,7 +189,7 @@ public class BlockNavigatorTest
 
         Assert.assertSame(precedingBlockChild2, navigator.getFirstBlock(contextBlock, Block.Axes.PRECEDING));
 
-        navigator = new BlockNavigator(new SameBlockMatcher(unexistingBlock));
+        navigator = new BlockNavigator(new SameBlockMatcher(new WordBlock("unexistingBlock")));
 
         Assert.assertNull(navigator.getFirstBlock(contextBlock, Block.Axes.PRECEDING_SIBLING));
         Assert.assertNull(navigator.getFirstBlock(contextBlock, Block.Axes.PARENT));

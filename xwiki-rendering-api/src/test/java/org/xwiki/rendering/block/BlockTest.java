@@ -29,6 +29,8 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.xwiki.rendering.block.match.AnyBlockMatcher;
+import org.xwiki.rendering.block.match.BlockNavigatorTest;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
@@ -189,5 +191,19 @@ public class BlockTest
         Assert.assertEquals(0, p1.getChildren().size());
         Assert.assertNull(b2.getPreviousSibling());
         Assert.assertNull(b2.getNextSibling());
+    }
+
+    @Test
+    public void testGetBlocks()
+    {
+        Assert.assertEquals(Arrays.asList(BlockNavigatorTest.parentBlock, BlockNavigatorTest.rootBlock),
+            BlockNavigatorTest.contextBlock.getBlocks(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
+    }
+
+    @Test
+    public void testGetFirstBlock()
+    {
+        Assert.assertSame(BlockNavigatorTest.parentBlock,
+            BlockNavigatorTest.contextBlock.getFirstBlock(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
     }
 }
