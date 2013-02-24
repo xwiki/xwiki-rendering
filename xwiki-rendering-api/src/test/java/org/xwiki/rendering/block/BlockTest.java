@@ -23,7 +23,9 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -205,5 +207,71 @@ public class BlockTest
     {
         Assert.assertSame(BlockNavigatorTest.parentBlock,
             BlockNavigatorTest.contextBlock.getFirstBlock(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
+    }
+
+    @Test
+    public void testSetChildren()
+    {
+        ParagraphBlock paragraphBlock = new ParagraphBlock(Collections.EMPTY_LIST);
+
+        List<Block> blocks = Arrays.<Block> asList(new WordBlock("1"), new WordBlock("2"));
+        paragraphBlock.setChildren(blocks);
+
+        Assert.assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
+
+        blocks = Arrays.<Block> asList(new WordBlock("3"), new WordBlock("4"));
+        paragraphBlock.setChildren(blocks);
+
+        Assert.assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
+
+        blocks = Arrays.<Block> asList();
+        paragraphBlock.setChildren(blocks);
+
+        Assert.assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
+    }
+
+    @Test
+    public void testSetGetParameter()
+    {
+        WordBlock wordBlock = new WordBlock("word");
+
+        wordBlock.setParameter("param", "value");
+
+        Assert.assertEquals("value", wordBlock.getParameter("param"));
+
+        wordBlock.setParameter("param", "value2");
+
+        Assert.assertEquals("value2", wordBlock.getParameter("param"));
+    }
+
+    @Test
+    public void testSetGetParameters()
+    {
+        WordBlock wordBlock = new WordBlock("word");
+
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("param1", "value1");
+        parameters.put("param2", "value2");
+
+        wordBlock.setParameters(parameters);
+
+        Assert.assertEquals(parameters, wordBlock.getParameters());
+
+        Map<String, String> parameters2 = new HashMap<String, String>();
+        parameters.put("param21", "value21");
+        parameters.put("param22", "value22");
+
+        wordBlock.setParameters(parameters2);
+
+        Assert.assertEquals(parameters2, wordBlock.getParameters());
+    }
+
+    @Test
+    public void testGetRoot()
+    {
+        Assert.assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.rootBlock.getRoot());
+        Assert.assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlock.getRoot());
+        Assert.assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlockChild1.getRoot());
+        Assert.assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlockChild11.getRoot());
     }
 }
