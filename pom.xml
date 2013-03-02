@@ -210,6 +210,24 @@
           -->
           <ignored>
             <!-- Remove the following ignores after we release the current version as final -->
+            <!-- Note: - In 4.5 no clone() method for MetaDataBlock
+                       - In 4.5.1 clone() method returning Block
+                       - In 5.0M1 clone() method returning MetaDataBlock
+            -->
+            <difference>
+              <differenceType>7006</differenceType>
+              <className>org/xwiki/rendering/block/MetaDataBlock</className>
+              <method>org.xwiki.rendering.block.Block clone()</method>
+              <to>org.xwiki.rendering.block.MetaDataBlock</to>
+              <justification>XRENDERING-283: XDOM#clone() doesn't clone the meta data</justification>
+            </difference>
+            <difference>
+              <differenceType>7006</differenceType>
+              <className>org/xwiki/rendering/block/MetaDataBlock</className>
+              <method>java.lang.Object clone()</method>
+              <to>org.xwiki.rendering.block.Block</to>
+              <justification>Seriously...</justification>
+            </difference>
              <difference>
                <differenceType>7006</differenceType>
                <className>org/xwiki/rendering/block/XDOM</className>
