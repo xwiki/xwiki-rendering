@@ -24,9 +24,9 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>${groupId}</groupId>
-  <artifactId>${artifactId}</artifactId>
-  <version>${version}</version>
+  <groupId>\${groupId}</groupId>
+  <artifactId>\${artifactId}</artifactId>
+  <version>\${version}</version>
   <name>XWiki Macro - Example</name>
   <description>XWiki Macro - Example</description>
   <properties>
@@ -59,28 +59,28 @@
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-xwiki21</artifactId>
-      <version>${rendering.version}</version>
+      <version>\${rendering.version}</version>
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
-      <version>${rendering.version}</version>
+      <version>\${rendering.version}</version>
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-event</artifactId>
-      <version>${rendering.version}</version>
+      <version>\${rendering.version}</version>
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-transformation-macro</artifactId>
-      <version>${rendering.version}</version>
+      <version>\${rendering.version}</version>
     </dependency>
     <!-- Testing dependencies -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-test</artifactId>
-      <version>${rendering.version}</version>
+      <version>\${rendering.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
