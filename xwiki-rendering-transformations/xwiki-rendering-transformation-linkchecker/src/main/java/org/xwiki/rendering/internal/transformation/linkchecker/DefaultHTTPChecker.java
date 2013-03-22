@@ -68,9 +68,11 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
     public int check(String url)
     {
         int responseCode;
-        GetMethod method = new GetMethod(url);
 
+        GetMethod method = null;
         try {
+            method = new GetMethod(url);
+
             // Execute the method.
             responseCode = this.httpClient.executeMethod(method);
 
@@ -81,8 +83,11 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
             responseCode = 0;
             this.logger.debug("Error while checking [{}]", url, e);
         } finally {
-            method.releaseConnection();
+            if (method != null) {
+                method.releaseConnection();
+            }
         }
+
         return responseCode;
     }
 }
