@@ -66,7 +66,8 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
         String input = ""
             + "whatever"
             + "[[http://ok||class=\"myclass\"]]"
-            + "[[invalid]]";
+            + "[[invalid]]"
+            + "[[unsupportedrotocol://invalid]]";
 
         final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
         getMockery().checking(new Expectations()
