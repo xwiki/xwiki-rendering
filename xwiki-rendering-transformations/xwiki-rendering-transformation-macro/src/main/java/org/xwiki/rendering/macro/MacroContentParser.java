@@ -40,12 +40,12 @@ public interface MacroContentParser
      * @param content the content to parse
      * @param macroContext the executing Macro context (from which to get the current syntax, etc)
      * @param transform if true then executes transformations
-     * @param removeTopLevelParagraph whether the top level paragraph should be removed after parsing
+     * @param inline whether the content should be parsed as inline content (not top level paragraph, etc)
      * @return the result as a {@link org.xwiki.rendering.block.Block}s
      * @throws MacroExecutionException in case of a parsing error
      */
-    XDOM parse(String content, MacroTransformationContext macroContext, boolean transform,
-        boolean removeTopLevelParagraph) throws MacroExecutionException;
+    XDOM parse(String content, MacroTransformationContext macroContext, boolean transform, boolean inline)
+        throws MacroExecutionException;
 
     /**
      * Find the current syntax to use for macro supporting wiki content/parameters/whatever.

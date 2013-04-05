@@ -68,8 +68,8 @@ public class DefaultMacroContentParser implements MacroContentParser
     private ParserUtils parserUtils = new ParserUtils();
 
     @Override
-    public XDOM parse(String content, MacroTransformationContext macroContext, boolean transform,
-        boolean removeTopLevelParagraph) throws MacroExecutionException
+    public XDOM parse(String content, MacroTransformationContext macroContext, boolean transform, boolean inline)
+        throws MacroExecutionException
     {
         // If the content is empty return an empty list
         if (StringUtils.isEmpty(content)) {
@@ -96,16 +96,41 @@ public class DefaultMacroContentParser implements MacroContentParser
                 }
             }
 
-            if (removeTopLevelParagraph) {
-                List<Block> children = new ArrayList<Block>(result.getChildren());
-                this.parserUtils.removeTopLevelParagraph(children);
-                result.setChildren(children);
+            if (inline) {
+                result = convertToInline(result);
             }
 
             return result;
         } catch (Exception e) {
             throw new MacroExecutionException("Failed to parse content [" + content + "]", e);
         }
+    }
+
+    /**
+     * @param xdom the {@link XDOM} to convert
+     * @return an inline version of the passed {@link XDOM}
+     */
+    private XDOM convertToInline(XDOM xdom)
+    {
+        List<Block> blocks = new ArrayList<Block>(xdom.getChildren());
+
+        // TODO: use inline parser instead
+        if (!blocks.isEmpty()) {
+            this.parserUtils.removeTopLevelParagraph(blocks);
+
+            // Make sure included macro is inline when script macro itself is inline
+            Block block = blocks.get(0);
+            if (block instanceof MacroBlock) {
+                MacroBlock macro = (MacroBlock) block;
+                if (!macro.isInline()) {
+                    blocks.set(0, new MacroBlock(macro.getId(), macro.getParameters(), macro.getContent(), true));
+                }
+            }
+
+            xdom.setChildren(blocks);
+        }
+
+        return xdom;
     }
 
     /**

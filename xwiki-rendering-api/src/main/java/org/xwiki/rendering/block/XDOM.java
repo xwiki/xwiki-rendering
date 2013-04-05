@@ -45,7 +45,7 @@ public class XDOM extends MetaDataBlock
      * same between parsing, transformation and rendering, and we need to generate ids during parsing and during
      * transformation.
      */
-    private IdGenerator idGenerator;
+    private transient IdGenerator idGenerator;
 
     /**
      * @param childBlocks the list of children blocks of the block to construct
