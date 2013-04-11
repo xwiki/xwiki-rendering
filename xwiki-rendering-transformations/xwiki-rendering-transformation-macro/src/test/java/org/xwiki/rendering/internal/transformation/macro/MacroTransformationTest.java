@@ -19,8 +19,10 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
@@ -50,7 +52,7 @@ public class MacroTransformationTest
     @Rule
     public final ComponentManagerRule componentManager = new ComponentManagerRule();
 
-    private Transformation transformation;
+    private MacroTransformation transformation;
     
     @Before
     public void setUp() throws Exception
@@ -119,14 +121,17 @@ public class MacroTransformationTest
     public void transformMacroWithInfiniteRecursion() throws Exception
     {
         String expected = "beginDocument\n"
-        	+ StringUtils.repeat("beginMacroMarkerStandalone [testrecursivemacro] []\n", 1000)
+        	+ StringUtils.repeat("beginMacroMarkerStandalone [testrecursivemacro] []\n", 5)
             + "onMacroStandalone [testrecursivemacro] []\n"
-            + StringUtils.repeat("endMacroMarkerStandalone [testrecursivemacro] []\n", 1000)
+            + StringUtils.repeat("endMacroMarkerStandalone [testrecursivemacro] []\n", 5)
             + "endDocument";
         
         XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("testrecursivemacro",
             Collections.<String, String>emptyMap(), false)));
-    
+
+        // In order to have a fast test, set the max macro execution to 5 macros.
+        this.transformation.setMaxRecursions(4);
+
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
         WikiPrinter printer = new DefaultWikiPrinter();
@@ -135,7 +140,38 @@ public class MacroTransformationTest
         eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
-    
+
+    @Test
+    public void transformWhenLotsOfMacrosButNoInfiniteRecursion() throws Exception
+    {
+        String expected = "beginDocument\n";
+        for (int i = 0; i < 10; i++) {
+            expected += "beginMacroMarkerStandalone [testsimplemacro] []\n"
+                + "beginParagraph\n"
+                + "onWord [simplemacro" + i + "]\n"
+                + "endParagraph\n"
+                + "endMacroMarkerStandalone [testsimplemacro] []\n";
+        }
+        expected += "endDocument";
+
+        List<Block> macroBlocks = new ArrayList<Block>();
+        for (int i = 0; i < 10; i++) {
+            macroBlocks.add(new MacroBlock("testsimplemacro", Collections.<String, String>emptyMap(), false));
+        }
+        XDOM dom = new XDOM(macroBlocks);
+
+        // Make sure that the max macro execution is less than the # of macros we have in the content to prove that
+        // we only stop on real recursion.
+        this.transformation.setMaxRecursions(5);
+
+        this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
+
+        WikiPrinter printer = new DefaultWikiPrinter();
+        BlockRenderer eventBlockRenderer =
+            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+        eventBlockRenderer.render(dom, printer);
+        Assert.assertEquals(expected, printer.toString());
+    }
     /**
      * Test that macro priorities are working.
      */
