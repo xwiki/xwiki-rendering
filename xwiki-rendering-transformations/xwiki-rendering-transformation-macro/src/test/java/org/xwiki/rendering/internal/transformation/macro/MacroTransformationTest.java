@@ -25,6 +25,7 @@ import java.util.Collections;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
@@ -35,31 +36,33 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.test.ComponentManagerRule;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Unit tests for {@link MacroTransformation}.
  * 
  * @version $Id$
  */
-public class MacroTransformationTest extends AbstractComponentTestCase
+@AllComponents
+public class MacroTransformationTest
 {
+    @Rule
+    public final ComponentManagerRule componentManager = new ComponentManagerRule();
+
     private Transformation transformation;
     
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
-
-        this.transformation = getComponentManager().getInstance(Transformation.class, "macro");
+        this.transformation = this.componentManager.getInstance(Transformation.class, "macro");
     }
 
     /**
      * Test that a simple macro is correctly evaluated.
      */
     @Test
-    public void testSimpleMacroTransform() throws Exception
+    public void transformSimpleMacro() throws Exception
     {
         String expected = "beginDocument\n"
         	+ "beginMacroMarkerStandalone [testsimplemacro] []\n"
@@ -76,7 +79,7 @@ public class MacroTransformationTest extends AbstractComponentTestCase
 
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer eventBlockRenderer =
-            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
@@ -85,7 +88,7 @@ public class MacroTransformationTest extends AbstractComponentTestCase
      * Test that a macro can generate another macro.
      */
     @Test
-    public void testNestedMacroTransform() throws Exception
+    public void transformNestedMacro() throws Exception
     {
         String expected = "beginDocument\n"
         	+ "beginMacroMarkerStandalone [testnestedmacro] []\n"
@@ -104,7 +107,7 @@ public class MacroTransformationTest extends AbstractComponentTestCase
 
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer eventBlockRenderer =
-            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
@@ -113,7 +116,7 @@ public class MacroTransformationTest extends AbstractComponentTestCase
      * Test that we have a safeguard against infinite recursive macros.
      */
     @Test
-    public void testInfiniteRecursionMacroTransform() throws Exception
+    public void transformMacroWithInfiniteRecursion() throws Exception
     {
         String expected = "beginDocument\n"
         	+ StringUtils.repeat("beginMacroMarkerStandalone [testrecursivemacro] []\n", 1000)
@@ -128,7 +131,7 @@ public class MacroTransformationTest extends AbstractComponentTestCase
 
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer eventBlockRenderer =
-            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
@@ -137,7 +140,7 @@ public class MacroTransformationTest extends AbstractComponentTestCase
      * Test that macro priorities are working.
      */
     @Test
-    public void testPrioritiesMacroTransform() throws Exception
+    public void transformMacrosWithPriorities() throws Exception
     {
         String expected = "beginDocument\n"
         	+ "beginMacroMarkerStandalone [testsimplemacro] []\n"
@@ -165,7 +168,7 @@ public class MacroTransformationTest extends AbstractComponentTestCase
 
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer eventBlockRenderer =
-            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
@@ -174,7 +177,7 @@ public class MacroTransformationTest extends AbstractComponentTestCase
      * Test that macro with same priorities execute in the order in which they are defined.
      */
     @Test
-    public void testMacroWithSamePriorityExecuteOnPageOrder() throws Exception
+    public void macroWithSamePriorityExecuteOnPageOrder() throws Exception
     {
         // Both macros have the same priorities and thus "testsimplemacro" should be executed first and generate
         // "simplemacro0".
@@ -187,7 +190,7 @@ public class MacroTransformationTest extends AbstractComponentTestCase
 
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer eventBlockRenderer =
-            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
 
         String expected = "beginDocument\n"
