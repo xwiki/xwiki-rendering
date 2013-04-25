@@ -1,4 +1,7 @@
 org.xwiki.rendering.internal.parser.xwiki21.XWiki21Parser
+org.xwiki.rendering.internal.parser.xwiki21.reference.XWiki21DefaultResourceReferenceParser
+org.xwiki.rendering.internal.parser.xwiki21.reference.XWiki21LinkReferenceParser
+org.xwiki.rendering.internal.parser.xwiki21.reference.XWiki21ImageReferenceParser
 org.xwiki.rendering.internal.renderer.xwiki21.XWikiSyntaxBlockRenderer
 org.xwiki.rendering.internal.renderer.xwiki21.XWikiSyntaxRenderer
 org.xwiki.rendering.internal.renderer.xwiki21.XWikiSyntaxRendererFactory

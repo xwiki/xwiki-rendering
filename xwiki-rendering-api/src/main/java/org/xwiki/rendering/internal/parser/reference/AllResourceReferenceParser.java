@@ -23,22 +23,22 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.listener.reference.ResourceType;
 
 /**
- * Parses a resource reference to a mail.
+ * Configures {@link AbstractDefaultResourceReferenceParser} to support all existing resource types ("doc", "url",
+ * "attach", etc).
  *
  * @version $Id$
- * @since 2.5RC1
+ * @since 5.1M1
  */
 @Component
-@Named("mailto")
+@Named("all")
 @Singleton
-public class MailtoResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
+public class AllResourceReferenceParser extends AbstractDefaultResourceReferenceParser
 {
     @Override
-    public ResourceType getType()
+    protected boolean isTypeParserSupported(String typePrefix)
     {
-        return ResourceType.MAILTO;
+        return true;
     }
 }

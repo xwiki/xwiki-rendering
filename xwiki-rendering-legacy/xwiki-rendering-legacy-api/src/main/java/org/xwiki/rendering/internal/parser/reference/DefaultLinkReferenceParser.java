@@ -19,26 +19,38 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.parser.ResourceReferenceParser;
 
 /**
- * Parses a resource reference to an icon.
+ * Similar to {@link org.xwiki.rendering.internal.parser.reference.DefaultResourceReferenceParser} but handles the
+ * case where the resource type wasn't specified. In this case it tries to guess the type by first looking for a URL
+ * and then considering it's a reference to a document.
  *
  * @version $Id$
  * @since 2.6M1
+ * @deprecated starting with 5.1M1 each Syntax needs to have its own component extending AbstractLinkReferenceParser in
+ *             order to control the list of ResourceReferenceTypeParser it supports
  */
 @Component
-@Named("icon")
+@Named("link")
 @Singleton
-public class IconResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
+@Deprecated
+public class DefaultLinkReferenceParser extends AbstractLinkReferenceParser
 {
+    /**
+     * Default parser to parse typed resource references.
+     */
+    @Inject
+    private ResourceReferenceParser defaultResourceReferenceParser;
+
     @Override
-    public ResourceType getType()
+    protected ResourceReferenceParser getDefaultResourceReferenceParser()
     {
-        return ResourceType.ICON;
+        return this.defaultResourceReferenceParser;
     }
 }

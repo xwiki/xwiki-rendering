@@ -37,7 +37,7 @@ import org.xwiki.rendering.wiki.WikiModel;
 public abstract class AbstractResourceReferenceParser implements ResourceReferenceParser
 {
     /**
-     * Used to verify if we're in wiki mode or not by looking up an implementation of
+     * Used for example to verify if we're in wiki mode or not by looking up an implementation of
      * {@link org.xwiki.rendering.wiki.WikiModel}.
      */
     @Inject

@@ -17,28 +17,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.reference;
+package org.xwiki.rendering.internal.parser.xwiki21.reference;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.internal.parser.reference.AbstractImageReferenceParser;
+import org.xwiki.rendering.parser.ResourceReferenceParser;
 
 /**
- * Parses a resource reference to an attachment.
- * 
+ * Uses a Syntax 2.1 default resource reference parser.
+ *
  * @version $Id$
- * @since 2.5RC1
+ * @since 5.1M1
  */
 @Component
-@Named("attach")
+@Named("image/2.1")
 @Singleton
-public class AttachmentResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
+public class XWiki21ImageReferenceParser extends AbstractImageReferenceParser
 {
+    /**
+     * Default parser to parse typed resource references.
+     */
+    @Inject
+    @Named("default/2.1")
+    private ResourceReferenceParser defaultResourceReferenceParser;
+
     @Override
-    public ResourceType getType()
+    protected ResourceReferenceParser getDefaultResourceReferenceParser()
     {
-        return ResourceType.ATTACHMENT;
+        return this.defaultResourceReferenceParser;
     }
 }

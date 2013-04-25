@@ -1,0 +1,3 @@
+org.xwiki.rendering.internal.parser.reference.TestableAbstractDefaultResourceReferenceParser
+org.xwiki.rendering.internal.parser.reference.TestableAbstractLinkReferenceParser
+org.xwiki.rendering.internal.parser.reference.TestableAbstractImageReferenceParser

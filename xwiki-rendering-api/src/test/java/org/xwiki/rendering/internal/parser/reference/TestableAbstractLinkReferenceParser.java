@@ -19,21 +19,27 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
-import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
-/**
- * Default resource reference type parser for URIs: just take the full reference as the Resource reference.
- * Note that this parser doesn't extract the scheme from the URI for the resource reference.
- *
- * @version $Id$
- * @since 2.5RC1
- */
-public abstract class AbstractURIResourceReferenceTypeParser implements ResourceReferenceTypeParser
+import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.parser.ResourceReferenceParser;
+
+@Component
+@Named("link/test")
+@Singleton
+public class TestableAbstractLinkReferenceParser extends AbstractLinkReferenceParser
 {
-    @Override
-    public ResourceReference parse(String reference)
+    private ResourceReferenceParser resourceReferenceParser;
+
+    public void setResourceReferenceParser(ResourceReferenceParser resourceReferenceParser)
     {
-        return new ResourceReference(reference, getType());
+        this.resourceReferenceParser = resourceReferenceParser;
+    }
+
+    @Override
+    protected ResourceReferenceParser getDefaultResourceReferenceParser()
+    {
+        return this.resourceReferenceParser;
     }
 }

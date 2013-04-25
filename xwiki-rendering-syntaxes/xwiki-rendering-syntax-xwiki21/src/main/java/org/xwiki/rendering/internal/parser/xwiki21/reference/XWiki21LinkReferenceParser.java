@@ -17,28 +17,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.reference;
+package org.xwiki.rendering.internal.parser.xwiki21.reference;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.internal.parser.reference.AbstractLinkReferenceParser;
+import org.xwiki.rendering.parser.ResourceReferenceParser;
 
 /**
- * Parses a resource reference to a UNC (Universal Naming Convention).
+ * Uses a Syntax 2.1 default resource reference parser.
  *
  * @version $Id$
- * @since 2.7M1
+ * @since 5.1M1
  */
 @Component
-@Named("unc")
+@Named("link/2.1")
 @Singleton
-public class UNCResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
+public class XWiki21LinkReferenceParser extends AbstractLinkReferenceParser
 {
+    /**
+     * Default parser to parse typed resource references.
+     */
+    @Inject
+    @Named("default/2.1")
+    private ResourceReferenceParser defaultResourceReferenceParser;
+
     @Override
-    public ResourceType getType()
+    protected ResourceReferenceParser getDefaultResourceReferenceParser()
     {
-        return ResourceType.UNC;
+        return this.defaultResourceReferenceParser;
     }
 }

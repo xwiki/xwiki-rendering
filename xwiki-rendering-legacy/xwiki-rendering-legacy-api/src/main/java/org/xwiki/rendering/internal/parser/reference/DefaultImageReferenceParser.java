@@ -35,10 +35,13 @@ import org.xwiki.rendering.parser.ResourceReferenceParser;
  *
  * @version $Id$
  * @since 2.6M1
+ * @deprecated starting with 5.1M1 each Syntax needs to have its own component extending AbstractImageReferenceParser in
+ *             order to control the list of ResourceReferenceTypeParser it supports
  */
 @Component
 @Named("image")
 @Singleton
+@Deprecated
 public class DefaultImageReferenceParser implements ResourceReferenceParser
 {
     /**

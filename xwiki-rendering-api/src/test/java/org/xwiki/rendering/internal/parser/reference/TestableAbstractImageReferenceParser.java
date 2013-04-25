@@ -23,22 +23,23 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.parser.ResourceReferenceParser;
 
-/**
- * Parses a resource reference to a relative URL.
- *
- * @version $Id$
- * @since 2.5RC1
- */
 @Component
-@Named("path")
+@Named("image/test")
 @Singleton
-public class PathResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
+public class TestableAbstractImageReferenceParser extends AbstractImageReferenceParser
 {
-    @Override
-    public ResourceType getType()
+    private ResourceReferenceParser resourceReferenceParser;
+
+    public void setResourceReferenceParser(ResourceReferenceParser resourceReferenceParser)
     {
-        return ResourceType.PATH;
+        this.resourceReferenceParser = resourceReferenceParser;
+    }
+
+    @Override
+    protected ResourceReferenceParser getDefaultResourceReferenceParser()
+    {
+        return this.resourceReferenceParser;
     }
 }

@@ -68,14 +68,14 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
      * We parse link references with the default reference parser (i.e. the same one used by XWiki Syntax 2.1).
      */
     @Inject
-    @Named("link")
+    @Named("link/2.1")
     private ResourceReferenceParser linkResourceReferenceParser;
 
     /**
      * We parse image references with the default reference parser (i.e. the same one used by XWiki Syntax 2.1).
      */
     @Inject
-    @Named("image")
+    @Named("image/2.1")
     private ResourceReferenceParser imageResourceReferenceParser;
 
     /**

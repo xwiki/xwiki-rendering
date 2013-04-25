@@ -17,48 +17,39 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.renderer.reference;
+package org.xwiki.rendering.internal.parser.reference.type;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.parser.reference.AbstractDefaultResourceReferenceParser;
+import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
-import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
 
 /**
- * Serialize a link by outputting the link type (if the link is typed) followed by the link reference (ie
- * "(linktype):(reference)").
- * 
+ * Parses a resource reference to a document.
+ *
  * @version $Id$
- * @since 3.1
+ * @since 2.5RC1
  */
 @Component
+@Named("doc")
 @Singleton
-public class DefaultResourceReferenceTypeSerializer implements ResourceReferenceTypeSerializer
+public class DocumentResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
 {
     @Override
-    public String serialize(ResourceReference reference)
+    public ResourceType getType()
     {
-        StringBuffer result = new StringBuffer();
-        if (reference.isTyped() && isSupportedType(reference.getType())) {
-            result.append(reference.getType().getScheme());
-            result.append(AbstractDefaultResourceReferenceParser.TYPE_SEPARATOR);
-        }
-        result.append(reference.getReference());
-
-        return result.toString();
+        return ResourceType.DOCUMENT;
     }
 
-    /**
-     * Indicate if the provided type is supported by this syntax.
-     * 
-     * @param type the type of resource
-     * @return true if the type is supported
-     */
-    protected boolean isSupportedType(ResourceType type)
+    @Override
+    public ResourceReference parse(String reference)
     {
-        return true;
+        // Note that we construct a DocumentResourceReference object so that the user who calls
+        // {@link ResourceReferenceParser#parse} can cast it to a DocumentResourceReference object if the type is of
+        // type Document.
+        return new DocumentResourceReference(reference);
     }
 }

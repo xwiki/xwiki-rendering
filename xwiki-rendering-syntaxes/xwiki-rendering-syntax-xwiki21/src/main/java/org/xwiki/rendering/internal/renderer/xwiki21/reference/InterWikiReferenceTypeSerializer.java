@@ -23,8 +23,8 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.parser.reference.DefaultResourceReferenceParser;
-import org.xwiki.rendering.internal.parser.reference.InterWikiResourceReferenceTypeParser;
+import org.xwiki.rendering.internal.parser.reference.AbstractDefaultResourceReferenceParser;
+import org.xwiki.rendering.internal.parser.reference.type.InterWikiResourceReferenceTypeParser;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
@@ -45,7 +45,7 @@ public class InterWikiReferenceTypeSerializer implements ResourceReferenceTypeSe
     {
         StringBuilder result = new StringBuilder();
         result.append(reference.getType().getScheme());
-        result.append(DefaultResourceReferenceParser.TYPE_SEPARATOR);
+        result.append(AbstractDefaultResourceReferenceParser.TYPE_SEPARATOR);
         String interWikiAlias = reference.getParameter(InterWikiResourceReference.INTERWIKI_ALIAS);
         if (interWikiAlias != null) {
             result.append(interWikiAlias);

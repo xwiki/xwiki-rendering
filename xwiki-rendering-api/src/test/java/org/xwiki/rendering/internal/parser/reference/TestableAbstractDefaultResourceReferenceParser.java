@@ -19,50 +19,28 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
-import javax.inject.Inject;
+import java.util.List;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.properties.converter.AbstractConverter;
-import org.xwiki.properties.converter.ConversionException;
-import org.xwiki.rendering.parser.ResourceReferenceParser;
 
-/**
- * XWiki Properties Bean Converter to convert Strings into
- * {@link org.xwiki.rendering.listener.reference.ResourceReference}.
- *
- * @version $Id$
- * @since 2.6M1
- * @see org.xwiki.properties.converter.Converter
- */
 @Component
-@Named("org.xwiki.rendering.listener.reference.ResourceReference")
+@Named("default/test")
 @Singleton
-public class ResourceReferenceConverter extends AbstractConverter
+public class TestableAbstractDefaultResourceReferenceParser extends AbstractDefaultResourceReferenceParser
 {
-    /**
-     * Used to convert Resource References from String to ResourceReference object.
-     */
-    @Inject
-    @Named("all")
-    private ResourceReferenceParser referenceParser;
+    private List<String> supportedTypes;
 
-    @Override
-    @Deprecated
-    protected <T> T convertToType(Class<T> type, Object value)
+    public void setSupportedTypes(List<String> supportedTypes)
     {
-        T reference = null;
-        if (value != null) {
-            reference = type.cast(this.referenceParser.parse(value.toString()));
-        }
-
-        return reference;
+        this.supportedTypes = supportedTypes;
     }
 
     @Override
-    protected String convertToString(Object value)
+    protected boolean isTypeParserSupported(String typePrefix)
     {
-        throw new ConversionException("not implemented yet");
+        return this.supportedTypes.contains(typePrefix);
     }
 }

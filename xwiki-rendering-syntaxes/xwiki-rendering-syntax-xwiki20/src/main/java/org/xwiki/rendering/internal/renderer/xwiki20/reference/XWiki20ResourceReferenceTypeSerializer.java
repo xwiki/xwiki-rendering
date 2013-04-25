@@ -23,7 +23,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.parser.reference.DefaultResourceReferenceParser;
+import org.xwiki.rendering.internal.parser.reference.AbstractDefaultResourceReferenceParser;
 import org.xwiki.rendering.internal.parser.xwiki20.XWiki20LinkReferenceParser;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
@@ -47,7 +47,7 @@ public class XWiki20ResourceReferenceTypeSerializer implements ResourceReference
         StringBuffer result = new StringBuffer();
         if (reference.isTyped() && isSupportedType(reference.getType())) {
             result.append(reference.getType().getScheme());
-            result.append(DefaultResourceReferenceParser.TYPE_SEPARATOR);
+            result.append(AbstractDefaultResourceReferenceParser.TYPE_SEPARATOR);
         }
         result.append(reference.getReference());
         return result.toString();

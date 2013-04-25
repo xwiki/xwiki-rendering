@@ -17,50 +17,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.reference;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+package org.xwiki.rendering.internal.parser.reference.type;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 
 /**
- * Parses a resource reference to a URL.
- *
+ * Parses a resource reference to an attachment.
+ * 
  * @version $Id$
  * @since 2.5RC1
  */
 @Component
-@Named("url")
+@Named("attach")
 @Singleton
-public class URLResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
+public class AttachmentResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
 {
-    /**
-     * URL matching pattern.
-     */
-    private static final Pattern URL_SCHEME_PATTERN = Pattern.compile("[a-zA-Z0-9+.-]*://");
-
     @Override
     public ResourceType getType()
     {
-        return ResourceType.URL;
-    }
-
-    @Override
-    public ResourceReference parse(String reference)
-    {
-        ResourceReference resultReference = null;
-        Matcher matcher = URL_SCHEME_PATTERN.matcher(reference);
-        if (matcher.lookingAt()) {
-            // We don't parse the URL since it can contain unknown protocol for the JVM but protocols known by the
-            // browser (such as skype:// for example).
-            resultReference = new ResourceReference(reference, getType());
-        }
-        return resultReference;
+        return ResourceType.ATTACHMENT;
     }
 }

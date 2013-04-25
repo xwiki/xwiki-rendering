@@ -1,0 +1,3 @@
+org.xwiki.rendering.internal.parser.reference.DefaultResourceReferenceParser
+org.xwiki.rendering.internal.parser.reference.DefaultLinkReferenceParser
+org.xwiki.rendering.internal.parser.reference.DefaultImageReferenceParser

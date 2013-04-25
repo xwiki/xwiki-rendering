@@ -19,9 +19,6 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
-import javax.inject.Singleton;
-
-import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
@@ -36,13 +33,14 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
  * {@link org.xwiki.rendering.parser.ResourceReferenceTypeParser} implementations. Note that the implementation is
  * pluggable and it's allowed plug new resource reference types by implementing
  * {@link org.xwiki.rendering.parser.ResourceReferenceTypeParser}s and registering the implementation as a component.
+ * <p/>
+ * Note: The list of supported type parsers for a given XWiki Syntax is fixed since otherwise that would break the
+ * specification of the syntax.
  * 
  * @version $Id$
- * @since 2.6M1
+ * @since 5.1M1
  */
-@Component
-@Singleton
-public class DefaultResourceReferenceParser extends AbstractResourceReferenceParser
+public abstract class AbstractDefaultResourceReferenceParser extends AbstractResourceReferenceParser
 {
     /**
      * Link Reference Type separator (eg "mailto:mail@address").
@@ -50,9 +48,16 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
     public static final String TYPE_SEPARATOR = ":";
 
     /**
+     * @param typePrefix the type prefix (eg "attach", "doc", "icon", etc)
+     * @return true if the type prefix is supported by the implementing component (this allows us to restrict the list
+     *         of supported types per XWiki Syntax)
+     */
+    protected abstract boolean isTypeParserSupported(String typePrefix);
+
+    /**
      * {@inheritDoc}
-     * 
-     * @return the parsed resource reference or a Resource Reference with {@link ResourceType#UNKNOWN} if no reference
+     *
+     * @return the parsed resource reference or a Resource Reference with {@link org.xwiki.rendering.listener.reference.ResourceType#UNKNOWN} if no reference
      *         type was specified
      * @see org.xwiki.rendering.parser.ResourceReferenceParser#parse(String)
      */
@@ -66,12 +71,15 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
         if (pos > -1) {
             String typePrefix = rawReference.substring(0, pos);
             String reference = rawReference.substring(pos + 1);
-            try {
-                ResourceReferenceTypeParser parser =
-                    this.componentManagerProvider.get().getInstance(ResourceReferenceTypeParser.class, typePrefix);
-                parsedResourceReference = parser.parse(reference);
-            } catch (ComponentLookupException e) {
-                // Couldn't find a link type parser for the specified type.
+            // Check if the type is supported. This to be able for each Syntax to control which types it supports.
+            if (isTypeParserSupported(typePrefix)) {
+                try {
+                    ResourceReferenceTypeParser parser =
+                        this.componentManagerProvider.get().getInstance(ResourceReferenceTypeParser.class, typePrefix);
+                    parsedResourceReference = parser.parse(reference);
+                } catch (ComponentLookupException e) {
+                    // Couldn't find a link type parser for the specified type.
+                }
             }
         }
 

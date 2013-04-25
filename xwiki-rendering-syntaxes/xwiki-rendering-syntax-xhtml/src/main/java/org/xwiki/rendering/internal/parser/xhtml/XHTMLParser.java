@@ -75,14 +75,14 @@ public class XHTMLParser extends AbstractWikiModelParser
      * @see #getLinkReferenceParser()
      */
     @Inject
-    @Named("link")
+    @Named("link/2.1")
     private ResourceReferenceParser linkReferenceParser;
 
     /**
      * @see #getImageReferenceParser()
      */
     @Inject
-    @Named("image")
+    @Named("image/2.1")
     private ResourceReferenceParser imageReferenceParser;
 
     @Inject

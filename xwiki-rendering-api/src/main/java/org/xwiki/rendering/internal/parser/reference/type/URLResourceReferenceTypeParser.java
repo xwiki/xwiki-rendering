@@ -17,48 +17,50 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.renderer.reference;
+package org.xwiki.rendering.internal.parser.reference.type;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.parser.reference.AbstractDefaultResourceReferenceParser;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
-import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
 
 /**
- * Serialize a link by outputting the link type (if the link is typed) followed by the link reference (ie
- * "(linktype):(reference)").
- * 
+ * Parses a resource reference to a URL.
+ *
  * @version $Id$
- * @since 3.1
+ * @since 2.5RC1
  */
 @Component
+@Named("url")
 @Singleton
-public class DefaultResourceReferenceTypeSerializer implements ResourceReferenceTypeSerializer
+public class URLResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
 {
-    @Override
-    public String serialize(ResourceReference reference)
-    {
-        StringBuffer result = new StringBuffer();
-        if (reference.isTyped() && isSupportedType(reference.getType())) {
-            result.append(reference.getType().getScheme());
-            result.append(AbstractDefaultResourceReferenceParser.TYPE_SEPARATOR);
-        }
-        result.append(reference.getReference());
+    /**
+     * URL matching pattern.
+     */
+    private static final Pattern URL_SCHEME_PATTERN = Pattern.compile("[a-zA-Z0-9+.-]*://");
 
-        return result.toString();
+    @Override
+    public ResourceType getType()
+    {
+        return ResourceType.URL;
     }
 
-    /**
-     * Indicate if the provided type is supported by this syntax.
-     * 
-     * @param type the type of resource
-     * @return true if the type is supported
-     */
-    protected boolean isSupportedType(ResourceType type)
+    @Override
+    public ResourceReference parse(String reference)
     {
-        return true;
+        ResourceReference resultReference = null;
+        Matcher matcher = URL_SCHEME_PATTERN.matcher(reference);
+        if (matcher.lookingAt()) {
+            // We don't parse the URL since it can contain unknown protocol for the JVM but protocols known by the
+            // browser (such as skype:// for example).
+            resultReference = new ResourceReference(reference, getType());
+        }
+        return resultReference;
     }
 }
