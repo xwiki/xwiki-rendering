@@ -1,0 +1,7 @@
+org.xwiki.rendering.internal.parser.xwiki22.XWiki22Parser
+org.xwiki.rendering.internal.parser.xwiki22.reference.XWiki22DefaultResourceReferenceParser
+org.xwiki.rendering.internal.parser.xwiki22.reference.XWiki22LinkReferenceParser
+org.xwiki.rendering.internal.parser.xwiki22.reference.XWiki22ImageReferenceParser
+org.xwiki.rendering.internal.renderer.xwiki22.XWikiSyntaxBlockRenderer
+org.xwiki.rendering.internal.renderer.xwiki22.XWikiSyntaxRenderer
+org.xwiki.rendering.internal.renderer.xwiki22.XWikiSyntaxRendererFactory

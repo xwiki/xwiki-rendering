@@ -37,6 +37,7 @@ public class Syntax
     public static final Syntax XWIKI_1_0 = new Syntax(SyntaxType.XWIKI, "1.0");
     public static final Syntax XWIKI_2_0 = new Syntax(SyntaxType.XWIKI, "2.0");
     public static final Syntax XWIKI_2_1 = new Syntax(SyntaxType.XWIKI, "2.1");
+    public static final Syntax XWIKI_2_2 = new Syntax(SyntaxType.XWIKI, "2.2", "experimental");
     public static final Syntax PLAIN_1_0 = new Syntax(SyntaxType.PLAIN, "1.0");
     public static final Syntax EVENT_1_0 = new Syntax(SyntaxType.EVENT, "1.0");
     public static final Syntax TEX_1_0 = new Syntax(SyntaxType.TEX, "1.0");

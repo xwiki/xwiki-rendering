@@ -63,5 +63,6 @@
     <module>xwiki-rendering-syntax-xwiki10</module>
     <module>xwiki-rendering-syntax-xwiki20</module>
     <module>xwiki-rendering-syntax-xwiki21</module>
+    <module>xwiki-rendering-syntax-xwiki22</module>
   </modules>
 </project>
