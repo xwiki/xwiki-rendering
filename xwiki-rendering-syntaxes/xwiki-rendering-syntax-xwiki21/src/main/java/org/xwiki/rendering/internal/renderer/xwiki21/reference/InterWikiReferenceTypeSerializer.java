@@ -24,7 +24,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.reference.DefaultResourceReferenceParser;
-import org.xwiki.rendering.internal.parser.reference.InterWikiResourceReferenceTypeParser;
+import org.xwiki.rendering.internal.parser.reference.type.InterWikiResourceReferenceTypeParser;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
