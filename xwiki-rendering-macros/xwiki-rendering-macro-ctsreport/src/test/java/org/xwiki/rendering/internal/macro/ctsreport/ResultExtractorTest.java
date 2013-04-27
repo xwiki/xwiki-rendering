@@ -28,7 +28,7 @@ import java.util.Set;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 /**
  * Unit tests for {@link ResultExtractor}.

@@ -26,7 +26,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 

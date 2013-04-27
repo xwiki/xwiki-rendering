@@ -21,7 +21,7 @@ package org.xwiki.rendering.wikimodel;
 
 import org.junit.Test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 /**
  * Validate {@link WikiParameters}.

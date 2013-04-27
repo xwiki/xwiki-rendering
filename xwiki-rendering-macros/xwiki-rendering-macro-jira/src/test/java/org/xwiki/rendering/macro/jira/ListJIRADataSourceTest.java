@@ -31,7 +31,7 @@ import org.jdom2.input.SAXBuilder;
 import org.junit.Test;
 import org.xwiki.rendering.internal.macro.jira.source.ListJIRADataSource;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 /**
  * Unit tests for {@link ListJIRADataSource} and {@link org.xwiki.rendering.internal.macro.jira.source.AbstractJIRADataSource}.
