@@ -15,10 +15,10 @@ onWord [inline]
 onSpace
 beginMacroMarkerInline [testsimplemacro] []
 beginFormat [NONE] [[class]=[xwikirenderingerror]]
-onWord [Not an inline macro]
+onWord [This is a standalone macro only and it cannot be used inline]
 endFormat [NONE] [[class]=[xwikirenderingerror]]
 beginFormat [NONE] [[class]=[xwikirenderingerrordescription hidden]]
-onVerbatim [This macro can only be used by itself on a new line] [true]
+onVerbatim [This macro generates standalone content. As a consequence you need to make sure to use a syntax that separates your macro from the content before and after it so that it's on a line by itself. For example in XWiki Syntax 2.0+ this means having 2 newline characters (a.k.a line breaks) separating your macro from the content before and after it.] [true]
 endFormat [NONE] [[class]=[xwikirenderingerrordescription hidden]]
 endMacroMarkerInline [testsimplemacro] []
 onSpace
@@ -28,11 +28,11 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>Not inline <span class="xwikirenderingerror">Not an inline macro</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">This macro can only be used by itself on a new line</tt></span> macro</p>
+<p>Not inline <span class="xwikirenderingerror">This is a standalone macro only and it cannot be used inline</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">This macro generates standalone content. As a consequence you need to make sure to use a syntax that separates your macro from the content before and after it so that it's on a line by itself. For example in XWiki Syntax 2.0+ this means having 2 newline characters (a.k.a line breaks) separating your macro from the content before and after it.</tt></span> macro</p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p>Not inline <!--startmacro:testsimplemacro|-|--><span class="xwikirenderingerror">Not an inline macro</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">This macro can only be used by itself on a new line</tt></span><!--stopmacro--> macro</p>
+<p>Not inline <!--startmacro:testsimplemacro|-|--><span class="xwikirenderingerror">This is a standalone macro only and it cannot be used inline</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">This macro generates standalone content. As a consequence you need to make sure to use a syntax that separates your macro from the content before and after it so that it's on a line by itself. For example in XWiki Syntax 2.0+ this means having 2 newline characters (a.k.a line breaks) separating your macro from the content before and after it.</tt></span><!--stopmacro--> macro</p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -40,4 +40,4 @@ Not inline {{testsimplemacro/}} macro
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p>Not inline <!--startmacro:testsimplemacro|-|--><span class="xwikirenderingerror">Not an inline macro</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">This macro can only be used by itself on a new line</tt></span><!--stopmacro--> macro</p>
+<p>Not inline <!--startmacro:testsimplemacro|-|--><span class="xwikirenderingerror">This is a standalone macro only and it cannot be used inline</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">This macro generates standalone content. As a consequence you need to make sure to use a syntax that separates your macro from the content before and after it so that it's on a line by itself. For example in XWiki Syntax 2.0+ this means having 2 newline characters (a.k.a line breaks) separating your macro from the content before and after it.</tt></span><!--stopmacro--> macro</p>

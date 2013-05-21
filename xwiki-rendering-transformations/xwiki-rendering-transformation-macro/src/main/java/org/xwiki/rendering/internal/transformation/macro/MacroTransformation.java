@@ -156,8 +156,12 @@ public class MacroTransformation extends AbstractTransformation
                     // The macro doesn't support inline mode, raise a warning but continue.
                     // The macro will not be executed and we generate an error message instead of the macro
                     // execution result.
-                    this.macroErrorManager.generateError(macroHolder.macroBlock, "Not an inline macro",
-                            "This macro can only be used by itself on a new line");
+                    this.macroErrorManager.generateError(macroHolder.macroBlock,
+                        "This is a standalone macro only and it cannot be used inline",
+                        "This macro generates standalone content. As a consequence you need to make sure to use a "
+                        + "syntax that separates your macro from the content before and after it so that it's on a "
+                        + "line by itself. For example in XWiki Syntax 2.0+ this means having 2 newline characters "
+                        + "(a.k.a line breaks) separating your macro from the content before and after it.");
                     this.logger.debug("The [{}] macro doesn't support inline mode.", macroHolder.macroBlock.getId());
                     return false;
                 }
