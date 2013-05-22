@@ -400,6 +400,9 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
+        // This need to be done in case of a subitem before endListItem() is not called
+        this.previousFormatParameters = null;
+
         if (getBlockState().getListDepth() == 1) {
             printEmptyLine();
         } else {

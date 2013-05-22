@@ -1,0 +1,25 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|xwiki/2.0
+.# Test that format at the end of a list item is closed before the newline.
+.#-------------------------------------------------------------------------------------------------------
+* one (% style="color: red" %)end
+** two
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginList [BULLETED]
+beginListItem
+onWord [one]
+onSpace
+beginFormat [NONE] [[style]=[color: red]]
+onWord [end]
+endFormat [NONE] [[style]=[color: red]]
+beginList [BULLETED]
+beginListItem
+onWord [two]
+endListItem
+endList [BULLETED]
+endListItem
+endList [BULLETED]
+endDocument
