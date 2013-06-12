@@ -20,6 +20,8 @@
 package org.xwiki.rendering.renderer.printer;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.dom4j.Element;
@@ -45,7 +47,18 @@ public class XMLWikiPrinter
     protected WikiWriter wikiWriter;
 
     protected XMLWriter xmlWriter;
-
+    
+    /**
+     * List of authorized attributes.
+     */
+    private static final List<String> ATTRIBUTES_WHITELIST = 
+        Arrays.asList("alt", "class", "height", "id", "name", "rel", "scope", "style", "target", "title", "width");
+    
+    /**
+     * Attributes that should be authorized only if their value is safe.
+     */
+    private static final List<String> VULNERABLE_ATTRIBUTES = Arrays.asList("href", "src");
+    
     /**
      * @param printer the object to which to write the XHTML output to
      */
@@ -95,7 +108,10 @@ public class XMLWikiPrinter
 
         if (attributes != null && attributes.length > 0) {
             for (String[] entry : attributes) {
-                element.addAttribute(entry[0], entry[1]);
+                if(isAttributeClean(entry[0], entry[1])) {
+                    // We add this attribute if and only if it is safe.
+                    element.addAttribute(entry[0], entry[1]);
+                }
             }
         }
 
@@ -115,7 +131,9 @@ public class XMLWikiPrinter
 
         if (attributes != null && !attributes.isEmpty()) {
             for (Map.Entry<String, String> entry : attributes.entrySet()) {
-                element.addAttribute(entry.getKey(), entry.getValue());
+                if(isAttributeClean(entry.getKey(), entry.getValue())) {
+                  element.addAttribute(entry.getKey(), entry.getValue());
+                }
             }
         }
 
@@ -156,7 +174,7 @@ public class XMLWikiPrinter
     public void printXMLStartElement(String name, Attributes attributes)
     {
         try {
-            this.xmlWriter.startElement("", name, name, attributes);
+            this.xmlWriter.startElement("", name, name, cleanAttributes(attributes));
         } catch (SAXException e) {
             // TODO: add error log here
         }
@@ -288,5 +306,47 @@ public class XMLWikiPrinter
         }
 
         return attributes;
+    }
+    
+    /**
+     * Clean attributes to prevent XSS.
+     * 
+     * @param attributes Attributes to clean
+     * @return clean attributes 
+     */
+    private Attributes cleanAttributes(Attributes attributes)
+    {
+        AttributesImpl cleanAttributes = new AttributesImpl();
+        int length = attributes.getLength();
+        for (int i=0; i<length; i++) {
+            String qName = attributes.getQName(i);
+            String value = attributes.getValue(i);
+            if (isAttributeClean(qName, value)) {
+                cleanAttributes.addAttribute(attributes.getURI(i), attributes.getLocalName(i), qName, attributes.getType(i), value);
+            }
+        }
+        return cleanAttributes;
+    }
+
+    /**
+     * Determine whether an attribute is safe or not
+     * 
+     * @param key Name of the attribute
+     * @param value Value of the attribute
+     * @return true if the attribute is in the attributes whitelist or if its value is safe 
+     */
+    private boolean isAttributeClean(String key, String value)
+    {
+        // Let's trim the attribute value to make sure that leading whitespaces won't create any issue.
+        value = value.trim();
+        if (ATTRIBUTES_WHITELIST.contains(key)) {
+            return true;
+        } else if (VULNERABLE_ATTRIBUTES.contains(key)) {
+            if(value.startsWith("/") || value.startsWith("http") || value.startsWith("www") 
+                || value.startsWith("mailto") || value.startsWith("#") || value.startsWith("file")) {
+                return true;
+            }
+        }
+        return false;
     }
 }
