@@ -25,6 +25,7 @@ import java.util.Collections;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroMarkerBlock;
@@ -37,7 +38,8 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.test.ComponentManagerRule;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.internal.transformation.wikiword.WikiWordTransformation}.
@@ -45,16 +47,18 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
  * @version $Id$
  * @since 2.6RC1
  */
-public class WikiWordTransformationTest extends AbstractComponentTestCase
+@AllComponents
+public class WikiWordTransformationTest
 {
+    @Rule
+    public ComponentManagerRule componentManager = new ComponentManagerRule();
+
     private Transformation wikiWordTransformation;
 
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
-        this.wikiWordTransformation = getComponentManager().getInstance(Transformation.class, "wikiword");
+        this.wikiWordTransformation = this.componentManager.getInstance(Transformation.class, "wikiword");
     }
 
     @Test
@@ -69,11 +73,11 @@ public class WikiWordTransformationTest extends AbstractComponentTestCase
         //   recognized as a wiki word (eg "XWikiEnterprise")
         String testInput = "This is a WikiWord, Another\u00D9ne, XWikiEnterprise, not one: XWiki";
 
-        Parser parser = getComponentManager().getInstance(Parser.class, "xwiki/2.1");
+        Parser parser = this.componentManager.getInstance(Parser.class, "xwiki/2.1");
         XDOM xdom = parser.parse(new StringReader(testInput));
         this.wikiWordTransformation.transform(xdom, new TransformationContext());
         WikiPrinter printer = new DefaultWikiPrinter();
-        BlockRenderer xwiki21BlockRenderer = getComponentManager().getInstance(BlockRenderer.class, "xwiki/2.1");
+        BlockRenderer xwiki21BlockRenderer = this.componentManager.getInstance(BlockRenderer.class, "xwiki/2.1");
         xwiki21BlockRenderer.render(xdom, printer);
         Assert.assertEquals("This is a [[doc:WikiWord]], [[doc:Another\u00D9ne]], [[doc:XWikiEnterprise]], "
             + "not one: XWiki", printer.toString());
@@ -94,9 +98,8 @@ public class WikiWordTransformationTest extends AbstractComponentTestCase
 
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer eventBlockRenderer =
-            getComponentManager().getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(xdom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
-
 }
