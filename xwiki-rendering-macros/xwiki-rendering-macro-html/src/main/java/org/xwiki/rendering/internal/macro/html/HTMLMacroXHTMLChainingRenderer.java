@@ -49,7 +49,7 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
     public HTMLMacroXHTMLChainingRenderer(XHTMLLinkRenderer linkRenderer, XHTMLImageRenderer imageRenderer,
         ListenerChain listenerChain)
     {
-        super(linkRenderer, imageRenderer, listenerChain);
+        super(linkRenderer, imageRenderer, listenerChain, "default");
     }
 
     /**
