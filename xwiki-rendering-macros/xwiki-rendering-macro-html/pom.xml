@@ -31,9 +31,11 @@
   </parent>
   <artifactId>xwiki-rendering-macro-html</artifactId>
   <name>XWiki Rendering - Macro - HTML</name>
-  <description>XWiki Rendering - Macro - HTML</description>
+  <description>Allows inserting HTML or XHTML in wiki pages</description>
   <properties>
     <xwiki.jacoco.instructionRatio>90.45</xwiki.jacoco.instructionRatio>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>HTML Macro</xwiki.extension.name>
   </properties>
   <dependencies>
     <dependency>

@@ -31,5 +31,9 @@
   </parent>
   <artifactId>xwiki-rendering-macro-id</artifactId>
   <name>XWiki Rendering - Macro - Id</name>
-  <description>XWiki Rendering - Macro - Id</description>
+  <description>Allows putting a reference/location in a page</description>
+  <properties>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>Id Macro</xwiki.extension.name>
+  </properties>
 </project>
