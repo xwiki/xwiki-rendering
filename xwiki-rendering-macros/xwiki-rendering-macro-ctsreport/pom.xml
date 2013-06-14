@@ -31,9 +31,12 @@
   </parent>
   <artifactId>xwiki-rendering-macro-ctsreport</artifactId>
   <name>XWiki Rendering - Macro - CTS Report</name>
-  <description>Compatibility Test Suite Report Macro</description>
+  <description>Parses unit test results produced by Jenkins to generate test data for display</description>
+  <!-- Note: This macro is used for example on the http://rendering.xwiki.org/xwiki/bin/view/Main/SyntaxReport page -->
   <properties>
     <xwiki.jacoco.instructionRatio>71.77</xwiki.jacoco.instructionRatio>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>Compatibility Test Suite Report Macro</xwiki.extension.name>
   </properties>
   <dependencies>
     <dependency>
