@@ -31,8 +31,10 @@
   </parent>
   <artifactId>xwiki-rendering-macro-content</artifactId>
   <name>XWiki Rendering - Macro - Content</name>
-  <description>Allows writing a portion of content in any wiki syntax</description>
+  <description>Allows entering content in any of the supported Syntaxes</description>
   <properties>
     <xwiki.jacoco.instructionRatio>76.71</xwiki.jacoco.instructionRatio>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>Content Macro</xwiki.extension.name>
   </properties>
 </project>

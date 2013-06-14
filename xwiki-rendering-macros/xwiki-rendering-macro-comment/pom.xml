@@ -31,5 +31,9 @@
   </parent>
   <artifactId>xwiki-rendering-macro-comment</artifactId>
   <name>XWiki Rendering - Macro - Comment</name>
-  <description>XWiki Rendering - Macro - Comment</description>
+  <description>Allow adding comment not displayed to end users</description>
+  <properties>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>Comment Macro</xwiki.extension.name>
+  </properties>
 </project>
