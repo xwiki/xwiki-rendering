@@ -27,6 +27,7 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
+import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
@@ -61,6 +62,12 @@ public class XHTMLRenderer extends AbstractChainingPrintRenderer implements Init
      */
     @Inject
     private XHTMLImageRenderer imageRenderer;
+    
+    /**
+     * To know which XHTMLWikiPrinter should be used.
+     */
+    @Inject
+    private RenderingConfiguration configuration;
 
     @Override
     public void initialize() throws InitializationException
@@ -74,6 +81,7 @@ public class XHTMLRenderer extends AbstractChainingPrintRenderer implements Init
         chain.addListener(new BlockStateChainingListener(chain));
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
-        chain.addListener(new XHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain));
+        chain.addListener(new XHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain, 
+            configuration.getXHTMLWikiPrinterHint()));
     }
 }

@@ -70,4 +70,11 @@ public interface RenderingConfiguration
      * @since 3.3M1
      */
     List<String> getTransformationNames();
+    
+    /**
+     * 
+     * @return the hint defining the xhtml printer to use.
+     * @since 5.2M1
+     */
+    String getXHTMLWikiPrinterHint();
 }

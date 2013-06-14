@@ -51,7 +51,7 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
     public AnnotatedXHTMLChainingRenderer(XHTMLLinkRenderer linkRenderer,
         XHTMLImageRenderer imageRenderer, ListenerChain listenerChain)
     {
-        super(linkRenderer, imageRenderer, listenerChain);
+        super(linkRenderer, imageRenderer, listenerChain, "default");
 
         this.macroRenderer = new XHTMLMacroRenderer();
     }

@@ -73,6 +73,11 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
      * @see #getInterWikiDefinitions()
      */
     private Properties interWikiDefinitions = new Properties();
+    
+    /**
+     * To choose the xhtml printer to use.
+     */
+    private String xhtmlWikiPrinterHint = "default";
 
     @Override
     public void initialize() throws InitializationException
@@ -130,5 +135,19 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
     public List<String> getTransformationNames()
     {
         return this.transformationNames;
+    }
+    
+    @Override
+    public String getXHTMLWikiPrinterHint()
+    {
+        return this.xhtmlWikiPrinterHint;
+    }
+    
+    /**
+     * @param hint Hint defining the printer to use
+     */
+    public void setXHTMLWikiPrinterHint(String hint) 
+    {
+        this.xhtmlWikiPrinterHint = hint;
     }
 }

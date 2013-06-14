@@ -36,6 +36,8 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.rendering.renderer.printer.DefaultXHTMLWikiPrinter;
+import org.xwiki.rendering.renderer.printer.SecureXHTMLWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
@@ -54,6 +56,8 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     private XHTMLImageRenderer imageRenderer;
 
     private XHTMLWikiPrinter xhtmlWikiPrinter;
+    
+    private String hintPrinter;
 
     /**
      * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
@@ -65,12 +69,13 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
      * @param listenerChain the chain of listener filters used to compute various states
      */
     public XHTMLChainingRenderer(XHTMLLinkRenderer linkRenderer, XHTMLImageRenderer imageRenderer,
-        ListenerChain listenerChain)
+        ListenerChain listenerChain, String hint)
     {
         setListenerChain(listenerChain);
 
         this.linkRenderer = linkRenderer;
         this.imageRenderer = imageRenderer;
+        this.hintPrinter = hint;
     }
 
     // State
@@ -109,7 +114,11 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     protected XHTMLWikiPrinter getXHTMLWikiPrinter()
     {
         if (this.xhtmlWikiPrinter == null) {
-            this.xhtmlWikiPrinter = new XHTMLWikiPrinter(getPrinter());
+            if("secure".equals(this.hintPrinter)) {
+                this.xhtmlWikiPrinter = new SecureXHTMLWikiPrinter(getPrinter());
+            } else {
+                this.xhtmlWikiPrinter = new DefaultXHTMLWikiPrinter(getPrinter());
+            }
         }
         return this.xhtmlWikiPrinter;
     }
