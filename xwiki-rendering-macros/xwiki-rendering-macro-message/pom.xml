@@ -31,9 +31,11 @@
   </parent>
   <artifactId>xwiki-rendering-macro-message</artifactId>
   <name>XWiki Rendering - Macro - Message</name>
-  <description>XWiki Rendering - Macro - Message</description>
+  <description>Displays information, warning, error and success messages in a styled box format, using different icons</description>
   <properties>
     <xwiki.jacoco.instructionRatio>84.44</xwiki.jacoco.instructionRatio>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>Message Macros</xwiki.extension.name>
   </properties>
   <dependencies>
     <dependency>
