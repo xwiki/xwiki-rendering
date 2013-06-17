@@ -21,8 +21,7 @@ package org.xwiki.rendering.internal.parser.markdown;
 
 import java.util.Collections;
 
-import org.pegdown.ast.EmphNode;
-import org.pegdown.ast.StrongNode;
+import org.pegdown.ast.StrongEmphSuperNode;
 import org.xwiki.rendering.listener.Format;
 
 /**
@@ -34,18 +33,12 @@ import org.xwiki.rendering.listener.Format;
 public abstract class AbstractFormattingPegdownVisitor extends AbstractTextPegdownVisitor
 {
     @Override
-    public void visit(StrongNode strongNode)
+    public void visit(StrongEmphSuperNode node)
     {
-        getListener().beginFormat(Format.BOLD, Collections.EMPTY_MAP);
-        visitChildren(strongNode);
-        getListener().endFormat(Format.BOLD, Collections.EMPTY_MAP);
-    }
+        Format format = node.isStrong() ? Format.BOLD : Format.ITALIC;
 
-    @Override
-    public void visit(EmphNode emphNode)
-    {
-        getListener().beginFormat(Format.ITALIC, Collections.EMPTY_MAP);
-        visitChildren(emphNode);
-        getListener().endFormat(Format.ITALIC, Collections.EMPTY_MAP);
+        getListener().beginFormat(format, Collections.EMPTY_MAP);
+        visitChildren(node);
+        getListener().endFormat(format, Collections.EMPTY_MAP);
     }
 }
