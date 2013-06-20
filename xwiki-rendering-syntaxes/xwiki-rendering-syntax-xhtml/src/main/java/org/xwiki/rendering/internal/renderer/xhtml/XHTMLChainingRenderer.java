@@ -57,7 +57,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
 
     private XHTMLWikiPrinter xhtmlWikiPrinter;
     
-    private String hintPrinter;
+    private String xhtmlWikiPrinterHint;
 
     /**
      * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
@@ -75,7 +75,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
 
         this.linkRenderer = linkRenderer;
         this.imageRenderer = imageRenderer;
-        this.hintPrinter = hint;
+        this.xhtmlWikiPrinterHint = hint;
     }
 
     // State
@@ -114,7 +114,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     protected XHTMLWikiPrinter getXHTMLWikiPrinter()
     {
         if (this.xhtmlWikiPrinter == null) {
-            if("secure".equals(this.hintPrinter)) {
+            if("secure".equals(this.xhtmlWikiPrinterHint)) {
                 this.xhtmlWikiPrinter = new SecureXHTMLWikiPrinter(getPrinter());
             } else {
                 this.xhtmlWikiPrinter = new DefaultXHTMLWikiPrinter(getPrinter());

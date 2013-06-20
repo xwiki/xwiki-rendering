@@ -137,6 +137,10 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
         return this.transformationNames;
     }
     
+    /**
+     * @return the xhtmlWikiPrinter hint
+     * @since 5.1RC1
+     */
     @Override
     public String getXHTMLWikiPrinterHint()
     {
@@ -145,6 +149,7 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
     
     /**
      * @param hint Hint defining the printer to use
+     * @since 5.1RC1
      */
     public void setXHTMLWikiPrinterHint(String hint) 
     {

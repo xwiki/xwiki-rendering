@@ -1,9 +1,11 @@
 org.xwiki.rendering.internal.parser.xhtml.XHTMLParser
 org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiXMLReaderFactory
 org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLMarkerResourceReferenceParser
+org.xwiki.rendering.internal.renderer.xhtml.SecureXHTMLBlockRenderer
 org.xwiki.rendering.internal.renderer.xhtml.XHTMLBlockRenderer
 org.xwiki.rendering.internal.renderer.xhtml.XHTMLMarkerResourceReferenceSerializer
 org.xwiki.rendering.internal.renderer.xhtml.XHTMLRendererFactory
+org.xwiki.rendering.internal.renderer.xhtml.SecureXHTMLRenderer
 org.xwiki.rendering.internal.renderer.xhtml.XHTMLRenderer
 org.xwiki.rendering.internal.renderer.xhtml.image.DefaultXHTMLImageRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.AttachmentXHTMLLinkTypeRenderer

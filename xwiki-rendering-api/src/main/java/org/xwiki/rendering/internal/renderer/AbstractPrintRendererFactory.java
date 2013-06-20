@@ -56,4 +56,19 @@ public abstract class AbstractPrintRendererFactory implements PrintRendererFacto
 
         return renderer;
     }
+    
+    @Override 
+    public PrintRenderer createSecureRenderer(WikiPrinter printer)
+    {
+        PrintRenderer renderer;
+        try {
+            renderer = this.componentManager.getInstance(PrintRenderer.class, "secure" + getSyntax().toIdString());
+        } catch (ComponentLookupException e) {
+            throw new RuntimeException("Failed to create a [" + getSyntax().toString() + "] secure renderer", e);
+        }
+
+        renderer.setPrinter(printer);
+
+        return renderer;
+    }
 }

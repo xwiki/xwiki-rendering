@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultElement;
@@ -32,10 +33,11 @@ import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * 
- * Providing a secure XML printer, preventing XSS attacks.
+ * Secure XML printer, preventing XSS attacks by allowing only safe attributes (white list) and for {@code href} and
+ * {@code src} by only allowing content that's safe.
  * 
  * @version $Id$
- * @since 5.1M2
+ * @since 5.1RC1
  */
 public class SecureXMLWikiPrinter extends DefaultXMLWikiPrinter implements XMLWikiPrinter
 {
@@ -146,8 +148,8 @@ public class SecureXMLWikiPrinter extends DefaultXMLWikiPrinter implements XMLWi
         if (ATTRIBUTES_WHITELIST.contains(key)) {
             return true;
         } else if (VULNERABLE_ATTRIBUTES.contains(key)) {
-            if (tValue.startsWith("/") || tValue.startsWith("http") || tValue.startsWith("mailto")
-                || tValue.startsWith("#")) {
+            boolean isURL = Pattern.matches("^[a-zA-Z0-9+.-]*://.*$", tValue);
+            if (isURL || tValue.startsWith("/") || tValue.startsWith("mailto") || tValue.startsWith("#")) {
                 return true;
             }
         }

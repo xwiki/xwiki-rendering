@@ -45,9 +45,9 @@ import org.xwiki.component.phase.Initializable;
  * @since 2.0M3
  */
 @Component
-@Named("annotatedxhtml/1.0")
+@Named("secureannotatedxhtml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implements Initializable
+public class SecureAnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implements Initializable
 {
     /**
      * To render link events into annotated XHTML. This is done so that it's pluggable because link rendering depends
@@ -84,6 +84,7 @@ public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implem
         chain.addListener(new BlockStateChainingListener(chain));
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
-        chain.addListener(new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain, "default"));
+        chain.addListener(new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain, "secure"));
     }
 }
+

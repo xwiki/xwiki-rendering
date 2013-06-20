@@ -73,8 +73,8 @@ public interface RenderingConfiguration
     
     /**
      * 
-     * @return the hint defining the xhtml printer to use.
-     * @since 5.2M1
+     * @return the hint defining the XHTML printer to use.
+     * @since 5.1RC1
      */
     String getXHTMLWikiPrinterHint();
 }

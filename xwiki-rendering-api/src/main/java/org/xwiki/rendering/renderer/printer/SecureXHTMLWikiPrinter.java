@@ -28,7 +28,7 @@ import org.xml.sax.Attributes;
  * Secure version of the XHTMLWikiPrinter, preventing XSS attacks.
  * 
  * @version $Id$
- * @since 5.2M1
+ * @since 5.1RC1
  */
 public class SecureXHTMLWikiPrinter extends SecureXMLWikiPrinter implements XHTMLWikiPrinter
 {

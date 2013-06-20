@@ -39,7 +39,15 @@ public abstract class AbstractBlockRenderer implements BlockRenderer
      * @return provide the factory to use to create a new {@link PrintRenderer}.
      */
     protected abstract PrintRendererFactory getPrintRendererFactory();
-
+    
+    /**
+     * @return true if we should use a secure renderer.
+     */
+    protected boolean isSecure() 
+    {
+        return false;
+    }
+    
     @Override
     public void render(Block block, WikiPrinter printer)
     {
@@ -49,7 +57,12 @@ public abstract class AbstractBlockRenderer implements BlockRenderer
     @Override
     public void render(Collection<Block> blocks, WikiPrinter printer)
     {
-        PrintRenderer renderer = getPrintRendererFactory().createRenderer(printer);
+        PrintRenderer renderer;
+        if (!isSecure()) {
+            renderer = getPrintRendererFactory().createRenderer(printer);
+        } else {
+            renderer = getPrintRendererFactory().createSecureRenderer(printer);
+        }
         for (Block block : blocks) {
             block.traverse(renderer);
         }

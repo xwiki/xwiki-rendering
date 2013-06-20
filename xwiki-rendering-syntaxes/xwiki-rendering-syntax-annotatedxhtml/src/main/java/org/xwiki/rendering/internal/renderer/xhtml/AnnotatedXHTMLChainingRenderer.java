@@ -47,11 +47,12 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
      *            image rendering depends on how the underlying system wants to handle it. For example for XWiki we
      *            check if the image exists as a document attachments, we get its URL, etc.
      * @param listenerChain the chain of listener filters used to compute various states
+     * @param hint indicating if we are in secure mode or not.
      */
     public AnnotatedXHTMLChainingRenderer(XHTMLLinkRenderer linkRenderer,
-        XHTMLImageRenderer imageRenderer, ListenerChain listenerChain)
+        XHTMLImageRenderer imageRenderer, ListenerChain listenerChain, String hint)
     {
-        super(linkRenderer, imageRenderer, listenerChain, "default");
+        super(linkRenderer, imageRenderer, listenerChain, hint);
 
         this.macroRenderer = new XHTMLMacroRenderer();
     }

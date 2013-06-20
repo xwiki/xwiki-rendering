@@ -47,4 +47,11 @@ public interface PrintRendererFactory
      * @since 2.0M3
      */
     PrintRenderer createRenderer(WikiPrinter printer);
+    
+    /**
+     * @param printer the printer to use to output renderer data
+     * @return a new secure Renderer instance (stateful)
+     * @since 5.1RC1
+     */
+    PrintRenderer createSecureRenderer(WikiPrinter printer);
 }
