@@ -152,6 +152,9 @@ public class SecureXMLWikiPrinter extends DefaultXMLWikiPrinter implements XMLWi
             if (isURL || tValue.startsWith("/") || tValue.startsWith("mailto") || tValue.startsWith("#")) {
                 return true;
             }
+        } else if (Pattern.matches("^[a-zA-Z]*:[a-zA-Z]+$", key)) {
+            // Let's accept namespaced attributes.
+            return true;
         }
         return false;
     }
