@@ -28,10 +28,10 @@ import org.xwiki.rendering.internal.renderer.AbstractBlockRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 
 /**
- * Block Renderer for Annotated XHTML syntax. To be used to convert XDOM into XHTML.
+ * Secure Block Renderer for Annotated XHTML syntax. To be used to convert XDOM into XHTML.
  *
  * @version $Id$
- * @since 2.0M3
+ * @since 5.1RC1
  */
 @Component
 @Named("secureannotatedxhtml/1.0")

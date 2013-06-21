@@ -39,7 +39,7 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
  * Generates XHTML from a {@link org.xwiki.rendering.block.XDOM} object being traversed.
  * 
  * @version $Id$
- * @since 2.0M3
+ * @since 5.1RC1
  */
 @Component
 @Named("securexhtml/1.0")

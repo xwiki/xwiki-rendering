@@ -40,9 +40,10 @@ import org.xwiki.component.phase.Initializable;
  * link definition) from a {@link org.xwiki.rendering.block.XDOM} object being traversed.
  * The annotations allow initial source content to be fully reconstructed from the generated XHTML. This is required
  * for example for doing round tripping between wiki syntax and XHTML syntax in the WYSIWYG editor.
+ * This renderer is secure, which means that it cleans content that could result in XSS vulnerabilities.
  *
  * @version $Id$
- * @since 2.0M3
+ * @since 5.1RC1
  */
 @Component
 @Named("secureannotatedxhtml/1.0")
@@ -70,7 +71,6 @@ public class SecureAnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer 
     /**
      * {@inheritDoc}
      * @see org.xwiki.component.phase.Initializable#initialize()
-     * @since 2.0M3
      */
     @Override
     public void initialize() throws InitializationException
