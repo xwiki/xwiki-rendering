@@ -72,9 +72,8 @@ public interface RenderingConfiguration
     List<String> getTransformationNames();
     
     /**
-     * 
-     * @return the hint defining the XHTML printer to use.
+     * @return the list of extra attributes that should be supported in secure rendering.
      * @since 5.1RC1
      */
-    String getXHTMLWikiPrinterHint();
+    List<String> getExtraAttributes();
 }

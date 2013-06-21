@@ -53,6 +53,11 @@ public class SecureXMLWikiPrinter extends DefaultXMLWikiPrinter implements XMLWi
     private static final List<String> VULNERABLE_ATTRIBUTES = Arrays.asList("href", "src");
     
     /**
+     * Extra attributes to authorize.
+     */
+    private List<String> extraAttributes;
+    
+    /**
      * Constructor.
      * 
      * @param printer the object to which to write the XHTML output to
@@ -60,6 +65,18 @@ public class SecureXMLWikiPrinter extends DefaultXMLWikiPrinter implements XMLWi
     public SecureXMLWikiPrinter(WikiPrinter printer)
     {
         super(printer);
+    }
+    
+    /**
+     *  Constructor with extraAttributes.
+     *  
+     * @param printer he object to which to write the XHTML output to
+     * @param extraAttributes extra attributes to authorize
+     */
+    public SecureXMLWikiPrinter(WikiPrinter printer, List<String> extraAttributes)
+    {
+        super(printer);
+        this.extraAttributes = extraAttributes;
     }
     
     @Override
@@ -145,14 +162,14 @@ public class SecureXMLWikiPrinter extends DefaultXMLWikiPrinter implements XMLWi
     {
         // Let's trim the attribute value to make sure that leading whitespaces won't create any issue.
         String tValue = value.trim();
-        if (ATTRIBUTES_WHITELIST.contains(key)) {
+        if (ATTRIBUTES_WHITELIST.contains(key) || extraAttributes.contains(key)) {
             return true;
         } else if (VULNERABLE_ATTRIBUTES.contains(key)) {
             boolean isURL = Pattern.matches("^[a-zA-Z0-9+.-]*://.*$", tValue);
             if (isURL || tValue.startsWith("/") || tValue.startsWith("mailto") || tValue.startsWith("#")) {
                 return true;
             }
-        } else if (Pattern.matches("^[a-zA-Z]*:[a-zA-Z]+$", key)) {
+        } else if (Pattern.matches("^[a-zA-Z]+:[a-zA-Z]+$", key)) {
             // Let's accept namespaced attributes.
             return true;
         }

@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.renderer.printer;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -58,6 +59,17 @@ public class SecureXHTMLWikiPrinter extends SecureXMLWikiPrinter implements XHTM
     public SecureXHTMLWikiPrinter(WikiPrinter printer)
     {
         super(printer);
+    }
+    
+    /**
+     *  Constructor with extraAttributes.
+     *  
+     * @param printer he object to which to write the XHTML output to
+     * @param extraAttributes extra attributes to authorize
+     */
+    public SecureXHTMLWikiPrinter(WikiPrinter printer, List<String> extraAttributes)
+    {
+        super(printer, extraAttributes);
     }
 
     @Override

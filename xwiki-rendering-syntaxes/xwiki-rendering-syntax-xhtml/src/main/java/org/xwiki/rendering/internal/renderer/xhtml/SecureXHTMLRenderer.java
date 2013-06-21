@@ -27,6 +27,7 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
+import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
@@ -61,6 +62,12 @@ public class SecureXHTMLRenderer extends AbstractChainingPrintRenderer implement
      */
     @Inject
     private XHTMLImageRenderer imageRenderer;
+    
+    /**
+     * Rendering configuration, used to retrieve extra attributes to authorize in secure renderers.
+     */
+    @Inject
+    private RenderingConfiguration renderingConfiguration;
 
     @Override
     public void initialize() throws InitializationException
@@ -75,7 +82,7 @@ public class SecureXHTMLRenderer extends AbstractChainingPrintRenderer implement
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
         chain.addListener(new XHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain, 
-            "secure"));
+            "secure", renderingConfiguration.getExtraAttributes()));
     }
 }
 

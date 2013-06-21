@@ -58,6 +58,9 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     private XHTMLWikiPrinter xhtmlWikiPrinter;
     
     private String xhtmlWikiPrinterHint;
+    
+    /** Extra attributes to authorize in secure renderer */
+    private List<String> extraAttributes;
 
     /**
      * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
@@ -76,6 +79,17 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         this.linkRenderer = linkRenderer;
         this.imageRenderer = imageRenderer;
         this.xhtmlWikiPrinterHint = hint;
+    }
+    
+    public XHTMLChainingRenderer(XHTMLLinkRenderer linkRenderer, XHTMLImageRenderer imageRenderer,
+        ListenerChain listenerChain, String hint, List<String> extraAttributes)
+    {
+        setListenerChain(listenerChain);
+
+        this.linkRenderer = linkRenderer;
+        this.imageRenderer = imageRenderer;
+        this.xhtmlWikiPrinterHint = hint;
+        this.extraAttributes = extraAttributes;
     }
 
     // State
@@ -115,7 +129,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     {
         if (this.xhtmlWikiPrinter == null) {
             if("secure".equals(this.xhtmlWikiPrinterHint)) {
-                this.xhtmlWikiPrinter = new SecureXHTMLWikiPrinter(getPrinter());
+                this.xhtmlWikiPrinter = new SecureXHTMLWikiPrinter(getPrinter(), extraAttributes);
             } else {
                 this.xhtmlWikiPrinter = new DefaultXHTMLWikiPrinter(getPrinter());
             }

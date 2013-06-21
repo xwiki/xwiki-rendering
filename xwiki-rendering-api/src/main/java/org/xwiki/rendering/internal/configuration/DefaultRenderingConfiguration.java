@@ -75,9 +75,10 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
     private Properties interWikiDefinitions = new Properties();
     
     /**
-     * To choose the xhtml printer to use.
+     * List all the attributes that should be supported in the wiki syntax, 
+     * in top of those defined in SecureXMLWikiPrinter. 
      */
-    private String xhtmlWikiPrinterHint = "default";
+    private List<String> extraAttributes = new ArrayList<String>();
 
     @Override
     public void initialize() throws InitializationException
@@ -142,17 +143,17 @@ public class DefaultRenderingConfiguration implements RenderingConfiguration, In
      * @since 5.1RC1
      */
     @Override
-    public String getXHTMLWikiPrinterHint()
+    public List<String> getExtraAttributes()
     {
-        return this.xhtmlWikiPrinterHint;
+        return this.extraAttributes;
     }
     
     /**
-     * @param hint Hint defining the printer to use
+     * @param extraAttributes extra attributes to authorize in secure renderers.
      * @since 5.1RC1
      */
-    public void setXHTMLWikiPrinterHint(String hint) 
+    public void setExtraAttributes(List<String> extraAttributes) 
     {
-        this.xhtmlWikiPrinterHint = hint;
+        this.extraAttributes = extraAttributes;
     }
 }

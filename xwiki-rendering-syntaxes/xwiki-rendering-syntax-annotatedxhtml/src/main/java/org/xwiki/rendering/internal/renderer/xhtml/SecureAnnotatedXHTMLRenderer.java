@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.renderer.xhtml;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
@@ -67,6 +68,12 @@ public class SecureAnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer 
     @Inject
     @Named("annotated")
     private XHTMLImageRenderer imageRenderer;
+    
+    /**
+     * To retrieve extra attributes to authorize.
+     */
+    @Inject
+    private RenderingConfiguration renderingConfiguration;
 
     /**
      * {@inheritDoc}
@@ -84,7 +91,8 @@ public class SecureAnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer 
         chain.addListener(new BlockStateChainingListener(chain));
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
-        chain.addListener(new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain, "secure"));
+        chain.addListener(new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer,
+            chain, "secure", renderingConfiguration.getExtraAttributes()));
     }
 }
 

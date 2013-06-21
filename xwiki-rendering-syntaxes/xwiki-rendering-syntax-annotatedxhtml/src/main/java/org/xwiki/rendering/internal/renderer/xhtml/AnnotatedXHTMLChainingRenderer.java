@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml;
 
+import java.util.List;
 import java.util.Map;
 
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
@@ -53,6 +54,25 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
         XHTMLImageRenderer imageRenderer, ListenerChain listenerChain, String hint)
     {
         super(linkRenderer, imageRenderer, listenerChain, hint);
+
+        this.macroRenderer = new XHTMLMacroRenderer();
+    }
+    
+    /**
+     * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
+     *            rendering depends on how the underlying system wants to handle it. For example for XWiki we check if
+     *            the document exists, we get the document URL, etc.
+     * @param imageRenderer the object to render image events into XHTML. This is done so that it's pluggable because
+     *            image rendering depends on how the underlying system wants to handle it. For example for XWiki we
+     *            check if the image exists as a document attachments, we get its URL, etc.
+     * @param listenerChain the chain of listener filters used to compute various states
+     * @param hint indicating if we are in secure mode or not.
+     * @param extraAttributes list of extra attributes to authorize in secure renderers
+     */
+    public AnnotatedXHTMLChainingRenderer(XHTMLLinkRenderer linkRenderer,
+        XHTMLImageRenderer imageRenderer, ListenerChain listenerChain, String hint, List<String> extraAttributes)
+    {
+        super(linkRenderer, imageRenderer, listenerChain, hint, extraAttributes);
 
         this.macroRenderer = new XHTMLMacroRenderer();
     }
