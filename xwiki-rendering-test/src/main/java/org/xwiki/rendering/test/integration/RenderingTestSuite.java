@@ -37,7 +37,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.test.jmock.XWikiComponentInitializer;
+import org.xwiki.test.mockito.MockitoComponentManager;
 
 /**
  * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
@@ -100,6 +102,8 @@ public class RenderingTestSuite extends Suite
     {
         private final int parameterSetNumber;
 
+        private final MockitoComponentManager mockitoComponentManager = new MockitoComponentManager();
+
         private final XWikiComponentInitializer componentInitializer = new XWikiComponentInitializer();
 
         private final List<Object[]> parameterList;
@@ -126,7 +130,7 @@ public class RenderingTestSuite extends Suite
             Object[] originalObjects = this.parameterList.get(this.parameterSetNumber);
             Object[] newObjects = new Object[originalObjects.length];
             System.arraycopy(originalObjects, 1, newObjects, 0, originalObjects.length - 1);
-            newObjects[originalObjects.length - 1] = this.componentInitializer.getComponentManager();
+            newObjects[originalObjects.length - 1] = getComponentManager();
             return newObjects;
         }
 
@@ -161,13 +165,7 @@ public class RenderingTestSuite extends Suite
         @Override
         protected void runChild(FrameworkMethod method, RunNotifier notifier)
         {
-            try {
-                this.componentInitializer.initializeConfigurationSource();
-                this.componentInitializer.initializeExecution();
-            } catch (Exception e) {
-                notifier.fireTestFailure(new Failure(getDescription(),
-                    new RuntimeException("Failed to initialize Component Manager", e)));
-            }
+            initializeComponentManager(notifier);
 
             // Check all methods for a ComponentManager annotation and call the found ones.
             try {
@@ -175,7 +173,7 @@ public class RenderingTestSuite extends Suite
                     Initialized componentManagerAnnotation = klassMethod.getAnnotation(Initialized.class);
                     if (componentManagerAnnotation != null) {
                         // Call it!
-                        klassMethod.invoke(klassInstance, this.componentInitializer.getComponentManager());
+                        klassMethod.invoke(klassInstance, getComponentManager());
                     }
                 }
             } catch (Exception e) {
@@ -186,13 +184,63 @@ public class RenderingTestSuite extends Suite
             try {
                 super.runChild(method, notifier);
             } finally {
-                try {
+                shutdownComponentManager(notifier);
+            }
+        }
+
+        private void initializeComponentManager(RunNotifier notifier)
+        {
+            try {
+                if (isLegacyMode()) {
+                    this.componentInitializer.initializeConfigurationSource();
+                    this.componentInitializer.initializeExecution();
+                } else {
+                    this.mockitoComponentManager.initializeTest(klassInstance);
+                    this.mockitoComponentManager.registerMemoryConfigurationSource();
+                }
+            } catch (Exception e) {
+                notifier.fireTestFailure(new Failure(getDescription(),
+                    new RuntimeException("Failed to initialize Component Manager", e)));
+            }
+
+        }
+
+        private void shutdownComponentManager(RunNotifier notifier)
+        {
+            try {
+                if (isLegacyMode()) {
                     this.componentInitializer.shutdown();
-                } catch (Exception e) {
-                    notifier.fireTestFailure(new Failure(getDescription(),
-                        new RuntimeException("Failed to shutdown Component Manager", e)));
+                } else {
+                    this.mockitoComponentManager.shutdownTest();
+                }
+            } catch (Exception e) {
+                notifier.fireTestFailure(new Failure(getDescription(),
+                    new RuntimeException("Failed to shutdown Component Manager", e)));
+            }
+        }
+
+        private ComponentManager getComponentManager() throws Exception
+        {
+            if (isLegacyMode()) {
+                return this.componentInitializer.getComponentManager();
+            } else {
+                return this.mockitoComponentManager;
+            }
+        }
+
+        private boolean isLegacyMode()
+        {
+            boolean isLegacyMode = true;
+            for (Method klassMethod : klassInstance.getClass().getMethods()) {
+                Initialized componentManagerAnnotation = klassMethod.getAnnotation(Initialized.class);
+                if (componentManagerAnnotation != null) {
+                    if (MockitoComponentManager.class.isAssignableFrom(klassMethod.getParameterTypes()[0])) {
+                        isLegacyMode = false;
+                    }
+                    break;
                 }
             }
+            return isLegacyMode;
         }
     }
 
@@ -203,7 +251,7 @@ public class RenderingTestSuite extends Suite
      */
     public RenderingTestSuite(Class<?> klass) throws Throwable
     {
-        super(RenderingTest.class, Collections.<Runner>emptyList());
+        super(klass, Collections.<Runner>emptyList());
 
         try {
             this.klassInstance = klass.newInstance();
@@ -222,8 +270,7 @@ public class RenderingTestSuite extends Suite
         List<Object[]> parametersList = (List<Object[]>) GENERATOR.generateData(packagePrefix, pattern);
 
         for (int i = 0; i < parametersList.size(); i++) {
-            this.runners.add(new TestClassRunnerForParameters(getTestClass().getJavaClass(),
-                parametersList, i));
+            this.runners.add(new TestClassRunnerForParameters(RenderingTest.class, parametersList, i));
         }
     }
 
