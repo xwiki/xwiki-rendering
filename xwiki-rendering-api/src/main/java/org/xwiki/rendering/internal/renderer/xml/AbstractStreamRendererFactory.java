@@ -75,4 +75,10 @@ public abstract class AbstractStreamRendererFactory implements PrintRendererFact
     {
         return new ContentHandlerPrintRenderer(createContentHandlerStreamRenderer(), printer);
     }
+    
+    @Override
+    public PrintRenderer createSecureRenderer(WikiPrinter printer)
+    {
+        return createRenderer(printer);
+    }
 }
