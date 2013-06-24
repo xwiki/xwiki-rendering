@@ -58,7 +58,7 @@ import org.xwiki.test.mockito.MockitoComponentManager;
  * public class IntegrationTests
  * {
  *     @RenderingTestSuite.Initialized
- *     public void initialize(ComponentManager componentManager)
+ *     public void initialize(MockitoComponentManager componentManager)
  *     {
  *         // Init mocks here for example
  *     }
