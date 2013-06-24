@@ -1,0 +1,9 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Verify that unauthorized attributes are cleaned
+.#-----------------------------------------------------
+<p onclick="alert('XSS')" class="test">something</p>
+.#-----------------------------------------------------
+.expect|securexhtml/1.0
+.#-----------------------------------------------------
+<p class="test">something</p>

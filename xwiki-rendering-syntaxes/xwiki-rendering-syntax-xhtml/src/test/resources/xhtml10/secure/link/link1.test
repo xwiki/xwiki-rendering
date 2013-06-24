@@ -1,0 +1,9 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Verify that href / src attributes are correctly protected
+.#-----------------------------------------------------
+<a href="javascript:alert('XSS')">Link</a>
+.#-----------------------------------------------------
+.expect|securexhtml/1.0
+.#-----------------------------------------------------
+<p><span class="wikiexternallink"><a>Link</a></span></p>

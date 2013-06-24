@@ -1,0 +1,9 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Verify that url are authorized in href/src attributes
+.#-----------------------------------------------------
+<a href="http://www.xwiki.org">XWiki</a>
+.#-----------------------------------------------------
+.expect|securexhtml/1.0
+.#-----------------------------------------------------
+<p><span class="wikiexternallink"><a href="http://www.xwiki.org">XWiki</a></span></p>
