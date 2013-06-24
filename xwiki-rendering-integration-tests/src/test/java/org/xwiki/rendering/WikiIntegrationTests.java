@@ -20,11 +20,12 @@
 package org.xwiki.rendering;
 
 import org.junit.runner.RunWith;
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.internal.configuration.DefaultRenderingConfiguration;
 import org.xwiki.rendering.test.MockWikiModel;
 import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.mockito.MockitoComponentManager;
 
 /**
  * Run all tests found in {@code wiki/*.test} files located in the classpath. These {@code *.test} files must follow
@@ -35,10 +36,11 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  */
 @RunWith(RenderingTestSuite.class)
 @RenderingTestSuite.Scope("wiki")
+@AllComponents
 public class WikiIntegrationTests
 {
     @RenderingTestSuite.Initialized
-    public void initialize(ComponentManager componentManager) throws Exception
+    public void initialize(MockitoComponentManager componentManager) throws Exception
     {
         componentManager.registerComponent(MockWikiModel.getComponentDescriptor());
 

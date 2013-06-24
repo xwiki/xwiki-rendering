@@ -55,6 +55,7 @@ import org.xwiki.test.mockito.MockitoComponentManager;
  * Mock implementations of components. For example:</p>
  * <code>
  * @RunWith(RenderingTestSuite.class)
+ * @AllComponents
  * public class IntegrationTests
  * {
  *     @RenderingTestSuite.Initialized
