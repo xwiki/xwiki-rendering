@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-macros</artifactId>
-    <version>5.1-SNAPSHOT</version>
+    <version>5.2-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-macro-jira</artifactId>
   <name>XWiki Rendering - Macro - JIRA</name>
