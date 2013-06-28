@@ -33,6 +33,7 @@
   <name>XWiki Rendering - Macro - Id</name>
   <description>Allows putting a reference/location in a page</description>
   <properties>
+    <xwiki.jacoco.instructionRatio>1</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Id Macro</xwiki.extension.name>
   </properties>

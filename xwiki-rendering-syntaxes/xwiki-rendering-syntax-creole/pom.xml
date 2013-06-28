@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-syntax-creole</artifactId>
   <name>XWiki Rendering - Syntax - Creole</name>
   <description>XWiki Rendering - Syntax - Creole</description>
+  <properties>
+    <xwiki.jacoco.instructionRatio>1</xwiki.jacoco.instructionRatio>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

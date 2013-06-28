@@ -33,7 +33,7 @@
   <name>XWiki Rendering - Transformation - Link Checker</name>
   <description>Verifies if external URLs are valid and decorate with parameters if not</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>74.35</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.74</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>

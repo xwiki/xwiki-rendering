@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-syntax-twiki</artifactId>
   <name>XWiki Rendering - Syntax - TWiki</name>
   <description>XWiki Rendering - Syntax - TWiki</description>
+  <properties>
+    <xwiki.jacoco.instructionRatio>1</xwiki.jacoco.instructionRatio>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

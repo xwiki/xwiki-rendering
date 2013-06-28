@@ -33,7 +33,7 @@
   <name>XWiki Rendering - Syntax - Markdown</name>
   <description>XWiki Rendering - Syntax - Markdown</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>91.61</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.91</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>

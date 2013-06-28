@@ -32,4 +32,7 @@
   <artifactId>xwiki-rendering-transformation-wikiword</artifactId>
   <name>XWiki Rendering - Transformation - WikiWord</name>
   <description>XWiki Rendering - Transformation - WikiWord</description>
+  <properties>
+    <xwiki.jacoco.instructionRatio>1</xwiki.jacoco.instructionRatio>
+  </properties>
 </project>

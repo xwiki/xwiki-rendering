@@ -33,7 +33,7 @@
   <name>XWiki Rendering - Macro - JIRA</name>
   <description>Fetches information from a JIRA server and displays them as a table, list or enumeration</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>96.00</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.96</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>JIRA Macro</xwiki.extension.name>
   </properties>

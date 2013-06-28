@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-syntax-mediawiki</artifactId>
   <name>XWiki Rendering - Syntax - MediaWiki</name>
   <description>XWiki Rendering - Syntax - MediaWiki</description>
+  <properties>
+    <xwiki.jacoco.instructionRatio>1</xwiki.jacoco.instructionRatio>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

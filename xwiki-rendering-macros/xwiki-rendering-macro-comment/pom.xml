@@ -33,6 +33,7 @@
   <name>XWiki Rendering - Macro - Comment</name>
   <description>Allow adding comment not displayed to end users</description>
   <properties>
+    <xwiki.jacoco.instructionRatio>1</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Comment Macro</xwiki.extension.name>
   </properties>

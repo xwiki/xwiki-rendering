@@ -33,6 +33,6 @@
   <name>XWiki Rendering - Transformation - Icon</name>
   <description>XWiki Rendering - Transformation - Icon</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>93.82</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.93</xwiki.jacoco.instructionRatio>
   </properties>
 </project>

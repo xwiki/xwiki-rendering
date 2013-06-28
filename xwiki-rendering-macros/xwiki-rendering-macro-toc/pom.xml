@@ -33,7 +33,7 @@
   <name>XWiki Rendering - Macro - Toc</name>
   <description>Generates a Table Of Content for titles (headings)</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>97.98</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.97</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>TOC Macro</xwiki.extension.name>
   </properties>

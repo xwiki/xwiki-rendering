@@ -33,7 +33,7 @@
   <name>XWiki Rendering - Syntax - Annotated XHTML</name>
   <description>XWiki Rendering - Syntax - Annotated XHTML</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>90.15</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.90</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>

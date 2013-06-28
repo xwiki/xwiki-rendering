@@ -32,6 +32,9 @@
   <artifactId>xwiki-rendering-syntax-confluence</artifactId>
   <name>XWiki Rendering - Syntax - Confluence</name>
   <description>XWiki Rendering - Syntax - Confluence</description>
+  <properties>
+    <xwiki.jacoco.instructionRatio>1</xwiki.jacoco.instructionRatio>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
