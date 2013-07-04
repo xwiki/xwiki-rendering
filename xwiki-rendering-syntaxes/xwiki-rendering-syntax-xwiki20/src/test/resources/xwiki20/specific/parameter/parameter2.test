@@ -1,0 +1,18 @@
+.#-----------------------------------------------------------------
+.input|xwiki/2.0
+.# Verify that "~~%)" is not considered as closing parameter syntax
+.#-----------------------------------------------------------------
+(% a=~~%) %)something
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginFormat [NONE] [[a]=[~]]
+onSpace
+onSpecialSymbol [%]
+onSpecialSymbol [)]
+onWord [something]
+endFormat [NONE] [[a]=[~]]
+endParagraph
+endDocument
