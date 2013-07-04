@@ -44,7 +44,11 @@ public class XWikiSyntaxEscapeHandler
 
     private static final Pattern TABLE_PATTERN = Pattern.compile("\\p{Blank}*(\\||!!)");
 
-    private static final Pattern DOUBLE_CHARS_PATTERN = Pattern.compile("\\/\\/|\\*\\*|__|--|\\^\\^|,,|##|\\\\\\\\");
+    /**
+     * Note that we take care to not match if the first character is preceded by an escape (i.e. '~).
+     */
+    private static final Pattern DOUBLE_CHARS_PATTERN = Pattern.compile(
+        "(?<!~)\\/\\/|(?<!~)\\*\\*|(?<!~)__|(?<!~)--|(?<!~)\\^\\^|(?<!~),,|(?<!~)##|(?<!~)\\\\\\\\");
 
     public static final String ESCAPE_CHAR = "~";
 
