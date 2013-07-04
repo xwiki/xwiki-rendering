@@ -38,6 +38,8 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.jmock.XWikiComponentInitializer;
 import org.xwiki.test.mockito.MockitoComponentManager;
 
@@ -241,6 +243,13 @@ public class RenderingTestSuite extends Suite
                     break;
                 }
             }
+            // If the class is using either @AllComponents or @ComponentList then consider we're not in legacy.
+            if (isLegacyMode && (klassInstance.getClass().getAnnotation(AllComponents.class) != null
+                || klassInstance.getClass().getAnnotation(ComponentList.class) != null))
+            {
+                isLegacyMode = false;
+            }
+
             return isLegacyMode;
         }
     }

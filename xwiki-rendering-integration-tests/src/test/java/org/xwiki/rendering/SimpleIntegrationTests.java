@@ -21,6 +21,7 @@ package org.xwiki.rendering;
 
 import org.junit.runner.RunWith;
 import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Run all tests found in {@code simple/*.test} files located in the classpath. These {@code *.test} files must follow
@@ -31,7 +32,7 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  */
 @RunWith(RenderingTestSuite.class)
 @RenderingTestSuite.Scope("simple")
+@AllComponents
 public class SimpleIntegrationTests
 {
-
 }
