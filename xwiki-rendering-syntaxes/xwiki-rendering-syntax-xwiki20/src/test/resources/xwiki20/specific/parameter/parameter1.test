@@ -1,0 +1,15 @@
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Verify that unclosed quotes are supported
+.#-----------------------------------------------------
+(% a="b %)something
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginFormat [NONE] [[a]=[b ]]
+onWord [something]
+endFormat [NONE] [[a]=[b ]]
+endParagraph
+endDocument
