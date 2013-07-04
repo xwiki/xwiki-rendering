@@ -454,7 +454,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     {
         StringBuffer parametersStr = new StringBuffer();
         for (Map.Entry<String, ? extends Object> entry : parameters.entrySet()) {
-            String value = entry.getValue().toString();
+            String value = entry.getValue() == null ? null : entry.getValue().toString();
             String key = entry.getKey();
 
             if (key != null && value != null) {
