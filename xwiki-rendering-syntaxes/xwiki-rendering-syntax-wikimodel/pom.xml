@@ -33,7 +33,7 @@
   <name>XWiki Rendering - Syntax - WikiModel Bridge</name>
   <description>Bridge WikiModel Model and XWiki Rendering Model</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.00</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>

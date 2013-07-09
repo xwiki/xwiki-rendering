@@ -33,7 +33,7 @@
   <name>XWiki Rendering - Syntax - TeX</name>
   <description>XWiki Rendering - Syntax - TeX</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.06</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.96</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>
