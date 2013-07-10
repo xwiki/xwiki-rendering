@@ -26,9 +26,9 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.properties.converter.AbstractConverter;
+import org.xwiki.properties.converter.ConversionException;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
-import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 
 /**
  * XWiki Properties Bean Converter to convert Strings into
@@ -48,12 +48,6 @@ public class ResourceReferenceConverter extends AbstractConverter<ResourceRefere
     @Inject
     private ResourceReferenceParser referenceParser;
 
-    /**
-     * Used to convert Resource References from ResourceReference object to String.
-     */
-    @Inject
-    private ResourceReferenceSerializer referenceSerializer;
-
     @Override
     protected <G extends ResourceReference> G convertToType(Type targetType, Object value)
     {
@@ -68,6 +62,6 @@ public class ResourceReferenceConverter extends AbstractConverter<ResourceRefere
     @Override
     protected String convertToString(ResourceReference value)
     {
-        return this.referenceSerializer.serialize(value);
+        throw new ConversionException("not implemented yet");
     }
 }
