@@ -8,6 +8,7 @@ org.xwiki.rendering.internal.parser.reference.DefaultLinkReferenceParser
 org.xwiki.rendering.internal.parser.reference.DefaultImageReferenceParser
 org.xwiki.rendering.internal.parser.reference.DefaultUntypedLinkReferenceParser
 org.xwiki.rendering.internal.parser.reference.DefaultUntypedImageReferenceParser
+org.xwiki.rendering.internal.parser.reference.ResourceReferenceConverter
 org.xwiki.rendering.internal.parser.reference.type.DocumentResourceReferenceTypeParser
 org.xwiki.rendering.internal.parser.reference.type.InterWikiResourceReferenceTypeParser
 org.xwiki.rendering.internal.parser.reference.type.URLResourceReferenceTypeParser
@@ -16,7 +17,6 @@ org.xwiki.rendering.internal.parser.reference.type.AttachmentResourceReferenceTy
 org.xwiki.rendering.internal.parser.reference.type.PathResourceReferenceTypeParser
 org.xwiki.rendering.internal.parser.reference.type.IconResourceReferenceTypeParser
 org.xwiki.rendering.internal.parser.reference.type.UNCResourceReferenceTypeParser
-org.xwiki.rendering.internal.parser.reference.ResourceReferenceConverter
 org.xwiki.rendering.internal.renderer.DefaultLinkLabelGenerator
 org.xwiki.rendering.internal.renderer.DefaultAttachmentURILabelGenerator
 org.xwiki.rendering.internal.renderer.MailtoURILabelGenerator

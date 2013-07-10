@@ -21,6 +21,8 @@ package org.xwiki.rendering.internal.syntax;
 
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,18 +31,29 @@ import org.xwiki.properties.converter.Converter;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxFactory;
+import org.xwiki.test.annotation.BeforeComponent;
+import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
 /**
- * Unit tests for {@link SyntaxConverter}.
+ * Unit tests for {@link DeprecatedSyntaxConverter}.
  * 
  * @version $Id$
  */
-public class SyntaxConverterTest
+@ComponentList(SyntaxConverter.class)
+public class DeprecatedSyntaxConverterTest
 {
     @Rule
-    public MockitoComponentMockingRule<Converter<Syntax>> mocker = new MockitoComponentMockingRule<Converter<Syntax>>(
-        SyntaxConverter.class);
+    public MockitoComponentMockingRule<Converter> mocker = new MockitoComponentMockingRule<Converter>(
+        DeprecatedSyntaxConverter.class, Arrays.asList(Converter.class));
+
+    @BeforeComponent
+    public void beforeComponent() throws Exception
+    {
+        this.mocker.registerMockComponent(SyntaxFactory.class);
+    }
+
+    // Tests
 
     @Test
     public void convertToSyntaxObject() throws Exception
@@ -48,7 +61,7 @@ public class SyntaxConverterTest
         final SyntaxFactory factory = this.mocker.getInstance(SyntaxFactory.class);
         when(factory.createSyntaxFromIdString("xwiki/2.1")).thenReturn(Syntax.XWIKI_2_1);
 
-        Syntax syntax = this.mocker.getComponentUnderTest().convert(Syntax.class, "xwiki/2.1");
+        Syntax syntax = (Syntax) this.mocker.getComponentUnderTest().convert(Syntax.class, "xwiki/2.1");
         Assert.assertEquals(Syntax.XWIKI_2_1, syntax);
     }
 
@@ -69,21 +82,21 @@ public class SyntaxConverterTest
     @Test
     public void convertToSyntaxObjectWhenNull() throws Exception
     {
-        Syntax syntax = this.mocker.getComponentUnderTest().convert(Syntax.class, null);
+        Syntax syntax = (Syntax) this.mocker.getComponentUnderTest().convert(Syntax.class, null);
         Assert.assertNull(syntax);
     }
 
     @Test
     public void convertToString() throws Exception
     {
-        String syntaxId = this.mocker.getComponentUnderTest().convert(String.class, Syntax.XWIKI_2_1);
+        String syntaxId = (String) this.mocker.getComponentUnderTest().convert(String.class, Syntax.XWIKI_2_1);
         Assert.assertEquals(Syntax.XWIKI_2_1.toIdString(), syntaxId);
     }
 
     @Test
     public void convertToStringWhenNull() throws Exception
     {
-        String syntaxId = this.mocker.getComponentUnderTest().convert(String.class, null);
+        String syntaxId = (String) this.mocker.getComponentUnderTest().convert(String.class, null);
         Assert.assertNull(syntaxId);
     }
 }

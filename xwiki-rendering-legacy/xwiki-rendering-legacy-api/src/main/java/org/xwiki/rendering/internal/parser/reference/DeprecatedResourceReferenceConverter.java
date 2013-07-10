@@ -22,52 +22,37 @@ package org.xwiki.rendering.internal.parser.reference;
 import java.lang.reflect.Type;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.properties.converter.AbstractConverter;
+import org.xwiki.properties.converter.Converter;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.parser.ResourceReferenceParser;
-import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 
 /**
  * XWiki Properties Bean Converter to convert Strings into
  * {@link org.xwiki.rendering.listener.reference.ResourceReference}.
  * 
  * @version $Id$
- * @since 5.2M1
+ * @since 2.6M1
  * @see org.xwiki.properties.converter.Converter
+ * @deprecated since 5.2M1 use {@link ResourceReferenceConverter} instead
  */
 @Component
+@Named("org.xwiki.rendering.listener.reference.ResourceReference")
 @Singleton
-public class ResourceReferenceConverter extends AbstractConverter<ResourceReference>
+@Deprecated
+public class DeprecatedResourceReferenceConverter implements Converter
 {
     /**
-     * Used to convert Resource References from String to ResourceReference object.
+     * The actual converter.
      */
     @Inject
-    private ResourceReferenceParser referenceParser;
-
-    /**
-     * Used to convert Resource References from ResourceReference object to String.
-     */
-    @Inject
-    private ResourceReferenceSerializer referenceSerializer;
+    private Converter<ResourceReference> converter;
 
     @Override
-    protected <G extends ResourceReference> G convertToType(Type targetType, Object value)
+    public Object convert(Type targetType, Object sourceValue)
     {
-        G reference = null;
-        if (value != null) {
-            reference = (G) this.referenceParser.parse(value.toString());
-        }
-
-        return reference;
-    }
-
-    @Override
-    protected String convertToString(ResourceReference value)
-    {
-        return this.referenceSerializer.serialize(value);
+        return this.converter.convert(targetType, sourceValue);
     }
 }
