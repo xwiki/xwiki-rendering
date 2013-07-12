@@ -19,8 +19,10 @@
  */
 package org.xwiki.rendering.internal.renderer.xml;
 
+import java.io.IOException;
 import java.io.Writer;
 
+import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
 /**
@@ -32,11 +34,26 @@ import org.dom4j.io.XMLWriter;
 public class SAXSerializer extends XMLWriter
 {
     /**
+     * Indicate if something has been written already (only used when formatting is enabled).
+     */
+    private boolean started;
+
+    /**
      * @param writer the actual writer
      */
     public SAXSerializer(Writer writer)
     {
         super(writer);
+    }
+
+    /**
+     * @param writer the actual writer
+     * @param format the XML format to use
+     * @since 5.2M1
+     */
+    public SAXSerializer(Writer writer, OutputFormat format)
+    {
+        super(writer, format);
     }
 
     @Override
@@ -49,5 +66,18 @@ public class SAXSerializer extends XMLWriter
         escapedTest = escapedTest.replace("\r", "&#13;");
 
         return escapedTest;
+    }
+
+    // Workaround a XMLWriter with the first new line
+    @Override
+    protected void writePrintln() throws IOException
+    {
+        if (getOutputFormat().isNewlines()) {
+            if (this.started) {
+                super.writePrintln();
+            }
+
+            this.started = true;
+        }
     }
 }

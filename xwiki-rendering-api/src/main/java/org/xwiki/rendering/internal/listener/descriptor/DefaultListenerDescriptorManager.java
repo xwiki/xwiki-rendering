@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.listener.Listener;
+import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.rendering.listener.descriptor.ListenerDescriptor;
 import org.xwiki.rendering.listener.descriptor.ListenerDescriptorManager;
 import org.xwiki.rendering.listener.descriptor.ListenerElement;
@@ -79,7 +79,7 @@ public class DefaultListenerDescriptorManager implements ListenerDescriptorManag
     {
         ListenerDescriptor descriptor = new ListenerDescriptor();
 
-        for (Method method : Listener.class.getMethods()) {
+        for (Method method : ReflectionUtils.getTypeClass(type).getMethods()) {
             String methodName = method.getName();
 
             String elementName;
@@ -97,29 +97,65 @@ public class DefaultListenerDescriptorManager implements ListenerDescriptorManag
                 elementName =
                     Character.toLowerCase(elementName.charAt(0)) + elementName.substring(1, elementName.length());
 
-                ListenerElement element = descriptor.getElements().get(elementName.toLowerCase());
-
-                if (element == null) {
-                    element = new ListenerElement(elementName);
-
-                    for (Type parameterType : method.getGenericParameterTypes()) {
-                        element.getParameters().add(parameterType);
-                    }
-
-                    descriptor.getElements().put(elementName.toLowerCase(), element);
-                }
-
-                if (methodName.startsWith(PREFIX_BEGIN)) {
-                    element.setBeginMethod(method);
-                } else if (methodName.startsWith(PREFIX_END)) {
-                    element.setEndMethod(method);
-                } else {
-                    element.setOnMethod(method);
-                }
+                addElement(elementName, descriptor, method);
             }
 
         }
 
         return descriptor;
+    }
+
+    /**
+     * @param elementName the name of the element
+     * @param descriptor the descriptor in which to add the element
+     * @param method the method associated to the element
+     */
+    private void addElement(String elementName, ListenerDescriptor descriptor, Method method)
+    {
+        String lowerElementName = elementName.toLowerCase();
+
+        ListenerElement element = descriptor.getElements().get(lowerElementName);
+
+        Type[] methodTypes = method.getGenericParameterTypes();
+        // TODO: add support for multiple methods
+        if (element == null || methodTypes.length > element.getParameters().size()) {
+            element = new ListenerElement(elementName);
+
+            element.getParameters().clear();
+            for (Type parameterType : method.getGenericParameterTypes()) {
+                element.getParameters().add(parameterType);
+            }
+
+            descriptor.getElements().put(lowerElementName, element);
+        }
+
+        addMethod(element, method);
+    }
+
+    /**
+     * @param element the element
+     * @param method the method to add to the element
+     */
+    private void addMethod(ListenerElement element, Method method)
+    {
+        String methodName = method.getName();
+        Type[] methodTypes = method.getGenericParameterTypes();
+
+        if (methodName.startsWith(PREFIX_BEGIN)) {
+            if (element.getBeginMethod() == null
+                || element.getBeginMethod().getGenericParameterTypes().length < methodTypes.length) {
+                element.setBeginMethod(method);
+            }
+        } else if (methodName.startsWith(PREFIX_END)) {
+            if (element.getEndMethod() == null
+                || element.getEndMethod().getGenericParameterTypes().length < methodTypes.length) {
+                element.setEndMethod(method);
+            }
+        } else {
+            if (element.getOnMethod() == null
+                || element.getOnMethod().getGenericParameterTypes().length < methodTypes.length) {
+                element.setOnMethod(method);
+            }
+        }
     }
 }

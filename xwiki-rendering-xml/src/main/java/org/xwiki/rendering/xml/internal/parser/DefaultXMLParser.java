@@ -29,6 +29,8 @@ import java.util.regex.Matcher;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -50,6 +52,11 @@ import org.xwiki.xml.Sax2Dom;
  */
 public class DefaultXMLParser extends DefaultHandler implements XMLParser
 {
+    /**
+     * Logging helper object.
+     */
+    protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultXMLParser.class);
+
     private ParameterManager parameterManager;
 
     private ConverterManager stringConverter;
@@ -68,6 +75,8 @@ public class DefaultXMLParser extends DefaultHandler implements XMLParser
 
     public static class Block
     {
+        public String name;
+
         public ListenerElement listenerElement;
 
         public boolean beginSent = false;
@@ -80,15 +89,16 @@ public class DefaultXMLParser extends DefaultHandler implements XMLParser
 
         private Object[] parametersTable;
 
-        public Block(ListenerElement listenerElement, int elementDepth)
+        public Block(String name, ListenerElement listenerElement, int elementDepth)
         {
+            this.name = name;
             this.listenerElement = listenerElement;
             this.elementDepth = elementDepth;
         }
 
         public boolean isContainer()
         {
-            return this.listenerElement.getOnMethod() == null;
+            return this.listenerElement != null && this.listenerElement.getBeginMethod() != null;
         }
 
         public void setParameter(int index, Object parameter)
@@ -121,18 +131,24 @@ public class DefaultXMLParser extends DefaultHandler implements XMLParser
 
         public void fireBeginEvent(Object listener, Object[] parameters) throws SAXException
         {
-            fireEvent(this.listenerElement.getBeginMethod(), listener, parameters);
+            if (this.listenerElement != null) {
+                fireEvent(this.listenerElement.getBeginMethod(), listener, parameters);
+            }
             this.beginSent = true;
         }
 
         public void fireEndEvent(Object listener, Object[] parameters) throws SAXException
         {
-            fireEvent(this.listenerElement.getEndMethod(), listener, parameters);
+            if (this.listenerElement != null) {
+                fireEvent(this.listenerElement.getEndMethod(), listener, parameters);
+            }
         }
 
         public void fireOnEvent(Object listener, Object[] parameters) throws SAXException
         {
-            fireEvent(this.listenerElement.getOnMethod(), listener, parameters);
+            if (this.listenerElement != null) {
+                fireEvent(this.listenerElement.getOnMethod(), listener, parameters);
+            }
         }
 
         private void fireEvent(Method eventMethod, Object listener, Object[] parameters) throws SAXException
@@ -237,7 +253,7 @@ public class DefaultXMLParser extends DefaultHandler implements XMLParser
         if (onBlockElement(qName)) {
             if (currentBlock != null) {
                 // send previous event
-                if (currentBlock.listenerElement != null && !currentBlock.beginSent) {
+                if (!currentBlock.beginSent) {
                     currentBlock.fireBeginEvent(this.listener, currentBlock.getParametersTable());
                 }
             }
@@ -247,7 +263,8 @@ public class DefaultXMLParser extends DefaultHandler implements XMLParser
 
             currentBlock = this.blockStack.push(block);
 
-            if (!block.isContainer() && block.listenerElement.getParameters().size() == 1
+            if (!block.isContainer() && block.listenerElement != null
+                && block.listenerElement.getParameters().size() == 1
                 && XMLUtils.isSimpleType(block.listenerElement.getParameters().get(0))) {
                 this.content = new StringBuilder();
             }
@@ -259,13 +276,21 @@ public class DefaultXMLParser extends DefaultHandler implements XMLParser
                 if (this.configuration.getElementParameterPattern().matcher(attributeName).matches()) {
                     int parameterIndex = extractParameterIndex(attributeName);
 
-                    Type type = block.listenerElement.getParameters().get(parameterIndex);
-                    Class< ? > typeClass = ReflectionUtils.getTypeClass(type);
+                    if (block.listenerElement != null) {
+                        if (block.listenerElement.getParameters().size() > parameterIndex) {
+                            Type type = block.listenerElement.getParameters().get(parameterIndex);
+                            Class< ? > typeClass = ReflectionUtils.getTypeClass(type);
 
-                    if (XMLUtils.isSimpleType(typeClass)) {
-                        block.setParameter(parameterIndex, this.stringConverter.convert(type, attributes.getValue(i)));
-                    } else {
-                        block.setParameter(parameterIndex, XMLUtils.defaultValue(typeClass));
+                            if (XMLUtils.isSimpleType(typeClass)) {
+                                block.setParameter(parameterIndex,
+                                    this.stringConverter.convert(type, attributes.getValue(i)));
+                            } else {
+                                block.setParameter(parameterIndex, XMLUtils.defaultValue(typeClass));
+                            }
+                        } else {
+                            LOGGER.warn("Unknown element parameter [{}] (=[{}]) in block [{}]", attributeName,
+                                attributes.getValue(i), block.name);
+                        }
                     }
                 }
             }
@@ -379,6 +404,10 @@ public class DefaultXMLParser extends DefaultHandler implements XMLParser
 
         ListenerElement element = this.listenerDescriptor.getElements().get(blockName.toLowerCase());
 
-        return new Block(element, this.elementDepth);
+        if (element == null) {
+            LOGGER.warn("Uknown listener element [{}]", blockName);
+        }
+
+        return new Block(qName, element, this.elementDepth);
     }
 }
