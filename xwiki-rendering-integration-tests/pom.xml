@@ -90,6 +90,12 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-markdown11</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-twiki</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>

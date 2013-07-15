@@ -1,0 +1,61 @@
+.#-----------------------------------------------------
+.input|markdown/1.1
+.# Test table colspan
+.#-----------------------------------------------------
+Names ||
+ Name | Firstname | Age
+------|-----------|----:
+  Fox | Peter     | 42
+  Guy | Ritchie   | 60
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginTable
+beginTableRow
+beginTableHeadCell [[colspan]=[2]]
+onWord [Names]
+onSpace
+endTableHeadCell [[colspan]=[2]]
+endTableRow
+beginTableRow
+beginTableHeadCell
+onWord [Name]
+onSpace
+endTableHeadCell
+beginTableHeadCell
+onWord [Firstname]
+onSpace
+endTableHeadCell
+beginTableHeadCell [[align]=[right]]
+onWord [Age]
+endTableHeadCell [[align]=[right]]
+endTableRow
+beginTableRow
+beginTableCell
+onWord [Fox]
+onSpace
+endTableCell
+beginTableCell
+onWord [Peter]
+onSpace
+endTableCell
+beginTableCell [[align]=[right]]
+onWord [42]
+endTableCell [[align]=[right]]
+endTableRow
+beginTableRow
+beginTableCell
+onWord [Guy]
+onSpace
+endTableCell
+beginTableCell
+onWord [Ritchie]
+onSpace
+endTableCell
+beginTableCell [[align]=[right]]
+onWord [60]
+endTableCell [[align]=[right]]
+endTableRow
+endTable
+endDocument

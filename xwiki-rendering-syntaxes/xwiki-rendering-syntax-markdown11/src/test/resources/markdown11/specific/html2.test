@@ -1,0 +1,23 @@
+.#-----------------------------------------------------
+.input|markdown/1.1
+.# Inline HTML
+.#-----------------------------------------------------
+hello **<del>world</del>**
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [hello]
+onSpace
+beginFormat [BOLD]
+onRawText [<del>] [html/4.01]
+onWord [world]
+onRawText [</del>] [html/4.01]
+endFormat [BOLD]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>hello <strong><del>world</del></strong></p>
