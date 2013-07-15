@@ -29,9 +29,9 @@
     <artifactId>xwiki-rendering-syntaxes</artifactId>
     <version>5.2-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntax-markdown</artifactId>
-  <name>XWiki Rendering - Syntax - Markdown</name>
-  <description>XWiki Rendering - Syntax - Markdown</description>
+  <artifactId>xwiki-rendering-syntax-markdown10</artifactId>
+  <name>XWiki Rendering - Syntax - Markdown 1.0</name>
+  <description>XWiki Rendering - Syntax - Markdown 1.0</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.91</xwiki.jacoco.instructionRatio>
   </properties>
