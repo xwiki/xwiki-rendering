@@ -20,10 +20,14 @@
 package org.xwiki.rendering.internal.parser.markdown11;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.pegdown.ast.Node;
 import org.pegdown.ast.TextNode;
 import org.xwiki.rendering.internal.parser.markdown.AbstractTablePegdownVisitor;
+import org.xwiki.rendering.internal.parser.markdown11.ast.MacroNode;
+import org.xwiki.rendering.internal.parser.markdown11.ast.MacroParameterNode;
 import org.xwiki.rendering.internal.parser.markdown11.ast.SubscriptNode;
 import org.xwiki.rendering.internal.parser.markdown11.ast.SuperscriptNode;
 import org.xwiki.rendering.listener.Format;
@@ -44,6 +48,8 @@ public abstract class AbstractPluginsPegdownVisitor extends AbstractTablePegdown
             visit((SuperscriptNode) node);
         } else if (node instanceof SubscriptNode) {
             visit((SubscriptNode) node);
+        } else if (node instanceof MacroNode) {
+            visit((MacroNode) node);
         } else {
             throw new RuntimeException("Don't know how to handle node " + node);
         }
@@ -63,6 +69,21 @@ public abstract class AbstractPluginsPegdownVisitor extends AbstractTablePegdown
     public void visit(SubscriptNode node)
     {
         handleFormatted(node, Format.SUBSCRIPT);
+    }
+
+    /**
+     * @param node a macro node
+     */
+    public void visit(MacroNode node)
+    {
+        Map<String, String> parameters = new LinkedHashMap<String, String>(node.getParameters().size());
+        for (MacroParameterNode param : node.getParameters()) {
+            parameters.put(param.getName(), param.getValue());
+        }
+        String content = extractText(node);
+        content = content.length() > 0 ? content : null;
+
+        getListener().onMacro(node.getMacroId(), parameters, content, false);
     }
 
     /**

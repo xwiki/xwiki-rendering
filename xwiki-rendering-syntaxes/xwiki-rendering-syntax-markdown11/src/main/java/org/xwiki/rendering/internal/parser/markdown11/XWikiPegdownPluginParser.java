@@ -20,10 +20,16 @@
 package org.xwiki.rendering.internal.parser.markdown11;
 
 import org.parboiled.Rule;
+import org.parboiled.annotations.Cached;
+import org.parboiled.annotations.DontSkipActionsInPredicates;
 import org.parboiled.support.StringBuilderVar;
+import org.parboiled.support.Var;
 import org.pegdown.Parser;
+import org.pegdown.ast.TextNode;
 import org.pegdown.plugins.BlockPluginParser;
 import org.pegdown.plugins.InlinePluginParser;
+import org.xwiki.rendering.internal.parser.markdown11.ast.MacroNode;
+import org.xwiki.rendering.internal.parser.markdown11.ast.MacroParameterNode;
 import org.xwiki.rendering.internal.parser.markdown11.ast.SubscriptNode;
 import org.xwiki.rendering.internal.parser.markdown11.ast.SuperscriptNode;
 
@@ -35,6 +41,17 @@ import org.xwiki.rendering.internal.parser.markdown11.ast.SuperscriptNode;
  */
 public class XWikiPegdownPluginParser extends Parser implements InlinePluginParser, BlockPluginParser
 {
+    /**
+     * String to open the XWiki-style macro tag.
+     */
+    private static final String MACRO_TAG_OPEN_MARK = "{{";
+
+    /**
+     * String to close the XWiki-style macro tag.
+     */
+    private static final String MACRO_TAG_CLOSE_MARK = "}}";
+
+
     public XWikiPegdownPluginParser()
     {
         super(ALL, 1000l, DefaultParseRunnerProvider);
@@ -43,13 +60,13 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
     @Override
     public Rule[] blockPluginRules()
     {
-        return new Rule[] { };
+        return new Rule[] { XWikiMacro(), MarkdownMacro() };
     }
 
     @Override
     public Rule[] inlinePluginRules()
     {
-        return new Rule[] { Superscript(), Subscript() };
+        return new Rule[] { Superscript(), Subscript(), MarkdownMacro() };
     }
 
 
@@ -110,5 +127,177 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
                         )
                 )
         );
+    }
+
+
+    //////// Macro ////////
+
+    /**
+     * Rule for Markdown-style macro syntax.
+     *
+     * Examples: <tt>#[mymacro par1=val1 par2="val 2"](content)</tt>,
+     *           <tt>#[mymacro](content)</tt>,
+     *           <tt>#[mymacro par1=val1]</tt>,
+     *           <tt>#[mymacro]</tt>,
+     */
+    public Rule MarkdownMacro() {
+        return NodeSequence(
+                "#[",
+                Identifier(), push(new MacroNode(match())),
+                Sp(),
+                ZeroOrMore(
+                        MacroParameter(EMPTY),
+                        Sp()
+                ),
+                ']',
+                Optional(
+                        '(',
+                        OneOrMore(
+                                TestNot(')'),
+                                ANY
+                        ), push(new TextNode(match())) && addAsChild(),
+                        ')'
+                )
+        );
+    }
+
+    /**
+     * Rule for XWiki-style macro syntax.
+     *
+     * Examples: <tt>{{mymacro par1=val1 par2="val 2"}}content{{/mymacro}}</tt>,
+     *           <tt>{{mymacro}}content{{/mymacro}}</tt>,
+     *           <tt>{{mymacro par1=val1 /}}</tt>,
+     *           <tt>{{mymacro /}}</tt>
+     */
+    public Rule XWikiMacro()
+    {
+        Var<MacroNode> node = new Var<MacroNode>();
+        return NodeSequence(
+                MACRO_TAG_OPEN_MARK,
+                Identifier(), push(node.setAndGet(new MacroNode(match()))),
+                Spn1(),
+                ZeroOrMore(
+                        Test(Identifier()),
+                        MacroParameter(Spn1()),
+                        Spn1()
+                ),
+                FirstOf(
+                        Sequence('/', MACRO_TAG_CLOSE_MARK),
+                        Sequence(
+                                MACRO_TAG_CLOSE_MARK,
+                                Optional(Newline()),
+                                XWikiMacroContent(node),
+                                XWikiMacroCloseTag(node)
+                        )
+                )
+        );
+    }
+
+    /**
+     * Rule for a macro parameter.
+     *
+     * Example: <tt>par1="some value"</tt>,
+     *          <tt>par2='some value'</tt>,
+     *          <tt>par3=someValue</tt>
+     *
+     * @param space space rule around {@literal =}
+     */
+    @Cached
+    public Rule MacroParameter(Rule space)
+    {
+        Var<MacroParameterNode> node = new Var<MacroParameterNode>();
+        return Sequence(
+                Identifier(), node.set(new MacroParameterNode(match())),
+                space,
+                '=',
+                space,
+                FirstOf(
+                        MacroParameterValue('"', node),
+                        MacroParameterValue('\'', node),
+                        MacroParameterValue(node)
+                ), ((MacroNode) peek()).addParameter(node.get())
+        );
+    }
+
+    /**
+     * Rule for a quoted value of the macro parameter.
+     *
+     * Example: <tt>"some value"</tt>,
+     *          <tt>'some value'</tt>
+     *
+     * @param mark quotation character
+     * @param node MacroParameterNode variable
+     */
+    public Rule MacroParameterValue(char mark, Var<MacroParameterNode> node)
+    {
+        return Sequence(
+                mark,
+                ZeroOrMore(
+                        TestNot(mark),
+                        ANY
+                ), node.get().setValue(match()),
+                mark
+        );
+    }
+
+    /**
+     * Rule for a value of the macro parameter without special chars, spaces
+     * and newlines.
+     *
+     * Example: <tt>someValueWithoutSpaces</tt>
+     *
+     * @param node MacroParameterNode variable
+     */
+    public Rule MacroParameterValue(Var<MacroParameterNode> node)
+    {
+        return Sequence(
+                OneOrMore(
+                        TestNot(']'),
+                        TestNot(MACRO_TAG_CLOSE_MARK),
+                        TestNot('/'),
+                        Nonspacechar()
+                ), node.get().setValue(match())
+        );
+    }
+
+    /**
+     * Rule for a content of the XWiki macro syntax.
+     *
+     * @param node MacroNode variable
+     */
+    public Rule XWikiMacroContent(Var<MacroNode> node)
+    {
+        return Sequence(
+                ZeroOrMore(
+                        Sequence(TestNot(XWikiMacroCloseTag(node)), ANY)
+                ), push(new TextNode(match())) && addAsChild()
+        );
+    }
+
+    /**
+     * Rule for a close tag of the XWiki macro syntax.
+     * 
+     * Example: <tt>{{/mymacro}}</tt>
+     *
+     * @param node MacroNode variable
+     */
+    @DontSkipActionsInPredicates
+    public Rule XWikiMacroCloseTag(Var<MacroNode> node)
+    {
+        return Sequence(
+                MACRO_TAG_OPEN_MARK,
+                '/',
+                Identifier(), match().equals(node.get().getMacroId()),
+                Spn1(),
+                MACRO_TAG_CLOSE_MARK
+        );
+    }
+
+    /**
+     * Rule for an alphanumeric identifier with dashes and underscores.
+     */
+    public Rule Identifier()
+    {
+        return OneOrMore(FirstOf(Alphanumeric(), '-', '_'));
     }
 }
