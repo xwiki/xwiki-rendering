@@ -76,4 +76,18 @@
       <type>test-jar</type>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <!-- Parboiled parser classes uses specific naming etc. -->
+          <excludes>
+            org/xwiki/rendering/internal/parser/markdown11/XWikiPegdownPluginParser.java
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

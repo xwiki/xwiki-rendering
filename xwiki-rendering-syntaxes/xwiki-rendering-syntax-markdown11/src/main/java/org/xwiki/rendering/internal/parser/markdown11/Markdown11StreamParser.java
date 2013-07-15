@@ -29,6 +29,7 @@ import org.apache.commons.io.IOUtils;
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 import org.pegdown.ast.RootNode;
+import org.pegdown.plugins.PegDownPlugins;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.markdown.PegdownVisitor;
 import org.xwiki.rendering.listener.Listener;
@@ -62,8 +63,12 @@ public class Markdown11StreamParser implements StreamParser
     @Override
     public void parse(Reader source, Listener listener) throws ParseException
     {
+        PegDownPlugins plugins = PegDownPlugins.builder()
+                .withPlugin(XWikiPegdownPluginParser.class)
+                .build();
+
         // The Pegdown processor is not thread safe, thus we need one per thread at least.
-        PegDownProcessor processor = new PegDownProcessor(Extensions.ALL & ~Extensions.HARDWRAPS);
+        PegDownProcessor processor = new PegDownProcessor(Extensions.ALL & ~Extensions.HARDWRAPS, plugins);
 
         try {
             RootNode rootNode = processor.parseMarkdown(IOUtils.toString(source).toCharArray());

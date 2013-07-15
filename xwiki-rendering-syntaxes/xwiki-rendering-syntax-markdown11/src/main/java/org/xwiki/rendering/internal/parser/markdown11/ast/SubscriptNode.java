@@ -17,24 +17,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.markdown11;
+package org.xwiki.rendering.internal.parser.markdown11.ast;
 
-import javax.inject.Named;
-
-import org.xwiki.component.annotation.Component;
-import org.xwiki.component.annotation.InstantiationStrategy;
-import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.pegdown.ast.Node;
+import org.pegdown.ast.TextNode;
+import org.pegdown.ast.Visitor;
 
 /**
- * <a href="https://github.com/sirthias/pegdown">Pegdown</a> visitor to transform the Pegdown AST into XWiki Rendering
- * Events.
+ * Represents text in a subscript formatting.
  *
  * @version $Id $
  * @since 5.2M1
  */
-@Component
-@Named("markdown/1.1")
-@InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class XWikiPegdownVisitor extends AbstractPluginsPegdownVisitor
+public class SubscriptNode extends TextNode
 {
+    /**
+     * @param text a text that should be formatted as a subscript
+     */
+    public SubscriptNode(String text)
+    {
+        super(text);
+    }
+
+    @Override
+    public void accept(Visitor visitor)
+    {
+        visitor.visit((Node) this);
+    }
 }
