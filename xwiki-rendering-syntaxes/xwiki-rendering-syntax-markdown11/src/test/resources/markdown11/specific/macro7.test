@@ -14,7 +14,7 @@ onWord [is]
 onSpace
 onWord [inline]
 onSpace
-onMacroStandalone [mymacro] [] [Macro content here]
+onMacroInline [mymacro] [] [Macro content here]
 onSpecialSymbol [.]
 endParagraph
 endDocument

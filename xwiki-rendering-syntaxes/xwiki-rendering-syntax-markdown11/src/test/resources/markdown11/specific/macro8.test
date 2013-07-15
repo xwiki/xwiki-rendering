@@ -14,7 +14,7 @@ onWord [is]
 onSpace
 onWord [inline]
 onSpace
-onMacroStandalone [mymacro] []
+onMacroInline [mymacro] []
 onSpecialSymbol [,]
 onSpace
 onWord [look]

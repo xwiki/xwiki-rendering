@@ -35,16 +35,20 @@ import org.pegdown.ast.Visitor;
  */
 public class MacroNode extends SuperNode
 {
-    private String macroId;
+    private final String macroId;
+    
+    private final boolean isInline;
 
     private List<MacroParameterNode> parameters = new LinkedList<MacroParameterNode>();
 
     /**
      * @param macroId id (name) of the XWiki macro
+     * @param isInline if the macro is located in a inline content (like paragraph, etc.)
      */
-    public MacroNode(String macroId)
+    public MacroNode(String macroId, boolean isInline)
     {
         this.macroId = macroId;
+        this.isInline = isInline;
     }
 
     /**
@@ -53,6 +57,14 @@ public class MacroNode extends SuperNode
     public String getMacroId()
     {
         return macroId;
+    }
+
+    /**
+     * @return if the macro is located in a inline content (like paragraph, etc.)
+     */
+    public boolean isInline()
+    {
+        return isInline;
     }
 
     /**

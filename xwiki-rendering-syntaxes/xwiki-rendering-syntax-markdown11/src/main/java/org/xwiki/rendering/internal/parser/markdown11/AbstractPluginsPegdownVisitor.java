@@ -83,7 +83,7 @@ public abstract class AbstractPluginsPegdownVisitor extends AbstractTablePegdown
         String content = extractText(node);
         content = content.length() > 0 ? content : null;
 
-        getListener().onMacro(node.getMacroId(), parameters, content, false);
+        getListener().onMacro(node.getMacroId(), parameters, content, node.isInline());
     }
 
     /**
@@ -92,6 +92,7 @@ public abstract class AbstractPluginsPegdownVisitor extends AbstractTablePegdown
      * @param node any text node
      * @param format formatting style
      */
+    @SuppressWarnings("unchecked")
     private void handleFormatted(TextNode node, Format format)
     {
         getListener().beginFormat(format, Collections.EMPTY_MAP);

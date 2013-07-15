@@ -60,13 +60,13 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
     @Override
     public Rule[] blockPluginRules()
     {
-        return new Rule[] { XWikiMacro(), MarkdownMacro() };
+        return new Rule[] { XWikiMacro(), MarkdownMacro(false) };
     }
 
     @Override
     public Rule[] inlinePluginRules()
     {
-        return new Rule[] { Superscript(), Subscript(), MarkdownMacro() };
+        return new Rule[] { Superscript(), Subscript(), MarkdownMacro(true) };
     }
 
 
@@ -138,12 +138,15 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
      * Examples: <tt>#[mymacro par1=val1 par2="val 2"](content)</tt>,
      *           <tt>#[mymacro](content)</tt>,
      *           <tt>#[mymacro par1=val1]</tt>,
-     *           <tt>#[mymacro]</tt>,
+     *           <tt>#[mymacro]</tt>
+     *
+     * @param isInline if the rule is used in inline plugin
      */
-    public Rule MarkdownMacro() {
+    @Cached
+    public Rule MarkdownMacro(boolean isInline) {
         return NodeSequence(
                 "#[",
-                Identifier(), push(new MacroNode(match())),
+                Identifier(), push(new MacroNode(match(), isInline)),
                 Sp(),
                 ZeroOrMore(
                         MacroParameter(EMPTY),
@@ -174,7 +177,7 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
         Var<MacroNode> node = new Var<MacroNode>();
         return NodeSequence(
                 MACRO_TAG_OPEN_MARK,
-                Identifier(), push(node.setAndGet(new MacroNode(match()))),
+                Identifier(), push(node.setAndGet(new MacroNode(match(), false))),
                 Spn1(),
                 ZeroOrMore(
                         Test(Identifier()),
