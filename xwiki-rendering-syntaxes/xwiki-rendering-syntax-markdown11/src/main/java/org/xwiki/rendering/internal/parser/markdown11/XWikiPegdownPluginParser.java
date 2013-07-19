@@ -22,7 +22,6 @@ package org.xwiki.rendering.internal.parser.markdown11;
 import org.parboiled.Rule;
 import org.parboiled.annotations.Cached;
 import org.parboiled.annotations.DontSkipActionsInPredicates;
-import org.parboiled.support.StringBuilderVar;
 import org.parboiled.support.Var;
 import org.pegdown.Parser;
 import org.pegdown.ast.TextNode;
@@ -74,34 +73,34 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
 
     /**
      * Rule for a superscript formatting.
-     * Example: <tt>This is in ^superscript^</tt>
+     * Example: <tt>This is in ^superscript^</tt>,
+     *          <tt>This is in^superscript^</tt>
      */
     public Rule Superscript()
     {
-        StringBuilderVar text = new StringBuilderVar();
         Rule marker = Ch('^');
 
         return NodeSequence(
                 marker,
-                SuperSubScriptText(marker, text),
-                push(new SuperscriptNode(text.getString())),
+                push(new SuperscriptNode()),
+                SuperscriptOrSubscript(marker),
                 marker
         );
     }
 
     /**
      * Rule for a subscript formatting.
-     * Example: <tt>This is in ~subscript~</tt>
+     * Example: <tt>This is in ~subscript~</tt>,
+     *          <tt>This is in~subscript~</tt>
      */
     public Rule Subscript()
     {
-        StringBuilderVar text = new StringBuilderVar();
         Rule marker = Ch('~');
 
         return NodeSequence(
                 marker,
-                SuperSubScriptText(marker, text),
-                push(new SubscriptNode(text.getString())),
+                push(new SubscriptNode()),
+                SuperscriptOrSubscript(marker),
                 marker
         );
     }
@@ -113,17 +112,17 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
      *
      * @param marker <tt>Ch('^')</tt> for superscript, or <tt>Ch('~')</tt> for
      *               subscript
-     * @param text StringBuilder variable to append parsed text into
      */
-    public Rule SuperSubScriptText(Rule marker, StringBuilderVar text) {
+    @Cached
+    public Rule SuperscriptOrSubscript(Rule marker) {
         return OneOrMore(
                 TestNot(marker),
                 FirstOf(
                         Sequence(
                                 Ch('\\'),  //will not append escape char
-                                Spacechar(), text.append(match())),
+                                Spacechar(), push(new TextNode(match())) && addAsChild()),
                         Sequence(
-                                Nonspacechar(), text.append(match())
+                                Nonspacechar(), push(new TextNode(match())) && addAsChild()
                         )
                 )
         );

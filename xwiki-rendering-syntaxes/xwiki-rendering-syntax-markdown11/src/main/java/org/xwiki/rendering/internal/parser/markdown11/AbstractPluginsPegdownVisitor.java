@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.pegdown.ast.Node;
-import org.pegdown.ast.TextNode;
+import org.pegdown.ast.SuperNode;
 import org.xwiki.rendering.internal.parser.markdown.AbstractTablePegdownVisitor;
 import org.xwiki.rendering.internal.parser.markdown11.ast.MacroNode;
 import org.xwiki.rendering.internal.parser.markdown11.ast.MacroParameterNode;
@@ -93,10 +93,10 @@ public abstract class AbstractPluginsPegdownVisitor extends AbstractTablePegdown
      * @param format formatting style
      */
     @SuppressWarnings("unchecked")
-    private void handleFormatted(TextNode node, Format format)
+    private void handleFormatted(SuperNode node, Format format)
     {
         getListener().beginFormat(format, Collections.EMPTY_MAP);
-        getListener().onWord(node.getText());
+        visitChildren(node);
         getListener().endFormat(format, Collections.EMPTY_MAP);
     }
 }

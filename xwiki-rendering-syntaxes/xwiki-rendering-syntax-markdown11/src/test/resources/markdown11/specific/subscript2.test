@@ -13,7 +13,11 @@ onSpace
 onWord [is]
 onSpace
 beginFormat [SUBSCRIPT]
-onWord [subscript with spaces]
+onWord [subscript]
+onSpace
+onWord [with]
+onSpace
+onWord [spaces]
 endFormat [SUBSCRIPT]
 onSpecialSymbol [,]
 onSpace

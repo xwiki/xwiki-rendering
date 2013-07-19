@@ -20,7 +20,7 @@
 package org.xwiki.rendering.internal.parser.markdown11.ast;
 
 import org.pegdown.ast.Node;
-import org.pegdown.ast.TextNode;
+import org.pegdown.ast.SuperNode;
 import org.pegdown.ast.Visitor;
 
 /**
@@ -29,16 +29,8 @@ import org.pegdown.ast.Visitor;
  * @version $Id $
  * @since 5.2M1
  */
-public class SubscriptNode extends TextNode
+public class SubscriptNode extends SuperNode
 {
-    /**
-     * @param text a text that should be formatted as a subscript
-     */
-    public SubscriptNode(String text)
-    {
-        super(text);
-    }
-
     @Override
     public void accept(Visitor visitor)
     {
