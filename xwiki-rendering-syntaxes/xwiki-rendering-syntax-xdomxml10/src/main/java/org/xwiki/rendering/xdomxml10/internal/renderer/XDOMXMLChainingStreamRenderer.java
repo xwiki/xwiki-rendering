@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.AttributesImpl;
-import org.xwiki.rendering.internal.renderer.xml.AbstractChainingContentHandlerStreamRenderer;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.ListType;
@@ -37,6 +36,7 @@ import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.FormatConverter
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.HeaderLevelConverter;
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.ListTypeConverter;
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.ResourceReferenceSerializer;
+import org.xwiki.rendering.xml.internal.renderer.AbstractChainingContentHandlerStreamRenderer;
 
 /**
  * Current version of the XDOM+XML stream based renderer.

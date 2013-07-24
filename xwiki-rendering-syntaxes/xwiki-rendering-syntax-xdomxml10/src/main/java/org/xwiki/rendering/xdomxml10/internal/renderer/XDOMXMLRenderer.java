@@ -20,8 +20,8 @@
 package org.xwiki.rendering.xdomxml10.internal.renderer;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.renderer.xml.AbstractRenderer;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.xml.internal.renderer.AbstractRenderer;
 
 /**
  * @version $Id$

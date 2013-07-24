@@ -1,3 +1,0 @@
-org.xwiki.rendering.xml.internal.parameter.XStreamParameterManager
-org.xwiki.rendering.xml.internal.parser.DefaultXMLParserFactory
-org.xwiki.rendering.xml.internal.serializer.DefaultXMLSerializerFactory

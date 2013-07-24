@@ -25,9 +25,9 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.internal.renderer.xml.AbstractChainingContentHandlerStreamRenderer;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.xml.internal.renderer.AbstractChainingContentHandlerStreamRenderer;
 
 @Component("xdom+xml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)

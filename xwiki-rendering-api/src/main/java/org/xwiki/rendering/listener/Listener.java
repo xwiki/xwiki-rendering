@@ -22,6 +22,7 @@ package org.xwiki.rendering.listener;
 import java.util.Collections;
 import java.util.Map;
 
+import org.xwiki.filter.annotation.Name;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -56,35 +57,35 @@ public interface Listener extends LinkListener, ImageListener
 
     /**
      * Start of the document.
-     *
+     * 
      * @param metaData the meta data to associate to the following events, see {@link MetaData}
      * @since 3.0M2
      */
-    void beginDocument(MetaData metaData);
+    void beginDocument(@Name("metaData") MetaData metaData);
 
     /**
      * End of the document.
-     *
+     * 
      * @param metaData the meta data associated with the previous events, see {@link MetaData}
      * @since 3.0M2
      */
-    void endDocument(MetaData metaData);
+    void endDocument(@Name("metaData") MetaData metaData);
 
     /**
      * Start of MetaData (eg saving source from where the content is coming from).
-     *
+     * 
      * @param metadata the metadata
      * @since 3.0M2
      */
-    void beginMetaData(MetaData metadata);
+    void beginMetaData(@Name("metaData") MetaData metadata);
 
     /**
      * End of MetaData.
-     *
+     * 
      * @param metadata the metadata
      * @since 3.0M2
      */
-    void endMetaData(MetaData metadata);
+    void endMetaData(@Name("metaData") MetaData metadata);
 
     /**
      * Start a group of elements. Groups are used to allow using standalone elements in list items, table cells, etc.
@@ -93,7 +94,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      * @since 1.8.3
      */
-    void beginGroup(Map<String, String> parameters);
+    void beginGroup(@Name("parameters") Map<String, String> parameters);
 
     /**
      * End of the group.
@@ -101,7 +102,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      * @since 1.8.3
      */
-    void endGroup(Map<String, String> parameters);
+    void endGroup(@Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a text formatting block.
@@ -110,7 +111,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      * @see Format
      */
-    void beginFormat(Format format, Map<String, String> parameters);
+    void beginFormat(@Name("format") Format format, @Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a text formatting block.
@@ -119,21 +120,21 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      * @see Format
      */
-    void endFormat(Format format, Map<String, String> parameters);
+    void endFormat(@Name("format") Format format, @Name("parameters") Map<String, String> parameters);
 
     /**
      * Start of a paragraph.
      * 
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      */
-    void beginParagraph(Map<String, String> parameters);
+    void beginParagraph(@Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a paragraph.
      * 
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      */
-    void endParagraph(Map<String, String> parameters);
+    void endParagraph(@Name("parameters") Map<String, String> parameters);
 
     /**
      * Start of a list.
@@ -142,7 +143,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the list. Example: "style"/"background-color: blue"
      * @see ListType
      */
-    void beginList(ListType listType, Map<String, String> parameters);
+    void beginList(@Name("type") ListType listType, @Name("parameters") Map<String, String> parameters);
 
     /**
      * Start of a definition list. For example in HTML this is the equivalent of &lt;dl&gt;.
@@ -150,7 +151,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the list. Example: "style"/"background-color: blue"
      * @since 2.0RC1
      */
-    void beginDefinitionList(Map<String, String> parameters);
+    void beginDefinitionList(@Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a list.
@@ -159,7 +160,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the list. Example: "style"/"background-color: blue"
      * @see ListType
      */
-    void endList(ListType listType, Map<String, String> parameters);
+    void endList(@Name("type") ListType listType, @Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a definition list. For example in HTML this is the equivalent of &lt;/dl&gt;.
@@ -167,7 +168,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the list. Example: "style"/"background-color: blue"
      * @since 2.0RC1
      */
-    void endDefinitionList(Map<String, String> parameters);
+    void endDefinitionList(@Name("parameters") Map<String, String> parameters);
 
     /**
      * Start of a list item.
@@ -213,7 +214,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the table.
      * @since 1.6M2
      */
-    void beginTable(Map<String, String> parameters);
+    void beginTable(@Name("parameters") Map<String, String> parameters);
 
     /**
      * Start of a table row.
@@ -221,7 +222,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the table row.
      * @since 1.6M2
      */
-    void beginTableRow(Map<String, String> parameters);
+    void beginTableRow(@Name("parameters") Map<String, String> parameters);
 
     /**
      * Start of a table cell.
@@ -229,7 +230,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the table cell.
      * @since 1.6M2
      */
-    void beginTableCell(Map<String, String> parameters);
+    void beginTableCell(@Name("parameters") Map<String, String> parameters);
 
     /**
      * Start of a table head cell.
@@ -237,7 +238,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the table head cell.
      * @since 1.6M2
      */
-    void beginTableHeadCell(Map<String, String> parameters);
+    void beginTableHeadCell(@Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a table.
@@ -245,7 +246,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the table.
      * @since 1.6M2
      */
-    void endTable(Map<String, String> parameters);
+    void endTable(@Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a table row.
@@ -253,7 +254,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the table row.
      * @since 1.6M2
      */
-    void endTableRow(Map<String, String> parameters);
+    void endTableRow(@Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a table cell.
@@ -261,7 +262,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the table cell.
      * @since 1.6M2
      */
-    void endTableCell(Map<String, String> parameters);
+    void endTableCell(@Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a table head cell.
@@ -269,7 +270,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters for the table head cell.
      * @since 1.6M2
      */
-    void endTableHeadCell(Map<String, String> parameters);
+    void endTableHeadCell(@Name("parameters") Map<String, String> parameters);
 
     /**
      * Start of a section.
@@ -277,7 +278,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      * @see org.xwiki.rendering.listener.HeaderLevel
      */
-    void beginSection(Map<String, String> parameters);
+    void beginSection(@Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a section.
@@ -285,7 +286,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      * @see org.xwiki.rendering.listener.HeaderLevel
      */
-    void endSection(Map<String, String> parameters);
+    void endSection(@Name("parameters") Map<String, String> parameters);
 
     /**
      * Start of a header.
@@ -296,7 +297,8 @@ public interface Listener extends LinkListener, ImageListener
      * @see org.xwiki.rendering.listener.HeaderLevel
      * @since 1.9M1
      */
-    void beginHeader(HeaderLevel level, String id, Map<String, String> parameters);
+    void beginHeader(@Name("level") HeaderLevel level, @Name("id") String id,
+        @Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a header.
@@ -307,7 +309,8 @@ public interface Listener extends LinkListener, ImageListener
      * @see org.xwiki.rendering.listener.HeaderLevel
      * @since 1.9M1
      */
-    void endHeader(HeaderLevel level, String id, Map<String, String> parameters);
+    void endHeader(@Name("level") HeaderLevel level, @Name("id") String id,
+        @Name("parameters") Map<String, String> parameters);
 
     /**
      * Start of marker containing a macro definition. This is a special that Macro Blocks emits when they are executed
@@ -321,7 +324,8 @@ public interface Listener extends LinkListener, ImageListener
      * @param isInline if true the macro is located in a inline content (like paragraph, etc.)
      * @see #onMacro(String, java.util.Map, String, boolean)
      */
-    void beginMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline);
+    void beginMacroMarker(@Name("name") String name, @Name("parameters") Map<String, String> macroParameters,
+        String content, @Name("inline") boolean isInline);
 
     /**
      * End of marker containing a macro definition.
@@ -332,21 +336,22 @@ public interface Listener extends LinkListener, ImageListener
      * @param isInline if true the macro is located in a inline content (like paragraph, etc.)
      * @see #beginMacroMarker(String, java.util.Map, String, boolean)
      */
-    void endMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline);
+    void endMacroMarker(@Name("name") String name, @Name("parameters") Map<String, String> macroParameters,
+        @Name("content") String content, @Name("inline") boolean isInline);
 
     /**
      * Start of a quotation. There are one or several quotation lines inside a quotation block.
      * 
      * @param parameters a generic list of parameters for the quotation. Example: "style"/"background-color: blue"
      */
-    void beginQuotation(Map<String, String> parameters);
+    void beginQuotation(@Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a quotation.
      * 
      * @param parameters a generic list of parameters for the quotation. Example: "style"/"background-color: blue"
      */
-    void endQuotation(Map<String, String> parameters);
+    void endQuotation(@Name("parameters") Map<String, String> parameters);
 
     /**
      * Start of a quotation line. There can be several quotation lines in a quotation block.
@@ -373,7 +378,8 @@ public interface Listener extends LinkListener, ImageListener
      * @param isInline if true the macro is located in a inline content (like paragraph, etc.)
      * @since 1.6M2
      */
-    void onMacro(String id, Map<String, String> macroParameters, String content, boolean isInline);
+    void onMacro(@Name("id") String id, @Name("parameters") Map<String, String> macroParameters,
+        @Name("content") String content, @Name("inline") boolean isInline);
 
     /**
      * A word. Note that sentences ar broken into different events: word events, special symbols events, space events,
@@ -381,7 +387,7 @@ public interface Listener extends LinkListener, ImageListener
      * 
      * @param word the word encountered
      */
-    void onWord(String word);
+    void onWord(@Name("word") String word);
 
     /**
      * A space.
@@ -393,7 +399,7 @@ public interface Listener extends LinkListener, ImageListener
      * 
      * @param symbol the symbol encountered
      */
-    void onSpecialSymbol(char symbol);
+    void onSpecialSymbol(@Name("symbol") char symbol);
 
     /**
      * A reference/location in a page. In HTML for example this is called an Anchor. It allows pointing to that
@@ -403,7 +409,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param name the location name.
      * @since 1.6M1
      */
-    void onId(String name);
+    void onId(@Name("name") String name);
 
     /**
      * Represents an horizontal line.
@@ -411,7 +417,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      * @since 1.6M1
      */
-    void onHorizontalLine(Map<String, String> parameters);
+    void onHorizontalLine(@Name("parameters") Map<String, String> parameters);
 
     /**
      * Represents an empty line between 2 standalone Blocks. A standalone block is block that is not included in another
@@ -419,7 +425,7 @@ public interface Listener extends LinkListener, ImageListener
      * 
      * @param count the number of empty lines between 2 standalone Blocks
      */
-    void onEmptyLines(int count);
+    void onEmptyLines(@Name("count") int count);
 
     /**
      * A portion of text.
@@ -428,7 +434,8 @@ public interface Listener extends LinkListener, ImageListener
      * @param isInline if true the text content is located in a inline content (like paragraph, etc.)
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      */
-    void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters);
+    void onVerbatim(@Name("content") String protectedString, @Name("inline") boolean isInline,
+        @Name("parameters") Map<String, String> parameters);
 
     /**
      * Some text to inject directly into the listener output without parsing it. For example a HTML macro could inject
@@ -440,5 +447,5 @@ public interface Listener extends LinkListener, ImageListener
      * @param syntax the syntax in which the text is written. This is useful so that listener implementations can decide
      *            whether they can handle direct inject for that syntax
      */
-    void onRawText(String rawContent, Syntax syntax);
+    void onRawText(@Name("content") String rawContent, @Name("syntax") Syntax syntax);
 }

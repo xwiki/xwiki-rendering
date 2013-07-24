@@ -22,10 +22,10 @@ package org.xwiki.rendering.xdomxmlcurrent.internal.renderer;
 import javax.inject.Inject;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.renderer.xml.AbstractRenderer;
+import org.xwiki.filter.xml.serializer.XMLSerializerFactory;
 import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRenderer;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xml.internal.serializer.XMLSerializerFactory;
+import org.xwiki.rendering.xml.internal.renderer.AbstractRenderer;
 
 /**
  * Current version of the XDOM+XML renderer.

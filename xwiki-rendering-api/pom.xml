@@ -45,7 +45,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-xml</artifactId>
+      <artifactId>xwiki-commons-filter-api</artifactId>
       <version>${commons.version}</version>
     </dependency>
     <dependency>
@@ -63,18 +63,6 @@
       <artifactId>xwiki-commons-properties</artifactId>
       <version>${commons.version}</version>
     </dependency>
-    <dependency>
-      <groupId>dom4j</groupId>
-      <artifactId>dom4j</artifactId>
-    </dependency>
-    <!-- We need the Xerces dependency at runtime since we have an optimization for the Xerces
-         parser (to tell it to cache DTD grammars). If it's not there then there's no DTD
-         caching. -->
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-      <scope>runtime</scope>
-    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -85,14 +73,11 @@
           <excludes>
             org/xwiki/rendering/block/match/BlockNavigator.java,
             org/xwiki/rendering/internal/parser/XDOMGeneratorListener.java,
-            org/xwiki/rendering/internal/renderer/printer/XHTMLWriter.java,
             org/xwiki/rendering/listener/chaining/LookaheadChainingListener.java,
             org/xwiki/rendering/listener/chaining/TextOnNewLineStateChainingListener.java,
             org/xwiki/rendering/listener/chaining/EmptyBlockChainingListener.java,
             org/xwiki/rendering/listener/chaining/BlockStateChainingListener.java,
             org/xwiki/rendering/listener/chaining/GroupStateChainingListener.java,
-            org/xwiki/rendering/renderer/printer/XHTMLWikiPrinter.java,
-            org/xwiki/rendering/renderer/printer/XMLWikiPrinter.java,
             org/xwiki/rendering/renderer/printer/LookaheadWikiPrinter.java,
             org/xwiki/rendering/renderer/printer/WrappingWikiPrinter.java,
             org/xwiki/rendering/syntax/Syntax.java,

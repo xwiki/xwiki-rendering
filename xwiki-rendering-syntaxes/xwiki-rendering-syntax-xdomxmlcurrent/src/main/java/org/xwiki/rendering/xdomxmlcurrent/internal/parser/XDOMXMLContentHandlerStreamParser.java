@@ -28,10 +28,10 @@ import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.filter.xml.parser.XMLParserFactory;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xml.internal.parser.XMLParserFactory;
 
 /**
  * Generic XML based events parser.

@@ -38,6 +38,11 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-xml</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
       <version>${project.version}</version>
     </dependency>

@@ -19,12 +19,15 @@
  */
 package org.xwiki.rendering.xdomxmlcurrent.internal.renderer;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.transform.sax.SAXResult;
+
 import org.xml.sax.ContentHandler;
+import org.xwiki.filter.xml.serializer.XMLSerializerFactory;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRenderer;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.xml.internal.serializer.XMLSerializerFactory;
 
 /**
  * Current version of the XDOM+XML stream based renderer.
@@ -69,6 +72,12 @@ public class XDOMXMLChainingStreamRenderer extends WrappingListener implements C
     {
         this.contentHandler = contentHandler;
 
-        setWrappedListener(this.serializerFactory.createSerializer(Listener.class, this.contentHandler, null));
+        try {
+            setWrappedListener(this.serializerFactory.createSerializer(Listener.class, new SAXResult(
+                this.contentHandler), null));
+        } catch (XMLStreamException e) {
+            // Should never happen
+            // TODO: log an error something
+        }
     }
 }

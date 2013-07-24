@@ -20,8 +20,8 @@
 package org.xwiki.rendering.xdomxml10.internal.parser;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.parser.xml.AbstractParser;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.xml.internal.parser.AbstractParser;
 
 /**
  * XDOM+XML stream based parser.
