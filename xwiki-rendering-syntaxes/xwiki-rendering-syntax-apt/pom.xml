@@ -33,7 +33,7 @@
   <name>XWiki Rendering - Syntax - APT</name>
   <description>XWiki Rendering - Syntax - APT</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.93</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.86</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>
