@@ -35,24 +35,28 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.syntax.SyntaxType;
+import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.parser.xwiki10.Filter;
 import org.xwiki.rendering.parser.xwiki10.FilterContext;
 import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxType;
 
 /**
  * Convert XWiki 1.0 content into 2.0 content and call XWiki 2.0 parser to generate the XDOM.
  * 
  * @version $Id$
  * @since 1.8M1
+ * @since 5.2M1 for the {@link StreamParser} support
  */
 @Component
 @Named("xwiki/1.0")
 @Singleton
-public class XWikiParser implements Parser, Initializable
+public class XWikiParser implements StreamParser, Parser, Initializable
 {
     /**
      * The syntax identifier of the parser.
@@ -64,7 +68,7 @@ public class XWikiParser implements Parser, Initializable
      */
     @Inject
     @Named("xwiki/2.0")
-    private Parser xwiki20Parser;
+    private StreamParser xwiki20Parser;
 
     /**
      * The filters use to convert 1.0 content to 2.0.
@@ -95,11 +99,10 @@ public class XWikiParser implements Parser, Initializable
     @Override
     public XDOM parse(Reader source) throws ParseException
     {
-        // Convert from 1.0 syntax to 2.0 syntax
-        String content20 = xwiki10To20(source);
+        XDOMGeneratorListener listener = new XDOMGeneratorListener();
+        parse(source, listener);
 
-        // Generate the XDOM using 2.0 syntax parser
-        return this.xwiki20Parser.parse(new StringReader(content20));
+        return listener.getXDOM();
     }
 
     /**
@@ -130,5 +133,15 @@ public class XWikiParser implements Parser, Initializable
         content = CleanUtil.removeTrailingNewLines(content);
 
         return content;
+    }
+
+    @Override
+    public void parse(Reader source, Listener listener) throws ParseException
+    {
+        // Convert from 1.0 syntax to 2.0 syntax
+        String content20 = xwiki10To20(source);
+
+        // Generate the XDOM using 2.0 syntax parser
+        this.xwiki20Parser.parse(new StringReader(content20), listener);
     }
 }
