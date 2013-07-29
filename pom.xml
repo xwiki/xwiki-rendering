@@ -215,9 +215,6 @@
                <className>org/xwiki/rendering/listener/reference/ResourceType</className>
                <method>void setScheme(java.lang.String)</method>
                <justification>This method should never have existed</justification>
-               
-               org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter
-               org.xwiki.rendering.renderer.printer.XMLWikiPrinter
              </difference>
              <difference>
                <differenceType>8001</differenceType>
