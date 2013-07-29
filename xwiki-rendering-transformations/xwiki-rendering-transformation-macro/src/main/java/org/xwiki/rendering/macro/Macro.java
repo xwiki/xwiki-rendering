@@ -34,6 +34,8 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * @version $Id$
  * @since 1.5M2
  */
+// Note: We cannot replace @ComponentRole with @Role ATM since @Role supports generics and we have Macro<P>. Changing
+// it will thus break all code looking up components implementing this role.
 @ComponentRole
 public interface Macro<P> extends Comparable<Macro< ? >>
 {
