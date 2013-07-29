@@ -1,0 +1,3 @@
+org.xwiki.rendering.xdomjsoncurrent.internal.renderer.XDOMJSONRenderer
+org.xwiki.rendering.xdomjsoncurrent.internal.renderer.XDOMJSONStreamRenderer
+org.xwiki.rendering.xdomjsoncurrent.internal.renderer.XDOMJSONBlockRenderer

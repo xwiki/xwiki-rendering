@@ -75,8 +75,13 @@ public class SyntaxType
     public static final SyntaxType APT = register("apt", "APT");
 
     /**
+     * @since 5.2M1
+     */
+    public static final SyntaxType XDOMJSON = register("xdom+json", "JSON based XDOM");
+
+    /**
      * Register a Syntax Type.
-     *
+     * 
      * @param id see {@link SyntaxType#SyntaxType(String, String)}
      * @param name see {@link SyntaxType#SyntaxType(String, String)}
      * @return the created Syntax Type object

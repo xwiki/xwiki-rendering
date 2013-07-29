@@ -1,0 +1,41 @@
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.#-----------------------------------------------------
+**bold and bold again**
+.#-----------------------------------------------------
+.expect|xdom+json/current
+.#-----------------------------------------------------
+{
+  "t" : "document",
+  "metaData" : {
+    "metaData" : { }
+  },
+  "c" : {
+    "t" : "paragraph",
+    "parameters" : { },
+    "c" : {
+      "t" : "format",
+      "format" : "BOLD",
+      "parameters" : { },
+      "c" : [ {
+        "t" : "word",
+        "word" : "bold"
+      }, {
+        "t" : "space"
+      }, {
+        "t" : "word",
+        "word" : "and"
+      }, {
+        "t" : "space"
+      }, {
+        "t" : "word",
+        "word" : "bold"
+      }, {
+        "t" : "space"
+      }, {
+        "t" : "word",
+        "word" : "again"
+      } ]
+    }
+  }
+}
