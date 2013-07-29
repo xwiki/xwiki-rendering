@@ -20,30 +20,34 @@
 -->
 
 <document>
-  <parameter0>
-    <metadata class="linked-hash-map">
-      <entry>
-        <string>syntax</string>
-        <org.xwiki.rendering.syntax.Syntax>
-          <type>
-            <name>${{{velocity:$syntax.type.name}}}</name>
-            <id>${{{velocity:$syntax.type.id}}}</id>
-          </type>
-          <version>${{{velocity:$syntax.version}}}</version>
-        </org.xwiki.rendering.syntax.Syntax>
-      </entry>
+  <p>
+    <metadata>
+      <metadata class="linked-hash-map">
+        <entry>
+          <string>syntax</string>
+          <org.xwiki.rendering.syntax.Syntax>
+            <type>
+              <name>${{{velocity:$syntax.type.name}}}</name>
+              <id>${{{velocity:$syntax.type.id}}}</id>
+            </type>
+            <version>${{{velocity:$syntax.version}}}</version>
+          </org.xwiki.rendering.syntax.Syntax>
+        </entry>
+      </metadata>
     </metadata>
-  </parameter0>
-  <paragraph parameter0="">
-    <image parameter1="true" parameter2="">
-      <parameter0>
-        <isTyped>false</isTyped>
-        <reference>image.png</reference>
-        <type>
-          <scheme>url</scheme>
-        </type>
-        <parameters></parameters>
-      </parameter0>
+  </p>
+  <paragraph parameters="">
+    <image freestanding="true" parameters="">
+      <p>
+        <reference>
+          <isTyped>false</isTyped>
+          <reference>image.png</reference>
+          <type>
+            <scheme>url</scheme>
+          </type>
+          <parameters></parameters>
+        </reference>
+      </p>
     </image>
   </paragraph>
 </document>

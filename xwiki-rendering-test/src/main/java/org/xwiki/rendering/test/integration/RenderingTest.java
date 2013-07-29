@@ -141,9 +141,11 @@ public class RenderingTest
             BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, this.targetSyntaxId);
 
             // remove source syntax from XDOM metadata
-            Map<String, Object> metadataMap = new HashMap<String, Object>(xdom.getMetaData().getMetaData());
-            metadataMap.remove(MetaData.SYNTAX);
-            xdom = new XDOM(xdom.getChildren(), new MetaData(metadataMap));
+            if (xdom.getMetaData() != null) {
+                Map<String, Object> metadataMap = new HashMap<String, Object>(xdom.getMetaData().getMetaData());
+                metadataMap.remove(MetaData.SYNTAX);
+                xdom = new XDOM(xdom.getChildren(), new MetaData(metadataMap));
+            }
 
             renderer.render(xdom, printer);
         } else {

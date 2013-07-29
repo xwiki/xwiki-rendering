@@ -21,11 +21,12 @@ package org.xwiki.rendering.listener;
 
 import java.util.Map;
 
+import org.xwiki.filter.annotation.Name;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
- * Contains callback events for Links, called when a document has been parsed and when it needs to be modified 
- * or rendered.
+ * Contains callback events for Links, called when a document has been parsed and when it needs to be modified or
+ * rendered.
  * 
  * @version $Id$
  * @since 1.8RC3
@@ -42,7 +43,8 @@ public interface LinkListener
      * @see ResourceReference
      * @since 2.5RC1
      */
-    void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters);
+    void beginLink(@Name("reference") ResourceReference reference, @Name("freestanding") boolean isFreeStandingURI,
+        @Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a link.
@@ -53,5 +55,6 @@ public interface LinkListener
      * @see ResourceReference
      * @since 2.5RC1
      */
-    void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters);
+    void endLink(@Name("reference") ResourceReference reference, @Name("freestanding") boolean isFreeStandingURI,
+        @Name("parameters") Map<String, String> parameters);
 }

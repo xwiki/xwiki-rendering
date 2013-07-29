@@ -1,8 +1,8 @@
 .#-----------------------------------------------------
-.inputexpect|xdom+xml/1.0|skip
+.inputexpect|xdom+xml/1.0
 .#-----------------------------------------------------
 <block name="document" version="1.0"><metaData><data>value</data><data2 type="Integer">42</data2></metaData><block name="metaData"><metaData><data>value</data><data2 type="stringmap"><mapdata>mapvalue</mapdata></data2></metaData></block></block>
 .#-----------------------------------------------------
 .inputexpect|xdom+xml/current
 .#-----------------------------------------------------
-<document><p><metaData><metadata><entry><string>data</string><string>value</string></entry><entry><string>data2</string><int>42</int></entry></metadata></metaData></p><metaData><p><metaData><metadata><entry><string>data</string><string>value</string></entry><entry><string>data2</string><linked-hash-map><entry><string>mapdata</string><string>mapvalue</string></entry></linked-hash-map></entry></metadata></metaData></p></metaData></document>
+<document><p><metadata><metadata><entry><string>data</string><string>value</string></entry><entry><string>data2</string><int>42</int></entry></metadata></metadata></p><metaData><p><metadata><metadata><entry><string>data</string><string>value</string></entry><entry><string>data2</string><linked-hash-map><entry><string>mapdata</string><string>mapvalue</string></entry></linked-hash-map></entry></metadata></metadata></p></metaData></document>

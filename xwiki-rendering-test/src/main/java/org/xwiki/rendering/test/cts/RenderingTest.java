@@ -30,14 +30,15 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.rendering.parser.Parser;
-import org.xwiki.rendering.renderer.BlockRenderer;
+import org.xwiki.rendering.parser.StreamParser;
+import org.xwiki.rendering.renderer.PrintRenderer;
+import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.velocity.internal.log.SLF4JLogChute;
+import org.xwiki.xml.XMLUtils;
 
 /**
  * A generic JUnit Test used by {@link CompatibilityTestSuite} to run a single CTS test.
@@ -162,15 +163,12 @@ public class RenderingTest
         String evaluatedInputData = evaluateContent(inputData);
         String evaluatedOutputData = evaluateContent(expectedOutputData);
 
-        Parser parser = getComponentManager().getInstance(Parser.class, inputSyntaxId);
-        XDOM xdom = parser.parse(new StringReader(evaluatedInputData));
-        BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, outputSyntaxId);
-        WikiPrinter printer = new DefaultWikiPrinter();
-        renderer.render(xdom, printer);
-        String result = printer.toString();
+        String result = convert(evaluatedInputData, inputSyntaxId, outputSyntaxId);
         try {
             if (isXMLSyntax(outputSyntaxId)) {
-                assertExpectedResult(normalizeXMLContent(evaluatedOutputData, outputSyntaxId), result);
+                assertExpectedResult(
+                    XMLUtils.formatXMLContent(normalizeXMLContent(evaluatedOutputData, outputSyntaxId)),
+                    XMLUtils.formatXMLContent(result));
             } else {
                 assertExpectedResult(evaluatedOutputData, result);
             }
@@ -189,6 +187,27 @@ public class RenderingTest
     }
 
     /**
+     * @param source the source content
+     * @param sourceSyntaxId the source syntax
+     * @param targetSyntaxId the target syntax
+     * @return the target content
+     * @throws Exception when failing to convert
+     */
+    private String convert(String source, String sourceSyntaxId, String targetSyntaxId) throws Exception
+    {
+        WikiPrinter printer = new DefaultWikiPrinter();
+
+        PrintRendererFactory rendererFactory =
+            getComponentManager().getInstance(PrintRendererFactory.class, targetSyntaxId);
+        PrintRenderer renderer = rendererFactory.createRenderer(printer);
+        StreamParser parser = getComponentManager().getInstance(StreamParser.class, sourceSyntaxId);
+
+        parser.parse(new StringReader(source), renderer);
+
+        return printer.toString();
+    }
+
+    /**
      * Normalize the expected XML output by reading and rendering the passed content. We do this so that we can easily
      * compare the expected result with the result of the test and not have to care about license comments, whitespaces,
      * newlines, etc.
@@ -200,12 +219,7 @@ public class RenderingTest
      */
     private String normalizeXMLContent(String content, String syntaxId) throws Exception
     {
-        Parser parser = getComponentManager().getInstance(Parser.class, syntaxId);
-        XDOM xdom = parser.parse(new StringReader(content));
-        BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, syntaxId);
-        WikiPrinter printer = new DefaultWikiPrinter();
-        renderer.render(xdom, printer);
-        return printer.toString();
+        return convert(content, syntaxId, syntaxId);
     }
 
     /**

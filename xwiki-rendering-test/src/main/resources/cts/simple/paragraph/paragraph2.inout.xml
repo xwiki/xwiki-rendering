@@ -20,21 +20,23 @@
 -->
 
 <document>
-  <parameter0>
-    <metadata class="linked-hash-map">
-      <entry>
-        <string>syntax</string>
-        <org.xwiki.rendering.syntax.Syntax>
-          <type>
-            <name>${{{velocity:$syntax.type.name}}}</name>
-            <id>${{{velocity:$syntax.type.id}}}</id>
-          </type>
-          <version>${{{velocity:$syntax.version}}}</version>
-        </org.xwiki.rendering.syntax.Syntax>
-      </entry>
+  <p>
+    <metadata>
+      <metadata class="linked-hash-map">
+        <entry>
+          <string>syntax</string>
+          <org.xwiki.rendering.syntax.Syntax>
+            <type>
+              <name>${{{velocity:$syntax.type.name}}}</name>
+              <id>${{{velocity:$syntax.type.id}}}</id>
+            </type>
+            <version>${{{velocity:$syntax.version}}}</version>
+          </org.xwiki.rendering.syntax.Syntax>
+        </entry>
+      </metadata>
     </metadata>
-  </parameter0>
-  <paragraph parameter0="">
+  </p>
+  <paragraph parameters="">
     <word>paragraph1</word>
     <space></space>
     <word>on</word>
@@ -43,7 +45,7 @@
     <newLine></newLine>
     <word>lines</word>
   </paragraph>
-  <paragraph parameter0="">
+  <paragraph parameters="">
     <word>paragraph2</word>
   </paragraph>
 </document>

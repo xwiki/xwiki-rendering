@@ -61,7 +61,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param metaData the meta data to associate to the following events, see {@link MetaData}
      * @since 3.0M2
      */
-    void beginDocument(@Name("metaData") MetaData metaData);
+    void beginDocument(@Name("metadata") MetaData metaData);
 
     /**
      * End of the document.
@@ -69,7 +69,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param metaData the meta data associated with the previous events, see {@link MetaData}
      * @since 3.0M2
      */
-    void endDocument(@Name("metaData") MetaData metaData);
+    void endDocument(@Name("metadata") MetaData metaData);
 
     /**
      * Start of MetaData (eg saving source from where the content is coming from).
@@ -77,7 +77,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param metadata the metadata
      * @since 3.0M2
      */
-    void beginMetaData(@Name("metaData") MetaData metadata);
+    void beginMetaData(@Name("metadata") MetaData metadata);
 
     /**
      * End of MetaData.
@@ -85,7 +85,7 @@ public interface Listener extends LinkListener, ImageListener
      * @param metadata the metadata
      * @since 3.0M2
      */
-    void endMetaData(@Name("metaData") MetaData metadata);
+    void endMetaData(@Name("metadata") MetaData metadata);
 
     /**
      * Start a group of elements. Groups are used to allow using standalone elements in list items, table cells, etc.

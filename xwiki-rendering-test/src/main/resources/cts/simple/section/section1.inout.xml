@@ -20,62 +20,64 @@
 -->
 
 <document>
-  <parameter0>
-    <metadata class="linked-hash-map">
-      <entry>
-        <string>syntax</string>
-        <org.xwiki.rendering.syntax.Syntax>
-          <type>
-            <name>${{{velocity:$syntax.type.name}}}</name>
-            <id>${{{velocity:$syntax.type.id}}}</id>
-          </type>
-          <version>${{{velocity:$syntax.version}}}</version>
-        </org.xwiki.rendering.syntax.Syntax>
-      </entry>
+  <p>
+    <metadata>
+      <metadata class="linked-hash-map">
+        <entry>
+          <string>syntax</string>
+          <org.xwiki.rendering.syntax.Syntax>
+            <type>
+              <name>${{{velocity:$syntax.type.name}}}</name>
+              <id>${{{velocity:$syntax.type.id}}}</id>
+            </type>
+            <version>${{{velocity:$syntax.version}}}</version>
+          </org.xwiki.rendering.syntax.Syntax>
+        </entry>
+      </metadata>
     </metadata>
-  </parameter0>
-  <section parameter0="">
-    <header parameter0="1" parameter1="HTitlelevel1" parameter2="">
+  </p>
+  <section parameters="">
+    <header level="1" id="HTitlelevel1" parameters="">
       <word>Title</word>
       <space></space>
       <word>level</word>
       <space></space>
       <word>1</word>
     </header>
-    <section parameter0="">
-      <header parameter0="2" parameter1="HTitlelevel2" parameter2="">
+    <section parameters="">
+      <header level="2" id="HTitlelevel2" parameters="">
         <word>Title</word>
         <space></space>
         <word>level</word>
         <space></space>
         <word>2</word>
       </header>
-      <section parameter0="">
-        <header parameter0="3" parameter1="HTitlelevel3" parameter2="">
+      <section parameters="">
+        <header level="3" id="HTitlelevel3" parameters="">
           <word>Title</word>
           <space></space>
           <word>level</word>
           <space></space>
           <word>3</word>
         </header>
-        <section parameter0="">
-          <header parameter0="4" parameter1="HTitlelevel4" parameter2="">
+        <section parameters="">
+          <header level="4" id="HTitlelevel4" parameters="">
             <word>Title</word>
             <space></space>
             <word>level</word>
             <space></space>
             <word>4</word>
           </header>
-          <section parameter0="">
-            <header parameter0="5" parameter1="HTitlelevel5" parameter2="">
+          <section parameters="">
+            <header level="5" id="HTitlelevel5" parameters="">
               <word>Title</word>
               <space></space>
               <word>level</word>
               <space></space>
               <word>5</word>
             </header>
-            <section parameter0="">
-              <header parameter0="6" parameter1="HTitlelevel6" parameter2="">
+            <section parameters="">
+              <header level="6" id="HTitlelevel6" parameters="">
                 <word>Title</word>
                 <space></space>
                 <word>level</word>

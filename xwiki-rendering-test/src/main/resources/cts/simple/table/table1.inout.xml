@@ -20,42 +20,44 @@
 -->
 
 <document>
-  <parameter0>
-    <metadata class="linked-hash-map">
-      <entry>
-        <string>syntax</string>
-        <org.xwiki.rendering.syntax.Syntax>
-          <type>
-            <name>${{{velocity:$syntax.type.name}}}</name>
-            <id>${{{velocity:$syntax.type.id}}}</id>
-          </type>
-          <version>${{{velocity:$syntax.version}}}</version>
-        </org.xwiki.rendering.syntax.Syntax>
-      </entry>
+  <p>
+    <metadata>
+      <metadata class="linked-hash-map">
+        <entry>
+          <string>syntax</string>
+          <org.xwiki.rendering.syntax.Syntax>
+            <type>
+              <name>${{{velocity:$syntax.type.name}}}</name>
+              <id>${{{velocity:$syntax.type.id}}}</id>
+            </type>
+            <version>${{{velocity:$syntax.version}}}</version>
+          </org.xwiki.rendering.syntax.Syntax>
+        </entry>
+      </metadata>
     </metadata>
-  </parameter0>
-  <table parameter0="">
-    <tableRow parameter0="">
-      <tableHeadCell parameter0="">
+  </p>
+  <table parameters="">
+    <tableRow parameters="">
+      <tableHeadCell parameters="">
         <word>col1</word>
       </tableHeadCell>
-      <tableHeadCell parameter0="">
+      <tableHeadCell parameters="">
         <word>col2</word>
       </tableHeadCell>
     </tableRow>
-    <tableRow parameter0="">
-      <tableCell parameter0="">
+    <tableRow parameters="">
+      <tableCell parameters="">
         <word>cell11</word>
       </tableCell>
-      <tableCell parameter0="">
+      <tableCell parameters="">
         <word>cell12</word>
       </tableCell>
     </tableRow>
-    <tableRow parameter0="">
-      <tableCell parameter0="">
+    <tableRow parameters="">
+      <tableCell parameters="">
         <word>cell21</word>
       </tableCell>
-      <tableCell parameter0="">
+      <tableCell parameters="">
         <word>cell22</word>
       </tableCell>
     </tableRow>

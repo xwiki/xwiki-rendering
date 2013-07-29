@@ -21,11 +21,12 @@ package org.xwiki.rendering.listener;
 
 import java.util.Map;
 
+import org.xwiki.filter.annotation.Name;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
- * Contains callback events for Images,called when a document has been parsed and when it needs to be modified 
- * or rendered.
+ * Contains callback events for Images,called when a document has been parsed and when it needs to be modified or
+ * rendered.
  * 
  * @version $Id$
  * @since 1.8RC3
@@ -40,5 +41,6 @@ public interface ImageListener
      * @param isFreeStandingURI if true then the image is defined directly as a URI in the text
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      */
-    void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters);
+    void onImage(@Name("reference") ResourceReference reference, @Name("freestanding") boolean isFreeStandingURI,
+        @Name("parameters") Map<String, String> parameters);
 }

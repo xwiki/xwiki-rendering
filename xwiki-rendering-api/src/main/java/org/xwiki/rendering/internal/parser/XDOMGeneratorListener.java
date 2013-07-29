@@ -61,10 +61,10 @@ import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
-import org.xwiki.rendering.listener.MetaData;
-import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -135,6 +135,7 @@ public class XDOMGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
+     * 
      * @since 3.0M2
      */
     @Override
@@ -235,6 +236,7 @@ public class XDOMGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
+     * 
      * @since 3.0M2
      */
     @Override
@@ -252,7 +254,8 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
-        this.stack.push(new DefinitionListBlock(generateListFromStack(), parameters));
+        this.stack.push(new DefinitionListBlock(generateListFromStack(), parameters != null ? parameters
+            : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
@@ -263,6 +266,7 @@ public class XDOMGeneratorListener implements Listener
 
     /**
      * {@inheritDoc}
+     * 
      * @since 3.0M2
      */
     @Override
@@ -274,28 +278,33 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
-        this.stack.push(new FormatBlock(generateListFromStack(), format, parameters));
+        this.stack.push(new FormatBlock(generateListFromStack(), format != null ? format : Format.NONE,
+            parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endGroup(Map<String, String> parameters)
     {
-        this.stack.push(new GroupBlock(generateListFromStack(), parameters));
+        this.stack.push(new GroupBlock(generateListFromStack(), parameters != null ? parameters
+            : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        this.stack.push(new HeaderBlock(generateListFromStack(), level, parameters, id));
+        this.stack.push(new HeaderBlock(generateListFromStack(), level, parameters != null ? parameters
+            : Listener.EMPTY_PARAMETERS, id));
     }
 
     @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
         if (listType == ListType.BULLETED) {
-            this.stack.push(new BulletedListBlock(generateListFromStack(), parameters));
+            this.stack.push(new BulletedListBlock(generateListFromStack(), parameters != null ? parameters
+                : Listener.EMPTY_PARAMETERS));
         } else {
-            this.stack.push(new NumberedListBlock(generateListFromStack(), parameters));
+            this.stack.push(new NumberedListBlock(generateListFromStack(), parameters != null ? parameters
+                : Listener.EMPTY_PARAMETERS));
         }
     }
 
@@ -308,19 +317,22 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void endMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
-        this.stack.push(new MacroMarkerBlock(name, macroParameters, content, generateListFromStack(), isInline));
+        this.stack.push(new MacroMarkerBlock(name, macroParameters != null ? macroParameters
+            : Listener.EMPTY_PARAMETERS, content, generateListFromStack(), isInline));
     }
 
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
-        this.stack.push(new ParagraphBlock(generateListFromStack(), parameters));
+        this.stack.push(new ParagraphBlock(generateListFromStack(), parameters != null ? parameters
+            : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endQuotation(Map<String, String> parameters)
     {
-        this.stack.push(new QuotationBlock(generateListFromStack(), parameters));
+        this.stack.push(new QuotationBlock(generateListFromStack(), parameters != null ? parameters
+            : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
@@ -332,41 +344,48 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void endSection(Map<String, String> parameters)
     {
-        this.stack.push(new SectionBlock(generateListFromStack(), parameters));
+        this.stack.push(new SectionBlock(generateListFromStack(), parameters != null ? parameters
+            : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTable(Map<String, String> parameters)
     {
-        this.stack.push(new TableBlock(generateListFromStack(), parameters));
+        this.stack.push(new TableBlock(generateListFromStack(), parameters != null ? parameters
+            : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTableCell(Map<String, String> parameters)
     {
-        this.stack.push(new TableCellBlock(generateListFromStack(), parameters));
+        this.stack.push(new TableCellBlock(generateListFromStack(), parameters != null ? parameters
+            : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
-        this.stack.push(new TableHeadCellBlock(generateListFromStack(), parameters));
+        this.stack.push(new TableHeadCellBlock(generateListFromStack(), parameters != null ? parameters
+            : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTableRow(Map<String, String> parameters)
     {
-        this.stack.push(new TableRowBlock(generateListFromStack(), parameters));
+        this.stack.push(new TableRowBlock(generateListFromStack(), parameters != null ? parameters
+            : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        this.stack.push(new LinkBlock(generateListFromStack(), reference, isFreeStandingURI, parameters));
+        this.stack.push(new LinkBlock(generateListFromStack(), reference, isFreeStandingURI, parameters != null
+            ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @since 3.0M2
      */
     @Override
@@ -384,7 +403,7 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
-        this.stack.push(new HorizontalLineBlock(parameters));
+        this.stack.push(new HorizontalLineBlock(parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
@@ -396,7 +415,8 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void onMacro(String id, Map<String, String> macroParameters, String content, boolean isInline)
     {
-        this.stack.push(new MacroBlock(id, macroParameters, content, isInline));
+        this.stack.push(new MacroBlock(id, macroParameters != null ? macroParameters : Listener.EMPTY_PARAMETERS,
+            content, isInline));
     }
 
     @Override
@@ -426,7 +446,8 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
-        this.stack.push(new VerbatimBlock(protectedString, parameters, isInline));
+        this.stack.push(new VerbatimBlock(protectedString, parameters != null ? parameters : Listener.EMPTY_PARAMETERS,
+            isInline));
     }
 
     @Override
@@ -438,6 +459,7 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        this.stack.push(new ImageBlock(reference, isFreeStandingURI, parameters));
+        this.stack.push(new ImageBlock(reference, isFreeStandingURI, parameters != null ? parameters
+            : Listener.EMPTY_PARAMETERS));
     }
 }

@@ -20,31 +20,33 @@
 -->
 
 <document>
-  <parameter0>
-    <metadata class="linked-hash-map">
-      <entry>
-        <string>syntax</string>
-        <org.xwiki.rendering.syntax.Syntax>
-          <type>
-            <name>${{{velocity:$syntax.type.name}}}</name>
-            <id>${{{velocity:$syntax.type.id}}}</id>
-          </type>
-          <version>${{{velocity:$syntax.version}}}</version>
-        </org.xwiki.rendering.syntax.Syntax>
-      </entry>
+  <p>
+    <metadata>
+      <metadata class="linked-hash-map">
+        <entry>
+          <string>syntax</string>
+          <org.xwiki.rendering.syntax.Syntax>
+            <type>
+              <name>${{{velocity:$syntax.type.name}}}</name>
+              <id>${{{velocity:$syntax.type.id}}}</id>
+            </type>
+            <version>${{{velocity:$syntax.version}}}</version>
+          </org.xwiki.rendering.syntax.Syntax>
+        </entry>
+      </metadata>
     </metadata>
-  </parameter0>
-  <list parameter0="NUMBERED" parameter1="">
+  </p>
+  <list type="NUMBERED" parameters="">
     <listItem>
       <word>Item</word>
       <space></space>
       <word>1</word>
-      <list parameter0="NUMBERED" parameter1="">
+      <list type="NUMBERED" parameters="">
         <listItem>
           <word>Item</word>
           <space></space>
           <word>2</word>
-          <list parameter0="BULLETED" parameter1="">
+          <list type="BULLETED" parameters="">
             <listItem>
               <word>Item</word>
               <space></space>
@@ -65,22 +67,22 @@
       <word>5</word>
     </listItem>
   </list>
-  <list parameter0="BULLETED" parameter1="">
+  <list type="BULLETED" parameters="">
     <listItem>
       <word>Item</word>
       <space></space>
       <word>1</word>
-      <list parameter0="BULLETED" parameter1="">
+      <list type="BULLETED" parameters="">
         <listItem>
           <word>Item</word>
           <space></space>
           <word>2</word>
-          <list parameter0="BULLETED" parameter1="">
+          <list type="BULLETED" parameters="">
             <listItem>
               <word>Item</word>
               <space></space>
               <word>3</word>
-              <list parameter0="NUMBERED" parameter1="">
+              <list type="NUMBERED" parameters="">
                 <listItem>
                   <word>Item</word>
                   <space></space>

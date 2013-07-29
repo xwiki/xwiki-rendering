@@ -26,12 +26,12 @@ import org.xwiki.test.annotation.AllComponents;
 /**
  * Run all tests found in {@code simple/*.test} files located in the classpath. These {@code *.test} files must follow
  * the conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
- *
+ * 
  * @version $Id$
  * @since 3.0RC1
  */
 @RunWith(RenderingTestSuite.class)
-@RenderingTestSuite.Scope(value = "simple", pattern = "metadata1.test")
+@RenderingTestSuite.Scope("simple")
 @AllComponents
 public class SimpleIntegrationTests
 {
