@@ -36,56 +36,56 @@
       </metadata>
     </metadata>
   </p>
-  <list type="NUMBERED" parameters="">
+  <list type="NUMBERED">
     <listItem>
       <word>Item</word>
-      <space></space>
+      <space/>
       <word>1</word>
-      <list type="NUMBERED" parameters="">
+      <list type="NUMBERED">
         <listItem>
           <word>Item</word>
-          <space></space>
+          <space/>
           <word>2</word>
-          <list type="BULLETED" parameters="">
+          <list>
             <listItem>
               <word>Item</word>
-              <space></space>
+              <space/>
               <word>3</word>
             </listItem>
           </list>
         </listItem>
         <listItem>
           <word>Item</word>
-          <space></space>
+          <space/>
           <word>4</word>
         </listItem>
       </list>
     </listItem>
     <listItem>
       <word>Item</word>
-      <space></space>
+      <space/>
       <word>5</word>
     </listItem>
   </list>
-  <list type="BULLETED" parameters="">
+  <list>
     <listItem>
       <word>Item</word>
-      <space></space>
+      <space/>
       <word>1</word>
-      <list type="BULLETED" parameters="">
+      <list>
         <listItem>
           <word>Item</word>
-          <space></space>
+          <space/>
           <word>2</word>
-          <list type="BULLETED" parameters="">
+          <list>
             <listItem>
               <word>Item</word>
-              <space></space>
+              <space/>
               <word>3</word>
-              <list type="NUMBERED" parameters="">
+              <list type="NUMBERED">
                 <listItem>
                   <word>Item</word>
-                  <space></space>
+                  <space/>
                   <word>4</word>
                 </listItem>
               </list>
@@ -94,19 +94,19 @@
         </listItem>
         <listItem>
           <word>Item</word>
-          <space></space>
+          <space/>
           <word>5</word>
         </listItem>
       </list>
     </listItem>
     <listItem>
       <word>Item</word>
-      <space></space>
+      <space/>
       <word>6</word>
     </listItem>
     <listItem>
       <word>Item</word>
-      <space></space>
+      <space/>
       <word>7</word>
     </listItem>
   </list>

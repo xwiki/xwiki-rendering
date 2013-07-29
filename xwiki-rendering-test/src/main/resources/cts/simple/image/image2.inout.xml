@@ -36,8 +36,8 @@
       </metadata>
     </metadata>
   </p>
-  <paragraph parameters="">
-    <image freestanding="true" parameters="">
+  <paragraph>
+    <image freestanding="true">
       <p>
         <reference>
           <isTyped>false</isTyped>
@@ -45,7 +45,7 @@
           <type>
             <scheme>url</scheme>
           </type>
-          <parameters></parameters>
+          <parameters/>
         </reference>
       </p>
     </image>

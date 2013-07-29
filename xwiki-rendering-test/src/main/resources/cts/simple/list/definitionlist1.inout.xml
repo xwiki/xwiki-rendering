@@ -36,13 +36,13 @@
       </metadata>
     </metadata>
   </p>
-  <definitionList parameters="">
+  <definitionList>
     <definitionTerm>
       <word>title1</word>
     </definitionTerm>
     <definitionDescription>
       <word>definition1</word>
-      <definitionList parameters="">
+      <definitionList>
         <definitionTerm>
           <word>title2</word>
         </definitionTerm>

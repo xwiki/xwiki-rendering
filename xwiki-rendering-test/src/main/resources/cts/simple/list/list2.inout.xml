@@ -36,58 +36,58 @@
       </metadata>
     </metadata>
   </p>
-  <list type="NUMBERED" parameters="">
+  <list type="NUMBERED">
     <listItem>
       <word>Item</word>
-      <space></space>
+      <space/>
       <word>1</word>
-      <list type="NUMBERED" parameters="">
+      <list type="NUMBERED">
         <listItem>
           <word>Item</word>
-          <space></space>
+          <space/>
           <word>2</word>
-          <list type="NUMBERED" parameters="">
+          <list type="NUMBERED">
             <listItem>
               <word>Item</word>
-              <space></space>
+              <space/>
               <word>3</word>
-              <list type="NUMBERED" parameters="">
+              <list type="NUMBERED">
                 <listItem>
                   <word>Item</word>
-                  <space></space>
+                  <space/>
                   <word>4</word>
-                  <list type="NUMBERED" parameters="">
+                  <list type="NUMBERED">
                     <listItem>
                       <word>Item</word>
-                      <space></space>
+                      <space/>
                       <word>5</word>
                     </listItem>
                   </list>
                 </listItem>
                 <listItem>
                   <word>Item</word>
-                  <space></space>
+                  <space/>
                   <word>6</word>
                 </listItem>
               </list>
             </listItem>
             <listItem>
               <word>Item</word>
-              <space></space>
+              <space/>
               <word>7</word>
             </listItem>
           </list>
         </listItem>
         <listItem>
           <word>Item</word>
-          <space></space>
+          <space/>
           <word>8</word>
         </listItem>
       </list>
     </listItem>
     <listItem>
       <word>Item</word>
-      <space></space>
+      <space/>
       <word>9</word>
     </listItem>
   </list>

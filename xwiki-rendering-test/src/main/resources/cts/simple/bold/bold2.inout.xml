@@ -36,15 +36,15 @@
       </metadata>
     </metadata>
   </p>
-  <paragraph parameters="">
+  <paragraph>
     <word>This</word>
-    <space></space>
+    <space/>
     <word>is</word>
-    <space></space>
-    <format format="BOLD" parameters="">
-      <space></space>
+    <space/>
+    <format format="BOLD">
+      <space/>
       <word>bold</word>
-      <space></space>
+      <space/>
     </format>
   </paragraph>
 </document>

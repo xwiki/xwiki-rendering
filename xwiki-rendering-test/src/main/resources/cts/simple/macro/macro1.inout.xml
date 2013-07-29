@@ -36,7 +36,7 @@
       </metadata>
     </metadata>
   </p>
-  <macro id="testsimplemacro" parameters="" />
+  <macro id="testsimplemacro"/>
   <macro id="testsimplemacro">
     <p>
       <parameters>
@@ -65,5 +65,5 @@
       </parameters>
     </p>
   </macro>
-  <macro id="testsimplemacro" parameters="" content="content" />
+  <macro id="testsimplemacro" content="content"/>
 </document>

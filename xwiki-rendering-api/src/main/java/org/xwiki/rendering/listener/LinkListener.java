@@ -21,6 +21,7 @@ package org.xwiki.rendering.listener;
 
 import java.util.Map;
 
+import org.xwiki.filter.annotation.Default;
 import org.xwiki.filter.annotation.Name;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
@@ -44,7 +45,7 @@ public interface LinkListener
      * @since 2.5RC1
      */
     void beginLink(@Name("reference") ResourceReference reference, @Name("freestanding") boolean isFreeStandingURI,
-        @Name("parameters") Map<String, String> parameters);
+        @Default("") @Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a link.
@@ -56,5 +57,5 @@ public interface LinkListener
      * @since 2.5RC1
      */
     void endLink(@Name("reference") ResourceReference reference, @Name("freestanding") boolean isFreeStandingURI,
-        @Name("parameters") Map<String, String> parameters);
+        @Default("") @Name("parameters") Map<String, String> parameters);
 }

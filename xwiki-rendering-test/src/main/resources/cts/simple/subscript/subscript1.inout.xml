@@ -36,12 +36,12 @@
       </metadata>
     </metadata>
   </p>
-  <paragraph parameters="">
+  <paragraph>
     <word>This</word>
-    <space></space>
+    <space/>
     <word>is</word>
-    <space></space>
-    <format format="SUBSCRIPT" parameters="">
+    <space/>
+    <format format="SUBSCRIPT">
       <word>subscript</word>
     </format>
   </paragraph>

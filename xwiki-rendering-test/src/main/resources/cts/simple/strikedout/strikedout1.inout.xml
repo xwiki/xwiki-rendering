@@ -36,12 +36,12 @@
       </metadata>
     </metadata>
   </p>
-  <paragraph parameters="">
+  <paragraph>
     <word>This</word>
-    <space></space>
+    <space/>
     <word>is</word>
-    <space></space>
-    <format format="STRIKEDOUT" parameters="">
+    <space/>
+    <format format="STRIKEDOUT">
       <word>strikedout</word>
     </format>
   </paragraph>

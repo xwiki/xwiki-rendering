@@ -36,52 +36,52 @@
       </metadata>
     </metadata>
   </p>
-  <section parameters="">
-    <header level="1" id="HTitlelevel1" parameters="">
+  <section>
+    <header id="HTitlelevel1">
       <word>Title</word>
-      <space></space>
+      <space/>
       <word>level</word>
-      <space></space>
+      <space/>
       <word>1</word>
     </header>
-    <section parameters="">
-      <header level="2" id="HTitlelevel2" parameters="">
+    <section>
+      <header level="2" id="HTitlelevel2">
         <word>Title</word>
-        <space></space>
+        <space/>
         <word>level</word>
-        <space></space>
+        <space/>
         <word>2</word>
       </header>
-      <section parameters="">
-        <header level="3" id="HTitlelevel3" parameters="">
+      <section>
+        <header level="3" id="HTitlelevel3">
           <word>Title</word>
-          <space></space>
+          <space/>
           <word>level</word>
-          <space></space>
+          <space/>
           <word>3</word>
         </header>
-        <section parameters="">
-          <header level="4" id="HTitlelevel4" parameters="">
+        <section>
+          <header level="4" id="HTitlelevel4">
             <word>Title</word>
-            <space></space>
+            <space/>
             <word>level</word>
-            <space></space>
+            <space/>
             <word>4</word>
           </header>
-          <section parameters="">
-            <header level="5" id="HTitlelevel5" parameters="">
+          <section>
+            <header level="5" id="HTitlelevel5">
               <word>Title</word>
-              <space></space>
+              <space/>
               <word>level</word>
-              <space></space>
+              <space/>
               <word>5</word>
             </header>
-            <section parameters="">
-              <header level="6" id="HTitlelevel6" parameters="">
+            <section>
+              <header level="6" id="HTitlelevel6">
                 <word>Title</word>
-                <space></space>
+                <space/>
                 <word>level</word>
-                <space></space>
+                <space/>
                 <word>6</word>
               </header>
             </section>

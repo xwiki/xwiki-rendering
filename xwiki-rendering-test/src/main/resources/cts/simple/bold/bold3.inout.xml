@@ -36,17 +36,17 @@
       </metadata>
     </metadata>
   </p>
-  <paragraph parameters="">
+  <paragraph>
     <word>This</word>
-    <space></space>
+    <space/>
     <word>is</word>
-    <space></space>
-    <format format="BOLD" parameters="">
+    <space/>
+    <format format="BOLD">
       <word>bold</word>
-      <space></space>
+      <space/>
       <word>and</word>
-      <space></space>
-      <format format="ITALIC" parameters="">
+      <space/>
+      <format format="ITALIC">
         <word>italic</word>
       </format>
     </format>

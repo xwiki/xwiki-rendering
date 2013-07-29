@@ -36,11 +36,11 @@
       </metadata>
     </metadata>
   </p>
-  <paragraph parameters="">
+  <paragraph>
     <word>hello</word>
   </paragraph>
-  <horizontalLine parameters=""/>
-  <paragraph parameters="">
+  <horizontalLine/>
+  <paragraph>
     <word>world</word>
   </paragraph>
 </document>

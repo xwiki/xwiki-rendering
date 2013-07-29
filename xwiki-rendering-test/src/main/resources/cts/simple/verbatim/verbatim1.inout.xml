@@ -37,11 +37,11 @@
       </metadata>
     </metadata>
   </p>
-  <paragraph parameters="">
+  <paragraph>
     <word>This</word>
-    <space></space>
+    <space/>
     <word>is</word>
-    <space></space>
-    <verbatim content="verbatim" inline="true" parameters=""/>
+    <space/>
+    <verbatim content="verbatim" inline="true"/>
   </paragraph>
 </document>

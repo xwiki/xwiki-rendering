@@ -36,16 +36,16 @@
       </metadata>
     </metadata>
   </p>
-  <paragraph parameters="">
+  <paragraph>
     <word>paragraph</word>
   </paragraph>
-  <quotation parameters="">
+  <quotation>
     <quotationLine>
       <word>line1</word>
-      <quotation parameters="">
+      <quotation>
         <quotationLine>
           <word>line2</word>
-          <quotation parameters="">
+          <quotation>
             <quotationLine>
               <word>line3</word>
             </quotationLine>
@@ -57,7 +57,7 @@
       </quotation>
     </quotationLine>
   </quotation>
-  <paragraph parameters="">
+  <paragraph>
     <word>paragraph</word>
   </paragraph>
 </document>

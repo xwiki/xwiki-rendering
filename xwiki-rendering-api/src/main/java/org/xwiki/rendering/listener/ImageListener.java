@@ -21,6 +21,7 @@ package org.xwiki.rendering.listener;
 
 import java.util.Map;
 
+import org.xwiki.filter.annotation.Default;
 import org.xwiki.filter.annotation.Name;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
@@ -42,5 +43,5 @@ public interface ImageListener
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      */
     void onImage(@Name("reference") ResourceReference reference, @Name("freestanding") boolean isFreeStandingURI,
-        @Name("parameters") Map<String, String> parameters);
+        @Default("") @Name("parameters") Map<String, String> parameters);
 }

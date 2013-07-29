@@ -36,28 +36,28 @@
       </metadata>
     </metadata>
   </p>
-  <table parameters="">
-    <tableRow parameters="">
-      <tableHeadCell parameters="">
+  <table>
+    <tableRow>
+      <tableHeadCell>
         <word>col1</word>
       </tableHeadCell>
-      <tableHeadCell parameters="">
+      <tableHeadCell>
         <word>col2</word>
       </tableHeadCell>
     </tableRow>
-    <tableRow parameters="">
-      <tableCell parameters="">
+    <tableRow>
+      <tableCell>
         <word>cell11</word>
       </tableCell>
-      <tableCell parameters="">
+      <tableCell>
         <word>cell12</word>
       </tableCell>
     </tableRow>
-    <tableRow parameters="">
-      <tableCell parameters="">
+    <tableRow>
+      <tableCell>
         <word>cell21</word>
       </tableCell>
-      <tableCell parameters="">
+      <tableCell>
         <word>cell22</word>
       </tableCell>
     </tableRow>

@@ -37,12 +37,12 @@
       </metadata>
     </metadata>
   </p>
-  <paragraph parameters="">
+  <paragraph>
     <word>This</word>
-    <space></space>
+    <space/>
     <word>is</word>
-    <space></space>
-    <format format="MONOSPACE" parameters="">
+    <space/>
+    <format format="MONOSPACE">
       <word>monospace</word>
     </format>
   </paragraph>

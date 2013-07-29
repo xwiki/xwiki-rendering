@@ -36,16 +36,16 @@
       </metadata>
     </metadata>
   </p>
-  <paragraph parameters="">
+  <paragraph>
     <word>paragraph1</word>
-    <space></space>
+    <space/>
     <word>on</word>
-    <newLine></newLine>
+    <newLine/>
     <word>multiple</word>
-    <newLine></newLine>
+    <newLine/>
     <word>lines</word>
   </paragraph>
-  <paragraph parameters="">
+  <paragraph>
     <word>paragraph2</word>
   </paragraph>
 </document>
