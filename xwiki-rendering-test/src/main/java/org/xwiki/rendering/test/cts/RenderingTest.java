@@ -35,7 +35,6 @@ import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
-import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.velocity.internal.log.SLF4JLogChute;
 import org.xwiki.xml.XMLUtils;
@@ -195,16 +194,14 @@ public class RenderingTest
      */
     private String convert(String source, String sourceSyntaxId, String targetSyntaxId) throws Exception
     {
-        WikiPrinter printer = new DefaultWikiPrinter();
-
         PrintRendererFactory rendererFactory =
             getComponentManager().getInstance(PrintRendererFactory.class, targetSyntaxId);
-        PrintRenderer renderer = rendererFactory.createRenderer(printer);
+        PrintRenderer renderer = rendererFactory.createRenderer(new DefaultWikiPrinter());
         StreamParser parser = getComponentManager().getInstance(StreamParser.class, sourceSyntaxId);
 
         parser.parse(new StringReader(source), renderer);
 
-        return printer.toString();
+        return renderer.getPrinter().toString();
     }
 
     /**
