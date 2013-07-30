@@ -65,6 +65,7 @@ public class Markdown11StreamParser implements StreamParser
     {
         PegDownPlugins plugins = PegDownPlugins.builder()
                 .withPlugin(XWikiPegdownPluginParser.class)
+                .withSpecialChars('^')
                 .build();
 
         // The Pegdown processor is not thread safe, thus we need one per thread at least.
