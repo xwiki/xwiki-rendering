@@ -49,7 +49,6 @@
     <dependency>
       <groupId>net.sourceforge.cssparser</groupId>
       <artifactId>cssparser</artifactId>
-      <version>0.9.5</version>
     </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
