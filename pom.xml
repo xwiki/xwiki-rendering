@@ -61,16 +61,6 @@
     <!-- Useful for Rendering extensions -->
     <rendering.version>${commons.version}</rendering.version>
   </properties>
-  <dependencyManagement>
-    <dependencies>
-      <!-- Used in several Rendering modules -->
-      <dependency>
-        <groupId>net.sourceforge.cssparser</groupId>
-        <artifactId>cssparser</artifactId>
-        <version>0.9.9</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
