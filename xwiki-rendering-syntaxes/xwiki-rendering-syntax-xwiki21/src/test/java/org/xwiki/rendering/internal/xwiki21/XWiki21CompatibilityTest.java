@@ -21,7 +21,6 @@ package org.xwiki.rendering.internal.xwiki21;
 
 import org.junit.runner.RunWith;
 import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
-import org.xwiki.rendering.test.cts.Scope;
 import org.xwiki.rendering.test.cts.Syntax;
 
 /**
