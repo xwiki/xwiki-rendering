@@ -1,8 +1,8 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
-.# Testing anchor recognition when nothing before anchor.
+.# Testing anchor recognition when anchor and valid URL
 .#-----------------------------------------------------
-<p>one <a href="#foo">two</a> three</p>
+<p>one <a href="http://server/something#foo">two</a> three</p>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -10,9 +10,9 @@ beginDocument
 beginParagraph
 onWord [one]
 onSpace
-beginLink [Typed = [true] Type = [doc] Reference = [] Parameters = [[anchor] = [foo]]] [false]
+beginLink [Typed = [true] Type = [url] Reference = [http://server/something#foo]] [false]
 onWord [two]
-endLink [Typed = [true] Type = [doc] Reference = [] Parameters = [[anchor] = [foo]]] [false]
+endLink [Typed = [true] Type = [url] Reference = [http://server/something#foo]] [false]
 onSpace
 onWord [three]
 endParagraph
@@ -20,4 +20,4 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>one <span class="wikilink"><a href="#foo">two</a></span> three</p>
+<p>one <span class="wikiexternallink"><a href="http://server/something#foo">two</a></span> three</p>

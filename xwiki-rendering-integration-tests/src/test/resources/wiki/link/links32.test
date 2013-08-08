@@ -8,7 +8,7 @@
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:true|-|url|-|reference#name--><span class="wikiexternallink"><a href="reference#name">label</a></span><!--stopwikilink--></p>
+<p><!--startwikilink:true|-|path|-|reference#name--><span class="wikiinternallink"><a href="reference#name">label</a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -16,4 +16,4 @@
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
-[[label>>url:reference#name]]
+[[label>>path:reference#name]]

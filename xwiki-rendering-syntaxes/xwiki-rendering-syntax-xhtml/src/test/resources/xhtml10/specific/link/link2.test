@@ -1,0 +1,23 @@
+.#----------------------------------------------------------------------------
+.input|xhtml/1.0
+.# Testing anchor recognition when something before anchor but not a valid URL
+.#----------------------------------------------------------------------------
+<p>one <a href="something#foo">two</a> three</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [one]
+onSpace
+beginLink [Typed = [true] Type = [path] Reference = [something#foo]] [false]
+onWord [two]
+endLink [Typed = [true] Type = [path] Reference = [something#foo]] [false]
+onSpace
+onWord [three]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>one <span class="wikiinternallink"><a href="something#foo">two</a></span> three</p>
