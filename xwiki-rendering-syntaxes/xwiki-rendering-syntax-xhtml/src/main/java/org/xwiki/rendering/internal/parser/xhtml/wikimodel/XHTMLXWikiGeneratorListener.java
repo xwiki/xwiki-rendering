@@ -23,9 +23,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
@@ -126,10 +124,6 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
      *       e.g. {@code http://server/path/reference#anchor}</li>
      *   <li>UC2: the reference is not a valid URL, we return a reference of type "path",
      *       e.g. {@code path/reference#anchor}</li>
-     *   <li>UC3: there is an anchor but no reference, we return a reference of type "doc",
-     *       e.g. {@code #anchor}. In this case we point to the current content. </li>
-     *   <li>UC4: the reference is empty, we return a reference of type "doc". In this case we point to the current
-     *       content. </li>
      * </ul>
      *
      * @param rawReference the full reference (e.g. "/some/path/something#other")
@@ -137,40 +131,18 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
      */
     private ResourceReference computeResourceReference(String rawReference)
     {
-        // Step 1: Do we have a valid URL?
+        ResourceReference reference;
+
+        // Do we have a valid URL?
         Matcher matcher = URL_SCHEME_PATTERN.matcher(rawReference);
         if (matcher.lookingAt()) {
             // We have UC1
-            return new ResourceReference(rawReference, ResourceType.URL);
-        }
-
-        // Step 2: Not a valid URL, is the reference empty?
-        if (StringUtils.isEmpty(rawReference)) {
-            // We have UC4
-            return new ResourceReference(rawReference, ResourceType.DOCUMENT);
-        }
-
-        // Step 3: Is the reference an anchor pointing to the current content?
-        ResourceReference resourceReference;
-        int anchorPos = rawReference.indexOf("#");
-        if (anchorPos > -1) {
-            // We have UC3
-            String referenceBeforeHash = rawReference.substring(0, anchorPos);
-            if (StringUtils.isEmpty(referenceBeforeHash)) {
-                resourceReference = new ResourceReference(referenceBeforeHash, ResourceType.DOCUMENT);
-                if (anchorPos < rawReference.length() - 1) {
-                    resourceReference.setParameter(DocumentResourceReference.ANCHOR,
-                        rawReference.substring(anchorPos + 1));
-                }
-            } else {
-                // We have UC2
-                resourceReference = new ResourceReference(rawReference, ResourceType.PATH);
-            }
+            reference = new ResourceReference(rawReference, ResourceType.URL);
         } else {
-            // We have UC2 too
-            resourceReference = new ResourceReference(rawReference, ResourceType.PATH);
+            // We have UC2
+            reference = new ResourceReference(rawReference, ResourceType.PATH);
         }
 
-        return resourceReference;
+        return reference;
     }
 }

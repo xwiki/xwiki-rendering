@@ -6,7 +6,7 @@
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:true|-|doc|-||-|anchor="name"--><span class="wikilink"><a href="#name">label</a></span><!--stopwikilink--></p>
+<p><!--startwikilink:true|-|path|-|#name--><span class="wikiinternallink"><a href="#name">label</a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -14,4 +14,4 @@
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
-[[label>>doc:||anchor="name"]]
+[[label>>path:#name]]
