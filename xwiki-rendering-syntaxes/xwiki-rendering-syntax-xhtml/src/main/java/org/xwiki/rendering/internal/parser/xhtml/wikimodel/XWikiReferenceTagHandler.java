@@ -21,6 +21,10 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import java.util.Collections;
 
+import org.apache.commons.lang3.StringUtils;
+import org.xwiki.rendering.listener.reference.DocumentResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
@@ -151,13 +155,45 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
                 linkLabelRenderer.endDocument(MetaData.EMPTY);
 
                 String label = linkLabelRenderer.getPrinter().toString();
-                WikiReference reference =
-                    new WikiReference(ref.getValue(), label, removeMeaningfulParameters(parameters));
+
+                WikiReference reference = handleURLFragments(ref, label, parameters);
 
                 context.getScannerContext().onReference(reference);
             }
         } else {
             super.end(context);
         }
+    }
+
+    /**
+     * Handle the case when there's a URL fragment. If there's no reference before the fragment then consider it points
+     * to the current content, otherwise consider it an external URL.
+     *
+     * @return the proper Wikimodel reference
+     */
+    private WikiReference handleURLFragments(WikiParameter ref, String label, WikiParameters parameters)
+    {
+        WikiReference reference = null;
+        String referenceValue = ref.getValue();
+        int anchorPos = referenceValue.indexOf("#");
+        if (anchorPos > -1) {
+            String referenceBeforeHash = referenceValue.substring(0, anchorPos);
+            if (StringUtils.isEmpty(referenceBeforeHash)) {
+                ResourceReference resourceReference =
+                    new ResourceReference(referenceBeforeHash, ResourceType.DOCUMENT);
+                if (anchorPos < referenceValue.length() - 1) {
+                    resourceReference.setParameter(DocumentResourceReference.ANCHOR,
+                        referenceValue.substring(anchorPos + 1));
+                }
+                reference = new XWikiWikiReference(resourceReference, label,
+                    removeMeaningfulParameters(parameters), false);
+            }
+        }
+
+        if (reference == null) {
+            reference = new WikiReference(referenceValue, label, removeMeaningfulParameters(parameters));
+        }
+
+        return reference;
     }
 }

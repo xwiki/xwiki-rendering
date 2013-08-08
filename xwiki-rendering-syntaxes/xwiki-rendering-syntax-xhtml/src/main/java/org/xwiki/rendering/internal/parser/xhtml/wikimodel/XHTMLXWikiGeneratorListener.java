@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
+import java.util.Map;
+
+import org.apache.commons.lang3.tuple.Pair;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
@@ -76,8 +79,12 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
             flushFormat();
         }
 
-        onReference(resourceReference, reference.getLabel(), isFreeStanding,
-            convertParameters(reference.getParameters()));
+        // Consider query string and anchor as ResourceReference parameters and the rest as generic parameters
+        Pair<Map<String, String>, Map<String, String>> parameters =
+            convertAndSeparateParameters(reference.getParameters());
+
+        resourceReference.setParameters(parameters.getLeft());
+        onReference(resourceReference, reference.getLabel(), isFreeStanding, parameters.getRight());
     }
 
     @Override

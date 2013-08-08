@@ -28,6 +28,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.wikimodel.IWemConstants;
 import org.xwiki.rendering.wikimodel.WikiFormat;
 import org.xwiki.rendering.wikimodel.WikiParameter;
@@ -199,6 +202,40 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         }
 
         return xwikiParams;
+    }
+
+    /**
+     * Convert Wikimodel parameters to XWiki parameters format, separating anchor and query string parameters which we
+     * consider ResourceReference parameters from the rest which we consider generic event parameters.
+     *
+     * @param params the wikimodel parameters to convert
+     * @return the parameters in XWiki format, the left side of the pair is the ResourceReference parameters and the
+     *         right side the generic event parameters
+     */
+    protected Pair<Map<String, String>, Map<String, String>> convertAndSeparateParameters(WikiParameters params)
+    {
+        Map<String, String> resourceParameters;
+        Map<String, String> genericParameters;
+
+        if (params.getSize() > 0) {
+            resourceParameters = new LinkedHashMap<String, String>();
+            genericParameters = new LinkedHashMap<String, String>();
+            for (WikiParameter wikiParameter : params.toList()) {
+                String key = wikiParameter.getKey();
+                if (key.equals(DocumentResourceReference.ANCHOR)
+                    || key.equals(DocumentResourceReference.QUERY_STRING))
+                {
+                    resourceParameters.put(key, wikiParameter.getValue());
+                } else {
+                    genericParameters.put(key, wikiParameter.getValue());
+                }
+            }
+        } else {
+            resourceParameters = Listener.EMPTY_PARAMETERS;
+            genericParameters = Listener.EMPTY_PARAMETERS;
+        }
+
+        return new ImmutablePair<Map<String, String>, Map<String, String>>(resourceParameters, genericParameters);
     }
 
     private Format convertFormat(WikiStyle style)

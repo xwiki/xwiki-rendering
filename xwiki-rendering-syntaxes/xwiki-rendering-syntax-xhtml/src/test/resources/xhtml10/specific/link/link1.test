@@ -1,0 +1,23 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Testing anchor recognition
+.#-----------------------------------------------------
+<p>one <a href="#foo">two</a> three</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [one]
+onSpace
+beginLink [Typed = [true] Type = [doc] Reference = [] Parameters = [[anchor] = [foo]]] [false]
+onWord [two]
+endLink [Typed = [true] Type = [doc] Reference = [] Parameters = [[anchor] = [foo]]] [false]
+onSpace
+onWord [three]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>one <span class="wikilink"><a href="#foo">two</a></span> three</p>

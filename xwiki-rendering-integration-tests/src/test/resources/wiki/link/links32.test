@@ -1,17 +1,19 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
-.# Test anchor links coming from plain xhtml
+.# Test anchor links coming from plain xhtml. The difference
+.# with links30.test is that there's some reference before the
+.# anchor part and we consider it a URL link.
 .#-----------------------------------------------------
-<p><a href="#name">label</a></p>
+<p><a href="reference#name">label</a></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:true|-|doc|-||-|anchor="name"--><span class="wikilink"><a href="#name">label</a></span><!--stopwikilink--></p>
+<p><!--startwikilink:true|-|url|-|reference#name--><span class="wikiexternallink"><a href="reference#name">label</a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
-[[label>>#name]]
+[[label>>reference#name]]
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
-[[label>>doc:||anchor="name"]]
+[[label>>url:reference#name]]
