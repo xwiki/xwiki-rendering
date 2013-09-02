@@ -1,20 +1,11 @@
 .#-----------------------------------------------------
 .input|markdown/1.1
-.# Test Markdown-style macro without content
+.# Test Markdown-style macro used as a block element
 .#-----------------------------------------------------
-This is inline #[mymacro](par1="val 1" par2='val 2').
+#[mymacro](par1="val 1" par2="2" 'Macro content here')
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginParagraph
-onWord [This]
-onSpace
-onWord [is]
-onSpace
-onWord [inline]
-onSpace
-onMacroInline [mymacro] [par1=val 1|par2=val 2]
-onSpecialSymbol [.]
-endParagraph
+onMacroStandalone [mymacro] [par1=val 1|par2=2] [Macro content here]
 endDocument

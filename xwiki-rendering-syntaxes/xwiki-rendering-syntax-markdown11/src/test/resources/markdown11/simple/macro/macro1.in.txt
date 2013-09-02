@@ -1,4 +1,4 @@
 #[testsimplemacro]
-#[testsimplemacro param1=value1 param2=value2]
-#[testsimplemacro param1="value1" param2='value2'](content)
+#[testsimplemacro](param1=value1 param2=value2)
+#[testsimplemacro](param1="value1" param2='value2' "content")
 #[testsimplemacro](content)

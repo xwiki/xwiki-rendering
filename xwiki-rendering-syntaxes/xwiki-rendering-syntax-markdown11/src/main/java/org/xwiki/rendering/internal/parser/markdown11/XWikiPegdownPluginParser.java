@@ -135,9 +135,9 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
     /**
      * Rule for Markdown-style macro syntax.
      *
-     * Examples: <tt>#[mymacro par1=val1 par2="val 2"](content)</tt>,
+     * Examples: <tt>#[mymacro](par1=val1 par2="val 2" "content")</tt>,
      *           <tt>#[mymacro](content)</tt>,
-     *           <tt>#[mymacro par1=val1]</tt>,
+     *           <tt>#[mymacro](par1=val1)</tt>,
      *           <tt>#[mymacro]</tt>
      *
      * @param isInline if the rule is used in inline plugin
@@ -149,19 +149,40 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
             "#[",
             Identifier(), push(new MacroNode(match(), isInline)),
             Sp(),
-            ZeroOrMore(
-                MacroParameter(EMPTY),
-                Sp()
-            ),
             ']',
             Optional(
                 '(',
+                ZeroOrMore(
+                    Test(Identifier(), '='),
+                    MacroParameter(EMPTY),
+                    Sp()
+                ),
+                MarkdownMacroContent(),
+                ')'
+            )
+        );
+    }
+
+    /**
+     * Rule for an optional content of the Markdown-style macro.
+     *
+     * Examples: <tt>"some content"</tt>,
+     *           <tt>'some content'</tt>,
+     *           <tt>some content</tt> (must not contain ')')
+     */
+    public Rule MarkdownMacroContent()
+    {
+        return FirstOf(
+            Sequence(
+                QuotedText(), push(new TextNode(popAsString())) && addAsChild()
+            ),
+            Sequence(
                 OneOrMore(
                     TestNot(')'),
                     ANY
-                ), push(new TextNode(match())) && addAsChild(),
-                ')'
-            )
+                ), push(new TextNode(match())) && addAsChild()
+            ),
+            EMPTY
         );
     }
 
@@ -237,6 +258,8 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
 
     /**
      * Rule for a macro parameter.
+     * Adds the parsed {@link MacroParameterNode} to a {@code MacroNode} from
+     * the top of value stack.
      *
      * Example: <tt>par1="some value"</tt>,
      *          <tt>par2='some value'</tt>,
@@ -255,51 +278,60 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
             '=',
             space,
             FirstOf(
-                MacroParameterValue('"', node),
-                MacroParameterValue('\'', node),
-                MacroParameterValue(node)
-            ), ((MacroNode) peek()).addParameter(node.get())
+                QuotedText(),
+                MacroParameterUnquotedValue()
+            ),
+            node.get().setValue(popAsString()),
+            ((MacroNode) peek()).addParameter(node.get())
         );
     }
 
     /**
-     * Rule for a quoted value of the macro parameter.
-     *
-     * Example: <tt>"some value"</tt>,
-     *          <tt>'some value'</tt>
-     *
-     * @param mark quotation character
-     * @param node MacroParameterNode variable
-     */
-    public Rule MacroParameterValue(char mark, Var<MacroParameterNode> node)
-    {
-        return Sequence(
-            mark,
-            ZeroOrMore(
-                TestNot(mark),
-                ANY
-            ), node.get().setValue(match()),
-            mark
-        );
-    }
-
-    /**
-     * Rule for a value of the macro parameter without special chars, spaces
+     * Rule for a value of the macro parameter without closing marks, spaces
      * and newlines.
      *
-     * Example: <tt>someValueWithoutSpaces</tt>
-     *
-     * @param node MacroParameterNode variable
+     * Pushes matched value as {@code String} onto the value stack.
      */
-    public Rule MacroParameterValue(Var<MacroParameterNode> node)
+    public Rule MacroParameterUnquotedValue()
     {
         return Sequence(
             OneOrMore(
-                TestNot(']'),
+                TestNot(')'),   //closing mark of Macro content
                 TestNot(XMACRO_TAG_CLOSE_MARK),
-                TestNot('/'),
+                TestNot('/'),   //before closing mark of XMacro self-closing tag
                 Nonspacechar()
-            ), node.get().setValue(match())
+            ), push(match())
+        );
+    }
+
+    /**
+     * Rule for a single or double quoted text.
+     * Pushes matched text as {@code String} onto the value stack.
+     */
+    public Rule QuotedText()
+    {
+        return FirstOf(
+            QuotedText('"'),
+            QuotedText('\'')
+        );
+    }
+
+    /**
+     * Rule for text quoted with the specified quotation character.
+     * Pushes matched text as {@code String} onto the value stack.
+     *
+     * @param quoteChar quotation character
+     */
+    @Cached
+    public Rule QuotedText(char quoteChar)
+    {
+        return Sequence(
+            quoteChar,
+            ZeroOrMore(
+                TestNot(quoteChar),
+                ANY
+            ), push(match()),
+            quoteChar
         );
     }
 
