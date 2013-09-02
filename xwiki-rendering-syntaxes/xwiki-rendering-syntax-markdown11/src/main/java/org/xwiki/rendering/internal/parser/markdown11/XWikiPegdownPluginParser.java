@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.parser.markdown11;
 import org.parboiled.Rule;
 import org.parboiled.annotations.Cached;
 import org.parboiled.annotations.DontSkipActionsInPredicates;
+import org.parboiled.support.StringBuilderVar;
 import org.parboiled.support.Var;
 import org.pegdown.Parser;
 import org.pegdown.ast.TextNode;
@@ -317,21 +318,32 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
     }
 
     /**
-     * Rule for text quoted with the specified quotation character.
-     * Pushes matched text as {@code String} onto the value stack.
+     * Rule for a text quoted with the specified quotation character. The text
+     * may contain an escaped single or double quotation mark(s). At the end it
+     * pushes the matched text as {@code String} onto the value stack.
      *
      * @param quoteChar quotation character
      */
     @Cached
     public Rule QuotedText(char quoteChar)
     {
+        StringBuilderVar text = new StringBuilderVar();
+        
         return Sequence(
             quoteChar,
-            ZeroOrMore(
-                TestNot(quoteChar),
-                ANY
-            ), push(match()),
-            quoteChar
+            OneOrMore(
+                FirstOf(
+                    Sequence(
+                        Ch('\\'),     //will not append escape char
+                        AnyOf("\"'"), text.append(match())
+                    ),
+                    Sequence(
+                        TestNot(quoteChar),
+                        ANY, text.append(match())
+                    )
+                )
+            ),
+            quoteChar, push(text.getString())
         );
     }
 
