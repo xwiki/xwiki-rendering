@@ -30,16 +30,14 @@ import org.pegdown.plugins.BlockPluginParser;
 import org.pegdown.plugins.InlinePluginParser;
 import org.xwiki.rendering.internal.parser.markdown11.ast.MacroNode;
 import org.xwiki.rendering.internal.parser.markdown11.ast.MacroParameterNode;
-import org.xwiki.rendering.internal.parser.markdown11.ast.SubscriptNode;
-import org.xwiki.rendering.internal.parser.markdown11.ast.SuperscriptNode;
 
 /**
- * Implements a pluggable parser for Pegdown that provides extended syntax for XWiki.
+ * Implements a pluggable parser for Pegdown that provides macro syntax for XWiki.
  *
  * @version $Id $
  * @since 5.2M1
  */
-public class XWikiPegdownPluginParser extends Parser implements InlinePluginParser, BlockPluginParser
+public class MacroPegdownPluginParser extends Parser implements InlinePluginParser, BlockPluginParser
 {
     /**
      * String to open the XWiki-style macro tag.
@@ -52,7 +50,7 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
     private static final String XMACRO_TAG_CLOSE_MARK = "}}";
 
 
-    public XWikiPegdownPluginParser()
+    public MacroPegdownPluginParser()
     {
         super(ALL, 1000l, DefaultParseRunnerProvider);
     }
@@ -66,72 +64,11 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
     @Override
     public Rule[] inlinePluginRules()
     {
-        return new Rule[] { Superscript(), Subscript(), MarkdownMacro(true) };
+        return new Rule[] { MarkdownMacro(true) };
     }
 
 
-    //////// Superscript and subscript ////////
-
-    /**
-     * Rule for a superscript formatting.
-     * Example: <tt>This is in ^superscript^</tt>,
-     *          <tt>This is in^superscript^</tt>
-     */
-    public Rule Superscript()
-    {
-        Rule marker = Ch('^');
-
-        return NodeSequence(
-            marker,
-            push(new SuperscriptNode()),
-            SuperscriptOrSubscript(marker),
-            marker
-        );
-    }
-
-    /**
-     * Rule for a subscript formatting.
-     * Example: <tt>This is in ~subscript~</tt>,
-     *          <tt>This is in~subscript~</tt>
-     */
-    public Rule Subscript()
-    {
-        Rule marker = Ch('~');
-
-        return NodeSequence(
-            marker,
-            push(new SubscriptNode()),
-            SuperscriptOrSubscript(marker),
-            marker
-        );
-    }
-
-    /**
-     * Common rule for superscript and subscript that parses any text without
-     * the given marker ({@literal ^} for superscript or {@literal ~} for
-     * subscript) and non-escaped spaces.
-     *
-     * @param marker <tt>Ch('^')</tt> for superscript, or <tt>Ch('~')</tt> for
-     *               subscript
-     */
-    @Cached
-    public Rule SuperscriptOrSubscript(Rule marker)
-    {
-        return OneOrMore(
-            TestNot(marker),
-            FirstOf(
-                Sequence(
-                    Ch('\\'),  //will not append escape char
-                    Spacechar(), push(new TextNode(match())) && addAsChild()),
-                Sequence(
-                    Nonspacechar(), push(new TextNode(match())) && addAsChild()
-                )
-            )
-        );
-    }
-
-
-    //////// Macro ////////
+    //////// Markdown-style macro rules ////////
 
     /**
      * Rule for Markdown-style macro syntax.
@@ -166,7 +103,7 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
 
     /**
      * Rule for the Markdown-style macro parameter.
-     * Adds the parsed {@link MacroParameterNode} to a {@code MacroNode} from
+     * Adds the parsed {@link org.xwiki.rendering.internal.parser.markdown11.ast.MacroParameterNode} to a {@code MacroNode} from
      * the top of value stack.
      *
      * Example: <tt>par1="some value"</tt>,
@@ -222,6 +159,9 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
         );
     }
 
+    
+    //////// XWiki-style macro rules ////////
+    
     /**
      * Rule for XWiki-style macro syntax.
      *
@@ -257,7 +197,7 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
     
     /**
      * Rule for the XWiki-style macro parameter.
-     * Adds the parsed {@link MacroParameterNode} to a {@code MacroNode} from
+     * Adds the parsed {@link org.xwiki.rendering.internal.parser.markdown11.ast.MacroParameterNode} to a {@code MacroNode} from
      * the top of value stack.
      *
      * Example: <tt>par1 = "some value"</tt>,
@@ -328,6 +268,9 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
         );
     }
 
+    
+    //////// Shared rules ////////
+    
     /**
      * Rule for a single or double quoted text.
      * Pushes matched text as {@code String} onto the value stack.

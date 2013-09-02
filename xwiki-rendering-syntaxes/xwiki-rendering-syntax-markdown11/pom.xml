@@ -84,7 +84,7 @@
         <configuration>
           <!-- Parboiled parser classes uses specific naming etc. -->
           <excludes>
-            org/xwiki/rendering/internal/parser/markdown11/XWikiPegdownPluginParser.java
+            org/xwiki/rendering/internal/parser/markdown11/*PegdownPluginParser.java
           </excludes>
         </configuration>
       </plugin>

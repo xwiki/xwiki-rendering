@@ -19,12 +19,6 @@
  */
 package org.xwiki.rendering.internal.parser.markdown11;
 
-import java.io.IOException;
-import java.io.Reader;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.apache.commons.io.IOUtils;
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
@@ -36,6 +30,11 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.syntax.Syntax;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.IOException;
+import java.io.Reader;
 
 /**
  * Markdown Streaming Parser.
@@ -64,7 +63,8 @@ public class Markdown11StreamParser implements StreamParser
     public void parse(Reader source, Listener listener) throws ParseException
     {
         PegDownPlugins plugins = PegDownPlugins.builder()
-                .withPlugin(XWikiPegdownPluginParser.class)
+                .withPlugin(FormattingPegdownPluginParser.class)
+                .withPlugin(MacroPegdownPluginParser.class)
                 .withSpecialChars('^')
                 .build();
 
