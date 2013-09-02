@@ -155,12 +155,47 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
                 '(',
                 ZeroOrMore(
                     Test(Identifier(), '='),
-                    MacroParameter(EMPTY),
+                    MarkdownMacroParameter(),
                     Sp()
                 ),
                 MarkdownMacroContent(),
                 ')'
             )
+        );
+    }
+
+    /**
+     * Rule for the Markdown-style macro parameter.
+     * Adds the parsed {@link MacroParameterNode} to a {@code MacroNode} from
+     * the top of value stack.
+     *
+     * Example: <tt>par1="some value"</tt>,
+     *          <tt>par2='some value'</tt>,
+     *          <tt>par3=someValue</tt>
+     */
+    public Rule MarkdownMacroParameter()
+    {
+        Var<MacroParameterNode> node = new Var<MacroParameterNode>();
+
+        return Sequence(
+            Identifier(), node.set(new MacroParameterNode(match())),
+            '=',
+            FirstOf(
+                // Quoted value
+                Sequence(
+                    QuotedText(), node.get().setValue(popAsString())
+                ),
+                // Unquoted value
+                Sequence(
+                    OneOrMore(
+                        TestNot(')'),
+                        TestNot('"'),
+                        TestNot("'"),
+                        Nonspacechar()
+                    ), node.get().setValue(match())
+                )
+            ),
+            ((MacroNode) peek()).addParameter(node.get())
         );
     }
 
@@ -205,7 +240,7 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
             Spn1(),
             ZeroOrMore(
                 Test(Identifier()),
-                MacroParameter(Spn1()),
+                XWikiMacroParameter(),
                 Spn1()
             ),
             FirstOf(
@@ -219,7 +254,43 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
             )
         );
     }
+    
+    /**
+     * Rule for the XWiki-style macro parameter.
+     * Adds the parsed {@link MacroParameterNode} to a {@code MacroNode} from
+     * the top of value stack.
+     *
+     * Example: <tt>par1 = "some value"</tt>,
+     *          <tt>par2='some value'</tt>,
+     *          <tt>par3 =
+     *          someValue</tt>
+     */
+    public Rule XWikiMacroParameter()
+    {
+        Var<MacroParameterNode> node = new Var<MacroParameterNode>();
 
+        return Sequence(
+            Identifier(), node.set(new MacroParameterNode(match())),
+            Spn1(),
+            '=',
+            Spn1(),
+            FirstOf(
+                // Quoted value
+                Sequence(
+                    QuotedText(), node.get().setValue(popAsString())
+                ),
+                // Unquoted value
+                Sequence(
+                    OneOrMore(
+                        TestNot('/'),  //part of self-closing tag
+                        TestNot(XMACRO_TAG_CLOSE_MARK),
+                        Nonspacechar()
+                    ), node.get().setValue(match())
+                )
+            ),
+            ((MacroNode) peek()).addParameter(node.get())
+        );
+    }
 
     /**
      * Rule for a content of the XWiki macro syntax.
@@ -254,54 +325,6 @@ public class XWikiPegdownPluginParser extends Parser implements InlinePluginPars
             Identifier(), match().equals(node.get().getMacroId()),
             Spn1(),
             XMACRO_TAG_CLOSE_MARK
-        );
-    }
-
-    /**
-     * Rule for a macro parameter.
-     * Adds the parsed {@link MacroParameterNode} to a {@code MacroNode} from
-     * the top of value stack.
-     *
-     * Example: <tt>par1="some value"</tt>,
-     *          <tt>par2='some value'</tt>,
-     *          <tt>par3=someValue</tt>
-     *
-     * @param space space rule around {@literal =}
-     */
-    @Cached
-    public Rule MacroParameter(Rule space)
-    {
-        Var<MacroParameterNode> node = new Var<MacroParameterNode>();
-
-        return Sequence(
-            Identifier(), node.set(new MacroParameterNode(match())),
-            space,
-            '=',
-            space,
-            FirstOf(
-                QuotedText(),
-                MacroParameterUnquotedValue()
-            ),
-            node.get().setValue(popAsString()),
-            ((MacroNode) peek()).addParameter(node.get())
-        );
-    }
-
-    /**
-     * Rule for a value of the macro parameter without closing marks, spaces
-     * and newlines.
-     *
-     * Pushes matched value as {@code String} onto the value stack.
-     */
-    public Rule MacroParameterUnquotedValue()
-    {
-        return Sequence(
-            OneOrMore(
-                TestNot(')'),   //closing mark of Macro content
-                TestNot(XMACRO_TAG_CLOSE_MARK),
-                TestNot('/'),   //before closing mark of XMacro self-closing tag
-                Nonspacechar()
-            ), push(match())
         );
     }
 
