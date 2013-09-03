@@ -1,6 +1,6 @@
 .#-----------------------------------------------------
 .input|markdown/1.1
-.# Tables are expressed in HTML in Markdown
+.# Test block HTML
 .#-----------------------------------------------------
 hello
 

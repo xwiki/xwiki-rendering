@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.pegdown.ast.InlineHtmlNode;
 import org.pegdown.ast.Node;
 import org.pegdown.ast.SuperNode;
 import org.xwiki.rendering.internal.parser.markdown.AbstractTablePegdownVisitor;
@@ -31,6 +32,7 @@ import org.xwiki.rendering.internal.parser.markdown11.ast.MacroParameterNode;
 import org.xwiki.rendering.internal.parser.markdown11.ast.SubscriptNode;
 import org.xwiki.rendering.internal.parser.markdown11.ast.SuperscriptNode;
 import org.xwiki.rendering.listener.Format;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Implements Pegdown Visitor's {@link org.pegdown.ast.Node} for Pegdown's plugins.
@@ -98,5 +100,14 @@ public abstract class AbstractPluginsPegdownVisitor extends AbstractTablePegdown
         getListener().beginFormat(format, Collections.EMPTY_MAP);
         visitChildren(node);
         getListener().endFormat(format, Collections.EMPTY_MAP);
+    }
+
+    /**
+     * @see InlineXHtmlPegdownPluginParser
+     */
+    @Override
+    public void visit(InlineHtmlNode inlineHtmlNode)
+    {
+        getListener().onRawText(inlineHtmlNode.getText(), Syntax.XHTML_1_0);
     }
 }

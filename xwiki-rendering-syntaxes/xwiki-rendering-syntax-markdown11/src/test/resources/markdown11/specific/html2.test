@@ -1,8 +1,8 @@
 .#-----------------------------------------------------
 .input|markdown/1.1
-.# Inline HTML
+.# Test inline XHTML
 .#-----------------------------------------------------
-hello **<del>world</del>**
+hello **<del>world</del>** <sup>beta</sup>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -11,13 +11,17 @@ beginParagraph
 onWord [hello]
 onSpace
 beginFormat [BOLD]
-onRawText [<del>] [html/4.01]
+onRawText [<del>] [xhtml/1.0]
 onWord [world]
-onRawText [</del>] [html/4.01]
+onRawText [</del>] [xhtml/1.0]
 endFormat [BOLD]
+onSpace
+onRawText [<sup>] [xhtml/1.0]
+onWord [beta]
+onRawText [</sup>] [xhtml/1.0]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>hello <strong><del>world</del></strong></p>
+<p>hello <strong><del>world</del></strong> <sup>beta</sup></p>

@@ -1,22 +1,53 @@
 .#-----------------------------------------------------
 .input|markdown/1.1
-.# Inline HTML for expressing subscript/superscript
+.# Test if HTML that is not valid XML is *not* parsed as (X)HTML
+.# see InlineXHtmlPegdownPluginParser
 .#-----------------------------------------------------
-<sub>subscript</sub><sup>superscript</sup>
+XHTML is more < strong >strict< /strong> and this is <span
+class="red">good</span>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-onRawText [<sub>] [html/4.01]
-onWord [subscript]
-onRawText [</sub>] [html/4.01]
-onRawText [<sup>] [html/4.01]
-onWord [superscript]
-onRawText [</sup>] [html/4.01]
+onWord [XHTML]
+onSpace
+onWord [is]
+onSpace
+onWord [more]
+onSpace
+onSpecialSymbol [<]
+onSpace
+onWord [strong]
+onSpace
+onSpecialSymbol [>]
+onWord [strict]
+onSpecialSymbol [<]
+onSpace
+onSpecialSymbol [/]
+onWord [strong]
+onSpecialSymbol [>]
+onSpace
+onWord [and]
+onSpace
+onWord [this]
+onSpace
+onWord [is]
+onSpace
+onSpecialSymbol [<]
+onWord [span]
+onSpace
+onWord [class]
+onSpecialSymbol [=]
+onSpecialSymbol ["]
+onWord [red]
+onSpecialSymbol ["]
+onSpecialSymbol [>]
+onWord [good]
+onRawText [</span>] [xhtml/1.0]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><sub>subscript</sub><sup>superscript</sup></p>
+<p>XHTML is more &lt; strong &gt;strict&lt; /strong&gt; and this is &lt;span class="red"&gt;good</span></p>
