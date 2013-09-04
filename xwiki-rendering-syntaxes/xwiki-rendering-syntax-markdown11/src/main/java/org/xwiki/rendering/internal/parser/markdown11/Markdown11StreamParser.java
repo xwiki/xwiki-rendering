@@ -26,7 +26,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.io.IOUtils;
-import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 import org.pegdown.ast.RootNode;
 import org.pegdown.plugins.PegDownPlugins;
@@ -36,6 +35,10 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.syntax.Syntax;
+
+import static org.pegdown.Extensions.ALL;
+import static org.pegdown.Extensions.HARDWRAPS;
+import static org.pegdown.Extensions.QUOTES;
 
 /**
  * Markdown Streaming Parser.
@@ -71,7 +74,8 @@ public class Markdown11StreamParser implements StreamParser
                 .build();
 
         // The Pegdown processor is not thread safe, thus we need one per thread at least.
-        PegDownProcessor processor = new PegDownProcessor(Extensions.ALL & ~Extensions.HARDWRAPS, plugins);
+        // QUOTES extension doesn't work well so it'll be better to disable it now
+        PegDownProcessor processor = new PegDownProcessor(ALL & ~HARDWRAPS & ~QUOTES, plugins);
 
         try {
             RootNode rootNode = processor.parseMarkdown(IOUtils.toString(source).toCharArray());
