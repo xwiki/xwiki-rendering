@@ -103,6 +103,8 @@ public abstract class AbstractPluginsPegdownVisitor extends AbstractTablePegdown
     }
 
     /**
+     * {@inheritDoc}
+     * 
      * @see InlineXHtmlPegdownPluginParser
      */
     @Override

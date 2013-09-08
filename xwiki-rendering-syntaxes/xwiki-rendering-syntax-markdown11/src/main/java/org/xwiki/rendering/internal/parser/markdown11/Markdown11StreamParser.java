@@ -74,7 +74,7 @@ public class Markdown11StreamParser implements StreamParser
                 .build();
 
         // The Pegdown processor is not thread safe, thus we need one per thread at least.
-        // QUOTES extension doesn't work well so it'll be better to disable it now
+        // QUOTES extension doesn't work well so it'll be better to disable it now.
         PegDownProcessor processor = new PegDownProcessor(ALL & ~HARDWRAPS & ~QUOTES, plugins);
 
         try {

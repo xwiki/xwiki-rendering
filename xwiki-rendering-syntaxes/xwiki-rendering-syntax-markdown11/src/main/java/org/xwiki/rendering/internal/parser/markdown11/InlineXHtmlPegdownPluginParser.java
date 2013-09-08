@@ -72,7 +72,7 @@ public class InlineXHtmlPegdownPluginParser extends Parser implements InlinePlug
     }
 
     /**
-     * Rule for an XML tag.
+     * Rule for a XML tag.
      * It must not contain new lines.
      */
     public Rule XmlTag()
