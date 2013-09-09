@@ -19,17 +19,24 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki20;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.renderer.AbstractBlockRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
+import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
 /**
  * Renders a {@link org.xwiki.rendering.block.Block} in XWiki Syntax 2.0.
- *
+ * 
  * @version $Id$
  */
 @Component
@@ -48,5 +55,22 @@ public class XWikiSyntaxBlockRenderer extends AbstractBlockRenderer
     protected PrintRendererFactory getPrintRendererFactory()
     {
         return this.xwikiSyntaxRendererFactory;
+    }
+
+    @Override
+    public void render(Collection<Block> blocks, WikiPrinter printer)
+    {
+        Collection<Block> properBlocks = blocks;
+
+        // TODO: add a real flush API for all syntaxes
+        if (blocks.size() > 0 && !(blocks.iterator().next() instanceof XDOM)) {
+            XDOM xdom = new XDOM(Collections.<Block> emptyList());
+            for (Block block : blocks) {
+                xdom.addChild(block);
+            }
+            properBlocks = Arrays.<Block> asList(xdom);
+        }
+
+        super.render(properBlocks, printer);
     }
 }

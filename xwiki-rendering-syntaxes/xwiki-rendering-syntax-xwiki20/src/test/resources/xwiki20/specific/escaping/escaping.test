@@ -1,0 +1,23 @@
+.#-----------------------------------------------------
+.input|plain/1.0
+.# Test that underline syntax is escaped
+.#-----------------------------------------------------
+__not underlined__
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+~_~_not underlined~_~_
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onSpecialSymbol [_]
+onSpecialSymbol [_]
+onWord [not]
+onSpace
+onWord [underlined]
+onSpecialSymbol [_]
+onSpecialSymbol [_]
+endParagraph
+endDocument
