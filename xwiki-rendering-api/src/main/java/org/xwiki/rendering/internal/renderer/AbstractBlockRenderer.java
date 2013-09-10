@@ -19,13 +19,19 @@
  */
 package org.xwiki.rendering.internal.renderer;
 
+import java.io.Flushable;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.renderer.BlockRenderer;
+import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
-import org.xwiki.rendering.renderer.PrintRenderer;
 
 /**
  * Common code for BlockRender implementation that uses Print Renderer Factory.
@@ -35,6 +41,9 @@ import org.xwiki.rendering.renderer.PrintRenderer;
  */
 public abstract class AbstractBlockRenderer implements BlockRenderer
 {
+    @Inject
+    protected Logger logger;
+
     /**
      * @return provide the factory to use to create a new {@link PrintRenderer}.
      */
@@ -52,6 +61,16 @@ public abstract class AbstractBlockRenderer implements BlockRenderer
         PrintRenderer renderer = getPrintRendererFactory().createRenderer(printer);
         for (Block block : blocks) {
             block.traverse(renderer);
+        }
+
+        if (renderer instanceof Flushable) {
+            try {
+                ((Flushable) renderer).flush();
+            } catch (IOException e) {
+                if (logger != null) {
+                    this.logger.error("Failed to flush renderer [{}]", renderer, e);
+                }
+            }
         }
     }
 }

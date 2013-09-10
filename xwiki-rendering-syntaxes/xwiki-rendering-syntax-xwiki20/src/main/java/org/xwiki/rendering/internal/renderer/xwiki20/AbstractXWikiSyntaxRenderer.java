@@ -19,8 +19,12 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki20;
 
+import java.io.Flushable;
+import java.io.IOException;
+
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ChainingListener;
 import org.xwiki.rendering.listener.chaining.ConsecutiveNewLineStateChainingListener;
@@ -30,13 +34,14 @@ import org.xwiki.rendering.listener.chaining.LookaheadChainingListener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 
 /**
- * XWiki Syntax Renderer implementation common to XWiki Syntax versions greater than 2.0 (X>iki Syntax 2.0,
- * XWiki Syntax 2.1, etc).
- *  
+ * XWiki Syntax Renderer implementation common to XWiki Syntax versions greater than 2.0 (X>iki Syntax 2.0, XWiki Syntax
+ * 2.1, etc).
+ * 
  * @version $Id$
  * @since 2.5M2
  */
-public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintRenderer implements Initializable
+public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintRenderer implements Initializable,
+    Flushable
 {
     /**
      * Allows extending classes to choose which implementation to use.
@@ -62,5 +67,11 @@ public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintR
         chain.addListener(new BlockStateChainingListener(chain));
         chain.addListener(new ConsecutiveNewLineStateChainingListener(chain));
         chain.addListener(createXWikiSyntaxChainingRenderer(chain));
+    }
+
+    @Override
+    public void flush() throws IOException
+    {
+        endDocument(MetaData.EMPTY);
     }
 }
