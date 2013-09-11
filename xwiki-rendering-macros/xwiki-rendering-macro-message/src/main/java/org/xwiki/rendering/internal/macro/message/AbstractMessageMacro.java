@@ -34,7 +34,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * Common implementation for info, error and warning macros.
+ * Common implementation for message macros (e.g. info, error, warning, success, etc).
  * 
  * @version $Id$
  * @since 2.0M3
