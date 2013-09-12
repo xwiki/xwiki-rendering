@@ -31,7 +31,7 @@
   </parent>
   <groupId>org.xwiki.rendering</groupId>
   <artifactId>xwiki-rendering</artifactId>
-  <version>5.2-SNAPSHOT</version>
+  <version>5.2-milestone-2</version>
   <name>XWiki Rendering - Parent POM</name>
   <packaging>pom</packaging>
   <description>XWiki Rendering - Parent POM</description>
@@ -39,7 +39,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-rendering.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-rendering.git</developerConnection>
     <url>https://github.com/xwiki/xwiki-rendering</url>
-    <tag>stable-5.0.x</tag>
+    <tag>xwiki-rendering-5.2-milestone-2</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
