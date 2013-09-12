@@ -24,17 +24,18 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
+import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
-import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
+import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
 import org.xwiki.rendering.wiki.WikiModel;
 
 /**
@@ -43,7 +44,7 @@ import org.xwiki.rendering.wiki.WikiModel;
  * <li>when inside a wiki (ie when an implementation of {@link WikiModel} is provided.</li>
  * <li>when outside of a wiki. In this case we only handle external images and document images don't display anything.</li>
  * </ul>
- *
+ * 
  * @version $Id$
  * @since 2.0M3
  */
@@ -90,8 +91,9 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer, Initializa
 
     /**
      * {@inheritDoc}
-     *
-     * @see XHTMLImageRenderer#onImage(org.xwiki.rendering.listener.reference.ResourceReference , boolean, java.util.Map)
+     * 
+     * @see XHTMLImageRenderer#onImage(org.xwiki.rendering.listener.reference.ResourceReference , boolean,
+     *      java.util.Map)
      * @since 2.5RC1
      */
     @Override
@@ -99,7 +101,46 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer, Initializa
     {
         Map<String, String> attributes = new LinkedHashMap<String, String>();
 
-        // First we need to compute the image URL.
+        try {
+            // First we need to compute the image URL.
+            String imageURL = getImageURL(reference, parameters);
+
+            // Then add it as an attribute of the IMG element.
+            attributes.put(SRC, imageURL);
+
+            // Add the class if we're on a freestanding uri
+            if (isFreeStandingURI) {
+                attributes.put("class", "wikimodel-freestanding");
+            }
+
+            // Add the other parameters as attributes
+            attributes.putAll(parameters);
+
+            // If no ALT attribute has been specified, add it since the XHTML specifications makes it mandatory.
+            if (!parameters.containsKey(ALTERNATE)) {
+                attributes.put(ALTERNATE, computeAltAttributeValue(reference));
+            }
+
+            // And generate the XHTML IMG element.
+            getXHTMLWikiPrinter().printXMLElement(IMG, attributes);
+        } catch (Throwable e) {
+            // Error title
+            getXHTMLWikiPrinter().printXMLStartElement("span", new String[][] {{"class", "xwikirenderingerror"}});
+            getXHTMLWikiPrinter().printXML(e.getMessage());
+            getXHTMLWikiPrinter().printXMLEndElement("span");
+
+            // Error details
+            getXHTMLWikiPrinter().printXMLStartElement("span",
+                new String[][] {{"class", "xwikirenderingerrordescription hidden"}});
+            getXHTMLWikiPrinter().printXMLStartElement("tt", new String[][] {{"class", "wikimodel-verbatim"}});
+            getXHTMLWikiPrinter().printXML(ExceptionUtils.getStackTrace(e));
+            getXHTMLWikiPrinter().printXMLEndElement("tt");
+            getXHTMLWikiPrinter().printXMLEndElement("span");
+        }
+    }
+
+    private String getImageURL(ResourceReference reference, Map<String, String> parameters)
+    {
         String imageURL;
         if (reference.getType().equals(ResourceType.ATTACHMENT) || reference.getType().equals(ResourceType.ICON)) {
             // Note if wikiModel is null then all Image reference objects will be of type URL. This must be ensured by
@@ -108,38 +149,22 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer, Initializa
             if (this.wikiModel != null) {
                 imageURL = this.wikiModel.getImageURL(reference, parameters);
             } else {
-                throw new RuntimeException("Invalid Image type. In non wiki mode, all image types must be URL images.");
+                throw new IllegalArgumentException(
+                    "Invalid Image type. In non wiki mode, all image types must be URL images.");
             }
         } else {
             imageURL = reference.getReference();
         }
 
-        // Then add it as an attribute of the IMG element.
-        attributes.put(SRC, imageURL);
-
-        // Add the class if we're on a freestanding uri
-        if (isFreeStandingURI) {
-            attributes.put("class", "wikimodel-freestanding");
-        }
-
-        // Add the other parameters as attributes
-        attributes.putAll(parameters);
-
-        // If no ALT attribute has been specified, add it since the XHTML specifications makes it mandatory.
-        if (!parameters.containsKey(ALTERNATE)) {
-            attributes.put(ALTERNATE, computeAltAttributeValue(reference));
-        }
-
-        // And generate the XHTML IMG element.
-        getXHTMLWikiPrinter().printXMLElement(IMG, attributes);
+        return imageURL;
     }
 
     private String computeAltAttributeValue(ResourceReference reference)
     {
         String label;
         try {
-            URILabelGenerator uriLabelGenerator = this.componentManager.getInstance(URILabelGenerator.class,
-                reference.getType().getScheme());
+            URILabelGenerator uriLabelGenerator =
+                this.componentManager.getInstance(URILabelGenerator.class, reference.getType().getScheme());
             label = uriLabelGenerator.generateLabel(reference);
         } catch (ComponentLookupException e) {
             label = reference.getReference();
