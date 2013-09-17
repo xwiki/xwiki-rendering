@@ -19,21 +19,18 @@
  */
 package org.xwiki.rendering.internal.parser.markdown11;
 
-import java.io.IOException;
 import java.io.Reader;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.io.IOUtils;
 import org.pegdown.PegDownProcessor;
-import org.pegdown.ast.RootNode;
 import org.pegdown.plugins.PegDownPlugins;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.internal.parser.markdown.AbstractMarkdownStreamParser;
 import org.xwiki.rendering.internal.parser.markdown.PegdownVisitor;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.syntax.Syntax;
 
 import static org.pegdown.Extensions.ALL;
@@ -48,7 +45,7 @@ import static org.pegdown.Extensions.QUOTES;
  */
 @Component
 @Named("markdown/1.1")
-public class Markdown11StreamParser implements StreamParser
+public class Markdown11StreamParser extends AbstractMarkdownStreamParser
 {
     /**
      * Used to convert Pegdown nodes into XWiki Rendering events.
@@ -61,6 +58,12 @@ public class Markdown11StreamParser implements StreamParser
     public Syntax getSyntax()
     {
         return Syntax.MARKDOWN_1_1;
+    }
+
+    @Override
+    protected PegdownVisitor getPegdownVisitor()
+    {
+        return this.pegdownVisitor;
     }
 
     @Override
@@ -77,11 +80,6 @@ public class Markdown11StreamParser implements StreamParser
         // QUOTES extension doesn't work well so it'll be better to disable it now.
         PegDownProcessor processor = new PegDownProcessor(ALL & ~HARDWRAPS & ~QUOTES, plugins);
 
-        try {
-            RootNode rootNode = processor.parseMarkdown(IOUtils.toString(source).toCharArray());
-            this.pegdownVisitor.visit(rootNode, listener);
-        } catch (IOException e) {
-            throw new ParseException("Failed to retrieve ", e);
-        }
+        parse(processor, source, listener);
     }
 }

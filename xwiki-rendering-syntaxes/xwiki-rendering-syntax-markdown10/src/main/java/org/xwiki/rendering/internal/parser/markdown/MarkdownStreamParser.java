@@ -19,20 +19,16 @@
  */
 package org.xwiki.rendering.internal.parser.markdown;
 
-import java.io.IOException;
 import java.io.Reader;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.io.IOUtils;
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
-import org.pegdown.ast.RootNode;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -43,7 +39,7 @@ import org.xwiki.rendering.syntax.Syntax;
  */
 @Component
 @Named("markdown/1.0")
-public class MarkdownStreamParser implements StreamParser
+public class MarkdownStreamParser extends AbstractMarkdownStreamParser
 {
     /**
      * Used to convert Pegdown nodes into XWiki Rendering events.
@@ -58,16 +54,17 @@ public class MarkdownStreamParser implements StreamParser
     }
 
     @Override
+    protected PegdownVisitor getPegdownVisitor()
+    {
+        return this.pegdownVisitor;
+    }
+
+    @Override
     public void parse(Reader source, Listener listener) throws ParseException
     {
         // The Pegdown processor is not thread safe, thus we need one per thread at least.
         PegDownProcessor processor = new PegDownProcessor(Extensions.ALL & ~Extensions.HARDWRAPS);
 
-        try {
-            RootNode rootNode = processor.parseMarkdown(IOUtils.toString(source).toCharArray());
-            this.pegdownVisitor.visit(rootNode, listener);
-        } catch (IOException e) {
-            throw new ParseException("Failed to retrieve ", e);
-        }
+        parse(processor, source, listener);
     }
 }
