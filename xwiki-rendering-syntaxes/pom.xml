@@ -54,7 +54,8 @@
     <module>xwiki-rendering-syntax-event</module>
     <module>xwiki-rendering-syntax-html</module>
     <module>xwiki-rendering-syntax-jspwiki</module>
-    <module>xwiki-rendering-syntax-markdown</module>
+    <module>xwiki-rendering-syntax-markdown10</module>
+    <module>xwiki-rendering-syntax-markdown11</module>
     <module>xwiki-rendering-syntax-mediawiki</module>
     <module>xwiki-rendering-syntax-plain</module>
     <module>xwiki-rendering-syntax-tex</module>

@@ -1,0 +1,17 @@
+.#-----------------------------------------------------
+.input|markdown/1.1
+.# Test inline code using alternate syntax
+.#-----------------------------------------------------
+This is ``some code``
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+onMacroInline [code] [] [some code]
+endParagraph
+endDocument

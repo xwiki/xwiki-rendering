@@ -1,0 +1,20 @@
+.#-----------------------------------------------------
+.input|markdown/1.1
+.# Test Markdown-style macro without parameters
+.#-----------------------------------------------------
+This is inline #[mymacro](Macro content here).
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+onWord [inline]
+onSpace
+onMacroInline [mymacro] [] [Macro content here]
+onSpecialSymbol [.]
+endParagraph
+endDocument
