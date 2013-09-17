@@ -61,6 +61,11 @@ public class Syntax
      * @since 3.4M1
      */
     public static final Syntax MARKDOWN_1_0 = new Syntax(SyntaxType.MARKDOWN, "1.0");
+    
+    /**
+     * @since 5.2M1
+     */
+    public static final Syntax MARKDOWN_1_1 = new Syntax(SyntaxType.MARKDOWN, "1.1");
 
     /**
      * @since 4.3M1

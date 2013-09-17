@@ -1,0 +1,47 @@
+.#-----------------------------------------------------
+.input|markdown/1.1
+.# Test table captions
+.#-----------------------------------------------------
+col1   |col2    |
+-------|--------|
+cell11 | cell12 |
+cell21 | cell22 |
+[caption]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginTable
+beginTableRow
+beginTableHeadCell
+onWord [col1]
+onSpace
+endTableHeadCell
+beginTableHeadCell
+onWord [col2]
+onSpace
+endTableHeadCell
+endTableRow
+beginTableRow
+beginTableCell
+onWord [cell11]
+onSpace
+endTableCell
+beginTableCell
+onWord [cell12]
+onSpace
+endTableCell
+endTableRow
+beginTableRow
+beginTableCell
+onWord [cell21]
+onSpace
+endTableCell
+beginTableCell
+onWord [cell22]
+onSpace
+endTableCell
+endTableRow
+onRawText [<caption>caption</caption>] [html/4.01]
+endTable
+endDocument

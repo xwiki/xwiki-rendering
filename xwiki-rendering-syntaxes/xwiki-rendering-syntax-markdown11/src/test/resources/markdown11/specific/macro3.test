@@ -1,0 +1,11 @@
+.#-----------------------------------------------------
+.input|markdown/1.1
+.# Test XWiki-style macro without parameters, self-closed
+.#-----------------------------------------------------
+{{mymacro /}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onMacroStandalone [mymacro] []
+endDocument
