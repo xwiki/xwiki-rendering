@@ -38,7 +38,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * Implements Pegdown Visitor's {@link org.pegdown.ast.Node} for Pegdown's plugins.
  *
  * @version $Id $
- * @since 5.2M1
+ * @since 5.2RC1
  */
 public abstract class AbstractPluginsPegdownVisitor extends AbstractTablePegdownVisitor
 {

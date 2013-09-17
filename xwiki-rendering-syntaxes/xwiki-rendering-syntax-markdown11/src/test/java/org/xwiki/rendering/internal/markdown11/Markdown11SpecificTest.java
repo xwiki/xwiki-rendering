@@ -27,7 +27,7 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  * the conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
  *
  * @version $Id $
- * @since 5.2M1
+ * @since 5.2RC1
  */
 @RunWith(RenderingTestSuite.class)
 @RenderingTestSuite.Scope("markdown11.specific")

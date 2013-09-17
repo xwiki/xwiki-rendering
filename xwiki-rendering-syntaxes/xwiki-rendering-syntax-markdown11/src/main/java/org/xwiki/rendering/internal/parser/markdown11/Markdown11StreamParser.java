@@ -44,7 +44,7 @@ import static org.pegdown.Extensions.QUOTES;
  * Markdown Streaming Parser.
  *
  * @version $Id $
- * @since 5.2M1
+ * @since 5.2RC1
  */
 @Component
 @Named("markdown/1.1")

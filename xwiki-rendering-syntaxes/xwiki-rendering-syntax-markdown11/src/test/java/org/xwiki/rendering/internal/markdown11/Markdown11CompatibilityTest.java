@@ -27,7 +27,7 @@ import org.xwiki.rendering.test.cts.Syntax;
  * Run all CTS tests for the Markdown syntax.
  *
  * @version $Id $
- * @since 5.2M1
+ * @since 5.2RC1
  */
 @RunWith(CompatibilityTestSuite.class)
 @Syntax(value="markdown/1.1", metadata="markdown/1.0")

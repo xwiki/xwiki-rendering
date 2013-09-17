@@ -31,7 +31,7 @@ import org.pegdown.ast.Visitor;
  * Represents a macro node.
  *
  * @version $Id $
- * @since 5.2M1
+ * @since 5.2RC1
  */
 public class MacroNode extends SuperNode
 {

@@ -27,7 +27,7 @@ import org.pegdown.ast.Visitor;
  * Represents text in a subscript formatting.
  *
  * @version $Id $
- * @since 5.2M1
+ * @since 5.2RC1
  */
 public class SubscriptNode extends SuperNode
 {

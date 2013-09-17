@@ -32,7 +32,7 @@ import org.xwiki.rendering.internal.parser.markdown11.ast.SuperscriptNode;
  * subscript syntax for XWiki.
  *
  * @version $Id $
- * @since 5.2M1
+ * @since 5.2RC1
  */
 public class FormattingPegdownPluginParser extends Parser implements InlinePluginParser
 {

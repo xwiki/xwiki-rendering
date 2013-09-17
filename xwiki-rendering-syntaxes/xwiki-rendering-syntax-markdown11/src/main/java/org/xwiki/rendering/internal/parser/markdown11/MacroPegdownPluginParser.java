@@ -35,7 +35,7 @@ import org.xwiki.rendering.internal.parser.markdown11.ast.MacroParameterNode;
  * Implements a pluggable parser for Pegdown that provides macro syntax for XWiki.
  *
  * @version $Id $
- * @since 5.2M1
+ * @since 5.2RC1
  */
 public class MacroPegdownPluginParser extends Parser implements InlinePluginParser, BlockPluginParser
 {
