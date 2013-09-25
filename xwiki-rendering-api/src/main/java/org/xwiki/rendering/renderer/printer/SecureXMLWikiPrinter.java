@@ -160,8 +160,14 @@ public class SecureXMLWikiPrinter extends DefaultXMLWikiPrinter implements XMLWi
      */
     private boolean isAttributeClean(String key, String value)
     {
-        // Let's trim the attribute value to make sure that leading whitespaces won't create any issue.
-        String tValue = value.trim();
+        String tValue;
+        //Let's protect us against NPE
+        if (value == null) {
+            tValue = "";
+        } else {
+            // Let's trim the attribute value to make sure that leading whitespaces won't create any issue.
+            tValue = value.trim();
+        }
         if (ATTRIBUTES_WHITELIST.contains(key) || extraAttributes.contains(key)) {
             return true;
         } else if (VULNERABLE_ATTRIBUTES.contains(key)) {
