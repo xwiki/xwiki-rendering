@@ -83,7 +83,10 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
-          <excludes>**/xwiki10/**/*.java</excludes>
+          <excludes>
+            org/xwiki/rendering/internal/parser/xwiki10/*.java,
+            org/xwiki/rendering/parser/xwiki10/*.java
+          </excludes>
         </configuration>
       </plugin>
     </plugins>
