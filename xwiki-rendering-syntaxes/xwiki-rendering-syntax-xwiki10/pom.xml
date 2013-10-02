@@ -85,7 +85,11 @@
         <configuration>
           <excludes>
             org/xwiki/rendering/internal/parser/xwiki10/*.java,
-            org/xwiki/rendering/parser/xwiki10/*.java
+            org/xwiki/rendering/internal/parser/xwiki10/macro/*.java,
+            org/xwiki/rendering/internal/parser/xwiki10/velocity/*.java,
+            org/xwiki/rendering/parser/xwiki10/*.java,
+            org/xwiki/rendering/parser/xwiki10/macro/*.java,
+            org/xwiki/rendering/parser/xwiki10/util/*.java
           </excludes>
         </configuration>
       </plugin>
