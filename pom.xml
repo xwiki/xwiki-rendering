@@ -210,22 +210,6 @@
           -->
           <ignored>
             <!-- Remove the following ignores after we release the current version as final -->
-            <difference>
-               <differenceType>7002</differenceType>
-               <className>org/xwiki/rendering/listener/reference/ResourceType</className>
-               <method>void setScheme(java.lang.String)</method>
-               <justification>This method should never have existed</justification>
-             </difference>
-             <difference>
-               <differenceType>8001</differenceType>
-               <className>org/xwiki/rendering/renderer/printer/XHTMLWikiPrinter</className>
-               <justification>Moved to xwiki-rendering-xml</justification>
-             </difference>
-             <difference>
-               <differenceType>8001</differenceType>
-               <className>org/xwiki/rendering/renderer/printer/XMLWikiPrinter</className>
-               <justification>Moved to xwiki-rendering-xml</justification>
-             </difference>
           </ignored>
           <excludes>
             <exclude>**/internal/**</exclude>
