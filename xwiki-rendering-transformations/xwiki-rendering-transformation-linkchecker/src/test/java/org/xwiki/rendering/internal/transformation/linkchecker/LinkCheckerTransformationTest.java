@@ -40,6 +40,7 @@ import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationC
 import org.xwiki.rendering.transformation.linkchecker.LinkContextDataProvider;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
+import org.xwiki.rendering.transformation.linkchecker.script.LinkCheckerScriptService;
 import org.xwiki.script.service.ScriptService;
 import org.xwiki.test.jmock.AbstractComponentTestCase;
 
@@ -80,8 +81,7 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
         parseAndwait(input, linkStateManager, 2);
 
         // Verify we can access the link states through the Script Service
-        LinkCheckerScriptService service = 
-            (LinkCheckerScriptService) getComponentManager().getInstance(ScriptService.class, "linkchecker");
+        LinkCheckerScriptService service = getComponentManager().getInstance(ScriptService.class, "linkchecker");
         Map<String, Map<String, LinkState>> states = service.getLinkStates();
         
         LinkState state1 = states.get("http://ok").get("default");

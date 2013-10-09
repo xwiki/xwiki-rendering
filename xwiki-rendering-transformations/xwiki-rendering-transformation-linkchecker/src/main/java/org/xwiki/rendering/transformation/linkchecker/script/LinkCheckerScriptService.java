@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.transformation.linkchecker;
+package org.xwiki.rendering.transformation.linkchecker.script;
 
 import java.util.Collections;
 import java.util.Map;
