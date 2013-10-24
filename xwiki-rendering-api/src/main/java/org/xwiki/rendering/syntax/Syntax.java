@@ -43,9 +43,19 @@ public class Syntax
     public static final Syntax CREOLE_1_0 = new Syntax(SyntaxType.CREOLE, "1.0");
     public static final Syntax JSPWIKI_1_0 = new Syntax(SyntaxType.JSPWIKI, "1.0");
     public static final Syntax MEDIAWIKI_1_0 = new Syntax(SyntaxType.MEDIAWIKI, "1.0");
-    public static final Syntax CONFLUENCE_1_0 = new Syntax(SyntaxType.CONFLUENCE, "1.0");
     public static final Syntax TWIKI_1_0 = new Syntax(SyntaxType.TWIKI, "1.0");
     public static final Syntax DOCBOOK_4_4 = new Syntax(SyntaxType.DOCBOOK, "4.4");
+
+    /**
+     * Confluence wiki syntax.
+     */
+    public static final Syntax CONFLUENCE_1_0 = new Syntax(SyntaxType.CONFLUENCE, "1.0");
+
+    /**
+     * Confluence XHTML based syntax.
+     * @since 5.3M1
+     */
+    public static final Syntax CONFLUENCEXHTML_1_0 = new Syntax(SyntaxType.CONFLUENCEXHTML, "1.0");
 
     /**
      * @since 3.3M1

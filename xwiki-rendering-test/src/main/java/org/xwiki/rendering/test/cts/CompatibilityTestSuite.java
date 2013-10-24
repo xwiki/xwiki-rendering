@@ -27,7 +27,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runners.Suite;
-import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
@@ -241,13 +240,7 @@ public class CompatibilityTestSuite extends Suite
      */
     private boolean hasParserForSyntax(String syntaxId)
     {
-        boolean hasParser = true;
-        try {
-            this.componentManager.getInstance(Parser.class, syntaxId);
-        } catch (ComponentLookupException e) {
-            hasParser = false;
-        }
-        return hasParser;
+        return this.componentManager.hasComponent(Parser.class, syntaxId);
     }
 
     /**
@@ -256,12 +249,6 @@ public class CompatibilityTestSuite extends Suite
      */
     private boolean hasRendererForSyntax(String syntaxId)
     {
-        boolean hasRenderer = true;
-        try {
-            this.componentManager.getInstance(BlockRenderer.class, syntaxId);
-        } catch (ComponentLookupException e) {
-            hasRenderer = false;
-        }
-        return hasRenderer;
+        return this.componentManager.hasComponent(BlockRenderer.class, syntaxId);
     }
 }

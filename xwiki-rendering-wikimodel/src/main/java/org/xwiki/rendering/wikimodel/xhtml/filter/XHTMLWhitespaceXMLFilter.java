@@ -241,7 +241,10 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     @Override
     public void startCDATA() throws SAXException
     {
-        startNonVisibleElement();
+        // Flush previous content and print current one
+        flushContent(true);
+
+        ++fNoCleanUpLevel;
 
         super.startCDATA();
     }
@@ -249,7 +252,8 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     @Override
     public void endCDATA() throws SAXException
     {
-        endNonVisibleElement();
+        // Flush previous content and print current one
+        flushContent(false);
 
         super.endCDATA();
 

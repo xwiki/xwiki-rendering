@@ -1,0 +1,1 @@
+<p><!--startimage:false|-|url|-|image.png--><img src="image.png" alt="image.png"/><!--stopimage--></p>

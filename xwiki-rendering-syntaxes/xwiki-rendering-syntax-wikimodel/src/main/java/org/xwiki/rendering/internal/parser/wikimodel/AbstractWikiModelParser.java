@@ -123,7 +123,7 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
      *             should be written to not generate any error as much as possible.
      * @since 2.1RC1
      */
-    private void parse(Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
+    protected void parse(Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
     {
         IWikiParser parser = createWikiModelParser();
         try {

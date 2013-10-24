@@ -57,6 +57,11 @@ public class TestDataConfiguration
      */
     public String inheritSyntax;
 
+    /**
+     * The extension of the test files.
+     */
+    public String fileExtension = "txt";
+
     @Override
     public String toString()
     {

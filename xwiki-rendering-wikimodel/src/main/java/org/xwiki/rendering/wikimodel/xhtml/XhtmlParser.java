@@ -57,10 +57,22 @@ public class XhtmlParser implements IWikiParser
      */
     private XMLReader fXmlReader;
 
+    private boolean namespacesEnabled = true;
+
     public XhtmlParser()
     {
         fExtraHandlers = Collections.<String, TagHandler>emptyMap();
         fCommentHandler = new CommentHandler();
+    }
+
+    public boolean isNamespacesEnabled()
+    {
+        return this.namespacesEnabled;
+    }
+
+    public void setNamespacesEnabled(boolean namespacesEnabled)
+    {
+        this.namespacesEnabled = namespacesEnabled;
     }
 
     public void setExtraHandlers(Map<String, TagHandler> extraHandlers)
@@ -109,7 +121,7 @@ public class XhtmlParser implements IWikiParser
             DefaultHandler handler = getHandler(listener);
 
             xmlReader
-                .setFeature("http://xml.org/sax/features/namespaces", true);
+                .setFeature("http://xml.org/sax/features/namespaces", isNamespacesEnabled());
             xmlReader.setEntityResolver(new LocalEntityResolver());
             xmlReader.setContentHandler(handler);
             xmlReader.setProperty(

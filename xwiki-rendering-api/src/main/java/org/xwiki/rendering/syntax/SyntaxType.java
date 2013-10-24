@@ -35,7 +35,16 @@ public class SyntaxType
 
     public static final SyntaxType XWIKI = register("xwiki", "XWiki");
 
+    /**
+     * Confluence wiki syntax.
+     */
     public static final SyntaxType CONFLUENCE = register("confluence", "Confluence");
+
+    /**
+     * Confluence XHTML based syntax.
+     * @since 5.3M1
+     */
+    public static final SyntaxType CONFLUENCEXHTML = register("confluence+xhtml", "Confluence");
 
     public static final SyntaxType MEDIAWIKI = register("mediawiki", "MediaWiki");
 

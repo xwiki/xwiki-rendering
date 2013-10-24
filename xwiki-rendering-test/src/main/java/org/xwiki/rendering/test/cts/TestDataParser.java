@@ -62,11 +62,6 @@ public class TestDataParser
     private static final String DOT = ".";
 
     /**
-     * Suffix for Syntax tests.
-     */
-    private static final String TEST_SYNTAX_SUFFIX = "txt";
-
-    /**
      * Read all test data. See {@link CompatibilityTestSuite} for a detailed explanation of the algorithm.
      *
      * @param syntaxId the id of the syntax for which to parse data for
@@ -126,8 +121,8 @@ public class TestDataParser
         Pair<Pair<String, String>, Pair<String, String>> ctsData =
             readDataForPrefix(ctsRootPackageName + SLASH + relativeDirectoryName, "xml", classLoader);
 
-        Pair<Pair<String, String>, Pair<String, String>> syntaxData =
-            readDataForPrefix(syntaxDirectory + SLASH + relativeDirectoryName, TEST_SYNTAX_SUFFIX, classLoader);
+        Pair<Pair<String, String>, Pair<String, String>> syntaxData = readDataForPrefix(
+            syntaxDirectory + SLASH + relativeDirectoryName, configuration.fileExtension, classLoader);
 
         testDataIN.syntaxData = syntaxData.getLeft().getLeft();
         testDataIN.syntaxExtension = syntaxData.getLeft().getRight();
@@ -140,13 +135,14 @@ public class TestDataParser
 
         // Read possible "in" aliases
         List<TestData> testDataINAliases = parseAliasesTestData(syntaxDirectory, relativeDirectoryName, ctsData,
-            classLoader);
+            configuration, classLoader);
 
         // If the inherit configuration property is set and if the returned syntax is empty load from the inherit
         // syntax.
         if (configuration.inheritSyntax != null) {
             Pair<Pair<String, String>, Pair<String, String>> inheritedSyntaxData = readDataForPrefix(
-                computeSyntaxDirectory(configuration.inheritSyntax) + SLASH + relativeDirectoryName, TEST_SYNTAX_SUFFIX,
+                computeSyntaxDirectory(configuration.inheritSyntax) + SLASH + relativeDirectoryName,
+                    configuration.fileExtension,
                     classLoader);
             if (testDataIN.syntaxData == null) {
                 testDataIN.syntaxData = inheritedSyntaxData.getLeft().getLeft();
@@ -172,19 +168,21 @@ public class TestDataParser
      *        syntax)
      * @param relativeDirectoryName the name of the relative directory for a CTS test (eg "/simple/bold/bold1")
      * @param ctsData the CTS data to use to construct the alias test data
+     * @param configuration the test configuration
      * @param classLoader the class loader from which the test data is read from
      * @return the TestData instances for both input and output tests, including possible input alias tests
      * @throws IOException in case of error while reading test data
      */
     private List<TestData> parseAliasesTestData(String syntaxDirectory, String relativeDirectoryName,
-        Pair<Pair<String, String>, Pair<String, String>> ctsData, ClassLoader classLoader) throws IOException
+        Pair<Pair<String, String>, Pair<String, String>> ctsData, TestDataConfiguration configuration,
+        ClassLoader classLoader) throws IOException
     {
         List<TestData> testDataINAliases = new ArrayList<TestData>();
         Pair<Pair<String, String>, Pair<String, String>> syntaxDataAlias;
         int i = 1;
         do {
             syntaxDataAlias = readDataForPrefix(
-                syntaxDirectory + SLASH + relativeDirectoryName, i + DOT + TEST_SYNTAX_SUFFIX, classLoader);
+                syntaxDirectory + SLASH + relativeDirectoryName, i + DOT + configuration.fileExtension, classLoader);
             if (syntaxDataAlias.getLeft().getLeft() != null) {
                 TestData testDataINAlias = new TestData();
                 testDataINAlias.isSyntaxInputTest = true;
@@ -224,6 +222,7 @@ public class TestDataParser
                 (List<String>) (List<?>) compositeConfiguration.getList("failingTests", Collections.emptyList());
         configuration.testDescriptions = compositeConfiguration.getProperties("testDescriptions", new Properties());
         configuration.inheritSyntax = compositeConfiguration.getString("inheritSyntax");
+        configuration.fileExtension = compositeConfiguration.getString("fileExtension", "txt");
 
         return configuration;
     }

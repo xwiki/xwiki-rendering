@@ -76,9 +76,9 @@ public class WikiParameters implements Iterable<WikiParameter>
 
     /**
      */
-    protected WikiParameters()
+    public WikiParameters()
     {
-        this((String) null);
+        
     }
 
     /**
