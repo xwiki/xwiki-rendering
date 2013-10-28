@@ -137,6 +137,9 @@
             <exclude>**/*.in.*txt</exclude>
             <exclude>**/*.out.txt</exclude>
             <exclude>**/*.inout.txt</exclude>
+            <exclude>**/*.in.*xml</exclude>
+            <exclude>**/*.out.xml</exclude>
+            <exclude>**/*.inout.xml</exclude>
             <!-- Exclude Rendering Test framework test data file -->
             <exclude>**/ctstest/type/test/test1.inout.xml</exclude>
           </excludes>

@@ -19,8 +19,6 @@
  */
 package org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel;
 
-import java.util.Map;
-
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
@@ -31,14 +29,44 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * Example:
  * <p>
  * {@code
- * <ri:attachment ri:filename="9391963529_96f9f9b16c_o.jpg" />
+ * <ri:attachment ri:filename="file.png"/>
+ * <ri:attachment ri:filename="file.png"><ri:page ri:content-title="xhtml" ri:space-key="SPACE" /></ri:attachment>
  * }
  * 
  * @version $Id$
- * @since 5.3M1
+ * @since 5.3M2
  */
 public class AttachmentTagHandler extends TagHandler
 {
+    public class ConfluenceAttachment implements UserContainer, PageContainer
+    {
+        public String filename;
+
+        public String space;
+
+        public String page;
+
+        public String user;
+
+        @Override
+        public void setUser(String user)
+        {
+            this.user = user;
+        }
+
+        @Override
+        public void setPage(String page)
+        {
+            this.page = page;
+        }
+
+        @Override
+        public void setSpace(String space)
+        {
+            this.space = space;
+        }
+    }
+
     public AttachmentTagHandler()
     {
         super(false, false, false);
@@ -47,20 +75,27 @@ public class AttachmentTagHandler extends TagHandler
     @Override
     protected void begin(TagContext context)
     {
-        Map<String, Object> map = (Map<String, Object>) context.getTagStack().getStackParameter("confluence_image");
+        ConfluenceAttachment attachment = new ConfluenceAttachment();
 
-        if (map != null) {
-            WikiParameter filenameParameter = context.getParams().getParameter("filename");
+        WikiParameter filenameParameter = context.getParams().getParameter("ri:filename");
 
-            if (filenameParameter != null) {
-                map.put("attachment_filename", filenameParameter.getValue());
-            }
+        if (filenameParameter != null) {
+            attachment.filename = filenameParameter.getValue();
         }
+
+        context.getTagStack().pushStackParameter("confluence-container", attachment);
     }
 
     @Override
     protected void end(TagContext context)
     {
+        ConfluenceAttachment attachment =
+            (ConfluenceAttachment) context.getTagStack().popStackParameter("confluence-container");
 
+        Object container = context.getTagStack().getStackParameter("confluence-container");
+
+        if (container instanceof AttachmentContainer) {
+            ((AttachmentContainer) container).setAttachment(attachment);
+        }
     }
 }

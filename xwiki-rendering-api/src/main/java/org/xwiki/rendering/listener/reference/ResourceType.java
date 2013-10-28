@@ -84,6 +84,13 @@ public class ResourceType
     public static final ResourceType UNC = new ResourceType("unc");
 
     /**
+     * Represents a user.
+     * 
+     * @since 5.3M2
+     */
+    public static final ResourceType USER = new ResourceType("user");
+
+    /**
      * @see #getScheme()
      */
     private final String scheme;

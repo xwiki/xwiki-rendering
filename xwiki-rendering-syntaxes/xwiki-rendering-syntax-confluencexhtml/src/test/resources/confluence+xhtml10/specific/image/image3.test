@@ -1,0 +1,12 @@
+.#-----------------------------------------------------
+.input|confluence+xhtml/1.0
+.#-----------------------------------------------------
+<ac:image><ri:attachment ri:filename="image.png"><ri:page ri:content-title="page" ri:space-key="SPACE" /></ri:attachment></ac:image>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onImage [Typed = [true] Type = [attach] Reference = [SPACE.page@image.png]] [true]
+endParagraph
+endDocument

@@ -69,7 +69,7 @@ public class SyntaxTest
     @Test
     public void getWellKnownSyntaxes()
     {
-        Assert.assertEquals(16, SyntaxType.getSyntaxTypes().size());
+        Assert.assertEquals(17, SyntaxType.getSyntaxTypes().size());
         Assert.assertEquals(new SyntaxType("xwiki", "XWiki"), SyntaxType.getSyntaxTypes().get("xwiki"));
     }
 }

@@ -29,8 +29,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.io.IOUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.AttachmentTagHandler;
+import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.ConfluenceXWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.ImageTagHandler;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.LinkTagHandler;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.MacroTagHandler;
@@ -38,8 +40,11 @@ import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.PageTagHand
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.ParameterTagHandler;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.PlainTextBodyTagHandler;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.PlainTextLinkBodyTagHandler;
+import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.SpaceTagHandler;
+import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.URLTagHandler;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.UserTagHandler;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
+import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
@@ -49,14 +54,11 @@ import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 
-import com.google.common.io.CharStreams;
-import com.google.common.io.InputSupplier;
-
 /**
  * Parses Confluence XHTML and generate rendering events.
  * 
  * @version $Id$
- * @since 5.3M1
+ * @since 5.3M2
  */
 @Component
 @Named("confluence+xhtml/1.0")
@@ -95,16 +97,18 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
 
         handlers.put("ac:macro", new MacroTagHandler());
         handlers.put("ac:parameter", new ParameterTagHandler());
+        handlers.put("ac:plain-text-body", new PlainTextBodyTagHandler());
 
         handlers.put("ac:image", new ImageTagHandler());
-        handlers.put("ac:attachment", new AttachmentTagHandler());
+        handlers.put("ri:url", new URLTagHandler());
 
         handlers.put("ac:link", new LinkTagHandler());
-        handlers.put("ac:page", new PageTagHandler());
-        handlers.put("ac:user", new UserTagHandler());
+        handlers.put("ri:page", new PageTagHandler());
+        handlers.put("ri:space", new SpaceTagHandler());
+        handlers.put("ri:user", new UserTagHandler());
         handlers.put("ac:plain-text-link-body", new PlainTextLinkBodyTagHandler());
 
-        handlers.put("ac:plain-text-body", new PlainTextBodyTagHandler());
+        handlers.put("ri:attachment", new AttachmentTagHandler());
 
         parser.setExtraHandlers(handlers);
 
@@ -114,25 +118,20 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
     @Override
     protected void parse(final Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
     {
-        InputSupplier<StringReader> startVoid = CharStreams.newReaderSupplier("<void>");
-        InputSupplier<StringReader> endVoid = CharStreams.newReaderSupplier("</void>");
-        InputSupplier<Reader> body = new InputSupplier<Reader>()
-        {
-            @Override
-            public Reader getInput() throws IOException
-            {
-                return source;
-            }
-        };
-
-        Reader readers;
+        String content;
         try {
-            readers = CharStreams.join(startVoid, body, endVoid).getInput();
+            content = IOUtils.toString(source);
         } catch (IOException e) {
-            throw new ParseException("Failed to create source reader", e);
+            throw new ParseException("Failed to read source", e);
         }
 
-        super.parse(readers, listener, idGenerator);
+        // Confluence generate invalid CDATA (nice touch...)
+        content = content.replaceAll("(<!\\[CDATA\\[.*\\]\\]) (>)", "$1$2");
+
+        // Add <void> element around the content to make sure to have valid xml
+        content = "<void>" + content + "</void>";
+
+        super.parse(new StringReader(content), listener, idGenerator);
     }
 
     @Override
@@ -145,5 +144,12 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
     public ResourceReferenceParser getImageReferenceParser()
     {
         return this.imageReferenceParser;
+    }
+
+    @Override
+    public XWikiGeneratorListener createXWikiGeneratorListener(Listener listener, IdGenerator idGenerator)
+    {
+        return new ConfluenceXWikiGeneratorListener(getLinkLabelParser(), listener, getLinkReferenceParser(),
+            getImageReferenceParser(), this.plainRendererFactory, idGenerator, getSyntax());
     }
 }

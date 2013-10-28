@@ -19,43 +19,43 @@
  */
 package org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel;
 
-import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
+import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.AttachmentTagHandler.ConfluenceAttachment;
+import org.xwiki.rendering.wikimodel.WikiReference;
 
 /**
- * Handles images.
- * <p>
- * Example:
- * <p>
- * {@code
- * <ac:image><ri:attachment ri:filename="9391963529_96f9f9b16c_o.jpg"><ri:page ri:content-title="xhtml" ri:space-key="SPACE" /></ri:attachment></ac:image>
- * <ac:image><ri:url ri:value="http://host" /></ac:image>
- * }
- * 
  * @version $Id$
  * @since 5.3M2
  */
-public class ImageTagHandler extends TagHandler
+public class ConfluenceImageWikiReference extends WikiReference implements AttachmentContainer, URLContainer
 {
-    public ImageTagHandler()
+    private ConfluenceAttachment attachment;
+
+    private String url;
+
+    public ConfluenceImageWikiReference()
     {
-        super(false, false, false);
+        super("");
+    }
+
+    public ConfluenceAttachment getAttachment()
+    {
+        return this.attachment;
     }
 
     @Override
-    protected void begin(TagContext context)
+    public void setAttachment(ConfluenceAttachment attachment)
     {
-        ConfluenceImageWikiReference image = new ConfluenceImageWikiReference();
+        this.attachment = attachment;
+    }
 
-        context.getTagStack().pushStackParameter("confluence-container", image);
+    public String getURL()
+    {
+        return this.url;
     }
 
     @Override
-    protected void end(TagContext context)
+    public void setURL(String url)
     {
-        ConfluenceImageWikiReference image =
-            (ConfluenceImageWikiReference) context.getTagStack().popStackParameter("confluence-container");
-
-        context.getScannerContext().onImage(image);
+        this.url = url;
     }
 }

@@ -1,1 +1,0 @@
-<p><!--startwikilink:false|-|url|-|reference--><span class="wikiexternallink"><a href="reference">label</a></span><!--stopwikilink--></p>

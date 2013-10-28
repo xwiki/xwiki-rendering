@@ -1,1 +1,0 @@
-<p>This is <sup>superscript</sup></p>

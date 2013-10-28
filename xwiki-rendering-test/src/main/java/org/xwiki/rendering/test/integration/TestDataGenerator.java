@@ -46,7 +46,7 @@ public class TestDataGenerator
         Reflections reflections =
             new Reflections(new ConfigurationBuilder().setScanners(new ResourcesScanner())
                 .setUrls(ClasspathHelper.forPackage(""))
-                .filterInputsBy(new FilterBuilder.Include(FilterBuilder.prefix(testPackage))));
+                .filterInputsBy(new FilterBuilder.Include(Pattern.quote(testPackage) + ".*")));
 
         Collection<Object[]> data = new ArrayList<Object[]>();
         for (String testResourceName : reflections.getResources(Pattern.compile(pattern))) {

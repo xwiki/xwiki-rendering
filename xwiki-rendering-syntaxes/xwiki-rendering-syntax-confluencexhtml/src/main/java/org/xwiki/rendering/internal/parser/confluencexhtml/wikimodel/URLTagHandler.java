@@ -24,35 +24,23 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 
 /**
- * Handles links.
+ * Handles spaces.
  * <p>
  * Example:
  * <p>
  * {@code
- * <ac:link ac:anchor="anchor">
- *   <ri:page ri:content-title="Page" ri:space-key="SPACE" />
- *   <ac:plain-text-link-body><![CDATA[label]] ></ac:plain-text-link-body>
- * </ac:link>
- * <ac:link ac:anchor="anchor">
- *   <ri:attachment ri:filename="file.png">
- *     <ri:page ri:content-title="xhtml" ri:space-key="SPACE" />
- *   </ri:attachment>
- *   <ac:plain-text-link-body><![CDATA[image1234.png]]></ac:plain-text-link-body>
- * </ac:link>
- * <ac:link ac:anchor="anchor">
- *   <ri:space ri:space-key="ds" />
- * </ac:link>
- * <ac:link ac:anchor="anchor">
- *   <ri:user ri:username="admin" />
- * </ac:link>
+ * <ri:url ri:value="http://host" />
  * }
  * 
  * @version $Id$
  * @since 5.3M2
  */
-public class LinkTagHandler extends TagHandler
+public class URLTagHandler extends TagHandler
 {
-    public LinkTagHandler()
+    /**
+     * The default constructor.
+     */
+    public URLTagHandler()
     {
         super(false, false, false);
     }
@@ -60,23 +48,11 @@ public class LinkTagHandler extends TagHandler
     @Override
     protected void begin(TagContext context)
     {
-        ConfluenceLinkWikiReference link = new ConfluenceLinkWikiReference();
+        Object container = context.getTagStack().getStackParameter("confluence-container");
 
-        WikiParameter anchorParameter = context.getParams().getParameter("ac:anchor");
-
-        if (anchorParameter != null) {
-            link.setAnchor(anchorParameter.getValue());
+        WikiParameter urlParameter = context.getParams().getParameter("ri:value");
+        if (urlParameter != null && container instanceof URLContainer) {
+            ((URLContainer) container).setURL(urlParameter.getValue());
         }
-
-        context.getTagStack().pushStackParameter("confluence-container", link);
-    }
-
-    @Override
-    protected void end(TagContext context)
-    {
-        ConfluenceLinkWikiReference link =
-            (ConfluenceLinkWikiReference) context.getTagStack().popStackParameter("confluence-container");
-
-        context.getScannerContext().onReference(link);
     }
 }

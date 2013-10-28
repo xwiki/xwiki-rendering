@@ -22,12 +22,12 @@ package org.xwiki.rendering.listener.reference;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Represents a reference to an Attachment.
+ * Represents a reference to a User.
  * 
  * @version $Id$
- * @since 2.5RC1
+ * @since 5.3M2
  */
-public class AttachmentResourceReference extends ResourceReference
+public class UserResourceReference extends ResourceReference
 {
     /**
      * The name of the parameter representing the Query String.
@@ -36,17 +36,15 @@ public class AttachmentResourceReference extends ResourceReference
 
     /**
      * The name of the parameter representing the Anchor.
-     * 
-     * @since 5.3M2
      */
     public static final String ANCHOR = "anchor";
 
     /**
      * @param reference see {@link #getReference()}
      */
-    public AttachmentResourceReference(String reference)
+    public UserResourceReference(String reference)
     {
-        super(reference, ResourceType.ATTACHMENT);
+        super(reference, ResourceType.USER);
     }
 
     /**
@@ -69,9 +67,9 @@ public class AttachmentResourceReference extends ResourceReference
     }
 
     /**
-     * @return the anchor name pointing to an anchor defined in the referenced attachment or null if no anchor has been
-     *         specified (in which case the reference points to the top of the attachment).
-     * @since 5.3M2
+     * @return the anchor name pointing to an anchor defined in the referenced user profile or null if no anchor has
+     *         been specified (in which case the reference points to the top of the user profile). Note that in XWiki
+     *         anchors are automatically created for titles. Example: "TableOfContentAnchor"
      */
     public String getAnchor()
     {
@@ -80,7 +78,6 @@ public class AttachmentResourceReference extends ResourceReference
 
     /**
      * @param anchor see {@link #getAnchor()}
-     * @since 5.3M2
      */
     public void setAnchor(String anchor)
     {

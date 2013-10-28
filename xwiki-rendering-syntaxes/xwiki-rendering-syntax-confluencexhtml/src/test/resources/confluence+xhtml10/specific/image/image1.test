@@ -1,0 +1,13 @@
+.#-----------------------------------------------------
+.input|confluence+xhtml/1.0
+.# Testing anchor recognition when nothing before anchor.
+.#-----------------------------------------------------
+<ac:image><ri:url ri:value="image.png" /></ac:image>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onImage [Typed = [true] Type = [url] Reference = [image.png]] [true]
+endParagraph
+endDocument

@@ -32,7 +32,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * }
  * 
  * @version $Id$
- * @since 5.3M1&
+ * @since 5.3M2
  */
 public class PlainTextLinkBodyTagHandler extends TagHandler
 {
@@ -50,6 +50,10 @@ public class PlainTextLinkBodyTagHandler extends TagHandler
     @Override
     protected void end(TagContext context)
     {
-        
+        Object container = context.getTagStack().getStackParameter("confluence-container");
+
+        if (container instanceof LabelContainer) {
+            ((LabelContainer) container).setLabel(context.getContent());
+        }
     }
 }

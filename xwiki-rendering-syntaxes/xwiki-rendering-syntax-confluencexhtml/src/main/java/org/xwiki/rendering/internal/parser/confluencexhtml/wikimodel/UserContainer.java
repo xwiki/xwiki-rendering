@@ -19,37 +19,12 @@
  */
 package org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel;
 
-import org.xwiki.rendering.wikimodel.WikiParameter;
-import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
-
 /**
- * Handles users.
- * <p>
- * Example:
- * <p>
- * {@code
- * <ri:user ri:username="admin" />
- * }
  * 
  * @version $Id$
  * @since 5.3M2
  */
-public class UserTagHandler extends TagHandler
+public interface UserContainer
 {
-    public UserTagHandler()
-    {
-        super(false, false, false);
-    }
-
-    @Override
-    protected void begin(TagContext context)
-    {
-        Object container = context.getTagStack().getStackParameter("confluence-container");
-
-        WikiParameter usernameParameter = context.getParams().getParameter("ri:username");
-        if (usernameParameter != null && container instanceof UserContainer) {
-            ((UserContainer) container).setUser(usernameParameter.getValue());
-        }
-    }
+    void setUser(String user);
 }

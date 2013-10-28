@@ -34,7 +34,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * }
  * 
  * @version $Id$
- * @since 5.3M1
+ * @since 5.3M2
  */
 public class ParameterTagHandler extends TagHandler
 {
@@ -52,10 +52,10 @@ public class ParameterTagHandler extends TagHandler
     @Override
     protected void end(TagContext context)
     {
-        ConfluenceMacro macro = (ConfluenceMacro) context.getTagStack().getStackParameter("confluence-macro");
+        ConfluenceMacro macro = (ConfluenceMacro) context.getTagStack().getStackParameter("confluence-container");
 
         if (macro != null) {
-            WikiParameter nameParameter = context.getParams().getParameter("name");
+            WikiParameter nameParameter = context.getParams().getParameter("ac:name");
 
             if (nameParameter != null) {
                 String value = context.getContent();

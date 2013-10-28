@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel;
 
+import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 
@@ -28,11 +29,11 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * Example:
  * <p>
  * {@code
- * <ri:page ri:content-title="space1 Home" />
+ * <ri:page ri:content-title="Page" ri:space-key="SPACE" />
  * }
  * 
  * @version $Id$
- * @since 5.3M1
+ * @since 5.3M2
  */
 public class PageTagHandler extends TagHandler
 {
@@ -44,12 +45,16 @@ public class PageTagHandler extends TagHandler
     @Override
     protected void begin(TagContext context)
     {
-        
-    }
+        Object container = context.getTagStack().getStackParameter("confluence-container");
 
-    @Override
-    protected void end(TagContext context)
-    {
-        
+        WikiParameter pageParameter = context.getParams().getParameter("ri:content-title");
+        if (pageParameter != null && container instanceof PageContainer) {
+            ((PageContainer) container).setPage(pageParameter.getValue());
+        }
+
+        WikiParameter spaceParameter = context.getParams().getParameter("ri:space-key");
+        if (spaceParameter != null && container instanceof SpaceContainer) {
+            ((SpaceContainer) container).setSpace(spaceParameter.getValue());
+        }
     }
 }

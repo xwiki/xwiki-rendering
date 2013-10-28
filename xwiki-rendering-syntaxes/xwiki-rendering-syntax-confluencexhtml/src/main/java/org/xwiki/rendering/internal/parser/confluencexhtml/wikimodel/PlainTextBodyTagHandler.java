@@ -33,7 +33,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * }
  * 
  * @version $Id$
- * @since 5.3M1&
+ * @since 5.3M2
  */
 public class PlainTextBodyTagHandler extends TagHandler
 {
@@ -51,7 +51,7 @@ public class PlainTextBodyTagHandler extends TagHandler
     @Override
     protected void end(TagContext context)
     {
-        ConfluenceMacro macro = (ConfluenceMacro) context.getTagStack().getStackParameter("confluence-macro");
+        ConfluenceMacro macro = (ConfluenceMacro) context.getTagStack().getStackParameter("confluence-container");
 
         if (macro != null) {
             macro.content = context.getContent();

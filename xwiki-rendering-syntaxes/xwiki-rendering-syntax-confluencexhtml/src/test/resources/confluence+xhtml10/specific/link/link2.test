@@ -1,0 +1,18 @@
+.#----------------------------------------------------------------------------
+.input|confluence+xhtml/1.0
+.#----------------------------------------------------------------------------
+<ac:link ac:anchor="anchor"><ri:attachment ri:filename="file.png"><ri:page ri:content-title="page" ri:space-key="SPACE" /></ri:attachment><ac:plain-text-link-body><![CDATA[label]]></ac:plain-text-link-body></ac:link>
+
+<ac:link><ri:attachment ri:filename="file.png"/></ac:link>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [true] Type = [attach] Reference = [SPACE.page@file.png] Parameters = [[anchor] = [anchor]]] [false]
+onWord [label]
+endLink [Typed = [true] Type = [attach] Reference = [SPACE.page@file.png] Parameters = [[anchor] = [anchor]]] [false]
+beginLink [Typed = [true] Type = [attach] Reference = [file.png]] [true]
+endLink [Typed = [true] Type = [attach] Reference = [file.png]] [true]
+endParagraph
+endDocument
