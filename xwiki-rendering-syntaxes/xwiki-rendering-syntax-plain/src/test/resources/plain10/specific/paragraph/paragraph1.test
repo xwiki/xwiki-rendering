@@ -1,0 +1,25 @@
+.#-----------------------------------------------------
+.input|plain/1.0
+.#-----------------------------------------------------
+paragraph1
+
+paragraph2 with [special characters]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [paragraph1]
+onNewLine
+onNewLine
+onWord [paragraph2]
+onSpace
+onWord [with]
+onSpace
+onSpecialSymbol [[]
+onWord [special]
+onSpace
+onWord [characters]
+onSpecialSymbol []]
+endParagraph
+endDocument

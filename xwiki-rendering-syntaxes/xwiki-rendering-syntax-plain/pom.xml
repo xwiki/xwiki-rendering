@@ -33,13 +33,19 @@
   <name>XWiki Rendering - Syntax - Plain</name>
   <description>XWiki Rendering - Syntax - Plain</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.62</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.90</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-event</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
