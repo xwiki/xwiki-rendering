@@ -55,306 +55,408 @@ public class WrappingListener implements Listener
     @Override
     public void beginDocument(MetaData metaData)
     {
-        this.listener.beginDocument(metaData);
+        if (this.listener != null) {
+            this.listener.beginDocument(metaData);
+        }
     }
 
     @Override
     public void endDocument(MetaData metaData)
     {
-        this.listener.endDocument(metaData);
+        if (this.listener != null) {
+            this.listener.endDocument(metaData);
+        }
     }
 
     @Override
     public void beginGroup(Map<String, String> parameters)
     {
-        this.listener.beginGroup(parameters);
+        if (this.listener != null) {
+            this.listener.beginGroup(parameters);
+        }
     }
 
     @Override
     public void endGroup(Map<String, String> parameters)
     {
-        this.listener.endGroup(parameters);
+        if (this.listener != null) {
+            this.listener.endGroup(parameters);
+        }
     }
 
     @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
-        this.listener.beginFormat(format, parameters);
+        if (this.listener != null) {
+            this.listener.beginFormat(format, parameters);
+        }
     }
 
     @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
-        this.listener.beginList(listType, parameters);
+        if (this.listener != null) {
+            this.listener.beginList(listType, parameters);
+        }
     }
 
     @Override
     public void beginListItem()
     {
-        this.listener.beginListItem();
+        if (this.listener != null) {
+            this.listener.beginListItem();
+        }
     }
 
     @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
-        this.listener.beginMacroMarker(name, parameters, content, isInline);
+        if (this.listener != null) {
+            this.listener.beginMacroMarker(name, parameters, content, isInline);
+        }
     }
 
     @Override
     public void beginParagraph(Map<String, String> parameters)
     {
-        this.listener.beginParagraph(parameters);
+        if (this.listener != null) {
+            this.listener.beginParagraph(parameters);
+        }
     }
 
     @Override
     public void beginSection(Map<String, String> parameters)
     {
-        this.listener.beginSection(parameters);
+        if (this.listener != null) {
+            this.listener.beginSection(parameters);
+        }
     }
 
     @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        this.listener.beginHeader(level, id, parameters);
+        if (this.listener != null) {
+            this.listener.beginHeader(level, id, parameters);
+        }
     }
 
     @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
-        this.listener.endFormat(format, parameters);
+        if (this.listener != null) {
+            this.listener.endFormat(format, parameters);
+        }
     }
 
     @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
-        this.listener.endList(listType, parameters);
+        if (this.listener != null) {
+            this.listener.endList(listType, parameters);
+        }
     }
 
     @Override
     public void endListItem()
     {
-        this.listener.endListItem();
+        if (this.listener != null) {
+            this.listener.endListItem();
+        }
     }
 
     @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
-        this.listener.endMacroMarker(name, parameters, content, isInline);
+        if (this.listener != null) {
+            this.listener.endMacroMarker(name, parameters, content, isInline);
+        }
     }
 
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
-        this.listener.endParagraph(parameters);
+        if (this.listener != null) {
+            this.listener.endParagraph(parameters);
+        }
     }
 
     @Override
     public void endSection(Map<String, String> parameters)
     {
-        this.listener.endSection(parameters);
+        if (this.listener != null) {
+            this.listener.endSection(parameters);
+        }
     }
 
     @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        this.listener.endHeader(level, id, parameters);
+        if (this.listener != null) {
+            this.listener.endHeader(level, id, parameters);
+        }
     }
 
     @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        this.listener.beginLink(reference, isFreeStandingURI, parameters);
+        if (this.listener != null) {
+            this.listener.beginLink(reference, isFreeStandingURI, parameters);
+        }
     }
 
     @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        this.listener.endLink(reference, isFreeStandingURI, parameters);
+        if (this.listener != null) {
+            this.listener.endLink(reference, isFreeStandingURI, parameters);
+        }
     }
 
     @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {
-        this.listener.onMacro(id, parameters, content, isInline);
+        if (this.listener != null) {
+            this.listener.onMacro(id, parameters, content, isInline);
+        }
     }
 
     @Override
     public void onNewLine()
     {
-        this.listener.onNewLine();
+        if (this.listener != null) {
+            this.listener.onNewLine();
+        }
     }
 
     @Override
     public void onSpace()
     {
-        this.listener.onSpace();
+        if (this.listener != null) {
+            this.listener.onSpace();
+        }
     }
 
     @Override
     public void onSpecialSymbol(char symbol)
     {
-        this.listener.onSpecialSymbol(symbol);
+        if (this.listener != null) {
+            this.listener.onSpecialSymbol(symbol);
+        }
     }
 
     @Override
     public void onWord(String word)
     {
-        this.listener.onWord(word);
+        if (this.listener != null) {
+            this.listener.onWord(word);
+        }
     }
 
     @Override
     public void onId(String name)
     {
-        this.listener.onId(name);
+        if (this.listener != null) {
+            this.listener.onId(name);
+        }
     }
 
     @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
-        this.listener.onHorizontalLine(parameters);
+        if (this.listener != null) {
+            this.listener.onHorizontalLine(parameters);
+        }
     }
 
     @Override
     public void onEmptyLines(int count)
     {
-        this.listener.onEmptyLines(count);
+        if (this.listener != null) {
+            this.listener.onEmptyLines(count);
+        }
     }
 
     @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
-        this.listener.onVerbatim(protectedString, isInline, parameters);
+        if (this.listener != null) {
+            this.listener.onVerbatim(protectedString, isInline, parameters);
+        }
     }
 
     @Override
     public void onRawText(String text, Syntax syntax)
     {
-        this.listener.onRawText(text, syntax);
+        if (this.listener != null) {
+            this.listener.onRawText(text, syntax);
+        }
     }
 
     @Override
     public void beginDefinitionList(Map<String, String> parameters)
     {
-        this.listener.beginDefinitionList(parameters);
+        if (this.listener != null) {
+            this.listener.beginDefinitionList(parameters);
+        }
     }
 
     @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
-        this.listener.endDefinitionList(parameters);
+        if (this.listener != null) {
+            this.listener.endDefinitionList(parameters);
+        }
     }
 
     @Override
     public void beginDefinitionTerm()
     {
-        this.listener.beginDefinitionTerm();
+        if (this.listener != null) {
+            this.listener.beginDefinitionTerm();
+        }
     }
 
     @Override
     public void beginDefinitionDescription()
     {
-        this.listener.beginDefinitionDescription();
+        if (this.listener != null) {
+            this.listener.beginDefinitionDescription();
+        }
     }
 
     @Override
     public void endDefinitionTerm()
     {
-        this.listener.endDefinitionTerm();
+        if (this.listener != null) {
+            this.listener.endDefinitionTerm();
+        }
     }
 
     @Override
     public void endDefinitionDescription()
     {
-        this.listener.endDefinitionDescription();
+        if (this.listener != null) {
+            this.listener.endDefinitionDescription();
+        }
     }
 
     @Override
     public void beginQuotation(Map<String, String> parameters)
     {
-        this.listener.beginQuotation(parameters);
+        if (this.listener != null) {
+            this.listener.beginQuotation(parameters);
+        }
     }
 
     @Override
     public void endQuotation(Map<String, String> parameters)
     {
-        this.listener.endQuotation(parameters);
+        if (this.listener != null) {
+            this.listener.endQuotation(parameters);
+        }
     }
 
     @Override
     public void beginQuotationLine()
     {
-        this.listener.beginQuotationLine();
+        if (this.listener != null) {
+            this.listener.beginQuotationLine();
+        }
     }
 
     @Override
     public void endQuotationLine()
     {
-        this.listener.endQuotationLine();
+        if (this.listener != null) {
+            this.listener.endQuotationLine();
+        }
     }
 
     @Override
     public void beginTable(Map<String, String> parameters)
     {
-        this.listener.beginTable(parameters);
+        if (this.listener != null) {
+            this.listener.beginTable(parameters);
+        }
     }
 
     @Override
     public void beginTableCell(Map<String, String> parameters)
     {
-        this.listener.beginTableCell(parameters);
+        if (this.listener != null) {
+            this.listener.beginTableCell(parameters);
+        }
     }
 
     @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
-        this.listener.beginTableHeadCell(parameters);
+        if (this.listener != null) {
+            this.listener.beginTableHeadCell(parameters);
+        }
     }
 
     @Override
     public void beginTableRow(Map<String, String> parameters)
     {
-        this.listener.beginTableRow(parameters);
+        if (this.listener != null) {
+            this.listener.beginTableRow(parameters);
+        }
     }
 
     @Override
     public void endTable(Map<String, String> parameters)
     {
-        this.listener.endTable(parameters);
+        if (this.listener != null) {
+            this.listener.endTable(parameters);
+        }
     }
 
     @Override
     public void endTableCell(Map<String, String> parameters)
     {
-        this.listener.endTableCell(parameters);
+        if (this.listener != null) {
+            this.listener.endTableCell(parameters);
+        }
     }
 
     @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
-        this.listener.endTableHeadCell(parameters);
+        if (this.listener != null) {
+            this.listener.endTableHeadCell(parameters);
+        }
     }
 
     @Override
     public void endTableRow(Map<String, String> parameters)
     {
-        this.listener.endTableRow(parameters);
+        if (this.listener != null) {
+            this.listener.endTableRow(parameters);
+        }
     }
 
     @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        this.listener.onImage(reference, isFreeStandingURI, parameters);
+        if (this.listener != null) {
+            this.listener.onImage(reference, isFreeStandingURI, parameters);
+        }
     }
 
     @Override
     public void beginMetaData(MetaData metadata)
     {
-        this.listener.beginMetaData(metadata);
+        if (this.listener != null) {
+            this.listener.beginMetaData(metadata);
+        }
     }
 
     @Override
     public void endMetaData(MetaData metadata)
     {
-        this.listener.endMetaData(metadata);
+        if (this.listener != null) {
+            this.listener.endMetaData(metadata);
+        }
     }
 }
