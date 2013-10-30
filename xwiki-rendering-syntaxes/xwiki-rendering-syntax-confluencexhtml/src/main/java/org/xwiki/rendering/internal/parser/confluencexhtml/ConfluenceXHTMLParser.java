@@ -126,7 +126,7 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
         }
 
         // Confluence generate invalid CDATA (nice touch...)
-        content = content.replaceAll("(<!\\[CDATA\\[.*\\]\\]) (>)", "$1$2");
+        content = content.replaceAll("(<!\\[CDATA\\[[^\\]]*\\]\\]) (>)", "$1$2");
 
         // Add <void> element around the content to make sure to have valid xml
         content = "<void>" + content + "</void>";
