@@ -41,6 +41,12 @@
       <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-plain</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
