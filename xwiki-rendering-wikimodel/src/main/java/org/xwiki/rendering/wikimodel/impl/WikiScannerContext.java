@@ -21,6 +21,7 @@ package org.xwiki.rendering.wikimodel.impl;
 
 import java.util.Stack;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
@@ -538,7 +539,15 @@ public class WikiScannerContext implements IWikiScannerContext
 
     public void onSpecialSymbol(String str)
     {
-        getContext().onSpecialSymbol(str);
+        // Extract white spaces from special characters
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c == ' ') {
+                getContext().onSpace(" ");
+            } else {
+                getContext().onSpecialSymbol(String.valueOf(c));
+            }
+        }
     }
 
     public void onTableCaption(String str)
