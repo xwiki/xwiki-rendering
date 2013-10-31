@@ -69,8 +69,8 @@ public class ConfluenceWikiParserTest extends AbstractWikiParserTest
         test("first\n\nsecond", "<p>first</p>\n<p>second</p>");
         test("first\\\\second", "<p>first<br />second</p>");
         test("first\n----second", "<p>first</p>\n<hr />\n<p>second</p>");
-        test("first --- second", "<p>first&#160;&mdash; second</p>");
-        test("first -- second", "<p>first&#160;&ndash; second</p>");
+        test("first --- second", "<p>first --- second</p>");
+        test("first -- second", "<p>first -- second</p>");
     }
 
     public void testConfluenceTextEffects() throws WikiParserException

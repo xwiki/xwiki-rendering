@@ -521,7 +521,7 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
         test("{{a=b}}\n----", "<hr a='b' />");
 
         // Not lines
-        test(" -----------", "<p> &mdash;&mdash;&mdash;</p>");
+        test(" -----------", "<p> ---------</p>");
     }
 
     /**
@@ -758,7 +758,7 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
                 + "<table><tbody>\n"
                 + "  <tr><th>Header</th><td> Cell with a macro: "
                 + "<pre class='wikimodel-macro' macroName='code'><![CDATA[this is a code]]></pre>\n \n"
-                + " this is afer the code&hellip;</td></tr>\n"
+                + " this is afer the code...</td></tr>\n"
                 + "</tbody></table>");
         test(
             ""
@@ -939,7 +939,7 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
                 + "</div>\n"
                 + "<div class='wikimodel-property' url='street'><p>Cité Nollez</p>\n"
                 + "</div>\n"
-                + "<p>        This is just a description&hellip;</p>\n"
+                + "<p>        This is just a description...</p>\n"
                 + "</div>\n"
                 + "</div>\n"
                 + "<p>after</p>");
@@ -969,7 +969,7 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
                 + "</div>\n"
                 + "<div class='wikimodel-property' url='street'><p>Cité Nollez</p>\n"
                 + "</div>\n"
-                + "<p>        This is just a description&hellip;\n"
+                + "<p>        This is just a description...\n"
                 + "after</p>\n"
                 + "</div>\n"
                 + "</div>");
@@ -1039,16 +1039,16 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
     {
         test(
             "Это (=ссылка=) на внешний документ...",
-            "<p>Это <a href='ссылка' class='wikimodel-freestanding'>ссылка</a> на внешний документ&hellip;</p>");
+            "<p>Это <a href='ссылка' class='wikimodel-freestanding'>ссылка</a> на внешний документ...</p>");
         test(
             "Это (=http://www.google.com ссылка=) на внешний документ...",
-            "<p>Это <a href='http://www.google.com'>ссылка</a> на внешний документ&hellip;</p>");
+            "<p>Это <a href='http://www.google.com'>ссылка</a> на внешний документ...</p>");
         test(
             "This is a (=reference=) to an external document...",
-            "<p>This is a <a href='reference' class='wikimodel-freestanding'>reference</a> to an external document&hellip;</p>");
+            "<p>This is a <a href='reference' class='wikimodel-freestanding'>reference</a> to an external document...</p>");
         test(
             "This is a (=http://www.google.com reference=) to an external document...",
-            "<p>This is a <a href='http://www.google.com'>reference</a> to an external document&hellip;</p>");
+            "<p>This is a <a href='http://www.google.com'>reference</a> to an external document...</p>");
 
         test(
             "before http://www.foo.bar/com after",
