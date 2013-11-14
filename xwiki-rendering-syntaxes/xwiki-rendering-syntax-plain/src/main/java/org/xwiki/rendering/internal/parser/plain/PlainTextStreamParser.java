@@ -85,43 +85,57 @@ public class PlainTextStreamParser implements StreamParser
         int charAsInt;
 
         listener.beginDocument(MetaData.EMPTY);
-        listener.beginParagraph(Listener.EMPTY_PARAMETERS);
+
+        boolean paragraphSent = false;
 
         while ((charAsInt = readChar(bufferedSource)) != -1) {
-            char c = (char) charAsInt;
-            if (c == '\n') {
-                if (word.length() > 0) {
-                    listener.onWord(word.toString());
-                }
-                listener.onNewLine();
-
-                word.setLength(0);
-            } else if (c == '\r') {
-                // Do nothing, skip it
-            } else if (c == ' ') {
-                if (word.length() > 0) {
-                    listener.onWord(word.toString());
-                }
-                listener.onSpace();
-
-                word.setLength(0);
-            } else if (SPECIALSYMBOL_PATTERN.matcher(String.valueOf(c)).matches()) {
-                if (word.length() > 0) {
-                    listener.onWord(word.toString());
-                }
-                listener.onSpecialSymbol(c);
-
-                word.setLength(0);
-            } else {
-                word.append(c);
+            if (!paragraphSent) {
+                listener.beginParagraph(Listener.EMPTY_PARAMETERS);
+                paragraphSent = true;
             }
+
+            parseChar(charAsInt, word, listener);
         }
 
         if (word.length() > 0) {
             listener.onWord(word.toString());
         }
 
-        listener.endParagraph(Listener.EMPTY_PARAMETERS);
+        if (paragraphSent) {
+            listener.endParagraph(Listener.EMPTY_PARAMETERS);
+        }
+
         listener.endDocument(MetaData.EMPTY);
+    }
+
+    private void parseChar(int charAsInt, StringBuffer word, Listener listener) throws ParseException
+    {
+        char c = (char) charAsInt;
+        if (c == '\n') {
+            if (word.length() > 0) {
+                listener.onWord(word.toString());
+            }
+            listener.onNewLine();
+
+            word.setLength(0);
+        } else if (c == '\r') {
+            // Do nothing, skip it
+        } else if (c == ' ') {
+            if (word.length() > 0) {
+                listener.onWord(word.toString());
+            }
+            listener.onSpace();
+
+            word.setLength(0);
+        } else if (SPECIALSYMBOL_PATTERN.matcher(String.valueOf(c)).matches()) {
+            if (word.length() > 0) {
+                listener.onWord(word.toString());
+            }
+            listener.onSpecialSymbol(c);
+
+            word.setLength(0);
+        } else {
+            word.append(c);
+        }
     }
 }
