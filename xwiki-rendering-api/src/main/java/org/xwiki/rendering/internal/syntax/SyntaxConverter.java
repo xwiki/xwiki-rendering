@@ -51,7 +51,8 @@ public class SyntaxConverter extends AbstractConverter<Syntax>
     protected Syntax convertToType(Type targetType, Object value)
     {
         try {
-            return value == null ? null : this.syntaxFactory.createSyntaxFromIdString(value.toString());
+            return value == null || value.toString().isEmpty() ? null : this.syntaxFactory
+                .createSyntaxFromIdString(value.toString());
         } catch (ParseException e) {
             // The specified syntax is not recognized, return an error
             throw new ConversionException(String.format("Unknown syntax [%s]", value.toString()), e);
