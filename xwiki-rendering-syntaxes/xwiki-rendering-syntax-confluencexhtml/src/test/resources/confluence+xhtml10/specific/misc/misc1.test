@@ -1,0 +1,20 @@
+.#-----------------------------------------------------
+.input|confluence+xhtml/1.0
+.# Make sure any number of white spaces is ignored between non inline elements
+.#-----------------------------------------------------
+<p>a</p>
+
+        
+
+<p>b</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [a]
+endParagraph
+beginParagraph
+onWord [b]
+endParagraph
+endDocument

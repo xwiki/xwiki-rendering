@@ -40,9 +40,9 @@ import org.xml.sax.helpers.AttributesImpl;
  * <p/>
  * <ul>
  * <li><b>UC1</b>: Any white spaces group is removed if it's before a non inline
- * (see INLINE_ELEMENTS) element or at the begining of the document.</li>
+ * (see NONINLINE_ELEMENTS) element or at the beginning of the document.</li>
  * <li><b>UC2</b>: Any white spaces group is removed if it's after a non inline
- * (see INLINE_ELEMENTS) element or at the end of the document.</li>
+ * (see NONINLINE_ELEMENTS) element or at the end of the document.</li>
  * <li><b>UC3</b>: Inside inline content any white spaces group become a single
  * space.</li>
  * <li><b>UC5</b>: Non visible element (comments, CDATA and NONVISIBLE_ELEMENTS)
@@ -147,28 +147,28 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     {
         Attributes clonedAtts = fAttributes.push(new AttributesImpl(atts));
 
-        if (NONVISIBLE_ELEMENTS.contains(localName)) {
+        if (NONVISIBLE_ELEMENTS.contains(qName)) {
             startNonVisibleElement();
 
             // send start element event
             super.startElement(uri, localName, qName, atts);
         } else {
-            if (NONINLINE_ELEMENTS.contains(localName)) {
+            if (NONINLINE_ELEMENTS.contains(qName)) {
                 // Flush previous content and print current one
                 flushContent();
 
                 // white spaces inside pre element are not cleaned
-                if ("pre".equalsIgnoreCase(localName)) {
+                if ("pre".equalsIgnoreCase(qName)) {
                     ++fNoCleanUpLevel;
                 }
 
                 // send start element event
                 super.startElement(uri, localName, qName, atts);
-            } else if (EMPTYVISIBLE_ELEMENTS.contains(localName)) {
+            } else if (EMPTYVISIBLE_ELEMENTS.contains(qName)) {
                 startEmptyVisibleElement();
 
                 super.startElement(uri, localName, qName, atts);
-            } else if (preservedInlineContent(localName, atts)) {
+            } else if (preservedInlineContent(qName, atts)) {
                 // Flush previous content and print current one
                 flushContent(false);
 
@@ -186,28 +186,28 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     public void endElement(String uri, String localName, String qName)
         throws SAXException
     {
-        if (NONVISIBLE_ELEMENTS.contains(localName)) {
+        if (NONVISIBLE_ELEMENTS.contains(qName)) {
             endNonVisibleElement();
 
             super.endElement(uri, localName, qName);
 
             --fNoCleanUpLevel;
         } else {
-            if (NONINLINE_ELEMENTS.contains(localName)) {
+            if (NONINLINE_ELEMENTS.contains(qName)) {
                 // Flush previous content and print current one
                 flushContent();
 
                 // white spaces inside pre element are not cleaned
-                if ("pre".equalsIgnoreCase(localName)) {
+                if ("pre".equalsIgnoreCase(qName)) {
                     --fNoCleanUpLevel;
                 }
 
                 super.endElement(uri, localName, qName);
-            } else if (EMPTYVISIBLE_ELEMENTS.contains(localName)) {
+            } else if (EMPTYVISIBLE_ELEMENTS.contains(qName)) {
                 endEmptyVisibleElement();
 
                 super.endElement(uri, localName, qName);
-            } else if (preservedInlineContent(localName, fAttributes.peek())) {
+            } else if (preservedInlineContent(qName, fAttributes.peek())) {
                 // Flush previous content and print current one
                 flushContent();
 
@@ -222,11 +222,11 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
         fAttributes.pop();
     }
 
-    private boolean preservedInlineContent(String localName, Attributes atts)
+    private boolean preservedInlineContent(String name, Attributes atts)
     {
         boolean preserved = false;
 
-        if ("tt".equalsIgnoreCase(localName)) {
+        if ("tt".equalsIgnoreCase(name)) {
             String value = atts.getValue("class");
 
             if (value != null) {
@@ -343,7 +343,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
 
         if (trimTrailing) {
             // UC2: Any white spaces group is removed if it's after a non inline
-            // (see INLINE_ELEMENTS) element.
+            // (see NONINLINE_ELEMENTS) element.
             trimTrailingWhiteSpaces();
         }
 
