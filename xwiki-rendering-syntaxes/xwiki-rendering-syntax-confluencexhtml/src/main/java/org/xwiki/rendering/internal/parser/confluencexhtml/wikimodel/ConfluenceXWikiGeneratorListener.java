@@ -138,8 +138,7 @@ public class ConfluenceXWikiGeneratorListener extends DefaultXWikiGeneratorListe
             }
 
             if (resourceReference != null) {
-                onReference(resourceReference, reference.getLabel(), reference.getLabel() == null,
-                    Collections.<String, String> emptyMap());
+                onReference(resourceReference, reference.getLabel(), false, Collections.<String, String> emptyMap());
             }
         } else {
             super.onReference(reference);
@@ -182,7 +181,7 @@ public class ConfluenceXWikiGeneratorListener extends DefaultXWikiGeneratorListe
             }
 
             if (resourceReference != null) {
-                onImage(resourceReference, true, Collections.<String, String> emptyMap());
+                onImage(resourceReference, false, Collections.<String, String> emptyMap());
             }
         } else {
             super.onImage(reference);

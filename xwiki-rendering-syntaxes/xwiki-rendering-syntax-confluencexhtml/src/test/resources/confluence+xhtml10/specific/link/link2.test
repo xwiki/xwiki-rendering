@@ -12,7 +12,7 @@ beginParagraph
 beginLink [Typed = [true] Type = [attach] Reference = [SPACE.page@file.png] Parameters = [[anchor] = [anchor]]] [false]
 onWord [label]
 endLink [Typed = [true] Type = [attach] Reference = [SPACE.page@file.png] Parameters = [[anchor] = [anchor]]] [false]
-beginLink [Typed = [true] Type = [attach] Reference = [file.png]] [true]
-endLink [Typed = [true] Type = [attach] Reference = [file.png]] [true]
+beginLink [Typed = [true] Type = [attach] Reference = [file.png]] [false]
+endLink [Typed = [true] Type = [attach] Reference = [file.png]] [false]
 endParagraph
 endDocument

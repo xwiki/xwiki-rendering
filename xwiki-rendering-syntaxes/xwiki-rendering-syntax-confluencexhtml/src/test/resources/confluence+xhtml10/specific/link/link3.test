@@ -12,7 +12,7 @@ beginParagraph
 beginLink [Typed = [true] Type = [doc] Reference = [SPACE.WebHome] Parameters = [[anchor] = [anchor]]] [false]
 onWord [label]
 endLink [Typed = [true] Type = [doc] Reference = [SPACE.WebHome] Parameters = [[anchor] = [anchor]]] [false]
-beginLink [Typed = [true] Type = [doc] Reference = [SPACE.WebHome]] [true]
-endLink [Typed = [true] Type = [doc] Reference = [SPACE.WebHome]] [true]
+beginLink [Typed = [true] Type = [doc] Reference = [SPACE.WebHome]] [false]
+endLink [Typed = [true] Type = [doc] Reference = [SPACE.WebHome]] [false]
 endParagraph
 endDocument

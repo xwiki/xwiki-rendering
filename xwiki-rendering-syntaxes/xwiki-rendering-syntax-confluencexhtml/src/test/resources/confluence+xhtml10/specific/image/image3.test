@@ -7,6 +7,6 @@
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-onImage [Typed = [true] Type = [attach] Reference = [SPACE.page@image.png]] [true]
+onImage [Typed = [true] Type = [attach] Reference = [SPACE.page@image.png]] [false]
 endParagraph
 endDocument
