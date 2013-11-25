@@ -213,6 +213,12 @@
           -->
           <ignored>
             <!-- Remove the following ignores after we release the current version as final -->
+            <difference>
+              <differenceType>7012</differenceType>
+              <className>org/xwiki/rendering/transformation/linkchecker/LinkCheckerTransformationConfiguration</className>
+              <method>java.util.List getExcludedReferencePatterns()</method>
+              <justification>New configuration property rendering.transformation.linkchecker.excludedReferencePatterns</justification>
+            </difference>
           </ignored>
           <excludes>
             <exclude>**/internal/**</exclude>

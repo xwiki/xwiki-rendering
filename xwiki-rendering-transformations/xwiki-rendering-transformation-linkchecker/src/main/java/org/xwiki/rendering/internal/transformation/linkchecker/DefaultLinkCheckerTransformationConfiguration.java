@@ -19,13 +19,21 @@
  */
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.component.phase.Initializable;
+import org.xwiki.component.phase.InitializationException;
 import org.xwiki.configuration.ConfigurationSource;
+import org.xwiki.configuration.internal.MemoryConfigurationSource;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationConfiguration;
 
 /**
@@ -36,7 +44,8 @@ import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationC
  */
 @Component
 @Singleton
-public class DefaultLinkCheckerTransformationConfiguration implements LinkCheckerTransformationConfiguration
+public class DefaultLinkCheckerTransformationConfiguration implements LinkCheckerTransformationConfiguration,
+    Initializable
 {
     /**
      * Prefix for configuration keys for the Icon transformation module.
@@ -60,6 +69,18 @@ public class DefaultLinkCheckerTransformationConfiguration implements LinkChecke
     @Inject
     private ComponentManager componentManager;
 
+    private ConfigurationSource configurationSource;
+
+    @Override
+    public void initialize() throws InitializationException
+    {
+        try {
+            this.configurationSource = this.componentManager.getInstance(ConfigurationSource.class);
+        } catch (ComponentLookupException e) {
+            this.configurationSource = new MemoryConfigurationSource();
+        }
+    }
+
     @Override
     public long getCheckTimeout()
     {
@@ -68,13 +89,7 @@ public class DefaultLinkCheckerTransformationConfiguration implements LinkChecke
         if (this.checkTimeout != null) {
             result = this.checkTimeout;
         } else {
-            ConfigurationSource source;
-            try {
-                source = this.componentManager.getInstance(ConfigurationSource.class);
-                result = source.getProperty(PREFIX + "timeout", TIMEOUT);
-            } catch (ComponentLookupException e) {
-                result = TIMEOUT;
-            }
+            result = this.configurationSource.getProperty(PREFIX + "timeout", TIMEOUT);
         }
 
         return result;
@@ -87,5 +102,34 @@ public class DefaultLinkCheckerTransformationConfiguration implements LinkChecke
     public void setCheckTimeout(long checkTimeout)
     {
         this.checkTimeout = checkTimeout;
+    }
+
+    /**
+     * Allows extending classes to override it.
+     *
+     * @return the list of page reference patterns to exclude from link checking
+     */
+    protected List<Pattern> getDefaultExcludedReferencePatterns()
+    {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Pattern> getExcludedReferencePatterns()
+    {
+        List<Pattern> patterns;
+
+        List<String> patternsAsString =
+            this.configurationSource.getProperty(PREFIX + "excludedReferencePatterns", List.class);
+        if (patternsAsString.isEmpty()) {
+            patterns = getDefaultExcludedReferencePatterns();
+        } else {
+            patterns = new ArrayList<Pattern>();
+            for (String patternAsString : patternsAsString) {
+                patterns.add(Pattern.compile(patternAsString));
+            }
+        }
+
+        return patterns;
     }
 }

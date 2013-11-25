@@ -1,3 +1,4 @@
+org.xwiki.rendering.internal.transformation.linkchecker.DefaultLinkCheckerThread
 org.xwiki.rendering.internal.transformation.linkchecker.LinkCheckerTransformation
 org.xwiki.rendering.internal.transformation.linkchecker.DefaultHTTPChecker
 org.xwiki.rendering.internal.transformation.linkchecker.DefaultLinkStateManager

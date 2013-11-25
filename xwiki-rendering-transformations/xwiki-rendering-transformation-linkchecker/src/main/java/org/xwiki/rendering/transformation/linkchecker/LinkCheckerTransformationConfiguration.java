@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.transformation.linkchecker;
 
+import java.util.List;
+import java.util.regex.Pattern;
+
 import org.xwiki.component.annotation.Role;
 
 /**
@@ -39,4 +42,10 @@ public interface LinkCheckerTransformationConfiguration
      * @param checkTimeout the time after which a link should be checked again for validity
      */
     void setCheckTimeout(long checkTimeout);
+
+    /**
+     * @return the list of document references regexes for which we don't check links (this is used for example to
+     *         ensure that the page listing all link statuses is itself excluded ;))
+     */
+    List<Pattern> getExcludedReferencePatterns();
 }
