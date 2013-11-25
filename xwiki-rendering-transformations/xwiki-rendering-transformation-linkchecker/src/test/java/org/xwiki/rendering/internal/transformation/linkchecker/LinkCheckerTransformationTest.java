@@ -24,11 +24,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jmock.Expectations;
-import org.jmock.States;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.MetaData;
@@ -41,22 +40,37 @@ import org.xwiki.rendering.transformation.linkchecker.LinkContextDataProvider;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 import org.xwiki.script.service.ScriptService;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.test.LogRule;
+import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.mockito.MockitoComponentManagerRule;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
- * Unit tests for {@link org.xwiki.rendering.internal.transformation.linkchecker.LinkCheckerTransformation}.
+ * Unit tests for {@link LinkCheckerTransformation}.
  *
  * @version $Id$
  * @since 3.3M1
  */
-public class LinkCheckerTransformationTest extends AbstractComponentTestCase
+@AllComponents
+public class LinkCheckerTransformationTest
 {
+    @Rule
+    public LogRule logRule = new LogRule() {{
+        record(LogLevel.ERROR);
+        recordLoggingForType(DefaultLinkCheckerThread.class);
+    }};
+
+    @Rule
+    public MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
+
     @After
     public void cleanUp() throws Exception
     {
         // Make sure we stop the Link Checker thread after each test (since it's started automatically when looking
         // up the LinkCheckerTransformation component.
-        Transformation transformation = getComponentManager().getInstance(Transformation.class, "linkchecker");
+        Transformation transformation = this.componentManager.getInstance(Transformation.class, "linkchecker");
         ((LinkCheckerTransformation) transformation).stopLinkCheckerThread();
     }
 
@@ -69,25 +83,21 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
             + "[[invalid]]"
             + "[[unsupportedrotocol://invalid]]";
 
-        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
-        getMockery().checking(new Expectations()
-        {{
-            oneOf(httpChecker).check("http://ok"); will(returnValue(200));
-            oneOf(httpChecker).check("invalid"); will(returnValue(0));
-        }});
+        HTTPChecker httpChecker = this.componentManager.registerMockComponent(HTTPChecker.class);
+        when(httpChecker.check("http://ok")).thenReturn(200);
+        when(httpChecker.check("invalid")).thenReturn(0);
 
-        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
-        parseAndwait(input, linkStateManager, 2);
+        LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
+        transformAndWait(input, linkStateManager, 2);
 
         // Verify we can access the link states through the Script Service
-        LinkCheckerScriptService service = 
-            (LinkCheckerScriptService) getComponentManager().getInstance(ScriptService.class, "linkchecker");
+        LinkCheckerScriptService service = this.componentManager.getInstance(ScriptService.class, "linkchecker");
         Map<String, Map<String, LinkState>> states = service.getLinkStates();
         
         LinkState state1 = states.get("http://ok").get("default");
-        Assert.assertEquals(200, state1.getResponseCode());
+        assertEquals(200, state1.getResponseCode());
         LinkState state2 = states.get("invalid").get("default");
-        Assert.assertEquals(0, state2.getResponseCode());
+        assertEquals(0, state2.getResponseCode());
     }
 
     /**
@@ -106,31 +116,29 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
 
         // Set some state in the Link State Manager to verify that if an item that is on the queue is the same as one
         // already process not long ago, it's not processed again.
-        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
+        LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
         Map<String, LinkState> contentReferences = new HashMap<String, LinkState>();
         long initialTime = System.currentTimeMillis();
         contentReferences.put("default", new LinkState(200, initialTime));
         linkStateManager.getLinkStates().put("http://ok", contentReferences);
 
-        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
-        getMockery().checking(new Expectations() {{
-            never(httpChecker).check("http://ok");
-            oneOf(httpChecker).check("http://newok"); will(returnValue(200));
-        }});
+        HTTPChecker httpChecker = this.componentManager.registerMockComponent(HTTPChecker.class);
+        verify(httpChecker, never()).check("http://ok");
+        when(httpChecker.check("http://newok")).thenReturn(200);
 
-        parseAndwait(input, linkStateManager, 2);
+        transformAndWait(input, linkStateManager, 2);
 
         // Verify we can access the link states through the Script Service
         LinkCheckerScriptService service =
-            (LinkCheckerScriptService) getComponentManager().getInstance(ScriptService.class, "linkchecker");
+            (LinkCheckerScriptService) this.componentManager.getInstance(ScriptService.class, "linkchecker");
         Map<String, Map<String, LinkState>> states = service.getLinkStates();
 
         LinkState state1 = states.get("http://ok").get("default");
-        Assert.assertEquals(200, state1.getResponseCode());
-        Assert.assertEquals(initialTime, state1.getLastCheckedTime());
+        assertEquals(200, state1.getResponseCode());
+        assertEquals(initialTime, state1.getLastCheckedTime());
 
         LinkState state2 = states.get("http://newok").get("default");
-        Assert.assertEquals(200, state2.getResponseCode());
+        assertEquals(200, state2.getResponseCode());
     }
 
     /**
@@ -149,43 +157,40 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
 
         // Set some state in the Link State Manager to verify that if an item that is on the queue is the same as one
         // already process not long ago, it's not processed again.
-        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
+        LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
         Map<String, LinkState> contentReferences = new HashMap<String, LinkState>();
         long initialTime = System.currentTimeMillis();
         contentReferences.put("default", new LinkState(404, initialTime));
         linkStateManager.getLinkStates().put("http://ok", contentReferences);
 
-        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
-        getMockery().checking(new Expectations() {{
-            oneOf(httpChecker).check("http://newok"); will(returnValue(200));
-            oneOf(httpChecker).check("http://ok"); will(returnValue(200));
-        }});
+        HTTPChecker httpChecker = this.componentManager.registerMockComponent(HTTPChecker.class);
+        when(httpChecker.check("http://newok")).thenReturn(200);
+        when(httpChecker.check("http://ok")).thenReturn(200);
 
         // Modify the default timeout so that we don't have to wait too long for the test...
         LinkCheckerTransformationConfiguration configuration =
-            getComponentManager().getInstance(LinkCheckerTransformationConfiguration.class);
+            this.componentManager.getInstance(LinkCheckerTransformationConfiguration.class);
         configuration.setCheckTimeout(0L);
 
-        parseAndwait(input, linkStateManager, 2);
+        transformAndWait(input, linkStateManager, 2);
 
         // We've put a timeout of 0ms but to be on the safe side we wait 1ms (since otherwise it could be possible
         // that the above executes in less than 1ms.
-        Thread.sleep(1L);
+        DefaultLinkCheckerThread.sleep(1L);
         
         // Verify we can access the link states through the Script Service
-        LinkCheckerScriptService service =
-            (LinkCheckerScriptService) getComponentManager().getInstance(ScriptService.class, "linkchecker");
+        LinkCheckerScriptService service = this.componentManager.getInstance(ScriptService.class, "linkchecker");
         Map<String, Map<String, LinkState>> states = service.getLinkStates();
 
         LinkState state = states.get("http://ok").get("default");
-        Assert.assertEquals(200, state.getResponseCode());
+        assertEquals(200, state.getResponseCode());
     }
 
     @Test
     public void transformWithSourceMetaData() throws Exception
     {
         String input = "[[http://ok]]";
-        Parser parser = getComponentManager().getInstance(Parser.class, "xwiki/2.0");
+        Parser parser = this.componentManager.getInstance(Parser.class, "xwiki/2.0");
         XDOM xdom = parser.parse(new StringReader(input));
 
         // Add MetaData Block
@@ -193,18 +198,16 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
         metaData.addMetaData(MetaData.SOURCE, "source");
         XDOM newXDOM = new XDOM(xdom.getChildren(), metaData);
 
-        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
-        getMockery().checking(new Expectations() {{
-            oneOf(httpChecker).check("http://ok"); will(returnValue(200));
-        }});
+        HTTPChecker httpChecker = this.componentManager.registerMockComponent(HTTPChecker.class);
+        when(httpChecker.check("http://ok")).thenReturn(200);
 
-        Transformation transformation = getComponentManager().getInstance(Transformation.class, "linkchecker");
+        Transformation transformation = this.componentManager.getInstance(Transformation.class, "linkchecker");
         transformation.transform(newXDOM, new TransformationContext());
 
-        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
+        LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
         wait(linkStateManager, 1);        
 
-        Assert.assertNotNull(linkStateManager.getLinkStates().get("http://ok").get("source"));
+        assertNotNull(linkStateManager.getLinkStates().get("http://ok").get("source"));
     }
 
     /**
@@ -214,27 +217,33 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
     @Test
     public void transformAndSendEvent() throws Exception
     {
-        final States eventState = getMockery().states("event");
+        ObservationManager observationManager = this.componentManager.registerMockComponent(ObservationManager.class);
+        HTTPChecker httpChecker = this.componentManager.registerMockComponent(HTTPChecker.class);
+        when(httpChecker.check("http://doesntexist")).thenReturn(404);
 
-        final ObservationManager observationManager = registerMockComponent(ObservationManager.class);
-        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
-        getMockery().checking(new Expectations()
-        {{
-            oneOf(httpChecker).check("http://doesntexist");
-            will(returnValue(404));
-            // The real test is here: we verify that the event is sent
-            oneOf(observationManager).notify(with(equal(new InvalidURLEvent("http://doesntexist"))),
-                with(any(Map.class)));
-            then(eventState.is("ok"));
-        }});
+        class StateAnswer implements Answer
+        {
+            public boolean hasListenerBeenCalled;
 
-        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
-        parseAndwait("[[http://doesntexist]]", linkStateManager, 1);
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable
+            {
+                hasListenerBeenCalled = true;
+                return null;
+            }
+        }
+
+        StateAnswer stateAnswer = new StateAnswer();
+        doAnswer(stateAnswer).when(observationManager).notify(
+            eq(new InvalidURLEvent("http://doesntexist")), any(Map.class));
+
+        LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
+        transformAndWait("[[http://doesntexist]]", linkStateManager, 1);
 
         // Wait till the event has been sent since parseAndWait only waits for the link state to be in cache but it
         // doesn't wait for the event to be sent.
-        while (!eventState.is("ok").isActive()) {
-            Thread.sleep(100L);
+        while (!stateAnswer.hasListenerBeenCalled) {
+            DefaultLinkCheckerThread.sleep(100L);
         }
     }
 
@@ -246,46 +255,89 @@ public class LinkCheckerTransformationTest extends AbstractComponentTestCase
     {
         String input = "[[http://ok]]";
 
-        final HTTPChecker httpChecker = registerMockComponent(HTTPChecker.class);
-        getMockery().checking(new Expectations() {{
-            oneOf(httpChecker).check("http://ok"); will(returnValue(200));
-        }});
+        HTTPChecker httpChecker = this.componentManager.registerMockComponent(HTTPChecker.class);
+        when(httpChecker.check("http://ok")).thenReturn(200);
 
         // Register a LinkContextDataProvider component
-        final LinkContextDataProvider linkContextDataProvider = registerMockComponent(LinkContextDataProvider.class);
-        getMockery().checking(new Expectations() {{
-            oneOf(linkContextDataProvider).getContextData("http://ok", "default");
-            will(returnValue(Collections.singletonMap("contextKey", "contextValue")));
-        }});
+        LinkContextDataProvider linkContextDataProvider =
+            this.componentManager.registerMockComponent(LinkContextDataProvider.class);
+        when(linkContextDataProvider.getContextData("http://ok", "default")).thenReturn(
+            Collections.<String, Object>singletonMap("contextKey", "contextValue"));
 
-        LinkStateManager linkStateManager = getComponentManager().getInstance(LinkStateManager.class);
-        parseAndwait(input, linkStateManager, 1);
+        LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
+        transformAndWait(input, linkStateManager, 1);
         
         // Assert states
         LinkState linkState = linkStateManager.getLinkStates().get("http://ok").get("default");
-        Assert.assertEquals("contextValue", linkState.getContextData().get("contextKey"));
+        assertEquals("contextValue", linkState.getContextData().get("contextKey"));
     }
-    
-    private void parseAndwait(String input, LinkStateManager linkStateManager, int numberOfItemsToWaitFor)
+
+    /**
+     * Verify the anti-flooding mechanism.
+     */
+    @Test
+    public void transformWithAntiFloodKickingIn() throws Exception
+    {
+        // Sets a mock Checker Thread that does nothing since we only want to check the anti flood mechanism here
+        LinkCheckerTransformation transformation =
+            this.componentManager.getInstance(Transformation.class, "linkchecker");
+        LinkCheckerThread checkerThread = mock(LinkCheckerThread.class);
+        ReflectionUtils.setFieldValue(transformation, "checkerThread", checkerThread);
+
+        StringBuilder input = new StringBuilder();
+        for (int i = 0; i < LinkCheckerTransformation.MAX_LINKS_IN_QUEUE + 1; i++) {
+            String url = "url" + i;
+            input.append("[[url:").append(url).append("]]");
+        }
+
+        // Render a first page with MAX_LINKS_IN_QUEUE + 1 links in it so that they're all added to the Check Queue
+        Parser xwiki20Parser = this.componentManager.getInstance(Parser.class, "xwiki/2.0");
+        XDOM xdom = xwiki20Parser.parse(new StringReader(input.toString()));
+        transformation.transform(xdom, new TransformationContext());
+        assertEquals(LinkCheckerTransformation.MAX_LINKS_IN_QUEUE + 1, transformation.getLinkQueue().size());
+
+        // Now render a second page and verify no new links are added to the queue since it's already full!
+        transformation.transform(xdom, new TransformationContext());
+        assertEquals(LinkCheckerTransformation.MAX_LINKS_IN_QUEUE + 1, transformation.getLinkQueue().size());
+    }
+
+    private void transformAndWait(String input, LinkStateManager linkStateManager, int numberOfItemsToWaitFor)
         throws Exception
     {
-        Transformation transformation = getComponentManager().getInstance(Transformation.class, "linkchecker");
-        Parser xwiki20Parser = getComponentManager().getInstance(Parser.class, "xwiki/2.0");
-        XDOM xdom = xwiki20Parser.parse(new StringReader(input));
-        transformation.transform(xdom, new TransformationContext());
+        transform(input);
 
         // At this point the links have been put on the queue and we're waiting for the Link Checker Thread to
         // process them
         wait(linkStateManager, numberOfItemsToWaitFor);
     }
 
+    private void transform(String input) throws Exception
+    {
+        transform(input, null);
+    }
+
+    private void transform(String input, String source) throws Exception
+    {
+        Transformation transformation = this.componentManager.getInstance(Transformation.class, "linkchecker");
+        Parser xwiki20Parser = this.componentManager.getInstance(Parser.class, "xwiki/2.0");
+        XDOM xdom = xwiki20Parser.parse(new StringReader(input));
+
+        if (source != null) {
+            MetaData metaData = new MetaData();
+            metaData.addMetaData(MetaData.SOURCE, source);
+            xdom = new XDOM(xdom.getChildren(), metaData);
+        }
+
+        transformation.transform(xdom, new TransformationContext());
+    }
+
     private void wait(LinkStateManager linkStateManager, int numberOfItemsToWaitFor) throws Exception
     {
         long time = System.currentTimeMillis();
         while (linkStateManager.getLinkStates().size() != numberOfItemsToWaitFor) {
-            Thread.sleep(100L);
+            DefaultLinkCheckerThread.sleep(100L);
             // Protect against infinite loop
-            Assert.assertTrue("Killed thread since it took too much time", System.currentTimeMillis() - time < 10000L);
+            assertTrue("Killed thread since it took too much time", System.currentTimeMillis() - time < 10000L);
         }
     }
 }
