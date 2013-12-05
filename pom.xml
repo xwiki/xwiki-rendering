@@ -39,7 +39,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-rendering.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-rendering.git</developerConnection>
     <url>https://github.com/xwiki/xwiki-rendering</url>
-    <tag>stable-5.0.x</tag>
+    <tag>stable-5.3.x</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
