@@ -88,6 +88,11 @@ public class Syntax
      */
     public static final Syntax ANNOTATED_XHTML_1_0 = new Syntax(SyntaxType.ANNOTATED_XHTML, "1.0");
 
+    /**
+     * @since 5.4M1
+     */
+    public static final Syntax ASCIIDOC_1_0 = new Syntax(SyntaxType.ASCIIDOC, "1.0");
+
     private SyntaxType type;
 
     private String version;
