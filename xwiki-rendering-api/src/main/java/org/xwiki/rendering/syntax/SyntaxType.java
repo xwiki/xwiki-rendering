@@ -85,6 +85,11 @@ public class SyntaxType
     public static final SyntaxType APT = register("apt", "APT");
 
     /**
+     * @since 5.4M1
+     */
+    public static final SyntaxType ASCIIDOC = register("asciidoc", "AsciiDoc");
+
+    /**
      * Register a Syntax Type.
      *
      * @param id see {@link SyntaxType#SyntaxType(String, String)}
