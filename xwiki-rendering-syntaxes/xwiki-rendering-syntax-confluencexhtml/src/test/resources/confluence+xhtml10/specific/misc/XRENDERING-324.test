@@ -1,0 +1,26 @@
+.#-----------------------------------------------------
+.input|confluence+xhtml/1.0
+.# repairing the CDATA sections by removing the space after every ]]
+.# the space in the export format is really added after every ]], no matter if CDATA or not 
+.#-----------------------------------------------------
+<ac:structured-macro ac:name="code"><ac:plain-text-body><![CDATA[<![CDATA[nested]] ]] ><![CDATA[>]] ></ac:plain-text-body></ac:structured-macro>
+<p>[[plain]] text</p>
+.#-----------------------------------------------------
+.###expect|event/1.0
+.#macro<![CDATA[nested]]>
+.#
+.#[[plain]]text
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onMacroStandalone [code] [] [&#x3c;![CDATA[nested]]&#x3e;]
+beginParagraph
+onSpecialSymbol [[]
+onSpecialSymbol [[]
+onWord [plain]
+onSpecialSymbol []]
+onSpecialSymbol []]
+onWord [text]
+endParagraph
+endDocument
