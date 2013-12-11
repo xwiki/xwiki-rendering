@@ -96,6 +96,7 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
         Map<String, TagHandler> handlers = new HashMap<String, TagHandler>();
 
         handlers.put("ac:macro", new MacroTagHandler());
+        handlers.put("ac:structured-macro", new MacroTagHandler());
         handlers.put("ac:parameter", new ParameterTagHandler());
         handlers.put("ac:plain-text-body", new PlainTextBodyTagHandler());
 
@@ -126,7 +127,7 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
         }
 
         // Confluence generate invalid CDATA (nice touch...)
-        content = content.replaceAll("(<!\\[CDATA\\[[^\\]]*\\]\\]) (>)", "$1$2");
+        content = content.replaceAll("]] ", "]]");
 
         // Add <void> element around the content to make sure to have valid xml
         content = "<void>" + content + "</void>";
