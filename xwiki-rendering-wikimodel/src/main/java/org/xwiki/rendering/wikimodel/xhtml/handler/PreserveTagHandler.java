@@ -51,7 +51,13 @@ public class PreserveTagHandler extends TagHandler
             .getTagStack().popScannerContext().getfListener();
         sendEmptyLines(context);
 
-        context.getScannerContext().onVerbatim(preserverListener.toString(),
+        String preservedContent = preserverListener.toString();
+        handlePreservedContent(context, preservedContent);
+    }
+
+    protected void handlePreservedContent(TagContext context, String preservedContent)
+    {
+        context.getScannerContext().onVerbatim(preservedContent,
             false, context.getParams());
     }
 }

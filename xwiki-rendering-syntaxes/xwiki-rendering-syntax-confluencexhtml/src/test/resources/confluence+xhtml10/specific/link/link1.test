@@ -1,7 +1,7 @@
 .#-----------------------------------------------------
 .input|confluence+xhtml/1.0
 .#-----------------------------------------------------
-<ac:link ac:anchor="anchor"><ri:page ri:content-title="Page" ri:space-key="SPACE" /><ac:plain-text-link-body><![CDATA[label]] ></ac:plain-text-link-body></ac:link>
+<ac:link ac:anchor="anchor"><ri:page ri:content-title="Page" ri:space-key="SPACE" /><ac:plain-text-link-body><![CDATA[label]]></ac:plain-text-link-body></ac:link>
 
 <ac:link><ri:page ri:content-title="Page" ri:space-key="SPACE" /></ac:link>
 .#-----------------------------------------------------
