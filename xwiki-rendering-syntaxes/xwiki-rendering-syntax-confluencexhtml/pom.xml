@@ -86,6 +86,7 @@
             org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/ParameterTagHandler.java,
             org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/PlainTextBodyTagHandler.java,
             org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/PlainTextLinkBodyTagHandler.java,
+            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/RichTextBodyTagHandler.java,
             org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/SpaceContainer.java,
             org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/SpaceTagHandler.java,
             org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/UserContainer.java,

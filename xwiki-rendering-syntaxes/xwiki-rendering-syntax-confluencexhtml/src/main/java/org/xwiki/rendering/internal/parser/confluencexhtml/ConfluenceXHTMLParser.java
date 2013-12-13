@@ -40,6 +40,7 @@ import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.PageTagHand
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.ParameterTagHandler;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.PlainTextBodyTagHandler;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.PlainTextLinkBodyTagHandler;
+import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.RichTextBodyTagHandler;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.SpaceTagHandler;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.URLTagHandler;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.UserTagHandler;
@@ -96,8 +97,10 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
         Map<String, TagHandler> handlers = new HashMap<String, TagHandler>();
 
         handlers.put("ac:macro", new MacroTagHandler());
+        handlers.put("ac:structured-macro", new MacroTagHandler());
         handlers.put("ac:parameter", new ParameterTagHandler());
         handlers.put("ac:plain-text-body", new PlainTextBodyTagHandler());
+        handlers.put("ac:rich-text-body", new RichTextBodyTagHandler());
 
         handlers.put("ac:image", new ImageTagHandler());
         handlers.put("ri:url", new URLTagHandler());
