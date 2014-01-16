@@ -1,0 +1,33 @@
+.#---------------------------------------------------------------------
+.input|xwiki/2.1
+.# Verify that image and icon attachments are ignored in non wiki mode.
+.#---------------------------------------------------------------------
+image:attach:whatever
+image:icon:whatever
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onImage [Typed = [false] Type = [url] Reference = [attach:whatever]] [true]
+onNewLine
+onImage [Typed = [false] Type = [url] Reference = [icon:whatever]] [true]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p><img src="attach:whatever" class="wikimodel-freestanding" alt="attach:whatever"/><br/><img src="icon:whatever" class="wikimodel-freestanding" alt="icon:whatever"/></p>
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<p><!--startimage:false|-|url|-|attach:whatever--><img src="attach:whatever" class="wikimodel-freestanding" alt="attach:whatever"/><!--stopimage--><br/><!--startimage:false|-|url|-|icon:whatever--><img src="icon:whatever" class="wikimodel-freestanding" alt="icon:whatever"/><!--stopimage--></p>
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+image:attach:whatever
+image:icon:whatever
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<p><!--startimage:false|-|url|-|attach:whatever--><img src="attach:whatever" class="wikimodel-freestanding" alt="attach:whatever"/><!--stopimage--><br/><!--startimage:false|-|url|-|icon:whatever--><img src="icon:whatever" class="wikimodel-freestanding" alt="icon:whatever"/><!--stopimage--></p>

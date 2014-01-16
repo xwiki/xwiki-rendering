@@ -29,6 +29,8 @@ package org.xwiki.rendering.listener.reference;
  * <li>mail ("mailto")</li>
  * <li>attachment ("attach")</li>
  * <li>UNC path ("unc")</li>
+ * <li>User ("user")</li>
+ * <li>Data URI image ("data")</li>
  * </ul>
  * 
  * @version $Id$
@@ -89,6 +91,13 @@ public class ResourceType
      * @since 5.3M2
      */
     public static final ResourceType USER = new ResourceType("user");
+
+    /**
+     * Represents a image specified as a <a href="http://tools.ietf.org/html/rfc2397">Data URI</a>.
+     *
+     * @since 5.4RC1
+     */
+    public static final ResourceType DATA = new ResourceType("data");
 
     /**
      * @see #getScheme()

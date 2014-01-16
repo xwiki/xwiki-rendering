@@ -6,6 +6,10 @@ org.xwiki.rendering.internal.renderer.xhtml.XHTMLMarkerResourceReferenceSerializ
 org.xwiki.rendering.internal.renderer.xhtml.XHTMLRendererFactory
 org.xwiki.rendering.internal.renderer.xhtml.XHTMLRenderer
 org.xwiki.rendering.internal.renderer.xhtml.image.DefaultXHTMLImageRenderer
+org.xwiki.rendering.internal.renderer.xhtml.image.DefaultXHTMLImageTypeRenderer
+org.xwiki.rendering.internal.renderer.xhtml.image.AttachmentXHTMLImageTypeRenderer
+org.xwiki.rendering.internal.renderer.xhtml.image.IconXHTMLImageTypeRenderer
+org.xwiki.rendering.internal.renderer.xhtml.image.DataURIXHTMLImageTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.AttachmentXHTMLLinkTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.DefaultXHTMLLinkRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.DefaultXHTMLLinkTypeRenderer

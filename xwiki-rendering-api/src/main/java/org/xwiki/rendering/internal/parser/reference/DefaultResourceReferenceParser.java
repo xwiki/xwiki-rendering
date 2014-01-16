@@ -83,7 +83,8 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
         // Step 3: If we're not in wiki mode then wiki references to documents or attachments are considered URLs.
         if (!isInWikiMode()
             && (parsedResourceReference.getType().equals(ResourceType.ATTACHMENT)
-            || parsedResourceReference.getType().equals(ResourceType.DOCUMENT)))
+            || parsedResourceReference.getType().equals(ResourceType.DOCUMENT)
+            || parsedResourceReference.getType().equals(ResourceType.ICON)))
         {
             parsedResourceReference = new ResourceReference(rawReference, ResourceType.URL);
             parsedResourceReference.setTyped(false);

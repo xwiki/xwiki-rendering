@@ -30,7 +30,7 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
 
 /**
  * Considers all passed images references to be untyped and tries to guess the type by first looking for a URL
- * and then considering it's a reference to an attachment.
+ * and if it's not a URL then considering it's a reference to an attachment.
  *
  * @version $Id$
  * @since 2.6M1

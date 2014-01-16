@@ -19,42 +19,29 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml.image;
 
-import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.listener.ImageListener;
-import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
+import java.util.Map;
+
+import javax.inject.Named;
+
+import org.xwiki.component.annotation.Component;
+import org.xwiki.component.annotation.InstantiationStrategy;
+import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
- * Renders images as XHTML.
- * 
+ * Handle XHTML rendering for images represented as a <a href="http://tools.ietf.org/html/rfc2397">Data URI</a>.
+ *
  * @version $Id$
- * @since 1.8RC3
+ * @since 5.4RC1
  */
-@Role
-public interface XHTMLImageRenderer extends ImageListener
+@Component
+@Named("data")
+@InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
+public class DataURIXHTMLImageTypeRenderer extends AbstractXHTMLImageTypeRenderer
 {
-    /**
-     * The name of the XHTML image element.
-     */
-    String IMG = "img";
-
-    /**
-     * <code>img</code> XHTML element parameter to indicate an alternate description to the image.
-     */
-    String ALTERNATE = "alt";
-
-    /**
-     * <code>img</code> XHTML element parameter to indicate where the image is located.
-     */
-    String SRC = "src";
-
-    /**
-     * @param printer the XHTML printer to use to output images as XHTML
-     */
-    void setXHTMLWikiPrinter(XHTMLWikiPrinter printer);
-
-    /**
-     * @return the XHTML printer to use to output images as XHTML
-     * @since 2.0M3
-     */
-    XHTMLWikiPrinter getXHTMLWikiPrinter();
+    @Override
+    protected String getImageSrcAttributeValue(ResourceReference reference, Map<String, String> parameters)
+    {
+        return String.format("%s:%s", reference.getType().getScheme(), reference.getReference());
+    }
 }

@@ -30,8 +30,9 @@ import org.xwiki.rendering.parser.ResourceReferenceParser;
 
 /**
  * Similar to {@link org.xwiki.rendering.internal.parser.reference.DefaultResourceReferenceParser} but handles the
- * case where the resource type wasn't specified. In this case it tries to guess the type by first looking for a URL
- * and then considering it's a reference to an attachment.
+ * case where the resource type wasn't specified. In this case it uses a
+ * {@link org.xwiki.rendering.internal.parser.reference.DefaultUntypedImageReferenceParser} which trues to guess the
+ * type.
  *
  * @version $Id$
  * @since 2.6M1

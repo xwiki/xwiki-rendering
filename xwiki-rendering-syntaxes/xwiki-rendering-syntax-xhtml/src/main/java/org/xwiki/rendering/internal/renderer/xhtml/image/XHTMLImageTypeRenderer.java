@@ -24,37 +24,31 @@ import org.xwiki.rendering.listener.ImageListener;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 
 /**
- * Renders images as XHTML.
- * 
+ * Renders a type of image (URL, attachment, Data URI, etc) in XHTML. Components implementing this
+ * interface implement the rendering logic only for a single image type and must have a role hint value
+ * equal to the {@link org.xwiki.rendering.listener.reference.ResourceType} name (eg "url" for URL image, "attach"
+ * for attachment image, "data" for Data URI image, etc).
+ *
+ * Implementations must handle both cases when rendering a link:
+ * <ul>
+ *   <li>when inside a wiki (ie when an implementation of {@link org.xwiki.rendering.wiki.WikiModel} is provided.</li>
+ *   <li>when outside of a wiki. In this case image attachments are ignored and rendered as is as direct SRC values.
+ *   In other words only external or self-contained (as with Data URI) images are meaningful.</li>
+ * </ul>
+ *
  * @version $Id$
- * @since 1.8RC3
+ * @since 5.4RC1
  */
 @Role
-public interface XHTMLImageRenderer extends ImageListener
+public interface XHTMLImageTypeRenderer extends ImageListener
 {
     /**
-     * The name of the XHTML image element.
-     */
-    String IMG = "img";
-
-    /**
-     * <code>img</code> XHTML element parameter to indicate an alternate description to the image.
-     */
-    String ALTERNATE = "alt";
-
-    /**
-     * <code>img</code> XHTML element parameter to indicate where the image is located.
-     */
-    String SRC = "src";
-
-    /**
-     * @param printer the XHTML printer to use to output images as XHTML
+     * @param printer the XHTML printer to use to output links as XHTML
      */
     void setXHTMLWikiPrinter(XHTMLWikiPrinter printer);
 
     /**
-     * @return the XHTML printer to use to output images as XHTML
-     * @since 2.0M3
+     * @return the XHTML printer to use to output links as XHTML
      */
     XHTMLWikiPrinter getXHTMLWikiPrinter();
 }
