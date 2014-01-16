@@ -19,41 +19,34 @@
  */
 package org.xwiki.rendering.internal.parser.reference.type;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
-import org.xwiki.component.annotation.Component;
+import org.junit.*;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
-import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
+
+import static org.junit.Assert.*;
 
 /**
- * Parses a resource reference to an image specified as a <a href="http://tools.ietf.org/html/rfc2397">Data URI</a>.
+ * Unit tests for {@link DataURIResourceReferenceTypeParser}.
  *
  * @version $Id$
  * @since 5.4RC1
  */
-@Component
-@Named("data")
-@Singleton
-public class DataURIResourceReferenceTypeParser implements ResourceReferenceTypeParser
+public class DataURIResourceReferenceTypeParserTest
 {
-    @Override
-    public ResourceType getType()
+    @Test
+    public void validReferenceStartingWithImage()
     {
-        return ResourceType.DATA;
+        DataURIResourceReferenceTypeParser parser = new DataURIResourceReferenceTypeParser();
+        ResourceReference resourceReference = parser.parse("image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA...");
+        assertEquals(ResourceType.DATA, resourceReference.getType());
+        assertEquals("image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA...", resourceReference.getReference());
     }
 
-    @Override
-    public ResourceReference parse(String reference)
+    @Test
+    public void invalidReferenceNotStartingWithImage()
     {
-        ResourceReference resourceReference = null;
-
-        // We verify that the reference starts with "image/" (which is the prefix for the mime type) and otherwise we
-        // return null to signify to the caller that its not a Data URI type.
-        if (reference.startsWith("image/")) {
-            resourceReference = new ResourceReference(reference, getType());
-        }
-        return resourceReference;
+        DataURIResourceReferenceTypeParser parser = new DataURIResourceReferenceTypeParser();
+        ResourceReference resourceReference = parser.parse("text/html;base64,iVBORw0KGgoAAAANSUhEUgAAA...");
+        assertNull(resourceReference);
     }
 }
