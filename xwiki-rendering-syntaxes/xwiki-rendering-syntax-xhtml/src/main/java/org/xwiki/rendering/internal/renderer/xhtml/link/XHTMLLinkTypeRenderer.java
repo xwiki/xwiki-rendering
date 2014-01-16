@@ -32,7 +32,7 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
  * Implementations must handle both cases when rendering a link:
  * <ul>
  *   <li>when inside a wiki (ie when an implementation of {@link org.xwiki.rendering.wiki.WikiModel} is provided.</li>
- *   <li>when outside of a wiki. In this case links to attachmets or documents are ignored and rendered as is as
+ *   <li>when outside of a wiki. In this case links to attachments or documents are ignored and rendered as is as
  *       direct HREF values. In other words only external links are meaningful.</li>
  * </ul>
  *
