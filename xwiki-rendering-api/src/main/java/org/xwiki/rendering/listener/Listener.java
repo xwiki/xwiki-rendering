@@ -165,7 +165,7 @@ public interface Listener extends LinkListener, ImageListener
      * @see ListType
      */
     void endList(@Default("BULLETED") @Name("type") ListType listType,
-        @Name("parameters") Map<String, String> parameters);
+        @Default("") @Name("parameters") Map<String, String> parameters);
 
     /**
      * End of a definition list. For example in HTML this is the equivalent of &lt;/dl&gt;.
