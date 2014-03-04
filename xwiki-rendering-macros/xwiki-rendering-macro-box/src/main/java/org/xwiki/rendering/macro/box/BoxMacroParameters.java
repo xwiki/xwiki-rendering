@@ -114,8 +114,11 @@ public class BoxMacroParameters
     }
 
     /**
-     * @return an optional CSS sheet to be used when rendering this macro. If no sheet is specified, the
-     *         <code>BoxMacro.getClassProperty()</code> is used to provide a default one.
+     * @return an optional {@code class} parameter value to use when rendering the Box. The XHTML renderer for example
+     *         uses it on the surrounding {@code SPAN} (in case the box is used inline) or on the surrounding
+     *         {@code DIV} (in case the box is used standalone). This allows the user to provide CSS to style the box
+     *         according to his needs. Example: {code cssClass="mybox"}. If not specified, the
+     *         {@code BoxMacro.getClassProperty()} is used to provide a default one.
      */
     public String getCssClass()
     {
