@@ -19,12 +19,13 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.filter;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,7 +123,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
      */
     private List<Event> fPreviousElements = new ArrayList<Event>();
 
-    private Stack<Attributes> fAttributes = new Stack<Attributes>();
+    private Deque<Attributes> fAttributes = new ArrayDeque<Attributes>();
 
     public XHTMLWhitespaceXMLFilter()
     {
@@ -145,7 +146,8 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     public void startElement(String uri, String localName, String qName,
         Attributes atts) throws SAXException
     {
-        Attributes clonedAtts = fAttributes.push(new AttributesImpl(atts));
+        Attributes clonedAtts = new AttributesImpl(atts);
+        fAttributes.push(clonedAtts);
 
         if (NONVISIBLE_ELEMENTS.contains(qName)) {
             startNonVisibleElement();

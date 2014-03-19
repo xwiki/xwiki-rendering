@@ -19,10 +19,11 @@
  */
 package org.xwiki.rendering.listener.chaining;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Stack;
 
 import org.xwiki.rendering.listener.MetaData;
 
@@ -37,7 +38,7 @@ public class MetaDataStateChainingListener extends AbstractChainingListener
     /**
      * @see #getMetaData(String)
      */
-    private Stack<MetaData> metaDataStack = new Stack<MetaData>();
+    private Deque<MetaData> metaDataStack = new ArrayDeque<MetaData>();
 
     /**
      * @param listenerChain see {@link #getListenerChain()}
@@ -56,7 +57,7 @@ public class MetaDataStateChainingListener extends AbstractChainingListener
     {
         List<T> result = new ArrayList<T>();
         if (!this.metaDataStack.isEmpty()) {
-            ListIterator<MetaData> it = this.metaDataStack.listIterator();
+            Iterator<MetaData> it = this.metaDataStack.descendingIterator();
             while (it.hasNext()) {
                 MetaData metaData = it.next();
                 Object value = metaData.getMetaData(key);
@@ -77,9 +78,7 @@ public class MetaDataStateChainingListener extends AbstractChainingListener
     {
         T result = null;
         if (!this.metaDataStack.isEmpty()) {
-            ListIterator<MetaData> it = this.metaDataStack.listIterator(this.metaDataStack.size());
-            while (it.hasPrevious()) {
-                MetaData metaData = it.previous();
+            for (MetaData metaData : this.metaDataStack) {
                 result = (T) metaData.getMetaData(key);
                 if (result != null) {
                     break;

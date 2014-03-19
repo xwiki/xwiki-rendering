@@ -19,8 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.markdown;
 
+import java.util.ArrayDeque;
 import java.util.Collections;
-import java.util.Stack;
+import java.util.Deque;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -65,7 +66,7 @@ public abstract class AbstractPegdownVisitor implements PegdownVisitor
      * Listener(s) for the generated XWiki Events. Organized as a stack so that a buffering listener can hijack all
      * events for a while, for example. All generated events are sent to the top of the stack.
      */
-    protected Stack<Listener> listeners = new Stack<Listener>();
+    protected Deque<Listener> listeners = new ArrayDeque<Listener>();
 
     /**
      * @return the top listener on the stack

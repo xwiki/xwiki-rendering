@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
+import java.util.Iterator;
+
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 
@@ -44,12 +46,12 @@ public class BreakTagHandler extends TagHandler
             context.getScannerContext().beginQuotLine(quoteDepth);
 
             // duplicate span on several quotation lines
-            WikiParameters spanParameters;
-            for (int i = 0; (spanParameters = (WikiParameters) context
-                .getTagStack().getStackParameter(
-                    AbstractFormatTagHandler.FORMATPARAMETERS, i)) != null; ++i)
-            {
-                context.getScannerContext().beginFormat(spanParameters);
+            Iterator it = context.getTagStack().getStackParameterIterator(AbstractFormatTagHandler.FORMATPARAMETERS);
+            if (it != null) {
+                while (it.hasNext()) {
+                    WikiParameters spanParameters = (WikiParameters) it.next();
+                    context.getScannerContext().beginFormat(spanParameters);
+                }
             }
         } else {
             context.getScannerContext().onNewLine();

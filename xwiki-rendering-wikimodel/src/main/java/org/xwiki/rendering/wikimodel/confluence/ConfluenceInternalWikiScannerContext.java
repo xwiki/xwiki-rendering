@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering.wikimodel.confluence;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.WikiParameters;
@@ -80,7 +81,7 @@ public class ConfluenceInternalWikiScannerContext extends
             }
             IListListener listener = new IListListener()
             {
-                private Stack<WikiParameters> fListParamsStack = new Stack<WikiParameters>();
+                private Deque<WikiParameters> fListParamsStack = new ArrayDeque<WikiParameters>();
 
                 public void beginRow(char treeType, char rowType)
                 {

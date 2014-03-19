@@ -20,8 +20,8 @@
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
-import java.util.Stack;
 
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
@@ -89,8 +89,8 @@ public class CommentHandler
                 // If we're inside a block element then issue an inline macro
                 // event
                 // otherwise issue a block macro event
-                Stack<Boolean> insideBlockElementsStack =
-                    (Stack<Boolean>) stack.getStackParameter("insideBlockElement");
+                Deque<Boolean> insideBlockElementsStack =
+                    (Deque<Boolean>) stack.getStackParameter("insideBlockElement");
                 if (!insideBlockElementsStack.isEmpty() && insideBlockElementsStack.peek()) {
                     stack.getScannerContext().onMacroInline(macroName, macroParams, macroContent);
                 } else {

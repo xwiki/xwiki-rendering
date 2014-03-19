@@ -19,8 +19,10 @@
  */
 package org.xwiki.rendering.wikimodel.util;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.List;
 import java.util.Stack;
 
@@ -79,9 +81,9 @@ public class SectionBuilder<T>
         }
     }
 
-    Stack<TreeBuilder<TocEntry>> fBuilder = new Stack<TreeBuilder<TocEntry>>();
+    Deque<TreeBuilder<TocEntry>> fBuilder = new ArrayDeque<TreeBuilder<TocEntry>>();
 
-    private Stack<TocEntry> fDocEntries = new Stack<TocEntry>();
+    private Deque<TocEntry> fDocEntries = new ArrayDeque<TocEntry>();
 
     ISectionListener<T> fListener;
 

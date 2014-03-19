@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering.wikimodel.util.tmp;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * @version $Id$
@@ -61,7 +62,7 @@ public class TreeBuilder1<T>
 
     private T fPrev;
 
-    private Stack<Slot<T>> fStack = new Stack<Slot<T>>();
+    private Deque<Slot<T>> fStack = new ArrayDeque<Slot<T>>();
 
     public TreeBuilder1(ITreeBuilderListener<T> listener)
     {

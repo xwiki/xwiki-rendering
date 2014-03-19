@@ -20,10 +20,11 @@
 
 package org.xwiki.rendering.internal.parser;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.EmptyStackException;
+import java.util.Deque;
 import java.util.List;
-import java.util.Stack;
+import java.util.NoSuchElementException;
 
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
@@ -36,7 +37,7 @@ import org.xwiki.rendering.block.XDOM;
  */
 public class XDOMBuilder
 {
-    private Stack<List<Block>> stack = new Stack<List<Block>>();
+    private Deque<List<Block>> stack = new ArrayDeque<List<Block>>();
 
     /**
      * Default constructor.
@@ -53,7 +54,7 @@ public class XDOMBuilder
     {
         List<Block> blocks = endBlockList();
 
-        if (!stack.empty()) {
+        if (!stack.isEmpty()) {
             throw new IllegalStateException("Unbalanced begin/end Block events, missing " + stack.size()
                 + " calls to endBlockList().");
         }
@@ -82,7 +83,7 @@ public class XDOMBuilder
     {
         try {
             return this.stack.pop();
-        } catch (EmptyStackException e) {
+        } catch (NoSuchElementException e) {
             throw new IllegalStateException("Unbalanced begin/end Block events, too many calls to endBlockList().");
         }
     }
@@ -93,6 +94,10 @@ public class XDOMBuilder
      */
     public void addBlock(Block block)
     {
-        this.stack.peek().add(block);
+        try {
+            this.stack.getFirst().add(block);
+        } catch (NoSuchElementException e) {
+            throw new IllegalStateException("All container blocks are closed, too many calls to endBlockList().");
+        }
     }
 }

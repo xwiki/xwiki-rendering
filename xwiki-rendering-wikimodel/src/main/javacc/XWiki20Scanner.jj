@@ -60,7 +60,8 @@ import org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiReferenceParser;
 import org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiScannerUtil;
 import org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiWikiParameters;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -286,7 +287,7 @@ TOKEN_MGR_DECLS: {
         }
 
     }
-    private final Stack<ControlState> controlStateStack = new Stack<ControlState>();
+    private final Deque<ControlState> controlStateStack = new ArrayDeque<ControlState>();
 
     LexStateControl lexStateControl = new LexStateControl();
 

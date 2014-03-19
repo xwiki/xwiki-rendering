@@ -19,14 +19,15 @@
  */
 package org.xwiki.rendering.listener.chaining;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Map;
-import java.util.Stack;
 
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
+import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -86,9 +87,9 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
     private boolean isInTableCell;
 
-    private Stack<DefinitionListState> definitionListDepth = new Stack<DefinitionListState>();
+    private Deque<DefinitionListState> definitionListDepth = new ArrayDeque<DefinitionListState>();
 
-    private Stack<ListState> listDepth = new Stack<ListState>();
+    private Deque<ListState> listDepth = new ArrayDeque<ListState>();
 
     private int quotationDepth;
 

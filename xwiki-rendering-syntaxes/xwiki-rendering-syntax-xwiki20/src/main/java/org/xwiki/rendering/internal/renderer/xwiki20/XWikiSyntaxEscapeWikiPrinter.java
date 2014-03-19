@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki20;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -177,7 +178,7 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
     {
         StringBuffer result = new StringBuffer();
 
-        Stack<StringBuffer> subVerbatimStack = new Stack<StringBuffer>();
+        Deque<StringBuffer> subVerbatimStack = new ArrayDeque<StringBuffer>();
         boolean printEndVerbatim = false;
 
         Matcher matcher = VERBATIM_PATTERN.matcher(verbatimContent);

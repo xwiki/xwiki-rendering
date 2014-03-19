@@ -32,9 +32,10 @@ import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import org.xwiki.rendering.wikimodel.IWikiPrinter;
 import org.xwiki.rendering.wikimodel.PrintTextListener;
@@ -234,7 +235,7 @@ public class TexSerializer extends PrintTextListener
 
     private DocumentContext fContext;
 
-    private Stack<DocumentContext> fContextStack = new Stack<DocumentContext>();
+    private Deque<DocumentContext> fContextStack = new ArrayDeque<DocumentContext>();
 
     private String imageTargetFolder;
 
@@ -376,7 +377,7 @@ public class TexSerializer extends PrintTextListener
     public void endDocument(WikiParameters params)
     {
         fContextStack.pop();
-        fContext = !fContextStack.empty() ? fContextStack.peek() : null;
+        fContext = fContextStack.peek();
         // if (fContext == null) {
         // println("\\end{document}");
         // }

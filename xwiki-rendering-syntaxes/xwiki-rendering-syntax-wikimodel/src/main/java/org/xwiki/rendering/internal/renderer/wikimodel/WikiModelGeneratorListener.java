@@ -19,25 +19,26 @@
  */
 package org.xwiki.rendering.internal.renderer.wikimodel;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
+import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
+import org.xwiki.rendering.listener.Format;
+import org.xwiki.rendering.listener.HeaderLevel;
+import org.xwiki.rendering.listener.ListType;
+import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.wikimodel.IWemConstants;
 import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.WikiFormat;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
-import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
-import org.xwiki.rendering.listener.MetaData;
-import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.ListType;
-import org.xwiki.rendering.listener.Listener;
-import org.xwiki.rendering.listener.HeaderLevel;
-import org.xwiki.rendering.listener.Format;
-import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Map XWiki Listener events on to WikiModel events.
@@ -51,7 +52,7 @@ public class WikiModelGeneratorListener implements Listener
 
     private int docLevel = 1;
 
-    private Stack<Context> context = new Stack<Context>();
+    private Deque<Context> context = new ArrayDeque<Context>();
 
     private class Context
     {
@@ -70,7 +71,9 @@ public class WikiModelGeneratorListener implements Listener
 
     private Context pushContext()
     {
-        return this.context.push(new Context());
+        Context ctx = new Context();
+        this.context.push(ctx);
+        return ctx;
     }
 
     private Context popContext()

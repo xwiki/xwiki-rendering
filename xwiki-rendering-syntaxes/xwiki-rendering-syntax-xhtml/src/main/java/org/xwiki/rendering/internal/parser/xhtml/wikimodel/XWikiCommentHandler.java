@@ -19,13 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
-import org.xwiki.rendering.wikimodel.WikiParameter;
-import org.xwiki.rendering.wikimodel.WikiParameters;
-import org.xwiki.rendering.wikimodel.WikiReference;
-import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
@@ -37,6 +33,11 @@ import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
+import org.xwiki.rendering.wikimodel.WikiParameter;
+import org.xwiki.rendering.wikimodel.WikiParameters;
+import org.xwiki.rendering.wikimodel.WikiReference;
+import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
+import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
 import org.xwiki.xml.XMLUtils;
 
 /**
@@ -61,7 +62,7 @@ public class XWikiCommentHandler extends CommentHandler
      * We're using a stack so that we can have nested comment handling. For example when we have a link to an image we
      * need nested comment support.
      */
-    private Stack<String> commentContentStack = new Stack<String>();
+    private Deque<String> commentContentStack = new ArrayDeque<String>();
 
     /**
      * @since 2.5RC1

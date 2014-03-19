@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.wikimodel.impl;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Stack;
 
 import org.xwiki.rendering.wikimodel.IWemListener;
@@ -86,9 +88,9 @@ public class InternalWikiScannerContext implements IWikiScannerContext
 
     protected WikiParameters fParagraphParams;
 
-    protected Stack<Boolean> fPropertyDocStack = new Stack<Boolean>();
+    protected Deque<Boolean> fPropertyDocStack = new ArrayDeque<Boolean>();
 
-    protected Stack<String> fPropertyStack = new Stack<String>();
+    protected Deque<String> fPropertyStack = new ArrayDeque<String>();
 
     protected ListBuilder fQuotBuilder;
 

@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
-import java.util.Stack;
+import java.util.Deque;
 
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
@@ -67,8 +67,8 @@ public class TagHandler
     public void beginElement(XhtmlHandler.TagStack.TagContext context)
     {
 
-        Stack<Boolean> insideBlockElementsStack =
-            (Stack<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
+        Deque<Boolean> insideBlockElementsStack =
+            (Deque<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
 
         if (isBlockHandler(context)) {
             // If we're starting a block tag and we're in inline mode (ie inside
@@ -81,7 +81,7 @@ public class TagHandler
 
                 // Get the new inside block element state
                 insideBlockElementsStack =
-                    (Stack<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
+                    (Deque<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
             }
 
             insideBlockElementsStack.push(true);
@@ -108,8 +108,8 @@ public class TagHandler
 
         end(context);
 
-        Stack<Boolean> insideBlockElementsStack =
-            (Stack<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
+        Deque<Boolean> insideBlockElementsStack =
+            (Deque<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
 
         if (isBlockHandler(context)) {
             insideBlockElementsStack.pop();

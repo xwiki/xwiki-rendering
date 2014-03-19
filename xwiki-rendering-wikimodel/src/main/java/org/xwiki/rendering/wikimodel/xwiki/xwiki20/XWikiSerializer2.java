@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.wikimodel.xwiki.xwiki20;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Stack;
 import java.util.logging.Logger;
 
@@ -52,7 +54,7 @@ public class XWikiSerializer2 extends PrintTextListener
 {
     private static final String[] HEADERS = {"", "=", "==", "===", "====", "=====", "======"};
 
-    private Stack<ListOrdering> listOrdering = new Stack<ListOrdering>();
+    private Deque<ListOrdering> listOrdering = new ArrayDeque<ListOrdering>();
 
     private Stack<Table> tables = new Stack<Table>();
 

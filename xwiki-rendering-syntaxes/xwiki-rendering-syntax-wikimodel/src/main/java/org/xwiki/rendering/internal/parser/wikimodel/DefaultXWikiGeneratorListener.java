@@ -19,40 +19,41 @@
  */
 package org.xwiki.rendering.internal.parser.wikimodel;
 
+import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.xwiki.rendering.listener.reference.DocumentResourceReference;
-import org.xwiki.rendering.wikimodel.IWemConstants;
-import org.xwiki.rendering.wikimodel.WikiFormat;
-import org.xwiki.rendering.wikimodel.WikiParameter;
-import org.xwiki.rendering.wikimodel.WikiParameters;
-import org.xwiki.rendering.wikimodel.WikiReference;
-import org.xwiki.rendering.wikimodel.WikiStyle;
 import org.xwiki.rendering.listener.CompositeListener;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
-import org.xwiki.rendering.listener.MetaData;
-import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.QueueListener;
-import org.xwiki.rendering.parser.ResourceReferenceParser;
+import org.xwiki.rendering.listener.reference.DocumentResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ParseException;
+import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
+import org.xwiki.rendering.wikimodel.IWemConstants;
+import org.xwiki.rendering.wikimodel.WikiFormat;
+import org.xwiki.rendering.wikimodel.WikiParameter;
+import org.xwiki.rendering.wikimodel.WikiParameters;
+import org.xwiki.rendering.wikimodel.WikiReference;
+import org.xwiki.rendering.wikimodel.WikiStyle;
 
 /**
  * Transforms WikiModel events into XWiki Rendering events.
@@ -92,7 +93,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
      * Listener(s) for the generated XWiki Events. Organized as a stack so that a buffering listener can hijack all
      * events for a while, for example. All generated events are sent to the top of the stack.
      */
-    private Stack<Listener> listener = new Stack<Listener>();
+    private Deque<Listener> listener = new ArrayDeque<Listener>();
 
     private StreamParser parser;
 
@@ -106,7 +107,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
     private int documentDepth = 0;
 
-    private Stack<WikiFormat> currentFormatStack = new Stack<WikiFormat>();
+    private Deque<WikiFormat> currentFormatStack = new ArrayDeque<WikiFormat>();
 
     private WikiFormat lastEndFormat = null;
 
@@ -169,7 +170,8 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
      */
     private Listener pushListener(Listener listener)
     {
-        return this.listener.push(listener);
+        this.listener.push(listener);
+        return listener;
     }
 
     /**

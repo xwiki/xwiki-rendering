@@ -19,9 +19,9 @@
  */
 package org.xwiki.rendering.wikimodel.impl;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
@@ -39,7 +39,7 @@ public class WikiScannerContext implements IWikiScannerContext
 
     protected SectionBuilder<WikiParameters> fSectionBuilder;
 
-    protected final Stack<IWikiScannerContext> fStack = new Stack<IWikiScannerContext>();
+    protected final Deque<IWikiScannerContext> fStack = new ArrayDeque<IWikiScannerContext>();
 
     public WikiScannerContext(IWemListener listener)
     {

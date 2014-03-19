@@ -19,8 +19,9 @@
  */
 package org.xwiki.rendering.internal.renderer.doxia;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Map;
-import java.util.Stack;
 
 import org.apache.maven.doxia.sink.Sink;
 import org.xwiki.rendering.listener.Listener;
@@ -44,12 +45,12 @@ public class DoxiaListener extends WrappingListener
      * The stack of Listener which allow to push some queue listener when we find some tables in order to count rows
      * and send the tableRows event to the Doxia Sink.
      */
-    private Stack<Listener> listenerStack = new Stack<Listener>();
+    private Deque<Listener> listenerStack = new ArrayDeque<Listener>();
 
     /**
      * Count the number of rows. Note that we use a stack since we can have nested tables.
      */
-    private Stack<Integer> rowCountStack = new Stack<Integer>();
+    private Deque<Integer> rowCountStack = new ArrayDeque<Integer>();
 
     /**
      * Number of tables being handled.
@@ -156,7 +157,7 @@ public class DoxiaListener extends WrappingListener
     private Listener popListener()
     {
         Listener listener = this.listenerStack.pop();
-        if (!this.listenerStack.empty()) {
+        if (!this.listenerStack.isEmpty()) {
             setWrappedListener(this.listenerStack.peek());
         }
         return listener;

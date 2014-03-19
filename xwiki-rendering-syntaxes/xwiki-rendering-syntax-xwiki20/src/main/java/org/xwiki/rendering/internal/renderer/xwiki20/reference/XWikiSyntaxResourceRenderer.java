@@ -19,8 +19,9 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki20.reference;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Map;
-import java.util.Stack;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.internal.parser.plain.PlainTextStreamParser;
@@ -47,7 +48,7 @@ public class XWikiSyntaxResourceRenderer
 
     protected ParametersPrinter parametersPrinter = new ParametersPrinter();
 
-    private Stack<Boolean> forceFullSyntax = new Stack<Boolean>();
+    private Deque<Boolean> forceFullSyntax = new ArrayDeque<Boolean>();
 
     private XWikiSyntaxListenerChain listenerChain;
 

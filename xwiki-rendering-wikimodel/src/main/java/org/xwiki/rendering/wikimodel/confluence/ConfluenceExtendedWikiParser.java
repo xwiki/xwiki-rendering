@@ -21,7 +21,8 @@ package org.xwiki.rendering.wikimodel.confluence;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import org.xwiki.rendering.wikimodel.CompositeListener;
 import org.xwiki.rendering.wikimodel.IWemListener;
@@ -40,7 +41,7 @@ public class ConfluenceExtendedWikiParser extends ConfluenceWikiParser
 {
     public static class EnhancedListener extends CompositeListener
     {
-        private Stack<Boolean> fSkipDocument = new Stack<Boolean>();
+        private Deque<Boolean> fSkipDocument = new ArrayDeque<Boolean>();
 
         public EnhancedListener(IWemListener... listeners)
         {

@@ -19,11 +19,15 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.impl;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
+import java.util.Queue;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -182,7 +186,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
          * elements if we're outside of a block element so that we can emit an
          * onEmptyLines event.
          */
-        private Stack<Map<String, Object>> fStackParameters = new Stack<Map<String, Object>>();
+        private Deque<Map<String, Object>> fStackParameters = new ArrayDeque<Map<String, Object>>();
 
         public void add(String tag, TagHandler handler)
         {
@@ -201,7 +205,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
         private TagContext fPeek;
 
-        private Stack<WikiScannerContext> fScannerContext = new Stack<WikiScannerContext>();
+        private Deque<WikiScannerContext> fScannerContext = new ArrayDeque<WikiScannerContext>();
 
         public TagStack(WikiScannerContext context)
         {
@@ -292,11 +296,10 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
         public void setScannerContext(WikiScannerContext context)
         {
-            if (fScannerContext.isEmpty()) {
-                pushScannerContext(context);
-            } else {
-                fScannerContext.set(fScannerContext.size() - 1, context);
+            if (!fScannerContext.isEmpty()) {
+                fScannerContext.pop();
             }
+            fScannerContext.push(context);
         }
 
         public void pushScannerContext(WikiScannerContext context)
@@ -309,10 +312,10 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
             return fScannerContext.pop();
         }
 
-        private void flushStack(Stack<XhtmlCharacter> stack)
+        private void flushStack(Queue<XhtmlCharacter> stack)
         {
-            while (stack.size() > 0) {
-                XhtmlCharacter character = stack.remove(0);
+            while (!stack.isEmpty()) {
+                XhtmlCharacter character = stack.poll();
                 switch (character.getType()) {
                     case ESCAPED:
                         getScannerContext().onEscape(
@@ -326,25 +329,18 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
                         getScannerContext().onLineBreak();
                         break;
                     case SPACE:
-                        StringBuffer spaceBuffer = new StringBuffer(" ");
-                        while ((stack.size() > 0)
-                            && (stack.firstElement().getType() == XhtmlCharacterType.SPACE))
-                        {
-                            stack.remove(0);
+                        StringBuilder spaceBuffer = new StringBuilder(" ");
+                        while (!stack.isEmpty() && (stack.element().getType() == XhtmlCharacterType.SPACE)) {
+                            stack.poll();
                             spaceBuffer.append(' ');
                         }
                         getScannerContext().onSpace(spaceBuffer.toString());
                         break;
                     default:
-                        StringBuffer charBuffer = new StringBuffer();
+                        StringBuilder charBuffer = new StringBuilder();
                         charBuffer.append(character.getCharacter());
-                        while ((stack.size() > 0)
-                            && (stack.firstElement().getType() == XhtmlCharacterType.CHARACTER))
-                        {
-                            charBuffer.append(stack
-                                .firstElement()
-                                .getCharacter());
-                            stack.remove(0);
+                        while (!stack.isEmpty() && (stack.element().getType() == XhtmlCharacterType.CHARACTER)) {
+                            charBuffer.append(stack.poll().getCharacter());
                         }
                         getScannerContext()
                             .onWord(
@@ -366,14 +362,10 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
             }
 
             if (!fPeek.appendContent(content)) {
-                Stack<XhtmlCharacter> stack = new Stack<XhtmlCharacter>();
+                Queue<XhtmlCharacter> stack = new ArrayDeque<XhtmlCharacter>();
                 for (int i = 0; i < content.length(); i++) {
                     char c = content.charAt(i);
-                    XhtmlCharacter current = new XhtmlCharacter(
-                        c,
-                        getCharacterType(c));
-                    XhtmlCharacter result = current;
-                    stack.push(result);
+                    stack.offer(new XhtmlCharacter(c, getCharacterType(c)));
                 }
 
                 // Now send the events.
@@ -397,7 +389,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
             setStackParameter("emptyLinesCount", 0);
             setStackParameter("listStyles", new StringBuffer());
             setStackParameter("quoteDepth", new Integer(0));
-            setStackParameter("insideBlockElement", new Stack<Boolean>());
+            setStackParameter("insideBlockElement", new ArrayDeque<Boolean>());
 
             // Allow each handler to have some initialization
             for (TagHandler tagElementHandler : fMap.values()) {
@@ -417,39 +409,39 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
         public void setStackParameter(String name, Object data)
         {
-            Stack<Object> set = (Stack<Object>) getStackParameters().get(name);
-            if (set == null || set.isEmpty()) {
-                pushStackParameter(name, data);
-            } else {
-                set.setElementAt(data, set.size() - 1);
+            Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
+            if (set != null && !set.isEmpty()) {
+                set.pop();
             }
+            pushStackParameter(name, data);
         }
 
         public Object getStackParameter(String name)
         {
-            Stack<Object> set = (Stack<Object>) getStackParameters().get(name);
-            if (set == null || set.isEmpty()) {
-                return null;
-            } else {
-                return set.peek();
-            }
+            Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
+            return (set == null) ? null : set.peek();
         }
 
+        @Deprecated
         public Object getStackParameter(String name, int index)
         {
-            Stack<Object> set = (Stack<Object>) getStackParameters().get(name);
+            Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
             if (set == null || set.size() <= index) {
                 return null;
-            } else {
-                return set.get(index);
             }
+            return set.toArray()[set.size() - index - 1];
+        }
+
+        public Iterator<Object> getStackParameterIterator(String name) {
+            Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
+            return (set == null) ? null : set.descendingIterator();
         }
 
         public void pushStackParameter(String name, Object data)
         {
-            Stack<Object> set = (Stack<Object>) getStackParameters().get(name);
+            Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
             if (set == null) {
-                getStackParameters().put(name, set = new Stack<Object>());
+                getStackParameters().put(name, set = new LinkedList<Object>());
             }
 
             set.push(data);
@@ -457,7 +449,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
         public Object popStackParameter(String name)
         {
-            return ((Stack<Object>) getStackParameters().get(name)).pop();
+            return ((Deque<Object>) getStackParameters().get(name)).pop();
         }
     }
 

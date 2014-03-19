@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering.renderer;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
 import org.xwiki.rendering.listener.chaining.ChainingListener;
@@ -34,14 +35,14 @@ public abstract class AbstractChainingPrintRenderer extends AbstractChainingList
     /**
      * The printer stack. Can be used to print in a specific printer and then easily return to the previous one.
      */
-    private Stack<WikiPrinter> printers = new Stack<WikiPrinter>();
+    private Deque<WikiPrinter> printers = new ArrayDeque<WikiPrinter>();
 
     /**
      * @return the main printer.
      */
     public WikiPrinter getMainPrinter()
     {
-        return this.printers.firstElement();
+        return this.printers.getLast();
     }
 
     @Override

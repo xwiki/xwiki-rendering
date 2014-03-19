@@ -19,11 +19,12 @@
  */
 package org.xwiki.rendering.listener.chaining;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 /**
  * Stores information about the listeners in the chain and the order in which they need to be called. Also sports a
@@ -41,8 +42,8 @@ public class ListenerChain
      * The full list of chaining listeners. For each of them we have a stack since the ones that implement the
      * {@link StackableChainingListener} interface can be stacked.
      */
-    private Map<Class< ? extends ChainingListener>, Stack<ChainingListener>> listeners =
-        new HashMap<Class< ? extends ChainingListener>, Stack<ChainingListener>>();
+    private Map<Class< ? extends ChainingListener>, Deque<ChainingListener>> listeners =
+        new HashMap<Class< ? extends ChainingListener>, Deque<ChainingListener>>();
 
     /**
      * The ordered list of listeners. We only allow one instance per listener class name so we just need to store the
@@ -61,9 +62,9 @@ public class ListenerChain
         // and don't add the listener as an additional listener in the list (since it's already
         // in there). We need to take these steps since the push() methods below will create
         // new instances of listeners which will add themselves in the chain automatically.
-        Stack<ChainingListener> stack = this.listeners.get(listener.getClass());
+        Deque<ChainingListener> stack = this.listeners.get(listener.getClass());
         if (stack == null) {
-            stack = new Stack<ChainingListener>();
+            stack = new ArrayDeque<ChainingListener>();
             this.listeners.put(listener.getClass(), stack);
             this.nextListeners.add(listener.getClass());
         }
@@ -122,7 +123,7 @@ public class ListenerChain
     public void pushListener(Class< ? extends ChainingListener> listenerClass)
     {
         if (StackableChainingListener.class.isAssignableFrom(listenerClass)) {
-            Stack<ChainingListener> stack = this.listeners.get(listenerClass);
+            Deque<ChainingListener> stack = this.listeners.get(listenerClass);
             stack.push(((StackableChainingListener) stack.peek()).createChainingListenerInstance());
         }
     }

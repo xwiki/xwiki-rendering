@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering.wikimodel.util;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * This is an utility class which is used to build tables of content (TOCs).
@@ -31,7 +32,7 @@ public class TocBuilder
 {
     protected int fBaseLevel;
 
-    protected Stack<Integer> fBaseLevelStack = new Stack<Integer>();
+    protected Deque<Integer> fBaseLevelStack = new ArrayDeque<Integer>();
 
     protected int fLevel;
 

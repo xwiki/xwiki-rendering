@@ -19,15 +19,16 @@
  */
 package org.xwiki.rendering.listener.chaining;
 
-import org.xwiki.rendering.listener.MetaData;
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.listener.Format;
-import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.ListType;
-import org.xwiki.rendering.listener.HeaderLevel;
-
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Map;
-import java.util.Stack;
+
+import org.xwiki.rendering.listener.Format;
+import org.xwiki.rendering.listener.HeaderLevel;
+import org.xwiki.rendering.listener.ListType;
+import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Allow knowing if a container block (a block which can have children) has children or not.
@@ -37,7 +38,7 @@ import java.util.Stack;
  */
 public class EmptyBlockChainingListener extends AbstractChainingListener
 {
-    private Stack<Boolean> containerBlockStates = new Stack<Boolean>();
+    private Deque<Boolean> containerBlockStates = new ArrayDeque<Boolean>();
 
     public EmptyBlockChainingListener(ListenerChain listenerChain)
     {

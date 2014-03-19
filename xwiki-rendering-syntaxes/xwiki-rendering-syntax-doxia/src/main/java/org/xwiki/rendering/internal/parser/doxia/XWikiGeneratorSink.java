@@ -20,8 +20,9 @@
 package org.xwiki.rendering.internal.parser.doxia;
 
 import java.io.StringReader;
+import java.util.ArrayDeque;
 import java.util.Collections;
-import java.util.Stack;
+import java.util.Deque;
 
 import org.apache.maven.doxia.logging.Log;
 import org.apache.maven.doxia.sink.Sink;
@@ -55,9 +56,9 @@ import org.xwiki.rendering.util.IdGenerator;
  */
 public class XWikiGeneratorSink implements Sink
 {
-    private Stack<Listener> listener = new Stack<Listener>();
+    private Deque<Listener> listener = new ArrayDeque<Listener>();
 
-    private Stack<Object> parameters = new Stack<Object>();
+    private Deque<Object> parameters = new ArrayDeque<Object>();
 
     private ResourceReferenceParser linkReferenceParser;
 
@@ -103,7 +104,8 @@ public class XWikiGeneratorSink implements Sink
 
     private Listener pushListener(Listener listener)
     {
-        return this.listener.push(listener);
+        this.listener.push(listener);
+        return listener;
     }
 
     private Listener popListener()

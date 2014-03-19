@@ -19,11 +19,12 @@
  */
 package org.xwiki.rendering.internal.parser.markdown;
 
+import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import org.pegdown.ast.TableBodyNode;
 import org.pegdown.ast.TableCaptionNode;
@@ -50,17 +51,17 @@ public abstract class AbstractTablePegdownVisitor extends AbstractListPegdownVis
     /**
      * Whether we're currently in a table header or not. It's stacked to support nested tables.
      */
-    private Stack<Boolean> isInTableHeaderStack = new Stack<Boolean>();
+    private Deque<Boolean> isInTableHeaderStack = new ArrayDeque<Boolean>();
 
     /**
      * The current table node we're in. It's stacked to support nested tables.
      */
-    private Stack<TableNode> currentTableStack = new Stack<TableNode>();
+    private Deque<TableNode> currentTableStack = new ArrayDeque<TableNode>();
 
     /**
      * The current column position in the current table; used to handle colspan. It's stacked to support nested tables.
      */
-    private Stack<Integer> currentTableColumnPositionStack = new Stack<Integer>();
+    private Deque<Integer> currentTableColumnPositionStack = new ArrayDeque<Integer>();
 
     @Override
     public void visit(TableBodyNode tableBodyNode)
