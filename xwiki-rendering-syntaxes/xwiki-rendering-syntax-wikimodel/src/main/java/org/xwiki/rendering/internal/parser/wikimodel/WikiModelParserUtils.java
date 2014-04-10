@@ -38,34 +38,49 @@ public class WikiModelParserUtils extends ParserUtils
 {
     public void parseInline(StreamParser parser, String content, Listener listener) throws ParseException
     {
-        WrappingListener inlineFilterListener = new InlineFilterListener()
-        {
-            private boolean foundWord = false;
+        parseInline(parser, content, listener, false);
+    }
 
-            private boolean foundSpace = false;
-
-            @Override
-            public void onWord(String word)
+    /**
+     * @since 6.0RC1, 5.4.5
+     */
+    public void parseInline(StreamParser parser, String content, Listener listener, boolean prefix)
+        throws ParseException
+    {
+        if (prefix) {
+            WrappingListener inlineFilterListener = new InlineFilterListener()
             {
-                if (foundWord) {
-                    super.onWord(word);
-                } else {
-                    foundWord = true;
-                }
-            }
+                private boolean foundWord = false;
 
-            @Override
-            public void onSpace()
-            {
-                if (foundSpace) {
-                    super.onSpace();
-                } else {
-                    foundSpace = true;
-                }
-            }
-        };
-        inlineFilterListener.setWrappedListener(listener);
+                private boolean foundSpace = false;
 
-        parser.parse(new StringReader("wikimarker " + content), inlineFilterListener);
+                @Override
+                public void onWord(String word)
+                {
+                    if (foundWord) {
+                        super.onWord(word);
+                    } else {
+                        foundWord = true;
+                    }
+                }
+
+                @Override
+                public void onSpace()
+                {
+                    if (foundSpace) {
+                        super.onSpace();
+                    } else {
+                        foundSpace = true;
+                    }
+                }
+            };
+            inlineFilterListener.setWrappedListener(listener);
+
+            parser.parse(new StringReader("wikimarker " + content), inlineFilterListener);
+        } else {
+            WrappingListener inlineFilterListener = new InlineFilterListener();
+            inlineFilterListener.setWrappedListener(listener);
+            parser.parse(new StringReader(content), inlineFilterListener);
+        }
     }
 }

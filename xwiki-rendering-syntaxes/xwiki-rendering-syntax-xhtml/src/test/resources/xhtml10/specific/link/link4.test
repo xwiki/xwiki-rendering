@@ -1,0 +1,17 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Testing anchor with span around its label
+.#-----------------------------------------------------
+<a href="href"><span param="value">label</span></a>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [true] Type = [path] Reference = [href]] [false]
+beginFormat [NONE] [[param]=[value]]
+onWord [label]
+endFormat [NONE] [[param]=[value]]
+endLink [Typed = [true] Type = [path] Reference = [href]] [false]
+endParagraph
+endDocument

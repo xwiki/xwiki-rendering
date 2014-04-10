@@ -46,9 +46,14 @@ import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.URLTagHandl
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.UserTagHandler;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
+import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiCommentHandler;
+import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiHeaderTagHandler;
+import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiReferenceTagHandler;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
+import org.xwiki.rendering.parser.StreamParser;
+import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.rendering.wikimodel.IWikiParser;
@@ -67,6 +72,21 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 public class ConfluenceXHTMLParser extends AbstractWikiModelParser
 {
     /**
+     * The parser used for the link label parsing. For (x)html parsing, this will be an xwiki 2.0 parser, since it's
+     * more convenient to pass link labels in xwiki syntax. See referred resource for more details.
+     * 
+     * @see XWikiCommentHandler#handleLinkCommentStop(String,
+     *      org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack)
+     */
+    @Inject
+    @Named("xdom+xml/current")
+    private StreamParser xmlParser;
+
+    @Inject
+    @Named("xdom+xml/current")
+    private PrintRendererFactory xmlRenderer;
+
+    /**
      * @see #getLinkReferenceParser()
      */
     @Inject
@@ -80,10 +100,20 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
     @Named("image")
     private ResourceReferenceParser imageReferenceParser;
 
+    @Inject
+    @Named("plain/1.0")
+    private StreamParser plainParser;
+
     @Override
     public Syntax getSyntax()
     {
         return Syntax.CONFLUENCEXHTML_1_0;
+    }
+
+    @Override
+    public StreamParser getLinkLabelParser()
+    {
+        return this.xmlParser;
     }
 
     @Override
@@ -95,6 +125,15 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
 
         // Override some of the WikiModel XHTML parser tag handlers to introduce our own logic.
         Map<String, TagHandler> handlers = new HashMap<String, TagHandler>();
+
+        TagHandler handler = new XWikiHeaderTagHandler();
+        handlers.put("h1", handler);
+        handlers.put("h2", handler);
+        handlers.put("h3", handler);
+        handlers.put("h4", handler);
+        handlers.put("h5", handler);
+        handlers.put("h6", handler);
+        handlers.put("a", new XWikiReferenceTagHandler(this, this.xmlRenderer));
 
         handlers.put("ac:macro", new MacroTagHandler());
         handlers.put("ac:structured-macro", new MacroTagHandler());
@@ -155,6 +194,6 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
     public XWikiGeneratorListener createXWikiGeneratorListener(Listener listener, IdGenerator idGenerator)
     {
         return new ConfluenceXWikiGeneratorListener(getLinkLabelParser(), listener, getLinkReferenceParser(),
-            getImageReferenceParser(), this.plainRendererFactory, idGenerator, getSyntax());
+            getImageReferenceParser(), this.plainRendererFactory, idGenerator, getSyntax(), this.plainParser);
     }
 }

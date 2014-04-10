@@ -30,7 +30,7 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  * @since 4.5M1
  */
 @RunWith(RenderingTestSuite.class)
-@RenderingTestSuite.Scope("xhtml10.specific")
+@RenderingTestSuite.Scope(value="xhtml10.specific"/*, pattern="link1.test"*/)
 public class XHTMLSpecificTest
 {
 }

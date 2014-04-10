@@ -814,6 +814,15 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     protected void onReference(ResourceReference reference, String label, boolean isFreeStandingURI,
         Map<String, String> parameters)
     {
+        onReference(reference, label, isFreeStandingURI, parameters, true);
+    }
+
+    /**
+     * @since 6.0RC1, 5.4.5
+     */
+    protected void onReference(ResourceReference reference, String label, boolean isFreeStandingURI,
+        Map<String, String> parameters, boolean prefix)
+    {
         // Since WikiModel doesn't handle syntax in link labels and thus doesn't have begin/end events for links, we
         // need to call the XWiki events and use an inline parser to parse the syntax in the label.
         getListener().beginLink(reference, isFreeStandingURI, parameters);
@@ -821,7 +830,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
             try {
                 // TODO: Use an inline parser. See http://jira.xwiki.org/jira/browse/XWIKI-2748
                 WikiModelParserUtils parserUtils = new WikiModelParserUtils();
-                parserUtils.parseInline(this.parser, label, getListener());
+                parserUtils.parseInline(this.parser, label, getListener(), prefix);
             } catch (ParseException e) {
                 // TODO what should we do here ?
             }

@@ -21,6 +21,12 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import java.util.Collections;
 
+import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
+import org.xwiki.rendering.internal.parser.wikimodel.WikiModelStreamParser;
+import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
+import org.xwiki.rendering.renderer.PrintRenderer;
+import org.xwiki.rendering.renderer.PrintRendererFactory;
+import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
@@ -28,13 +34,6 @@ import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.handler.ReferenceTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
-import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
-import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
-import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
-import org.xwiki.rendering.listener.MetaData;
-import org.xwiki.rendering.renderer.PrintRenderer;
-import org.xwiki.rendering.renderer.PrintRendererFactory;
-import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 
 /**
  * Override the default WikiModel Reference handler to handle XWiki references since we store some information in
@@ -45,7 +44,7 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
  */
 public class XWikiReferenceTagHandler extends ReferenceTagHandler
 {
-    private XHTMLParser parser;
+    private WikiModelStreamParser parser;
 
     private PrintRendererFactory xwikiSyntaxPrintRendererFactory;
 
@@ -54,7 +53,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
      * @todo Remove the need to pass a Parser when WikiModel implements support for wiki syntax in links. See
      *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */
-    public XWikiReferenceTagHandler(XHTMLParser parser, PrintRendererFactory xwikiSyntaxPrintRendererFactory)
+    public XWikiReferenceTagHandler(WikiModelStreamParser parser, PrintRendererFactory xwikiSyntaxPrintRendererFactory)
     {
         this.parser = parser;
         this.xwikiSyntaxPrintRendererFactory = xwikiSyntaxPrintRendererFactory;
@@ -97,8 +96,6 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
                 DefaultWikiPrinter printer = new DefaultWikiPrinter();
 
                 PrintRenderer linkLabelRenderer = this.xwikiSyntaxPrintRendererFactory.createRenderer(printer);
-                // Make sure to flush whatever the renderer implementation
-                linkLabelRenderer.beginDocument(MetaData.EMPTY);
 
                 XWikiGeneratorListener xwikiListener =
                     this.parser.createXWikiGeneratorListener(linkLabelRenderer, null);
@@ -146,9 +143,6 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
 
                 XWikiGeneratorListener xwikiListener = (XWikiGeneratorListener) scannerContext.getfListener();
                 PrintRenderer linkLabelRenderer = (PrintRenderer) xwikiListener.getListener();
-
-                // Make sure to flush whatever the renderer implementation
-                linkLabelRenderer.endDocument(MetaData.EMPTY);
 
                 String label = linkLabelRenderer.getPrinter().toString();
 
