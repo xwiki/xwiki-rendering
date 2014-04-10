@@ -93,7 +93,7 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
             convertAndSeparateParameters(reference.getParameters());
 
         resourceReference.setParameters(parameters.getLeft());
-        onReference(resourceReference, reference.getLabel(), isFreeStanding, parameters.getRight());
+        onReference(resourceReference, reference.getLabel(), isFreeStanding, parameters.getRight(), false);
     }
 
     @Override

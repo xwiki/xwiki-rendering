@@ -68,8 +68,12 @@ public class XHTMLParser extends AbstractWikiModelParser
      * @see XWikiCommentHandler#handleLinkCommentStop(String, org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack)
      */
     @Inject
-    @Named("xwiki/2.0")
-    private StreamParser xwikiParser;
+    @Named("xdom+xml/current")
+    private StreamParser xmlParser;
+
+    @Inject
+    @Named("xdom+xml/current")
+    private PrintRendererFactory xmlRenderer;
 
     /**
      * @see #getLinkReferenceParser()
@@ -84,10 +88,6 @@ public class XHTMLParser extends AbstractWikiModelParser
     @Inject
     @Named("image")
     private ResourceReferenceParser imageReferenceParser;
-
-    @Inject
-    @Named("xwiki/2.1")
-    private PrintRendererFactory xwikiSyntaxPrintRendererFactory;
 
     @Inject
     private ComponentManager componentManager;
@@ -119,7 +119,7 @@ public class XHTMLParser extends AbstractWikiModelParser
     @Override
     public StreamParser getLinkLabelParser()
     {
-        return this.xwikiParser;
+        return this.xmlParser;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class XHTMLParser extends AbstractWikiModelParser
         handlers.put("h4", handler);
         handlers.put("h5", handler);
         handlers.put("h6", handler);
-        handlers.put("a", new XWikiReferenceTagHandler(this, this.xwikiSyntaxPrintRendererFactory));
+        handlers.put("a", new XWikiReferenceTagHandler(this, this.xmlRenderer));
         handlers.put("img", new XWikiImageTagHandler());
         handlers.put("span", new XWikiSpanTagHandler());
         handlers.put("div", new XWikiDivisionTagHandler());
@@ -143,7 +143,7 @@ public class XHTMLParser extends AbstractWikiModelParser
         XhtmlParser parser = new XhtmlParser();
         parser.setExtraHandlers(handlers);
         parser.setCommentHandler(new XWikiCommentHandler(this.componentManager, this,
-            this.xwikiSyntaxPrintRendererFactory, this.xhtmlMarkerResourceReferenceParser));
+            this.xmlRenderer, this.xhtmlMarkerResourceReferenceParser));
 
         // Construct our own XML filter chain since we want to use our own Comment filter.
         try {

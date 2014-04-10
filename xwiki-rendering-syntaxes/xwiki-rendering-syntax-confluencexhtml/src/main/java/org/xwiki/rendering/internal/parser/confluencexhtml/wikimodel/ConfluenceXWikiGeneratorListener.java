@@ -22,13 +22,15 @@ package org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel;
 import java.util.Collections;
 
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.AttachmentTagHandler.ConfluenceAttachment;
-import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
+import org.xwiki.rendering.internal.parser.wikimodel.WikiModelParserUtils;
+import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.reference.AttachmentResourceReference;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.listener.reference.UserResourceReference;
+import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
@@ -42,8 +44,10 @@ import org.xwiki.rendering.wikimodel.WikiReference;
  * @version $Id$
  * @since 2.5RC1
  */
-public class ConfluenceXWikiGeneratorListener extends DefaultXWikiGeneratorListener
+public class ConfluenceXWikiGeneratorListener extends XHTMLXWikiGeneratorListener
 {
+    private StreamParser plainParser;
+
     /**
      * @param parser the parser to use to parse link labels
      * @param listener the XWiki listener to which to forward WikiModel events
@@ -56,9 +60,11 @@ public class ConfluenceXWikiGeneratorListener extends DefaultXWikiGeneratorListe
      */
     public ConfluenceXWikiGeneratorListener(StreamParser parser, Listener listener,
         ResourceReferenceParser linkReferenceParser, ResourceReferenceParser imageReferenceParser,
-        PrintRendererFactory plainRendererFactory, IdGenerator idGenerator, Syntax syntax)
+        PrintRendererFactory plainRendererFactory, IdGenerator idGenerator, Syntax syntax, StreamParser plainParser)
     {
         super(parser, listener, linkReferenceParser, imageReferenceParser, plainRendererFactory, idGenerator, syntax);
+
+        this.plainParser = plainParser;
     }
 
     @Override
@@ -138,7 +144,19 @@ public class ConfluenceXWikiGeneratorListener extends DefaultXWikiGeneratorListe
             }
 
             if (resourceReference != null) {
-                onReference(resourceReference, reference.getLabel(), false, Collections.<String, String> emptyMap());
+                // Since WikiModel doesn't handle syntax in link labels and thus doesn't have begin/end events for
+                // links, we
+                // need to call the XWiki events and use an inline parser to parse the syntax in the label.
+                getListener().beginLink(resourceReference, false, Collections.<String, String> emptyMap());
+                if (reference.getLabel() != null) {
+                    try {
+                        WikiModelParserUtils parserUtils = new WikiModelParserUtils();
+                        parserUtils.parseInline(this.plainParser, reference.getLabel(), getListener(), false);
+                    } catch (ParseException e) {
+                        // TODO supposedly impossible with plain test parser
+                    }
+                }
+                getListener().endLink(resourceReference, false, Collections.<String, String> emptyMap());
             }
         } else {
             super.onReference(reference);

@@ -36,7 +36,7 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
+      <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
