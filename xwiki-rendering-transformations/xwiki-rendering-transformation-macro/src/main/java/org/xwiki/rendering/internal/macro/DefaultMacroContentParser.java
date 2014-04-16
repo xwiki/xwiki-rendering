@@ -37,12 +37,14 @@ import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.MetadataBlockMatcher;
+import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.util.ParserUtils;
 
@@ -61,6 +63,12 @@ public class DefaultMacroContentParser implements MacroContentParser
      */
     @Inject
     private ComponentManager componentManager;
+
+    /**
+     * Used to update rendering context during content transformation.
+     */
+    @Inject
+    private RenderingContext renderingContext;
 
     /**
      * Utility to remove the top level paragraph.
@@ -90,7 +98,8 @@ public class DefaultMacroContentParser implements MacroContentParser
                 TransformationContext txContext = new TransformationContext(result, syntax);
                 txContext.setId(macroContext.getId());
                 try {
-                    macroContext.getTransformation().transform(result, txContext);
+                    ((MutableRenderingContext) renderingContext).transformInContext(macroContext.getTransformation(),
+                        txContext, result);
                 } catch (Exception e) {
                     throw new MacroExecutionException("Failed to perform transformation", e);
                 }

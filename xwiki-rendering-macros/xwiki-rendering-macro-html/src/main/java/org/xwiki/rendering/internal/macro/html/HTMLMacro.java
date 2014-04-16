@@ -42,6 +42,7 @@ import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
+import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
@@ -54,6 +55,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.xml.html.HTMLCleaner;
 import org.xwiki.xml.html.HTMLCleanerConfiguration;
@@ -113,6 +115,12 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
      */
     @Inject
     private MacroContentParser contentParser;
+
+    /**
+     * Use to update the rendering context during transformation of the content.
+     */
+    @Inject
+    private RenderingContext renderingContext;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -260,7 +268,8 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             htmlMacroMarker.setParent(htmlMacroBlock.getParent());
 
             // Execute the Macro transformation
-            transformation.transform(htmlMacroMarker, context.getTransformationContext());
+            ((MutableRenderingContext) renderingContext).transformInContext(transformation,
+                context.getTransformationContext(), htmlMacroMarker);
 
             // Render the whole parsed content as a XHTML string
             WikiPrinter printer = new DefaultWikiPrinter();
