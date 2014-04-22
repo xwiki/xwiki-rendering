@@ -76,5 +76,5 @@ public interface MutableRenderingContext extends RenderingContext
      *
      * @param block the block current being processed by the transformation.
      */
-    public void setCurrentBlock(Block block);
+    void setCurrentBlock(Block block);
 }
