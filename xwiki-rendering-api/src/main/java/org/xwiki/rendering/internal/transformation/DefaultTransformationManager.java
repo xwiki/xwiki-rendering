@@ -36,6 +36,7 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
@@ -52,6 +53,12 @@ import org.xwiki.rendering.transformation.TransformationManager;
 @Singleton
 public class DefaultTransformationManager implements TransformationManager
 {
+    /**
+     * Used to updated the rendering context.
+     */
+    @Inject
+    private RenderingContext renderingContext;
+
     /**
      * Used to get the ordered list of transformations to execute.
      */
@@ -84,7 +91,7 @@ public class DefaultTransformationManager implements TransformationManager
         boolean error = false;
         for (Transformation transformation : getTransformations()) {
             try {
-                transformation.transform(block, context);
+                ((MutableRenderingContext) renderingContext).transformInContext(transformation, context, block);
             } catch (Exception e) {
                 // Continue running the other transformations
                 this.logger.error("Failed to execute transformation", e);

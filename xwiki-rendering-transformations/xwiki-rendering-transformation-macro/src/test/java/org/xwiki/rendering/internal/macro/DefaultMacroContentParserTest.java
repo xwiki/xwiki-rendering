@@ -19,9 +19,6 @@
  */
 package org.xwiki.rendering.internal.macro;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
-
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,8 +37,12 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.mockito.MockitoComponentManagerRule;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
 @ComponentList({DefaultMacroContentParser.class})
 public class DefaultMacroContentParserTest
@@ -58,6 +59,8 @@ public class DefaultMacroContentParserTest
     @Before
     public void setUp() throws Exception
     {
+        this.componentManager.registerMockComponent(RenderingContext.class);
+
         Syntax testSyntax = new Syntax(new SyntaxType("test", "test"), "1.0");
 
         this.macroContext = new MacroTransformationContext();

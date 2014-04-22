@@ -25,4 +25,5 @@ org.xwiki.rendering.internal.renderer.DataURILabelGenerator
 org.xwiki.rendering.internal.renderer.reference.DefaultResourceReferenceTypeSerializer
 org.xwiki.rendering.internal.syntax.DefaultSyntaxFactory
 org.xwiki.rendering.internal.syntax.SyntaxConverter
+org.xwiki.rendering.internal.transformation.DefaultRenderingContext
 org.xwiki.rendering.internal.transformation.DefaultTransformationManager
