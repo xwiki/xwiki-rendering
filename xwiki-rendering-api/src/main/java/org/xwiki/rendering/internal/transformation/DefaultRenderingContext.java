@@ -210,11 +210,7 @@ public class DefaultRenderingContext implements MutableRenderingContext
         return peek().currentBlock;
     }
 
-    /**
-     * Set the current block.
-     *
-     * @param block the block current being processed by the transformation.
-     */
+    @Override
     public void setCurrentBlock(Block block)
     {
         Context context = peek();

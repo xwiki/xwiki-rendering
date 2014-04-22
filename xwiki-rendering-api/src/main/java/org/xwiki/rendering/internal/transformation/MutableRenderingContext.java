@@ -70,4 +70,11 @@ public interface MutableRenderingContext extends RenderingContext
      */
     void transformInContext(Transformation transformation, TransformationContext context, Block block)
         throws TransformationException;
+
+    /**
+     * Set the current block.
+     *
+     * @param block the block current being processed by the transformation.
+     */
+    public void setCurrentBlock(Block block);
 }
