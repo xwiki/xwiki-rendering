@@ -62,7 +62,7 @@ public class DefaultRenderingContext implements MutableRenderingContext
     @Inject
     private Execution execution;
 
-    private static final class Context implements Cloneable
+    protected static final class Context implements Cloneable
     {
         /**
          * The complete {@link org.xwiki.rendering.block.XDOM} of the content currently being transformed.
@@ -119,6 +119,11 @@ public class DefaultRenderingContext implements MutableRenderingContext
             this.syntax = syntax;
             this.restricted = restricted;
             this.transformation = transformation;
+        }
+
+        public String getTransformationId()
+        {
+            return this.transformationId;
         }
 
         @Override
@@ -192,7 +197,7 @@ public class DefaultRenderingContext implements MutableRenderingContext
         return null;
     }
 
-    private Context peek()
+    protected Context peek()
     {
         Deque<Context> stack = getContextstack(false);
         return (stack != null && !stack.isEmpty()) ? stack.peek() : NULL_CONTEXT;
