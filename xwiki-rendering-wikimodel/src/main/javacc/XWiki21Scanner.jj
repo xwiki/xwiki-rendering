@@ -48,7 +48,7 @@ PARSER_BEGIN(XWikiScanner)
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.wikimodel.xwiki.xwiki21.javacc;
+package org.xwiki.rendering.wikimodel.internal.xwiki.xwiki21.javacc;
 
 import org.xwiki.rendering.wikimodel.IWikiReferenceParser;
 import org.xwiki.rendering.wikimodel.WikiParameters;

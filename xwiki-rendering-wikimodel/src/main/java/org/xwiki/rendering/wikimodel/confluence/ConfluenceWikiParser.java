@@ -24,8 +24,8 @@ import java.io.Reader;
 import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.WikiParserException;
-import org.xwiki.rendering.wikimodel.confluence.javacc.ConfluenceWikiScanner;
-import org.xwiki.rendering.wikimodel.confluence.javacc.ParseException;
+import org.xwiki.rendering.wikimodel.internal.confluence.javacc.ConfluenceWikiScanner;
+import org.xwiki.rendering.wikimodel.internal.confluence.javacc.ParseException;
 
 /**
  * <pre>

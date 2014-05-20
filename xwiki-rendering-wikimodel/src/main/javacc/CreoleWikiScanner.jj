@@ -43,7 +43,7 @@ PARSER_BEGIN(CreoleWikiScanner)
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.wikimodel.creole.javacc;
+package org.xwiki.rendering.wikimodel.internal.creole.javacc;
 
 import org.xwiki.rendering.wikimodel.IWikiReferenceParser;
 import org.xwiki.rendering.wikimodel.impl.IWikiScannerContext;

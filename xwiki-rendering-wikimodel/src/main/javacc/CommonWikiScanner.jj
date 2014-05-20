@@ -43,7 +43,7 @@ PARSER_BEGIN(CommonWikiScanner)
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.wikimodel.common.javacc;
+package org.xwiki.rendering.wikimodel.internal.common.javacc;
 
 import org.xwiki.rendering.wikimodel.IWikiReferenceParser;
 import org.xwiki.rendering.wikimodel.WikiStyle;

@@ -38,11 +38,6 @@
     <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>net.java.dev.javacc</groupId>
-      <artifactId>javacc</artifactId>
-      <version>5.0</version>
-    </dependency>
     <!-- For parsing the CSS from the style attribute. -->
     <dependency>
       <groupId>net.sourceforge.cssparser</groupId>
@@ -75,6 +70,13 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>net.java.dev.javacc</groupId>
+            <artifactId>javacc</artifactId>
+            <version>6.1.2</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <!-- Add specific excludes for this module for license checks -->
       <plugin>

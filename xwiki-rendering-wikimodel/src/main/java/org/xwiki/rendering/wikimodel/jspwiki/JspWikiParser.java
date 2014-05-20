@@ -25,8 +25,8 @@ import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.WikiParserException;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
-import org.xwiki.rendering.wikimodel.jspwiki.javacc.JspWikiScanner;
-import org.xwiki.rendering.wikimodel.jspwiki.javacc.ParseException;
+import org.xwiki.rendering.wikimodel.internal.jspwiki.javacc.JspWikiScanner;
+import org.xwiki.rendering.wikimodel.internal.jspwiki.javacc.ParseException;
 
 /**
  * @version $Id$

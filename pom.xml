@@ -256,6 +256,8 @@
             <exclude>**/internal/**</exclude>
             <exclude>**/test/**</exclude>
             <!-- Remove the following excludes after we release the current version as final -->
+            <!-- Moved to internal package since none of those classes are supposed to be used from outside -->
+            <exclude>**/javacc/*</exclude>
           </excludes>
         </configuration>
       </plugin>

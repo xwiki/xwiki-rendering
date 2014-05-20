@@ -44,7 +44,7 @@ PARSER_BEGIN(MediawikiScanner)
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.wikimodel.mediawiki.javacc;
+package org.xwiki.rendering.wikimodel.internal.mediawiki.javacc;
 
 import org.xwiki.rendering.wikimodel.IWikiMacroParser;
 import org.xwiki.rendering.wikimodel.IWikiReferenceParser;

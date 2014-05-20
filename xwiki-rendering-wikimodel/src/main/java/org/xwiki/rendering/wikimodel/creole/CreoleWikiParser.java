@@ -24,9 +24,9 @@ import java.io.Reader;
 import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.WikiParserException;
-import org.xwiki.rendering.wikimodel.creole.javacc.CreoleWikiScanner;
-import org.xwiki.rendering.wikimodel.creole.javacc.ParseException;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
+import org.xwiki.rendering.wikimodel.internal.creole.javacc.CreoleWikiScanner;
+import org.xwiki.rendering.wikimodel.internal.creole.javacc.ParseException;
 
 /**
  * @version $Id$
