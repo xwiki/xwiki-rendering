@@ -211,46 +211,6 @@
           -->
           <ignored>
             <!-- Remove the following ignores after we release the current version as final -->
-            <difference>
-              <differenceType>6004</differenceType>
-              <className>org/xwiki/rendering/wikimodel/impl/InternalWikiScannerContext</className>
-              <field>fPropertyDocStack</field>
-              <from>java.util.Stack</from>
-              <to>java.util.Deque</to>
-              <justification>Change deprecated usage of Stack class to Deque interface.</justification>
-            </difference>
-            <difference>
-              <differenceType>6004</differenceType>
-              <className>org/xwiki/rendering/wikimodel/impl/InternalWikiScannerContext</className>
-              <field>fPropertyStack</field>
-              <from>java.util.Stack</from>
-              <to>java.util.Deque</to>
-              <justification>Change deprecated usage of Stack class to Deque interface.</justification>
-            </difference>
-            <difference>
-              <differenceType>6004</differenceType>
-              <className>org/xwiki/rendering/wikimodel/impl/WikiScannerContext</className>
-              <field>fStack</field>
-              <from>java.util.Stack</from>
-              <to>java.util.Deque</to>
-              <justification>Change deprecated usage of Stack class to Deque interface.</justification>
-            </difference>
-            <difference>
-              <differenceType>6004</differenceType>
-              <className>org/xwiki/rendering/wikimodel/impl/WikiScannerContext</className>
-              <field>fStack</field>
-              <from>java.util.Stack</from>
-              <to>java.util.Deque</to>
-              <justification>Change deprecated usage of Stack class to Deque interface.</justification>
-            </difference>
-            <difference>
-              <differenceType>6004</differenceType>
-              <className>org/xwiki/rendering/wikimodel/util/TocBuilder</className>
-              <field>fBaseLevelStack</field>
-              <from>java.util.Stack</from>
-              <to>java.util.Deque</to>
-              <justification>Change deprecated usage of Stack class to Deque interface.</justification>
-            </difference>
           </ignored>
           <excludes>
             <exclude>**/internal/**</exclude>
