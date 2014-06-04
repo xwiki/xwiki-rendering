@@ -31,7 +31,7 @@
   <name>XWiki Rendering - Transformation - Link Checker</name>
   <description>Verifies if external URLs are valid and decorate with parameters if not</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.87</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.90</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>
@@ -45,12 +45,26 @@
       <version>${commons.version}</version>
     </dependency>
     <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
+    </dependency>
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>com.github.tomakehurst</groupId>
+      <artifactId>wiremock</artifactId>
+      <version>1.46</version>
+      <scope>test</scope>
+      <exclusions>
+        <!-- We are using SLF4J -->
+        <exclusion>
+          <artifactId>log4j</artifactId>
+          <groupId>log4j</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 </project>

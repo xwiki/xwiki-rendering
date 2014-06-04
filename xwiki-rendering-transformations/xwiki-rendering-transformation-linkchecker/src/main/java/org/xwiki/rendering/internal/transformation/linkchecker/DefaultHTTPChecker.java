@@ -22,11 +22,13 @@ package org.xwiki.rendering.internal.transformation.linkchecker;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
-import org.apache.commons.httpclient.cookie.CookiePolicy;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
@@ -54,17 +56,30 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
      * Note: If one day we wish to configure timeouts, here's some good documentation about it:
      * http://brian.olore.net/wp/2009/08/apache-httpclient-timeout/
      */
-    private HttpClient httpClient;
+    private CloseableHttpClient httpClient;
 
     @Override
     public void initialize() throws InitializationException
     {
-        this.httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+
+        // Make the Http Client reusable by several threads
+        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+        httpClientBuilder.setConnectionManager(connectionManager);
+
+        // Pre-configure with everything configured at JVM level (e.g. proxy setup).
+        httpClientBuilder.useSystemProperties();
 
         // Set our user agent to be a good citizen.
-        this.httpClient.getParams().setParameter(HttpMethodParams.USER_AGENT, "XWikiLinkChecker");
+        httpClientBuilder.setUserAgent("XWikiLinkChecker");
+
         // Ignore cookies since this can cause errors in logs and we don't need cookies when checking sites.
-        this.httpClient.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
+        RequestConfig config = RequestConfig.custom()
+            .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
+            .build();
+        httpClientBuilder.setDefaultRequestConfig(config);
+
+        this.httpClient = httpClientBuilder.build();
     }
 
     @Override
@@ -72,13 +87,11 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
     {
         int responseCode;
 
-        GetMethod method = null;
+        CloseableHttpResponse httpResponse = null;
         try {
-            method = new GetMethod(url);
-
-            // Execute the method.
-            responseCode = this.httpClient.executeMethod(method);
-
+            HttpGet httpGet = new HttpGet(url);
+            httpResponse = this.httpClient.execute(httpGet);
+            responseCode = httpResponse.getStatusLine().getStatusCode();
             this.logger.debug("Result of pinging [{}]: code = [{}]", url, responseCode);
         } catch (Exception e) {
             // Some error in the transport or in the passed URL, use a special response code (0) which isn't in the
@@ -86,8 +99,13 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
             responseCode = 0;
             this.logger.debug("Error while checking [{}]", url, e);
         } finally {
-            if (method != null) {
-                method.releaseConnection();
+            if (httpResponse != null) {
+                try {
+                    httpResponse.close();
+                } catch (Exception ee) {
+                    // Failed to close, ignore but log the error.
+                    this.logger.error("Failed to close HTTP connection for [{}]", url, ee);
+                }
             }
         }
 
