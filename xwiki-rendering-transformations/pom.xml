@@ -58,9 +58,11 @@
     </dependency>
   </dependencies>
   <modules>
-    <module>xwiki-rendering-transformation-macro</module>
+    <!-- Sorted Alphabetically -->
+    <module>xwiki-rendering-transformation-autotoc</module>
     <module>xwiki-rendering-transformation-icon</module>
-    <module>xwiki-rendering-transformation-wikiword</module>
     <module>xwiki-rendering-transformation-linkchecker</module>
+    <module>xwiki-rendering-transformation-macro</module>
+    <module>xwiki-rendering-transformation-wikiword</module>
   </modules>
 </project>
