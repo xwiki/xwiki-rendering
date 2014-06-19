@@ -51,7 +51,7 @@ public class XDOM extends MetaDataBlock
      * @param childBlocks the list of children blocks of the block to construct
      * @see AbstractBlock#AbstractBlock(List)
      */
-    public XDOM(List<Block> childBlocks)
+    public XDOM(List<? extends Block> childBlocks)
     {
         this(childBlocks, new IdGenerator(), MetaData.EMPTY);
     }
@@ -61,7 +61,7 @@ public class XDOM extends MetaDataBlock
      * @param metaData the meta data to add for this block
      * @see AbstractBlock#AbstractBlock(List)
      */
-    public XDOM(List<Block> childBlocks, MetaData metaData)
+    public XDOM(List<? extends Block> childBlocks, MetaData metaData)
     {
         this(childBlocks, new IdGenerator(), metaData);
     }
@@ -70,7 +70,7 @@ public class XDOM extends MetaDataBlock
      * @param childBlocks the list of children blocks of the block to construct
      * @param idGenerator a stateful id generator for this document
      */
-    public XDOM(List<Block> childBlocks, IdGenerator idGenerator)
+    public XDOM(List<? extends Block> childBlocks, IdGenerator idGenerator)
     {
         this(childBlocks, idGenerator, MetaData.EMPTY);
     }
@@ -81,7 +81,7 @@ public class XDOM extends MetaDataBlock
      * @param idGenerator a stateful id generator for this document
      * @see AbstractBlock#AbstractBlock(List)
      */
-    public XDOM(List<Block> childBlocks, IdGenerator idGenerator, MetaData metaData)
+    public XDOM(List<? extends Block> childBlocks, IdGenerator idGenerator, MetaData metaData)
     {
         super(childBlocks, metaData);
         this.idGenerator = idGenerator;

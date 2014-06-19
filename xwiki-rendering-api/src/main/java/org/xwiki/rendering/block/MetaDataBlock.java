@@ -44,7 +44,7 @@ public class MetaDataBlock extends AbstractBlock
      * @param metaData the metadata to set
      * @see AbstractBlock#AbstractBlock(List)
      */
-    public MetaDataBlock(List<Block> childBlocks, MetaData metaData)
+    public MetaDataBlock(List<? extends Block> childBlocks, MetaData metaData)
     {
         super(childBlocks);
         this.metaData = metaData;
@@ -58,7 +58,7 @@ public class MetaDataBlock extends AbstractBlock
      * @param value the metadata value to set
      * @see AbstractBlock#AbstractBlock(List)
      */
-    public MetaDataBlock(List<Block> childBlocks, String key, Object value)
+    public MetaDataBlock(List<? extends Block> childBlocks, String key, Object value)
     {
         this(childBlocks, new MetaData(Collections.singletonMap(key, value)));
     }
@@ -67,7 +67,7 @@ public class MetaDataBlock extends AbstractBlock
      * @param childBlocks the list of children blocks of the block to construct
      * @see AbstractBlock#AbstractBlock(List)
      */
-    public MetaDataBlock(List<Block> childBlocks)
+    public MetaDataBlock(List<? extends Block> childBlocks)
     {
         this(childBlocks, new MetaData());
     }
