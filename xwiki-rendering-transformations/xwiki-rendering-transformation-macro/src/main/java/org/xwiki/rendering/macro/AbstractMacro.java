@@ -62,6 +62,11 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     public static final String DEFAULT_CATEGORY_NAVIGATION = "Navigation";
 
     /**
+     * "Internal" default macro category.
+     */
+    public static final String DEFAULT_CATEGORY_INTERNAL = "Internal";
+
+    /**
      * The {@link BeanManager} component.
      */
     @Inject
