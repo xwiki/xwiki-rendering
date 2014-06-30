@@ -172,20 +172,23 @@ public class MacroTransformation extends AbstractTransformation
             rootBlock.getFirstBlock(priorityMacroBlockMatcher, Block.Axes.DESCENDANT);
 
             // 2) Apply macros lookup errors
-            for (MacroLookupExceptionElement error : priorityMacroBlockMatcher.errors) {
-                if (error.exception instanceof MacroNotFoundException) {
-                    // Macro cannot be found. Generate an error message instead of the macro execution result.
-                    // TODO: make it internationalized
-                    this.macroErrorManager.generateError(error.macroBlock,
-                        String.format("Unknown macro: %s", error.macroBlock.getId()), String.format(
-                            "The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
-                                + "contact your administrator.", error.macroBlock.getId()));
-                    this.logger.debug("Failed to locate the [{}] macro. Ignoring it.", error.macroBlock.getId());
-                } else if (error.exception instanceof MacroLookupException) {
-                    // TODO: make it internationalized
-                    this.macroErrorManager.generateError(error.macroBlock,
-                        String.format("Invalid macro: %s", error.macroBlock.getId()), error.exception);
-                    this.logger.debug("Failed to instantiate the [{}] macro. Ignoring it.", error.macroBlock.getId());
+            if (priorityMacroBlockMatcher.errors != null) {
+                for (MacroLookupExceptionElement error : priorityMacroBlockMatcher.errors) {
+                    if (error.exception instanceof MacroNotFoundException) {
+                        // Macro cannot be found. Generate an error message instead of the macro execution result.
+                        // TODO: make it internationalized
+                        this.macroErrorManager.generateError(error.macroBlock,
+                            String.format("Unknown macro: %s", error.macroBlock.getId()), String.format(
+                                "The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
+                                    + "contact your administrator.", error.macroBlock.getId()));
+                        this.logger.debug("Failed to locate the [{}] macro. Ignoring it.", error.macroBlock.getId());
+                    } else if (error.exception instanceof MacroLookupException) {
+                        // TODO: make it internationalized
+                        this.macroErrorManager.generateError(error.macroBlock,
+                            String.format("Invalid macro: %s", error.macroBlock.getId()), error.exception);
+                        this.logger.debug("Failed to instantiate the [{}] macro. Ignoring it.",
+                            error.macroBlock.getId());
+                    }
                 }
             }
 
