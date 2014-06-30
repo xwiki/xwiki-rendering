@@ -19,8 +19,7 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,16 +32,16 @@ import org.xwiki.properties.BeanManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
-import org.xwiki.rendering.block.match.ClassBlockMatcher;
+import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroManager;
 import org.xwiki.rendering.macro.MacroNotFoundException;
-import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.AbstractTransformation;
+import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
@@ -63,9 +62,62 @@ import org.xwiki.rendering.transformation.TransformationException;
 @Singleton
 public class MacroTransformation extends AbstractTransformation
 {
+    private static class MacroLookupExceptionElement
+    {
+        public MacroBlock macroBlock;
+
+        public MacroLookupException exception;
+
+        public MacroLookupExceptionElement(MacroBlock macroBlock, MacroLookupException exception)
+        {
+            this.macroBlock = macroBlock;
+            this.exception = exception;
+        }
+    }
+
+    private class PriorityMacroBlockMatcher implements BlockMatcher
+    {
+        private final Syntax syntax;
+
+        public MacroBlock block;
+
+        public Macro< ? > blockMacro;
+
+        public List<MacroLookupExceptionElement> errors;
+
+        public PriorityMacroBlockMatcher(Syntax syntax)
+        {
+            this.syntax = syntax;
+        }
+
+        @Override
+        public boolean match(Block block)
+        {
+            if (block instanceof MacroBlock) {
+                MacroBlock macroBlock = (MacroBlock) block;
+
+                try {
+                    Macro< ? > macro = macroManager.getMacro(new MacroId(macroBlock.getId(), this.syntax));
+                    if (this.block == null || this.blockMacro.compareTo(macro) > 0) {
+                        this.block = macroBlock;
+                        this.blockMacro = macro;
+                    }
+                } catch (MacroLookupException e) {
+                    if (this.errors == null) {
+                        this.errors = new LinkedList<MacroLookupExceptionElement>();
+                    }
+
+                    this.errors.add(new MacroLookupExceptionElement(macroBlock, e));
+                }
+            }
+
+            return false;
+        }
+    }
+
     /**
-     * Number of times a macro can generate another macro before considering that we are in a loop.
-     * Such a loop can happen if a macro generates itself for example.
+     * Number of times a macro can generate another macro before considering that we are in a loop. Such a loop can
+     * happen if a macro generates itself for example.
      */
     private int maxRecursions = 1000;
 
@@ -98,25 +150,6 @@ public class MacroTransformation extends AbstractTransformation
      */
     private MacroErrorManager macroErrorManager = new MacroErrorManager();
 
-    private class MacroHolder implements Comparable<MacroHolder>
-    {
-        Macro< ? > macro;
-
-        MacroBlock macroBlock;
-
-        public MacroHolder(Macro< ? > macro, MacroBlock macroBlock)
-        {
-            this.macro = macro;
-            this.macroBlock = macroBlock;
-        }
-
-        @Override
-        public int compareTo(MacroHolder holder)
-        {
-            return this.macro.compareTo(holder.macro);
-        }
-    }
-
     @Override
     public int getPriority()
     {
@@ -133,132 +166,113 @@ public class MacroTransformation extends AbstractTransformation
         macroContext.setTransformation(this);
 
         // Counter to prevent infinite recursion if a macro generates the same macro for example.
-        int recursions = 0;
-        List<MacroBlock> macroBlocks =
-            rootBlock.getBlocks(new ClassBlockMatcher(MacroBlock.class), Block.Axes.DESCENDANT);
-        while (!macroBlocks.isEmpty() && recursions < this.maxRecursions) {
-            if (transformOnce(rootBlock, macroContext, context.getSyntax())) {
-                recursions++;
+        for (int recursions = 0; recursions < this.maxRecursions;) {
+            // 1) Get highest priority macro
+            PriorityMacroBlockMatcher priorityMacroBlockMatcher = new PriorityMacroBlockMatcher(context.getSyntax());
+            rootBlock.getFirstBlock(priorityMacroBlockMatcher, Block.Axes.DESCENDANT);
+
+            // 2) Apply macros lookup errors
+            for (MacroLookupExceptionElement error : priorityMacroBlockMatcher.errors) {
+                if (error.exception instanceof MacroNotFoundException) {
+                    // Macro cannot be found. Generate an error message instead of the macro execution result.
+                    // TODO: make it internationalized
+                    this.macroErrorManager.generateError(error.macroBlock,
+                        String.format("Unknown macro: %s", error.macroBlock.getId()), String.format(
+                            "The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
+                                + "contact your administrator.", error.macroBlock.getId()));
+                    this.logger.debug("Failed to locate the [{}] macro. Ignoring it.", error.macroBlock.getId());
+                } else if (error.exception instanceof MacroLookupException) {
+                    // TODO: make it internationalized
+                    this.macroErrorManager.generateError(error.macroBlock,
+                        String.format("Invalid macro: %s", error.macroBlock.getId()), error.exception);
+                    this.logger.debug("Failed to instantiate the [{}] macro. Ignoring it.", error.macroBlock.getId());
+                }
             }
-            // TODO: Make this less inefficient by caching the blocks list.
-            macroBlocks = rootBlock.getBlocks(new ClassBlockMatcher(MacroBlock.class), Block.Axes.DESCENDANT);
-        }
-    }
 
-    private boolean transformOnce(Block rootBlock, MacroTransformationContext context, Syntax syntax)
-    {
-        // 1) Get highest priority macro to execute
-        MacroHolder macroHolder = getHighestPriorityMacro(rootBlock, syntax);
-        if (macroHolder == null) {
-            return false;
-        }
+            MacroBlock macroBlock = priorityMacroBlockMatcher.block;
 
-        boolean result = macroHolder.macroBlock.getParent() instanceof MacroMarkerBlock;
+            if (macroBlock == null) {
+                // Nothing left to do
+                return;
+            }
 
-        List<Block> newBlocks;
-        try {
-            // 2) Verify if we're in macro inline mode and if the macro supports it. If not, send an error.
-            if (macroHolder.macroBlock.isInline()) {
-                context.setInline(true);
-                if (!macroHolder.macro.supportsInlineMode()) {
-                    // The macro doesn't support inline mode, raise a warning but continue.
+            Macro< ? > macro = priorityMacroBlockMatcher.blockMacro;
+
+            boolean incrementRecursions = macroBlock.getParent() instanceof MacroMarkerBlock;
+
+            List<Block> newBlocks;
+            try {
+                // 3) Verify if we're in macro inline mode and if the macro supports it. If not, send an error.
+                if (macroBlock.isInline()) {
+                    macroContext.setInline(true);
+                    if (!macro.supportsInlineMode()) {
+                        // The macro doesn't support inline mode, raise a warning but continue.
+                        // The macro will not be executed and we generate an error message instead of the macro
+                        // execution result.
+                        this.macroErrorManager
+                            .generateError(
+                                macroBlock,
+                                "This is a standalone macro only and it cannot be used inline",
+                                "This macro generates standalone content. As a consequence you need to make sure to use a "
+                                    + "syntax that separates your macro from the content before and after it so that it's on a "
+                                    + "line by itself. For example in XWiki Syntax 2.0+ this means having 2 newline characters "
+                                    + "(a.k.a line breaks) separating your macro from the content before and after it.");
+                        this.logger.debug("The [{}] macro doesn't support inline mode.", macroBlock.getId());
+
+                        continue;
+                    }
+                } else {
+                    macroContext.setInline(false);
+                }
+
+                // 4) Execute the highest priority macro
+                macroContext.setCurrentMacroBlock(macroBlock);
+                ((MutableRenderingContext) renderingContext).setCurrentBlock(macroBlock);
+
+                // Populate and validate macro parameters.
+                Object macroParameters = macro.getDescriptor().getParametersBeanClass().newInstance();
+                try {
+                    this.beanManager.populate(macroParameters, macroBlock.getParameters());
+                } catch (Throwable e) {
+                    // One macro parameter was invalid.
                     // The macro will not be executed and we generate an error message instead of the macro
                     // execution result.
-                    this.macroErrorManager.generateError(macroHolder.macroBlock,
-                        "This is a standalone macro only and it cannot be used inline",
-                        "This macro generates standalone content. As a consequence you need to make sure to use a "
-                        + "syntax that separates your macro from the content before and after it so that it's on a "
-                        + "line by itself. For example in XWiki Syntax 2.0+ this means having 2 newline characters "
-                        + "(a.k.a line breaks) separating your macro from the content before and after it.");
-                    this.logger.debug("The [{}] macro doesn't support inline mode.", macroHolder.macroBlock.getId());
-                    return false;
+                    this.macroErrorManager.generateError(macroBlock,
+                        String.format("Invalid macro parameters used for the \"%s\" macro", macroBlock.getId()), e);
+                    this.logger.debug("Invalid macro parameter for the [{}] macro. Internal error: [{}]",
+                        macroBlock.getId(), e.getMessage());
+
+                    continue;
                 }
-            } else {
-                context.setInline(false);
-            }
 
-            // 3) Execute the highest priority macro
-            context.setCurrentMacroBlock(macroHolder.macroBlock);
-            ((MutableRenderingContext) renderingContext).setCurrentBlock(macroHolder.macroBlock);
-
-            // Populate and validate macro parameters.
-            Object macroParameters = macroHolder.macro.getDescriptor().getParametersBeanClass().newInstance();
-            try {
-                this.beanManager.populate(macroParameters, macroHolder.macroBlock.getParameters());
+                newBlocks = ((Macro) macro).execute(macroParameters, macroBlock.getContent(), macroContext);
             } catch (Throwable e) {
-                // One macro parameter was invalid.
+                // The Macro failed to execute.
                 // The macro will not be executed and we generate an error message instead of the macro
                 // execution result.
-                this.macroErrorManager.generateError(macroHolder.macroBlock, String.format(
-                    "Invalid macro parameters used for the \"%s\" macro", macroHolder.macroBlock.getId()), e);
-                this.logger.debug("Invalid macro parameter for the [{}] macro. Internal error: [{}]",
-                    macroHolder.macroBlock.getId(), e.getMessage());
+                // Note: We catch any Exception because we want to never break the whole rendering.
+                this.macroErrorManager.generateError(macroBlock,
+                    String.format("Failed to execute the [%s] macro", macroBlock.getId()), e);
+                this.logger.debug("Failed to execute the [{}] macro. Internal error [{}]", macroBlock.getId(),
+                    e.getMessage());
 
-                return false;
+                continue;
+            } finally {
+                ((MutableRenderingContext) renderingContext).setCurrentBlock(null);
             }
 
-            newBlocks = ((Macro<Object>) macroHolder.macro).execute(
-                macroParameters, macroHolder.macroBlock.getContent(), context);
-        } catch (Throwable e) {
-            // The Macro failed to execute.
-            // The macro will not be executed and we generate an error message instead of the macro
-            // execution result.
-            // Note: We catch any Exception because we want to never break the whole rendering.
-            this.macroErrorManager.generateError(macroHolder.macroBlock,
-                    String.format("Failed to execute the [%s] macro", macroHolder.macroBlock.getId()), e);
-            this.logger.debug("Failed to execute the [{}] macro. Internal error [{}]", macroHolder.macroBlock.getId(),
-                e.getMessage());
-            return false;
-        } finally {
-            ((MutableRenderingContext) renderingContext).setCurrentBlock(null);
-        }
+            // We wrap the blocks generated by the macro execution with MacroMarker blocks so that listeners/renderers
+            // who wish to know the group of blocks that makes up the executed macro can. For example this is useful for
+            // the XWiki Syntax renderer so that it can reconstruct the macros from the transformed XDOM.
+            Block resultBlock = wrapInMacroMarker(macroBlock, newBlocks);
 
-        // We wrap the blocks generated by the macro execution with MacroMarker blocks so that listeners/renderers
-        // who wish to know the group of blocks that makes up the executed macro can. For example this is useful for
-        // the XWiki Syntax renderer so that it can reconstruct the macros from the transformed XDOM.
-        Block resultBlock = wrapInMacroMarker(macroHolder.macroBlock, newBlocks);
+            // 5) Replace the MacroBlock by the Blocks generated by the execution of the Macro
+            macroBlock.getParent().replaceChild(resultBlock, macroBlock);
 
-        // 4) Replace the MacroBlock by the Blocks generated by the execution of the Macro
-        macroHolder.macroBlock.getParent().replaceChild(resultBlock, macroHolder.macroBlock);
-
-        return result;
-    }
-
-    /**
-     * @return the macro with the highest priority for the passed syntax or null if no macro is found
-     */
-    private MacroHolder getHighestPriorityMacro(Block rootBlock, Syntax syntax)
-    {
-        List<MacroHolder> macroHolders = new ArrayList<MacroHolder>();
-
-        // 1) Sort the macros by priority to find the highest priority macro to execute
-        List<MacroBlock> macroBlocks =
-            rootBlock.getBlocks(new ClassBlockMatcher(MacroBlock.class), Block.Axes.DESCENDANT);
-        for (MacroBlock macroBlock : macroBlocks) {
-            try {
-                Macro< ? > macro = this.macroManager.getMacro(new MacroId(macroBlock.getId(), syntax));
-                macroHolders.add(new MacroHolder(macro, macroBlock));
-            } catch (MacroNotFoundException e) {
-                // Macro cannot be found. Generate an error message instead of the macro execution result.
-                // TODO: make it internationalized
-                this.macroErrorManager.generateError(macroBlock,
-                        String.format("Unknown macro: %s", macroBlock.getId()),
-                        String.format(
-                                "The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
-                                        + "contact your administrator.", macroBlock.getId()));
-                this.logger.debug("Failed to locate the [{}] macro. Ignoring it.", macroBlock.getId());
-            } catch (MacroLookupException e) {
-                // TODO: make it internationalized
-                this.macroErrorManager.generateError(macroBlock,
-                        String.format("Invalid macro: %s", macroBlock.getId()), e);
-                this.logger.debug("Failed to instantiate the [{}] macro. Ignoring it.", macroBlock.getId());
+            if (incrementRecursions) {
+                ++recursions;
             }
         }
-
-        // Sort the Macros by priority
-        Collections.sort(macroHolders);
-
-        return macroHolders.size() > 0 ? macroHolders.get(0) : null;
     }
 
     /**
@@ -270,8 +284,8 @@ public class MacroTransformation extends AbstractTransformation
      */
     private Block wrapInMacroMarker(MacroBlock macroBlockToWrap, List<Block> newBlocks)
     {
-        return new MacroMarkerBlock(macroBlockToWrap.getId(), macroBlockToWrap.getParameters(), macroBlockToWrap
-            .getContent(), newBlocks, macroBlockToWrap.isInline());
+        return new MacroMarkerBlock(macroBlockToWrap.getId(), macroBlockToWrap.getParameters(),
+            macroBlockToWrap.getContent(), newBlocks, macroBlockToWrap.isInline());
     }
 
     /**

@@ -265,4 +265,33 @@ public class MacroTransformationTest
             + "endDocument";
         Assert.assertEquals(expected, printer.toString());
     }
+
+    /**
+     * Test that a not existing macro generate an error in the XDOM.
+     */
+    @Test
+    public void transformNotExistingMacro() throws Exception
+    {
+        String expected = "beginDocument\n"
+            + "beginMacroMarkerStandalone [notexisting] []\n"
+            + "beginGroup [[class]=[xwikirenderingerror]]\n"
+            + "onWord [Unknown macro: notexisting]\n"
+            + "endGroup [[class]=[xwikirenderingerror]]\n"
+            + "beginGroup [[class]=[xwikirenderingerrordescription hidden]]\n"
+            + "onVerbatim [The \"notexisting\" macro is not in the list of registered macros. Verify the spelling or contact your administrator.] [false]\n"
+            + "endGroup [[class]=[xwikirenderingerrordescription hidden]]\n"
+            + "endMacroMarkerStandalone [notexisting] []\n"
+            + "endDocument";
+
+        XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("notexisting",
+            Collections.<String, String>emptyMap(), false)));
+        
+        this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
+
+        WikiPrinter printer = new DefaultWikiPrinter();
+        BlockRenderer eventBlockRenderer =
+            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+        eventBlockRenderer.render(dom, printer);
+        Assert.assertEquals(expected, printer.toString());
+    }
 }
