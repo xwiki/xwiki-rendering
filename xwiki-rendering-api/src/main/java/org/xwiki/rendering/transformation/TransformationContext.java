@@ -51,6 +51,11 @@ public class TransformationContext implements Cloneable
     private boolean restricted;
 
     /**
+     * @see #getTargetSyntax()
+     */
+    private Syntax targetSyntax;
+
+    /**
      * Default constructor that doesn't set the XDOM or the Syntax. This is because setting the XDOM and the Syntax is
      * optional and only required by some Macros to behave as expected.
      */
@@ -86,8 +91,8 @@ public class TransformationContext implements Cloneable
 
     /**
      * @return an id representing the transformation being evaluated. It's a free form name that Transformations can
-     *         use, for example if they need to perform some caching based on a key. For example the Velocity Macro
-     *         is using this id to pass it to the underlying Velocity Engine so that it caches macros using this key. 
+     *         use, for example if they need to perform some caching based on a key. For example the Velocity Macro is
+     *         using this id to pass it to the underlying Velocity Engine so that it caches macros using this key.
      * @since 2.4M2
      */
     public String getId()
@@ -96,8 +101,9 @@ public class TransformationContext implements Cloneable
     }
 
     /**
-     * @param id see {@link #getId()}
+     * @param id the id
      * @since 2.4M2
+     * @see #getId()
      */
     public void setId(String id)
     {
@@ -139,15 +145,33 @@ public class TransformationContext implements Cloneable
     /**
      * @return indicator of whether the transformation context is restricted or not.
      */
-    public boolean isRestricted() {
+    public boolean isRestricted()
+    {
         return restricted;
     }
 
     /**
      * @param restricted set indicator of whether the transformation context is restricted or not.
      */
-    public void setRestricted(boolean restricted) {
+    public void setRestricted(boolean restricted)
+    {
         this.restricted = restricted;
+    }
+
+    /**
+     * @return the syntax of the renderer
+     */
+    public Syntax getTargetSyntax()
+    {
+        return this.targetSyntax;
+    }
+
+    /**
+     * @param targetSyntax the syntax of the renderer
+     */
+    public void setTargetSyntax(Syntax targetSyntax)
+    {
+        this.targetSyntax = targetSyntax;
     }
 
     @Override

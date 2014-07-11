@@ -52,8 +52,10 @@ public interface MutableRenderingContext extends RenderingContext
      * @param syntax the current syntax.
      * @param transformationId the id of the transformation.
      * @param restricted true if the transformation is restricted.
+     * @param targetSyntax the syntax of the renderer
      */
-    void push(Transformation transformation, XDOM xdom, Syntax syntax, String transformationId, boolean restricted);
+    void push(Transformation transformation, XDOM xdom, Syntax syntax, String transformationId, boolean restricted,
+        Syntax targetSyntax);
 
     /**
      * Pop the rendering context.

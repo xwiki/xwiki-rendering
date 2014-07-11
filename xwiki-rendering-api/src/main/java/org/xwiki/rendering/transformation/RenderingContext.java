@@ -43,7 +43,7 @@ public interface RenderingContext extends Cloneable
 
     /**
      * @return the current {@link Block} being processed by the transformation. Currently, on the macro transformation
-     * report here the currently processed macro block.
+     *         report here the currently processed macro block.
      */
     Block getCurrentBlock();
 
@@ -54,21 +54,27 @@ public interface RenderingContext extends Cloneable
 
     /**
      * @return true if the current transformation is executed in a restricted context. In a restricted context,
-     * potentially insecure transformations should not be executed, like the html and scripts macros.
+     *         potentially insecure transformations should not be executed, like the html and scripts macros.
      */
     boolean isRestricted();
 
     /**
      * @return the current Transformation instance being executed. Useful for Macros which need to perform other
-     * transformations in turn such as the Include macro which needs to execute the transformation if the included page
-     * should be executed in its own context.
+     *         transformations in turn such as the Include macro which needs to execute the transformation if the
+     *         included page should be executed in its own context.
      */
     Transformation getTransformation();
 
     /**
      * @return an id representing the transformation being evaluated. It's a free form name that may be used to perform
-     * some caching based on a key. For example the Velocity Macro is using this id to pass it to the underlying
-     * Velocity Engine so that it caches macros using this key.
+     *         some caching based on a key. For example the Velocity Macro is using this id to pass it to the underlying
+     *         Velocity Engine so that it caches macros using this key.
      */
     String getTransformationId();
+
+    /**
+     * @return the syntax of the renderer that is going to be used, can be null if the renderer is unknown if there is
+     *         no plan to renderer the blocks
+     */
+    Syntax getTargetSyntax();
 }

@@ -96,10 +96,16 @@ public class DefaultRenderingContext implements MutableRenderingContext
         private final String transformationId;
 
         /**
+         * The syntax of the renderer.
+         */
+        private final Syntax targetSyntax;
+
+        /**
          * Create a null context.
          */
-        private Context() {
-            this(null, null, null, null, false);
+        private Context()
+        {
+            this(null, null, null, null, false, null);
         }
 
         /**
@@ -111,14 +117,15 @@ public class DefaultRenderingContext implements MutableRenderingContext
          * @param transformationId the id of the transformation.
          * @param restricted true if the transformation is restricted.
          */
-        private Context(Transformation transformation, XDOM xdom, Syntax syntax,
-            String transformationId, boolean restricted)
+        private Context(Transformation transformation, XDOM xdom, Syntax syntax, String transformationId,
+            boolean restricted, Syntax targetSyntax)
         {
             this.transformationId = transformationId;
             this.xdom = xdom;
             this.syntax = syntax;
             this.restricted = restricted;
             this.transformation = transformation;
+            this.targetSyntax = targetSyntax;
         }
 
         public String getTransformationId()
@@ -144,16 +151,17 @@ public class DefaultRenderingContext implements MutableRenderingContext
     @Override
     public void push(Transformation transformation, TransformationContext context)
     {
-        push(transformation, context.getXDOM(), context.getSyntax(), context.getId(), context.isRestricted());
+        push(transformation, context.getXDOM(), context.getSyntax(), context.getId(), context.isRestricted(),
+            context.getTargetSyntax());
     }
 
     @Override
-    public void push(Transformation transformation, XDOM xdom, Syntax syntax, String id,
-        boolean restricted)
+    public void push(Transformation transformation, XDOM xdom, Syntax syntax, String id, boolean restricted,
+        Syntax targetSyntax)
     {
         Deque<Context> stack = getContextstack(true);
         if (stack != null) {
-            stack.push(new Context(transformation, xdom, syntax, id, restricted));
+            stack.push(new Context(transformation, xdom, syntax, id, restricted, targetSyntax));
         }
     }
 
@@ -246,5 +254,11 @@ public class DefaultRenderingContext implements MutableRenderingContext
     public String getTransformationId()
     {
         return peek().transformationId;
+    }
+
+    @Override
+    public Syntax getTargetSyntax()
+    {
+        return peek().targetSyntax;
     }
 }
