@@ -81,6 +81,7 @@ public class DefaultConverter implements Converter
         // Step 2: Run transformations
         try {
             TransformationContext context = new TransformationContext(xdom, sourceSyntax);
+            context.setTargetSyntax(targetSyntax);
             this.transformationManager.performTransformations(xdom, context);
         } catch (TransformationException e) {
             throw new ConversionException("Failed to execute some transformations", e);
