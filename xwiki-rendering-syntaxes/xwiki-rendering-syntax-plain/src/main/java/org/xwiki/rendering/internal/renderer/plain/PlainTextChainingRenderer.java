@@ -31,6 +31,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Print only plain text information. For example it remove anything which need a specific syntax a simple plain text
@@ -263,6 +264,14 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         // TODO: maybe something could be done here
+    }
+
+    @Override
+    public void onRawText(String text, Syntax syntax)
+    {
+        if (syntax == null || Syntax.PLAIN_1_0.equals(syntax)) {
+            getPrinter().print(text);
+        }
     }
 
     /**
