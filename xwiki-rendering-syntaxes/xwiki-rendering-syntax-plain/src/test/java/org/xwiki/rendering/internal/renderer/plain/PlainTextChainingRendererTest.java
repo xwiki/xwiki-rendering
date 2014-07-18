@@ -28,6 +28,7 @@ import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
+import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.test.jmock.AbstractComponentTestCase;
 
 /**
@@ -78,5 +79,16 @@ public class PlainTextChainingRendererTest extends AbstractComponentTestCase
         this.renderer.endLink(reference, false, Collections.<String, String> emptyMap());
 
         Assert.assertEquals("http://some/url", printer.toString());
+    }
+
+    @Test
+    public void testRawBlock()
+    {
+        DefaultWikiPrinter printer = new DefaultWikiPrinter();
+        this.renderer.setPrinter(printer);
+
+        this.renderer.onRawText("raw content", Syntax.PLAIN_1_0);
+
+        Assert.assertEquals("raw content", printer.toString());
     }
 }
