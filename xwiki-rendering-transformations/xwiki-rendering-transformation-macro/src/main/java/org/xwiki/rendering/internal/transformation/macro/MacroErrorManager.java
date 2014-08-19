@@ -19,14 +19,13 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
@@ -97,9 +96,7 @@ public class MacroErrorManager
      */
     public void generateError(MacroBlock macroToReplace, String message, Throwable throwable)
     {
-        StringWriter writer = new StringWriter();
-        throwable.printStackTrace(new PrintWriter(writer));
-        generateError(macroToReplace, message, writer.getBuffer().toString());
+        generateError(macroToReplace, message, ExceptionUtils.getStackTrace(throwable));
     }
 
     /**
