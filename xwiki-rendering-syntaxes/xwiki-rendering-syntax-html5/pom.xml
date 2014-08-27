@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.xwiki.rendering</groupId>
+        <artifactId>xwiki-rendering-syntaxes</artifactId>
+        <version>4.4-SNAPSHOT</version>
+    </parent>
+    <artifactId>xwiki-rendering-syntax-html5</artifactId>
+    <name>XWiki Rendering - Syntax - HTML5</name>
+    <description>XWiki Rendering - Syntax - HTML5</description>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.xwiki.rendering</groupId>
+            <artifactId>xwiki-rendering-syntax-wikimodel</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.xwiki.rendering</groupId>
+            <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    <!-- Runtime dependency -->
+    <!-- TODO: That's very bad and should be fixed by http://jira.xwiki.org/jira/browse/XRENDERING-83 -->
+        <dependency>
+            <groupId>org.xwiki.rendering</groupId>
+            <artifactId>xwiki-rendering-syntax-xwiki21</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.xwiki.rendering</groupId>
+            <artifactId>xwiki-rendering-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        org/xwiki/rendering/internal/parser/xhtml/XHTMLParser.java,
+                        org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXHTMLWhitespaceXMLFilter.java,
+                        org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiImageTagHandler.java,
+                        org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiReferenceTagHandler.java,
+                        org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiCommentHandler.java,
+                        org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiHeaderTagHandler.java,
+                        org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiSpanTagHandler.java,
+                        org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXMLReaderFactory.java,
+                        org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiWikiReference.java,
+                        org/xwiki/rendering/internal/renderer/xhtml/AnnotatedXHTMLChainingRenderer.java,
+                        org/xwiki/rendering/internal/renderer/xhtml/link/DefaultXHTMLLinkRenderer.java,
+                        org/xwiki/rendering/internal/renderer/xhtml/AnnotatedXHTMLBlockRenderer.java,
+                        org/xwiki/rendering/internal/renderer/xhtml/XHTMLChainingRenderer.java,
+                        org/xwiki/rendering/internal/renderer/xhtml/XHTMLMacroRenderer.java,
+                        org/xwiki/rendering/internal/renderer/xhtml/XHTMLBlockRenderer.java,
+                        org/xwiki/rendering/internal/renderer/xhtml/image/DefaultXHTMLImageRenderer.java,
+                        org/xwiki/rendering/internal/renderer/xhtml/image/AnnotatedXHTMLImageRenderer.java,
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -17,15 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
-
-import java.util.ArrayDeque;
-import java.util.Deque;
+package org.xwiki.rendering.internal.parser.html5.wikimodel;
 
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.internal.parser.html5.HTML5Parser;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
-import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
+
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
@@ -40,17 +38,19 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
 import org.xwiki.xml.XMLUtils;
 
+import java.util.Stack;
+
 /**
  * Handle Link and Macro definitions in comments (we store links in a comment since otherwise there are situations where
  * it's not possible to reconstruct the original reference from the rendered HTML value and for macros it wouldn't be
  * possible at all to reconstruct the macro).
  * 
  * @version $Id$
- * @since 1.7M1
+ * @since 4.4M1
  */
 public class XWikiCommentHandler extends CommentHandler
 {
-    private XHTMLParser parser;
+    private HTML5Parser parser;
 
     private PrintRendererFactory xwikiSyntaxPrintRendererFactory;
 
@@ -62,14 +62,14 @@ public class XWikiCommentHandler extends CommentHandler
      * We're using a stack so that we can have nested comment handling. For example when we have a link to an image we
      * need nested comment support.
      */
-    private Deque<String> commentContentStack = new ArrayDeque<String>();
+    private Stack<String> commentContentStack = new Stack<String>();
 
     /**
      * @since 2.5RC1
      * @todo Remove the need to pass a Parser when WikiModel implements support for wiki syntax in links. See
      *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */
-    public XWikiCommentHandler(ComponentManager componentManager, XHTMLParser parser,
+    public XWikiCommentHandler(ComponentManager componentManager, HTML5Parser parser,
         PrintRendererFactory xwikiSyntaxPrintRendererFactory, ResourceReferenceParser xhtmlMarkerResourceReferenceParser)
     {
         this.componentManager = componentManager;
@@ -77,8 +77,6 @@ public class XWikiCommentHandler extends CommentHandler
         this.xwikiSyntaxPrintRendererFactory = xwikiSyntaxPrintRendererFactory;
         this.xhtmlMarkerResourceReferenceParser = xhtmlMarkerResourceReferenceParser;
     }
-
-
 
     @Override
     public void onComment(String content, TagStack stack)
