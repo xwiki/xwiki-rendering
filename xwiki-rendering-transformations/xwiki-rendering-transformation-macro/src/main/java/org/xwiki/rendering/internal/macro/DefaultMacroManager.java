@@ -115,29 +115,25 @@ public class DefaultMacroManager implements MacroManager
     }
 
     @Override
-    public Macro< ? > getMacro(MacroId macroId) throws MacroLookupException
+    public Macro<?> getMacro(MacroId macroId) throws MacroLookupException
     {
         // First search for a macro registered for the passed macro id.
         String macroHint = macroId.toString();
         ComponentManager cm = this.componentManager.get();
         try {
-            return cm.getInstance(Macro.class, macroHint);
-        } catch (ComponentLookupException ex1) {
-            // Now search explicitly for a macro registered for all syntaxes.
-            try {
-                return cm.getInstance(Macro.class, macroId.getId());
-            } catch (ComponentLookupException ex2) {
-                // Throw different exceptions to differentiate if a macro doesn't exist or if it couldn't be
-                // instantiated. Ideally it woukd be the CM that should send different exceptions but fixing that
-                // requires to break the CM API...
+            if (cm.hasComponent(Macro.class, macroHint)) {
+                return cm.getInstance(Macro.class, macroHint);
+            } else {
+                // Now search explicitly for a macro registered for all syntaxes.
                 if (cm.hasComponent(Macro.class, macroId.getId())) {
-                    throw new MacroLookupException(
-                        String.format("Macro [%s] failed to be instantiated.", macroId.toString()), ex2);
-                } else {
-                    throw new MacroNotFoundException(
-                        String.format("No macro [%s] could be found.", macroId.toString()), ex2);
+                    return cm.getInstance(Macro.class, macroId.getId());
                 }
+
+                throw new MacroNotFoundException(String.format("No macro [%s] could be found.", macroId.toString()));
             }
+        } catch (ComponentLookupException e) {
+            throw new MacroLookupException(String.format("Macro [%s] failed to be instantiated.", macroId.toString()),
+                e);
         }
     }
 
