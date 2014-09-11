@@ -19,10 +19,13 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
@@ -49,6 +52,9 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
      */
     public static final String TYPE_SEPARATOR = ":";
 
+    @Inject
+    private Logger logger;
+
     /**
      * {@inheritDoc}
      * 
@@ -60,18 +66,22 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
     public ResourceReference parse(String rawReference)
     {
         ResourceReference parsedResourceReference = null;
-        
+
         // Step 1: Find the type parser matching the specified prefix type (if any).
         int pos = rawReference.indexOf(TYPE_SEPARATOR);
         if (pos > -1) {
             String typePrefix = rawReference.substring(0, pos);
             String reference = rawReference.substring(pos + 1);
-            try {
-                ResourceReferenceTypeParser parser =
-                    this.componentManagerProvider.get().getInstance(ResourceReferenceTypeParser.class, typePrefix);
-                parsedResourceReference = parser.parse(reference);
-            } catch (ComponentLookupException e) {
-                // Couldn't find a link type parser for the specified type.
+
+            ComponentManager componentManager = this.componentManagerProvider.get();
+            if (componentManager.hasComponent(ResourceReferenceTypeParser.class, typePrefix)) {
+                try {
+                    ResourceReferenceTypeParser parser =
+                        componentManager.getInstance(ResourceReferenceTypeParser.class, typePrefix);
+                    parsedResourceReference = parser.parse(reference);
+                } catch (ComponentLookupException e) {
+                    this.logger.error("Failed to initialize resource type parser", e);
+                }
             }
         }
 
@@ -83,9 +93,8 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
         // Step 3: If we're not in wiki mode then wiki references to documents or attachments are considered URLs.
         if (!isInWikiMode()
             && (parsedResourceReference.getType().equals(ResourceType.ATTACHMENT)
-            || parsedResourceReference.getType().equals(ResourceType.DOCUMENT)
-            || parsedResourceReference.getType().equals(ResourceType.ICON)))
-        {
+                || parsedResourceReference.getType().equals(ResourceType.DOCUMENT)
+                || parsedResourceReference.getType().equals(ResourceType.ICON))) {
             parsedResourceReference = new ResourceReference(rawReference, ResourceType.URL);
             parsedResourceReference.setTyped(false);
         }

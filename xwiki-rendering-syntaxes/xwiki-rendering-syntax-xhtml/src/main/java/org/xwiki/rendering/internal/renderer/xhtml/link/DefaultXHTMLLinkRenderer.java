@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -51,6 +52,9 @@ public class DefaultXHTMLLinkRenderer implements XHTMLLinkRenderer
     @Inject
     @Named("context")
     protected Provider<ComponentManager> componentManagerProvider;
+
+    @Inject
+    private Logger logger;
 
     /**
      * The XHTML printer to use to output links as XHTML.
@@ -94,19 +98,23 @@ public class DefaultXHTMLLinkRenderer implements XHTMLLinkRenderer
 
     private XHTMLLinkTypeRenderer getXHTMLLinkTypeRenderer(ResourceReference reference)
     {
-        XHTMLLinkTypeRenderer renderer;
+        XHTMLLinkTypeRenderer renderer = this.defaultLinkTypeRenderer;
 
         // TODO: This is probably not very performant since it's called at each begin/endLink.
-        try {
-            renderer =
-                this.componentManagerProvider.get().getInstance(XHTMLLinkTypeRenderer.class,
-                    reference.getType().getScheme());
-        } catch (ComponentLookupException e) {
-            // There's no specific XHTML Link Type Renderer for the passed link type, use the default renderer.
-            renderer = this.defaultLinkTypeRenderer;
+        ComponentManager componentManager = this.componentManagerProvider.get();
+        if (componentManager.hasComponent(XHTMLLinkTypeRenderer.class, reference.getType().getScheme())) {
+            try {
+                renderer =
+                    this.componentManagerProvider.get().getInstance(XHTMLLinkTypeRenderer.class,
+                        reference.getType().getScheme());
+            } catch (ComponentLookupException e) {
+                this.logger.error("Failed to initialize XHTML link type renderer", e);
+            }
         }
+
         renderer.setHasLabel(this.hasLabel);
         renderer.setXHTMLWikiPrinter(getXHTMLWikiPrinter());
+
         return renderer;
     }
 }
