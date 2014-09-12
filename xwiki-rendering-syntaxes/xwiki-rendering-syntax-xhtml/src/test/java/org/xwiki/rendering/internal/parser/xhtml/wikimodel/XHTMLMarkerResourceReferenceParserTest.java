@@ -35,7 +35,7 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
  */
 public class XHTMLMarkerResourceReferenceParserTest extends AbstractComponentTestCase
 {
-    private  ResourceReferenceParser parser;
+    private ResourceReferenceParser parser;
 
     @Override
     protected void registerComponents() throws Exception

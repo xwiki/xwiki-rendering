@@ -37,7 +37,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * Print only plain text information. For example it remove anything which need a specific syntax a simple plain text
  * editor can't support like the style, link, image, etc. This renderer is mainly used to generate a simple as possible
  * label like in a TOC.
- * 
+ *
  * @version $Id$
  * @since 1.9M1
  */
@@ -60,7 +60,7 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * The plain text renderer supports when no link label generator is set.
-     * 
+     *
      * @param listenerChain the listener chain
      */
     public PlainTextChainingRenderer(ListenerChain listenerChain)
@@ -188,7 +188,7 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 2.0RC1
      */
     @Override
@@ -257,7 +257,7 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 2.5RC1
      */
     @Override

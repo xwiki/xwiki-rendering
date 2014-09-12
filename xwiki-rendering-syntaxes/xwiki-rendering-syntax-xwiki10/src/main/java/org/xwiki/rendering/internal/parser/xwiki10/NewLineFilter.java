@@ -33,7 +33,7 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
 /**
  * Force all ending lines based on UNIX new lines (<code>\n</code>) to make parsing quicker and easier for following
  * filters.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

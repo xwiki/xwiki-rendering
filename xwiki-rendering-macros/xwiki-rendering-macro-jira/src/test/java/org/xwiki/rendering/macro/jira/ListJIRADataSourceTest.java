@@ -28,13 +28,13 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
+import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rendering.internal.macro.jira.source.ListJIRADataSource;
 
-import org.junit.Assert;
-
 /**
- * Unit tests for {@link ListJIRADataSource} and {@link org.xwiki.rendering.internal.macro.jira.source.AbstractJIRADataSource}.
+ * Unit tests for {@link ListJIRADataSource} and
+ * {@link org.xwiki.rendering.internal.macro.jira.source.AbstractJIRADataSource}.
  *
  * @version $Id$
  * @since 4.2M1

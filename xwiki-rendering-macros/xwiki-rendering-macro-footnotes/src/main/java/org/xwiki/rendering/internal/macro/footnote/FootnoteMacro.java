@@ -38,7 +38,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 /**
  * Generate footnotes, listed at the end of the page. A reference to the generated footnote is inserted at the location
  * where the macro is called.
- * 
+ *
  * @version $Id$
  * @since 2.0M2
  */
@@ -95,7 +95,7 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
         }
 
         Block putFootnotesMacro =
-            new MacroBlock(PutFootnotesMacro.MACRO_NAME, Collections.<String, String> emptyMap(), false);
+            new MacroBlock(PutFootnotesMacro.MACRO_NAME, Collections.<String, String>emptyMap(), false);
         root.addChild(putFootnotesMacro);
 
         return Collections.emptyList();

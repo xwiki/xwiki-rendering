@@ -35,7 +35,7 @@ import org.xwiki.velocity.internal.util.VelocityParserContext;
 
 /**
  * Extends {@link VelocityParser} for specific needs.
- * 
+ *
  * @version $Id$
  */
 public class ExtendedVelocityParser extends VelocityParser

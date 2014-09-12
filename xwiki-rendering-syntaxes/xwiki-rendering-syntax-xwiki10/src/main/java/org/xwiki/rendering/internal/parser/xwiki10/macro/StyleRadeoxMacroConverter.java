@@ -222,6 +222,7 @@ public class StyleRadeoxMacroConverter extends AbstractRadeoxMacroConverter
         return false;
     }
 
+    @Override
     public boolean supportContent()
     {
         return true;

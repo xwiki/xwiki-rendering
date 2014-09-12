@@ -21,7 +21,7 @@ package org.xwiki.rendering.internal.parser.xwiki10.html;
 
 /**
  * Thrown by HTML parser methods when it hit invalid HTML.
- * 
+ *
  * @version $Id$
  */
 public class InvalidHtmlException extends Exception

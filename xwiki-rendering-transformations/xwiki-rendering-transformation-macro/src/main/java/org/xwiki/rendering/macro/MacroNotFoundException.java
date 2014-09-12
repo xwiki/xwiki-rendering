@@ -21,7 +21,7 @@ package org.xwiki.rendering.macro;
 
 /**
  * Error to signify that the macro doesn't exist.
- * 
+ *
  * @version $Id$
  * @since 4.3M1
  */

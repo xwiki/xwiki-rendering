@@ -26,7 +26,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
  * Parses content of a macro field (parameter, macro content) in a given syntax.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */
@@ -36,7 +36,7 @@ public interface MacroContentParser
     /**
      * Parses content of a macro field (parameter, macro content) in a given syntax and optionally remove the top level
      * paragraph.
-     * 
+     *
      * @param content the content to parse
      * @param macroContext the executing Macro context (from which to get the current syntax, etc)
      * @param transform if true then executes transformations
@@ -49,7 +49,7 @@ public interface MacroContentParser
 
     /**
      * Find the current syntax to use for macro supporting wiki content/parameters/whatever.
-     * 
+     *
      * @param context the macro execution context containing the default syntax and the current macro block
      * @return the current syntax
      */

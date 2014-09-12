@@ -31,7 +31,7 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
  * Print only plain text information. For example it remove anything which need a specific syntax a simple plain text
  * editor can't support like the style, link, image, etc. This renderer is mainly used to generate a simple as possible
  * label like in a TOC.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */
@@ -41,7 +41,7 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 public class PlainTextBlockRenderer extends AbstractBlockRenderer
 {
     /**
-     * Used to create new plain/1.0 {@link org.xwiki.rendering.renderer.PrintRenderer}s. 
+     * Used to create new plain/1.0 {@link org.xwiki.rendering.renderer.PrintRenderer}s.
      */
     @Inject
     @Named("plain/1.0")

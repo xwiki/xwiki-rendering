@@ -44,7 +44,7 @@ import org.xwiki.test.mockito.MockitoComponentManagerRule;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-@ComponentList({DefaultMacroContentParser.class})
+@ComponentList({ DefaultMacroContentParser.class })
 public class DefaultMacroContentParserTest
 {
     @Rule
@@ -76,21 +76,21 @@ public class DefaultMacroContentParserTest
     @Test
     public void testParseInline() throws Exception
     {
-        when(mockParser.parse(any(Reader.class))).thenReturn(
-            new XDOM(Arrays.<Block> asList(new ParagraphBlock(Arrays.<Block> asList(new WordBlock("word"))))));
+        when(this.mockParser.parse(any(Reader.class))).thenReturn(
+            new XDOM(Arrays.<Block>asList(new ParagraphBlock(Arrays.<Block>asList(new WordBlock("word"))))));
 
-        Assert.assertEquals(new XDOM(Arrays.<Block> asList(new WordBlock("word"))),
+        Assert.assertEquals(new XDOM(Arrays.<Block>asList(new WordBlock("word"))),
             this.macroContentParser.parse("content", this.macroContext, false, true));
     }
 
     @Test
     public void testParseInlineWithStandaloneMacro() throws Exception
     {
-        when(mockParser.parse(any(Reader.class))).thenReturn(
-            new XDOM(Arrays.<Block> asList(new MacroBlock("macro", Collections.EMPTY_MAP, null, false))));
+        when(this.mockParser.parse(any(Reader.class))).thenReturn(
+            new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.EMPTY_MAP, null, false))));
 
         Assert.assertEquals(
-            new XDOM(Arrays.<Block> asList(new MacroBlock("macro", Collections.EMPTY_MAP, null, true))),
+            new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.EMPTY_MAP, null, true))),
             this.macroContentParser.parse("content", this.macroContext, false, true));
     }
 }

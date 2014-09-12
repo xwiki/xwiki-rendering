@@ -30,7 +30,7 @@ import org.xwiki.rendering.wiki.WikiModel;
 
 /**
  * Mock WikiModel implementation for integration tests.
- * 
+ *
  * @version $Id$
  * @since 2.0M1
  */
@@ -43,7 +43,7 @@ public class MockWikiModel implements WikiModel
 
     /**
      * Create and return a descriptor for this component.
-     * 
+     *
      * @return the descriptor of the component.
      */
     public static ComponentDescriptor<WikiModel> getComponentDescriptor()
@@ -58,6 +58,7 @@ public class MockWikiModel implements WikiModel
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override

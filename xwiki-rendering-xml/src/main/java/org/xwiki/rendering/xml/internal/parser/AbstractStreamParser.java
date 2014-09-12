@@ -42,7 +42,7 @@ import org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory;
 
 /**
  * Base class for XML based syntax stream parsers.
- * 
+ *
  * @version $Id$
  * @since 5.2M1
  */

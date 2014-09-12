@@ -38,7 +38,7 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
  * Default implementation for rendering links as XHTML. The implementation is pluggable in the sense that the
  * implementation is done by {@link org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkTypeRenderer}
  * implementation, each in charge of handling a given {@link org.xwiki.rendering.listener.reference.ResourceType}.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */

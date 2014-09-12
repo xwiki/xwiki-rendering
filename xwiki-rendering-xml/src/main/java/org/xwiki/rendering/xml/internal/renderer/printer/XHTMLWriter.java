@@ -26,7 +26,7 @@ import org.dom4j.io.XMLWriter;
 
 /**
  * XHTMLWriter is an helper to configure XMLWriter to format a DOM4J tree as XHTML.
- * 
+ *
  * @version $Id$
  * @since 5.2M1
  */
@@ -50,7 +50,7 @@ public class XHTMLWriter extends XMLWriter
     /**
      * Escapes a string to be used as an attribute value. Unlike the original method in {@link XMLWriter}, apostrophes
      * are replaced by a numerical entity &amp;#38;, since &amp;apos; is not valid in HTML documents.
-     * 
+     *
      * @param text the attribute value to escape
      * @return the text with all occurrences of special XML characters replaced by entity references.
      */
@@ -61,15 +61,16 @@ public class XHTMLWriter extends XMLWriter
     }
 
     /**
-     * Add left curly to the set of characters that should be encoded.  This to prepare the generated html for use
-     * between {{html}} {{/html}} in XWiki 2.x syntax.  (The literal string '{{/html}}' must not occur in the generated
+     * Add left curly to the set of characters that should be encoded. This to prepare the generated html for use
+     * between {{html}} {{/html}} in XWiki 2.x syntax. (The literal string '{{/html}}' must not occur in the generated
      * html.)
      *
      * @param c Character to encode.
-     * @return  {@code true} if the character should be encoded.
+     * @return {@code true} if the character should be encoded.
      */
     @Override
-    protected boolean shouldEncodeChar(char c) {
+    protected boolean shouldEncodeChar(char c)
+    {
         return super.shouldEncodeChar(c) || c == '{';
     }
 

@@ -57,7 +57,7 @@ public class TestSimpleInlineMacro extends AbstractNoParameterMacro
         int wordCount = context.getXDOM().getBlocks(
             new ClassBlockMatcher(WordBlock.class), Block.Axes.DESCENDANT).size();
 
-        List<Block> result = Arrays.<Block> asList(new WordBlock("simpleinlinemacro" + wordCount));
-        return context.isInline() ? result : Arrays.<Block> asList(new ParagraphBlock(result));
+        List<Block> result = Arrays.<Block>asList(new WordBlock("simpleinlinemacro" + wordCount));
+        return context.isInline() ? result : Arrays.<Block>asList(new ParagraphBlock(result));
     }
 }

@@ -27,7 +27,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
  * Generate a string representation of an Image's reference, in XWiki Syntax 2.1.
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */

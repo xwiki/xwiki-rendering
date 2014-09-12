@@ -28,7 +28,7 @@ import org.xwiki.rendering.internal.renderer.reference.DefaultResourceReferenceT
 /**
  * Serialize a link by outputting the link type (if the link is typed) followed by the link reference (ie
  * "(linktype):(reference)").
- * 
+ *
  * @version $Id$
  * @since 3.1
  */

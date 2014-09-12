@@ -51,6 +51,6 @@ public class TestBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
     protected List<Block> parseContent(BoxMacroParameters parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
-        return Collections.<Block> singletonList(new VerbatimBlock(content, context.isInline()));
+        return Collections.<Block>singletonList(new VerbatimBlock(content, context.isInline()));
     }
 }

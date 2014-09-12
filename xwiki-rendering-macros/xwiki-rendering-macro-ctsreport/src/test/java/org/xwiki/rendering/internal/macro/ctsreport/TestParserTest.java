@@ -19,9 +19,8 @@
  */
 package org.xwiki.rendering.internal.macro.ctsreport;
 
-import org.junit.Test;
-
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link TestParser}.

@@ -43,7 +43,7 @@ import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Unit tests for {@link MacroTransformation}.
- * 
+ *
  * @version $Id$
  */
 @AllComponents
@@ -53,7 +53,7 @@ public class MacroTransformationTest
     public final ComponentManagerRule componentManager = new ComponentManagerRule();
 
     private MacroTransformation transformation;
-    
+
     @Before
     public void setUp() throws Exception
     {
@@ -67,7 +67,7 @@ public class MacroTransformationTest
     public void transformSimpleMacro() throws Exception
     {
         String expected = "beginDocument\n"
-        	+ "beginMacroMarkerStandalone [testsimplemacro] []\n"
+            + "beginMacroMarkerStandalone [testsimplemacro] []\n"
             + "beginParagraph\n"
             + "onWord [simplemacro0]\n"
             + "endParagraph\n"
@@ -76,7 +76,7 @@ public class MacroTransformationTest
 
         XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("testsimplemacro",
             Collections.<String, String>emptyMap(), false)));
-        
+
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
         WikiPrinter printer = new DefaultWikiPrinter();
@@ -93,8 +93,8 @@ public class MacroTransformationTest
     public void transformNestedMacro() throws Exception
     {
         String expected = "beginDocument\n"
-        	+ "beginMacroMarkerStandalone [testnestedmacro] []\n"
-        	+ "beginMacroMarkerStandalone [testsimplemacro] []\n"
+            + "beginMacroMarkerStandalone [testnestedmacro] []\n"
+            + "beginMacroMarkerStandalone [testsimplemacro] []\n"
             + "beginParagraph\n"
             + "onWord [simplemacro0]\n"
             + "endParagraph\n"
@@ -104,7 +104,7 @@ public class MacroTransformationTest
 
         XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("testnestedmacro",
             Collections.<String, String>emptyMap(), false)));
-    
+
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
         WikiPrinter printer = new DefaultWikiPrinter();
@@ -113,7 +113,7 @@ public class MacroTransformationTest
         eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
-    
+
     /**
      * Test that we have a safeguard against infinite recursive macros.
      */
@@ -121,11 +121,11 @@ public class MacroTransformationTest
     public void transformMacroWithInfiniteRecursion() throws Exception
     {
         String expected = "beginDocument\n"
-        	+ StringUtils.repeat("beginMacroMarkerStandalone [testrecursivemacro] []\n", 5)
+            + StringUtils.repeat("beginMacroMarkerStandalone [testrecursivemacro] []\n", 5)
             + "onMacroStandalone [testrecursivemacro] []\n"
             + StringUtils.repeat("endMacroMarkerStandalone [testrecursivemacro] []\n", 5)
             + "endDocument";
-        
+
         XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("testrecursivemacro",
             Collections.<String, String>emptyMap(), false)));
 
@@ -172,6 +172,7 @@ public class MacroTransformationTest
         eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
+
     /**
      * Test that macro priorities are working.
      */
@@ -179,7 +180,7 @@ public class MacroTransformationTest
     public void transformMacrosWithPriorities() throws Exception
     {
         String expected = "beginDocument\n"
-        	+ "beginMacroMarkerStandalone [testsimplemacro] []\n"
+            + "beginMacroMarkerStandalone [testsimplemacro] []\n"
             + "beginParagraph\n"
             + "onWord [simplemacro1]\n"
             + "endParagraph\n"
@@ -208,7 +209,7 @@ public class MacroTransformationTest
         eventBlockRenderer.render(dom, printer);
         Assert.assertEquals(expected, printer.toString());
     }
-    
+
     /**
      * Test that macro with same priorities execute in the order in which they are defined.
      */
@@ -217,7 +218,7 @@ public class MacroTransformationTest
     {
         // Both macros have the same priorities and thus "testsimplemacro" should be executed first and generate
         // "simplemacro0".
-    	XDOM dom = new XDOM(Arrays.<Block>asList(
+        XDOM dom = new XDOM(Arrays.<Block>asList(
             new MacroBlock("testsimplemacro", Collections.<String, String>emptyMap(), false),
             new MacroBlock("testcontentmacro", Collections.<String, String>emptyMap(), "content", false)));
 
@@ -241,13 +242,13 @@ public class MacroTransformationTest
             + "endDocument";
         Assert.assertEquals(expected, printer.toString());
 
-        // We must also test the other order ("testcontentmacro" before "testsimplemacro") to ensure for example that 
+        // We must also test the other order ("testcontentmacro" before "testsimplemacro") to ensure for example that
         // there's no lexical order on Macro class names for example.
-    	dom = new XDOM(Arrays.<Block>asList(
-			new MacroBlock("testcontentmacro", Collections.<String, String>emptyMap(), "content", false),
+        dom = new XDOM(Arrays.<Block>asList(
+            new MacroBlock("testcontentmacro", Collections.<String, String>emptyMap(), "content", false),
             new MacroBlock("testsimplemacro", Collections.<String, String>emptyMap(), false)));
 
-    	context.setXDOM(dom);
+        context.setXDOM(dom);
         this.transformation.transform(dom, context);
 
         printer = new DefaultWikiPrinter();
@@ -285,7 +286,7 @@ public class MacroTransformationTest
 
         XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("notexisting",
             Collections.<String, String>emptyMap(), false)));
-        
+
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
         WikiPrinter printer = new DefaultWikiPrinter();

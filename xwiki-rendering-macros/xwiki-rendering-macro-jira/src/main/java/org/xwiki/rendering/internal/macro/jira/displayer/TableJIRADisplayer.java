@@ -107,8 +107,8 @@ public class TableJIRADisplayer extends AbstractJIRADisplayer
 
     /**
      * @param parameters the macro parameters containing optional field names defined by the user
-     * @return the map of all field names combining default field names and field names defined by the user in
-     *         the macro parameters
+     * @return the map of all field names combining default field names and field names defined by the user in the macro
+     *         parameters
      */
     private Map<String, String> getFieldNames(JIRAMacroParameters parameters)
     {

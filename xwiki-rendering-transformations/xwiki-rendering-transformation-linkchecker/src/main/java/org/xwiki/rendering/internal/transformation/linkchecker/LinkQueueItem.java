@@ -30,12 +30,12 @@ import java.util.Map;
 public class LinkQueueItem
 {
     /**
-     * @see #getLinkReference() 
+     * @see #getLinkReference()
      */
     private String linkReference;
 
     /**
-     * @see #getContentReference() 
+     * @see #getContentReference()
      */
     private String contentReference;
 
@@ -43,7 +43,7 @@ public class LinkQueueItem
      * @see #getContextData()
      */
     private Map<String, Object> contextData;
-    
+
     /**
      * @param linkReference see {@link #getLinkReference()}
      * @param contentReference see {@link #getContentReference()}

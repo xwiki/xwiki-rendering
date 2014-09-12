@@ -31,7 +31,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * <ac:image><ri:attachment ri:filename="9391963529_96f9f9b16c_o.jpg"><ri:page ri:content-title="xhtml" ri:space-key="SPACE" /></ri:attachment></ac:image>
  * <ac:image><ri:url ri:value="http://host" /></ac:image>
  * }
- * 
+ *
  * @version $Id$
  * @since 5.3M2
  */

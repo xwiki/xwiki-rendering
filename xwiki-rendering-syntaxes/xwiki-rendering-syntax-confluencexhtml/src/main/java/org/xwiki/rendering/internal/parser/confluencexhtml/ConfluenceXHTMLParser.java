@@ -62,7 +62,7 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 
 /**
  * Parses Confluence XHTML and generate rendering events.
- * 
+ *
  * @version $Id$
  * @since 5.3M2
  */
@@ -74,7 +74,7 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
     /**
      * The parser used for the link label parsing. For (x)html parsing, this will be an xwiki 2.0 parser, since it's
      * more convenient to pass link labels in xwiki syntax. See referred resource for more details.
-     * 
+     *
      * @see XWikiCommentHandler#handleLinkCommentStop(String,
      *      org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack)
      */

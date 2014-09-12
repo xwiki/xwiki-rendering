@@ -47,7 +47,7 @@ public abstract class AbstractMarkdownStreamParser implements StreamParser
      * @param source the content to parse
      * @param listener receive event for each element
      * @throws ParseException if the source cannot be read or an unexpected error happens during the parsing. Parsers
-     *         should be written to not generate any error as much as possible.
+     *             should be written to not generate any error as much as possible.
      */
     protected void parse(PegDownProcessor processor, Reader source, Listener listener) throws ParseException
     {

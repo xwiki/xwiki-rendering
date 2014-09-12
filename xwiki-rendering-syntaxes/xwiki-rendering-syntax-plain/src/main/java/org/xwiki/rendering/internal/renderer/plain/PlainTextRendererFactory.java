@@ -23,8 +23,8 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Create Plain Text Renderers.

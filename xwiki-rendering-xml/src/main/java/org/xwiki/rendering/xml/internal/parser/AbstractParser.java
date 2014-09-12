@@ -30,7 +30,7 @@ import org.xwiki.rendering.parser.xml.ContentHandlerBlockParserFactory;
 
 /**
  * Base class for all XML based parsers. This support both block based and streaming renderers interfaces.
- * 
+ *
  * @version $Id$
  * @since 5.2M1
  */

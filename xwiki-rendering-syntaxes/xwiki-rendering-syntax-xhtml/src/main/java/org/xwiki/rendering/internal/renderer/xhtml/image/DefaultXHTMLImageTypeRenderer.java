@@ -29,7 +29,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 /**
  * Handle XHTML rendering for images for which we haven't found a specific
  * {@link org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageTypeRenderer} implementation.
- * 
+ *
  * @version $Id$
  * @since 5.4RC1
  */

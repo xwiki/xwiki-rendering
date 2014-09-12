@@ -25,7 +25,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Parameters for the {@link org.xwiki.rendering.internal.macro.content.ContentMacro} Macro.
- * 
+ *
  * @version $Id$
  * @since 4.2M3
  */

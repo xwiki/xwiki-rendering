@@ -23,7 +23,7 @@ import java.lang.reflect.Type;
 
 /**
  * Define a macro parameter.
- * 
+ *
  * @version $Id$
  * @since 1.7M2
  */
@@ -51,7 +51,7 @@ public interface ParameterDescriptor
      * @deprecated since 3.0M1 use {@link #getParameterType()} instead
      */
     @Deprecated
-    Class< ? > getType();
+    Class<?> getType();
 
     /**
      * @return the type of the property.

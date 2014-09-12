@@ -23,7 +23,7 @@ import org.xwiki.rendering.macro.descriptor.ContentDescriptor;
 
 /**
  * Base class for a macro which does not support any parameter.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */
@@ -31,7 +31,7 @@ public abstract class AbstractNoParameterMacro extends AbstractMacro<Object>
 {
     /**
      * Create and initialize a descriptor with no parameters.
-     * 
+     *
      * @param name the name of the macro (eg "Table Of Contents" for the TOC macro)
      * @since 2.0M3
      */

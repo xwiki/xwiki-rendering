@@ -41,7 +41,7 @@ import org.xwiki.xml.XMLUtils;
 
 /**
  * A generic JUnit Test used by {@link CompatibilityTestSuite} to run a single CTS test.
- * 
+ *
  * @version $Id$
  * @since 4.1M1
  */
@@ -104,7 +104,7 @@ public class RenderingTest
 
     /**
      * Executes a single test.
-     * 
+     *
      * @throws Exception if an error happened during the test
      */
     @Test
@@ -124,7 +124,7 @@ public class RenderingTest
      * <li>Render the generated XDOM using the CTS Renderer</li>
      * <li>Compare result with the CTS Output</li>
      * </ul>
-     * 
+     *
      * @throws Exception if an error happens, for example if a Parser or Renderer cannot be found
      */
     private void executeInputTest() throws Exception
@@ -139,7 +139,7 @@ public class RenderingTest
      * <li>Render the generated XDOM using the Syntax Renderer</li>
      * <li>Compare result with the Syntax Output</li>
      * </ul>
-     * 
+     *
      * @throws Exception if an error happens, for example if a Parser or Renderer cannot be found
      */
     private void executeOutputTest() throws Exception
@@ -149,7 +149,7 @@ public class RenderingTest
 
     /**
      * Executes a test in a generic manner.
-     * 
+     *
      * @param inputData the input data to parse
      * @param inputSyntaxId the syntax in which the input data is written in
      * @param expectedOutputData the output data to compare to
@@ -208,7 +208,7 @@ public class RenderingTest
      * Normalize the expected XML output by reading and rendering the passed content. We do this so that we can easily
      * compare the expected result with the result of the test and not have to care about license comments, whitespaces,
      * newlines, etc.
-     * 
+     *
      * @param content the XML content to normalize
      * @param syntaxId the syntax in which the XML content is written in
      * @return the normalized content
@@ -222,7 +222,7 @@ public class RenderingTest
     /**
      * Run Velocity when the <code>${{velocity:...}}}</code> syntax is used. The {@code $syntax} variable is replaced by
      * the test Syntax object.
-     * 
+     *
      * @param content the content to evaluate
      * @return the evaluated content
      */
@@ -256,7 +256,7 @@ public class RenderingTest
     /**
      * Compare the passed expected string with the passed result. We support regexes for comparison using the format:
      * ${{{regex:...}}}. For example:
-     * 
+     *
      * <pre>
      * <code>
      * beginDocument
@@ -271,7 +271,7 @@ public class RenderingTest
      * endDocument
      * </code>
      * </pre>
-     * 
+     *
      * @param expected the content to compare to
      * @param result the result from the test
      */
@@ -289,7 +289,7 @@ public class RenderingTest
     /**
      * Escape the passed content by locating regex syntaxes inside and regex-escaping the text so that the whole content
      * can be matched using a Regex Matcher.
-     * 
+     *
      * @param content the content to escape
      * @return the escaped content
      */
@@ -323,7 +323,7 @@ public class RenderingTest
 
     /**
      * Create a Syntax object from a Syntax id string.
-     * 
+     *
      * @param syntaxId the id of the Syntax to create
      * @return the Syntax object
      */

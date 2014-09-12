@@ -49,7 +49,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
  * Generate a Table Of Contents based on the document sections.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */
@@ -179,7 +179,7 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
 
     /**
      * Convert headers into list block tree.
-     * 
+     *
      * @param headers the headers to convert.
      * @param start the "start" parameter value.
      * @param depth the "depth" parameter value.
@@ -228,7 +228,7 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
 
     /**
      * Add a {@link ListItemBlock} in the current toc tree block and return the new {@link ListItemBlock}.
-     * 
+     *
      * @param currentBlock the current block in the toc tree.
      * @param headerBlock the {@link HeaderBlock} to use to generate toc anchor label.
      * @return the new {@link ListItemBlock}.
@@ -248,12 +248,12 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
      */
     private ListItemBlock createEmptyTocEntry()
     {
-        return new ListItemBlock(Collections.<Block> emptyList());
+        return new ListItemBlock(Collections.<Block>emptyList());
     }
 
     /**
      * Create a new toc list item based on section title.
-     * 
+     *
      * @param headerBlock the {@link HeaderBlock}.
      * @return the new list item block.
      */
@@ -264,12 +264,12 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
         reference.setAnchor(headerBlock.getId());
         LinkBlock linkBlock = new LinkBlock(this.tocBlockFilter.generateLabel(headerBlock), reference, false);
 
-        return new ListItemBlock(Collections.<Block> singletonList(linkBlock));
+        return new ListItemBlock(Collections.<Block>singletonList(linkBlock));
     }
 
     /**
      * Create a new ListBlock and add it in the provided parent block.
-     * 
+     *
      * @param numbered indicate if the list has to be numbered or with bullets
      * @param parentBlock the block where to add the new list block.
      * @return the new list block.
@@ -277,8 +277,8 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
     private ListBLock createChildListBlock(boolean numbered, Block parentBlock)
     {
         ListBLock childListBlock =
-            numbered ? new NumberedListBlock(Collections.<Block> emptyList()) : new BulletedListBlock(
-                Collections.<Block> emptyList());
+            numbered ? new NumberedListBlock(Collections.<Block>emptyList()) : new BulletedListBlock(
+                Collections.<Block>emptyList());
 
         if (parentBlock != null) {
             parentBlock.addChild(childListBlock);

@@ -36,7 +36,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Plain Text Parser to convert a text source into a events.
- * 
+ *
  * @version $Id$
  * @since 2.1M1
  */
@@ -59,7 +59,7 @@ public class PlainTextStreamParser implements StreamParser
 
     /**
      * Read a single char from an Reader source.
-     * 
+     *
      * @param source the input to read from
      * @return the char read
      * @throws ParseException in case of reading error

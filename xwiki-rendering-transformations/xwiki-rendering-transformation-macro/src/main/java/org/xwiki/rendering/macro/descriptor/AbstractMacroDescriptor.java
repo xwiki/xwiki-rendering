@@ -29,7 +29,7 @@ import org.xwiki.rendering.macro.MacroId;
 
 /**
  * Describe a macro.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */
@@ -115,12 +115,12 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     /**
      * Extract parameters informations from {@link #parametersBeanDescriptor} and insert it in
      * {@link #parameterDescriptorMap}.
-     * 
+     *
      * @since 1.7M2
      */
     protected void extractParameterDescriptorMap()
     {
-        for (PropertyDescriptor propertyDescriptor : parametersBeanDescriptor.getProperties()) {
+        for (PropertyDescriptor propertyDescriptor : this.parametersBeanDescriptor.getProperties()) {
             DefaultParameterDescriptor desc = new DefaultParameterDescriptor(propertyDescriptor);
             this.parameterDescriptorMap.put(desc.getId().toLowerCase(), desc);
         }
@@ -128,6 +128,7 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.3M1
      */
     @Override
@@ -138,6 +139,7 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0M3
      */
     @Override
@@ -159,16 +161,16 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     }
 
     @Override
-    public Class< ? > getParametersBeanClass()
+    public Class<?> getParametersBeanClass()
     {
-        return (null != parametersBeanDescriptor) ? this.parametersBeanDescriptor.getBeanClass() : Object.class;
+        return (null != this.parametersBeanDescriptor) ? this.parametersBeanDescriptor.getBeanClass() : Object.class;
     }
 
     @Override
     public Map<String, ParameterDescriptor> getParameterDescriptorMap()
     {
-        return (null != parametersBeanDescriptor) ? Collections.unmodifiableMap(this.parameterDescriptorMap)
-            : Collections.<String, ParameterDescriptor> emptyMap();
+        return (null != this.parametersBeanDescriptor) ? Collections.unmodifiableMap(this.parameterDescriptorMap)
+            : Collections.<String, ParameterDescriptor>emptyMap();
     }
 
     @Override

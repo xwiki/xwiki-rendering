@@ -23,14 +23,14 @@ import java.util.Map;
 
 import org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
-import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
+import org.xwiki.rendering.listener.chaining.ListenerChain;
 
 /**
  * Renderer that generates XHTML from a XDOM resulting from the parsing of text containing HTML mixed with wiki syntax.
  * We override the default XHTML renderer since we want special behaviors, for example to not escape special symbols
  * (since we don't want to escape HTML tags for example).
- * 
+ *
  * @version $Id $
  * @since 1.8.3
  */

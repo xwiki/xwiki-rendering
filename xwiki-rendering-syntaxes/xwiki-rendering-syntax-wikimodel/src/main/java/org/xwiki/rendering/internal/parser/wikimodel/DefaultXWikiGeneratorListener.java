@@ -57,7 +57,7 @@ import org.xwiki.rendering.wikimodel.WikiStyle;
 
 /**
  * Transforms WikiModel events into XWiki Rendering events.
- * 
+ *
  * @version $Id$
  * @since 2.1RC1
  */
@@ -137,9 +137,10 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
     /**
      * Returns the 'default' listener to send xwiki events to, the top of the listeners stack.
-     * 
+     *
      * @return the listener to send xwiki events to
      */
+    @Override
     public Listener getListener()
     {
         return this.listener.peek();
@@ -164,7 +165,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * Pushes a new listener in the listeners stack, thus making it the 'default' listener, to which all events are
      * sent.
-     * 
+     *
      * @param listener the listener to add in the top of the stack
      * @return the listener pushed in the top of the stack
      */
@@ -176,7 +177,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
     /**
      * Removes the listener from the top of the stack (the current 'default' listener).
-     * 
+     *
      * @return the removed listener
      */
     private Listener popListener()
@@ -186,7 +187,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
     /**
      * Convert Wikimodel parameters to XWiki parameters format.
-     * 
+     *
      * @param params the wikimodel parameters to convert
      * @return the parameters in XWiki format
      */
@@ -369,9 +370,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         ++this.documentDepth;
     }
 
-    /**
-     * A format is a special formatting around an inline element, such as bold, italics, etc.
-     */
+    @Override
     public void beginFormat(WikiFormat format)
     {
         List<WikiStyle> formatStyles = format.getStyles();
@@ -690,19 +689,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().endTableRow(convertParameters(params));
     }
 
-    /**
-     * Called by wikimodel when there are 2 or more empty lines between blocks. For example the following will generate
-     * a call to <code>onEmptyLines(2)</code>:
-     * <p>
-     * <code><pre>
-     * {{macro/}}
-     * ... empty line 1...
-     * ... empty line 2...
-     * {{macro/}}
-     * </pre></code>
-     * 
-     * @param count the number of empty lines separating the two blocks
-     */
+    @Override
     public void onEmptyLines(int count)
     {
         getListener().onEmptyLines(count);
@@ -757,6 +744,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
      * <li>just after at least one "\n"</li>
      * </ul>
      */
+    @Override
     public void onMacroBlock(String macroName, WikiParameters params, String content)
     {
         getListener().onMacro(macroName, convertParameters(params), content, false);
@@ -786,7 +774,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
      * Called when WikiModel finds an reference (link or image) such as a URI located directly in the text
      * (free-standing URI), as opposed to a link/image inside wiki link/image syntax delimiters.
      * </p>
-     * 
+     *
      * @see org.xwiki.rendering.wikimodel.IWemListener#onLineBreak()
      */
     @Override

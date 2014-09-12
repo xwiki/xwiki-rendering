@@ -41,6 +41,7 @@ public interface LinkCheckerThread extends Runnable
 
     /**
      * See {@link Thread#join()}.
+     *
      * @throws java.lang.InterruptedException see {@link Thread#join()}
      */
     void join() throws java.lang.InterruptedException;

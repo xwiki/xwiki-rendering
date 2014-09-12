@@ -26,7 +26,6 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.parser.xwiki10.macro.AbstractVelocityMacroConverter;
 
 /**
- * 
  * @version $Id$
  * @since 1.8M1
  */

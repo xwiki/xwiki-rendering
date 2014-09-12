@@ -26,9 +26,8 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.LookaheadChainingListener;
 
 /**
- * Provides convenient access to listeners in the chain used for
- * {@link XWikiSyntaxListenerChain}.
- * 
+ * Provides convenient access to listeners in the chain used for {@link XWikiSyntaxListenerChain}.
+ *
  * @version $Id$
  * @since 1.8RC1
  */

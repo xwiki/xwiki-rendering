@@ -34,5 +34,7 @@
     <xwiki.jacoco.instructionRatio>0.88</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Footnote Macro</xwiki.extension.name>
+    <!-- {{putFootnotes}} is a complex macro that needs to instantiate several different XDOM classes -->
+    <checkstyle.suppressions.location>${basedir}/src/main/checkstyle/checkstyle-suppressions.xml</checkstyle.suppressions.location>
   </properties>
 </project>

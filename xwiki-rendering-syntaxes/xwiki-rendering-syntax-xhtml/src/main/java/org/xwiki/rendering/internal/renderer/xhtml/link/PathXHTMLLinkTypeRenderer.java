@@ -28,7 +28,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
  * Handle XHTML rendering for links towards a relative path.
- * 
+ *
  * @version $Id$
  * @since 4.1M2
  */

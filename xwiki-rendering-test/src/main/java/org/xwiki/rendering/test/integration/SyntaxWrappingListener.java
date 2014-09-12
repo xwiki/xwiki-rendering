@@ -27,7 +27,7 @@ import org.xwiki.rendering.listener.WrappingListener;
 
 /**
  * Filter {@link MetaData} source element from begin/endDocument events.
- * 
+ *
  * @version $Id$
  * @since 3.0RC1
  */

@@ -32,7 +32,7 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 
 /**
  * Generates XWiki Syntax 2.1 from {@link org.xwiki.rendering.block.XDOM}.
- * 
+ *
  * @version $Id$
  * @since 2.5M2
  * @see org.xwiki.rendering.internal.renderer.xwiki21.XWikiSyntaxRenderer

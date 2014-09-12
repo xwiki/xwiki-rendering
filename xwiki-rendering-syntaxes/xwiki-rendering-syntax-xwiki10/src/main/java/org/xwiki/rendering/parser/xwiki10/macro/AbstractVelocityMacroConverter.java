@@ -29,7 +29,7 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
 
 /**
  * Base class for Velocity macros converters.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

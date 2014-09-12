@@ -34,7 +34,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
  * Allows putting comments in the source content. This macro doesn't output anything.
- * 
+ *
  * @version $Id$
  * @since 3.2M3
  */

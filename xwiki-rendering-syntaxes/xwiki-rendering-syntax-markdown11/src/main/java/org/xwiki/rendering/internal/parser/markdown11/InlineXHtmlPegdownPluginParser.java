@@ -58,7 +58,7 @@ public class InlineXHtmlPegdownPluginParser extends Parser implements InlinePlug
     public Rule[] inlinePluginRules()
     {
         // HideInlineHtmlRule must be after InlineXHtml and before InlineHtml
-        return new Rule[]{ InlineXHtml(), HideInlineHtmlRule() };
+        return new Rule[] { InlineXHtml(), HideInlineHtmlRule() };
     }
 
     /**
@@ -134,7 +134,7 @@ public class InlineXHtmlPegdownPluginParser extends Parser implements InlinePlug
 
         // Copy all matchers but InlineHtml
         for (Matcher matcher : nonLinkInline.getChildren()) {
-            if (! "InlineHtml".equals(matcher.getLabel())) {
+            if (!"InlineHtml".equals(matcher.getLabel())) {
                 matchers.add(matcher);
             }
         }

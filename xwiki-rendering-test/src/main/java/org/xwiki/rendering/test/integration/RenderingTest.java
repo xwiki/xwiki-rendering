@@ -64,12 +64,12 @@ public class RenderingTest
 
     private boolean runTransformations;
 
-    private Map<String, ? > configuration;
+    private Map<String, ?> configuration;
 
     private ComponentManager componentManager;
 
     public RenderingTest(String input, String expected, String parserId, String targetSyntaxId,
-        boolean streaming, boolean runTransformations, Map<String, ? > configuration, ComponentManager componentManager)
+        boolean streaming, boolean runTransformations, Map<String, ?> configuration, ComponentManager componentManager)
     {
         this.input = input;
         this.expected = expected;
@@ -91,9 +91,9 @@ public class RenderingTest
             if (configurationSource instanceof MockConfigurationSource) {
                 MockConfigurationSource mockConfigurationSource = (MockConfigurationSource) configurationSource;
 
-                for (Map.Entry<String, ? > entry : this.configuration.entrySet()) {
+                for (Map.Entry<String, ?> entry : this.configuration.entrySet()) {
                     originalConfiguration.put(entry.getKey(),
-                        mockConfigurationSource.<String> getProperty(entry.getKey()));
+                        mockConfigurationSource.<String>getProperty(entry.getKey()));
                     mockConfigurationSource.setProperty(entry.getKey(), entry.getValue());
                 }
             }

@@ -24,7 +24,7 @@ import org.xwiki.properties.annotation.PropertyMandatory;
 
 /**
  * Parameters for the {@link org.xwiki.rendering.internal.macro.id.IdMacro} Macro.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */

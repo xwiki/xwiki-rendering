@@ -27,8 +27,8 @@ import org.xwiki.rendering.block.Block;
 
 /**
  * Defines how to display a JIRA issue field (for example the "Key" field can be displayed with a link to the JIRA
- * issue, date fields can have their dates formatted in a special way, "status" field can be displayed with an
- * icon, etc).
+ * issue, date fields can have their dates formatted in a special way, "status" field can be displayed with an icon,
+ * etc).
  *
  * @version $Id$
  * @since 4.2M1

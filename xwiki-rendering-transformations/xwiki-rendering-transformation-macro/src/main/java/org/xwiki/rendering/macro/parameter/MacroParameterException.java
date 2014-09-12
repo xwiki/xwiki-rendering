@@ -23,7 +23,7 @@ import org.xwiki.rendering.macro.MacroExecutionException;
 
 /**
  * Encapsulate macro parameter error.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */
@@ -50,7 +50,7 @@ public class MacroParameterException extends MacroExecutionException
      *
      * @param message the detail message (which is saved for later retrieval by the {@link #getMessage()} method)
      * @param cause the cause (which is saved for later retrieval by the {@link #getCause()} method). A null value is
-     *        permitted, and indicates that the cause is nonexistent or unknown
+     *            permitted, and indicates that the cause is nonexistent or unknown
      */
     public MacroParameterException(String message, Throwable cause)
     {

@@ -40,7 +40,7 @@ import org.xwiki.rendering.wikimodel.WikiReference;
 
 /**
  * WikiModel listener bridge for the XHTML Syntax.
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */
@@ -147,7 +147,7 @@ public class ConfluenceXWikiGeneratorListener extends XHTMLXWikiGeneratorListene
                 // Since WikiModel doesn't handle syntax in link labels and thus doesn't have begin/end events for
                 // links, we
                 // need to call the XWiki events and use an inline parser to parse the syntax in the label.
-                getListener().beginLink(resourceReference, false, Collections.<String, String> emptyMap());
+                getListener().beginLink(resourceReference, false, Collections.<String, String>emptyMap());
                 if (reference.getLabel() != null) {
                     try {
                         WikiModelParserUtils parserUtils = new WikiModelParserUtils();
@@ -156,7 +156,7 @@ public class ConfluenceXWikiGeneratorListener extends XHTMLXWikiGeneratorListene
                         // TODO supposedly impossible with plain test parser
                     }
                 }
-                getListener().endLink(resourceReference, false, Collections.<String, String> emptyMap());
+                getListener().endLink(resourceReference, false, Collections.<String, String>emptyMap());
             }
         } else {
             super.onReference(reference);
@@ -199,7 +199,7 @@ public class ConfluenceXWikiGeneratorListener extends XHTMLXWikiGeneratorListene
             }
 
             if (resourceReference != null) {
-                onImage(resourceReference, false, Collections.<String, String> emptyMap());
+                onImage(resourceReference, false, Collections.<String, String>emptyMap());
             }
         } else {
             super.onImage(reference);

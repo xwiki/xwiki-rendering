@@ -23,7 +23,7 @@ import org.xwiki.component.annotation.Role;
 
 /**
  * Verifies if a URL exists.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */

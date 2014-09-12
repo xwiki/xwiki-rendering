@@ -25,7 +25,7 @@ import org.xwiki.rendering.xml.internal.parser.AbstractParser;
 
 /**
  * XDOM+XML stream based parser.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */

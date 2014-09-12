@@ -42,10 +42,10 @@ import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 
 /**
- * Thread that regularly check for Links to be checked on a Queue, and for each link tries to connect to it and 
- * save the result in the {@link LinkStateManager}. In order to have good performance we only recheck a link if it's
- * not been checked for a certain time.
- * 
+ * Thread that regularly check for Links to be checked on a Queue, and for each link tries to connect to it and save the
+ * result in the {@link LinkStateManager}. In order to have good performance we only recheck a link if it's not been
+ * checked for a certain time.
+ *
  * @version $Id$
  * @since 5.3RC1
  */
@@ -114,7 +114,7 @@ public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCh
         do {
             try {
                 processLinkQueue();
-                DefaultLinkCheckerThread.sleep(300L);
+                Thread.sleep(300L);
             } catch (Exception e) {
                 // There was an unexpected problem, we stop this checker thread and log the problem.
                 this.logger.error("Link checker Thread was stopped due to some problem", e);
@@ -126,6 +126,7 @@ public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCh
     /**
      * Stop the thread.
      */
+    @Override
     public void stopProcessing()
     {
         this.shouldStop = true;

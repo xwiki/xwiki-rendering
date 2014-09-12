@@ -34,7 +34,7 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
 /**
  * XWiki 1.0 does not interpret standalone new line in paragraph. This is because it render in as is in XHTML (which
  * does not interpret them).
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

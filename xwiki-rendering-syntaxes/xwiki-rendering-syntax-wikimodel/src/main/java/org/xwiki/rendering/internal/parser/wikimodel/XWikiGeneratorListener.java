@@ -19,8 +19,8 @@
  */
 package org.xwiki.rendering.internal.parser.wikimodel;
 
-import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.wikimodel.IWemListener;
 
 /**
  * Bridge between WikiModel and XWiki: translates WikiModel events into XWiki events.

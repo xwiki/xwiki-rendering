@@ -29,7 +29,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 /**
  * Handle XHTML rendering for links for which we haven't found a specific
  * {@link org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkTypeRenderer} implementation.
- * 
+ *
  * @version $Id$
  * @since 2.5M2
  */

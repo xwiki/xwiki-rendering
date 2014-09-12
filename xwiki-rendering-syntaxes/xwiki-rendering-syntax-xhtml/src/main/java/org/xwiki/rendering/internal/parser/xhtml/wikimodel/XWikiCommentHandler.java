@@ -44,7 +44,7 @@ import org.xwiki.xml.XMLUtils;
  * Handle Link and Macro definitions in comments (we store links in a comment since otherwise there are situations where
  * it's not possible to reconstruct the original reference from the rendered HTML value and for macros it wouldn't be
  * possible at all to reconstruct the macro).
- * 
+ *
  * @version $Id$
  * @since 1.7M1
  */

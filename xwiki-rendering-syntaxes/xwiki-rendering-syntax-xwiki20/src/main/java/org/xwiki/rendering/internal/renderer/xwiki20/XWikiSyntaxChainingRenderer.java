@@ -39,7 +39,7 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 
 /**
  * Convert listener events to XWiki Syntax 2.0 output.
- * 
+ *
  * @version $Id$
  * @since 1.8RC1
  */
@@ -152,6 +152,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -228,8 +229,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         // If the previous format had parameters and the parameters are different from the current ones then close them
         if (this.previousFormatParameters != null) {
             if (parameters.isEmpty()) {
-                //print("(%%)");
-                //this.previousFormatParameters = null;
+                // print("(%%)");
+                // this.previousFormatParameters = null;
             } else if (!this.previousFormatParameters.equals(parameters)) {
                 this.previousFormatParameters = null;
                 printParameters(parameters, false);
@@ -504,6 +505,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -519,6 +521,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     /**
      * {@inheritDoc}
+     *
      * @since 1.6M2
      */
     @Override
@@ -540,6 +543,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     /**
      * {@inheritDoc}
+     *
      * @since 1.6M2
      */
     @Override
@@ -577,6 +581,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     /**
      * {@inheritDoc}
+     *
      * @since 1.6M2
      */
     @Override
@@ -593,6 +598,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     /**
      * {@inheritDoc}
+     *
      * @since 1.6M2
      */
     @Override
@@ -664,6 +670,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -743,6 +750,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0M3
      */
     @Override

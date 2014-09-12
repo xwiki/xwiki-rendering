@@ -57,34 +57,34 @@ public class BoxMacroParameters
     /**
      * @see #getTitle()
      */
-    private List< ? extends Block> blockTitle;
+    private List<? extends Block> blockTitle;
 
     /**
      * Optionally, the title can contain a list of Blocks, for more flexibility, instead of storing only ordinary text.
      *
      * @return the title represented as a list of Blocks
      */
-    public List< ? extends Block> getBlockTitle()
+    public List<? extends Block> getBlockTitle()
     {
-        return blockTitle;
+        return this.blockTitle;
     }
 
     /**
      * @param blockTitle - refer to {@link #getBlockTitle()}
      */
     @PropertyHidden
-    public void setBlockTitle(List< ? extends Block> blockTitle)
+    public void setBlockTitle(List<? extends Block> blockTitle)
     {
         this.blockTitle = blockTitle;
     }
 
     /**
-     * @return the title to be displayed in the message box. Note that it can contain content in the current syntax
-     *         and that text which will be parsed and rendered as any syntax content
+     * @return the title to be displayed in the message box. Note that it can contain content in the current syntax and
+     *         that text which will be parsed and rendered as any syntax content
      */
     public String getTitle()
     {
-        return title;
+        return this.title;
     }
 
     /**
@@ -122,7 +122,7 @@ public class BoxMacroParameters
      */
     public String getCssClass()
     {
-        return cssClass;
+        return this.cssClass;
     }
 
     /**

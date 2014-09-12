@@ -22,11 +22,11 @@ package org.xwiki.rendering.internal.parser.xwiki21;
 import java.util.Map;
 
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.reference.AttachmentResourceReference;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
-import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
@@ -35,7 +35,7 @@ import org.xwiki.rendering.util.IdGenerator;
 
 /**
  * WikiModel listener bridge for the XWiki Syntax 2.1.
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */

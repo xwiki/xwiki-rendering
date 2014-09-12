@@ -25,7 +25,7 @@ import org.xwiki.properties.annotation.PropertyDescription;
 
 /**
  * Parameters for the {@link org.xwiki.rendering.internal.macro.toc.TocMacro} Macro.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */

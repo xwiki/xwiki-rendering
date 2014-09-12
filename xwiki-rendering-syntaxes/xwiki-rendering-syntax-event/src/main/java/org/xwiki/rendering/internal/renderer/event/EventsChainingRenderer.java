@@ -34,7 +34,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Prints listener event names in a format useful for testing and debugging.
- * 
+ *
  * @version $Id$
  * @since 1.8RC1
  */
@@ -49,7 +49,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 3.0M2
      */
     @Override
@@ -60,7 +60,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 3.0M2
      */
     @Override
@@ -217,7 +217,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 3.0M2
      */
     @Override
@@ -228,7 +228,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 3.0M2
      */
     @Override
@@ -264,7 +264,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 2.0RC1
      */
     @Override
@@ -275,7 +275,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 2.0RC1
      */
     @Override
@@ -382,7 +382,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 2.5RC1
      */
     @Override

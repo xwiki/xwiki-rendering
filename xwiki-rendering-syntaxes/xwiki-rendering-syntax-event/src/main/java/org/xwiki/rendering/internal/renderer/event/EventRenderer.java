@@ -32,7 +32,7 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 /**
  * Print names of events. Useful for debugging and tracing in general. Note that this class is not located in the test
  * source tree since it's currently used at runtime by the WYSIWYG editor for its runtime debug mode.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */

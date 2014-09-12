@@ -50,7 +50,7 @@ import org.xwiki.rendering.util.IdGenerator;
 
 /**
  * Transforms Doxia events into XWiki Rendering events.
- * 
+ *
  * @version $Id$
  * @since 2.1RC1
  */
@@ -79,7 +79,7 @@ public class XWikiGeneratorSink implements Sink
     private boolean isInVerbatim;
 
     private StringBuffer accumulatedText = new StringBuffer();
-    
+
     /**
      * @since 3.0M3
      */
@@ -127,7 +127,7 @@ public class XWikiGeneratorSink implements Sink
                 }
             } else {
                 if (this.lineBreaks >= 2) {
-                    getListener().onEmptyLines(lineBreaks - 1);
+                    getListener().onEmptyLines(this.lineBreaks - 1);
                 } else {
                     getListener().onNewLine();
                 }

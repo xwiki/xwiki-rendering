@@ -29,7 +29,7 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 
 /**
  * Renders a {@link org.xwiki.rendering.block.Block} in XWiki Syntax 2.0.
- * 
+ *
  * @version $Id$
  */
 @Component

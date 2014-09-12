@@ -37,12 +37,12 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 // Note: We cannot replace @ComponentRole with @Role ATM since @Role supports generics and we have Macro<P>. Changing
 // it will thus break all code looking up components implementing this role.
 @ComponentRole
-public interface Macro<P> extends Comparable<Macro< ? >>
+public interface Macro<P> extends Comparable<Macro<?>>
 {
     /**
      * The priority of execution relative to the other Macros. The lowest values have the highest priorities and execute
      * first. For example a Macro with a priority of 100 will execute before one with a priority of 500.
-     * 
+     *
      * @return the execution priority
      */
     int getPriority();
@@ -61,7 +61,7 @@ public interface Macro<P> extends Comparable<Macro< ? >>
 
     /**
      * Executes the macro.
-     * 
+     *
      * @param parameters the macro parameters in the form of a bean defined by the {@link Macro} implementation
      * @param content the content of the macro
      * @param context the context of the macros transformation process

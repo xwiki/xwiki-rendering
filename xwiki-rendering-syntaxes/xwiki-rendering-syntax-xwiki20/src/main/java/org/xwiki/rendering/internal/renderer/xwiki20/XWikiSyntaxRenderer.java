@@ -30,10 +30,10 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 
 /**
- * Generates XWiki Syntax 2.0 from {@link org.xwiki.rendering.block.XDOM}. This is useful for example to convert other wiki
- * syntaxes to the XWiki syntax. It's also useful in our tests to verify that round-tripping from XWiki Syntax to the
- * DOM and back to XWiki Syntax generates the same content as the initial syntax.
- * 
+ * Generates XWiki Syntax 2.0 from {@link org.xwiki.rendering.block.XDOM}. This is useful for example to convert other
+ * wiki syntaxes to the XWiki syntax. It's also useful in our tests to verify that round-tripping from XWiki Syntax to
+ * the DOM and back to XWiki Syntax generates the same content as the initial syntax.
+ *
  * @version $Id$
  * @since 2.0M3
  */

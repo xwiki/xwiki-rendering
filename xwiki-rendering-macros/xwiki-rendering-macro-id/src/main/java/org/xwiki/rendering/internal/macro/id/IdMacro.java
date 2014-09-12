@@ -36,7 +36,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 /**
  * Allows putting a reference/location in a page. In HTML for example this is called an Anchor. It allows pointing to
  * that location, for example in links.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */
@@ -58,7 +58,7 @@ public class IdMacro extends AbstractMacro<IdMacroParameters>
     public IdMacro()
     {
         super("Id", DESCRIPTION, IdMacroParameters.class);
-        
+
         // Set a high priority so that this macro executes before most others.
         setPriority(20);
         setDefaultCategory(DEFAULT_CATEGORY_NAVIGATION);

@@ -120,10 +120,10 @@ public class TestDataParser
                 saveBuffer(buffer, data.inputs, keyName);
             } else if (action.equalsIgnoreCase("expect")) {
                 saveBuffer(buffer, data.expectations, keyName);
-            } else if (action.equalsIgnoreCase("inputexpect")) { 
+            } else if (action.equalsIgnoreCase("inputexpect")) {
                 saveBuffer(buffer, data.inputs, keyName);
                 saveBuffer(buffer, data.expectations, keyName);
-            }                            
+            }
         }
     }
 

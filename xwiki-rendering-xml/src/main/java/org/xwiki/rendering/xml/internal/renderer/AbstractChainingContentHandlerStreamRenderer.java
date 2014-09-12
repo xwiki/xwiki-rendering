@@ -24,7 +24,6 @@ import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
 import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRenderer;
 
 /**
- * 
  * @version $Id$
  * @since 5.2M1
  */

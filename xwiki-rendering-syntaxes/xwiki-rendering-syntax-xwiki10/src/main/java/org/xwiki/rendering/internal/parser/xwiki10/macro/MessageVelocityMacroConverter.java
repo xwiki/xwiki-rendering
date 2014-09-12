@@ -35,7 +35,7 @@ import org.xwiki.rendering.parser.xwiki10.macro.AbstractVelocityMacroConverter;
  * @version $Id$
  * @since 2.0
  */
-@Component(hints = {"info", "warning", "error"})
+@Component(hints = { "info", "warning", "error" })
 @Singleton
 public class MessageVelocityMacroConverter extends AbstractVelocityMacroConverter
 {

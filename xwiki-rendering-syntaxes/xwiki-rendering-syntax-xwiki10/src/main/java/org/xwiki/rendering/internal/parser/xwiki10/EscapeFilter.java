@@ -33,7 +33,7 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
 
 /**
  * Match 1.0 escape syntax.
- * 
+ *
  * @version $Id$
  * @since 1.9M2
  */

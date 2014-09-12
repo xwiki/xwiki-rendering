@@ -28,7 +28,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * Component interface for managing macro category information. Each rendering macro defines a default category under
  * which it falls, but this category may be overwritten by xwiki configuration mechanism. This component will handle
  * such overwriting operations and make sure latest macro category information is presented to client code.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */
@@ -39,7 +39,7 @@ public interface MacroCategoryManager
      * Returns all the macro categories currently available in the system. Macros that don't have default or overridden
      * categories are not included and thus clients should be aware that there can be macros in the system which do
      * not belong to any category.
-     * 
+     *
      * @return the macro categories available in the system.
      * @throws MacroLookupException error when looking up macros
      */

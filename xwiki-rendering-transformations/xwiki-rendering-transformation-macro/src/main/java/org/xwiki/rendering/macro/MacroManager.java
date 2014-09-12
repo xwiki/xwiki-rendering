@@ -27,13 +27,13 @@ import org.xwiki.rendering.syntax.Syntax;
 /**
  * Allow retrieving and test the existence of macros. Macros can be available for all syntaxes or only available for
  * a given syntax.
- * 
+ *
  * <p>
  * Indeed, a macro can be registered and thus made available for all syntaxes or only available for a given syntax.
  * The latter is useful for example if we want to support copy pasting wiki content from another wiki and we want to
  * support transparently the macros defined in that content; in this case we could implement these macros only for that
  * syntax and in the implementation make the bridge with XWiki macros for example.
- * </p> 
+ * </p>
  *
  * @version $Id$
  * @since 1.9M1
@@ -62,16 +62,16 @@ public interface MacroManager
      * @return the macro, looked-up first as a macro for the desired syntax identifier (if any is specified in the
      *         MacroId) and then as a macro registered for all syntaxes if not found
      * @throws MacroLookupException when no macro with such id was found in both the list of macro for the specified
-     *         syntax identifier and for all syntaxes
+     *             syntax identifier and for all syntaxes
      * @since 2.03M
      */
-    Macro< ? > getMacro(MacroId macroId) throws MacroLookupException;
+    Macro<?> getMacro(MacroId macroId) throws MacroLookupException;
 
     /**
      * @param macroId the id of the macro to lookup
      * @return true if a macro with the given id and for the given syntax can be found (if any is specified in the
-     *         MacroId), false otherwise. Returns false if a macro with the given id exists but has been registered
-     *         only for all syntaxes
+     *         MacroId), false otherwise. Returns false if a macro with the given id exists but has been registered only
+     *         for all syntaxes
      * @since 2.03M
      */
     boolean exists(MacroId macroId);

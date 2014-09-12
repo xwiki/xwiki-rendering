@@ -50,7 +50,7 @@ import org.xwiki.rendering.util.ParserUtils;
 
 /**
  * Default implementation for {@link org.xwiki.rendering.macro.MacroContentParser}.
- * 
+ *
  * @version $Id$
  * @since 3.0M1
  */
@@ -81,7 +81,7 @@ public class DefaultMacroContentParser implements MacroContentParser
     {
         // If the content is empty return an empty list
         if (StringUtils.isEmpty(content)) {
-            return new XDOM(Collections.<Block> emptyList());
+            return new XDOM(Collections.<Block>emptyList());
         }
 
         Syntax syntax = getCurrentSyntax(macroContext);
@@ -98,8 +98,8 @@ public class DefaultMacroContentParser implements MacroContentParser
                 TransformationContext txContext = new TransformationContext(result, syntax);
                 txContext.setId(macroContext.getId());
                 try {
-                    ((MutableRenderingContext) renderingContext).transformInContext(macroContext.getTransformation(),
-                        txContext, result);
+                    ((MutableRenderingContext) this.renderingContext).transformInContext(
+                        macroContext.getTransformation(), txContext, result);
                 } catch (Exception e) {
                     throw new MacroExecutionException("Failed to perform transformation", e);
                 }
@@ -144,7 +144,7 @@ public class DefaultMacroContentParser implements MacroContentParser
 
     /**
      * Get the parser for the current syntax.
-     * 
+     *
      * @param syntax the current syntax of the title content
      * @return the parser for the current syntax
      * @throws org.xwiki.rendering.macro.MacroExecutionException Failed to find source parser.

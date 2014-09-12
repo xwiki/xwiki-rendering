@@ -34,7 +34,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
  * Draw a box around provided content.
- * 
+ *
  * @param <P> the type of macro parameters bean.
  * @version $Id$
  * @since 1.7

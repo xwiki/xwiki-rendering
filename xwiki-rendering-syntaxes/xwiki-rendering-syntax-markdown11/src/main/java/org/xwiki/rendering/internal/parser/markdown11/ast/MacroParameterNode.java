@@ -51,7 +51,7 @@ public class MacroParameterNode extends AbstractNode
      */
     public String getName()
     {
-        return name;
+        return this.name;
     }
 
     /**
@@ -59,7 +59,7 @@ public class MacroParameterNode extends AbstractNode
      */
     public String getValue()
     {
-        return value;
+        return this.value;
     }
 
     /**
@@ -87,6 +87,6 @@ public class MacroParameterNode extends AbstractNode
     @Override
     public String toString()
     {
-        return name + "=" + value;
+        return this.name + "=" + this.value;
     }
 }

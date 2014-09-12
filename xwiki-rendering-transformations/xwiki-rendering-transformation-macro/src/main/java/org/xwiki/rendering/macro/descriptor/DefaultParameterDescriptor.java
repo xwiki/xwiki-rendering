@@ -25,7 +25,7 @@ import org.xwiki.properties.PropertyDescriptor;
 
 /**
  * The default implementation of {@link ParameterDescriptor}.
- * 
+ *
  * @version $Id$
  * @since 1.7M2
  */
@@ -38,7 +38,7 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
 
     /**
      * Creates a new {@link DefaultParameterDescriptor} instance using the given {@link PropertyDescriptor}.
-     * 
+     *
      * @param propertyDescriptor The {@link PropertyDescriptor} instance.
      */
     public DefaultParameterDescriptor(PropertyDescriptor propertyDescriptor)
@@ -66,7 +66,7 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
 
     @Override
     @Deprecated
-    public Class< ? > getType()
+    public Class<?> getType()
     {
         return this.propertyDescriptor.getPropertyClass();
     }

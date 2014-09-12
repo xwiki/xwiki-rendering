@@ -31,7 +31,7 @@ import org.xwiki.rendering.parser.xwiki10.AbstractSyntaxFilter;
 
 /**
  * Convert 1.0 bold syntax into 2.0 bold syntax.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

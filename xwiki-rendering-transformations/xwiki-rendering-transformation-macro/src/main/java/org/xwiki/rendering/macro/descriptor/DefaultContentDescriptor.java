@@ -21,7 +21,7 @@ package org.xwiki.rendering.macro.descriptor;
 
 /**
  * The default implementation of {@link ContentDescriptor}.
- * 
+ *
  * @version $Id$
  * @since 1.9M1
  */

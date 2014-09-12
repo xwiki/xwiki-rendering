@@ -30,14 +30,14 @@ import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
-import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
+import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 
 /**
  * Generates XHTML from a {@link org.xwiki.rendering.block.XDOM} object being traversed.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */
@@ -47,17 +47,17 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 public class XHTMLRenderer extends AbstractChainingPrintRenderer implements Initializable
 {
     /**
-     * To render link events into XHTML. This is done so that it's pluggable because link rendering depends on how
-     * the underlying system wants to handle it. For example for XWiki we check if the document exists, we get the
-     * document URL, etc.
+     * To render link events into XHTML. This is done so that it's pluggable because link rendering depends on how the
+     * underlying system wants to handle it. For example for XWiki we check if the document exists, we get the document
+     * URL, etc.
      */
     @Inject
     private XHTMLLinkRenderer linkRenderer;
 
     /**
-     * To render image events into XHTML. This is done so that it's pluggable because image rendering depends
-     * on how the underlying system wants to handle it. For example for XWiki we check if the image exists as a
-     * document attachments, we get its URL, etc.
+     * To render image events into XHTML. This is done so that it's pluggable because image rendering depends on how the
+     * underlying system wants to handle it. For example for XWiki we check if the image exists as a document
+     * attachments, we get its URL, etc.
      */
     @Inject
     private XHTMLImageRenderer imageRenderer;

@@ -70,11 +70,11 @@ public class Markdown11StreamParser extends AbstractMarkdownStreamParser
     public void parse(Reader source, Listener listener) throws ParseException
     {
         PegDownPlugins plugins = PegDownPlugins.builder()
-                .withPlugin(FormattingPegdownPluginParser.class)
-                .withPlugin(MacroPegdownPluginParser.class)
-                .withPlugin(InlineXHtmlPegdownPluginParser.class)
-                .withSpecialChars('^')
-                .build();
+            .withPlugin(FormattingPegdownPluginParser.class)
+            .withPlugin(MacroPegdownPluginParser.class)
+            .withPlugin(InlineXHtmlPegdownPluginParser.class)
+            .withSpecialChars('^')
+            .build();
 
         // The Pegdown processor is not thread safe, thus we need one per thread at least.
         // QUOTES extension doesn't work well so it'll be better to disable it now.

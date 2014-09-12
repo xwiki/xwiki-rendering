@@ -33,7 +33,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
  * Macro stub for testing a macro that throws an exception when executed.
- * 
+ *
  * @version $Id$
  * @since 1.7M3
  */

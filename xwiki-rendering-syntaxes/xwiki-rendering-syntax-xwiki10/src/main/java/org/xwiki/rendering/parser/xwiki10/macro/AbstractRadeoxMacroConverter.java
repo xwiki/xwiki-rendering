@@ -28,7 +28,7 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
 
 /**
  * Base class for Radeox macros converters.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */
@@ -77,7 +77,7 @@ public abstract class AbstractRadeoxMacroConverter implements RadeoxMacroConvert
 
     protected void registerParameter(String parameterName, int paramType)
     {
-        this.parametersNames.add(new Object[] {parameterName, paramType});
+        this.parametersNames.add(new Object[] { parameterName, paramType });
     }
 
     @Override

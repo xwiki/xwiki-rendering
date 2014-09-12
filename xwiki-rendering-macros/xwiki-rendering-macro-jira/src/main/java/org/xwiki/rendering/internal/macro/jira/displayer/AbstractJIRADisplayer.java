@@ -66,8 +66,8 @@ public abstract class AbstractJIRADisplayer implements JIRADisplayer
     }
 
     /**
-     * @param parameters the macro parameters from which to get an optional list of JIRA field names to display (if
-     *        not defined by the user then use default field names)
+     * @param parameters the macro parameters from which to get an optional list of JIRA field names to display (if not
+     *            defined by the user then use default field names)
      * @return the list of JIRA field names to be displayed
      */
     protected List<String> getFields(JIRAMacroParameters parameters)

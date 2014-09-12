@@ -29,7 +29,7 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 
 /**
  * Generates LaTeX syntax from a {@link org.xwiki.rendering.block.XDOM}.
- * 
+ *
  * @version $Id$
  * @since 2.1RC1
  */

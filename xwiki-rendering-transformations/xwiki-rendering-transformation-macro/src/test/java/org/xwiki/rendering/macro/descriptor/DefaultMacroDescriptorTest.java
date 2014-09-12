@@ -33,7 +33,7 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
 
 /**
  * Validate {@link DefaultMacroDescriptor} and {@link AbstractMacroDescriptor}.
- * 
+ *
  * @version $Id$
  */
 public class DefaultMacroDescriptorTest extends AbstractComponentTestCase

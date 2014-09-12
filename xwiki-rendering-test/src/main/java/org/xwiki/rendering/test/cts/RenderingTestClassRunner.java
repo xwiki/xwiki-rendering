@@ -127,11 +127,11 @@ public class RenderingTestClassRunner extends BlockJUnit4ClassRunner
 
         // Check all methods for a ComponentManager annotation and call the found ones.
         try {
-            for (Method klassMethod : testInstance.getClass().getMethods()) {
+            for (Method klassMethod : this.testInstance.getClass().getMethods()) {
                 Initialized componentManagerAnnotation = klassMethod.getAnnotation(Initialized.class);
                 if (componentManagerAnnotation != null) {
                     // Call it!
-                    klassMethod.invoke(testInstance, this.componentInitializer.getComponentManager());
+                    klassMethod.invoke(this.testInstance, this.componentInitializer.getComponentManager());
                 }
             }
         } catch (Exception e) {

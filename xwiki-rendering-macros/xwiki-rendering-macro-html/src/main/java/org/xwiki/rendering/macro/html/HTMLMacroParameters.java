@@ -23,7 +23,7 @@ import org.xwiki.properties.annotation.PropertyDescription;
 
 /**
  * Parameters for the {@link org.xwiki.rendering.internal.macro.html.HTMLMacro} Macro.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */
@@ -38,7 +38,7 @@ public class HTMLMacroParameters
      * Indicate if the HTML should be transformed into valid XHTML or not.
      */
     private boolean clean = true;
-    
+
     /**
      * @param wiki indicate if the user has asked to interpret wiki syntax or not
      */
@@ -56,7 +56,7 @@ public class HTMLMacroParameters
     {
         this.clean = clean;
     }
-    
+
     /**
      * @return if the user has asked to interpret wiki syntax or not
      */

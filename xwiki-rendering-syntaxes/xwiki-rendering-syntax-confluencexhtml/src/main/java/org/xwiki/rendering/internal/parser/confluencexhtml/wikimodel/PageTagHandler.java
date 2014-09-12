@@ -31,7 +31,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * {@code
  * <ri:page ri:content-title="Page" ri:space-key="SPACE" />
  * }
- * 
+ *
  * @version $Id$
  * @since 5.3M2
  */

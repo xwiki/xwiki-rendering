@@ -44,7 +44,7 @@ import org.xwiki.rendering.syntax.Syntax;
 /**
  * Default {@link MacroManager} implementation, retrieves all {@link Macro} implementations that are registered against
  * XWiki's component manager.
- * 
+ *
  * @version $Id$
  * @since 1.9M1
  */

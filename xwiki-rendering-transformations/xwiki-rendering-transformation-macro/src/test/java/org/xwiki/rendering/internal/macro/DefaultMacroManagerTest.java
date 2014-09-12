@@ -44,13 +44,13 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.xwiki.test.jmock.AbstractMockingComponentTestCase;
 import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.jmock.AbstractMockingComponentTestCase;
 import org.xwiki.test.jmock.annotation.MockingRequirement;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.internal.macro.DefaultMacroManager}.
- * 
+ *
  * @version $Id$
  * @since 1.9M1
  */
@@ -79,7 +79,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
 
         @Override
         public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
-                throws MacroExecutionException
+            throws MacroExecutionException
         {
             throw new RuntimeException("Not used");
         }
@@ -144,7 +144,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
     @Test
     public void testMacroRegisteredForAGivenSyntaxOnly() throws Exception
     {
-        Macro< ? > macro = new TestSimpleMacro();
+        Macro<?> macro = new TestSimpleMacro();
         DefaultComponentDescriptor<Macro> descriptor = new DefaultComponentDescriptor<Macro>();
         descriptor.setRole(Macro.class);
         descriptor.setRoleHint("macro/xwiki/2.0");
@@ -153,7 +153,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
         Assert.assertFalse(getMockedComponent().exists(new MacroId("macro")));
         Assert.assertTrue(getMockedComponent().exists(new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0"))));
 
-        Macro< ? > macroResult = getMockedComponent().getMacro(
+        Macro<?> macroResult = getMockedComponent().getMacro(
             new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0")));
         Assert.assertSame(macro, macroResult);
     }
@@ -161,8 +161,8 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
     @Test
     public void testMacroRegisteredForAGivenSyntaxOverridesMacroRegisteredForAllSyntaxes() throws Exception
     {
-        Macro< ? > macro1 = new TestSimpleMacro();
-        Macro< ? > macro2 = new TestSimpleMacro();
+        Macro<?> macro1 = new TestSimpleMacro();
+        Macro<?> macro2 = new TestSimpleMacro();
 
         DefaultComponentDescriptor<Macro> descriptor = new DefaultComponentDescriptor<Macro>();
         descriptor.setRole(Macro.class);
@@ -177,11 +177,11 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
         Assert.assertTrue(getMockedComponent().exists(new MacroId("macro")));
         Assert.assertTrue(getMockedComponent().exists(new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0"))));
 
-        Macro< ? > macroResult1 = getMockedComponent().getMacro(
+        Macro<?> macroResult1 = getMockedComponent().getMacro(
             new MacroId("macro", new Syntax(SyntaxType.XWIKI, "2.0")));
         Assert.assertSame(macro2, macroResult1);
 
-        Macro< ? > macroResult2 = getMockedComponent().getMacro(new MacroId("macro"));
+        Macro<?> macroResult2 = getMockedComponent().getMacro(new MacroId("macro"));
         Assert.assertSame(macro1, macroResult2);
     }
 

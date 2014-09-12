@@ -28,7 +28,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Plain Text Parser to convert a text source into a XDOM object.
- * 
+ *
  * @version $Id$
  * @since 2.1M1
  */

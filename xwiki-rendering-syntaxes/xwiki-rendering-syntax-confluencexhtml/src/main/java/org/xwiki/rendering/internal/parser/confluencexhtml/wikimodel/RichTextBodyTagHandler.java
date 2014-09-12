@@ -32,9 +32,9 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * <ac:rich-text-body><p>some <em>text</em> here</p></ac:rich-text-body>
  * }
  * <p>
- * The current implementation strips all markup from the macro content, returning plain text instead.
- * This is due to a limitation of the wiki model not allowing markup inside macros.
- * 
+ * The current implementation strips all markup from the macro content, returning plain text instead. This is due to a
+ * limitation of the wiki model not allowing markup inside macros.
+ *
  * @version $Id$
  * @since 5.4M1
  */
@@ -50,5 +50,4 @@ public class RichTextBodyTagHandler extends PreserveTagHandler
             macro.content = preservedContent;
         }
     }
-
 }

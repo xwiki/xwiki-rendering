@@ -19,13 +19,13 @@
  */
 package org.xwiki.rendering.internal.renderer.wikimodel;
 
-import org.xwiki.rendering.wikimodel.IWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.wikimodel.IWikiPrinter;
 
 /**
  * Bridge so that WikiModel listeners can be used and so that they output their results to a XWiki {@link WikiPrinter}
  * instance.
- * 
+ *
  * @version $Id$
  * @since 1.5M1
  */

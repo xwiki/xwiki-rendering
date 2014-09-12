@@ -32,7 +32,7 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
 
 /**
  * Make sure that two new lines and more produce only one empty line.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

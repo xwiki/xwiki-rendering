@@ -32,7 +32,7 @@ import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRendererFactory;
 
 /**
  * Base class for XML based syntax stream renderers.
- * 
+ *
  * @version $Id$
  * @since 5.2M1
  */

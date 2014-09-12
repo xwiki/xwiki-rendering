@@ -28,7 +28,7 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
 
 /**
  * Contains syntax cleaning helpers.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */
@@ -70,7 +70,7 @@ public final class CleanUtil
 
     /**
      * Replace all spaces/new line groupes by one space.
-     * 
+     *
      * @param content the content to convert.
      * @return the converted string.
      */
@@ -81,7 +81,7 @@ public final class CleanUtil
 
     /**
      * Remove first new lines if there is more than 0 and less or equals to the provided number.
-     * 
+     *
      * @param content the content to convert.
      * @param nb the number of new lines to match.
      * @param replaceWithSpace indicate if the removed new lines are replaced with a white space.
@@ -107,7 +107,7 @@ public final class CleanUtil
 
     /**
      * Remove last new lines if there is more than 0 and less or equals to the provided number.
-     * 
+     *
      * @param content the content to convert.
      * @param nb the number of new lines to match.
      * @param replaceWithSpace indicate if the removed new lines are replaced with a white space.
@@ -133,7 +133,7 @@ public final class CleanUtil
 
     /**
      * Check the provided string contains enough new lines at the beginning and add the need ones.
-     * 
+     *
      * @param content the content to convert.
      * @param nb the number of new lines the string need to contains at the beginning.
      * @return the converted string.
@@ -155,7 +155,7 @@ public final class CleanUtil
 
     /**
      * Check the provided string contains enough new lines at the end and add the need ones.
-     * 
+     *
      * @param content the content to convert.
      * @param nb the number of new lines the string need to contains at the end.
      * @return the converted string.
@@ -177,7 +177,7 @@ public final class CleanUtil
 
     /**
      * Check the provided string contains enough new lines at the end and add the need ones.
-     * 
+     *
      * @param content the content to convert.
      * @param nb the number of new lines the string need to contains at the end.
      */
@@ -194,7 +194,7 @@ public final class CleanUtil
 
     /**
      * Remove all the first new lines.
-     * 
+     *
      * @param content the content to convert.
      * @return the converted string.
      */
@@ -205,7 +205,7 @@ public final class CleanUtil
 
     /**
      * Remove all the last new lines.
-     * 
+     *
      * @param content the content to convert.
      * @return the converted string.
      */

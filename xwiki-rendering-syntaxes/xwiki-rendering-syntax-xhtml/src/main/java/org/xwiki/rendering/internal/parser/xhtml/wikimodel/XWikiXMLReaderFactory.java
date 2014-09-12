@@ -24,11 +24,11 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.xwiki.rendering.wikimodel.xhtml.filter.AccumulationXMLFilter;
-import org.xwiki.rendering.wikimodel.xhtml.filter.DTDXMLFilter;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.wikimodel.xhtml.filter.AccumulationXMLFilter;
+import org.xwiki.rendering.wikimodel.xhtml.filter.DTDXMLFilter;
 import org.xwiki.xml.EntityResolver;
 import org.xwiki.xml.XMLReaderFactory;
 
@@ -41,7 +41,7 @@ import org.xwiki.xml.XMLReaderFactory;
  * <li>Remove non-semantic white spaces where needed</li>
  * <li>Resolve DTDs locally to speed DTD loading/validation</li>
  * </ul>
- * 
+ *
  * @version $Id$
  * @since 2.1RC1
  */

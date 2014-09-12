@@ -79,8 +79,8 @@ public class ListJIRADataSource extends AbstractJIRADataSource
     /**
      * @param document the XML document containing all the JIRA issues and which was returned by the JIRA server
      * @param issueIds the list of JIRA issue ids specified by the user
-     * @return the list of JIRA issues (returned as XML elements), in the same order as the JIRA issue id list
-     *         specified by the user
+     * @return the list of JIRA issues (returned as XML elements), in the same order as the JIRA issue id list specified
+     *         by the user
      */
     public List<Element> buildIssues(Document document, List<Pair<String, String>> issueIds)
     {

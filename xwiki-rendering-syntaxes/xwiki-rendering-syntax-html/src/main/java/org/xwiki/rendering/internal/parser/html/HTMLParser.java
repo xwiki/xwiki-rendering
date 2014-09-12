@@ -37,7 +37,7 @@ import org.xwiki.xml.html.HTMLUtils;
 
 /**
  * Parses HTML and generate a {@link XDOM} object.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */

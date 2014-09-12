@@ -35,7 +35,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Generic XML based events parser.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */

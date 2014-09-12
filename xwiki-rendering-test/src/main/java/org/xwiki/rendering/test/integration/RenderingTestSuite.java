@@ -172,11 +172,11 @@ public class RenderingTestSuite extends Suite
 
             // Check all methods for a ComponentManager annotation and call the found ones.
             try {
-                for (Method klassMethod : klassInstance.getClass().getMethods()) {
+                for (Method klassMethod : RenderingTestSuite.this.klassInstance.getClass().getMethods()) {
                     Initialized componentManagerAnnotation = klassMethod.getAnnotation(Initialized.class);
                     if (componentManagerAnnotation != null) {
                         // Call it!
-                        klassMethod.invoke(klassInstance, getComponentManager());
+                        klassMethod.invoke(RenderingTestSuite.this.klassInstance, getComponentManager());
                     }
                 }
             } catch (Exception e) {
@@ -198,7 +198,7 @@ public class RenderingTestSuite extends Suite
                     this.componentInitializer.initializeConfigurationSource();
                     this.componentInitializer.initializeExecution();
                 } else {
-                    this.mockitoComponentManager.initializeTest(klassInstance);
+                    this.mockitoComponentManager.initializeTest(RenderingTestSuite.this.klassInstance);
                     this.mockitoComponentManager.registerMemoryConfigurationSource();
                 }
             } catch (Exception e) {
@@ -234,7 +234,7 @@ public class RenderingTestSuite extends Suite
         private boolean isLegacyMode()
         {
             boolean isLegacyMode = true;
-            for (Method klassMethod : klassInstance.getClass().getMethods()) {
+            for (Method klassMethod : RenderingTestSuite.this.klassInstance.getClass().getMethods()) {
                 Initialized componentManagerAnnotation = klassMethod.getAnnotation(Initialized.class);
                 if (componentManagerAnnotation != null) {
                     if (MockitoComponentManager.class.isAssignableFrom(klassMethod.getParameterTypes()[0])) {
@@ -244,8 +244,9 @@ public class RenderingTestSuite extends Suite
                 }
             }
             // If the class is using either @AllComponents or @ComponentList then consider we're not in legacy.
-            if (isLegacyMode && (klassInstance.getClass().getAnnotation(AllComponents.class) != null
-                || klassInstance.getClass().getAnnotation(ComponentList.class) != null))
+            if (isLegacyMode
+                && (RenderingTestSuite.this.klassInstance.getClass().getAnnotation(AllComponents.class) != null
+                || RenderingTestSuite.this.klassInstance.getClass().getAnnotation(ComponentList.class) != null))
             {
                 isLegacyMode = false;
             }

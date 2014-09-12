@@ -21,7 +21,7 @@ package org.xwiki.rendering.parser.xwiki10;
 
 /**
  * Base class for filters.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

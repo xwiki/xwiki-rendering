@@ -21,9 +21,8 @@ package org.xwiki.rendering.internal.macro;
 
 import java.util.Set;
 
-import org.junit.Assert;
-
 import org.jmock.Expectations;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.rendering.internal.transformation.macro.DefaultMacroTransformationConfiguration;
@@ -37,14 +36,14 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.macro.MacroCategoryManager}.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */
 public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
 {
     private MacroCategoryManager macroCategoryManager;
-    
+
     @Override
     @Before
     public void setUp() throws Exception
@@ -79,7 +78,7 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
 
     @Test
     public void testGetMacroNamesForCategory() throws Exception
-    {        
+    {
         // Create two mock macros and register them macros against the CM as macros registered for all syntaxes.
         final Macro testMacro1 = registerMockComponent(Macro.class, "mytestmacro1", "mock1");
         final Macro testMacro2 = registerMockComponent(Macro.class, "mytestmacro2", "mock2");
@@ -90,27 +89,27 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
             will(returnValue(new DefaultMacroDescriptor(new MacroId("macro2"), "Test macro - 2")));
         }});
 
-        // Override default macro categories. 
+        // Override default macro categories.
         DefaultMacroTransformationConfiguration configuration =
             (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
                 MacroTransformationConfiguration.class);
         configuration.addCategory(new MacroId("mytestmacro1"), "Cat1");
         configuration.addCategory(new MacroId("mytestmacro2"), "Cat2");
-        
+
         // Check whether our macros are registered under correct categories.
         Set<MacroId> macroIds = this.macroCategoryManager.getMacroIds("Cat1");
         Assert.assertTrue(macroIds.contains(new MacroId("mytestmacro1")));
         Assert.assertFalse(macroIds.contains(new MacroId("mytestmacro2")));
-        
+
         // These macros should be registered for all syntaxes.
         macroIds = this.macroCategoryManager.getMacroIds("Cat1", Syntax.JSPWIKI_1_0);
         Assert.assertTrue(macroIds.contains(new MacroId("mytestmacro1")));
-        
+
         // Finally, unregister test macros.
         getComponentManager().unregisterComponent(Macro.class, "mytestmacro1");
         getComponentManager().unregisterComponent(Macro.class, "mytestmacro2");
     }
-    
+
     @Test
     public void testGetMacroIdsWithSyntaxSpecificMacros() throws Exception
     {
@@ -120,13 +119,13 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
             allowing(mockMacro).getDescriptor();
             will(returnValue(new DefaultMacroDescriptor(new MacroId("test"), "Test macro")));
         }});
-        
-        // Override the macro category for this macro. 
+
+        // Override the macro category for this macro.
         DefaultMacroTransformationConfiguration configuration =
             (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
                 MacroTransformationConfiguration.class);
         configuration.addCategory(new MacroId("mytestmacro", Syntax.XWIKI_2_0), "Test");
-                
+
         // Make sure our macro is put into the correct category & registered under correct syntax.
         Set<MacroId> macroIds = this.macroCategoryManager.getMacroIds("Test");
         Assert.assertTrue(macroIds.contains(new MacroId("mytestmacro", Syntax.XWIKI_2_0)));
@@ -134,7 +133,7 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
         Assert.assertTrue(macroIds.contains(new MacroId("mytestmacro", Syntax.XWIKI_2_0)));
         macroIds = this.macroCategoryManager.getMacroIds("Test", Syntax.JSPWIKI_1_0);
         Assert.assertFalse(macroIds.contains(new MacroId("mytestmacro")));
-        
+
         // Finally, unregister the test macro.
         getComponentManager().unregisterComponent(Macro.class, "mytestmacro/xwiki/2.0");
     }

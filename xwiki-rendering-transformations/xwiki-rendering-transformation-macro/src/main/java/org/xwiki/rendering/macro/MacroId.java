@@ -30,7 +30,7 @@ import org.xwiki.rendering.syntax.Syntax;
  *   <li>a string representing a technical id (eg "toc")</li>
  *   <li>an optional syntax (can be null) if the macro is only available for a given syntax</li>
  * </ul>
- * </p> 
+ * </p>
  *
  * @version $Id$
  * @since 2.0M3
@@ -78,8 +78,8 @@ public class MacroId
     }
 
     /**
-     * @return the optional syntax (can be null) for which the macro represented by this id is available. If null
-     *         then the macro is available for all syntaxes.
+     * @return the optional syntax (can be null) for which the macro represented by this id is available. If null then
+     *         the macro is available for all syntaxes.
      */
     public Syntax getSyntax()
     {

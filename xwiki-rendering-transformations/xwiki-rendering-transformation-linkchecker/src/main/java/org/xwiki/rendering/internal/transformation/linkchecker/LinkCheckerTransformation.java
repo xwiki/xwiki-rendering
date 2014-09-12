@@ -46,8 +46,8 @@ import org.xwiki.rendering.transformation.TransformationException;
 import org.xwiki.rendering.transformation.linkchecker.LinkContextDataProvider;
 
 /**
- * Looks for external URLs in links and verify their status (ok, broken, etc). In order to get good performances
- * this is done asynchronously in a Thread and same links are checked only every N minutes.
+ * Looks for external URLs in links and verify their status (ok, broken, etc). In order to get good performances this is
+ * done asynchronously in a Thread and same links are checked only every N minutes.
  *
  * @version $Id$
  * @since 3.3M1
@@ -82,6 +82,7 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
 
     /**
      * Start a Thread in charge of reading links to check from the Checking queue and checking them.
+     *
      * @throws InitializationException not used
      */
     @Override
@@ -123,6 +124,7 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
 
     /**
      * Stops the checking thread. Should be called when the application is stopped for a clean shutdown.
+     *
      * @throws InterruptedException if the thread failed to be stopped
      */
     public void stopLinkCheckerThread() throws InterruptedException
@@ -162,7 +164,7 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
         }
         return linkContextData;
     }
-    
+
     /**
      * @param source the blocks from where to try to extract the source content
      * @return the source content reference or null if none is found
@@ -175,6 +177,6 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
         if (metaDataBlock != null) {
             contentSource = (String) metaDataBlock.getMetaData().getMetaData(MetaData.SOURCE);
         }
-        return contentSource;        
+        return contentSource;
     }
 }

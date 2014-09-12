@@ -30,7 +30,7 @@ import org.xwiki.rendering.util.ParserUtils;
 
 /**
  * Methods for helping in parsing.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */
@@ -57,20 +57,20 @@ public class WikiModelParserUtils extends ParserUtils
                 @Override
                 public void onWord(String word)
                 {
-                    if (foundWord) {
+                    if (this.foundWord) {
                         super.onWord(word);
                     } else {
-                        foundWord = true;
+                        this.foundWord = true;
                     }
                 }
 
                 @Override
                 public void onSpace()
                 {
-                    if (foundSpace) {
+                    if (this.foundSpace) {
                         super.onSpace();
                     } else {
-                        foundSpace = true;
+                        this.foundSpace = true;
                     }
                 }
             };

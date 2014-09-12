@@ -30,7 +30,7 @@ import org.xwiki.rendering.test.cts.Syntax;
  * @since 5.2RC1
  */
 @RunWith(CompatibilityTestSuite.class)
-@Syntax(value="markdown/1.1", metadata="markdown/1.0")
+@Syntax(value = "markdown/1.1", metadata = "markdown/1.0")
 public class Markdown11CompatibilityTest
 {
 }

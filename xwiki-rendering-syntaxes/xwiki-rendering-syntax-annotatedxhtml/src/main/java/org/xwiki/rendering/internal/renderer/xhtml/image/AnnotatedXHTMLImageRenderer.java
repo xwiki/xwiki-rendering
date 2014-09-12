@@ -24,11 +24,11 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 
 /**

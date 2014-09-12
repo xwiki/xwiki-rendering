@@ -31,7 +31,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Current version of the XDOM+XML stream based renderer.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */

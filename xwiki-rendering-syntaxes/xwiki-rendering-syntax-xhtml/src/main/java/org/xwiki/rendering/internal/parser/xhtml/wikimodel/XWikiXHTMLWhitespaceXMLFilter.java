@@ -32,7 +32,7 @@ import org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter;
  * Extension to the WikiModel {@link XHTMLWhitespaceXMLFilter} to support both the ability to not remove spaces inside
  * XHTML elements containing wiki syntax (we only trim leading and trailing spaces) and to handle XWiki special XHTML
  * comment placeholders (for recognizing links, images, etc).
- * 
+ *
  * @version $Id$
  * @since 2.1RC1
  */

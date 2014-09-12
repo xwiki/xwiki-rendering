@@ -44,7 +44,7 @@ import org.xwiki.velocity.internal.util.VelocityBlock.VelocityType;
  * velocity macro into 2.0 macros/syntax and add needed 2.0 velocity macros and convert.
  * <p>
  * See http://velocity.apache.org/engine/releases/velocity-1.6.2/vtl-reference-guide.html
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */
@@ -117,7 +117,7 @@ public class VelocityFilter extends AbstractFilter implements Initializable
     {
         setPriority(20);
 
-        this.velocityParser = new ExtendedVelocityParser(componentManager);
+        this.velocityParser = new ExtendedVelocityParser(this.componentManager);
     }
 
     @Override

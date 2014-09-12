@@ -25,7 +25,7 @@ import org.xwiki.rendering.util.IdGenerator;
 
 /**
  * Adds the ability to create a corresponding XWiki Generator Listener over {@link StreamParser}.
- *  
+ *
  * @version $Id$
  * @since 2.5RC1
  */

@@ -32,7 +32,7 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
 /**
  * Serialize a link reference pointing to a document using the format
  * {@code (document reference)(#anchor)(?query string)}.
- *  
+ *
  * @version $Id$
  * @since 2.5RC1
  */
@@ -44,7 +44,7 @@ public class DocumentReferenceTypeSerializer implements ResourceReferenceTypeSer
     /**
      * Escapes to add when rendering a link reference part.
      */
-    private static final String[] ESCAPE_REPLACEMENTS_REFERENCE = new String[]{
+    private static final String[] ESCAPE_REPLACEMENTS_REFERENCE = new String[] {
         XWiki20LinkReferenceParser.ESCAPE_CHAR + XWiki20LinkReferenceParser.SEPARATOR_QUERYSTRING,
         XWiki20LinkReferenceParser.ESCAPE_CHAR + XWiki20LinkReferenceParser.SEPARATOR_INTERWIKI,
         XWiki20LinkReferenceParser.ESCAPE_CHAR + XWiki20LinkReferenceParser.SEPARATOR_ANCHOR };
@@ -52,7 +52,7 @@ public class DocumentReferenceTypeSerializer implements ResourceReferenceTypeSer
     /**
      * Replacement chars for the escapes to add to the reference part.
      */
-    private static final String[] ESCAPES_REFERENCE = new String[]{
+    private static final String[] ESCAPES_REFERENCE = new String[] {
         XWiki20LinkReferenceParser.SEPARATOR_QUERYSTRING,
         XWiki20LinkReferenceParser.SEPARATOR_INTERWIKI,
         XWiki20LinkReferenceParser.SEPARATOR_ANCHOR };
@@ -60,7 +60,7 @@ public class DocumentReferenceTypeSerializer implements ResourceReferenceTypeSer
     /**
      * Escapes to add when rendering a link query string, anchor or interwiki part.
      */
-    private static final String[] ESCAPE_REPLACEMENTS_EXTRA = new String[]{
+    private static final String[] ESCAPE_REPLACEMENTS_EXTRA = new String[] {
         XWiki20LinkReferenceParser.ESCAPE_CHAR + XWiki20LinkReferenceParser.SEPARATOR_QUERYSTRING,
         XWiki20LinkReferenceParser.ESCAPE_CHAR + XWiki20LinkReferenceParser.SEPARATOR_INTERWIKI,
         XWiki20LinkReferenceParser.ESCAPE_CHAR + XWiki20LinkReferenceParser.SEPARATOR_ANCHOR,
@@ -69,7 +69,7 @@ public class DocumentReferenceTypeSerializer implements ResourceReferenceTypeSer
     /**
      * Replacement chars for the escapes to add to the query string, anchor or interwiki part.
      */
-    private static final String[] ESCAPES_EXTRA = new String[]{
+    private static final String[] ESCAPES_EXTRA = new String[] {
         XWiki20LinkReferenceParser.SEPARATOR_QUERYSTRING,
         XWiki20LinkReferenceParser.SEPARATOR_INTERWIKI,
         XWiki20LinkReferenceParser.SEPARATOR_ANCHOR,

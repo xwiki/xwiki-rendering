@@ -33,7 +33,7 @@ import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
 
 /**
  * Common code for XHTML Image Type Renderer implementations.
- * 
+ *
  * @version $Id$
  * @since 5.4RC1
  */
@@ -110,14 +110,14 @@ public abstract class AbstractXHTMLImageTypeRenderer implements XHTMLImageTypeRe
             getXHTMLWikiPrinter().printXMLElement(XHTMLImageRenderer.IMG, attributes);
         } catch (Throwable e) {
             // Error title
-            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][] {{CLASS, "xwikirenderingerror"}});
+            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][] { { CLASS, "xwikirenderingerror" } });
             getXHTMLWikiPrinter().printXML(e.getMessage());
             getXHTMLWikiPrinter().printXMLEndElement(SPAN);
 
             // Error details
             getXHTMLWikiPrinter().printXMLStartElement(SPAN,
-                new String[][] {{CLASS, "xwikirenderingerrordescription hidden"}});
-            getXHTMLWikiPrinter().printXMLStartElement(TT, new String[][] {{CLASS, "wikimodel-verbatim"}});
+                new String[][] { { CLASS, "xwikirenderingerrordescription hidden" } });
+            getXHTMLWikiPrinter().printXMLStartElement(TT, new String[][] { { CLASS, "wikimodel-verbatim" } });
             getXHTMLWikiPrinter().printXML(ExceptionUtils.getStackTrace(e));
             getXHTMLWikiPrinter().printXMLEndElement(TT);
             getXHTMLWikiPrinter().printXMLEndElement(SPAN);

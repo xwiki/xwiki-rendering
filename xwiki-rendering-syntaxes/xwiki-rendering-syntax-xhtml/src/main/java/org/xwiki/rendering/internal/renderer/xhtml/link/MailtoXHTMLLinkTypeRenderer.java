@@ -30,7 +30,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
  * Handle XHTML rendering for mailto links.
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */

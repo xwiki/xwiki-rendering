@@ -39,7 +39,7 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
  * must use a role hint equal to the XWiki Syntax id followed by "/" and then Link Type name (eg "doc" for document
  * links, "attach" for attachment links, etc).
  * </p>
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */

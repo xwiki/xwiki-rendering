@@ -58,7 +58,7 @@ import org.xwiki.rendering.internal.parser.reference.GenericLinkReferenceParser;
  * <li>Hello World?param1=1&param2=2</li>
  * </ul>
  * Note that allowed URIs are URLs of the form {@code http://}, {@code mailto:}, {@code image:} and {@code attach:}.
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */
@@ -69,13 +69,11 @@ public class XWiki20LinkReferenceParser extends GenericLinkReferenceParser
 {
     /**
      * Mailto URI scheme.
-     *
      */
     public static final String MAILTO_SCHEME = "mailto";
 
     /**
      * Attachment URI scheme.
-     *
      */
     public static final String ATTACH_SCHEME = "attach";
 

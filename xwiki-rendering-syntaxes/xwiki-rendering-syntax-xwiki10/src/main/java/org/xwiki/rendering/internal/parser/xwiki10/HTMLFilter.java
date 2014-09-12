@@ -44,7 +44,7 @@ import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
 
 /**
  * Add needed HTML open and close macro.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */
@@ -257,8 +257,8 @@ public class HTMLFilter extends AbstractFilter implements Initializable
             appendHTMLOpen(result, filterContext, multilines);
 
             // print html content
-            result.append(filterContext.addProtectedContent(escape20SyntaxFilter.filter(htmlContent, filterContext),
-                false));
+            result.append(filterContext.addProtectedContent(
+                this.escape20SyntaxFilter.filter(htmlContent, filterContext), false));
 
             appendHTMLClose(result, filterContext, multilines);
 
@@ -468,7 +468,6 @@ public class HTMLFilter extends AbstractFilter implements Initializable
         // skip white spaces
         i = getWhiteSpaces(array, i, null);
 
-        // 
         if (i == array.length) {
             context.setType(HTMLType.ELEMENT);
         } else if (array[i] == '/' && i + 1 < array.length && array[i + 1] == '>') {
@@ -691,7 +690,7 @@ public class HTMLFilter extends AbstractFilter implements Initializable
 
         public HTMLType peekType()
         {
-            return type.peek();
+            return this.type.peek();
         }
 
         public void pushType()
@@ -711,7 +710,7 @@ public class HTMLFilter extends AbstractFilter implements Initializable
 
         public boolean isHTML()
         {
-            return html;
+            return this.html;
         }
 
         public void setHTML(boolean isHTML)
@@ -721,7 +720,7 @@ public class HTMLFilter extends AbstractFilter implements Initializable
 
         public boolean isVelocityOpen()
         {
-            return velocityOpen;
+            return this.velocityOpen;
         }
 
         public void setVelocityOpen(boolean velocityOpen)
@@ -731,7 +730,7 @@ public class HTMLFilter extends AbstractFilter implements Initializable
 
         public boolean isVelocityClose()
         {
-            return velocityClose;
+            return this.velocityClose;
         }
 
         public void setVelocityClose(boolean velocityClose)

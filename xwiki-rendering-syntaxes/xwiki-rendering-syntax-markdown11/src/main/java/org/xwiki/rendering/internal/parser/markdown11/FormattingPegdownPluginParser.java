@@ -28,8 +28,7 @@ import org.xwiki.rendering.internal.parser.markdown11.ast.SubscriptNode;
 import org.xwiki.rendering.internal.parser.markdown11.ast.SuperscriptNode;
 
 /**
- * Implements a pluggable parser for Pegdown that provides superscript and
- * subscript syntax for XWiki.
+ * Implements a pluggable parser for Pegdown that provides superscript and subscript syntax for XWiki.
  *
  * @version $Id $
  * @since 5.2RC1
@@ -47,7 +46,6 @@ public class FormattingPegdownPluginParser extends Parser implements InlinePlugi
     {
         return new Rule[] { Superscript(), Subscript() };
     }
-
 
     /**
      * Rule for a superscript formatting.
@@ -98,7 +96,7 @@ public class FormattingPegdownPluginParser extends Parser implements InlinePlugi
             TestNot(marker),
             FirstOf(
                 Sequence(
-                    Ch('\\'),  //will not append escape char
+                    Ch('\\'), // will not append escape char
                     Spacechar(), push(new TextNode(match())) && addAsChild()),
                 Sequence(
                     Nonspacechar(), push(new TextNode(match())) && addAsChild()

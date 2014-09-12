@@ -31,15 +31,15 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.macro.MacroCategoryManager;
+import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroManager;
-import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.macro.MacroTransformationConfiguration;
 
 /**
  * Default implementation of {@link org.xwiki.rendering.macro.MacroCategoryManager}.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */
@@ -80,7 +80,8 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
     @Override
     public Set<String> getMacroCategories(final Syntax syntax) throws MacroLookupException
     {
-        Set<String> categories = getMacroIdsByCategory(new MacroMatcher() {
+        Set<String> categories = getMacroIdsByCategory(new MacroMatcher()
+        {
             @Override
             public boolean match(MacroId macroId)
             {
@@ -100,7 +101,8 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
     @Override
     public Set<MacroId> getMacroIds(String category, final Syntax syntax) throws MacroLookupException
     {
-        Set<MacroId> macros = getMacroIdsByCategory(new MacroMatcher() {
+        Set<MacroId> macros = getMacroIdsByCategory(new MacroMatcher()
+        {
             @Override
             public boolean match(MacroId macroId)
             {
@@ -122,7 +124,7 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
 
         // Find all registered macro ids
         Set<MacroId> macroIds = this.macroManager.getMacroIds();
-        
+
         // Loop through all the macro ids and categorize them.
         Properties categories = this.configuration.getCategories();
         for (MacroId macroId : macroIds) {

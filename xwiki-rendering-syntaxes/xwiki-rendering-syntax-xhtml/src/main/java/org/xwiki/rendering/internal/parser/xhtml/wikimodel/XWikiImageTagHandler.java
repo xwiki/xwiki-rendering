@@ -19,8 +19,8 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiParameter;
+import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.xhtml.handler.ImgTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
@@ -29,7 +29,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
 /**
  * Handle IMG tag since we're putting the original image reference into XHTML comments so that we can reconstruct the
  * reference when moving back from XHTML to wiki syntax.
- * 
+ *
  * @version $Id$
  * @since 1.7M2
  */

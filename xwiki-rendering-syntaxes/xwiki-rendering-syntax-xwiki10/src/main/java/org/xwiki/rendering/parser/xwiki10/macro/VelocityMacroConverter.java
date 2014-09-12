@@ -26,7 +26,7 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
 
 /**
  * Convert velocity macro to XWiki 2.0 syntax or macro.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

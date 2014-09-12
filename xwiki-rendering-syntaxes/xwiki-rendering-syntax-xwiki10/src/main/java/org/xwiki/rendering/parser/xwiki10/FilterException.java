@@ -20,7 +20,6 @@
 package org.xwiki.rendering.parser.xwiki10;
 
 /**
- * 
  * @version $Id$
  * @since 1.8M1
  */
@@ -40,7 +39,7 @@ public class FilterException extends Exception
 
     /**
      * Construct a new ParseException with the specified detail message.
-     * 
+     *
      * @param message The detailed message. This can later be retrieved by the Throwable.getMessage() method.
      */
     public FilterException(String message)
@@ -50,7 +49,7 @@ public class FilterException extends Exception
 
     /**
      * Construct a new ParseException with the specified detail message and cause.
-     * 
+     *
      * @param message The detailed message. This can later be retrieved by the Throwable.getMessage() method.
      * @param e the cause. This can be retrieved later by the Throwable.getCause() method. (A null value is permitted,
      *            and indicates that the cause is nonexistent or unknown.)
@@ -63,7 +62,7 @@ public class FilterException extends Exception
     /**
      * Constructs a new exception with the specified cause. The error message is (cause == null ? null :
      * cause.toString() ).
-     * 
+     *
      * @param e the cause. This can be retrieved later by the Throwable.getCause() method. (A null value is permitted,
      *            and indicates that the cause is nonexistent or unknown.)
      */
@@ -74,7 +73,7 @@ public class FilterException extends Exception
 
     /**
      * Construct a new ParseException with the specified cause, filename and linenumber.
-     * 
+     *
      * @param e the cause. This can be retrieved later by the Throwable.getCause() method. (A null value is permitted,
      *            and indicates that the cause is nonexistent or unknown.)
      * @param file Name of a file that couldn't be parsed. This can later be retrieved by the getFileName() method.
@@ -87,7 +86,7 @@ public class FilterException extends Exception
 
     /**
      * Construct a new ParseException with the specified cause, detail message, filename and linenumber.
-     * 
+     *
      * @param e the cause. This can be retrieved later by the Throwable.getCause() method. (A null value is permitted,
      *            and indicates that the cause is nonexistent or unknown.)
      * @param message The detailed message. This can later be retrieved by the Throwable.getMessage() method.
@@ -104,21 +103,21 @@ public class FilterException extends Exception
 
     /**
      * Returns the file that caused the ParseException.
-     * 
+     *
      * @return the file that caused the ParseException.
      */
     public String getFileName()
     {
-        return fileName;
+        return this.fileName;
     }
 
     /**
      * Returns the line number where the ParseException ocurred.
-     * 
+     *
      * @return the line number.
      */
     public int getLineNumber()
     {
-        return lineNumber;
+        return this.lineNumber;
     }
 }

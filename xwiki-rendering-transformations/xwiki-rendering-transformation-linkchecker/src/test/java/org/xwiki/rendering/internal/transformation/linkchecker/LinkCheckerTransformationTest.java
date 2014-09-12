@@ -94,7 +94,7 @@ public class LinkCheckerTransformationTest
         // Verify we can access the link states through the Script Service
         LinkCheckerScriptService service = this.componentManager.getInstance(ScriptService.class, "linkchecker");
         Map<String, Map<String, LinkState>> states = service.getLinkStates();
-        
+
         LinkState state1 = states.get("http://ok").get("default");
         assertEquals(200, state1.getResponseCode());
         LinkState state2 = states.get("invalid").get("default");
@@ -177,8 +177,8 @@ public class LinkCheckerTransformationTest
 
         // We've put a timeout of 0ms but to be on the safe side we wait 1ms (since otherwise it could be possible
         // that the above executes in less than 1ms.
-        DefaultLinkCheckerThread.sleep(1L);
-        
+        Thread.sleep(1L);
+
         // Verify we can access the link states through the Script Service
         LinkCheckerScriptService service = this.componentManager.getInstance(ScriptService.class, "linkchecker");
         Map<String, Map<String, LinkState>> states = service.getLinkStates();
@@ -206,7 +206,7 @@ public class LinkCheckerTransformationTest
         transformation.transform(newXDOM, new TransformationContext());
 
         LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
-        wait(linkStateManager, 1);        
+        wait(linkStateManager, 1);
 
         assertNotNull(linkStateManager.getLinkStates().get("http://ok").get("source"));
     }
@@ -229,7 +229,7 @@ public class LinkCheckerTransformationTest
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable
             {
-                hasListenerBeenCalled = true;
+                this.hasListenerBeenCalled = true;
                 return null;
             }
         }
@@ -244,7 +244,7 @@ public class LinkCheckerTransformationTest
         // Wait till the event has been sent since parseAndWait only waits for the link state to be in cache but it
         // doesn't wait for the event to be sent.
         while (!stateAnswer.hasListenerBeenCalled) {
-            DefaultLinkCheckerThread.sleep(100L);
+            Thread.sleep(100L);
         }
     }
 
@@ -267,7 +267,7 @@ public class LinkCheckerTransformationTest
 
         LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
         transformAndWait(input, linkStateManager, 1);
-        
+
         // Assert states
         LinkState linkState = linkStateManager.getLinkStates().get("http://ok").get("default");
         assertEquals("contextValue", linkState.getContextData().get("contextKey"));
@@ -336,7 +336,7 @@ public class LinkCheckerTransformationTest
     {
         long time = System.currentTimeMillis();
         while (linkStateManager.getLinkStates().size() != numberOfItemsToWaitFor) {
-            DefaultLinkCheckerThread.sleep(100L);
+            Thread.sleep(100L);
             // Protect against infinite loop
             assertTrue("Killed thread since it took too much time", System.currentTimeMillis() - time < 10000L);
         }

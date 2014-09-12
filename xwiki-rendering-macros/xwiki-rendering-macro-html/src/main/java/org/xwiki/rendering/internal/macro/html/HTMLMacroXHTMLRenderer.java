@@ -27,19 +27,19 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
-import org.xwiki.rendering.listener.chaining.ListenerChain;
-import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
-import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
-import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
+import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
+import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
+import org.xwiki.rendering.listener.chaining.ListenerChain;
+import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
+import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 
 /**
  * Renderer that generates XHTML from a XDOM resulting from the parsing of text containing HTML mixed with wiki syntax.
  * We override the default XHTML renderer since we want special behaviors, for example to not escape special symbols
- * (since we don't want to escape HTML tags for example). 
- * 
+ * (since we don't want to escape HTML tags for example).
+ *
  * @version $Id $
  * @since 1.8.3
  */
@@ -49,23 +49,24 @@ import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 public class HTMLMacroXHTMLRenderer extends AbstractChainingPrintRenderer implements Initializable
 {
     /**
-     * To render link events into XHTML. This is done so that it's pluggable because link rendering depends on how
-     * the underlying system wants to handle it. For example for XWiki we check if the document exists, we get the
-     * document URL, etc.
+     * To render link events into XHTML. This is done so that it's pluggable because link rendering depends on how the
+     * underlying system wants to handle it. For example for XWiki we check if the document exists, we get the document
+     * URL, etc.
      */
     @Inject
     private XHTMLLinkRenderer linkRenderer;
 
     /**
-     * To render image events into XHTML. This is done so that it's pluggable because image rendering depends
-     * on how the underlying system wants to handle it. For example for XWiki we check if the image exists as a
-     * document attachments, we get its URL, etc.
+     * To render image events into XHTML. This is done so that it's pluggable because image rendering depends on how the
+     * underlying system wants to handle it. For example for XWiki we check if the image exists as a document
+     * attachments, we get its URL, etc.
      */
     @Inject
     private XHTMLImageRenderer imageRenderer;
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0M3
      */
     @Override

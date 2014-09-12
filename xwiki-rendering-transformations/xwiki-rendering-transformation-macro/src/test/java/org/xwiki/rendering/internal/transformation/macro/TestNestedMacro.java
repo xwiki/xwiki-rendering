@@ -54,7 +54,7 @@ public class TestNestedMacro extends AbstractNoParameterMacro
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
-        return Arrays.asList((Block) new MacroBlock("testsimplemacro", Collections.<String, String> emptyMap(),
+        return Arrays.asList((Block) new MacroBlock("testsimplemacro", Collections.<String, String>emptyMap(),
             false));
     }
 }

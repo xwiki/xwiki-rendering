@@ -36,7 +36,7 @@ import org.pegdown.ast.Visitor;
 public class MacroNode extends SuperNode
 {
     private final String macroId;
-    
+
     private final boolean isInline;
 
     private List<MacroParameterNode> parameters = new LinkedList<MacroParameterNode>();
@@ -56,7 +56,7 @@ public class MacroNode extends SuperNode
      */
     public String getMacroId()
     {
-        return macroId;
+        return this.macroId;
     }
 
     /**
@@ -64,7 +64,7 @@ public class MacroNode extends SuperNode
      */
     public boolean isInline()
     {
-        return isInline;
+        return this.isInline;
     }
 
     /**
@@ -72,7 +72,7 @@ public class MacroNode extends SuperNode
      */
     public ImmutableList<MacroParameterNode> getParameters()
     {
-        return ImmutableList.copyOf(parameters);
+        return ImmutableList.copyOf(this.parameters);
     }
 
     /**
@@ -81,7 +81,7 @@ public class MacroNode extends SuperNode
      */
     public boolean addParameter(MacroParameterNode node)
     {
-        parameters.add(node);
+        this.parameters.add(node);
         return true;
     }
 

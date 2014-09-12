@@ -26,7 +26,7 @@ import org.xwiki.rendering.syntax.Syntax;
 /**
  * The context of the macro transformation process. Contains information such as the current XWiki DOM for the parsed
  * content and the current Macro block being processed by the Macro transformation.
- * 
+ *
  * @version $Id$
  */
 public class MacroTransformationContext implements Cloneable
@@ -61,7 +61,7 @@ public class MacroTransformationContext implements Cloneable
 
     /**
      * Constructor.
-     * 
+     *
      * @param transformationContext the context of the transformation process.
      * @since 2.4M1
      */

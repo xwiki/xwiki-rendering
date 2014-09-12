@@ -33,7 +33,7 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
 
 /**
  * Restore protected escaped characters.
- * 
+ *
  * @version $Id$
  * @since 1.9M2
  */

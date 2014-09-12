@@ -26,7 +26,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
 /**
  * Override the default implementation of hte WikiModel XHTML parser for handling HTML headers. We need to do this in
  * order to handle the <code>id</code> attribute that we generate in our XHTML rendered.
- * 
+ *
  * @version $Id$
  * @since 1.6RC1
  */

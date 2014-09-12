@@ -20,7 +20,6 @@
 package org.xwiki.rendering.macro.message;
 
 import org.junit.Assert;
-
 import org.junit.Test;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.test.jmock.AbstractComponentTestCase;

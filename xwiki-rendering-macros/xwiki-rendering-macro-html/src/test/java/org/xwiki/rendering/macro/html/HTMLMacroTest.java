@@ -23,18 +23,17 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.rendering.internal.macro.html.HTMLMacro;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.RawBlock;
+import org.xwiki.rendering.internal.macro.html.HTMLMacro;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.test.jmock.AbstractComponentTestCase;
 
-
 /**
  * Unit tests for {@link HTMLMacro} that cannot be performed using the Rendering Test framework.
- * 
+ *
  * @version $Id$
  * @since 1.8.3
  */

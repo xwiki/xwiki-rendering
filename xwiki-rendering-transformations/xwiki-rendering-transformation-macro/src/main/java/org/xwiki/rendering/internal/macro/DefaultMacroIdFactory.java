@@ -23,14 +23,15 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.macro.MacroIdFactory;
 import org.xwiki.rendering.macro.MacroId;
-import org.xwiki.rendering.syntax.SyntaxFactory;
-import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.macro.MacroIdFactory;
 import org.xwiki.rendering.parser.ParseException;
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxFactory;
 
 /**
  * Default implementation for {@link org.xwiki.rendering.macro.MacroIdFactory}.
+ *
  * @version $Id$
  * @since 2.0M3
  */

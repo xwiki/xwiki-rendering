@@ -43,7 +43,7 @@ import org.xwiki.rendering.syntax.SyntaxType;
 
 /**
  * Convert listener events to XHTML.
- * 
+ *
  * @version $Id$
  * @since 1.8RC1
  */
@@ -225,7 +225,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         // events (it's sent in begin/endMetaData events).
         List<String> baseReferences = reference.getBaseReferences();
         if (baseReferences.isEmpty()) {
-            reference.addBaseReferences(getMetaDataState().<String> getAllMetaData(MetaData.BASE));
+            reference.addBaseReferences(getMetaDataState().<String>getAllMetaData(MetaData.BASE));
         }
 
         this.linkRenderer.beginLink(reference, isFreeStandingURI, parameters);
@@ -337,10 +337,10 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         if (getBlockState().isInLine()) {
             // Note: We're using <span><span/> and not <span/> since some browsers do not support the
             // <span/> syntax (FF3) when the content type is set to HTML instead of XHTML.
-            getXHTMLWikiPrinter().printXMLStartElement("span", new String[][] {{"id", name}});
+            getXHTMLWikiPrinter().printXMLStartElement("span", new String[][] { { "id", name } });
             getXHTMLWikiPrinter().printXMLEndElement("span");
         } else {
-            getXHTMLWikiPrinter().printXMLStartElement("div", new String[][] {{"id", name}});
+            getXHTMLWikiPrinter().printXMLStartElement("div", new String[][] { { "id", name } });
             getXHTMLWikiPrinter().printXMLEndElement("div");
         }
     }
@@ -360,7 +360,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
             // tt is the closed to pre for inline.
             // The class is what is expected by wikimodel to understand the tt as meaning a verbatim and not a Monospace
             // element.
-            getXHTMLWikiPrinter().printXMLStartElement("tt", new String[][] {{"class", "wikimodel-verbatim"}});
+            getXHTMLWikiPrinter().printXMLStartElement("tt", new String[][] { { "class", "wikimodel-verbatim" } });
             getXHTMLWikiPrinter().printXML(protectedString);
             getXHTMLWikiPrinter().printXMLEndElement("tt");
         } else {
@@ -378,13 +378,14 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         // Note: We're using <div><div/> and not <div/> since some browsers do not support the <div/> syntax (FF3)
         // when the content type is set to HTML instead of XHTML.
         for (int i = 0; i < count; ++i) {
-            getXHTMLWikiPrinter().printXMLStartElement("div", new String[][] {{"class", "wikimodel-emptyline"}});
+            getXHTMLWikiPrinter().printXMLStartElement("div", new String[][] { { "class", "wikimodel-emptyline" } });
             getXHTMLWikiPrinter().printXMLEndElement("div");
         }
     }
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -395,6 +396,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -526,6 +528,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -539,7 +542,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         // events (it's sent in begin/endMetaData events).
         List<String> baseReferences = reference.getBaseReferences();
         if (baseReferences.isEmpty()) {
-            reference.addBaseReferences(getMetaDataState().<String> getAllMetaData(MetaData.BASE));
+            reference.addBaseReferences(getMetaDataState().<String>getAllMetaData(MetaData.BASE));
         }
 
         this.imageRenderer.onImage(reference, isFreeStandingURI, parameters);

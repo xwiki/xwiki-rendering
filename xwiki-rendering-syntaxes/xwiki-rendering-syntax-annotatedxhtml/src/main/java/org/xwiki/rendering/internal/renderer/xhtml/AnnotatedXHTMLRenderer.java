@@ -22,18 +22,18 @@ package org.xwiki.rendering.internal.renderer.xhtml;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
-import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
-import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
-import org.xwiki.rendering.listener.chaining.ListenerChain;
-import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
-import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
-import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
-import org.xwiki.component.phase.InitializationException;
 import org.xwiki.component.phase.Initializable;
+import org.xwiki.component.phase.InitializationException;
+import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
+import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
+import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
+import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
+import org.xwiki.rendering.listener.chaining.ListenerChain;
+import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
+import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 
 /**
  * Generates Annotated XHTML (ie XHTML containing metadata information, for example macro definition or
@@ -69,6 +69,7 @@ public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implem
 
     /**
      * {@inheritDoc}
+     *
      * @see org.xwiki.component.phase.Initializable#initialize()
      * @since 2.0M3
      */

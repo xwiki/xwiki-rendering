@@ -27,7 +27,7 @@ import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 
 /**
  * Escape characters that would be confused for XWiki wiki syntax if they were not escaped.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */

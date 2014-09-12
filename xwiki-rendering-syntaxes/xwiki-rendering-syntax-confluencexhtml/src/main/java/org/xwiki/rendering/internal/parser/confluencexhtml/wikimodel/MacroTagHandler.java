@@ -36,7 +36,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  *   <ac:plain-text-body><![CDATA[Content of bloc code]]></ac:plain-text-body>
  * </ac:macro>
  * }
- * 
+ *
  * @version $Id$
  * @since 5.3M2
  */

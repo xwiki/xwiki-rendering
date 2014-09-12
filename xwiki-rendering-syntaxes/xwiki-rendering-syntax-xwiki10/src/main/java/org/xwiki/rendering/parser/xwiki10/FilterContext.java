@@ -31,7 +31,7 @@ import org.apache.commons.lang3.StringUtils;
  * <p>
  * A filter can register a part of the content to protect it. That way this content is not re-parsed by another filter.
  * for example VelocityCommentsFilter register all Velocity comments.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */
@@ -95,7 +95,7 @@ public class FilterContext
     /**
      * Register a content and return the corresponding identifier to be able the reinsert it after the conversion
      * process.
-     * 
+     *
      * @param content the content to protect/register.
      * @param inline indicate if i's a inline or not inline string.
      * @return the content identifier to insert in place of provided content.
@@ -135,7 +135,7 @@ public class FilterContext
 
     /**
      * Re-insert all protected/registered strings in to the global content.
-     * 
+     *
      * @param content the global content.
      * @return the complete content.
      */

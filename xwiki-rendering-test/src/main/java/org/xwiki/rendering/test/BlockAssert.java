@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.test;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
@@ -26,8 +28,6 @@ import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
-
-import java.util.List;
 
 /**
  * Class to be imported in unit tests as a static import and which contains helper methods to assert Rendering Blocks.
@@ -69,7 +69,7 @@ public class BlockAssert
      * @param expected the expected value of passed Blocks when rendered using the passed Renderer Factory
      * @param blocks the Blocks to assert
      * @param factory the Renderer Factory to use to serialize the passed Block and to compare them with the passed
-     *        String
+     *            String
      */
     public static void assertBlocks(String expected, List<Block> blocks, PrintRendererFactory factory)
     {
@@ -80,12 +80,11 @@ public class BlockAssert
      * @param expectedPrefix the expected prefix of the passed Blocks when rendered using the passed Renderer Factory
      * @param blocks the Blocks to assert
      * @param factory the Renderer Factory to use to serialize the passed Block and to compare them with the passed
-     *        String
+     *            String
      * @since 4.2M1
      */
     public static void assertBlocksStartsWith(String expectedPrefix, List<Block> blocks, PrintRendererFactory factory)
     {
         Assert.assertTrue(render(blocks, factory).startsWith(expectedPrefix));
     }
-    
 }

@@ -25,7 +25,7 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 
 /**
  * Renders links as XHTML.
- * 
+ *
  * @version $Id$
  * @since 1.8RC3
  */
@@ -36,7 +36,7 @@ public interface XHTMLLinkRenderer extends LinkListener
      * The name of the XHTML anchor element.
      */
     String ANCHOR = "a";
-    
+
     /**
      * The name of the XHTML anchor element reference parameter.
      */

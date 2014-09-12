@@ -27,7 +27,7 @@ import org.dom4j.io.XMLWriter;
 
 /**
  * Fix various issues in {@link XMLWriter}.
- * 
+ *
  * @version $Id$
  * @since 5.2M1
  */

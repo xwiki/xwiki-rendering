@@ -19,23 +19,23 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
-import org.xwiki.rendering.macro.AbstractMacro;
-import org.xwiki.rendering.macro.Macro;
-import org.xwiki.rendering.macro.MacroExecutionException;
-import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
-import org.xwiki.rendering.macro.box.BoxMacroParameters;
-import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.StringUtils;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.macro.AbstractMacro;
+import org.xwiki.rendering.macro.Macro;
+import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.box.BoxMacroParameters;
+import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
+import org.xwiki.rendering.transformation.MacroTransformationContext;
+
 /**
  * Common implementation for message macros (e.g. info, error, warning, success, etc).
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */

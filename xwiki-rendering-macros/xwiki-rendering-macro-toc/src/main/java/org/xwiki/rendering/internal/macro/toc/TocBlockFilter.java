@@ -24,12 +24,12 @@ import java.util.List;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.HeaderBlock;
 import org.xwiki.rendering.block.PlainTextBlockFilter;
-import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
 import org.xwiki.rendering.parser.Parser;
+import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
 
 /**
  * Used to filter the {@link HeaderBlock} title to generate the toc anchor.
- * 
+ *
  * @version $Id$
  * @since 1.8RC2
  */

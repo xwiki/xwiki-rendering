@@ -34,7 +34,7 @@ import org.xwiki.rendering.parser.xwiki10.FilterContext;
 
 /**
  * Unescape HTML escaped content outside of matched HTML macros.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

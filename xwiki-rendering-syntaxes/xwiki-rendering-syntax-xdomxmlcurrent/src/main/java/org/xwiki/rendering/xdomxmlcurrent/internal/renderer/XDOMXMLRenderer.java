@@ -29,7 +29,7 @@ import org.xwiki.rendering.xml.internal.renderer.AbstractRenderer;
 
 /**
  * Current version of the XDOM+XML renderer.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */

@@ -144,6 +144,7 @@ public class ImageRadeoxMacroConverter extends AbstractRadeoxMacroConverter
         result.append(parameters.get(""));
     }
 
+    @Override
     public boolean supportContent()
     {
         return false;

@@ -33,7 +33,7 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
 
 /**
  * Unit tests for {@link PlainTextChainingRenderer} that cannot easily be performed using the Rendering Test framework.
- * 
+ *
  * @version $Id$
  * @since 2.1M1
  */
@@ -62,8 +62,8 @@ public class PlainTextChainingRendererTest extends AbstractComponentTestCase
         reference.setAnchor("anchor");
         reference.setQueryString("param=value");
 
-        this.renderer.beginLink(reference, false, Collections.<String, String> emptyMap());
-        this.renderer.endLink(reference, false, Collections.<String, String> emptyMap());
+        this.renderer.beginLink(reference, false, Collections.<String, String>emptyMap());
+        this.renderer.endLink(reference, false, Collections.<String, String>emptyMap());
 
         Assert.assertEquals("reference", printer.toString());
     }
@@ -75,8 +75,8 @@ public class PlainTextChainingRendererTest extends AbstractComponentTestCase
         this.renderer.setPrinter(printer);
 
         ResourceReference reference = new ResourceReference("http://some/url", ResourceType.URL);
-        this.renderer.beginLink(reference, false, Collections.<String, String> emptyMap());
-        this.renderer.endLink(reference, false, Collections.<String, String> emptyMap());
+        this.renderer.beginLink(reference, false, Collections.<String, String>emptyMap());
+        this.renderer.endLink(reference, false, Collections.<String, String>emptyMap());
 
         Assert.assertEquals("http://some/url", printer.toString());
     }

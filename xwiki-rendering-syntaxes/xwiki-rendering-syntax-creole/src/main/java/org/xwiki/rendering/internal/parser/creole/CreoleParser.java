@@ -23,12 +23,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.xwiki.rendering.wikimodel.IWikiParser;
-import org.xwiki.rendering.wikimodel.creole.CreoleWikiParser;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
+import org.xwiki.rendering.wikimodel.IWikiParser;
+import org.xwiki.rendering.wikimodel.creole.CreoleWikiParser;
 
 /**
  * @version $Id$
@@ -64,9 +64,10 @@ public class CreoleParser extends AbstractWikiModelParser
     {
         return new CreoleWikiParser();
     }
-    
+
     /**
      * {@inheritDoc}
+     *
      * @see AbstractWikiModelParser#getLinkReferenceParser()
      * @since 2.5RC1
      */

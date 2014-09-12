@@ -45,7 +45,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
  * Draw a box around provided content.
- * 
+ *
  * @param <P> the type of macro parameters bean.
  * @version $Id$
  * @since 1.7
@@ -67,14 +67,14 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
 
     /**
      * Creates a new box macro.
-     * 
+     *
      * @param name the name of the macro
      * @param description string describing this macro.
      * @param contentDescriptor the {@link ContentDescriptor} describing the content of this macro.
      * @param parametersBeanClass class of the parameters bean.
      */
     protected AbstractBoxMacro(String name, String description, ContentDescriptor contentDescriptor,
-        Class< ? > parametersBeanClass)
+        Class<?> parametersBeanClass)
     {
         super(name, description, contentDescriptor, parametersBeanClass);
     }
@@ -98,7 +98,7 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
         }
 
         String titleParameter = parameters.getTitle();
-        List< ? extends Block> titleBlockList = parameters.getBlockTitle();
+        List<? extends Block> titleBlockList = parameters.getBlockTitle();
 
         // Use a linked hashmap to keep the parameters in the same order as we create them when they are retrieved
         // by renderers. This is useful for example in the Event renderer to control the order in which the params
@@ -152,7 +152,7 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      * Execute macro content and return the result. This methods is separated form
      * {@link #execute(BoxMacroParameters, String, MacroTransformationContext)} to be able to overwrite it in macro
      * which need boxes.
-     * 
+     *
      * @param parameters the parameters of the macro.
      * @param content the content of the macro.
      * @param context the context if the macros transformation.

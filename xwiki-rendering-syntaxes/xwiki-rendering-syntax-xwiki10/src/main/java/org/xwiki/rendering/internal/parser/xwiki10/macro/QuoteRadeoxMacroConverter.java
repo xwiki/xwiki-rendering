@@ -52,7 +52,9 @@ public class QuoteRadeoxMacroConverter extends AbstractRadeoxMacroConverter
 
         if (!StringUtils.isEmpty(content.replaceAll("[ \t]", ""))) {
             result.append(">");
-            result.append(CleanUtil.removeTrailingNewLines(CleanUtil.removeLeadingNewLines(this.standaloneNewLineCleaningFilter.filter(content, filterContext))).replaceAll("\n", "\n>"));
+            result.append(CleanUtil.removeTrailingNewLines(
+                CleanUtil.removeLeadingNewLines(this.standaloneNewLineCleaningFilter.filter(content, filterContext)))
+                    .replaceAll("\n", "\n>"));
         }
 
         return result.toString();
@@ -63,7 +65,7 @@ public class QuoteRadeoxMacroConverter extends AbstractRadeoxMacroConverter
     {
         return true;
     }
-    
+
     @Override
     public boolean isInline()
     {

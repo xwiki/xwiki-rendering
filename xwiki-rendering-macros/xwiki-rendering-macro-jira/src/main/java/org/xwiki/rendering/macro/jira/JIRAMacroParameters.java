@@ -28,7 +28,7 @@ import org.xwiki.properties.annotation.PropertyMandatory;
 
 /**
  * Parameters for the {@link org.xwiki.rendering.internal.macro.jira.JIRAMacro} Macro.
- * 
+ *
  * @version $Id$
  * @since 4.2M1
  */
@@ -157,7 +157,7 @@ public class JIRAMacroParameters
 
     /**
      * @return the list of JIRA fields to display (if not defined, a default list of fields defined by the chosen
-     *          Displayer will be used)
+     *         Displayer will be used)
      */
     public List<String> getFields()
     {

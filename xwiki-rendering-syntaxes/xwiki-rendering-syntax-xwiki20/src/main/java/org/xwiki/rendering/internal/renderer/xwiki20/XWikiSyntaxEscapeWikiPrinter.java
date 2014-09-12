@@ -31,7 +31,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
  * A Wiki printer that knows how to escape characters that would otherwise mean something different in XWiki wiki
  * syntax. For example if we have "**" as special symbols (and not as a Bold Format block) we need to escape them to
  * "~*~*" as otherwise they'd be considered bold after being rendered.
- * 
+ *
  * @version $Id$
  * @since 1.7
  */
@@ -60,7 +60,7 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
 
     public XWikiSyntaxEscapeHandler getEscapeHandler()
     {
-        return escapeHandler;
+        return this.escapeHandler;
     }
 
     @Override
@@ -120,12 +120,12 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
     {
         this.escapeHandler.setBeforeLink(beforeLink);
     }
-    
+
     public void setOnNewLine(boolean onNewLine)
     {
         this.escapeHandler.setOnNewLine(onNewLine);
     }
-    
+
     public boolean isOnNewLine()
     {
         return this.escapeHandler.isOnNewLine();

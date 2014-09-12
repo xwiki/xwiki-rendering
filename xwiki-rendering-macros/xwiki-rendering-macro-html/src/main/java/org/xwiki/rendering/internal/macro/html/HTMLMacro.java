@@ -22,9 +22,9 @@ package org.xwiki.rendering.internal.macro.html;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -66,7 +66,7 @@ import org.xwiki.xml.html.HTMLUtils;
  * Allows inserting HTML and XHTML in wiki pages. This macro also accepts wiki syntax alongside (X)HTML elements (it's
  * also possible to disable this feature using a macro parameter). When wiki syntax is used inside XML elements, the
  * leading and trailing spaces and newlines are stripped.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */
@@ -158,7 +158,8 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             if (parameters.getClean()) {
                 normalizedContent = cleanHTML(normalizedContent, context);
             } else if (context.getTransformationContext().isRestricted()) {
-                throw new MacroExecutionException("The HTML macro may not be used with clean=\"false\" in this context.");
+                throw new MacroExecutionException(
+                    "The HTML macro may not be used with clean=\"false\" in this context.");
             }
 
             blocks = Arrays.asList((Block) new RawBlock(normalizedContent, XHTML_SYNTAX));
@@ -171,7 +172,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
 
     /**
      * Clean the HTML entered by the user, transforming it into valid XHTML.
-     * 
+     *
      * @param content the content to clean
      * @param context the macro transformation context
      * @return the cleaned HTML as a string representing valid XHTML
@@ -231,7 +232,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
 
     /**
      * Parse the passed context using a wiki syntax parser and render the result as an XHTML string.
-     * 
+     *
      * @param content the content to parse
      * @param transformation the macro transformation to execute macros when wiki is set to true
      * @param context the context of the macros transformation process
@@ -268,7 +269,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             htmlMacroMarker.setParent(htmlMacroBlock.getParent());
 
             // Execute the Macro transformation
-            ((MutableRenderingContext) renderingContext).transformInContext(transformation,
+            ((MutableRenderingContext) this.renderingContext).transformInContext(transformation,
                 context.getTransformationContext(), htmlMacroMarker);
 
             // Render the whole parsed content as a XHTML string
@@ -293,7 +294,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
      */
     private HTMLCleanerConfiguration getCleanerConfiguration(MacroTransformationContext context)
     {
-        HTMLCleanerConfiguration cleanerConfiguration = htmlCleaner.getDefaultConfiguration();
+        HTMLCleanerConfiguration cleanerConfiguration = this.htmlCleaner.getDefaultConfiguration();
 
         if (context.getTransformationContext().isRestricted()) {
             Map<String, String> parameters = new HashMap<String, String>();

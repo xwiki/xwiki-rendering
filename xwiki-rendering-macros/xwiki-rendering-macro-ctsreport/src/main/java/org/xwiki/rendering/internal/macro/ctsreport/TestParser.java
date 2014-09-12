@@ -46,7 +46,7 @@ public class TestParser
         Matcher matcher = PATTERN.matcher(syntaxTest);
         if (matcher.matches()) {
             data.syntaxId = matcher.group(2);
-            data.isSyntaxInputTest = matcher.group(3).equals("IN");
+            data.isSyntaxInputTest = "IN".equals(matcher.group(3));
 
             Test test = new Test();
             data.test = test;

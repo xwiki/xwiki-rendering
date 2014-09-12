@@ -19,9 +19,9 @@
  */
 package org.xwiki.rendering.transformation.icon;
 
-import org.xwiki.component.annotation.Role;
-
 import java.util.Properties;
+
+import org.xwiki.component.annotation.Role;
 
 /**
  * Configuration properties for the Icon transformation.

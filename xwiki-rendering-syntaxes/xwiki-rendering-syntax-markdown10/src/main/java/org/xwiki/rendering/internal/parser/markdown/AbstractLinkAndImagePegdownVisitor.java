@@ -86,6 +86,7 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
 
     /**
      * Link References.
+     *
      * @see #visit(org.pegdown.ast.ReferenceNode)
      */
     private Map<String, ReferenceNode> references = new HashMap<String, ReferenceNode>();
@@ -127,7 +128,7 @@ public abstract class AbstractLinkAndImagePegdownVisitor extends AbstractHTMLPeg
         String label;
         try {
             URILabelGenerator uriLabelGenerator = this.componentManager.getInstance(URILabelGenerator.class,
-                    reference.getType().getScheme());
+                reference.getType().getScheme());
             label = uriLabelGenerator.generateLabel(reference);
         } catch (ComponentLookupException e) {
             label = reference.getReference();

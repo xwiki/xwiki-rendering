@@ -30,7 +30,8 @@ import java.util.regex.Pattern;
 
 import javax.inject.Provider;
 
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerThreadInitializer;

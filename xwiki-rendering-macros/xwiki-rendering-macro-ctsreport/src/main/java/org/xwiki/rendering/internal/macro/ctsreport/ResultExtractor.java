@@ -45,7 +45,7 @@ public class ResultExtractor
     public Set<String> extractByTestName(List<Result> results)
     {
         Set<String> testNames = new TreeSet<String>();
-        for (Result result: results) {
+        for (Result result : results) {
             testNames.add(result.test.prefix);
         }
         return testNames;
@@ -60,7 +60,7 @@ public class ResultExtractor
     {
         Map<String, Pair<Set<Test>, Set<Test>>> tests = new HashMap<String, Pair<Set<Test>, Set<Test>>>();
 
-        for (Result result: results) {
+        for (Result result : results) {
 
             // Is there already an entry for the syntax?
             Pair<Set<Test>, Set<Test>> inOutTests = tests.get(result.syntaxId);

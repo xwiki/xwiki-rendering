@@ -34,7 +34,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
  * Handle XHTML rendering for interwiki links.
- * 
+ *
  * @version $Id$
  * @since 2.5M2
  */

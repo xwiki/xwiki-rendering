@@ -90,7 +90,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     /**
      * Parameter bean class used to generate the macro descriptor.
      */
-    private Class< ? > parametersBeanClass;
+    private Class<?> parametersBeanClass;
 
     /**
      * The descriptor of the macro.
@@ -120,7 +120,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
 
     /**
      * Creates a new {@link Macro} instance.
-     * 
+     *
      * @param name the name of the macro (eg "Table Of Contents" for the TOC macro)
      * @param description a string describing this macro.
      * @since 2.0M3
@@ -132,7 +132,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
 
     /**
      * Creates a new {@link Macro} instance.
-     * 
+     *
      * @param name the name of the macro (eg "Table Of Contents" for the TOC macro)
      * @param description a string describing this macro.
      * @param contentDescriptor {@link ContentDescriptor} for this macro.
@@ -145,20 +145,20 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
 
     /**
      * Creates a new {@link Macro} instance.
-     * 
+     *
      * @param name the name of the macro (eg "Table Of Contents" for the TOC macro)
      * @param description a string describing this macro.
      * @param parametersBeanClass class of the parameters bean of this macro.
      * @since 2.0M3
      */
-    public AbstractMacro(String name, String description, Class< ? > parametersBeanClass)
+    public AbstractMacro(String name, String description, Class<?> parametersBeanClass)
     {
         this(name, description, null, parametersBeanClass);
     }
 
     /**
      * Creates a new {@link Macro} instance.
-     * 
+     *
      * @param name the name of the macro (eg "Table Of Contents" for the TOC macro)
      * @param description string describing this macro.
      * @param contentDescriptor the {@link ContentDescriptor} describing the content of this macro.
@@ -166,7 +166,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * @since 2.0M3
      */
     public AbstractMacro(String name, String description, ContentDescriptor contentDescriptor,
-        Class< ? > parametersBeanClass)
+        Class<?> parametersBeanClass)
     {
         this.name = name;
         this.description = description;
@@ -190,11 +190,11 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     }
 
     /**
-     * Extract the Macro Component Hint from the Macro annotation (from the {@link Named} annotation or from the
-     * older {@link Component} annotation which is kept for backward compatibility only).
+     * Extract the Macro Component Hint from the Macro annotation (from the {@link Named} annotation or from the older
+     * {@link Component} annotation which is kept for backward compatibility only).
      *
      * @return the Macro component hint under which the macro is registered
-     * since 3.1M2
+     * @since 3.1M2
      */
     private String extractMacroComponentHint()
     {
@@ -236,14 +236,14 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     }
 
     @Override
-    public int compareTo(Macro< ? > macro)
+    public int compareTo(Macro<?> macro)
     {
         return getPriority() - macro.getPriority();
     }
 
     /**
      * Allows macro classes extending other macro classes to override the macro descriptor with their own.
-     * 
+     *
      * @param descriptor the overriding descriptor to set
      */
     protected void setDescriptor(MacroDescriptor descriptor)
@@ -254,7 +254,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     /**
      * Allows sub classes to set the default macro category. This method only has an effect if the internal
      * {@link MacroDescriptor} is of type {@link AbstractMacroDescriptor}.
-     * 
+     *
      * @param defaultCategory the default macro category to be set.
      */
     protected void setDefaultCategory(String defaultCategory)

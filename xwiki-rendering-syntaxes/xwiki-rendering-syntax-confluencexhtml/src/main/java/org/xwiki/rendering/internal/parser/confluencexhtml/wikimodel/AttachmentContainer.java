@@ -22,7 +22,6 @@ package org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel;
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.AttachmentTagHandler.ConfluenceAttachment;
 
 /**
- * 
  * @version $Id$
  * @since 5.3M2
  */

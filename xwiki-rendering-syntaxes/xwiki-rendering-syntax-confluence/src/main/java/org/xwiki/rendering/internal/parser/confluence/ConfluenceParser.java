@@ -32,7 +32,7 @@ import org.xwiki.rendering.wikimodel.confluence.ConfluenceWikiParser;
 
 /**
  * Parser for Confluence syntax.
- * 
+ *
  * @version $Id$
  * @since 4.1M1
  */
@@ -66,9 +66,10 @@ public class ConfluenceParser extends AbstractWikiModelParser
     {
         return new ConfluenceWikiParser();
     }
-    
+
     /**
      * {@inheritDoc}
+     *
      * @see AbstractWikiModelParser#getLinkReferenceParser()
      * @since 2.5RC1
      */

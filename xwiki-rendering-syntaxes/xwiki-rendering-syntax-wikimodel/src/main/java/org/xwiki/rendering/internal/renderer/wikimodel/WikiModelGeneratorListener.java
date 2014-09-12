@@ -42,7 +42,7 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 
 /**
  * Map XWiki Listener events on to WikiModel events.
- * 
+ *
  * @version $Id$
  * @since 1.5RC1
  */
@@ -187,82 +187,97 @@ public class WikiModelGeneratorListener implements Listener
         }
     }
 
+    @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
         this.wikimodelListener.beginList(createWikiParameters(parameters), listType == ListType.NUMBERED);
     }
 
+    @Override
     public void beginListItem()
     {
         this.wikimodelListener.beginListItem();
     }
 
+    @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         // Don't do anything since there's no notion of Macro marker in WikiModel and anyway
         // there's nothing to render for a marker...
     }
 
+    @Override
     public void beginParagraph(Map<String, String> parameters)
     {
         this.wikimodelListener.beginParagraph(createWikiParameters(parameters));
     }
 
+    @Override
     public void beginSection(Map<String, String> parameters)
     {
         this.wikimodelListener
             .beginSection(this.docLevel, getContext().headerLevel++, createWikiParameters(parameters));
     }
 
+    @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         this.wikimodelListener.beginHeader(level.getAsInt(), createWikiParameters(parameters));
     }
 
+    @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
         this.wikimodelListener.endList(createWikiParameters(parameters), listType == ListType.NUMBERED);
     }
 
+    @Override
     public void endListItem()
     {
         this.wikimodelListener.endListItem();
     }
 
+    @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         // Don't do anything since there's no notion of Macro marker in WikiModel and anyway
         // there's nothing to render for a marker...
     }
 
+    @Override
     public void endParagraph(Map<String, String> parameters)
     {
         this.wikimodelListener.endParagraph(createWikiParameters(parameters));
     }
 
+    @Override
     public void endSection(Map<String, String> parameters)
     {
         this.wikimodelListener
             .beginSection(this.docLevel, getContext().headerLevel--, createWikiParameters(parameters));
     }
 
+    @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         this.wikimodelListener.endHeader(level.getAsInt(), createWikiParameters(parameters));
     }
 
+    @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         // TODO wait for WikiModel to support wiki syntax in links
         // See http://code.google.com/p/wikimodel/issues/detail?id=87
     }
 
+    @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         // TODO wait for WikiModel to support wiki syntax in links
         // See http://code.google.com/p/wikimodel/issues/detail?id=87
     }
 
+    @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {
         if (isInline) {
@@ -272,27 +287,32 @@ public class WikiModelGeneratorListener implements Listener
         }
     }
 
+    @Override
     public void onNewLine()
     {
         // TODO: Decide when to generate a line break and when to generate a new line
         this.wikimodelListener.onNewLine();
     }
 
+    @Override
     public void onSpace()
     {
         this.wikimodelListener.onSpace(" ");
     }
 
+    @Override
     public void onSpecialSymbol(char symbol)
     {
         this.wikimodelListener.onSpecialSymbol("" + symbol);
     }
 
+    @Override
     public void onWord(String word)
     {
         this.wikimodelListener.onWord(word);
     }
 
+    @Override
     public void onId(String name)
     {
         this.wikimodelListener.onExtensionBlock(DefaultXWikiGeneratorListener.EXT_ID, createWikiParameters(Collections
@@ -389,41 +409,49 @@ public class WikiModelGeneratorListener implements Listener
         this.wikimodelListener.endQuotationLine();
     }
 
+    @Override
     public void beginTable(Map<String, String> parameters)
     {
         this.wikimodelListener.beginTable(createWikiParameters(parameters));
     }
 
+    @Override
     public void beginTableCell(Map<String, String> parameters)
     {
         this.wikimodelListener.beginTableCell(false, createWikiParameters(parameters));
     }
 
+    @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
         this.wikimodelListener.beginTableCell(true, createWikiParameters(parameters));
     }
 
+    @Override
     public void beginTableRow(Map<String, String> parameters)
     {
         this.wikimodelListener.beginTableRow(createWikiParameters(parameters));
     }
 
+    @Override
     public void endTable(Map<String, String> parameters)
     {
         this.wikimodelListener.endTable(createWikiParameters(parameters));
     }
 
+    @Override
     public void endTableCell(Map<String, String> parameters)
     {
         this.wikimodelListener.endTableCell(false, createWikiParameters(parameters));
     }
 
+    @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
         this.wikimodelListener.endTableCell(true, createWikiParameters(parameters));
     }
 
+    @Override
     public void endTableRow(Map<String, String> parameters)
     {
         this.wikimodelListener.endTableRow(createWikiParameters(parameters));

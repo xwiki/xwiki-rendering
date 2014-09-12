@@ -48,7 +48,7 @@ import org.xwiki.rendering.syntax.SyntaxType;
 
 /**
  * Convert XWiki 1.0 content into 2.0 content and call XWiki 2.0 parser to generate the XDOM.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  * @since 5.2M1 for the {@link StreamParser} support
@@ -107,7 +107,7 @@ public class XWikiParser implements StreamParser, Parser, Initializable
 
     /**
      * Convert XWiki 1.0 content to 2.0.
-     * 
+     *
      * @param source the 1.0 source.
      * @return the 2.0 converted content.
      * @throws ParseException error when converting content.

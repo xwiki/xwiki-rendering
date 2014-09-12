@@ -37,7 +37,7 @@ import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
 
 /**
  * Converts Code Macro.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

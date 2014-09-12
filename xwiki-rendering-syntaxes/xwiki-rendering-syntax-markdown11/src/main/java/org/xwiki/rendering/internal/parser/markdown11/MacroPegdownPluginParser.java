@@ -49,7 +49,6 @@ public class MacroPegdownPluginParser extends Parser implements InlinePluginPars
      */
     private static final String XMACRO_TAG_CLOSE_MARK = "}}";
 
-
     public MacroPegdownPluginParser()
     {
         super(ALL, 1000l, DefaultParseRunnerProvider);
@@ -66,7 +65,6 @@ public class MacroPegdownPluginParser extends Parser implements InlinePluginPars
     {
         return new Rule[] { MarkdownMacro(true) };
     }
-
 
     //////// Markdown-style macro rules ////////
 
@@ -194,7 +192,7 @@ public class MacroPegdownPluginParser extends Parser implements InlinePluginPars
             )
         );
     }
-    
+
     /**
      * Rule for the XWiki-style macro parameter.
      * Adds the parsed {@link org.xwiki.rendering.internal.parser.markdown11.ast.MacroParameterNode} to a {@code MacroNode} from
@@ -294,7 +292,7 @@ public class MacroPegdownPluginParser extends Parser implements InlinePluginPars
     public Rule QuotedText(char quoteChar)
     {
         StringBuilderVar text = new StringBuilderVar();
-        
+
         return Sequence(
             quoteChar,
             OneOrMore(

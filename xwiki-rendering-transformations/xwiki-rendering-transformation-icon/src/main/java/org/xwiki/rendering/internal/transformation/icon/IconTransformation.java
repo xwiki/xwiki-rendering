@@ -19,14 +19,23 @@
  */
 package org.xwiki.rendering.internal.transformation.icon;
 
+import java.io.StringReader;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.ImageBlock;
-import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.SpecialSymbolBlock;
+import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.block.ProtectedBlockFilter;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -39,18 +48,9 @@ import org.xwiki.rendering.transformation.TransformationException;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 import org.xwiki.rendering.util.ParserUtils;
 
-import java.io.StringReader;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 /**
- * Transforms some special characters representing icons into images. For example transforms {@code :)} characters
- * into a smiley.
+ * Transforms some special characters representing icons into images. For example transforms {@code :)} characters into
+ * a smiley.
  *
  * @version $Id$
  * @since 2.6RC1
@@ -123,8 +123,8 @@ public class IconTransformation extends AbstractTransformation implements Initia
     }
 
     /**
-     * Converts a standard XDOM tree into a deep tree: sibling are transformed into parent/child relationships and
-     * the leaf node is an Image node referencing the passed icon name.
+     * Converts a standard XDOM tree into a deep tree: sibling are transformed into parent/child relationships and the
+     * leaf node is an Image node referencing the passed icon name.
      *
      * @param sourceTree the source tree to modify
      * @param iconName the name of the icon to display when a match is found
@@ -168,7 +168,7 @@ public class IconTransformation extends AbstractTransformation implements Initia
      *
      * @param targetBlocks the list of blocks to look into
      * @param block the block to look for in the list of passed blocks
-     * @return the position of the block in the list of target blocks  and -1 if not found
+     * @return the position of the block in the list of target blocks and -1 if not found
      */
     private int indexOf(List<Block> targetBlocks, Block block)
     {

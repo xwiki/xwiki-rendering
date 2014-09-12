@@ -38,8 +38,8 @@ import org.xwiki.rendering.block.NumberedListBlock;
 import org.xwiki.rendering.block.SpaceBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
-import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.Format;
+import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
@@ -48,7 +48,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
  * List footnotes at the end of the page.
- * 
+ *
  * @version $Id$
  * @since 2.0M2
  */
@@ -113,7 +113,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
             if (FootnoteMacro.MACRO_NAME.equals(macro.getId())) {
                 continue;
             } else if (PutFootnotesMacro.MACRO_NAME.equals(macro.getId())) {
-                macro.getParent().replaceChild(Collections.<Block> emptyList(), macro);
+                macro.getParent().replaceChild(Collections.<Block>emptyList(), macro);
             }
             it.remove();
         }
@@ -121,7 +121,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
             return result;
         }
 
-        NumberedListBlock container = new NumberedListBlock(Collections.<Block> emptyList());
+        NumberedListBlock container = new NumberedListBlock(Collections.<Block>emptyList());
         container.setParameter(CLASS_ATTRIBUTE_NAME, "footnotes");
         Block footnoteResult;
 
@@ -134,13 +134,13 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
             }
         }
 
-        return Collections.<Block> singletonList(container);
+        return Collections.<Block>singletonList(container);
     }
 
     /**
      * Processes a {{footnote}} macro, by generating a footnote element to insert in the footnote list and a reference
      * to it, which is placed instead of the macro call.
-     * 
+     *
      * @param footnoteMacro the {{footnote}} macro element
      * @param counter the current footnote counter
      * @param context the execution context of the macro
@@ -168,7 +168,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     /**
      * Add a footnote to the list of document footnotes. If such a list doesn't exist yet, create it and append it to
      * the end of the document.
-     * 
+     *
      * @param footnoteMacro the {{footnote}} macro being processed
      * @param footnoteRef the generated block corresponding to the footnote to be inserted
      */
@@ -185,7 +185,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     /**
      * Generate the footnote reference (link) that should be inserted at the location of the macro, and should point to
      * the actual footnote at the end of the document.
-     * 
+     *
      * @param counter the current footnote counter
      * @return the generated reference element, displayed as {@code (superscript(link(footnote index)))}
      */
@@ -204,7 +204,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     /**
      * Generate the footnote block, a numbered list item containing a backlink to the footnote's reference, and the
      * actual footnote text, parsed into XDOM.
-     * 
+     *
      * @param content the string representation of the actual footnote text; the content of the macro
      * @param counter the current footnote counter
      * @param context the macro transformation context, used for obtaining the correct parser for parsing the content
@@ -218,7 +218,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
         try {
             parsedContent = this.contentParser.parse(content, context, false, true).getChildren();
         } catch (MacroExecutionException e) {
-            parsedContent = Collections.<Block> singletonList(new WordBlock(content));
+            parsedContent = Collections.<Block>singletonList(new WordBlock(content));
         }
         Block result = new WordBlock("^");
         DocumentResourceReference reference = new DocumentResourceReference(null);

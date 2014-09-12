@@ -30,7 +30,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * {@code
  * <ac:plain-text-link-body><![CDATA[here]] ></ac:plain-text-link-body>
  * }
- * 
+ *
  * @version $Id$
  * @since 5.3M2
  */

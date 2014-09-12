@@ -70,16 +70,16 @@ public class MacroErrorManager
 
         Map<String, String> errorBlockParams = Collections.singletonMap(CLASS_PARAMETER_NAME, CLASS_PARAMETER_VALUE);
         Map<String, String> errorDescriptionBlockParams =
-                Collections.singletonMap(CLASS_PARAMETER_NAME, "xwikirenderingerrordescription hidden");
+            Collections.singletonMap(CLASS_PARAMETER_NAME, "xwikirenderingerrordescription hidden");
 
         Block descriptionBlock = new VerbatimBlock(description, macroToReplace.isInline());
 
         if (macroToReplace.isInline()) {
-            errorBlocks.add(new FormatBlock(Arrays.<Block> asList(new WordBlock(message)), Format.NONE,
-                    errorBlockParams));
+            errorBlocks.add(new FormatBlock(Arrays.<Block>asList(new WordBlock(message)), Format.NONE,
+                errorBlockParams));
             errorBlocks.add(new FormatBlock(Arrays.asList(descriptionBlock), Format.NONE, errorDescriptionBlockParams));
         } else {
-            errorBlocks.add(new GroupBlock(Arrays.<Block> asList(new WordBlock(message)), errorBlockParams));
+            errorBlocks.add(new GroupBlock(Arrays.<Block>asList(new WordBlock(message)), errorBlockParams));
             errorBlocks.add(new GroupBlock(Arrays.asList(descriptionBlock), errorDescriptionBlockParams));
         }
 

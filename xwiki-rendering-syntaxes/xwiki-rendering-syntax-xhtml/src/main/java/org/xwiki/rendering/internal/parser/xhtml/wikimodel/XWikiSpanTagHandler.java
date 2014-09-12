@@ -24,9 +24,9 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.SpanTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 
 /**
- * Handle XWiki span elements (we need to ensure we skip link content when we generate them
- * and also skip the spans for the "?" for links pointing to non existing pages).
- * 
+ * Handle XWiki span elements (we need to ensure we skip link content when we generate them and also skip the spans for
+ * the "?" for links pointing to non existing pages).
+ *
  * @version $Id$
  * @since 1.7M1
  */
@@ -42,14 +42,14 @@ public class XWikiSpanTagHandler extends SpanTagHandler
             if (classParam.getValue().contains("wikigeneratedlinkcontent"))
             {
                 setAccumulateContent(true);
-            } else if (classParam.getValue().equals("wikilink") 
+            } else if (classParam.getValue().equals("wikilink")
                 || classParam.getValue().equals("wikicreatelink")
                 || classParam.getValue().equals("wikiexternallink"))
             {
-                // Nothing to do 
+                // Nothing to do
             } else if (classParam.getValue().equals("xwikirenderingerror")) {
                 setAccumulateContent(true);
-            } else  {
+            } else {
                 super.begin(context);
             }
         } else {
@@ -65,11 +65,11 @@ public class XWikiSpanTagHandler extends SpanTagHandler
             if (classParam.getValue().contains("wikigeneratedlinkcontent"))
             {
                 setAccumulateContent(false);
-            } else if (classParam.getValue().equals("wikilink") 
+            } else if (classParam.getValue().equals("wikilink")
                 || classParam.getValue().equals("wikicreatelink")
                 || classParam.getValue().equals("wikiexternallink"))
             {
-                // Nothing to do 
+                // Nothing to do
             } else if (classParam.getValue().equals("xwikirenderingerror")) {
                 setAccumulateContent(false);
             } else {

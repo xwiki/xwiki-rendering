@@ -21,7 +21,7 @@ package org.xwiki.rendering.macro;
 
 /**
  * Encapsulate macro lookup error.
- * 
+ *
  * @version $Id$
  * @since 1.9M1
  */

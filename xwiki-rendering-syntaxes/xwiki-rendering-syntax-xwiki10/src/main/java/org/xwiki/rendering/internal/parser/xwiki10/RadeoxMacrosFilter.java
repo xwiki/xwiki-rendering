@@ -40,7 +40,7 @@ import org.xwiki.rendering.parser.xwiki10.util.CleanUtil;
 
 /**
  * Convert 1.0 radeox macros to 2.0 macro. A conversion can be added by implementing RadeoxMacroConverter.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

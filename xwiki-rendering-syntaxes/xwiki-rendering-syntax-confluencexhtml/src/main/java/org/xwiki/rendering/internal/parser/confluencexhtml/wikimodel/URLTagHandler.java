@@ -31,7 +31,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * {@code
  * <ri:url ri:value="http://host" />
  * }
- * 
+ *
  * @version $Id$
  * @since 5.3M2
  */

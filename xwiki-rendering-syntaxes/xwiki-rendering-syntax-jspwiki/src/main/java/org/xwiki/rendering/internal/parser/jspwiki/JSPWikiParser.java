@@ -23,12 +23,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.xwiki.rendering.wikimodel.IWikiParser;
-import org.xwiki.rendering.wikimodel.jspwiki.JspWikiParser;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
+import org.xwiki.rendering.wikimodel.IWikiParser;
+import org.xwiki.rendering.wikimodel.jspwiki.JspWikiParser;
 
 /**
  * @version $Id$
@@ -64,9 +64,10 @@ public class JSPWikiParser extends AbstractWikiModelParser
     {
         return new JspWikiParser();
     }
-    
+
     /**
      * {@inheritDoc}
+     *
      * @see AbstractWikiModelParser#getLinkReferenceParser()
      * @since 2.5RC1
      */

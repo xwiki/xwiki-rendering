@@ -33,7 +33,7 @@ import org.reflections.util.FilterBuilder;
 
 /**
  * Finds all test files in the current classloader, read them and return test data to represent them.
- * 
+ *
  * @version $Id$
  * @since 3.0RC1
  */
@@ -58,7 +58,7 @@ public class TestDataGenerator
 
     /**
      * Parse a single test data file and return test data objects that represent the file data.
-     * 
+     *
      * @param testResourceName the name of the resource file containing the test data in the current classloader
      * @return the in-memory Objects representing the test data
      */

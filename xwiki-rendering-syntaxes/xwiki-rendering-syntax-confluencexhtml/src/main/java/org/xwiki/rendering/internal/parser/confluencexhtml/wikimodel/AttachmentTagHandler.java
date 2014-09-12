@@ -32,7 +32,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * <ri:attachment ri:filename="file.png"/>
  * <ri:attachment ri:filename="file.png"><ri:page ri:content-title="xhtml" ri:space-key="SPACE" /></ri:attachment>
  * }
- * 
+ *
  * @version $Id$
  * @since 5.3M2
  */

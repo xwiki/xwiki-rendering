@@ -72,7 +72,8 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer
     }
 
     @Override
-    public void onImage(@Name("reference") ResourceReference reference, @Name("freestanding") boolean isFreeStandingURI,
+    public void onImage(@Name("reference") ResourceReference reference,
+        @Name("freestanding") boolean isFreeStandingURI,
         @Default("") @Name("parameters") Map<String, String> parameters)
     {
         getXHTMLImageTypeRenderer(reference).onImage(reference, isFreeStandingURI, parameters);

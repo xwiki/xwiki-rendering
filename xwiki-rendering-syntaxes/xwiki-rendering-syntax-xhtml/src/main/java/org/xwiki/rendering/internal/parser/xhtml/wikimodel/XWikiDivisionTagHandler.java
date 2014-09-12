@@ -22,10 +22,10 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 import org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler;
 
 /**
- * Change the class value indicating that the division is an embedded document. We do this in order to be independent 
- * of WikiModel in what we expose to the outside world. Thus if one day we need to change to another implementation
- * we won't be tied to WikiModel.
- * 
+ * Change the class value indicating that the division is an embedded document. We do this in order to be independent of
+ * WikiModel in what we expose to the outside world. Thus if one day we need to change to another implementation we
+ * won't be tied to WikiModel.
+ *
  * @version $Id$
  * @since 1.8M2
  */

@@ -32,8 +32,8 @@ import org.xwiki.rendering.macro.jira.JIRADataSource;
 import org.xwiki.rendering.macro.jira.JIRAFields;
 
 /**
- * Common implementation for JIRA Data Source that knowns how to execute a JQL query on a JIRA instance and retrieve
- * the list of matching JIRA issues.
+ * Common implementation for JIRA Data Source that knowns how to execute a JQL query on a JIRA instance and retrieve the
+ * list of matching JIRA issues.
  *
  * @version $Id$
  * @since 4.2M1

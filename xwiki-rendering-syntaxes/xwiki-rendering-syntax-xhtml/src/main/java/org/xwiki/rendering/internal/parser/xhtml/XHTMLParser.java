@@ -52,7 +52,7 @@ import org.xwiki.xml.XMLReaderFactory;
 
 /**
  * Parses XHTML and generate a {@link org.xwiki.rendering.block.XDOM} object.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */
@@ -64,8 +64,9 @@ public class XHTMLParser extends AbstractWikiModelParser
     /**
      * The parser used for the link label parsing. For (x)html parsing, this will be an xwiki 2.0 parser, since it's
      * more convenient to pass link labels in xwiki syntax. See referred resource for more details.
-     * 
-     * @see XWikiCommentHandler#handleLinkCommentStop(String, org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack)
+     *
+     * @see XWikiCommentHandler#handleLinkCommentStop(String,
+     *      org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack)
      */
     @Inject
     @Named("xdom+xml/current")

@@ -28,7 +28,6 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 
 /**
- * 
  * @version $Id$
  * @since 1.8M1
  */

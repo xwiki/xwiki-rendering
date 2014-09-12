@@ -23,16 +23,16 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
-import org.xwiki.rendering.wikimodel.WikiParameter;
-import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
+import org.xwiki.rendering.wikimodel.WikiParameter;
+import org.xwiki.rendering.wikimodel.WikiParameters;
 
 /**
- * Parse a resource reference specified using the syntax used by the XHTML Annotated Renderer to represent resources
- * as XHTML comments, using the syntax {@code (isTyped)|-|(type)|-|(reference)|-|(parameters: key="value")}.
+ * Parse a resource reference specified using the syntax used by the XHTML Annotated Renderer to represent resources as
+ * XHTML comments, using the syntax {@code (isTyped)|-|(type)|-|(reference)|-|(parameters: key="value")}.
  *
  * @version $Id$
  * @since 2.5RC1
@@ -51,7 +51,7 @@ public class XHTMLMarkerResourceReferenceParser implements ResourceReferencePars
     public ResourceReference parse(String rawReference)
     {
         String[] tokens = StringUtils.splitByWholeSeparatorPreserveAllTokens(rawReference, COMMENT_SEPARATOR);
-        boolean isTyped = tokens[0].equalsIgnoreCase("true") ? true : false;
+        boolean isTyped = "true".equalsIgnoreCase(tokens[0]);
         ResourceType type = new ResourceType(tokens[1]);
         String reference = tokens[2];
 

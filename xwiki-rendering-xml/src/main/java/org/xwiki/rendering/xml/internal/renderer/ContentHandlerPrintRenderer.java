@@ -28,7 +28,7 @@ import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRenderer;
 
 /**
  * Convert SAX events into {@link WikiPrinter} calls.
- * 
+ *
  * @version $Id$
  * @since 5.2M1
  */

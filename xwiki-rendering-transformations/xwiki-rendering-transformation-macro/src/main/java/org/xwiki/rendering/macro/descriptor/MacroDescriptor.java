@@ -25,7 +25,7 @@ import org.xwiki.rendering.macro.MacroId;
 
 /**
  * Describe a Macro (macro description and macro parameters description).
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */
@@ -36,13 +36,13 @@ public interface MacroDescriptor
      * @since 2.3M1
      */
     MacroId getId();
-    
+
     /**
      * @return the human-readable name of the macro (eg "Table Of Contents" for the TOC macro).
      * @since 2.0M3
      */
     String getName();
-    
+
     /**
      * @return the description of the macro.
      */
@@ -51,7 +51,7 @@ public interface MacroDescriptor
     /**
      * @return the class of the JAVA bean containing macro parameters.
      */
-    Class< ? > getParametersBeanClass();
+    Class<?> getParametersBeanClass();
 
     /**
      * @return describe the macro content. If null the macro does not support content.
@@ -64,15 +64,15 @@ public interface MacroDescriptor
      * @since 1.7M2
      */
     Map<String, ParameterDescriptor> getParameterDescriptorMap();
-    
+
     /**
      * A macro can define a default classification category under which it falls. For an example, the "skype" macro
      * would fall under the "Communication" category of macros. However, a wiki administrator has the ability to
-     * override the default category for a given macro in order to organize categories as he sees fit. Thus this
-     * default category is only an indication from the macro author about what category the macro should fall.
-     * 
-     * @return the default category under which this macro should be listed or null if the macro doesn't have a
-     *         default category defined
+     * override the default category for a given macro in order to organize categories as he sees fit. Thus this default
+     * category is only an indication from the macro author about what category the macro should fall.
+     *
+     * @return the default category under which this macro should be listed or null if the macro doesn't have a default
+     *         category defined
      * @since 2.0M3
      */
     String getDefaultCategory();

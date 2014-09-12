@@ -24,7 +24,7 @@ import org.xwiki.rendering.macro.MacroId;
 
 /**
  * Describe a macro with no parameters.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */

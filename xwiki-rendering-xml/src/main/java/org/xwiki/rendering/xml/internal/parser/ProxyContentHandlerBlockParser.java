@@ -30,7 +30,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Proxy parser which is using stream parser to produce XDOM.
- * 
+ *
  * @version $Id$
  * @since 5.2M1
  */
@@ -131,6 +131,6 @@ public class ProxyContentHandlerBlockParser implements ContentHandlerBlockParser
     @Override
     public XDOM getXDOM()
     {
-        return listener.getXDOM();
+        return this.listener.getXDOM();
     }
 }

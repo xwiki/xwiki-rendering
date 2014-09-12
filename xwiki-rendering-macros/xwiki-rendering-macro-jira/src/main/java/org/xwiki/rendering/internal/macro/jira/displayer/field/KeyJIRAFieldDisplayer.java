@@ -60,7 +60,7 @@ public class KeyJIRAFieldDisplayer implements JIRAFieldDisplayer
 
             // If the Issue is closed then display it striked-out
             String resolutionId = issue.getChild(JIRAFields.RESOLUTION).getAttributeValue("id");
-            if (!resolutionId.equals("-1")) {
+            if (!"-1".equals(resolutionId)) {
                 // The issue is resolved
                 labelBlocks = Arrays.<Block>asList(new FormatBlock(labelBlocks, Format.STRIKEDOUT));
             }

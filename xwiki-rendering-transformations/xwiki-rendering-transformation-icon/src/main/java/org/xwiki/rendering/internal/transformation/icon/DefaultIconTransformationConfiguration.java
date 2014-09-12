@@ -19,14 +19,14 @@
  */
 package org.xwiki.rendering.internal.transformation.icon;
 
+import java.util.Properties;
+
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
-
-import java.util.Properties;
-
-import javax.inject.Singleton;
 
 /**
  * All configuration options for the Icon transformation.

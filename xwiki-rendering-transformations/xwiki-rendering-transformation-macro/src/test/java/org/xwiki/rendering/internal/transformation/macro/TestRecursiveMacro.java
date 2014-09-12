@@ -54,6 +54,6 @@ public class TestRecursiveMacro extends AbstractNoParameterMacro
         throws MacroExecutionException
     {
         return Arrays.asList((Block) new MacroBlock("testrecursivemacro", Collections
-            .<String, String> emptyMap(), false));
+            .<String, String>emptyMap(), false));
     }
 }

@@ -24,20 +24,20 @@ import java.io.Reader;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
-import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
+import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.util.IdGenerator;
+import org.xwiki.rendering.wikimodel.IWikiParser;
 
 /**
  * Common code for all WikiModel-based parsers.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */

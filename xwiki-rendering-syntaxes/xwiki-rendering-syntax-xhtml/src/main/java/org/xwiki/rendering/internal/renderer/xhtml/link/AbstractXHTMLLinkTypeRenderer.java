@@ -32,7 +32,7 @@ import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
 
 /**
  * Common code for XHTML Link Type Renderer implementations.
- * 
+ *
  * @version $Id$
  * @since 2.5M2
  */
@@ -94,7 +94,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     /**
      * Hook called when rendering the beginning of a link to allow implementation classes to augment the passed span and
      * anchor attributes as they see fit.
-     * 
+     *
      * @param reference the reference of the link being rendered
      * @param spanAttributes the HTML attributes for the SPAN HTML element added around the ANCHOR HTML element
      * @param anchorAttributes the HTML attributes for the ANCHOR element
@@ -105,7 +105,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     /**
      * Default implementation for computing a link label when no label has been specified. Can be overwritten by
      * implementations to provide a different algorithm.
-     * 
+     *
      * @param reference the reference of the link for which to compute the label
      * @return the computed label
      */
@@ -155,7 +155,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     {
         // If there was no link content then generate it based on the passed reference
         if (!hasLabel()) {
-            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][] {{CLASS, "wikigeneratedlinkcontent"}});
+            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][] { { CLASS, "wikigeneratedlinkcontent" } });
             getXHTMLWikiPrinter().printXML(computeLabel(reference));
             getXHTMLWikiPrinter().printXMLEndElement(SPAN);
         }
@@ -167,7 +167,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     /**
      * Add an attribute value to an existing attribute. This is useful for example for adding a value to an HTML CLASS
      * attribute.
-     * 
+     *
      * @param currentValue the current value of the attribute (can be null)
      * @param valueToAdd the value to add
      * @return the current value augmented by the value to add
@@ -191,7 +191,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
      * their own decision process.
      *
      * @param reference the reference used by this link, in case the status of the link depends on the particular
-     *        resource being referenced
+     *            resource being referenced
      * @return {@code true} if the referenced resource is external to the containing application or the rendered
      *         document, or if the notion of "internal references" doesn't even make sense, {@code false} otherwise
      */

@@ -25,7 +25,7 @@ import org.xwiki.rendering.internal.parser.xwiki10.HTMLFilter.HTMLFilterContext;
 
 /**
  * Base class for HTML elements converters.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

@@ -36,7 +36,7 @@ import org.xwiki.xml.XMLUtils;
 
 /**
  * Base toolkit class for all XML-based printers.
- * 
+ *
  * @version $Id$
  * @since 1.9M1
  */
@@ -178,7 +178,7 @@ public class XMLWikiPrinter
      * Print a XML comment. Note that the content that you pass must be valid XML comment, ie not have <code>--</code>
      * characters (or <code>-</code> if it's the last character). If you're not sure what the comment content will be
      * use {@link #printXMLComment(String, boolean)} instead, passing true for the second parameter.
-     * 
+     *
      * @param content the comment content
      */
     public void printXMLComment(String content)
@@ -188,7 +188,7 @@ public class XMLWikiPrinter
 
     /**
      * Print a XML comment.
-     * 
+     *
      * @param content the comment content
      * @param escape indicate if comment content has to be escaped. XML content does not support -- and - (when it's the
      *            last character). Escaping is based on backslash. "- --\ -" give "- \-\-\\ \-\ ".
@@ -241,7 +241,7 @@ public class XMLWikiPrinter
     /**
      * Print some text without escaping anything, it's supposed to be XML or at least contains only valid characters in
      * XML text node.
-     * 
+     *
      * @param row the content
      */
     public void printRaw(String row)

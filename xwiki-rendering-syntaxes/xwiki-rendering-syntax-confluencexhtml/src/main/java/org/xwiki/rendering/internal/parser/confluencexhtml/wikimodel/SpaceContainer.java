@@ -20,7 +20,6 @@
 package org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel;
 
 /**
- * 
  * @version $Id$
  * @since 5.3M2
  */

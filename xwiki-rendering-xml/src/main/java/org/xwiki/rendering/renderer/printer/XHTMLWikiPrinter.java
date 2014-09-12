@@ -28,7 +28,7 @@ import org.xml.sax.Attributes;
  * Base toolkit class for all XHTML-based renderers. This printer handles whitespaces so that it prints "&nbsp;" when
  * needed (i.e. when the spaces are at the beginning or at the end of an element's content or when there are more than 1
  * contiguous spaces, except for CDATA sections and inside PRE elements. It also knows how to handle XHTML comments).
- * 
+ *
  * @version $Id$
  * @since 1.7M1
  */

@@ -217,9 +217,9 @@ public class TestDataParser
 
         // TODO: Remove these unsafe casts, need to find out how to do that nicely...
         configuration.notApplicableTests =
-                (List<String>) (List<?>) compositeConfiguration.getList("notApplicableTests", Collections.emptyList());
+            (List<String>) (List<?>) compositeConfiguration.getList("notApplicableTests", Collections.emptyList());
         configuration.failingTests =
-                (List<String>) (List<?>) compositeConfiguration.getList("failingTests", Collections.emptyList());
+            (List<String>) (List<?>) compositeConfiguration.getList("failingTests", Collections.emptyList());
         configuration.testDescriptions = compositeConfiguration.getProperties("testDescriptions", new Properties());
         configuration.inheritSyntax = compositeConfiguration.getString("inheritSyntax");
         configuration.fileExtension = compositeConfiguration.getString("fileExtension", "txt");

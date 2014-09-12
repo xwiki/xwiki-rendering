@@ -30,7 +30,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
  * Handle XHTML rendering for UNC links (Universal Naming Convention).
- * 
+ *
  * @version $Id$
  * @since 2.7M1
  */

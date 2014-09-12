@@ -22,7 +22,7 @@ package org.xwiki.rendering.macro.footnote;
 /**
  * Parameters for the {@link org.xwiki.rendering.internal.macro.footnote.FootnoteMacro} Macro. None at the moment, but
  * the rendering engine requires specifying a class for parameters.
- * 
+ *
  * @version $Id$
  * @since 2.0M2
  */

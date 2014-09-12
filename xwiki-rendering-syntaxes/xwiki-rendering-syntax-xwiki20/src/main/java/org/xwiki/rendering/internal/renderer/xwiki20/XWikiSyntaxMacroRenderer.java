@@ -25,7 +25,7 @@ import org.xwiki.rendering.internal.renderer.ParametersPrinter;
 
 /**
  * Generates XWiki Syntax for a Macro Block.
- * 
+ *
  * @version $Id$
  * @since 2.0.1
  */

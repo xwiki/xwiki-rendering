@@ -31,6 +31,10 @@
   <name>XWiki Rendering - Test Framework</name>
   <packaging>jar</packaging>
   <description>XWiki Rendering - Test Framework</description>
+  <properties>
+    <!-- There's a factory class with lots of things to instantiate -->
+    <checkstyle.suppressions.location>${basedir}/src/main/checkstyle/checkstyle-suppressions.xml</checkstyle.suppressions.location>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>

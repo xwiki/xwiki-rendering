@@ -23,7 +23,7 @@ import org.xwiki.component.annotation.Role;
 
 /**
  * Filter provided content into another content.
- * 
+ *
  * @version $Id$
  * @since 1.8M1
  */

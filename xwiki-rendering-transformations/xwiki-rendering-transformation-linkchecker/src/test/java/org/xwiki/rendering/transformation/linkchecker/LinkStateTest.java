@@ -24,7 +24,7 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link LinkState}.
- * 
+ *
  * @version $Id$
  */
 public class LinkStateTest

@@ -34,7 +34,7 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 /**
  * Render links as XHTML, using annotations (see
  * {@link org.xwiki.rendering.internal.renderer.xhtml.AnnotatedXHTMLRenderer} for more details).
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */

@@ -35,7 +35,7 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 
 /**
  * Logic to render a Resource Reference into XWiki Syntax 2.0.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */
@@ -44,7 +44,7 @@ public class XWikiSyntaxResourceRenderer
     /**
      * Separator to use between the link reference and link parameters.
      */
-    protected static final String PARAMETER_SEPARATOR = "||"; 
+    protected static final String PARAMETER_SEPARATOR = "||";
 
     protected ParametersPrinter parametersPrinter = new ParametersPrinter();
 

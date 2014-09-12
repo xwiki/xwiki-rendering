@@ -33,7 +33,7 @@ import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRenderer;
 
 /**
  * Base class for XML based syntax renderers. This support both block based and streaming renderers interfaces.
- * 
+ *
  * @version $Id$
  * @since 5.2M1
  */

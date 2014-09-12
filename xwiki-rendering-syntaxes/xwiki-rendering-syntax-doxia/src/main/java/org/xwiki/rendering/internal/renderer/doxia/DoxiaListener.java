@@ -88,7 +88,7 @@ public class DoxiaListener extends WrappingListener
                 justifications[i] = Sink.JUSTIFY_CENTER;
             }
             super.beginTable(parameters);
-            sink.tableRows(justifications, true);
+            this.sink.tableRows(justifications, true);
         } else {
             // Start stacking Events since we need to count the number of table rows
             if (this.tableCount == 0) {
@@ -119,7 +119,7 @@ public class DoxiaListener extends WrappingListener
                 this.unstacking = false;
             }
         } else {
-            sink.tableRows_();
+            this.sink.tableRows_();
             this.rowCountStack.pop();
             super.endTable(parameters);
         }

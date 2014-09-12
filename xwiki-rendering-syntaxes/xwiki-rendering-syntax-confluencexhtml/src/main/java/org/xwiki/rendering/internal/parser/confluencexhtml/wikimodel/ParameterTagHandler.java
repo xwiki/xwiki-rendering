@@ -32,7 +32,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * {@code
  * <ac:parameter ac:name="title">State default macro</ac:parameter>
  * }
- * 
+ *
  * @version $Id$
  * @since 5.3M2
  */

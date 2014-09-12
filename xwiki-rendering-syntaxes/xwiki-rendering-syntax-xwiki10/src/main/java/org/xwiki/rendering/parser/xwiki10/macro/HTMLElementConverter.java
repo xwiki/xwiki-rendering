@@ -26,7 +26,7 @@ import org.xwiki.rendering.internal.parser.xwiki10.HTMLFilter.HTMLFilterContext;
 
 /**
  * Convert Html elements to XWiki 2.0 syntax or macro.
- * 
+ *
  * @version $Id$
  * @since 1.8.2
  */

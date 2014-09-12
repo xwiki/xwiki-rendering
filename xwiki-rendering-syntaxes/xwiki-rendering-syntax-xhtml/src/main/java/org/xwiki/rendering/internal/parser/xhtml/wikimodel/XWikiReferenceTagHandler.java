@@ -38,7 +38,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
 /**
  * Override the default WikiModel Reference handler to handle XWiki references since we store some information in
  * comments. We also need to handle the span elements introduced by XWiki.
- * 
+ *
  * @version $Id$
  * @since 1.7M1
  */

@@ -21,7 +21,7 @@ package org.xwiki.rendering.macro.descriptor;
 
 /**
  * Define a macro content.
- * 
+ *
  * @version $Id$
  * @since 1.9M1
  */

@@ -34,5 +34,5 @@ import org.xwiki.rendering.internal.parser.reference.GenericImageReferenceParser
 @Singleton
 public class XWiki20ImageReferenceParser extends GenericImageReferenceParser
 {
-    
+
 }

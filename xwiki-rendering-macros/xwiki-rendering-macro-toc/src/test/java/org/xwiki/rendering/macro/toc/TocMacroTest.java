@@ -29,7 +29,7 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
 
 /**
  * Validate {@link TocMacro}.
- * 
+ *
  * @version $Id$
  */
 public class TocMacroTest extends AbstractComponentTestCase

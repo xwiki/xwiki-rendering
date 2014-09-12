@@ -40,8 +40,8 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
- * Allows writing content in any syntax (wiki syntax, HTML, etc). This allows to have to main content in a given
- * syntax and mix content written in another syntax in it.
+ * Allows writing content in any syntax (wiki syntax, HTML, etc). This allows to have to main content in a given syntax
+ * and mix content written in another syntax in it.
  *
  * @version $Id$
  * @since 4.2M3

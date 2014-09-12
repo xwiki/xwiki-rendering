@@ -47,6 +47,7 @@ public class XWikiSyntaxChainingRenderer
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -58,6 +59,7 @@ public class XWikiSyntaxChainingRenderer
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override

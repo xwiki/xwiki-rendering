@@ -41,8 +41,8 @@ public interface JIRADisplayer
      *
      * @param issues the issues to display
      * @param parameters the macro parameters specified by the user; can be used to specify displayer-specific
-     *        configuration data (for example displayers allows the user to specify the list of JIRA issue fields to
-     *        display
+     *            configuration data (for example displayers allows the user to specify the list of JIRA issue fields to
+     *            display
      * @return the list of Blocks rerpesenting what to display
      */
     List<Block> display(Collection<Element> issues, JIRAMacroParameters parameters);

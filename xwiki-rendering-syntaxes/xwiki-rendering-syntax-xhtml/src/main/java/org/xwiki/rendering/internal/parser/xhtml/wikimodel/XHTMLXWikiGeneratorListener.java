@@ -24,7 +24,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -34,10 +33,11 @@ import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
+import org.xwiki.rendering.wikimodel.WikiReference;
 
 /**
  * WikiModel listener bridge for the XHTML Syntax.
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */

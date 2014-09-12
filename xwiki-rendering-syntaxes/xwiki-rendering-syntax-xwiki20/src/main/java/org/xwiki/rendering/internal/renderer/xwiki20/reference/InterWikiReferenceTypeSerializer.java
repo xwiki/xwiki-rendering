@@ -24,14 +24,14 @@ import javax.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.internal.parser.reference.GenericLinkReferenceParser;
 import org.xwiki.rendering.internal.parser.xwiki20.XWiki20LinkReferenceParser;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
 
 /**
- * Serialize a link reference pointing to an interwiki link using the format
- * {@code (interwiki path)@(interwiki alias)}.
+ * Serialize a link reference pointing to an interwiki link using the format {@code (interwiki path)@(interwiki alias)}.
  *
  * @version $Id$
  * @since 2.5RC1
@@ -44,26 +44,26 @@ public class InterWikiReferenceTypeSerializer implements ResourceReferenceTypeSe
     /**
      * Escapes to add when rendering a link reference part.
      */
-    private static final String[] ESCAPE_REPLACEMENTS_REFERENCE = new String[]{
+    private static final String[] ESCAPE_REPLACEMENTS_REFERENCE = new String[] {
         "" + XWiki20LinkReferenceParser.ESCAPE_CHAR + XWiki20LinkReferenceParser.ESCAPE_CHAR };
 
     /**
      * Replacement chars for the escapes to add to the reference part.
      */
-    private static final String[] ESCAPES_REFERENCE = new String[]{
+    private static final String[] ESCAPES_REFERENCE = new String[] {
         "" + XWiki20LinkReferenceParser.ESCAPE_CHAR };
 
     /**
      * Escapes to add when rendering a link query string, anchor or interwiki part.
      */
-    private static final String[] ESCAPE_REPLACEMENTS_EXTRA = new String[]{
+    private static final String[] ESCAPE_REPLACEMENTS_EXTRA = new String[] {
         "" + XWiki20LinkReferenceParser.ESCAPE_CHAR + XWiki20LinkReferenceParser.SEPARATOR_INTERWIKI,
         "" + XWiki20LinkReferenceParser.ESCAPE_CHAR + XWiki20LinkReferenceParser.ESCAPE_CHAR };
 
     /**
      * Replacement chars for the escapes to add to the query string, anchor or interwiki part.
      */
-    private static final String[] ESCAPES_EXTRA = new String[]{
+    private static final String[] ESCAPES_EXTRA = new String[] {
         XWiki20LinkReferenceParser.SEPARATOR_INTERWIKI,
         "" + XWiki20LinkReferenceParser.ESCAPE_CHAR };
 
@@ -74,7 +74,7 @@ public class InterWikiReferenceTypeSerializer implements ResourceReferenceTypeSe
         String result = addEscapesToReferencePart(reference.getReference());
         if (interWikiAlias != null) {
             result = addEscapesToReferencePart(reference.getReference())
-                + XWiki20LinkReferenceParser.SEPARATOR_INTERWIKI + addEscapesToExtraParts(interWikiAlias);
+                + GenericLinkReferenceParser.SEPARATOR_INTERWIKI + addEscapesToExtraParts(interWikiAlias);
         }
         return result;
     }

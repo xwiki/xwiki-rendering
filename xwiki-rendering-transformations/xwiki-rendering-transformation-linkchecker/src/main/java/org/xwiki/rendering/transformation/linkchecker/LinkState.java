@@ -47,7 +47,7 @@ public class LinkState
      * @see #getContextData()
      */
     private Map<String, Object> contextData;
-    
+
     /**
      * @param responseCode see {@link #getResponseCode()}
      * @param lastCheckedTime see {@link #getLastCheckedTime()}
@@ -94,7 +94,7 @@ public class LinkState
     {
         return this.contextData;
     }
-    
+
     @Override
     public boolean equals(Object object)
     {

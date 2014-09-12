@@ -48,7 +48,7 @@ public class AttachmentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRender
     /**
      * Used to serialize the attachment link to XWiki Syntax 2.0 when we're not inside a wiki.
      * We choose the XWiki Syntax 2.0 arbitrarily. Normally the user should never use a link to an attachment when
-     * not inside a wiki. 
+     * not inside a wiki.
      */
     @Inject
     @Named("xwiki/2.0")
