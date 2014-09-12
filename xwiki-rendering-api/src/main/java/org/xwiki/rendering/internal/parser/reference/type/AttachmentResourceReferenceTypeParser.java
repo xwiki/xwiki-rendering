@@ -27,7 +27,7 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 
 /**
  * Parses a resource reference to an attachment.
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */

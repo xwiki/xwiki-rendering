@@ -22,8 +22,8 @@ package org.xwiki.rendering.block;
 import org.xwiki.rendering.listener.Listener;
 
 /**
- * Represents a new line or line break (it's up to the Renderers to decide if it should be outputted as a new
- * line or as a line break in the given syntax).
+ * Represents a new line or line break (it's up to the Renderers to decide if it should be outputted as a new line or as
+ * a line break in the given syntax).
  *
  * @version $Id$
  * @since 1.5M2
@@ -34,6 +34,7 @@ public final class NewLineBlock extends AbstractBlock
      * A new line block. Note that we don't make NewLineBlock a singleton since that would cause problems when using
      * Block APIs to manipulate a tree of blocks (for example to find the position of a new line block in a list using
      * {@link java.util.List#indexOf(Object)} wich would always return the first new line block).
+     *
      * @since 2.6RC1
      */
     public NewLineBlock()

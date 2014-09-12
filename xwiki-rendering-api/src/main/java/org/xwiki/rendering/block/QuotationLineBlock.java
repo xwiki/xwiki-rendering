@@ -25,7 +25,7 @@ import org.xwiki.rendering.listener.Listener;
 
 /**
  * Represents a quotation line. There can be several quotation lines in a quotation block.
- * 
+ *
  * @version $Id$
  * @since 1.6M2
  */

@@ -63,7 +63,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Produce a {@link XDOM} based on events.
- * 
+ *
  * @version $Id$
  * @since 2.1M1
  */
@@ -76,187 +76,187 @@ public class XDOMGeneratorListener implements Listener
      */
     public XDOM getXDOM()
     {
-        return builder.getXDOM();
+        return this.builder.getXDOM();
     }
 
     @Override
     public void beginDefinitionDescription()
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginDefinitionList(Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginDefinitionTerm()
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 3.0M2
      */
     @Override
     public void beginDocument(MetaData metaData)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginGroup(Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginListItem()
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginParagraph(Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginQuotation(Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginQuotationLine()
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginSection(Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginTable(Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginTableCell(Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginTableRow(Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 3.0M2
      */
     @Override
     public void beginMetaData(MetaData metadata)
     {
-        builder.startBlockList();
+        this.builder.startBlockList();
     }
 
     @Override
     public void endDefinitionDescription()
     {
-        builder.addBlock(new DefinitionDescriptionBlock(builder.endBlockList()));
+        this.builder.addBlock(new DefinitionDescriptionBlock(this.builder.endBlockList()));
     }
 
     @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
-        builder.addBlock(new DefinitionListBlock(builder.endBlockList(), parameters != null ? parameters
+        this.builder.addBlock(new DefinitionListBlock(this.builder.endBlockList(), parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endDefinitionTerm()
     {
-        builder.addBlock(new DefinitionTermBlock(builder.endBlockList()));
+        this.builder.addBlock(new DefinitionTermBlock(this.builder.endBlockList()));
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 3.0M2
      */
     @Override
     public void endDocument(MetaData metaData)
     {
-        builder.addBlock(new XDOM(builder.endBlockList(), metaData));
+        this.builder.addBlock(new XDOM(this.builder.endBlockList(), metaData));
     }
 
     @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
-        builder.addBlock(new FormatBlock(builder.endBlockList(), format != null ? format : Format.NONE,
+        this.builder.addBlock(new FormatBlock(this.builder.endBlockList(), format != null ? format : Format.NONE,
             parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endGroup(Map<String, String> parameters)
     {
-        builder.addBlock(new GroupBlock(builder.endBlockList(), parameters != null ? parameters
+        this.builder.addBlock(new GroupBlock(this.builder.endBlockList(), parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        builder.addBlock(new HeaderBlock(builder.endBlockList(), level, parameters != null ? parameters
+        this.builder.addBlock(new HeaderBlock(this.builder.endBlockList(), level, parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS, id));
     }
 
@@ -264,10 +264,10 @@ public class XDOMGeneratorListener implements Listener
     public void endList(ListType listType, Map<String, String> parameters)
     {
         if (listType == ListType.BULLETED) {
-            builder.addBlock(new BulletedListBlock(builder.endBlockList(), parameters != null ? parameters
+            this.builder.addBlock(new BulletedListBlock(this.builder.endBlockList(), parameters != null ? parameters
                 : Listener.EMPTY_PARAMETERS));
         } else {
-            builder.addBlock(new NumberedListBlock(builder.endBlockList(), parameters != null ? parameters
+            this.builder.addBlock(new NumberedListBlock(this.builder.endBlockList(), parameters != null ? parameters
                 : Listener.EMPTY_PARAMETERS));
         }
     }
@@ -275,155 +275,157 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void endListItem()
     {
-        builder.addBlock(new ListItemBlock(builder.endBlockList()));
+        this.builder.addBlock(new ListItemBlock(this.builder.endBlockList()));
     }
 
     @Override
     public void endMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
-        builder.addBlock(new MacroMarkerBlock(name, macroParameters != null ? macroParameters
-            : Listener.EMPTY_PARAMETERS, content, builder.endBlockList(), isInline));
+        this.builder.addBlock(new MacroMarkerBlock(name, macroParameters != null ? macroParameters
+            : Listener.EMPTY_PARAMETERS, content, this.builder.endBlockList(), isInline));
     }
 
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
-        builder.addBlock(new ParagraphBlock(builder.endBlockList(), parameters != null ? parameters
+        this.builder.addBlock(new ParagraphBlock(this.builder.endBlockList(), parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endQuotation(Map<String, String> parameters)
     {
-        builder.addBlock(new QuotationBlock(builder.endBlockList(), parameters != null ? parameters
+        this.builder.addBlock(new QuotationBlock(this.builder.endBlockList(), parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endQuotationLine()
     {
-        builder.addBlock(new QuotationLineBlock(builder.endBlockList()));
+        this.builder.addBlock(new QuotationLineBlock(this.builder.endBlockList()));
     }
 
     @Override
     public void endSection(Map<String, String> parameters)
     {
-        builder.addBlock(new SectionBlock(builder.endBlockList(), parameters != null ? parameters
+        this.builder.addBlock(new SectionBlock(this.builder.endBlockList(), parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTable(Map<String, String> parameters)
     {
-        builder.addBlock(new TableBlock(builder.endBlockList(), parameters != null ? parameters
+        this.builder.addBlock(new TableBlock(this.builder.endBlockList(), parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTableCell(Map<String, String> parameters)
     {
-        builder.addBlock(new TableCellBlock(builder.endBlockList(), parameters != null ? parameters
+        this.builder.addBlock(new TableCellBlock(this.builder.endBlockList(), parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
-        builder.addBlock(new TableHeadCellBlock(builder.endBlockList(), parameters != null ? parameters
+        this.builder.addBlock(new TableHeadCellBlock(this.builder.endBlockList(), parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTableRow(Map<String, String> parameters)
     {
-        builder.addBlock(new TableRowBlock(builder.endBlockList(), parameters != null ? parameters
+        this.builder.addBlock(new TableRowBlock(this.builder.endBlockList(), parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        builder.addBlock(new LinkBlock(builder.endBlockList(), reference, isFreeStandingURI, parameters != null
+        this.builder.addBlock(new LinkBlock(this.builder.endBlockList(), reference, isFreeStandingURI,
+            parameters != null
             ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 3.0M2
      */
     @Override
     public void endMetaData(MetaData metadata)
     {
-        builder.addBlock(new MetaDataBlock(builder.endBlockList(), metadata));
+        this.builder.addBlock(new MetaDataBlock(this.builder.endBlockList(), metadata));
     }
 
     @Override
     public void onEmptyLines(int count)
     {
-        builder.addBlock(new EmptyLinesBlock(count));
+        this.builder.addBlock(new EmptyLinesBlock(count));
     }
 
     @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
-        builder.addBlock(new HorizontalLineBlock(parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
+        this.builder.addBlock(new HorizontalLineBlock(parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void onId(String name)
     {
-        builder.addBlock(new IdBlock(name));
+        this.builder.addBlock(new IdBlock(name));
     }
 
     @Override
     public void onMacro(String id, Map<String, String> macroParameters, String content, boolean isInline)
     {
-        builder.addBlock(new MacroBlock(id, macroParameters != null ? macroParameters : Listener.EMPTY_PARAMETERS,
+        this.builder.addBlock(new MacroBlock(id, macroParameters != null ? macroParameters : Listener.EMPTY_PARAMETERS,
             content, isInline));
     }
 
     @Override
     public void onNewLine()
     {
-        builder.addBlock(new NewLineBlock());
+        this.builder.addBlock(new NewLineBlock());
     }
 
     @Override
     public void onRawText(String rawContent, Syntax syntax)
     {
-        builder.addBlock(new RawBlock(rawContent, syntax));
+        this.builder.addBlock(new RawBlock(rawContent, syntax));
     }
 
     @Override
     public void onSpace()
     {
-        builder.addBlock(new SpaceBlock());
+        this.builder.addBlock(new SpaceBlock());
     }
 
     @Override
     public void onSpecialSymbol(char symbol)
     {
-        builder.addBlock(new SpecialSymbolBlock(symbol));
+        this.builder.addBlock(new SpecialSymbolBlock(symbol));
     }
 
     @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
-        builder.addBlock(new VerbatimBlock(protectedString, parameters != null ? parameters : Listener.EMPTY_PARAMETERS,
+        this.builder.addBlock(new VerbatimBlock(protectedString,
+            parameters != null ? parameters : Listener.EMPTY_PARAMETERS,
             isInline));
     }
 
     @Override
     public void onWord(String word)
     {
-        builder.addBlock(new WordBlock(word));
+        this.builder.addBlock(new WordBlock(word));
     }
 
     @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        builder.addBlock(new ImageBlock(reference, isFreeStandingURI, parameters != null ? parameters
+        this.builder.addBlock(new ImageBlock(reference, isFreeStandingURI, parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS));
     }
 }

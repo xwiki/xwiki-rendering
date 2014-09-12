@@ -28,7 +28,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 /**
  * Contains callback events for Images,called when a document has been parsed and when it needs to be modified or
  * rendered.
- * 
+ *
  * @version $Id$
  * @since 1.8RC3
  * @see Listener
@@ -37,7 +37,7 @@ public interface ImageListener
 {
     /**
      * An image.
-     * 
+     *
      * @param reference the image reference
      * @param isFreeStandingURI if true then the image is defined directly as a URI in the text
      * @param parameters a generic list of parameters. Example: style="background-color: blue"

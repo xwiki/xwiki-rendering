@@ -40,8 +40,8 @@ public interface ResourceReferenceTypeParser
 
     /**
      * @param reference the raw resource reference to parse
-     * @return the parsed resource information if the passed reference can be parsed by this type parser or null if
-     *         the passed reference isn't valid
+     * @return the parsed resource information if the passed reference can be parsed by this type parser or null if the
+     *         passed reference isn't valid
      */
     ResourceReference parse(String reference);
 }

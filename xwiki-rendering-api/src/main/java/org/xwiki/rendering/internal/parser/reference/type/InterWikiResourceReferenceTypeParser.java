@@ -39,7 +39,7 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 public class InterWikiResourceReferenceTypeParser extends AbstractURIResourceReferenceTypeParser
 {
     /**
-     * Separator between the interwiki alias and the interwiki path (eg "alias" in interwiki:alias:path).  
+     * Separator between the interwiki alias and the interwiki path (eg "alias" in interwiki:alias:path).
      */
     public static final String INTERWIKI_ALIAS_SEPARATOR = ":";
 

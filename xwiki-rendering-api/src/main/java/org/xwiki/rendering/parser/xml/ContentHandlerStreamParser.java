@@ -26,7 +26,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Convert SAX events into rendering events.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */

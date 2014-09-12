@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Represents a reference to an Attachment.
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */
@@ -36,7 +36,7 @@ public class AttachmentResourceReference extends ResourceReference
 
     /**
      * The name of the parameter representing the Anchor.
-     * 
+     *
      * @since 5.3M2
      */
     public static final String ANCHOR = "anchor";

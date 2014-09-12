@@ -27,7 +27,7 @@ import org.xwiki.rendering.block.Block;
 
 /**
  * Convert {@link Block}s into SAX events.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */

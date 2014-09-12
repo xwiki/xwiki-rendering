@@ -23,7 +23,7 @@ import org.xwiki.rendering.block.Block;
 
 /**
  * Implementation of {@link BlockMatcher} which match {@link Block} same as the registered {@link Block}.
- * 
+ *
  * @version $Id$
  * @since 3.0M3
  */

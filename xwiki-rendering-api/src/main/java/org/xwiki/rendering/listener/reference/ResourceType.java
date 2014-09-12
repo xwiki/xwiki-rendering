@@ -32,7 +32,7 @@ package org.xwiki.rendering.listener.reference;
  * <li>User ("user")</li>
  * <li>Data URI image ("data")</li>
  * </ul>
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */
@@ -80,14 +80,14 @@ public class ResourceType
 
     /**
      * Represents a UNC (Universal Naming Convention) (eg "\\myserver\myshare\mydoc.txt").
-     * 
+     *
      * @since 2.7M1
      */
     public static final ResourceType UNC = new ResourceType("unc");
 
     /**
      * Represents a user.
-     * 
+     *
      * @since 5.3M2
      */
     public static final ResourceType USER = new ResourceType("user");

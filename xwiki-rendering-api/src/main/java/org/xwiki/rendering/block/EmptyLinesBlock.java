@@ -22,13 +22,13 @@ package org.xwiki.rendering.block;
 import org.xwiki.rendering.listener.Listener;
 
 /**
- * Represents an empty line between 2 standalone Blocks. A standalone block is block that is not included in
- * another block. Standalone blocks are Paragraph, Standalone Macro, Lists, Table, etc.
+ * Represents an empty line between 2 standalone Blocks. A standalone block is block that is not included in another
+ * block. Standalone blocks are Paragraph, Standalone Macro, Lists, Table, etc.
  *
  * @version $Id$
  * @since 1.6M2
  */
-public class EmptyLinesBlock  extends AbstractBlock
+public class EmptyLinesBlock extends AbstractBlock
 {
     /**
      * Number of empty lines between 2 standalone Blocks.
@@ -58,7 +58,7 @@ public class EmptyLinesBlock  extends AbstractBlock
     {
         this.count = count;
     }
-    
+
     @Override
     public void traverse(Listener listener)
     {

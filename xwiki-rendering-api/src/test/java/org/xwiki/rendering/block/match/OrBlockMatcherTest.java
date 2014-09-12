@@ -22,14 +22,13 @@ package org.xwiki.rendering.block.match;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.listener.Format;
-
-import org.junit.Assert;
 
 /**
  * Unit tests for {@link OrBlockMatcher}.

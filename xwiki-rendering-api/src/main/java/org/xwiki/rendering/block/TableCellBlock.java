@@ -26,7 +26,7 @@ import org.xwiki.rendering.listener.Listener;
 
 /**
  * Represents a cell of a table.
- * 
+ *
  * @version $Id$
  * @since 1.6M2
  */

@@ -19,8 +19,6 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
-import static org.mockito.Mockito.when;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,9 +28,11 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
+import static org.mockito.Mockito.when;
+
 /**
  * Unit tests for {@link ResourceReferenceConverter}.
- * 
+ *
  * @version $Id$
  */
 public class ResourceReferenceConverterTest

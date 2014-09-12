@@ -28,7 +28,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * Performs a transformation on a XDOM (i.e. a tree of {@link org.xwiki.rendering.block.Block}. This used for example
  * for transforming Macro Blocks into other Blocks corresponding to the execution of the Macros. Another example of
  * transformation would be looking for all words that have an entry on Wikipedia and adding links to them.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */
@@ -39,14 +39,14 @@ public interface Transformation extends Comparable<Transformation>
      * The priority of execution relative to the other transformations. The lowest values have the highest priorities
      * and execute first. For example a Transformation with a priority of 100 will execute before one with a priority of
      * 500.
-     * 
+     *
      * @return the execution priority
      */
     int getPriority();
 
     /**
      * Transform the passed XDOM and modifies it.
-     * 
+     *
      * @param dom the AST representing the content in Blocks
      * @param syntax the Syntax of the content
      * @throws TransformationException if the transformation fails for any reason
@@ -57,7 +57,7 @@ public interface Transformation extends Comparable<Transformation>
 
     /**
      * Transform the passed XDOM and modifies it.
-     * 
+     *
      * @param block the block to transform (can be an {@link XDOM})
      * @param context the context of the transformation process (syntax, transformation id, etc)
      * @throws TransformationException if the transformation fails for any reason

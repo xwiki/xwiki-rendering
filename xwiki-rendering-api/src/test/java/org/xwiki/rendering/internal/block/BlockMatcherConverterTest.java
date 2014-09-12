@@ -35,18 +35,19 @@ import org.xwiki.rendering.block.match.ClassBlockMatcher;
  */
 public class BlockMatcherConverterTest
 {
-    private BlockMatcherConverter converter  = new BlockMatcherConverter();
-    
+    private BlockMatcherConverter converter = new BlockMatcherConverter();
+
     @Test
     public void testConvertFromString()
     {
-        BlockMatcher wordMatcher = converter.convert(BlockMatcher.class, "class:org.xwiki.rendering.block.WordBlock");
+        BlockMatcher wordMatcher =
+            this.converter.convert(BlockMatcher.class, "class:org.xwiki.rendering.block.WordBlock");
         Assert.assertTrue(wordMatcher instanceof ClassBlockMatcher);
-        // any better check that this matcher 
+        // any better check that this matcher
         Assert.assertTrue(wordMatcher.match(new WordBlock("test")));
         Assert.assertFalse(wordMatcher.match(new SpaceBlock()));
-        
-        BlockMatcher wordMatcher2 = converter.convert(BlockMatcher.class, "class:WordBlock");
+
+        BlockMatcher wordMatcher2 = this.converter.convert(BlockMatcher.class, "class:WordBlock");
         Assert.assertTrue(wordMatcher2 instanceof ClassBlockMatcher);
     }
 
@@ -58,13 +59,13 @@ public class BlockMatcherConverterTest
         assertConversionException("class:FantasyBlock");
         assertConversionException("macro:box"); // at least yet
     }
-    
+
     private void assertConversionException(String input)
     {
         try {
-            converter.convert(BlockMatcher.class, input);
+            this.converter.convert(BlockMatcher.class, input);
             Assert.fail("should not parse " + input);
-        } catch(ConversionException e) {
+        } catch (ConversionException e) {
             // expected
         }
     }

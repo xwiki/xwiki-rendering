@@ -33,7 +33,7 @@ public class BlockNavigatorTest
 
     public static final WordBlock precedingBlockChild2 = new WordBlock("pc2");
 
-    public static final ParagraphBlock precedingBlock = new ParagraphBlock(Arrays.<Block> asList(precedingBlockChild1,
+    public static final ParagraphBlock precedingBlock = new ParagraphBlock(Arrays.<Block>asList(precedingBlockChild1,
         precedingBlockChild2))
     {
         @Override
@@ -47,7 +47,7 @@ public class BlockNavigatorTest
 
     public static final WordBlock contextBlockChild22 = new WordBlock("cc22");
 
-    public static final ParagraphBlock contextBlockChild2 = new ParagraphBlock(Arrays.<Block> asList(
+    public static final ParagraphBlock contextBlockChild2 = new ParagraphBlock(Arrays.<Block>asList(
         contextBlockChild21, contextBlockChild22))
     {
         @Override
@@ -61,7 +61,7 @@ public class BlockNavigatorTest
 
     public static final WordBlock contextBlockChild12 = new WordBlock("cc12");
 
-    public static final ParagraphBlock contextBlockChild1 = new ParagraphBlock(Arrays.<Block> asList(
+    public static final ParagraphBlock contextBlockChild1 = new ParagraphBlock(Arrays.<Block>asList(
         contextBlockChild11, contextBlockChild12))
     {
         @Override
@@ -71,7 +71,7 @@ public class BlockNavigatorTest
         }
     };
 
-    public static final ParagraphBlock contextBlock = new ParagraphBlock(Arrays.<Block> asList(contextBlockChild1,
+    public static final ParagraphBlock contextBlock = new ParagraphBlock(Arrays.<Block>asList(contextBlockChild1,
         contextBlockChild2))
     {
         @Override
@@ -85,7 +85,7 @@ public class BlockNavigatorTest
 
     public static final WordBlock followingBlockChild2 = new WordBlock("fc2");
 
-    public static final ParagraphBlock followingBlock = new ParagraphBlock(Arrays.<Block> asList(followingBlockChild1,
+    public static final ParagraphBlock followingBlock = new ParagraphBlock(Arrays.<Block>asList(followingBlockChild1,
         followingBlockChild2))
     {
         @Override
@@ -95,7 +95,7 @@ public class BlockNavigatorTest
         }
     };
 
-    public static final ParagraphBlock parentBlock = new ParagraphBlock(Arrays.<Block> asList(precedingBlock,
+    public static final ParagraphBlock parentBlock = new ParagraphBlock(Arrays.<Block>asList(precedingBlock,
         contextBlock, followingBlock))
     {
         @Override
@@ -105,7 +105,7 @@ public class BlockNavigatorTest
         }
     };
 
-    public static final ParagraphBlock rootBlock = new ParagraphBlock(Arrays.<Block> asList(parentBlock))
+    public static final ParagraphBlock rootBlock = new ParagraphBlock(Arrays.<Block>asList(parentBlock))
     {
         @Override
         public String toString()
@@ -127,10 +127,10 @@ public class BlockNavigatorTest
             navigator.getBlocks(contextBlock, Block.Axes.CHILD));
         Assert.assertEquals(Arrays.asList(contextBlockChild1, contextBlockChild11, contextBlockChild12,
             contextBlockChild2, contextBlockChild21, contextBlockChild22), navigator.getBlocks(contextBlock,
-            Block.Axes.DESCENDANT));
+                Block.Axes.DESCENDANT));
         Assert.assertEquals(Arrays.asList(contextBlock, contextBlockChild1, contextBlockChild11, contextBlockChild12,
             contextBlockChild2, contextBlockChild21, contextBlockChild22), navigator.getBlocks(contextBlock,
-            Block.Axes.DESCENDANT_OR_SELF));
+                Block.Axes.DESCENDANT_OR_SELF));
         Assert.assertEquals(Arrays.asList(followingBlock, followingBlockChild1, followingBlockChild2),
             navigator.getBlocks(contextBlock, Block.Axes.FOLLOWING));
         Assert.assertEquals(Arrays.asList(followingBlock),

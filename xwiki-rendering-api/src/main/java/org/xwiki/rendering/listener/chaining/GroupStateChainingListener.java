@@ -24,9 +24,9 @@ import java.util.Map;
 /**
  * Provides information on whether we're inside a group. Note that this listener is separated from the
  * {@link org.xwiki.rendering.listener.chaining.BlockStateChainingListener} class because we don't want this listener to
- * be stackable (since we need to create new instance of stackable listeners to reset states when we encounter
- * a begin group event but we also need to know we're inside a group).
- * 
+ * be stackable (since we need to create new instance of stackable listeners to reset states when we encounter a begin
+ * group event but we also need to know we're inside a group).
+ *
  * @version $Id$
  * @since 1.8.3
  */

@@ -23,7 +23,7 @@ import org.xwiki.rendering.block.Block;
 
 /**
  * Used by {@link Block} search method to select {@link Block}.
- * 
+ *
  * @version $Id$
  * @since 3.0M3
  */
@@ -31,7 +31,7 @@ public interface BlockMatcher
 {
     /**
      * True if the provided block is matched.
-     * 
+     *
      * @param block the block to match
      * @return true if the provided block is matched, false otherwise
      */

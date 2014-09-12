@@ -30,7 +30,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 /**
  * Common code for {@link org.xwiki.rendering.renderer.PrintRendererFactory}, implements the logic to lookup and call
  * the matching Print Renderer.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */

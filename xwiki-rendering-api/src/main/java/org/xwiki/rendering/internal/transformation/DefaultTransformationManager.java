@@ -45,7 +45,7 @@ import org.xwiki.rendering.transformation.TransformationManager;
 /**
  * Calls all existing transformations (executed by priority) on an existing XDOM object to generate a new transformed
  * XDOM.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */
@@ -91,7 +91,7 @@ public class DefaultTransformationManager implements TransformationManager
         boolean error = false;
         for (Transformation transformation : getTransformations()) {
             try {
-                ((MutableRenderingContext) renderingContext).transformInContext(transformation, context, block);
+                ((MutableRenderingContext) this.renderingContext).transformInContext(transformation, context, block);
             } catch (Exception e) {
                 // Continue running the other transformations
                 this.logger.error("Failed to execute transformation", e);
@@ -112,7 +112,7 @@ public class DefaultTransformationManager implements TransformationManager
         List<Transformation> transformations = new ArrayList<Transformation>();
         for (String hint : this.configuration.getTransformationNames()) {
             try {
-                transformations.add(this.componentManagerProvider.get().<Transformation> getInstance(
+                transformations.add(this.componentManagerProvider.get().<Transformation>getInstance(
                     Transformation.class, hint));
             } catch (ComponentLookupException e) {
                 this.logger.warn("Failed to locate transformation with hint [" + hint + "], ignoring it.");

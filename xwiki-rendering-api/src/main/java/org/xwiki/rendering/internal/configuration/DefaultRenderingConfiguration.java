@@ -19,6 +19,14 @@
  */
 package org.xwiki.rendering.internal.configuration;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.descriptor.ComponentDescriptor;
@@ -28,17 +36,9 @@ import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.transformation.Transformation;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 /**
  * Basic default implementation to be used when using the XWiki Rendering system standalone.
- * 
+ *
  * @version $Id$
  * @since 2.0M1
  */

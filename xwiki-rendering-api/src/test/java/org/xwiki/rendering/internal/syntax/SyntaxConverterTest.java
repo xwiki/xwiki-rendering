@@ -19,8 +19,6 @@
  */
 package org.xwiki.rendering.internal.syntax;
 
-import static org.mockito.Mockito.when;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,9 +29,11 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
+import static org.mockito.Mockito.when;
+
 /**
  * Unit tests for {@link SyntaxConverter}.
- * 
+ *
  * @version $Id$
  */
 public class SyntaxConverterTest

@@ -104,6 +104,6 @@ public class ProtectedBlockFilter implements BlockFilter
     private boolean isProtectedBlock(Block block)
     {
         return (block instanceof MacroMarkerBlock)
-            && ((MacroMarkerBlock) block).getId().equals("code");
+            && "code".equals(((MacroMarkerBlock) block).getId());
     }
 }

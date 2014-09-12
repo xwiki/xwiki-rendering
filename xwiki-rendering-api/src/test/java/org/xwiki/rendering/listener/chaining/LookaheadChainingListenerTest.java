@@ -28,7 +28,7 @@ import org.xwiki.rendering.listener.MetaData;
 
 /**
  * Unit tests for {@link LookaheadChainingListener}.
- * 
+ *
  * @version $Id$
  * @since 1.8RC1
  */
@@ -82,20 +82,20 @@ public class LookaheadChainingListenerTest
         Assert.assertEquals(1, testListener.calls);
 
         // 1st lookahead, nothing is sent to the test listener
-        listener.beginParagraph(Collections.<String, String> emptyMap());
+        listener.beginParagraph(Collections.<String, String>emptyMap());
         Assert.assertEquals(1, testListener.calls);
         Assert.assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
         Assert.assertNull(listener.getNextEvent(2));
 
         // 2nd lookahead, nothing is sent to the test listener
-        listener.beginParagraph(Collections.<String, String> emptyMap());
+        listener.beginParagraph(Collections.<String, String>emptyMap());
         Assert.assertEquals(1, testListener.calls);
         Assert.assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
         Assert.assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent(2).eventType);
         Assert.assertNull(listener.getNextEvent(3));
 
         // 3rd events, the first begin paragraph is sent
-        listener.endParagraph(Collections.<String, String> emptyMap());
+        listener.endParagraph(Collections.<String, String>emptyMap());
         Assert.assertEquals(2, testListener.calls);
         Assert.assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
         Assert.assertEquals(EventType.END_PARAGRAPH, listener.getNextEvent(2).eventType);

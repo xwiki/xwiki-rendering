@@ -33,7 +33,7 @@ import org.xwiki.rendering.syntax.SyntaxFactory;
 
 /**
  * Convert a Syntax from a String to a Syntax object and the other way around.
- * 
+ *
  * @version $Id$
  * @since 4.2M3
  */

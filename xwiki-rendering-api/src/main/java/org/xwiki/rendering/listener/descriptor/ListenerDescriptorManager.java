@@ -23,7 +23,7 @@ import org.xwiki.component.annotation.Role;
 
 /**
  * Manager {@link ListenerDescriptor} related to classes.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */
@@ -34,5 +34,5 @@ public interface ListenerDescriptorManager
      * @param type the listener class
      * @return the listener descriptor
      */
-    ListenerDescriptor getListenerDescriptor(Class< ? > type);
+    ListenerDescriptor getListenerDescriptor(Class<?> type);
 }

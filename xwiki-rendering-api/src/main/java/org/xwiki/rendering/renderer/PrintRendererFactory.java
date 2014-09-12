@@ -20,15 +20,15 @@
 package org.xwiki.rendering.renderer;
 
 import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Allows creating {@link Renderer}s of a given type (one factory implementation per Renderer type).
  * We need a factory since we need to pass a {@link WikiPrinter} object to the created Renderer. In addition this
  * factory allows us to be able to return the {@link org.xwiki.rendering.syntax.Syntax} supported by the Renderer without needing to create an
  * instance of it.
- * 
+ *
  * @version $Id$
  * @since 1.6M2
  */

@@ -28,7 +28,7 @@ import org.xwiki.rendering.listener.Listener;
  * A special block that Macro Blocks generate when they are executed so that it's possible to reconstruct the initial
  * syntax even after Macros have been executed. For example this is important in a WYSWIYG editor where you want to show
  * the Macro's rendered result and also let users modify the macro content.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */

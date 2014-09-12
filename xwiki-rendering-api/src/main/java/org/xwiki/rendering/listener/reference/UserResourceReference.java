@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Represents a reference to a User.
- * 
+ *
  * @version $Id$
  * @since 5.3M2
  */

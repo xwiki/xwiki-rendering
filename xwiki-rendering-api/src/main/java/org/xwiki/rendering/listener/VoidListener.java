@@ -32,47 +32,56 @@ import org.xwiki.rendering.syntax.Syntax;
  */
 public class VoidListener implements Listener
 {
-    @Override public void beginDefinitionDescription()
+    @Override
+    public void beginDefinitionDescription()
     {
         // Do nothing.
     }
 
-    @Override public void beginDefinitionList(Map<String, String> parameters)
+    @Override
+    public void beginDefinitionList(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void beginDefinitionTerm()
+    @Override
+    public void beginDefinitionTerm()
     {
         // Do nothing.
     }
 
-    @Override public void beginDocument(MetaData metaData)
+    @Override
+    public void beginDocument(MetaData metaData)
     {
         // Do nothing.
     }
 
-    @Override public void beginFormat(Format format, Map<String, String> parameters)
+    @Override
+    public void beginFormat(Format format, Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void beginGroup(Map<String, String> parameters)
+    @Override
+    public void beginGroup(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
+    @Override
+    public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void beginList(ListType listType, Map<String, String> parameters)
+    @Override
+    public void beginList(ListType listType, Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void beginListItem()
+    @Override
+    public void beginListItem()
     {
         // Do nothing.
     }
@@ -83,92 +92,110 @@ public class VoidListener implements Listener
         // Do nothing.
     }
 
-    @Override public void beginMetaData(MetaData metadata)
+    @Override
+    public void beginMetaData(MetaData metadata)
     {
         // Do nothing.
     }
 
-    @Override public void beginParagraph(Map<String, String> parameters)
+    @Override
+    public void beginParagraph(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void beginQuotation(Map<String, String> parameters)
+    @Override
+    public void beginQuotation(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void beginQuotationLine()
+    @Override
+    public void beginQuotationLine()
     {
         // Do nothing.
     }
 
-    @Override public void beginSection(Map<String, String> parameters)
+    @Override
+    public void beginSection(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void beginTable(Map<String, String> parameters)
+    @Override
+    public void beginTable(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void beginTableCell(Map<String, String> parameters)
+    @Override
+    public void beginTableCell(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void beginTableHeadCell(Map<String, String> parameters)
+    @Override
+    public void beginTableHeadCell(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void beginTableRow(Map<String, String> parameters)
+    @Override
+    public void beginTableRow(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endDefinitionDescription()
+    @Override
+    public void endDefinitionDescription()
     {
         // Do nothing.
     }
 
-    @Override public void endDefinitionList(Map<String, String> parameters)
+    @Override
+    public void endDefinitionList(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endDefinitionTerm()
+    @Override
+    public void endDefinitionTerm()
     {
         // Do nothing.
     }
 
-    @Override public void endDocument(MetaData metaData)
+    @Override
+    public void endDocument(MetaData metaData)
     {
         // Do nothing.
     }
 
-    @Override public void endFormat(Format format, Map<String, String> parameters)
+    @Override
+    public void endFormat(Format format, Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endGroup(Map<String, String> parameters)
+    @Override
+    public void endGroup(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
+    @Override
+    public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endList(ListType listType, Map<String, String> parameters)
+    @Override
+    public void endList(ListType listType, Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endListItem()
+    @Override
+    public void endListItem()
     {
         // Do nothing.
     }
@@ -179,97 +206,116 @@ public class VoidListener implements Listener
         // Do nothing.
     }
 
-    @Override public void endMetaData(MetaData metadata)
+    @Override
+    public void endMetaData(MetaData metadata)
     {
         // Do nothing.
     }
 
-    @Override public void endParagraph(Map<String, String> parameters)
+    @Override
+    public void endParagraph(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endQuotation(Map<String, String> parameters)
+    @Override
+    public void endQuotation(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endQuotationLine()
+    @Override
+    public void endQuotationLine()
     {
         // Do nothing.
     }
 
-    @Override public void endSection(Map<String, String> parameters)
+    @Override
+    public void endSection(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endTable(Map<String, String> parameters)
+    @Override
+    public void endTable(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endTableCell(Map<String, String> parameters)
+    @Override
+    public void endTableCell(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endTableHeadCell(Map<String, String> parameters)
+    @Override
+    public void endTableHeadCell(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void endTableRow(Map<String, String> parameters)
+    @Override
+    public void endTableRow(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void onEmptyLines(int count)
+    @Override
+    public void onEmptyLines(int count)
     {
         // Do nothing.
     }
 
-    @Override public void onHorizontalLine(Map<String, String> parameters)
+    @Override
+    public void onHorizontalLine(Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void onId(String name)
+    @Override
+    public void onId(String name)
     {
         // Do nothing.
     }
 
-    @Override public void onMacro(String id, Map<String, String> macroParameters, String content, boolean isInline)
+    @Override
+    public void onMacro(String id, Map<String, String> macroParameters, String content, boolean isInline)
     {
         // Do nothing.
     }
 
-    @Override public void onNewLine()
+    @Override
+    public void onNewLine()
     {
         // Do nothing.
     }
 
-    @Override public void onRawText(String rawContent, Syntax syntax)
+    @Override
+    public void onRawText(String rawContent, Syntax syntax)
     {
         // Do nothing.
     }
 
-    @Override public void onSpace()
+    @Override
+    public void onSpace()
     {
         // Do nothing.
     }
 
-    @Override public void onSpecialSymbol(char symbol)
+    @Override
+    public void onSpecialSymbol(char symbol)
     {
         // Do nothing.
     }
 
-    @Override public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    @Override
+    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
         // Do nothing.
     }
 
-    @Override public void onWord(String word)
+    @Override
+    public void onWord(String word)
     {
         // Do nothing.
     }

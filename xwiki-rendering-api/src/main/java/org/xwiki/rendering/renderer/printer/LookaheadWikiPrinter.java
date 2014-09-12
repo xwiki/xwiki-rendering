@@ -24,7 +24,7 @@ package org.xwiki.rendering.renderer.printer;
  * accumulating some content before it's flushed. This feature is used for example in the XWiki Syntax Renderer to
  * accumulate text so that it be reviewed and escaped before printed (indeed some text has some characters that need to
  * be escaped or they'd have a wiki meaning otherwise).
- * 
+ *
  * @version $Id$
  * @since 1.7
  */
@@ -86,7 +86,7 @@ public class LookaheadWikiPrinter extends WrappingWikiPrinter
 
     /**
      * This method is protected to allow classes extending this one to define what a new line is.
-     * 
+     *
      * @return a new line symbols
      */
     protected String getEOL()

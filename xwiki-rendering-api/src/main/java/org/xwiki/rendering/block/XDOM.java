@@ -19,16 +19,16 @@
  */
 package org.xwiki.rendering.block;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.util.IdGenerator;
 
-import java.util.List;
-import java.util.Collections;
-
 /**
  * Contains the full tree of {@link Block} that represent a XWiki Document's content.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */
@@ -38,7 +38,7 @@ public class XDOM extends MetaDataBlock
      * Constructs an empty XDOM. Useful for example when calling a macro that doesn't use the XDOM parameter passed to
      * it.
      */
-    public static final XDOM EMPTY = new XDOM(Collections.<Block> emptyList());
+    public static final XDOM EMPTY = new XDOM(Collections.<Block>emptyList());
 
     /**
      * Stateful id generator for this document. We store it in the XDOM because it is the only object which remains the

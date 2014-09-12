@@ -32,7 +32,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Allow knowing if a container block (a block which can have children) has children or not.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */
@@ -54,6 +54,7 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -73,6 +74,7 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -109,6 +111,7 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -217,6 +220,7 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -235,6 +239,7 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -267,6 +272,7 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -390,6 +396,7 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -448,7 +455,7 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 
     private void stopContainerBlock()
     {
-        this.containerBlockStates.pop();        
+        this.containerBlockStates.pop();
     }
 
     private void markNotEmpty()

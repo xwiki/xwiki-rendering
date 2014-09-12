@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * This block itself does not have any meaning (it does not have any corresponding rendering stream event) and is just
  * here to pass together several Blocks to a method or as a return value as a {@link Block}.
- * 
+ *
  * @version $Id$
  * @since 4.3M1
  */
@@ -37,7 +37,7 @@ public class CompositeBlock extends AbstractBlock
      */
     public CompositeBlock()
     {
-        this(Collections.<Block> emptyList());
+        this(Collections.<Block>emptyList());
     }
 
     /**

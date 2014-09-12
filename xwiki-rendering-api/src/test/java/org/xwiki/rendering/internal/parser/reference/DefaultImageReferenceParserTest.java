@@ -29,7 +29,7 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
 
 /**
  * Unit tests for {@link DefaultImageReferenceParser}.
- * 
+ *
  * @version $Id$
  * @since 2.6M1
  */
@@ -50,7 +50,7 @@ public class DefaultImageReferenceParserTest extends AbstractComponentTestCase
     public void testParseImagesCommon() throws Exception
     {
         // Verify that non-typed image referencing an attachment works.
-        ResourceReference reference = parser.parse("wiki:space.page@filename");
+        ResourceReference reference = this.parser.parse("wiki:space.page@filename");
         Assert.assertEquals(ResourceType.ATTACHMENT, reference.getType());
         Assert.assertEquals("wiki:space.page@filename", reference.getReference());
         Assert.assertEquals("Typed = [false] Type = [attach] Reference = [wiki:space.page@filename]",
@@ -58,7 +58,7 @@ public class DefaultImageReferenceParserTest extends AbstractComponentTestCase
         Assert.assertFalse(reference.isTyped());
 
         // Verify that non-typed image referencing a URL works.
-        reference = parser.parse("scheme://server/path/to/image");
+        reference = this.parser.parse("scheme://server/path/to/image");
         Assert.assertEquals(ResourceType.URL, reference.getType());
         Assert.assertEquals("scheme://server/path/to/image", reference.getReference());
         Assert.assertEquals("Typed = [false] Type = [url] Reference = [scheme://server/path/to/image]",
@@ -69,7 +69,7 @@ public class DefaultImageReferenceParserTest extends AbstractComponentTestCase
     @Test
     public void testParseImages() throws Exception
     {
-        ResourceReference reference = parser.parse("attach:wiki:space.page@filename");
+        ResourceReference reference = this.parser.parse("attach:wiki:space.page@filename");
         Assert.assertEquals(ResourceType.ATTACHMENT, reference.getType());
         Assert.assertEquals("wiki:space.page@filename", reference.getReference());
         Assert.assertTrue(reference.isTyped());
@@ -77,14 +77,14 @@ public class DefaultImageReferenceParserTest extends AbstractComponentTestCase
             reference.toString());
 
         // Verify path: support
-        reference = parser.parse("path:/some/image");
+        reference = this.parser.parse("path:/some/image");
         Assert.assertEquals(ResourceType.PATH, reference.getType());
         Assert.assertEquals("/some/image", reference.getReference());
         Assert.assertTrue(reference.isTyped());
         Assert.assertEquals("Typed = [true] Type = [path] Reference = [/some/image]", reference.toString());
 
         // Verify icon: support
-        reference = parser.parse("icon:name");
+        reference = this.parser.parse("icon:name");
         Assert.assertEquals(ResourceType.ICON, reference.getType());
         Assert.assertEquals("name", reference.getReference());
         Assert.assertTrue(reference.isTyped());

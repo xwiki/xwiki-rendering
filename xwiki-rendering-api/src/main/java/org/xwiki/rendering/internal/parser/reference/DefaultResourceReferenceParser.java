@@ -39,7 +39,7 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
  * {@link org.xwiki.rendering.parser.ResourceReferenceTypeParser} implementations. Note that the implementation is
  * pluggable and it's allowed plug new resource reference types by implementing
  * {@link org.xwiki.rendering.parser.ResourceReferenceTypeParser}s and registering the implementation as a component.
- * 
+ *
  * @version $Id$
  * @since 2.6M1
  */
@@ -57,7 +57,7 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @return the parsed resource reference or a Resource Reference with {@link ResourceType#UNKNOWN} if no reference
      *         type was specified
      * @see org.xwiki.rendering.parser.ResourceReferenceParser#parse(String)

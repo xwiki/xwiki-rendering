@@ -33,7 +33,7 @@ import org.xwiki.rendering.parser.ResourceReferenceParser;
 /**
  * XWiki Properties Bean Converter to convert Strings into
  * {@link org.xwiki.rendering.listener.reference.ResourceReference}.
- * 
+ *
  * @version $Id$
  * @since 5.2M1
  * @see org.xwiki.properties.converter.Converter

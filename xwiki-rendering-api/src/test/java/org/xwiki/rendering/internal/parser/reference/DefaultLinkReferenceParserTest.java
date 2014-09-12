@@ -34,7 +34,7 @@ import org.xwiki.test.mockito.MockitoComponentManagerRule;
 
 /**
  * Unit tests for {@link DefaultLinkReferenceParser}.
- * 
+ *
  * @version $Id$
  * @since 2.6M1
  */
@@ -58,26 +58,26 @@ public class DefaultLinkReferenceParserTest
         // Create a Mock WikiModel implementation so that the link parser works in wiki mode
         this.componentManager.registerMockComponent(WikiModel.class);
 
-        ResourceReference reference = parser.parse("");
+        ResourceReference reference = this.parser.parse("");
         Assert.assertEquals("", reference.getReference());
         Assert.assertFalse(reference.isTyped());
         Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
         Assert.assertEquals("Typed = [false] Type = [doc] Reference = []", reference.toString());
 
-        reference = parser.parse("Hello World");
+        reference = this.parser.parse("Hello World");
         Assert.assertEquals("Hello World", reference.getReference());
         Assert.assertFalse(reference.isTyped());
         Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
         Assert.assertEquals("Typed = [false] Type = [doc] Reference = [Hello World]", reference.toString());
 
-        reference = parser.parse("http://xwiki.org");
+        reference = this.parser.parse("http://xwiki.org");
         Assert.assertEquals("http://xwiki.org", reference.getReference());
         Assert.assertFalse(reference.isTyped());
         Assert.assertEquals(ResourceType.URL, reference.getType());
         Assert.assertEquals("Typed = [false] Type = [url] Reference = [http://xwiki.org]", reference.toString());
 
         // Verify mailto: URI is recognized
-        reference = parser.parse("mailto:john@smith.com?subject=test");
+        reference = this.parser.parse("mailto:john@smith.com?subject=test");
         Assert.assertEquals("john@smith.com?subject=test", reference.getReference());
         Assert.assertTrue(reference.isTyped());
         Assert.assertEquals(ResourceType.MAILTO, reference.getType());
@@ -85,7 +85,7 @@ public class DefaultLinkReferenceParserTest
             reference.toString());
 
         // Verify attach: URI is recognized
-        reference = parser.parse("attach:some:content");
+        reference = this.parser.parse("attach:some:content");
         Assert.assertEquals("some:content", reference.getReference());
         Assert.assertTrue(reference.isTyped());
         Assert.assertEquals(ResourceType.ATTACHMENT, reference.getType());
@@ -94,21 +94,21 @@ public class DefaultLinkReferenceParserTest
         // Verify that unknown URIs are ignored
         // Note: In this example we point to a document and we consider that myxwiki is the wiki name and
         // http://xwiki.org is the page name
-        reference = parser.parse("mywiki:http://xwiki.org");
+        reference = this.parser.parse("mywiki:http://xwiki.org");
         Assert.assertEquals("mywiki:http://xwiki.org", reference.getReference());
         Assert.assertFalse(reference.isTyped());
         Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
         Assert.assertEquals("Typed = [false] Type = [doc] Reference = [mywiki:http://xwiki.org]", reference.toString());
 
         // Verify doc links work
-        reference = parser.parse("doc:wiki:space.page");
+        reference = this.parser.parse("doc:wiki:space.page");
         Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
         Assert.assertEquals("wiki:space.page", reference.getReference());
         Assert.assertEquals("Typed = [true] Type = [doc] Reference = [wiki:space.page]", reference.toString());
         Assert.assertTrue(reference.isTyped());
 
         // Verify InterWiki links work
-        reference = parser.parse("interwiki:alias:content");
+        reference = this.parser.parse("interwiki:alias:content");
         Assert.assertEquals(ResourceType.INTERWIKI, reference.getType());
         Assert.assertEquals("content", reference.getReference());
         Assert.assertTrue(reference.isTyped());
@@ -117,7 +117,7 @@ public class DefaultLinkReferenceParserTest
             + "Parameters = [[interWikiAlias] = [alias]]", reference.toString());
 
         // Verify that an invalid InterWiki link is considered as Document link
-        reference = parser.parse("interwiki:invalid_since_doesnt_have_colon");
+        reference = this.parser.parse("interwiki:invalid_since_doesnt_have_colon");
         Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
         Assert.assertEquals("interwiki:invalid_since_doesnt_have_colon", reference.getReference());
         Assert.assertFalse(reference.isTyped());
@@ -125,14 +125,14 @@ public class DefaultLinkReferenceParserTest
             reference.toString());
 
         // Verify typed URLs
-        reference = parser.parse("url:http://xwiki.org");
+        reference = this.parser.parse("url:http://xwiki.org");
         Assert.assertEquals(ResourceType.URL, reference.getType());
         Assert.assertTrue(reference.isTyped());
         Assert.assertEquals("http://xwiki.org", reference.getReference());
         Assert.assertEquals("Typed = [true] Type = [url] Reference = [http://xwiki.org]", reference.toString());
 
         // Verify query string and anchors have no meaning in link reference to documents.
-        reference = parser.parse("Hello World?no=queryString#notAnAnchor");
+        reference = this.parser.parse("Hello World?no=queryString#notAnAnchor");
         Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
         Assert.assertEquals("Hello World?no=queryString#notAnAnchor", reference.getReference());
         Assert.assertFalse(reference.isTyped());
@@ -142,21 +142,21 @@ public class DefaultLinkReferenceParserTest
             reference.toString());
 
         // Verify that the interwiki separator from XWiki Syntax 2.0 has not meaning in link references to documents
-        reference = parser.parse("page@alias");
+        reference = this.parser.parse("page@alias");
         Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
         Assert.assertFalse(reference.isTyped());
         Assert.assertEquals("page@alias", reference.getReference());
         Assert.assertEquals("Typed = [false] Type = [doc] Reference = [page@alias]", reference.toString());
 
         // Verify path link types
-        reference = parser.parse("path:/some/path");
+        reference = this.parser.parse("path:/some/path");
         Assert.assertEquals(ResourceType.PATH, reference.getType());
         Assert.assertTrue(reference.isTyped());
         Assert.assertEquals("/some/path", reference.getReference());
         Assert.assertEquals("Typed = [true] Type = [path] Reference = [/some/path]", reference.toString());
 
         // Verify UNC link types
-        reference = parser.parse("unc:\\\\myserver\\myshare\\mydoc.txt");
+        reference = this.parser.parse("unc:\\\\myserver\\myshare\\mydoc.txt");
         Assert.assertEquals(ResourceType.UNC, reference.getType());
         Assert.assertTrue(reference.isTyped());
         Assert.assertEquals("\\\\myserver\\myshare\\mydoc.txt", reference.getReference());
@@ -173,28 +173,28 @@ public class DefaultLinkReferenceParserTest
     public void testParseWhenNotInWikiMode() throws Exception
     {
         // Verify that mailto: links are treated normally even when in non wiki mode
-        ResourceReference reference = parser.parse("mailto:something");
+        ResourceReference reference = this.parser.parse("mailto:something");
         Assert.assertEquals("something", reference.getReference());
         Assert.assertTrue(reference.isTyped());
         Assert.assertEquals(ResourceType.MAILTO, reference.getType());
         Assert.assertEquals("Typed = [true] Type = [mailto] Reference = [something]", reference.toString());
 
         // Verify that non typed links are treated as URLs
-        reference = parser.parse("something");
+        reference = this.parser.parse("something");
         Assert.assertEquals("something", reference.getReference());
         Assert.assertFalse(reference.isTyped());
         Assert.assertEquals(ResourceType.URL, reference.getType());
         Assert.assertEquals("Typed = [false] Type = [url] Reference = [something]", reference.toString());
 
         // Verify that doc: links are treated as URLs
-        reference = parser.parse("doc:something");
+        reference = this.parser.parse("doc:something");
         Assert.assertEquals("doc:something", reference.getReference());
         Assert.assertFalse(reference.isTyped());
         Assert.assertEquals(ResourceType.URL, reference.getType());
         Assert.assertEquals("Typed = [false] Type = [url] Reference = [doc:something]", reference.toString());
 
         // Verify that attach: links are treated as URLs
-        reference = parser.parse("attach:something");
+        reference = this.parser.parse("attach:something");
         Assert.assertEquals("attach:something", reference.getReference());
         Assert.assertFalse(reference.isTyped());
         Assert.assertEquals(ResourceType.URL, reference.getType());

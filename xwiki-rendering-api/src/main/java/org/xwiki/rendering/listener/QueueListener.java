@@ -28,7 +28,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Manage a {@link java.util.Queue} of events.
- * 
+ *
  * @version $Id$
  * @since 2.1M1
  */
@@ -41,7 +41,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * An event.
-     * 
+     *
      * @version $Id$
      */
     public class Event
@@ -69,7 +69,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * Returns the event at the specified position in this queue.
-     * 
+     *
      * @param depth index of event to return.
      * @return the evnet at the specified position in this queue.
      */
@@ -86,7 +86,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * Send all stored events to provided {@link Listener}.
-     * 
+     *
      * @param listener the {@link Listener} on which to send events
      */
     public void consumeEvents(Listener listener)
@@ -99,7 +99,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * Store provided event.
-     * 
+     *
      * @param eventType the type of the event
      * @param objects the parameters of the event
      */
@@ -116,6 +116,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -132,6 +133,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -160,6 +162,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -236,6 +239,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -252,6 +256,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -268,6 +273,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -296,6 +302,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -372,6 +379,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -406,6 +414,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override

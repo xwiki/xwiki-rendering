@@ -69,7 +69,7 @@ public class ResourceReference implements Cloneable
      * @see #getParameter(String)
      */
     private Map<String, String> parameters = new HashMap<String, String>();
-    
+
     /**
      * @param reference see {@link #getReference()}
      * @param type see {@link #getType()}
@@ -203,7 +203,7 @@ public class ResourceReference implements Cloneable
      * information, and in InterWiki Resource References to store the InterWiki Alias. Note that supported parameters
      * depend on the Renderer that will be used (i.e. it depends on the target Syntax). For example the XWiki Syntax
      * 2.1 only supports "queryString" and "anchor".
-     * 
+     *
      * @param name the name of the parameter to get
      * @return the parameter value or null if no such parameter exist
      */
@@ -225,7 +225,7 @@ public class ResourceReference implements Cloneable
      * <p>
      * The output is syntax independent since this class is used for all syntaxes. Specific syntaxes should extend this
      * class and override this method to perform syntax-dependent formatting.
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

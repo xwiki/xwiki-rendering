@@ -38,7 +38,7 @@ public class DocumentResourceReference extends ResourceReference
      * The name of the parameter representing the Anchor.
      */
     public static final String ANCHOR = "anchor";
-    
+
     /**
      * @param reference see {@link #getReference()}
      */
@@ -46,7 +46,7 @@ public class DocumentResourceReference extends ResourceReference
     {
         super(reference, ResourceType.DOCUMENT);
     }
-    
+
     /**
      * @return the query string for specifying parameters that will be used in the rendered URL or null if no query
      *         string has been specified. Example: "mydata1=5&mydata2=Hello"

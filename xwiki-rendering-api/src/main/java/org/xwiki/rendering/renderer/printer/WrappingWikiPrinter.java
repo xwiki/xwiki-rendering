@@ -21,7 +21,7 @@ package org.xwiki.rendering.renderer.printer;
 
 /**
  * Wraps a wiki printer.
- *  
+ *
  * @version $Id$
  * @since 1.7
  */
@@ -50,7 +50,7 @@ public class WrappingWikiPrinter implements WikiPrinter
     {
         return this.printer;
     }
-    
+
     @Override
     public String toString()
     {

@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * Generates syntax for a parameters group like macros and links.
- * 
+ *
  * @version $Id$
  * @since 1.9RC2
  */
@@ -36,7 +36,7 @@ public class ParametersPrinter
 
     /**
      * Print the parameters as a String.
-     * 
+     *
      * @param parameters the parameters to print
      * @param escapeChar the character used in front of a special character when need to escape it
      * @return the printed parameters
@@ -60,7 +60,7 @@ public class ParametersPrinter
     }
 
     /**
-     *  Print a parameter as a String.
+     * Print a parameter as a String.
      *
      * @param parameterName the name of the parameter to print
      * @param parameterValue the value of the parameter to print

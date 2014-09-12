@@ -22,12 +22,12 @@ package org.xwiki.rendering.block;
 import org.xwiki.rendering.listener.Listener;
 
 /**
- * A reference/location in a page. In HTML for example this is called an Anchor. It allows pointing
- * to that location, for example in links.
+ * A reference/location in a page. In HTML for example this is called an Anchor. It allows pointing to that location,
+ * for example in links.
  *
  * @version $Id$
  * @since 1.6M1
- * @see Listener#onId(String) 
+ * @see Listener#onId(String)
  */
 public class IdBlock extends AbstractBlock
 {

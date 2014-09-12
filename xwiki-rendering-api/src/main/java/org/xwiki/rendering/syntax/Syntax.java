@@ -23,27 +23,39 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Represents a wiki syntax that the user can use to enter wiki content. A syntax is made of two parts: a type
- * (eg XWiki, Confluence, MediaWiki, etc) and a version (1.0, 2.0, etc). 
- * For example the XWiki 1.0 syntax, the XWiki 2.0 syntax, the Confluence 1.0 syntax, etc.
- * 
+ * Represents a wiki syntax that the user can use to enter wiki content. A syntax is made of two parts: a type (eg
+ * XWiki, Confluence, MediaWiki, etc) and a version (1.0, 2.0, etc). For example the XWiki 1.0 syntax, the XWiki 2.0
+ * syntax, the Confluence 1.0 syntax, etc.
+ *
  * @version $Id$
  * @since 2.0RC1
  */
 public class Syntax
 {
     public static final Syntax XHTML_1_0 = new Syntax(SyntaxType.XHTML, "1.0");
+
     public static final Syntax HTML_4_01 = new Syntax(SyntaxType.HTML, "4.01");
+
     public static final Syntax XWIKI_1_0 = new Syntax(SyntaxType.XWIKI, "1.0");
+
     public static final Syntax XWIKI_2_0 = new Syntax(SyntaxType.XWIKI, "2.0");
+
     public static final Syntax XWIKI_2_1 = new Syntax(SyntaxType.XWIKI, "2.1");
+
     public static final Syntax PLAIN_1_0 = new Syntax(SyntaxType.PLAIN, "1.0");
+
     public static final Syntax EVENT_1_0 = new Syntax(SyntaxType.EVENT, "1.0");
+
     public static final Syntax TEX_1_0 = new Syntax(SyntaxType.TEX, "1.0");
+
     public static final Syntax CREOLE_1_0 = new Syntax(SyntaxType.CREOLE, "1.0");
+
     public static final Syntax JSPWIKI_1_0 = new Syntax(SyntaxType.JSPWIKI, "1.0");
+
     public static final Syntax MEDIAWIKI_1_0 = new Syntax(SyntaxType.MEDIAWIKI, "1.0");
+
     public static final Syntax TWIKI_1_0 = new Syntax(SyntaxType.TWIKI, "1.0");
+
     public static final Syntax DOCBOOK_4_4 = new Syntax(SyntaxType.DOCBOOK, "4.4");
 
     /**
@@ -53,6 +65,7 @@ public class Syntax
 
     /**
      * Confluence XHTML based syntax.
+     *
      * @since 5.3M1
      */
     public static final Syntax CONFLUENCEXHTML_1_0 = new Syntax(SyntaxType.CONFLUENCEXHTML, "1.0");
@@ -66,12 +79,12 @@ public class Syntax
      * @since 3.3M1
      */
     public static final Syntax XDOMXML_1_0 = new Syntax(SyntaxType.XDOMXML, "1.0");
-    
+
     /**
      * @since 3.4M1
      */
     public static final Syntax MARKDOWN_1_0 = new Syntax(SyntaxType.MARKDOWN, "1.0");
-    
+
     /**
      * @since 5.2M1
      */
@@ -93,7 +106,7 @@ public class Syntax
     private String version;
 
     /**
-     * Optional free form text that qualifies the version, eg "experimental". 
+     * Optional free form text that qualifies the version, eg "experimental".
      */
     private String qualifier;
 

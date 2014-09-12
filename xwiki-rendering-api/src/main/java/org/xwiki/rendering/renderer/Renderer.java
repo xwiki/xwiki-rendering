@@ -22,9 +22,8 @@ package org.xwiki.rendering.renderer;
 import org.xwiki.rendering.listener.Listener;
 
 /**
- * A special type of Listener which writes data somewhere. 
- * For example, a PDFRenderer, an XHTMLRenderer, etc.
- * 
+ * A special type of Listener which writes data somewhere. For example, a PDFRenderer, an XHTMLRenderer, etc.
+ *
  * @version $Id$
  * @since 1.5M2
  */

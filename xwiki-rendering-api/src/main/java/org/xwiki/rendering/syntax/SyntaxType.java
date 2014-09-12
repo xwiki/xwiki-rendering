@@ -42,6 +42,7 @@ public class SyntaxType
 
     /**
      * Confluence XHTML based syntax.
+     *
      * @since 5.3M1
      */
     public static final SyntaxType CONFLUENCEXHTML = register("confluence+xhtml", "Confluence");
@@ -148,7 +149,7 @@ public class SyntaxType
      * {@inheritDoc}
      * <p>
      * Display a human readable name of the Syntax type.
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

@@ -24,7 +24,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
  * Interface for parsing resource references (references to links, images, attachments, etc) for various wiki syntaxes.
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */
@@ -32,11 +32,11 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 public interface ResourceReferenceParser
 {
     /**
-     * Parses a resource reference represented (reference to a link, image, attachment, etc)  as a String into a
+     * Parses a resource reference represented (reference to a link, image, attachment, etc) as a String into a
      * {@link org.xwiki.rendering.listener.reference.ResourceReference} object.
-     * 
-     * @param rawReference the string representation of the resource reference to parse (the supported syntax depends
-     *        on the parser implementation used)
+     *
+     * @param rawReference the string representation of the resource reference to parse (the supported syntax depends on
+     *            the parser implementation used)
      * @return the parsed resource reference
      */
     ResourceReference parse(String rawReference);

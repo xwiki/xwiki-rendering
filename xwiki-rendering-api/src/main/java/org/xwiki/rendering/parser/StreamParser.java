@@ -27,7 +27,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Streaming based parser. Instead of returning a resulting XDOM it send events during the parsing.
- * 
+ *
  * @version $Id$
  * @since 2.1M1
  */

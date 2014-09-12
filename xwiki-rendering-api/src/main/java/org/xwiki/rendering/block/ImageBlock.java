@@ -27,14 +27,15 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
  * Represents an image.
- * 
+ *
  * @version $Id$
  * @since 1.7M2
  */
 public class ImageBlock extends AbstractBlock
 {
     /**
-     * A reference to the image target. See {@link org.xwiki.rendering.listener.reference.ResourceReference} for more details.
+     * A reference to the image target. See {@link org.xwiki.rendering.listener.reference.ResourceReference} for more
+     * details.
      */
     private ResourceReference reference;
 
@@ -51,7 +52,7 @@ public class ImageBlock extends AbstractBlock
      */
     public ImageBlock(ResourceReference reference, boolean isFreeStandingURI)
     {
-        this(reference, isFreeStandingURI, Collections.<String, String> emptyMap());
+        this(reference, isFreeStandingURI, Collections.<String, String>emptyMap());
     }
 
     /**
@@ -95,6 +96,7 @@ public class ImageBlock extends AbstractBlock
 
     /**
      * {@inheritDoc}
+     *
      * @since 1.8RC2
      */
     @Override

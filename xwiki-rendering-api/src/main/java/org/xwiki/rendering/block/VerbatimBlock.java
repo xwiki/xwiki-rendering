@@ -25,7 +25,7 @@ import org.xwiki.rendering.listener.Listener;
 
 /**
  * A Verbatim block.
- * 
+ *
  * @version $Id$
  * @since 1.8M2
  */
@@ -88,6 +88,7 @@ public class VerbatimBlock extends AbstractBlock
 
     /**
      * {@inheritDoc}
+     *
      * @since 1.8RC2
      */
     @Override

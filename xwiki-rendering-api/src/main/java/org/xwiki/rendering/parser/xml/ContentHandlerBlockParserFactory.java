@@ -24,7 +24,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Create instances of {@link ContentHandlerBlockParser}.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */

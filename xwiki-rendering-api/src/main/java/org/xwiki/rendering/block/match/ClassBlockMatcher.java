@@ -23,7 +23,7 @@ import org.xwiki.rendering.block.Block;
 
 /**
  * Implementation of {@link BlockMatcher} which match any {@link Block} with the provided class.
- * 
+ *
  * @version $Id$
  * @since 3.0M3
  */
@@ -32,12 +32,12 @@ public class ClassBlockMatcher implements BlockMatcher
     /**
      * The class of the block to match.
      */
-    private Class< ? extends Block> blockClass;
+    private Class<? extends Block> blockClass;
 
     /**
      * @param blockClass the class of the block to match
      */
-    public ClassBlockMatcher(Class< ? extends Block> blockClass)
+    public ClassBlockMatcher(Class<? extends Block> blockClass)
     {
         this.blockClass = blockClass;
     }

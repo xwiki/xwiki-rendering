@@ -21,7 +21,7 @@ package org.xwiki.rendering.renderer.printer;
 
 /**
  * Printer for {@link org.xwiki.rendering.renderer.PrintRenderer}s.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */

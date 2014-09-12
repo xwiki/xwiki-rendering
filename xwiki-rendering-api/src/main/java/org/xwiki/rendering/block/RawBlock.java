@@ -23,11 +23,10 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * Represents some raw content that shouldn't be parsed or modified and that should be injected as is
- * in any output. The content depends on a syntax and listeners decide if they can handle that syntax 
- * or not. For example if it's in "xhtml/1.0" syntax then the XHTML Renderer can insert it directly
- * in the XHTML output.
- * 
+ * Represents some raw content that shouldn't be parsed or modified and that should be injected as is in any output. The
+ * content depends on a syntax and listeners decide if they can handle that syntax or not. For example if it's in
+ * "xhtml/1.0" syntax then the XHTML Renderer can insert it directly in the XHTML output.
+ *
  * @version $Id$
  * @since 1.8.3
  */
@@ -42,7 +41,7 @@ public class RawBlock extends AbstractBlock
      * @see #getSyntax()
      */
     private Syntax syntax;
-    
+
     /**
      * @param rawContent the content to inject as is into the listener (it won't be modified)
      * @param syntax the syntax in which the content is written
@@ -66,7 +65,7 @@ public class RawBlock extends AbstractBlock
     {
         return this.rawContent;
     }
-    
+
     /**
      * @return the syntax in which the content is written
      */

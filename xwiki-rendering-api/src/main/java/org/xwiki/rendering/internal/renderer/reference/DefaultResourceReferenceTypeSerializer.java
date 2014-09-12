@@ -30,7 +30,7 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
 /**
  * Serialize a link by outputting the link type (if the link is typed) followed by the link reference (ie
  * "(linktype):(reference)").
- * 
+ *
  * @version $Id$
  * @since 3.1
  */
@@ -53,7 +53,7 @@ public class DefaultResourceReferenceTypeSerializer implements ResourceReference
 
     /**
      * Indicate if the provided type is supported by this syntax.
-     * 
+     *
      * @param type the type of resource
      * @return true if the type is supported
      */

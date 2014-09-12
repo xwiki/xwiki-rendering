@@ -38,7 +38,7 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
 /**
  * Each syntax should have its own resource reference parser. However while we wait for syntax specific parser to be
  * implemented this generic parser should provide a good approximation.
- * 
+ *
  * @version $Id$
  * @since 2.5RC1
  */
@@ -72,36 +72,36 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
      * anchor and interwiki parts). Note that we don't remove the escaped escape char since this is how an escape char
      * is represented in an Entity Reference.
      */
-    private static final String[] ESCAPES_REFERENCE = new String[] {ESCAPE_CHAR + SEPARATOR_QUERYSTRING,
-        ESCAPE_CHAR + SEPARATOR_INTERWIKI, ESCAPE_CHAR + SEPARATOR_ANCHOR};
+    private static final String[] ESCAPES_REFERENCE = new String[] { ESCAPE_CHAR + SEPARATOR_QUERYSTRING,
+        ESCAPE_CHAR + SEPARATOR_INTERWIKI, ESCAPE_CHAR + SEPARATOR_ANCHOR };
 
     /**
      * Escapes to remove from the query string, anchor and interwiki parts when parsing the raw reference.
      */
-    private static final String[] ESCAPES_EXTRA = new String[] {ESCAPE_CHAR + SEPARATOR_QUERYSTRING,
-        ESCAPE_CHAR + SEPARATOR_INTERWIKI, ESCAPE_CHAR + SEPARATOR_ANCHOR, "" + ESCAPE_CHAR + ESCAPE_CHAR};
+    private static final String[] ESCAPES_EXTRA = new String[] { ESCAPE_CHAR + SEPARATOR_QUERYSTRING,
+        ESCAPE_CHAR + SEPARATOR_INTERWIKI, ESCAPE_CHAR + SEPARATOR_ANCHOR, "" + ESCAPE_CHAR + ESCAPE_CHAR };
 
     /**
      * Escapes to remove the interwiki content.
      */
-    private static final String[] ESCAPE_INTERWIKI = new String[] {"" + ESCAPE_CHAR + ESCAPE_CHAR, "" + ESCAPE_CHAR};
+    private static final String[] ESCAPE_INTERWIKI = new String[] { "" + ESCAPE_CHAR + ESCAPE_CHAR, "" + ESCAPE_CHAR };
 
     /**
      * Replacement chars for the escapes to be removed from the reference part.
      */
-    private static final String[] ESCAPE_REPLACEMENTS_REFERENCE = new String[] {SEPARATOR_QUERYSTRING,
-        SEPARATOR_INTERWIKI, SEPARATOR_ANCHOR};
+    private static final String[] ESCAPE_REPLACEMENTS_REFERENCE = new String[] { SEPARATOR_QUERYSTRING,
+        SEPARATOR_INTERWIKI, SEPARATOR_ANCHOR };
 
     /**
      * Replacement chars for the escapes to be removed from the query string, anchor and interwiki parts.
      */
-    private static final String[] ESCAPE_REPLACEMENTS_EXTRA = new String[] {SEPARATOR_QUERYSTRING, SEPARATOR_INTERWIKI,
-        SEPARATOR_ANCHOR, "" + ESCAPE_CHAR};
+    private static final String[] ESCAPE_REPLACEMENTS_EXTRA = new String[] { SEPARATOR_QUERYSTRING,
+        SEPARATOR_INTERWIKI, SEPARATOR_ANCHOR, "" + ESCAPE_CHAR };
 
     /**
      * Replacements chars for the escapes to be removed from the interwiki content.
      */
-    private static final String[] ESCAPE_REPLACEMENTS_INTERWIKI = new String[] {"" + ESCAPE_CHAR, ""};
+    private static final String[] ESCAPE_REPLACEMENTS_INTERWIKI = new String[] { "" + ESCAPE_CHAR, "" };
 
     /**
      * The list of recognized URL prefixes.
@@ -152,7 +152,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
 
     /**
      * Construct a Document Link reference out of the passed content.
-     * 
+     *
      * @param content the string containing the Document link reference
      * @return the parsed Link Object corresponding to the Document link reference
      */
@@ -181,7 +181,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
 
     /**
      * Check if the passed link references is an URI link reference.
-     * 
+     *
      * @param rawLink the original reference to parse
      * @return the parsed Link object or null if the passed reference is not an URI link reference or if no URI type
      *         parser was found for the passed URI scheme
@@ -218,7 +218,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
 
     /**
      * Check if the passed link references is an interwiki link reference.
-     * 
+     *
      * @param content the original content to parse
      * @return the parsed Link object or null if the passed reference is not an interwiki link reference
      */
@@ -236,7 +236,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
 
     /**
      * Find out the element located to the right of the passed separator.
-     * 
+     *
      * @param content the string to parse. This parameter will be modified by the method to remove the parsed content.
      * @param separator the separator string to locate the element
      * @return the parsed element or null if the separator string wasn't found
@@ -268,7 +268,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
     /**
      * Count the number of escape chars before a given character and if that number is odd then that character should be
      * escaped.
-     * 
+     *
      * @param content the content in which to check for escapes
      * @param charPosition the position of the char for which to decide if it should be escaped or not
      * @return true if the character should be escaped

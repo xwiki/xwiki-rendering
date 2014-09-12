@@ -21,8 +21,8 @@ package org.xwiki.rendering.transformation;
 
 import java.util.Arrays;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;

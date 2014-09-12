@@ -35,7 +35,7 @@ import org.xwiki.rendering.listener.Listener;
 /**
  * Implementation for Block operations. All blocks should extend this class. Supports the notion of generic parameters
  * which can be added to a block (see {@link #getParameter(String)} for more details.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */
@@ -76,7 +76,7 @@ public abstract class AbstractBlock implements Block
 
     /**
      * Construct a block with parameters.
-     * 
+     *
      * @param parameters the parameters to set
      */
     public AbstractBlock(Map<String, String> parameters)
@@ -86,29 +86,29 @@ public abstract class AbstractBlock implements Block
 
     /**
      * Constructs a block with a child block.
-     * 
+     *
      * @param childBlock the child block of this block
      * @since 3.0M1
      */
     public AbstractBlock(Block childBlock)
     {
-        this(childBlock, Collections.<String, String> emptyMap());
+        this(childBlock, Collections.<String, String>emptyMap());
     }
 
     /**
      * Constructs a block with children blocks.
-     * 
+     *
      * @param childrenBlocks the list of children blocks of the block to construct
      * @since 3.0M1
      */
-    public AbstractBlock(List< ? extends Block> childrenBlocks)
+    public AbstractBlock(List<? extends Block> childrenBlocks)
     {
-        this(childrenBlocks, Collections.<String, String> emptyMap());
+        this(childrenBlocks, Collections.<String, String>emptyMap());
     }
 
     /**
      * Construct a block with a child block and parameters.
-     * 
+     *
      * @param childBlock the child block of this block
      * @param parameters the parameters to set
      * @since 3.0M1
@@ -122,12 +122,12 @@ public abstract class AbstractBlock implements Block
 
     /**
      * Construct a block with children blocks and parameters.
-     * 
+     *
      * @param childrenBlocks the list of children blocks of the block to construct
      * @param parameters the parameters to set
      * @since 3.0M1
      */
-    public AbstractBlock(List< ? extends Block> childrenBlocks, Map<String, String> parameters)
+    public AbstractBlock(List<? extends Block> childrenBlocks, Map<String, String> parameters)
     {
         this(parameters);
 
@@ -141,7 +141,7 @@ public abstract class AbstractBlock implements Block
     }
 
     @Override
-    public void addChildren(List< ? extends Block> blocksToAdd)
+    public void addChildren(List<? extends Block> blocksToAdd)
     {
         if (!blocksToAdd.isEmpty()) {
             if (this.childrenBlocks == null) {
@@ -156,7 +156,7 @@ public abstract class AbstractBlock implements Block
     }
 
     @Override
-    public void setChildren(List< ? extends Block> children)
+    public void setChildren(List<? extends Block> children)
     {
         if (children.isEmpty()) {
             if (this.childrenBlocks != null) {
@@ -302,7 +302,7 @@ public abstract class AbstractBlock implements Block
      * Can't use {@link List#indexOf(Object)} since it's using {@link Object#equals(Object)} internally which is not
      * what we want since two WordBlock with the same text or two spaces are equals for example but we want to be able
      * to target one specific Block.
-     * 
+     *
      * @param block the block
      * @return the position of the block, -1 if the block can't be found
      */
@@ -317,7 +317,7 @@ public abstract class AbstractBlock implements Block
      * Can't use {@link List#indexOf(Object)} since it's using {@link Object#equals(Object)} internally which is not
      * what we want since two WordBlock with the same text or two spaces are equals for example but we want to be able
      * to target one specific Block.
-     * 
+     *
      * @param block the block for which to find the position
      * @param blocks the list of blocks in which to look for the passed block
      * @return the position of the block, -1 if the block can't be found
@@ -339,7 +339,7 @@ public abstract class AbstractBlock implements Block
     @Override
     public List<Block> getChildren()
     {
-        return this.childrenBlocks == null ? Collections.<Block> emptyList() : this.childrenBlocks;
+        return this.childrenBlocks == null ? Collections.<Block>emptyList() : this.childrenBlocks;
     }
 
     @Override
@@ -351,7 +351,7 @@ public abstract class AbstractBlock implements Block
     @Override
     public Map<String, String> getParameters()
     {
-        return this.parameters == null ? Collections.<String, String> emptyMap() : Collections
+        return this.parameters == null ? Collections.<String, String>emptyMap() : Collections
             .unmodifiableMap(this.parameters);
     }
 
@@ -450,7 +450,7 @@ public abstract class AbstractBlock implements Block
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 1.8RC2
      */
     @Override
@@ -505,7 +505,7 @@ public abstract class AbstractBlock implements Block
     /**
      * Send {@link org.xwiki.rendering.listener.Listener} events corresponding to the start of the block. For example
      * for a Bold block, this allows an XHTML Listener (aka a Renderer) to output <code>&lt;b&gt;</code>.
-     * 
+     *
      * @param listener the listener that will receive the events sent by this block before its children blocks have
      *            emitted their own events.
      */
@@ -517,7 +517,7 @@ public abstract class AbstractBlock implements Block
     /**
      * Send {@link Listener} events corresponding to the end of the block. For example for a Bold block, this allows an
      * XHTML Listener (aka a Renderer) to output <code>&lt;/b&gt;</code>.
-     * 
+     *
      * @param listener the listener that will receive the events sent by this block before its children blocks have
      *            emitted their own events.
      */

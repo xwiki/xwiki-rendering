@@ -26,7 +26,7 @@ import org.xwiki.rendering.block.ParagraphBlock;
 
 /**
  * Methods for helping in parsing.
- * 
+ *
  * @version $Id$
  * @since 1.7M1
  */
@@ -35,7 +35,7 @@ public class ParserUtils
     /**
      * Removes any top level paragraph since for example for the following use case we don't want an extra paragraph
      * block: <code>= hello {{velocity}}world{{/velocity}}</code>.
-     * 
+     *
      * @param blocks the blocks to check and convert
      */
     public void removeTopLevelParagraph(List<Block> blocks)

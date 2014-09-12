@@ -21,9 +21,9 @@ package org.xwiki.rendering.listener.chaining;
 
 /**
  * A chaining listener that can be stacked in the {@link ListenerChain}. This is useful when a listener in the chain
- * wants to reset all stackable listeners to a new state (for example when handling groups in the XWiki Syntax 
+ * wants to reset all stackable listeners to a new state (for example when handling groups in the XWiki Syntax
  * Renderer).
- * 
+ *
  * @version $Id$
  * @since 1.8RC1
  */

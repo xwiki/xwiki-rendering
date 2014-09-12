@@ -28,14 +28,15 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
  * Represents a Link element in a page.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */
 public class LinkBlock extends AbstractBlock
 {
     /**
-     * A reference to the link target. See {@link org.xwiki.rendering.listener.reference.ResourceReference} for more details.
+     * A reference to the link target. See {@link org.xwiki.rendering.listener.reference.ResourceReference} for more
+     * details.
      */
     private ResourceReference reference;
 
@@ -52,7 +53,7 @@ public class LinkBlock extends AbstractBlock
      */
     public LinkBlock(List<Block> childrenBlocks, ResourceReference reference, boolean isFreeStandingURI)
     {
-        this(childrenBlocks, reference, isFreeStandingURI, Collections.<String, String> emptyMap());
+        this(childrenBlocks, reference, isFreeStandingURI, Collections.<String, String>emptyMap());
     }
 
     /**
@@ -102,6 +103,7 @@ public class LinkBlock extends AbstractBlock
 
     /**
      * {@inheritDoc}
+     *
      * @since 1.8RC2
      */
     @Override

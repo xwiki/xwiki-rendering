@@ -33,7 +33,7 @@ public class ListItemBlock extends AbstractBlock
 {
     /**
      * Constructs a list item Block.
-     * 
+     *
      * @param childrenBlocks the blocks representing the list item content
      */
     public ListItemBlock(List<Block> childrenBlocks)

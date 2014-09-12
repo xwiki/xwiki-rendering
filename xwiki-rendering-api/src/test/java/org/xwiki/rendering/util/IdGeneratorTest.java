@@ -27,7 +27,7 @@ import org.junit.rules.ExpectedException;
 
 /**
  * Validate {@link IdGenerator}.
- * 
+ *
  * @version $Id$
  */
 public class IdGeneratorTest

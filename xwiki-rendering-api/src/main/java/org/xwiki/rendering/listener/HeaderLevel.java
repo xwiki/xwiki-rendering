@@ -71,7 +71,7 @@ public enum HeaderLevel
 
     /**
      * Convert provided integer into the corresponding header level enum entry.
-     * 
+     *
      * @param value the header level as integer
      * @return the header level as enum entry
      */

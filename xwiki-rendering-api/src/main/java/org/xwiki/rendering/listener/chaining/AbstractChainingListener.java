@@ -31,7 +31,7 @@ import org.xwiki.rendering.syntax.Syntax;
 /**
  * Default and basic implementation of a chaining listener that knows how to delegate event calls to the next listener
  * in the chain.
- * 
+ *
  * @version $Id$
  * @since 1.8RC1
  */

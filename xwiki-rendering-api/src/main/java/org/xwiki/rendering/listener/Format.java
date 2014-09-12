@@ -21,7 +21,7 @@ package org.xwiki.rendering.listener;
 
 /**
  * Represents a text formatting (bold, italic, etc).
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */

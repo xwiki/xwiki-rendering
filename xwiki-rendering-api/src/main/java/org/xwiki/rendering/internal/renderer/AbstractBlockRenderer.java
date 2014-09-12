@@ -35,7 +35,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
 /**
  * Common code for BlockRender implementation that uses Print Renderer Factory.
- * 
+ *
  * @version $Id$
  * @since 2.0M3
  */
@@ -67,7 +67,7 @@ public abstract class AbstractBlockRenderer implements BlockRenderer
             try {
                 ((Flushable) renderer).flush();
             } catch (IOException e) {
-                if (logger != null) {
+                if (this.logger != null) {
                     this.logger.error("Failed to flush renderer [{}]", renderer, e);
                 }
             }

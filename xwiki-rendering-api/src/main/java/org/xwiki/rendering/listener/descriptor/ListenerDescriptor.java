@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * List all event found in a listener.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */

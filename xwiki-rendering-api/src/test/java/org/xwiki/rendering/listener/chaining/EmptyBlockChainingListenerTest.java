@@ -41,57 +41,59 @@ public class EmptyBlockChainingListenerTest
     @Before
     public void setUp()
     {
-        chain = new ListenerChain();
-        listener = new EmptyBlockChainingListener(chain);
-        chain.addListener(listener);
+        this.chain = new ListenerChain();
+        this.listener = new EmptyBlockChainingListener(this.chain);
+        this.chain.addListener(this.listener);
     }
 
     /**
-     * Verify that isCurrentContainerBlockEmpty return true if there's no children inside a paragraph container block.  
+     * Verify that isCurrentContainerBlockEmpty return true if there's no children inside a paragraph container block.
      */
     @Test
     public void testEmptyParagraphContainer()
     {
-        chain.addListener(new AbstractChainingListener() {
+        this.chain.addListener(new AbstractChainingListener()
+        {
             {
-                setListenerChain(chain);
+                setListenerChain(EmptyBlockChainingListenerTest.this.chain);
             }
-            
+
             @Override
             public void endParagraph(Map<String, String> parameters)
             {
                 EmptyBlockChainingListener blockState =
-                        (EmptyBlockChainingListener) getListenerChain().getListener(EmptyBlockChainingListener.class);
+                    (EmptyBlockChainingListener) getListenerChain().getListener(EmptyBlockChainingListener.class);
                 Assert.assertTrue(blockState.isCurrentContainerBlockEmpty());
             }
         });
 
-        listener.beginParagraph(Collections.<String, String>emptyMap());
-        listener.endParagraph(Collections.<String, String>emptyMap());
+        this.listener.beginParagraph(Collections.<String, String>emptyMap());
+        this.listener.endParagraph(Collections.<String, String>emptyMap());
     }
 
     /**
-     * Verify that isCurrentContainerBlockEmpty return false if there are children inside a paragraph container block.  
+     * Verify that isCurrentContainerBlockEmpty return false if there are children inside a paragraph container block.
      */
     @Test
     public void testNonEmptyParagraphContainer()
     {
-        chain.addListener(new AbstractChainingListener() {
+        this.chain.addListener(new AbstractChainingListener()
+        {
             {
-                setListenerChain(chain);
+                setListenerChain(EmptyBlockChainingListenerTest.this.chain);
             }
 
             @Override
             public void endParagraph(Map<String, String> parameters)
             {
                 EmptyBlockChainingListener blockState =
-                        (EmptyBlockChainingListener) getListenerChain().getListener(EmptyBlockChainingListener.class);
+                    (EmptyBlockChainingListener) getListenerChain().getListener(EmptyBlockChainingListener.class);
                 Assert.assertFalse(blockState.isCurrentContainerBlockEmpty());
             }
         });
 
-        listener.beginParagraph(Collections.<String, String>emptyMap());
-        listener.onWord("word");
-        listener.endParagraph(Collections.<String, String>emptyMap());
+        this.listener.beginParagraph(Collections.<String, String>emptyMap());
+        this.listener.onWord("word");
+        this.listener.endParagraph(Collections.<String, String>emptyMap());
     }
 }

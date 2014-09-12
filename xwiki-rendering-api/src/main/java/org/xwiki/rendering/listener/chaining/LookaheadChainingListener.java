@@ -23,17 +23,17 @@ import java.util.Map;
 
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
-import org.xwiki.rendering.listener.MetaData;
-import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.ListType;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.QueueListener;
 import org.xwiki.rendering.listener.QueueListener.Event;
+import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Stores events without emitting them back in order to accumulate them and to provide a lookahead feature. The
  * lookahead depth is configurable.
- * 
+ *
  * @version $Id$
  * @since 1.8RC1
  */
@@ -68,6 +68,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -86,6 +87,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -118,6 +120,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -150,6 +153,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -158,7 +162,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
         this.previousEvents.beginMetaData(metadata);
         firePreviousEvent();
     }
-    
+
     @Override
     public void beginParagraph(Map<String, String> parameters)
     {
@@ -224,6 +228,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -242,6 +247,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -274,6 +280,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -306,6 +313,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -314,7 +322,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
         this.previousEvents.endMetaData(metadata);
         firePreviousEvent();
     }
-    
+
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
@@ -401,6 +409,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override

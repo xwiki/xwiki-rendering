@@ -39,7 +39,7 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 
 /**
  * Unit tests for Block manipulation, testing {@link AbstractBlock}.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */
@@ -113,7 +113,7 @@ public class BlockTest
         Assert.assertSame(word3, word2.getPreviousSibling());
 
         // replace by nothing
-        parentBlock.replaceChild(Collections.<Block> emptyList(), word2);
+        parentBlock.replaceChild(Collections.<Block>emptyList(), word2);
 
         Assert.assertEquals(1, parentBlock.getChildren().size());
         Assert.assertSame(word3, parentBlock.getChildren().get(0));
@@ -141,8 +141,8 @@ public class BlockTest
         ImageBlock ib = new ImageBlock(new ResourceReference("document@attachment", ResourceType.ATTACHMENT), true);
         DocumentResourceReference linkReference = new DocumentResourceReference("reference");
         LinkBlock lb = new LinkBlock(Arrays.asList((Block) new WordBlock("label")), linkReference, false);
-        Block pb = new ParagraphBlock(Arrays.<Block> asList(wb, ib, lb));
-        XDOM rootBlock = new XDOM(Arrays.<Block> asList(pb));
+        Block pb = new ParagraphBlock(Arrays.<Block>asList(wb, ib, lb));
+        XDOM rootBlock = new XDOM(Arrays.<Block>asList(pb));
 
         XDOM newRootBlock = rootBlock.clone();
 
@@ -167,12 +167,12 @@ public class BlockTest
     {
         WordBlock b1 = new WordBlock("b1");
         WordBlock b2 = new WordBlock("b2");
-        ParagraphBlock p = new ParagraphBlock(Arrays.<Block> asList(b1, b2));
+        ParagraphBlock p = new ParagraphBlock(Arrays.<Block>asList(b1, b2));
 
         Assert.assertSame(b2, b1.getNextSibling());
         Assert.assertNull(b2.getNextSibling());
         Assert.assertNull(p.getNextSibling());
-        Assert.assertNull(new ParagraphBlock(Collections.<Block> emptyList()).getNextSibling());
+        Assert.assertNull(new ParagraphBlock(Collections.<Block>emptyList()).getNextSibling());
     }
 
     @Test
@@ -180,7 +180,7 @@ public class BlockTest
     {
         WordBlock b1 = new WordBlock("b1");
         WordBlock b2 = new WordBlock("b2");
-        ParagraphBlock p1 = new ParagraphBlock(Arrays.<Block> asList(b1, b2));
+        ParagraphBlock p1 = new ParagraphBlock(Arrays.<Block>asList(b1, b2));
 
         p1.removeBlock(b1);
         Assert.assertEquals(1, p1.getChildren().size());
@@ -214,17 +214,17 @@ public class BlockTest
     {
         ParagraphBlock paragraphBlock = new ParagraphBlock(Collections.EMPTY_LIST);
 
-        List<Block> blocks = Arrays.<Block> asList(new WordBlock("1"), new WordBlock("2"));
+        List<Block> blocks = Arrays.<Block>asList(new WordBlock("1"), new WordBlock("2"));
         paragraphBlock.setChildren(blocks);
 
         Assert.assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
 
-        blocks = Arrays.<Block> asList(new WordBlock("3"), new WordBlock("4"));
+        blocks = Arrays.<Block>asList(new WordBlock("3"), new WordBlock("4"));
         paragraphBlock.setChildren(blocks);
 
         Assert.assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
 
-        blocks = Arrays.<Block> asList();
+        blocks = Arrays.<Block>asList();
         paragraphBlock.setChildren(blocks);
 
         Assert.assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());

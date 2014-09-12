@@ -24,7 +24,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * The context of the transformation process. Contains information such as the current XWiki DOM for the parsed content.
- * 
+ *
  * @version $Id$
  * @since 2.4M1
  */
@@ -139,7 +139,7 @@ public class TransformationContext implements Cloneable
      */
     public Syntax getSyntax()
     {
-        return syntax;
+        return this.syntax;
     }
 
     /**
@@ -147,7 +147,7 @@ public class TransformationContext implements Cloneable
      */
     public boolean isRestricted()
     {
-        return restricted;
+        return this.restricted;
     }
 
     /**

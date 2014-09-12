@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * Represents a set of MetaData.
- * 
+ *
  * @version $Id$
  * @since 3.0M2
  */
@@ -45,14 +45,14 @@ public class MetaData
     /**
      * Represents the syntax of the content found in macro containing wiki content (like a box macro for example). The
      * value has to be a {@link org.xwiki.rendering.syntax.Syntax} object.
-     * 
+     *
      * @since 3.0M3
      */
     public static final String SYNTAX = "syntax";
 
     /**
      * Represent the base reference to resolve all the references in the blocks (links, images, macro parameters, etc.).
-     * 
+     *
      * @since 3.4M1
      */
     public static final String BASE = "base";

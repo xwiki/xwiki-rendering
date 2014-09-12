@@ -29,7 +29,7 @@ import java.util.List;
  * <p>
  * An element is defined by either an <code>on</code> event of a combination of <code>begin</code> and <code>end</code>
  * events.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */

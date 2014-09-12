@@ -20,9 +20,10 @@
 package org.xwiki.rendering.renderer;
 
 import java.util.Collection;
+
 import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
 /**
  * Renders a {@link Block} in some target syntax.

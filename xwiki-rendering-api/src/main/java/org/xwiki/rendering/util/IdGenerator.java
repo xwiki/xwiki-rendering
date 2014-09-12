@@ -28,7 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Stateful generator of id attributes. It's stateful since it remembers the generated ids. Thus a new instance of it
  * should be used for each document.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */
@@ -62,7 +62,7 @@ public class IdGenerator
      * A table of hex digits.
      */
     private static final char[] HEXDIGIT =
-    {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+    { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
     /**
      * Contains the already generated ids.
@@ -71,7 +71,7 @@ public class IdGenerator
 
     /**
      * Same as {@link #generateUniqueId(String, String)} but with a fixed prefix of "I".
-     * 
+     *
      * @param text the text used to generate the unique id
      * @return the unique id. For example "Hello world" will generate "IHelloworld".
      */
@@ -89,7 +89,7 @@ public class IdGenerator
      * <code> When defining fragment identifiers to be backward-compatible, only strings matching the pattern
      * [A-Za-z][A-Za-z0-9:_.-]* should be used.</code>
      * </p>
-     * 
+     *
      * @param prefix the prefix of the identifier. Has to match [a-zA-Z].
      * @param text the text used to generate the unique id
      * @return the unique id. For example "Hello world" will generate prefix + "Helloworld".
@@ -124,7 +124,7 @@ public class IdGenerator
      * for "Hello world" we would get "Hello20world" for the id. It's nicer to get "Helloworld".</li>
      * <li>Convert all non allowed characters. See {@link #ALLOWED} for allowed characters.</li>
      * </ul>
-     * 
+     *
      * @param stringToNormalize the string to normalize
      * @return the normalized string
      */
@@ -172,7 +172,7 @@ public class IdGenerator
 
     /**
      * Convert a nibble to a hex character.
-     * 
+     *
      * @param nibble the nibble to convert.
      * @return hex character
      */
@@ -183,7 +183,7 @@ public class IdGenerator
 
     /**
      * Remove the saved previously generated id to make it available again.
-     * 
+     *
      * @param id the id to remove from the generated ids.
      */
     public void remove(String id)

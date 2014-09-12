@@ -26,7 +26,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
 /**
  * Bridge so that {@link WikiPrinter} can be used in a tools supporting {@link Writer} api.
- * 
+ *
  * @version $Id$
  */
 public class WikiWriter extends Writer

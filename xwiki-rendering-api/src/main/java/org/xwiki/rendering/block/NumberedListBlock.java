@@ -48,7 +48,7 @@ public class NumberedListBlock extends AbstractBlock implements ListBLock
      *
      * @param childrenBlocks the blocks making the list
      * @param parameters see {@link org.xwiki.rendering.block.AbstractBlock#getParameter(String)} for more details on
-     *        parameters
+     *            parameters
      */
     public NumberedListBlock(List<Block> childrenBlocks, Map<String, String> parameters)
     {

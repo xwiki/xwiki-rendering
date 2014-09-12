@@ -26,7 +26,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * A Listener wrapping another Listener.
- * 
+ *
  * @version $Id$
  */
 public class WrappingListener implements Listener

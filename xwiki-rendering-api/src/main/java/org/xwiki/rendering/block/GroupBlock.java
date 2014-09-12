@@ -27,32 +27,30 @@ import org.xwiki.rendering.listener.Listener;
 
 /**
  * Represents a grouping of blocks.
- * 
+ *
  * @version $Id$
  * @since 1.8.3
  */
 public class GroupBlock extends AbstractBlock
 {
     /**
-     * Create an empty group block with no children. This is useful when the user wants to call
-     * {@link #addChild(Block)} manually for adding children one by one after the block is
-     * constructed.
+     * Create an empty group block with no children. This is useful when the user wants to call {@link #addChild(Block)}
+     * manually for adding children one by one after the block is constructed.
      */
     public GroupBlock()
     {
-        this(Collections.<Block> emptyList());
+        this(Collections.<Block>emptyList());
     }
 
     /**
-     * Create an empty group block with no children. This is useful when the user wants to call
-     * {@link #addChild(Block)} manually for adding children one by one after the block is
-     * constructed.
-     * 
+     * Create an empty group block with no children. This is useful when the user wants to call {@link #addChild(Block)}
+     * manually for adding children one by one after the block is constructed.
+     *
      * @param parameters the parameters of the group
      */
     public GroupBlock(Map<String, String> parameters)
     {
-        this(Collections.<Block> emptyList(), parameters);
+        this(Collections.<Block>emptyList(), parameters);
     }
 
     /**

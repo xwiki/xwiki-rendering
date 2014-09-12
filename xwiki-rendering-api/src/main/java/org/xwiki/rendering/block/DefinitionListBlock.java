@@ -19,10 +19,10 @@
  */
 package org.xwiki.rendering.block;
 
-import org.xwiki.rendering.listener.Listener;
-
 import java.util.List;
 import java.util.Map;
+
+import org.xwiki.rendering.listener.Listener;
 
 /**
  * Represents a definition list. For example in HTML this is the equivalent of &lt;dl&gt;.
@@ -47,7 +47,7 @@ public class DefinitionListBlock extends AbstractBlock implements ListBLock
      *
      * @param childrenBlocks the blocks making the Definition list
      * @param parameters see {@link org.xwiki.rendering.block.AbstractBlock#getParameter(String)} for more details on
-     *        parameters
+     *            parameters
      */
     public DefinitionListBlock(List<Block> childrenBlocks, Map<String, String> parameters)
     {

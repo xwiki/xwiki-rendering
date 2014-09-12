@@ -22,9 +22,9 @@ package org.xwiki.rendering.listener.chaining;
 import org.xwiki.rendering.listener.Listener;
 
 /**
- * A listener that can be chained with other chaining listeners using a chain. This allows creating listeners
- * to filter some events, to aggregate state information in a decoupled manner, to perform lookaheads, etc.
- * 
+ * A listener that can be chained with other chaining listeners using a chain. This allows creating listeners to filter
+ * some events, to aggregate state information in a decoupled manner, to perform lookaheads, etc.
+ *
  * @version $Id$
  * @since 1.8RC1
  */

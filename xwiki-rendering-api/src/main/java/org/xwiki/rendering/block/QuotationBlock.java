@@ -27,7 +27,7 @@ import org.xwiki.rendering.listener.Listener;
 
 /**
  * Represents a quotation. There are one or several quotation lines inside a quotation block.
- * 
+ *
  * @version $Id$
  * @since 1.6M2
  */
@@ -38,7 +38,7 @@ public class QuotationBlock extends AbstractBlock
      */
     public QuotationBlock(List<Block> blocks)
     {
-        super(blocks, Collections.<String, String> emptyMap());
+        super(blocks, Collections.<String, String>emptyMap());
     }
 
     /**

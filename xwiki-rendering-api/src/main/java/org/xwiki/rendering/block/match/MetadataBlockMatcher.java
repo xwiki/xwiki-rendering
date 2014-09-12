@@ -25,7 +25,7 @@ import org.xwiki.rendering.listener.MetaData;
 
 /**
  * Implementation of {@link BlockMatcher} which matches {@link MetaData} information.
- * 
+ *
  * @version $Id$
  * @since 3.0M3
  */
@@ -43,7 +43,7 @@ public class MetadataBlockMatcher extends ClassBlockMatcher
 
     /**
      * Match {@link MetaDataBlock} containing the provided key.
-     * 
+     *
      * @param metadataKey the key of the {@link MetaData}
      */
     public MetadataBlockMatcher(String metadataKey)
@@ -53,7 +53,7 @@ public class MetadataBlockMatcher extends ClassBlockMatcher
 
     /**
      * Match {@link MetaDataBlock} containing the provided key/value pair.
-     * 
+     *
      * @param metadataKey the key of the {@link MetaData}
      * @param metadataValue the value of the {@link MetaData}
      */
@@ -73,7 +73,7 @@ public class MetadataBlockMatcher extends ClassBlockMatcher
 
     /**
      * Matches the {@link MetaData} for provided key and value.
-     * 
+     *
      * @param metadata the {@link MetaData} to analyze
      * @return true is the {@link MetaData} is matched, false otherwise
      */

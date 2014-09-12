@@ -19,9 +19,9 @@
  */
 package org.xwiki.rendering.block;
 
-import org.xwiki.rendering.listener.Listener;
-
 import java.util.List;
+
+import org.xwiki.rendering.listener.Listener;
 
 /**
  * Represents a definition description. For exampe in HTML this is the equivalent of &lt;dt&gt;.

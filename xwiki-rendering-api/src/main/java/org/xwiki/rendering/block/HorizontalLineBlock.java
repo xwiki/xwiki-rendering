@@ -25,7 +25,7 @@ import org.xwiki.rendering.listener.Listener;
 
 /**
  * Represents a Horizontal line.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */
@@ -43,7 +43,7 @@ public class HorizontalLineBlock extends AbstractBlock
      * Construct a Horizontal Line Block with parameters.
      *
      * @param parameters see {@link org.xwiki.rendering.block.AbstractBlock#getParameter(String)} for more details on
-     *        parameters
+     *            parameters
      */
     public HorizontalLineBlock(Map<String, String> parameters)
     {

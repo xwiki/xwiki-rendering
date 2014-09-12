@@ -32,7 +32,7 @@ import org.xwiki.rendering.parser.StreamParser;
 
 /**
  * Common code for {@link Parser} implementation that produce a {@link XDOM} from {@link StreamParser}.
- * 
+ *
  * @version $Id$
  * @since 2.1M1
  */

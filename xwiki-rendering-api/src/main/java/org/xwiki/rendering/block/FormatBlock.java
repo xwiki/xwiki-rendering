@@ -28,7 +28,7 @@ import org.xwiki.rendering.listener.Listener;
 
 /**
  * Represents a text formatting block (bold, italic, etc).
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */
@@ -45,7 +45,7 @@ public class FormatBlock extends AbstractBlock
      */
     public FormatBlock(List<Block> childrenBlocks, Format format)
     {
-        this(childrenBlocks, format, Collections.<String, String> emptyMap());
+        this(childrenBlocks, format, Collections.<String, String>emptyMap());
     }
 
     /**

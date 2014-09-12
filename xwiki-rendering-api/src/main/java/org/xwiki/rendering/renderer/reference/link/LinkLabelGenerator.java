@@ -24,7 +24,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
  * Generate Link label. Used when no label has been specified by the user for links.
- * 
+ *
  * @version $Id$
  * @since 1.8RC2
  */
@@ -33,7 +33,7 @@ public interface LinkLabelGenerator
 {
     /**
      * Generate a clean String label for the provided {@link org.xwiki.rendering.listener.reference.ResourceReference}.
-     * 
+     *
      * @param reference the link reference
      * @return the generated label
      * @since 2.5RC1

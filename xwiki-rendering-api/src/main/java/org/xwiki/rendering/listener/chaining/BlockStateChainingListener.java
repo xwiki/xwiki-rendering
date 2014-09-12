@@ -32,7 +32,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Indicates block element for which we are inside and previous blocks.
- * 
+ *
  * @version $Id$
  * @since 1.8RC1
  */
@@ -257,6 +257,7 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -278,6 +279,7 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -396,6 +398,7 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -419,6 +422,7 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -439,6 +443,7 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -601,6 +606,7 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override

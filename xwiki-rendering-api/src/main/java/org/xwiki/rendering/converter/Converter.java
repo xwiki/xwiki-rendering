@@ -20,9 +20,10 @@
 package org.xwiki.rendering.converter;
 
 import java.io.Reader;
+
 import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Convert source content in a given Syntax to another Syntax.
@@ -34,9 +35,8 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 public interface Converter
 {
     /**
-     * Converts content from a Syntax to another and execute all registered Macro Transformations on the parsed
-     * content.
-     * 
+     * Converts content from a Syntax to another and execute all registered Macro Transformations on the parsed content.
+     *
      * @param source the content to be converted
      * @param sourceSyntax the Syntax in which the content is represented
      * @param targetSyntax the Syntax to which to convert to

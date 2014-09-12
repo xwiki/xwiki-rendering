@@ -19,8 +19,8 @@
  */
 package org.xwiki.rendering.listener.chaining;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rendering.listener.MetaData;
 
 /**

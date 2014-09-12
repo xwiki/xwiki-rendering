@@ -23,7 +23,7 @@ import org.xwiki.rendering.listener.Listener;
 
 /**
  * Represents a word.
- * 
+ *
  * @version $Id$
  * @since 1.5M2
  */

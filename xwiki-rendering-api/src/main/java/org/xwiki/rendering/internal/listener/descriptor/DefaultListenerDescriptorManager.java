@@ -32,7 +32,7 @@ import org.xwiki.rendering.listener.descriptor.ListenerElement;
 
 /**
  * Default implementation of {@link ListenerDescriptorManager}.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */
@@ -57,10 +57,10 @@ public class DefaultListenerDescriptorManager implements ListenerDescriptorManag
     /**
      * The descriptors.
      */
-    private Map<Class< ? >, ListenerDescriptor> descriptors = new ConcurrentHashMap<Class< ? >, ListenerDescriptor>();
+    private Map<Class<?>, ListenerDescriptor> descriptors = new ConcurrentHashMap<Class<?>, ListenerDescriptor>();
 
     @Override
-    public ListenerDescriptor getListenerDescriptor(Class< ? > type)
+    public ListenerDescriptor getListenerDescriptor(Class<?> type)
     {
         ListenerDescriptor descriptor = this.descriptors.get(type);
         if (descriptor == null) {
@@ -75,7 +75,7 @@ public class DefaultListenerDescriptorManager implements ListenerDescriptorManag
      * @param type the class of the listener
      * @return the descriptor of the listener
      */
-    public ListenerDescriptor createDescriptor(Class< ? > type)
+    public ListenerDescriptor createDescriptor(Class<?> type)
     {
         ListenerDescriptor descriptor = new ListenerDescriptor();
 

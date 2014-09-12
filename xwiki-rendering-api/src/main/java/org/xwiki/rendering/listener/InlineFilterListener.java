@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * Wrap a listener and skip begin/endDocument events.
- * 
+ *
  * @version $Id$
  * @since 3.0M3
  */

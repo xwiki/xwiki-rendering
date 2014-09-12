@@ -53,6 +53,7 @@ public abstract class AbstractChainingPrintRenderer extends AbstractChainingList
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0M3
      */
     @Override
@@ -63,7 +64,7 @@ public abstract class AbstractChainingPrintRenderer extends AbstractChainingList
 
     /**
      * Change the current {@link WikiPrinter} with the provided one.
-     * 
+     *
      * @param wikiPrinter the new {@link WikiPrinter} to use
      */
     protected void pushPrinter(WikiPrinter wikiPrinter)

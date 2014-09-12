@@ -21,7 +21,7 @@ package org.xwiki.rendering.renderer.printer;
 
 /**
  * Printer using a {@link StringBuffer} as the underlying output target.
- * 
+ *
  * @version $Id$
  * @since 1.6M1
  */
@@ -58,7 +58,7 @@ public class DefaultWikiPrinter implements WikiPrinter
 
     /**
      * This method is protected to allow classes extending this one to override what a new line is.
-     * 
+     *
      * @return a new line symbols
      */
     protected String getEOL()

@@ -28,7 +28,7 @@ import org.xwiki.rendering.block.Block.Axes;
 
 /**
  * Tool to navigate in a tree of blocks and extract them based on configurable criteria.
- * 
+ *
  * @version $Id$
  * @since 5.0M1
  */
@@ -59,7 +59,7 @@ public class BlockNavigator
 
     /**
      * Get all blocks following provided {@link BlockMatcher} and {@link Axes}.
-     * 
+     *
      * @param <T> the class of the Blocks to return
      * @param currentBlock the block to start searching from
      * @param currentAxes indicate the search axes
@@ -137,13 +137,13 @@ public class BlockNavigator
             block = nextBlock;
         }
 
-        return blocks != null ? blocks : Collections.<T> emptyList();
+        return blocks != null ? blocks : Collections.<T>emptyList();
     }
 
     /**
      * Add provided {@link Block} to provided list (or create list of null) if block validate the provided
      * {@link BlockMatcher}.
-     * 
+     *
      * @param <T> the class of the Blocks to return
      * @param currentBlock the block to search from
      * @param blocks the list of blocks to fill
@@ -158,7 +158,7 @@ public class BlockNavigator
     /**
      * Add all blocks following provided {@link BlockMatcher} and {@link Axes} in the provide list (or create a new list
      * of provided list is null).
-     * 
+     *
      * @param <T> the class of the Blocks to return
      * @param blocks the blocks from where to search
      * @param axes the axes
@@ -180,7 +180,7 @@ public class BlockNavigator
     /**
      * Add all blocks following provided {@link BlockMatcher} and {@link Axes} in the provide list (or create a new list
      * of provided list is null).
-     * 
+     *
      * @param <T> the class of the Blocks to return
      * @param currentBlock the block to search from
      * @param axes the axes
@@ -208,7 +208,7 @@ public class BlockNavigator
 
     /**
      * Get the first matched block in the provided {@link Axes}.
-     * 
+     *
      * @param <T> the class of the Block to return
      * @param currentBlock the block to start searching from
      * @param currentAxes indicate the search axes

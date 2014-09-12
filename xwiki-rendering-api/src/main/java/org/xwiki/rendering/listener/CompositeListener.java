@@ -28,7 +28,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Send events to a list of {@link Listener}s.
- * 
+ *
  * @version $Id$
  * @since 2.1M1
  */
@@ -41,7 +41,7 @@ public class CompositeListener implements Listener
 
     /**
      * Add a nex listener to the list.
-     * 
+     *
      * @param listener a listener
      */
     public void addListener(Listener listener)
@@ -51,7 +51,7 @@ public class CompositeListener implements Listener
 
     /**
      * Get listener at the provided position in the list.
-     * 
+     *
      * @param i the index of the listener in the list
      * @return the listener
      */
@@ -63,7 +63,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginDefinitionDescription()
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginDefinitionDescription();
         }
     }
@@ -71,7 +71,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginDefinitionList(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginDefinitionList(parameters);
         }
     }
@@ -79,19 +79,20 @@ public class CompositeListener implements Listener
     @Override
     public void beginDefinitionTerm()
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginDefinitionTerm();
         }
     }
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
     public void beginDocument(MetaData metaData)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginDocument(metaData);
         }
     }
@@ -99,7 +100,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginFormat(format, parameters);
         }
     }
@@ -107,7 +108,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginGroup(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginGroup(parameters);
         }
     }
@@ -115,7 +116,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginHeader(level, id, parameters);
         }
     }
@@ -123,7 +124,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginList(ListType listType, Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginList(listType, parameters);
         }
     }
@@ -131,7 +132,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginListItem()
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginListItem();
         }
     }
@@ -139,7 +140,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginMacroMarker(name, macroParameters, content, isInline);
         }
     }
@@ -147,7 +148,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginParagraph(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginParagraph(parameters);
         }
     }
@@ -155,7 +156,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginQuotation(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginQuotation(parameters);
         }
     }
@@ -163,7 +164,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginQuotationLine()
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginQuotationLine();
         }
     }
@@ -171,7 +172,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginSection(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginSection(parameters);
         }
     }
@@ -179,7 +180,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginTable(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginTable(parameters);
         }
     }
@@ -187,7 +188,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginTableCell(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginTableCell(parameters);
         }
     }
@@ -195,7 +196,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginTableHeadCell(parameters);
         }
     }
@@ -203,7 +204,7 @@ public class CompositeListener implements Listener
     @Override
     public void beginTableRow(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginTableRow(parameters);
         }
     }
@@ -211,7 +212,7 @@ public class CompositeListener implements Listener
     @Override
     public void endDefinitionDescription()
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endDefinitionDescription();
         }
     }
@@ -219,7 +220,7 @@ public class CompositeListener implements Listener
     @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endDefinitionList(parameters);
         }
     }
@@ -227,19 +228,20 @@ public class CompositeListener implements Listener
     @Override
     public void endDefinitionTerm()
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endDefinitionTerm();
         }
     }
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
     public void endDocument(MetaData metaData)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endDocument(metaData);
         }
     }
@@ -247,7 +249,7 @@ public class CompositeListener implements Listener
     @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endFormat(format, parameters);
         }
     }
@@ -255,7 +257,7 @@ public class CompositeListener implements Listener
     @Override
     public void endGroup(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endGroup(parameters);
         }
     }
@@ -263,7 +265,7 @@ public class CompositeListener implements Listener
     @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endHeader(level, id, parameters);
         }
     }
@@ -271,7 +273,7 @@ public class CompositeListener implements Listener
     @Override
     public void endList(ListType listType, Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endList(listType, parameters);
         }
     }
@@ -279,7 +281,7 @@ public class CompositeListener implements Listener
     @Override
     public void endListItem()
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endListItem();
         }
     }
@@ -287,7 +289,7 @@ public class CompositeListener implements Listener
     @Override
     public void endMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endMacroMarker(name, macroParameters, content, isInline);
         }
     }
@@ -295,7 +297,7 @@ public class CompositeListener implements Listener
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endParagraph(parameters);
         }
     }
@@ -303,7 +305,7 @@ public class CompositeListener implements Listener
     @Override
     public void endQuotation(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endQuotation(parameters);
         }
     }
@@ -311,7 +313,7 @@ public class CompositeListener implements Listener
     @Override
     public void endQuotationLine()
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endQuotationLine();
         }
     }
@@ -319,7 +321,7 @@ public class CompositeListener implements Listener
     @Override
     public void endSection(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endSection(parameters);
         }
     }
@@ -327,7 +329,7 @@ public class CompositeListener implements Listener
     @Override
     public void endTable(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endTable(parameters);
         }
     }
@@ -335,7 +337,7 @@ public class CompositeListener implements Listener
     @Override
     public void endTableCell(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endTableCell(parameters);
         }
     }
@@ -343,7 +345,7 @@ public class CompositeListener implements Listener
     @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endTableHeadCell(parameters);
         }
     }
@@ -351,7 +353,7 @@ public class CompositeListener implements Listener
     @Override
     public void endTableRow(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endTableRow(parameters);
         }
     }
@@ -359,7 +361,7 @@ public class CompositeListener implements Listener
     @Override
     public void onEmptyLines(int count)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.onEmptyLines(count);
         }
     }
@@ -367,7 +369,7 @@ public class CompositeListener implements Listener
     @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.onHorizontalLine(parameters);
         }
     }
@@ -375,7 +377,7 @@ public class CompositeListener implements Listener
     @Override
     public void onId(String name)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.onId(name);
         }
     }
@@ -383,7 +385,7 @@ public class CompositeListener implements Listener
     @Override
     public void onMacro(String id, Map<String, String> macroParameters, String content, boolean isInline)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.onMacro(id, macroParameters, content, isInline);
         }
     }
@@ -391,7 +393,7 @@ public class CompositeListener implements Listener
     @Override
     public void onNewLine()
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.onNewLine();
         }
     }
@@ -399,7 +401,7 @@ public class CompositeListener implements Listener
     @Override
     public void onRawText(String text, Syntax syntax)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.onRawText(text, syntax);
         }
     }
@@ -407,7 +409,7 @@ public class CompositeListener implements Listener
     @Override
     public void onSpace()
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.onSpace();
         }
     }
@@ -415,7 +417,7 @@ public class CompositeListener implements Listener
     @Override
     public void onSpecialSymbol(char symbol)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.onSpecialSymbol(symbol);
         }
     }
@@ -423,7 +425,7 @@ public class CompositeListener implements Listener
     @Override
     public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.onVerbatim(protectedString, isInline, parameters);
         }
     }
@@ -431,67 +433,72 @@ public class CompositeListener implements Listener
     @Override
     public void onWord(String word)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.onWord(word);
         }
     }
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginLink(reference, isFreeStandingURI, parameters);
         }
     }
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endLink(reference, isFreeStandingURI, parameters);
         }
     }
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.onImage(reference, isFreeStandingURI, parameters);
         }
     }
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
     public void beginMetaData(MetaData metadata)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.beginMetaData(metadata);
         }
     }
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
     public void endMetaData(MetaData metadata)
     {
-        for (Listener listener : listeners) {
+        for (Listener listener : this.listeners) {
             listener.endMetaData(metadata);
         }
     }

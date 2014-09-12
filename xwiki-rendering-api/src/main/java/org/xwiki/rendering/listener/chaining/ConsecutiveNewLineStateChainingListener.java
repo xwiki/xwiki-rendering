@@ -23,14 +23,14 @@ import java.util.Map;
 
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
+import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Counts consecutive new lines.
- * 
+ *
  * @version $Id; $
  * @since 1.8RC1
  */
@@ -73,6 +73,7 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0RC1
      */
     @Override
@@ -91,6 +92,7 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
 
     /**
      * {@inheritDoc}
+     *
      * @since 3.0M2
      */
     @Override
@@ -116,6 +118,7 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override
@@ -232,6 +235,7 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.5RC1
      */
     @Override

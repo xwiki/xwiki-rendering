@@ -24,7 +24,7 @@ import java.io.Writer;
 
 /**
  * Printer using a {@link Writer} as the underlying output target.
- * 
+ *
  * @version $Id$
  * @since 6.2M1
  */
@@ -53,7 +53,7 @@ public class WriterWikiPrinter implements WikiPrinter
 
     /**
      * This method is protected to allow classes extending this one to override what a new line is.
-     * 
+     *
      * @return a new line symbols
      */
     protected String getEOL()

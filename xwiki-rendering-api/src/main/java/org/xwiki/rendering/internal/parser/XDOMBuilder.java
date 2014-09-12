@@ -54,8 +54,8 @@ public class XDOMBuilder
     {
         List<Block> blocks = endBlockList();
 
-        if (!stack.isEmpty()) {
-            throw new IllegalStateException("Unbalanced begin/end Block events, missing " + stack.size()
+        if (!this.stack.isEmpty()) {
+            throw new IllegalStateException("Unbalanced begin/end Block events, missing " + this.stack.size()
                 + " calls to endBlockList().");
         }
 
@@ -77,6 +77,7 @@ public class XDOMBuilder
 
     /**
      * End a container element.
+     *
      * @return the list of blocks in that container.
      */
     public List<Block> endBlockList()
@@ -90,6 +91,7 @@ public class XDOMBuilder
 
     /**
      * Add a block to the current block container.
+     *
      * @param block the block to be added.
      */
     public void addBlock(Block block)

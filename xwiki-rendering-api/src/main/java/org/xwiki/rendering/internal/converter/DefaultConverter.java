@@ -34,16 +34,16 @@ import org.xwiki.rendering.converter.ConversionException;
 import org.xwiki.rendering.converter.Converter;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
-import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
 import org.xwiki.rendering.transformation.TransformationManager;
 
 /**
  * Default implementation for {@link Converter}.
- * 
+ *
  * @version $Id$
  */
 @Component

@@ -26,7 +26,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Produce a {@link XDOM} base on SAX events.
- * 
+ *
  * @version $Id$
  * @since 3.3M1
  */
