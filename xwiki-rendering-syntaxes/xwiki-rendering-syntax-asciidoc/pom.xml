@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-syntaxes</artifactId>
-    <version>5.4-SNAPSHOT</version>
+    <version>6.3-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-syntax-asciidoc</artifactId>
   <name>XWiki Rendering - Syntax - AsciiDoc</name>
@@ -35,8 +35,8 @@
   <dependencies>
     <dependency>
       <groupId>org.asciidoctor</groupId>
-      <artifactId>asciidoctor-java-integration</artifactId>
-      <version>0.1.4</version>
+      <artifactId>asciidoctorj</artifactId>
+      <version>1.5.0</version>
     </dependency>
     <!-- Test Dependencies -->
     <dependency>

@@ -19,16 +19,19 @@
  */
 package org.xwiki.rendering.internal.parser.asciidoc;
 
-import java.io.IOException;
 import java.io.Reader;
-import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.io.IOUtils;
 import org.asciidoctor.Asciidoctor;
-import org.asciidoctor.extension.ExtensionRegistry;
+import org.asciidoctor.ast.AbstractBlock;
+import org.asciidoctor.ast.Block;
+import org.asciidoctor.ast.Document;
+import org.asciidoctor.internal.JRubyAsciidoctor;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -36,8 +39,6 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.syntax.Syntax;
-
-import static org.asciidoctor.Asciidoctor.Factory.create;
 
 /**
  * Stream Parser for AsciiDoc syntax.
@@ -61,20 +62,28 @@ public class AsciiDocStreamParser implements StreamParser, Initializable
     @Override
     public void initialize() throws InitializationException
     {
-        this.asciidoctor = create();
-        ExtensionRegistry extensionRegistry = this.asciidoctor.extensionRegistry();
-        extensionRegistry.treeprocessor(XWikiTreeProcessor.class);
+        this.asciidoctor = JRubyAsciidoctor.create();
     }
 
     @Override
     public void parse(Reader source, Listener listener) throws ParseException
     {
-        StringWriter writer = new StringWriter();
-//        try {
-            this.asciidoctor.render("this is *bold*", new HashMap<String, Object>());
-//            this.asciidoctor.render(source, writer, new HashMap<String, Object>());
-//        } catch (IOException e) {
-//            throw new ParseException("Failed to parse AsciiDoc content", e);
-//        }
+        try {
+            Map<String, Object> options = new HashMap<>();
+            options.put(Asciidoctor.STRUCTURE_MAX_LEVEL, 10);
+            Document document = this.asciidoctor.load(IOUtils.toString(source), options);
+            for (AbstractBlock block : document.blocks()) {
+                System.out.println(":" + block.context() + " - " + block.title());
+                for (AbstractBlock childBlock : block.blocks()) {
+                    if (childBlock.context().equals("paragraph")) {
+                        System.out.println("  :paragraph, lines: " + ((Block) childBlock).lines());
+                    } else {
+                        System.out.println("  :" + childBlock.context());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new ParseException("Failed to parse AsciiDoc content", e);
+        }
     }
 }
