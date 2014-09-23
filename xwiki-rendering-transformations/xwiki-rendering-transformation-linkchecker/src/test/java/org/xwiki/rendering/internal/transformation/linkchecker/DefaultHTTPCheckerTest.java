@@ -48,15 +48,15 @@ public class DefaultHTTPCheckerTest
     public void testProxy() throws Exception
     {
         // First call the link checker but since we haven't set up any proxy our Mock HTTP Server is not going to be
-        // called (since http://host will lead to nowhere...
-        assertEquals(0, this.mocker.getComponentUnderTest().check("http://host"));
+        // called (since http://unknownhostforxwikitest will lead to nowhere...
+        assertEquals(0, this.mocker.getComponentUnderTest().check("http://unknownhostforxwikitest"));
         assertTrue("The HTTP server was not called by the link checker", findAll(allRequests()).isEmpty());
 
         // Second, setup a proxy by using System Properties, then call again the checker and this time it should
         // succeed since http://host will go to the proxy which is pointing to our Mock HTTP Server!
         System.setProperty("http.proxyHost", "localhost");
         System.setProperty("http.proxyPort", "8888");
-        assertEquals(404, this.mocker.getComponentUnderTest().check("http://host"));
+        assertEquals(404, this.mocker.getComponentUnderTest().check("http://unknownhostforxwikitest"));
         assertFalse("The HTTP server was called by the link checker", findAll(allRequests()).isEmpty());
     }
 }
