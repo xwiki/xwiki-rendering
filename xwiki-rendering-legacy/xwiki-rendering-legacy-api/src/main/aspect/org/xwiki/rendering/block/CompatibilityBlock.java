@@ -21,8 +21,6 @@ package org.xwiki.rendering.block;
 
 import java.util.List;
 
-import org.xwiki.rendering.block.Block;
-
 /**
  * Add a backward compatibility layer to the {@link Block} class.
  *
