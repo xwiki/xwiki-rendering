@@ -179,14 +179,14 @@ public class MacroTransformation extends AbstractTransformation
                         // Macro cannot be found. Generate an error message instead of the macro execution result.
                         // TODO: make it internationalized
                         this.macroErrorManager.generateError(error.macroBlock,
-                            String.format("Unknown macro: %s", error.macroBlock.getId()), String.format(
+                            String.format("Unknown macro: %s.", error.macroBlock.getId()), String.format(
                                 "The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
                                     + "contact your administrator.", error.macroBlock.getId()));
                         this.logger.debug("Failed to locate the [{}] macro. Ignoring it.", error.macroBlock.getId());
                     } else if (error.exception instanceof MacroLookupException) {
                         // TODO: make it internationalized
                         this.macroErrorManager.generateError(error.macroBlock,
-                            String.format("Invalid macro: %s", error.macroBlock.getId()), error.exception);
+                            String.format("Invalid macro: %s.", error.macroBlock.getId()), error.exception);
                         this.logger.debug("Failed to instantiate the [{}] macro. Ignoring it.",
                             error.macroBlock.getId());
                     }
@@ -242,8 +242,8 @@ public class MacroTransformation extends AbstractTransformation
                     // The macro will not be executed and we generate an error message instead of the macro
                     // execution result.
                     this.macroErrorManager.generateError(macroBlock,
-                        String.format("Invalid macro parameters used for the \"%s\" macro", macroBlock.getId()), e);
-                    this.logger.debug("Invalid macro parameter for the [{}] macro. Internal error: [{}]",
+                        String.format("Invalid macro parameters used for the \"%s\" macro.", macroBlock.getId()), e);
+                    this.logger.debug("Invalid macro parameter for the [{}] macro. Internal error: [{}].",
                         macroBlock.getId(), e.getMessage());
 
                     continue;
@@ -256,8 +256,8 @@ public class MacroTransformation extends AbstractTransformation
                 // execution result.
                 // Note: We catch any Exception because we want to never break the whole rendering.
                 this.macroErrorManager.generateError(macroBlock,
-                    String.format("Failed to execute the [%s] macro", macroBlock.getId()), e);
-                this.logger.debug("Failed to execute the [{}] macro. Internal error [{}]", macroBlock.getId(),
+                    String.format("Failed to execute the [%s] macro.", macroBlock.getId()), e);
+                this.logger.debug("Failed to execute the [{}] macro. Internal error [{}].", macroBlock.getId(),
                     e.getMessage());
 
                 continue;

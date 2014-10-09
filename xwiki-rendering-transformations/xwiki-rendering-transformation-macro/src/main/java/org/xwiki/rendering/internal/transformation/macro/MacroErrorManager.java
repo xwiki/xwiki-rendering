@@ -96,7 +96,9 @@ public class MacroErrorManager
      */
     public void generateError(MacroBlock macroToReplace, String message, Throwable throwable)
     {
-        generateError(macroToReplace, message, ExceptionUtils.getStackTrace(throwable));
+        String augmentedMessage = String.format("%s%sClick on this message for details.", message,
+            message.trim().endsWith(".") ? " " : ". ");
+        generateError(macroToReplace, augmentedMessage, ExceptionUtils.getStackTrace(throwable));
     }
 
     /**
