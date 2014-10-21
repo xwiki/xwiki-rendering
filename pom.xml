@@ -40,7 +40,7 @@
   <scm>
     <connection>scm:git:git://github.com/xwiki/xwiki-rendering.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-rendering.git</developerConnection>
-    <url>https://github.com/xwiki/xwiki-rendering</url>
+    <url>https://github.com/xwiki/xwiki-rendering/tree/master/</url>
     <tag>stable-6.2.x</tag>
   </scm>
   <issueManagement>
