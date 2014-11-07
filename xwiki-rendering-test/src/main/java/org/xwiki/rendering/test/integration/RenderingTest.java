@@ -136,6 +136,7 @@ public class RenderingTest
                 TransformationContext txContext =
                     new TransformationContext(xdom, syntaxFactory.createSyntaxFromIdString(this.parserId));
                 txContext.setTargetSyntax(syntaxFactory.createSyntaxFromIdString(this.targetSyntaxId));
+                txContext.setId("test");
                 transformationManager.performTransformations(xdom, txContext);
             }
 
