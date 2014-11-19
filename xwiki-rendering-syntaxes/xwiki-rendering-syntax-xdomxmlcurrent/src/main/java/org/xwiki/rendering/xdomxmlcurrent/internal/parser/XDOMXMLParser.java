@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.xdomxmlcurrent.internal.parser;
 
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xml.internal.parser.AbstractParser;
@@ -30,6 +32,7 @@ import org.xwiki.rendering.xml.internal.parser.AbstractParser;
  * @since 3.3M1
  */
 @Component("xdom+xml/current")
+@Singleton
 public class XDOMXMLParser extends AbstractParser
 {
     @Override

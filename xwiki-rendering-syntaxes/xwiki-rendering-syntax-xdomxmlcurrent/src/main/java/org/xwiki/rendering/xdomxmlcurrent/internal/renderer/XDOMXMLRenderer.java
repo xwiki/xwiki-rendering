@@ -20,6 +20,7 @@
 package org.xwiki.rendering.xdomxmlcurrent.internal.renderer;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.filter.xml.serializer.XMLSerializerFactory;
@@ -34,6 +35,7 @@ import org.xwiki.rendering.xml.internal.renderer.AbstractRenderer;
  * @since 3.3M1
  */
 @Component("xdom+xml/current")
+@Singleton
 public class XDOMXMLRenderer extends AbstractRenderer
 {
     /**

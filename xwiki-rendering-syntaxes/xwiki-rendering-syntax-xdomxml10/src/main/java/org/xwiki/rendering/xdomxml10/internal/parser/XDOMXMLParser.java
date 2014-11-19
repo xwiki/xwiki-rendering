@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.parser;
 
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xml.internal.parser.AbstractParser;
@@ -29,6 +31,7 @@ import org.xwiki.rendering.xml.internal.parser.AbstractParser;
  * @version $Id$
  */
 @Component("xdom+xml/1.0")
+@Singleton
 public class XDOMXMLParser extends AbstractParser
 {
     @Override

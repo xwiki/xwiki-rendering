@@ -23,6 +23,7 @@ import java.io.Reader;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
@@ -39,6 +40,7 @@ import org.xwiki.rendering.syntax.Syntax;
  */
 @Component
 @Named("markdown/1.0")
+@Singleton
 public class MarkdownStreamParser extends AbstractMarkdownStreamParser
 {
     /**

@@ -24,6 +24,8 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.rendering.listener.descriptor.ListenerDescriptor;
@@ -37,6 +39,7 @@ import org.xwiki.rendering.listener.descriptor.ListenerElement;
  * @since 3.3M1
  */
 @Component
+@Singleton
 public class DefaultListenerDescriptorManager implements ListenerDescriptorManager
 {
     /**
