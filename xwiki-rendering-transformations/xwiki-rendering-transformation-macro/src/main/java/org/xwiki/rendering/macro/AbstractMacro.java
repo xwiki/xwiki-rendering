@@ -71,7 +71,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     protected BeanManager beanManager;
 
     @Inject
-    private ComponentDescriptor<Macro> descriptor;
+    private ComponentDescriptor<Macro> componentDescriptor;
 
     /**
      * The human-readable macro name (eg "Table of Contents" for the TOC macro).
@@ -178,7 +178,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     @Override
     public void initialize() throws InitializationException
     {
-        MacroId macroId = new MacroId(this.descriptor.getRoleHint());
+        MacroId macroId = new MacroId(this.componentDescriptor.getRoleHint());
 
         DefaultMacroDescriptor descriptor = new DefaultMacroDescriptor(macroId, this.name, this.description,
             this.contentDescriptor, this.beanManager.getBeanDescriptor(this.parametersBeanClass));
