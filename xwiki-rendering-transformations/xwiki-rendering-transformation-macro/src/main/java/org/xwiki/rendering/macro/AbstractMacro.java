@@ -20,10 +20,7 @@
 package org.xwiki.rendering.macro;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
-import org.apache.commons.lang3.StringUtils;
-import org.xwiki.component.annotation.Component;
 import org.xwiki.component.descriptor.ComponentDescriptor;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
