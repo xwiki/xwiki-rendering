@@ -1,0 +1,14 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Make sure the context XDOM contain html macro content during its inner macros execution
+.#-----------------------------------------------------
+{{html wiki=true}}
+{{toc scope="page"/}}
+
+= title =
+{{/html}}
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<ul><li><span class="wikilink"><a href="#Htitle">title</a></span></li></ul><h1 id="Htitle"><span>title</span></h1>
