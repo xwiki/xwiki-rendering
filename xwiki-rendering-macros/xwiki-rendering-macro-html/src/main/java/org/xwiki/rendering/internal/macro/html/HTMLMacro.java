@@ -260,11 +260,13 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             // Make sure the context XDOM contains the html macro content
             htmlMacroBlock.getParent().replaceChild(htmlMacroMarker, htmlMacroBlock);
 
-            // Execute the Macro transformation
-            transformation.transform(htmlMacroMarker, context.getTransformationContext());
-
-            // Restore context XDOM to its previous state
-            htmlMacroMarker.getParent().replaceChild(htmlMacroBlock, htmlMacroMarker);
+            try {
+                // Execute the Macro transformation
+                transformation.transform(htmlMacroMarker, context.getTransformationContext());
+            } finally {
+                // Restore context XDOM to its previous state
+                htmlMacroMarker.getParent().replaceChild(htmlMacroBlock, htmlMacroMarker);
+            }
 
             // Render the whole parsed content as a XHTML string
             WikiPrinter printer = new DefaultWikiPrinter();
