@@ -1,0 +1,2 @@
+org.xwiki.rendering.internal.rendering.html5.HTML5Renderer
+org.xwiki.rendering.internal.rendering.html5.HTML5RendererFactory

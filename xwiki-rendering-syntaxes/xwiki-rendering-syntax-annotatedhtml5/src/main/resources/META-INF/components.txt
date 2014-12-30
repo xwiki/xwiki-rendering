@@ -1,0 +1,3 @@
+org.xwiki.rendering.internal.renderer.html5.AnnotatedHTM5LBlockRenderer
+org.xwiki.rendering.internal.renderer.html5.AnnotatedHTML5Renderer
+org.xwiki.rendering.internal.renderer.html5.AnnotatedHTML5RendererFactory

@@ -32,6 +32,13 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 public class Syntax
 {
+    /**
+     * HTML5 syntax.
+     *
+     * @since 6.4M3
+     */
+    public static final Syntax HTML_5_0 = new Syntax(SyntaxType.HTML, "5.0");
+
     public static final Syntax XHTML_1_0 = new Syntax(SyntaxType.XHTML, "1.0");
 
     public static final Syntax HTML_4_01 = new Syntax(SyntaxType.HTML, "4.01");
@@ -100,6 +107,12 @@ public class Syntax
      * and wiki syntax.
      */
     public static final Syntax ANNOTATED_XHTML_1_0 = new Syntax(SyntaxType.ANNOTATED_XHTML, "1.0");
+
+    /**
+     * This is HTML5 with annotations (comments) in order to allow round tripping between for example the WYSIWYG editor
+     * and wiki syntax.
+     */
+    public static final Syntax ANNOTATED_HTML_5_0 = new Syntax(SyntaxType.ANNOTATED_HTML, "5.0");
 
     private SyntaxType type;
 

@@ -59,6 +59,8 @@ public class SyntaxType
 
     public static final SyntaxType ANNOTATED_XHTML = register("annotatedxhtml", "Annotated XHTML");
 
+    public static final SyntaxType ANNOTATED_HTML = register("annotatedhtml", "Annotated HTML");
+
     public static final SyntaxType HTML = register("html", "HTML");
 
     public static final SyntaxType PLAIN = register("plain", "Plain");
