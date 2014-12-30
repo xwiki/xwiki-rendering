@@ -36,7 +36,7 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 @Component
 @Named("annotatedhtml/5.0")
 @Singleton
-public class AnnotatedHTM5LBlockRenderer extends AbstractBlockRenderer
+public class AnnotatedHTML5BlockRenderer extends AbstractBlockRenderer
 {
     /**
      * Factory to create Annotated HTML5 Print Renderers.
