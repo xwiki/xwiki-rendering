@@ -69,38 +69,17 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
     @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
-        switch (format) {
-            case BOLD:
-                getXHTMLWikiPrinter().printXMLStartElement(ELEM_STRONG);
-                break;
-            case ITALIC:
-                getXHTMLWikiPrinter().printXMLStartElement(ELEM_EM);
-                break;
-            case STRIKEDOUT:
-                getXHTMLWikiPrinter().printXMLStartElement(ELEM_DEL);
-                break;
-            case UNDERLINED:
-                getXHTMLWikiPrinter().printXMLStartElement(ELEM_INS);
-                break;
-            case SUPERSCRIPT:
-                getXHTMLWikiPrinter().printXMLStartElement(ELEM_SUP);
-                break;
-            case SUBSCRIPT:
-                getXHTMLWikiPrinter().printXMLStartElement(ELEM_SUB);
-                break;
-            case MONOSPACE:
-                Map<String, String> attributes = new HashMap<>();
-                attributes.putAll(parameters);
-                attributes.put("class", "monospace");
-                getXHTMLWikiPrinter().printXMLStartElement(ELEM_SPAN, attributes);
-                break;
-            case NONE:
-            default:
-                break;
+        // Right now, the only difference with the super class is about the "monospace" format
+        if (format == Format.MONOSPACE) {
+            Map<String, String> attributes = new HashMap<>();
+            attributes.putAll(parameters);
+            attributes.put("class", "monospace");
+            getXHTMLWikiPrinter().printXMLStartElement(ELEM_SPAN, attributes);
+        } else {
+            // Call the super class
+            super.beginFormat(format, parameters);
         }
-        if (!parameters.isEmpty()) {
-            getXHTMLWikiPrinter().printXMLStartElement(ELEM_SPAN, parameters);
-        }
+
     }
 
     @Override
@@ -109,31 +88,12 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
         if (!parameters.isEmpty()) {
             getXHTMLWikiPrinter().printXMLEndElement(ELEM_SPAN);
         }
-        switch (format) {
-            case BOLD:
-                getXHTMLWikiPrinter().printXMLEndElement(ELEM_STRONG);
-                break;
-            case ITALIC:
-                getXHTMLWikiPrinter().printXMLEndElement(ELEM_EM);
-                break;
-            case STRIKEDOUT:
-                getXHTMLWikiPrinter().printXMLEndElement(ELEM_DEL);
-                break;
-            case UNDERLINED:
-                getXHTMLWikiPrinter().printXMLEndElement(ELEM_INS);
-                break;
-            case SUPERSCRIPT:
-                getXHTMLWikiPrinter().printXMLEndElement(ELEM_SUP);
-                break;
-            case SUBSCRIPT:
-                getXHTMLWikiPrinter().printXMLEndElement(ELEM_SUB);
-                break;
-            case MONOSPACE:
-                getXHTMLWikiPrinter().printXMLEndElement(ELEM_SPAN);
-                break;
-            case NONE:
-            default:
-                break;
+        // Right now, the only difference with the super class is about the "monospace" format
+        if (format == Format.MONOSPACE) {
+            getXHTMLWikiPrinter().printXMLEndElement(ELEM_SPAN);
+        } else {
+            // Call the super class, with an empty parameters map to avoid closing the span element twice
+            super.endFormat(format, new HashMap<String, String>());
         }
     }
 }
