@@ -75,6 +75,7 @@ public interface RenderingContext extends Cloneable
     /**
      * @return the syntax of the renderer that is going to be used, can be null if the renderer is unknown or if blocks
      *         are not being rendered (for example if the Rendering is used for parsing content)
+     * @since 6.2M1
      */
     Syntax getTargetSyntax();
 }
