@@ -225,6 +225,12 @@
           -->
           <ignored>
             <!-- Remove the following ignores after we release the current version as final -->
+            <difference>
+               <differenceType>7012</differenceType>
+               <className>org/xwiki/rendering/macro/MacroContentParser</className>
+               <method>org.xwiki.rendering.block.XDOM parse(java.lang.String, org.xwiki.rendering.transformation.MacroTransformationContext, boolean, org.xwiki.rendering.listener.MetaData, boolean)</method>
+               <justification>Needed to make sure transformations are executed with the right metadata</justification>
+             </difference>
           </ignored>
           <excludes>
             <exclude>**/internal/**</exclude>
