@@ -79,9 +79,16 @@ public class DefaultMacroContentParser implements MacroContentParser
     public XDOM parse(String content, MacroTransformationContext macroContext, boolean transform, boolean inline)
         throws MacroExecutionException
     {
+        return parse(content, macroContext, transform, null, inline);
+    }
+
+    @Override
+    public XDOM parse(String content, MacroTransformationContext macroContext, boolean transform, MetaData metadata,
+        boolean inline) throws MacroExecutionException
+    {
         // If the content is empty return an empty list
         if (StringUtils.isEmpty(content)) {
-            return new XDOM(Collections.<Block>emptyList());
+            return new XDOM(Collections.<Block>emptyList(), metadata != null ? metadata : MetaData.EMPTY);
         }
 
         Syntax syntax = getCurrentSyntax(macroContext);
@@ -93,6 +100,10 @@ public class DefaultMacroContentParser implements MacroContentParser
 
         try {
             XDOM result = getSyntaxParser(syntax).parse(new StringReader(content));
+
+            if (metadata != null) {
+                result.getMetaData().addMetaData(metadata);
+            }
 
             if (transform && macroContext.getTransformation() != null) {
                 TransformationContext txContext = new TransformationContext(result, syntax);
