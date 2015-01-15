@@ -21,6 +21,7 @@ package org.xwiki.rendering.macro;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
