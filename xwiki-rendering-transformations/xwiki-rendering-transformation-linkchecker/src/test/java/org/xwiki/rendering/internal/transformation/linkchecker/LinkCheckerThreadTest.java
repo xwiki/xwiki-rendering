@@ -64,7 +64,7 @@ public class LinkCheckerThreadTest
     {
         LinkCheckerThreadInitializer initializer = mock(LinkCheckerThreadInitializer.class);
         Provider<List<LinkCheckerThreadInitializer>> initializersProvider =
-            this.componentManager.getInstance(new DefaultParameterizedType(null, Provider.class,
+            this.componentManager.registerMockComponent(new DefaultParameterizedType(null, Provider.class,
                 new DefaultParameterizedType(null, List.class, LinkCheckerThreadInitializer.class)));
 
         when(initializersProvider.get()).thenReturn(Arrays.asList(initializer));
