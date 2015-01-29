@@ -159,7 +159,7 @@ public class DefaultRenderingContext implements MutableRenderingContext
     public void push(Transformation transformation, XDOM xdom, Syntax syntax, String id, boolean restricted,
         Syntax targetSyntax)
     {
-        Deque<Context> stack = getContextstack(true);
+        Deque<Context> stack = getContextStack(true);
         if (stack != null) {
             stack.push(new Context(transformation, xdom, syntax, id, restricted, targetSyntax));
         }
@@ -168,7 +168,7 @@ public class DefaultRenderingContext implements MutableRenderingContext
     @Override
     public void pop()
     {
-        Deque<Context> stack = getContextstack(false);
+        Deque<Context> stack = getContextStack(false);
         if (stack != null) {
             stack.pop();
         }
@@ -187,7 +187,7 @@ public class DefaultRenderingContext implements MutableRenderingContext
     }
 
     @SuppressWarnings("unchecked")
-    private Deque<Context> getContextstack(boolean create)
+    private Deque<Context> getContextStack(boolean create)
     {
         ExecutionContext context = this.execution.getContext();
 
@@ -195,7 +195,7 @@ public class DefaultRenderingContext implements MutableRenderingContext
             Deque<Context> stack = (Deque<Context>) context.getProperty(EXECUTION_CONTEXT_KEY);
 
             if (stack == null && create) {
-                stack = new ArrayDeque<Context>();
+                stack = new ArrayDeque<>();
                 context.setProperty(EXECUTION_CONTEXT_KEY, stack);
             }
 
@@ -207,7 +207,7 @@ public class DefaultRenderingContext implements MutableRenderingContext
 
     protected Context peek()
     {
-        Deque<Context> stack = getContextstack(false);
+        Deque<Context> stack = getContextStack(false);
         return (stack != null && !stack.isEmpty()) ? stack.peek() : NULL_CONTEXT;
     }
 
