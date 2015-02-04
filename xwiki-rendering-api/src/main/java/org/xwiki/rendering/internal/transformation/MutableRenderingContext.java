@@ -79,4 +79,11 @@ public interface MutableRenderingContext extends RenderingContext
      * @param block the block current being processed by the transformation.
      */
     void setCurrentBlock(Block block);
+
+    /**
+     * Set the target syntax.
+     * 
+     * @param targetSyntax the target syntax
+     */
+    void setTargetSyntax(Syntax targetSyntax);
 }

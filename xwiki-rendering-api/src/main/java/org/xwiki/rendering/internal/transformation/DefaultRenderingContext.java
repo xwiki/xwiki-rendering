@@ -98,7 +98,7 @@ public class DefaultRenderingContext implements MutableRenderingContext
         /**
          * The syntax of the renderer.
          */
-        private final Syntax targetSyntax;
+        private Syntax targetSyntax;
 
         /**
          * Create a null context.
@@ -260,5 +260,14 @@ public class DefaultRenderingContext implements MutableRenderingContext
     public Syntax getTargetSyntax()
     {
         return peek().targetSyntax;
+    }
+
+    @Override
+    public void setTargetSyntax(Syntax targetSyntax)
+    {
+        Context context = peek();
+        if (context != null && context != NULL_CONTEXT) {
+            context.targetSyntax = targetSyntax;
+        }
     }
 }
