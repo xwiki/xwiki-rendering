@@ -30,10 +30,12 @@ import java.util.regex.Pattern;
 
 import javax.inject.Provider;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.component.util.ReflectionUtils;
+import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerThreadInitializer;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationConfiguration;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
@@ -55,6 +57,13 @@ public class LinkCheckerThreadTest
     @Rule
     public MockitoComponentMockingRule<DefaultLinkCheckerThread> componentManager =
         new MockitoComponentMockingRule<DefaultLinkCheckerThread>(DefaultLinkCheckerThread.class);
+
+    @Before
+    public void setUp() throws Exception
+    {
+        // Register a mock ObservationManager for simulating event sending
+        this.componentManager.registerMockComponent(ObservationManager.class);
+    }
 
     /**
      * Just verify that we can register a LinkCheckerThreadInitializer and it'll be called.
