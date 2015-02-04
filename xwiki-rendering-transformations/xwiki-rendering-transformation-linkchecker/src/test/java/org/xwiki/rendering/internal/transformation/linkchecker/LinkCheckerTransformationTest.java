@@ -66,6 +66,13 @@ public class LinkCheckerTransformationTest
     @Rule
     public MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
 
+    @Before
+    public void setUp() throws Exception
+    {
+        // Register a mock ObservationManager for simulating event sending
+        this.componentManager.registerMockComponent(ObservationManager.class);
+    }
+
     @After
     public void cleanUp() throws Exception
     {
