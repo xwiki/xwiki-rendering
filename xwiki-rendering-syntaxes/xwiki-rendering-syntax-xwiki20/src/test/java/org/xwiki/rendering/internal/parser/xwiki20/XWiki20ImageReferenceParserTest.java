@@ -19,13 +19,24 @@
  */
 package org.xwiki.rendering.internal.parser.xwiki20;
 
-import org.junit.Assert;
+import javax.inject.Provider;
+
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.component.util.DefaultParameterizedType;
+import org.xwiki.rendering.internal.parser.reference.type.URLResourceReferenceTypeParser;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.wiki.WikiModel;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.test.annotation.BeforeComponent;
+import org.xwiki.test.annotation.ComponentList;
+import org.xwiki.test.mockito.MockitoComponentManagerRule;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link XWiki20ImageReferenceParser}.
@@ -33,17 +44,32 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
  * @version $Id$
  * @since 2.5RC1
  */
-public class XWiki20ImageReferenceParserTest extends AbstractComponentTestCase
+@ComponentList({
+    XWiki20ImageReferenceParser.class,
+    URLResourceReferenceTypeParser.class
+})
+public class XWiki20ImageReferenceParserTest
 {
+    @Rule
+    public MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
+
     private ResourceReferenceParser parser;
 
-    @Override
-    protected void registerComponents() throws Exception
+    @BeforeComponent
+    public void setUpComponents() throws Exception
     {
-        // Create a Mock WikiModel implementation so that the link parser works in wiki mode
-        registerMockComponent(WikiModel.class);
+        // Create a Mock WikiModel implementation so that the image parser works in wiki mode
+        this.componentManager.registerMockComponent(WikiModel.class);
 
-        this.parser = getComponentManager().getInstance(ResourceReferenceParser.class, "xwiki/2.0/image");
+        Provider<ComponentManager> contextComponentManagerProvider = this.componentManager.registerMockComponent(
+            new DefaultParameterizedType(null, Provider.class, ComponentManager.class), "context");
+        when(contextComponentManagerProvider.get()).thenReturn(this.componentManager);
+    }
+
+    @Before
+    public void setUp() throws Exception
+    {
+        this.parser = this.componentManager.getInstance(ResourceReferenceParser.class, "xwiki/2.0/image");
     }
 
     @Test
@@ -51,19 +77,19 @@ public class XWiki20ImageReferenceParserTest extends AbstractComponentTestCase
     {
         // Verify that non-typed image referencing an attachment works.
         ResourceReference reference = this.parser.parse("wiki:space.page@filename");
-        Assert.assertEquals(ResourceType.ATTACHMENT, reference.getType());
-        Assert.assertEquals("wiki:space.page@filename", reference.getReference());
-        Assert.assertEquals("Typed = [false] Type = [attach] Reference = [wiki:space.page@filename]",
+        assertEquals(ResourceType.ATTACHMENT, reference.getType());
+        assertEquals("wiki:space.page@filename", reference.getReference());
+        assertEquals("Typed = [false] Type = [attach] Reference = [wiki:space.page@filename]",
             reference.toString());
-        Assert.assertFalse(reference.isTyped());
+        assertFalse(reference.isTyped());
 
         // Verify that non-typed image referencing a URL works.
         reference = this.parser.parse("http://server/path/to/image");
-        Assert.assertEquals(ResourceType.URL, reference.getType());
-        Assert.assertEquals("http://server/path/to/image", reference.getReference());
-        Assert.assertEquals("Typed = [false] Type = [url] Reference = [http://server/path/to/image]",
+        assertEquals(ResourceType.URL, reference.getType());
+        assertEquals("http://server/path/to/image", reference.getReference());
+        assertEquals("Typed = [false] Type = [url] Reference = [http://server/path/to/image]",
             reference.toString());
-        Assert.assertFalse(reference.isTyped());
+        assertFalse(reference.isTyped());
 
     }
 
@@ -72,10 +98,10 @@ public class XWiki20ImageReferenceParserTest extends AbstractComponentTestCase
     {
         // Verify that "attach:" prefix isn't taken into account in XWiki Syntax 2.0.
         ResourceReference reference = this.parser.parse("attach:wiki:space.page@filename");
-        Assert.assertEquals(ResourceType.ATTACHMENT, reference.getType());
-        Assert.assertEquals("attach:wiki:space.page@filename", reference.getReference());
-        Assert.assertFalse(reference.isTyped());
-        Assert.assertEquals("Typed = [false] Type = [attach] Reference = [attach:wiki:space.page@filename]",
+        assertEquals(ResourceType.ATTACHMENT, reference.getType());
+        assertEquals("attach:wiki:space.page@filename", reference.getReference());
+        assertFalse(reference.isTyped());
+        assertEquals("Typed = [false] Type = [attach] Reference = [attach:wiki:space.page@filename]",
             reference.toString());
     }
 }
