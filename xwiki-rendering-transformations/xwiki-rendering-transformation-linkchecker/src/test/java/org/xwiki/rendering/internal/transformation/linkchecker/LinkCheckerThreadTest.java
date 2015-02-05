@@ -19,6 +19,13 @@
  */
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,20 +37,15 @@ import java.util.regex.Pattern;
 
 import javax.inject.Provider;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.component.util.ReflectionUtils;
-import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerThreadInitializer;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationConfiguration;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for {@link DefaultLinkCheckerThread}. Note that the Link Checker Thread is also tested indirectly by
@@ -57,13 +59,6 @@ public class LinkCheckerThreadTest
     @Rule
     public MockitoComponentMockingRule<DefaultLinkCheckerThread> componentManager =
         new MockitoComponentMockingRule<DefaultLinkCheckerThread>(DefaultLinkCheckerThread.class);
-
-    @Before
-    public void setUp() throws Exception
-    {
-        // Register a mock ObservationManager for simulating event sending
-        this.componentManager.registerMockComponent(ObservationManager.class);
-    }
 
     /**
      * Just verify that we can register a LinkCheckerThreadInitializer and it'll be called.
