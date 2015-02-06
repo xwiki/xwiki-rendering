@@ -36,6 +36,8 @@
     <!-- Skip checkstyle checks for now since aligning WikiModel code base to the XWiki coding style is going to take
          some time and this module is temporary anyway. -->
     <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
+    <!-- TODO: Remove once the tests have been fixed to not output anything to the console! -->
+    <xwiki.surefire.captureconsole.skip>true</xwiki.surefire.captureconsole.skip>
   </properties>
   <dependencies>
     <!-- For parsing the CSS from the style attribute. -->
@@ -90,14 +92,6 @@
             <!-- Exclude *.dtd files since they're not under XWiki's license headers -->
             <exclude>**/*.dtd</exclude>
           </excludes>
-        </configuration>
-      </plugin>
-      <!-- TODO: Remove once the tests have been fixed to not output anything to the console! -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <properties combine.self="override"/>
         </configuration>
       </plugin>
     </plugins>
