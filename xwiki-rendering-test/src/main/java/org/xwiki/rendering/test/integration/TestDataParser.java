@@ -64,10 +64,7 @@ public class TestDataParser
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith(".")) {
                     if (line.startsWith(".#")) {
-                        // Ignore comments and print it to the stdout if it's a todo.
-                        if (line.toLowerCase().contains("todo")) {
-                            System.out.println(line);
-                        }
+                        // Ignore comments
                     } else if (line.startsWith(".streaming")) {
                         data.streaming = true;
                     } else if (line.startsWith(".runTransformations")) {
