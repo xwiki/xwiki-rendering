@@ -21,7 +21,7 @@ package org.xwiki.rendering.listener.reference;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,9 +66,9 @@ public class ResourceReference implements Cloneable
     private ResourceType type;
 
     /**
-     * @see #getParameter(String)
+     * @see #getParameter(String).
      */
-    private Map<String, String> parameters = new HashMap<String, String>();
+    private Map<String, String> parameters = new LinkedHashMap<>();
 
     /**
      * @param reference see {@link #getReference()}
@@ -213,7 +213,8 @@ public class ResourceReference implements Cloneable
     }
 
     /**
-     * @return the collections of parameters, see {@link #getParameter(String)}
+     * @return the collections of parameters, see {@link #getParameter(String)}. Returns parameters in the same order
+     *         they were added.
      */
     public Map<String, String> getParameters()
     {
