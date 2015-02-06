@@ -125,7 +125,7 @@ public class LinkCheckerTransformationTest
         // Set some state in the Link State Manager to verify that if an item that is on the queue is the same as one
         // already process not long ago, it's not processed again.
         LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
-        Map<String, LinkState> contentReferences = new HashMap<String, LinkState>();
+        Map<String, LinkState> contentReferences = new HashMap<>();
         long initialTime = System.currentTimeMillis();
         contentReferences.put("default", new LinkState(200, initialTime));
         linkStateManager.getLinkStates().put("http://ok", contentReferences);
@@ -137,8 +137,7 @@ public class LinkCheckerTransformationTest
         transformAndWait(input, linkStateManager, 2);
 
         // Verify we can access the link states through the Script Service
-        LinkCheckerScriptService service =
-            (LinkCheckerScriptService) this.componentManager.getInstance(ScriptService.class, "linkchecker");
+        LinkCheckerScriptService service = this.componentManager.getInstance(ScriptService.class, "linkchecker");
         Map<String, Map<String, LinkState>> states = service.getLinkStates();
 
         LinkState state1 = states.get("http://ok").get("default");
@@ -166,7 +165,7 @@ public class LinkCheckerTransformationTest
         // Set some state in the Link State Manager to verify that if an item that is on the queue is the same as one
         // already process not long ago, it's not processed again.
         LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
-        Map<String, LinkState> contentReferences = new HashMap<String, LinkState>();
+        Map<String, LinkState> contentReferences = new HashMap<>();
         long initialTime = System.currentTimeMillis();
         contentReferences.put("default", new LinkState(404, initialTime));
         linkStateManager.getLinkStates().put("http://ok", contentReferences);

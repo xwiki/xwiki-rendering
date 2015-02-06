@@ -26,7 +26,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +59,7 @@ public class LinkCheckerThreadTest
 {
     @Rule
     public MockitoComponentMockingRule<DefaultLinkCheckerThread> componentManager =
-        new MockitoComponentMockingRule<DefaultLinkCheckerThread>(DefaultLinkCheckerThread.class);
+        new MockitoComponentMockingRule<>(DefaultLinkCheckerThread.class);
 
     @Before
     public void setUp() throws Exception
@@ -80,9 +79,9 @@ public class LinkCheckerThreadTest
             this.componentManager.registerMockComponent(new DefaultParameterizedType(null, Provider.class,
                 new DefaultParameterizedType(null, List.class, LinkCheckerThreadInitializer.class)));
 
-        when(initializersProvider.get()).thenReturn(Arrays.asList(initializer));
+        when(initializersProvider.get()).thenReturn(Collections.singletonList(initializer));
 
-        Queue<LinkQueueItem> queue = new ConcurrentLinkedQueue<LinkQueueItem>();
+        Queue<LinkQueueItem> queue = new ConcurrentLinkedQueue<>();
 
         DefaultLinkCheckerThread thread = this.componentManager.getComponentUnderTest();
         ReflectionUtils.setFieldValue(thread, "shouldStop", true);
@@ -99,17 +98,17 @@ public class LinkCheckerThreadTest
             this.componentManager.getInstance(LinkCheckerTransformationConfiguration.class);
         when(configuration.getCheckTimeout()).thenReturn(3600000L);
         when(configuration.getExcludedReferencePatterns()).thenReturn(
-            Arrays.asList(Pattern.compile(".*:excludedspace\\.excludedpage")));
+            Collections.singletonList(Pattern.compile(".*:excludedspace\\.excludedpage")));
 
         HTTPChecker httpChecker = this.componentManager.getInstance(HTTPChecker.class);
         when(httpChecker.check("linkreference1")).thenReturn(200);
         when(httpChecker.check("linkreference2")).thenReturn(200);
 
         LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
-        Map<String, Map<String, LinkState>> states = new HashMap<String, Map<String, LinkState>>();
+        Map<String, Map<String, LinkState>> states = new HashMap<>();
         when(linkStateManager.getLinkStates()).thenReturn(states);
 
-        Queue<LinkQueueItem> queue = new ConcurrentLinkedQueue<LinkQueueItem>();
+        Queue<LinkQueueItem> queue = new ConcurrentLinkedQueue<>();
         queue.add(new LinkQueueItem("linkreference1", "excludedwiki:excludedspace.excludedpage",
             Collections.<String, Object>emptyMap()));
         queue.add(new LinkQueueItem("linkreference2", "someotherpage", Collections.<String, Object>emptyMap()));
