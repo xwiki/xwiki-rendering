@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,13 +33,18 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
 
+import javax.inject.Provider;
+
 import org.junit.Rule;
 import org.junit.Test;
+import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.component.util.ReflectionUtils;
+import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerThreadInitializer;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationConfiguration;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
+import org.xwiki.test.annotation.BeforeComponent;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
 /**
@@ -53,6 +59,17 @@ public class LinkCheckerThreadTest
     @Rule
     public MockitoComponentMockingRule<DefaultLinkCheckerThread> componentManager =
         new MockitoComponentMockingRule<>(DefaultLinkCheckerThread.class);
+
+    private Provider<ObservationManager> observationManagerProvider;
+
+    @BeforeComponent
+    public void setUpComponents() throws Exception
+    {
+        ObservationManager observationManager = mock(ObservationManager.class);
+        this.observationManagerProvider = this.componentManager.registerMockComponent(
+             new DefaultParameterizedType(null, Provider.class, ObservationManager.class));
+        when(this.observationManagerProvider.get()).thenReturn(observationManager);
+    }
 
     /**
      * Just verify that we can register a LinkCheckerThreadInitializer and it'll be called.
@@ -110,5 +127,26 @@ public class LinkCheckerThreadTest
         assertEquals(1, states.size());
         assertNull(states.get("linkreference1"));
         assertNotNull(states.get("linkreference2"));
+    }
+
+    @Test
+    public void sendEventWhenNoObservationManager() throws Exception
+    {
+        HTTPChecker httpChecker = this.componentManager.getInstance(HTTPChecker.class);
+        when(httpChecker.check("linkreference")).thenReturn(404);
+
+        Queue<LinkQueueItem> queue = new ConcurrentLinkedQueue<>();
+        queue.add(new LinkQueueItem("linkreference", "someref", Collections.<String, Object>emptyMap()));
+
+        DefaultLinkCheckerThread thread = this.componentManager.getComponentUnderTest();
+        ReflectionUtils.setFieldValue(thread, "linkQueue", queue);
+
+        when(this.observationManagerProvider.get()).thenThrow(new RuntimeException("error"));
+
+        thread.processLinkQueue();
+
+        verify(this.componentManager.getMockedLogger()).warn(
+            "The Invalid URL Event for URL [{}] wasn't sent as no Observation Manager Component was found",
+            "linkreference");
     }
 }

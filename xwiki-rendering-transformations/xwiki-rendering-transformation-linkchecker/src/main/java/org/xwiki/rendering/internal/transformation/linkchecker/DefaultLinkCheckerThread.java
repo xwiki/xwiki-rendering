@@ -224,9 +224,13 @@ public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCh
     private void sendEvent(String url, Map<String, Object> source)
     {
         // Dynamically look for an Observation Manager and only send the event if one can be found.
-        ObservationManager observationManager = this.observationManagerProvider.get();
-        if (observationManager != null) {
+        try {
+            ObservationManager observationManager = this.observationManagerProvider.get();
             observationManager.notify(new InvalidURLEvent(url), source);
+        } catch (Exception e) {
+            // Failed to find an Observation Manager, continnue, but log a warning since it's not really normal
+            this.logger.warn("The Invalid URL Event for URL [{}] wasn't sent as no Observation Manager Component was "
+                + "found", url);
         }
     }
 }
