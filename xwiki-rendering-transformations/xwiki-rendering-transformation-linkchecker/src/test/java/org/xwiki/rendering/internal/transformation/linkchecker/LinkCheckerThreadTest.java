@@ -145,8 +145,7 @@ public class LinkCheckerThreadTest
 
         thread.processLinkQueue();
 
-        verify(this.componentManager.getMockedLogger()).warn(
-            "The Invalid URL Event for URL [{}] wasn't sent as no Observation Manager Component was found",
-            "linkreference");
+        verify(this.componentManager.getMockedLogger()).warn("The Invalid URL Event for URL [{}] (source [{}]) wasn't "
+            + "sent as no Observation Manager Component was found", "linkreference", "someref");
     }
 }

@@ -54,6 +54,11 @@ import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCheckerThread
 {
+    private static final String EVENT_DATA_SOURCE = "source";
+    private static final String EVENT_DATA_URL = "url";
+    private static final String EVENT_DATA_STATE = "state";
+    private static final String EVENT_DATA_CONTEXTDATA = "contextData";
+
     @Inject
     private Logger logger;
 
@@ -206,12 +211,12 @@ public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCh
 
         // If there's an error, then send an Observation Event so that anyone interested can listen to it.
         if (responseCode < 200 || responseCode > 299) {
-            Map<String, Object> eventSource = new HashMap<>();
-            eventSource.put("url", queueItem.getLinkReference());
-            eventSource.put("source", queueItem.getContentReference());
-            eventSource.put("state", state);
-            eventSource.put("contextData", queueItem.getContextData());
-            sendEvent(queueItem.getLinkReference(), eventSource);
+            Map<String, Object> eventData = new HashMap<>();
+            eventData.put(EVENT_DATA_URL, queueItem.getLinkReference());
+            eventData.put(EVENT_DATA_SOURCE, queueItem.getContentReference());
+            eventData.put(EVENT_DATA_STATE, state);
+            eventData.put(EVENT_DATA_CONTEXTDATA, queueItem.getContextData());
+            sendEvent(queueItem.getLinkReference(), eventData);
         }
     }
 
@@ -219,18 +224,18 @@ public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCh
      * Send an {@link InvalidURLEvent} event.
      *
      * @param url the failing URL
-     * @param source the Map containing data (link url, link source reference, state object)
+     * @param data the Map containing data (link url, link source reference, state object)
      */
-    private void sendEvent(String url, Map<String, Object> source)
+    private void sendEvent(String url, Map<String, Object> data)
     {
         // Dynamically look for an Observation Manager and only send the event if one can be found.
         try {
             ObservationManager observationManager = this.observationManagerProvider.get();
-            observationManager.notify(new InvalidURLEvent(url), source);
+            observationManager.notify(new InvalidURLEvent(url), data);
         } catch (Exception e) {
             // Failed to find an Observation Manager, continnue, but log a warning since it's not really normal
-            this.logger.warn("The Invalid URL Event for URL [{}] wasn't sent as no Observation Manager Component was "
-                + "found", url);
+            this.logger.warn("The Invalid URL Event for URL [{}] (source [{}]) wasn't sent as no Observation Manager "
+                + "Component was found", url, data.get(EVENT_DATA_SOURCE));
         }
     }
 }
