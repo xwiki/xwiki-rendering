@@ -198,7 +198,7 @@ public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCh
         Map<String, LinkState> contentReferences =
             this.linkStateManager.getLinkStates().get(queueItem.getLinkReference());
         if (contentReferences == null) {
-            contentReferences = new ConcurrentHashMap<String, LinkState>();
+            contentReferences = new ConcurrentHashMap<>();
         }
         LinkState state = new LinkState(responseCode, System.currentTimeMillis(), queueItem.getContextData());
         contentReferences.put(queueItem.getContentReference(), state);
@@ -206,7 +206,7 @@ public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCh
 
         // If there's an error, then send an Observation Event so that anyone interested can listen to it.
         if (responseCode < 200 || responseCode > 299) {
-            Map<String, Object> eventSource = new HashMap<String, Object>();
+            Map<String, Object> eventSource = new HashMap<>();
             eventSource.put("url", queueItem.getLinkReference());
             eventSource.put("source", queueItem.getContentReference());
             eventSource.put("state", state);

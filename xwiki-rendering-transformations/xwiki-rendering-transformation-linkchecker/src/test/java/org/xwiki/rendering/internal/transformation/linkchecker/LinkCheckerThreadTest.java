@@ -22,26 +22,19 @@ package org.xwiki.rendering.internal.transformation.linkchecker;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
 
-import javax.inject.Provider;
-
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.component.util.ReflectionUtils;
-import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerThreadInitializer;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationConfiguration;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
@@ -61,30 +54,22 @@ public class LinkCheckerThreadTest
     public MockitoComponentMockingRule<DefaultLinkCheckerThread> componentManager =
         new MockitoComponentMockingRule<>(DefaultLinkCheckerThread.class);
 
-    @Before
-    public void setUp() throws Exception
-    {
-        // Register a mock ObservationManager for simulating event sending
-        this.componentManager.registerMockComponent(ObservationManager.class);
-    }
-
     /**
      * Just verify that we can register a LinkCheckerThreadInitializer and it'll be called.
      */
     @Test
     public void runWithInitializer() throws Exception
     {
-        LinkCheckerThreadInitializer initializer = mock(LinkCheckerThreadInitializer.class);
-        Provider<List<LinkCheckerThreadInitializer>> initializersProvider =
-            this.componentManager.registerMockComponent(new DefaultParameterizedType(null, Provider.class,
-                new DefaultParameterizedType(null, List.class, LinkCheckerThreadInitializer.class)));
-
-        when(initializersProvider.get()).thenReturn(Collections.singletonList(initializer));
+        LinkCheckerThreadInitializer initializer =
+            this.componentManager.registerMockComponent(LinkCheckerThreadInitializer.class);
 
         Queue<LinkQueueItem> queue = new ConcurrentLinkedQueue<>();
 
         DefaultLinkCheckerThread thread = this.componentManager.getComponentUnderTest();
+
+        // Make sure the thread is stopped quickly
         ReflectionUtils.setFieldValue(thread, "shouldStop", true);
+
         thread.run(queue);
 
         // This is the test, we verify that the registered Link Checker Initializer is called.
