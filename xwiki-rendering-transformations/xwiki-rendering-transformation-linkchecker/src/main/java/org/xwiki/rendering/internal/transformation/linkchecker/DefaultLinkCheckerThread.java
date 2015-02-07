@@ -111,7 +111,7 @@ public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCh
             initializer.initialize();
         }
 
-        do {
+        while (!this.shouldStop) {
             try {
                 processLinkQueue();
                 Thread.sleep(300L);
@@ -120,7 +120,7 @@ public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCh
                 this.logger.error("Link checker Thread was stopped due to some problem", e);
                 break;
             }
-        } while (!this.shouldStop);
+        }
     }
 
     /**
