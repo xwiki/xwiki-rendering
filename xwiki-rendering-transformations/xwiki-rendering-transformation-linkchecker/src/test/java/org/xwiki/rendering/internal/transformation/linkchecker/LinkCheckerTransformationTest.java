@@ -27,7 +27,6 @@ import java.util.Map;
 import org.junit.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.MetaData;
@@ -278,11 +277,8 @@ public class LinkCheckerTransformationTest
     @Test
     public void transformWithAntiFloodKickingIn() throws Exception
     {
-        // Sets a mock Checker Thread that does nothing since we only want to check the anti flood mechanism here
         LinkCheckerTransformation transformation =
             this.componentManager.getInstance(Transformation.class, "linkchecker");
-        LinkCheckerThread checkerThread = mock(LinkCheckerThread.class);
-        ReflectionUtils.setFieldValue(transformation, "checkerThread", checkerThread);
 
         StringBuilder input = new StringBuilder();
         for (int i = 0; i < LinkCheckerTransformation.MAX_LINKS_IN_QUEUE + 1; i++) {
