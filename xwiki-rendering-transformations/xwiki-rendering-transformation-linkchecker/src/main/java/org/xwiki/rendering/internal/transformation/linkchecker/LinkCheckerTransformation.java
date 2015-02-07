@@ -78,7 +78,7 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
      * The link queue that the checker thread will use to check links. We use a separate checker thread and a queue
      * in order to have good performance so that this transformation doesn't slow down the rendering of content.
      */
-    private Queue<LinkQueueItem> linkQueue = new ConcurrentLinkedQueue<LinkQueueItem>();
+    private Queue<LinkQueueItem> linkQueue = new ConcurrentLinkedQueue<>();
 
     /**
      * Start a Thread in charge of reading links to check from the Checking queue and checking them.
@@ -158,7 +158,7 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
             Map<String, Object> contextData =
                 linkContextDataProvider.getContextData(linkReference, contentReference);
             if (linkContextData == null) {
-                linkContextData = new LinkedHashMap<String, Object>(contextData.size());
+                linkContextData = new LinkedHashMap<>(contextData.size());
             }
             linkContextData.putAll(contextData);
         }
