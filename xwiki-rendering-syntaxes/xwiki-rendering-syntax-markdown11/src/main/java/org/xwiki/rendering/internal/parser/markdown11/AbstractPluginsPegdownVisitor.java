@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.parser.markdown11;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -111,5 +112,105 @@ public abstract class AbstractPluginsPegdownVisitor extends AbstractTablePegdown
     public void visit(InlineHtmlNode inlineHtmlNode)
     {
         getListener().onRawText(inlineHtmlNode.getText(), Syntax.XHTML_1_0);
+    }
+
+    @Override
+    public void visit(WikiLinkNode wikiLinkNode)
+    {
+        String label = "";
+        String link = "";
+        String parametersString= "";
+
+        String[] separated = wikiLinkNode.getText().split("(?<!\\\\)(?:\\\\\\\\)*\\|");
+
+
+        for(int i=0; i<separated.length; i++)
+        {
+            String s = separated[i];
+            s = s.replace("\\|", "|");
+
+            if(i == 0)
+            {
+                label = s;
+            }
+            else if(i == 1)
+            {
+                link = s;
+            }
+            else
+            {
+                parametersString = s;
+                break;
+            }
+        }
+
+        Map<String,String> parameters = this.parametersStringToMap(parametersString);
+
+        ResourceReference reference = this.linkResourceReferenceParser.parse(link);
+        getListener().beginLink(reference, false, parameters);
+
+        try {
+            // WrappingListener filterListener = new SomeCustomFilterListener();
+            // filterListener.setWrappedListener(getListener());
+            filterListener = getListener();
+            this.markdownStreamParser.parse(new StringReader(label), filterListener);
+        } catch (ParseException e) {
+            throw new RuntimeException(String.format("Error parsing content [%s]", label), e);
+        }
+
+        getListener().endLink(reference, false, parameters);
+    }
+
+    private  Map<String,String> parametersStringToMap(String parametersString)
+    {
+        Map<String,String> parameters = new HashMap<String, String>();
+
+        String key = "";
+        String value = "";
+
+        boolean beginValueByComa = false;
+        boolean isKeyParsing = true;
+
+        for(int i = 0; i<parametersString.length(); i++) {
+            char c = parametersString.charAt(i);
+
+            if(isKeyParsing) {
+                if(c == '=') {
+                    isKeyParsing = false;
+                }
+                else {
+                    key += c;
+                }
+            }
+            else {
+                if(c == ' ' && beginValueByComa == false ) {
+                    isKeyParsing = true;
+                    if(value != "") {
+                        value = value.trim();
+                        parameters.put(key,value);
+                        value = "";
+                        key = "";
+                    }
+                }
+                else {
+                    if(c == '"' && value == "") {
+                        beginValueByComa = true;
+                    }
+                    else if(c == '"' && beginValueByComa == true && value.endsWith("\\") == false) {
+                        beginValueByComa = false;
+                        if(i == (parametersString.length()-1)) {
+                            value = value.trim();
+                            parameters.put(key,value);
+                            value = "";
+                            key = "";
+                        }
+                    }
+                    else {
+                        value += c;
+                    }
+                }
+            }
+        }
+        return parameters;
     }
 }
