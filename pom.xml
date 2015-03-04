@@ -178,6 +178,8 @@
             <exclude>**/*.inout.xml</exclude>
             <!-- Exclude Rendering Test framework test data file -->
             <exclude>**/ctstest/type/test/test1.inout.xml</exclude>
+            <!-- l10n doesn't put the license header on the generated translation files. -->
+            <exclude>**/ApplicationResources_*.properties</exclude>
           </excludes>
         </configuration>
       </plugin>
