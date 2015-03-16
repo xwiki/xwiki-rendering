@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.renderer;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -28,7 +29,8 @@ import org.xwiki.rendering.xml.internal.renderer.AbstractRenderer;
 /**
  * @version $Id$
  */
-@Component("xdom+xml/1.0")
+@Component
+@Named("xdom+xml/1.0")
 @Singleton
 public class XDOMXMLRenderer extends AbstractRenderer
 {

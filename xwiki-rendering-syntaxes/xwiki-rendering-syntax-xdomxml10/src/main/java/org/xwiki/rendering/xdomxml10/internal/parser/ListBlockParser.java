@@ -22,13 +22,16 @@ package org.xwiki.rendering.xdomxml10.internal.parser;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.inject.Named;
+
 import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.ListTypeConverter;
 
-@Component("list")
+@Component
+@Named("list")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class ListBlockParser extends DefaultBlockParser
 {

@@ -22,12 +22,15 @@ package org.xwiki.rendering.xdomxml10.internal.parser;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.inject.Named;
+
 import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
-@Component("verbatim")
+@Component
+@Named("verbatim")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class VerbatimBlockParser extends DefaultBlockParser
 {

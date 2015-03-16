@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
@@ -31,7 +32,8 @@ import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 
-@Component("rawtext")
+@Component
+@Named("rawtext")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class RawTextBlockParser extends DefaultBlockParser
 {
