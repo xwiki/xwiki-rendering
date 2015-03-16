@@ -28,7 +28,8 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.HeaderLevelConverter;
 
-@Component("header")
+@Component
+@Named("header")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class HeaderBlockParser extends DefaultBlockParser
 {

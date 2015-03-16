@@ -27,7 +27,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
-@Component("macro")
+@Component
+@Named("macro")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class MacroBlockParser extends DefaultBlockParser
 {

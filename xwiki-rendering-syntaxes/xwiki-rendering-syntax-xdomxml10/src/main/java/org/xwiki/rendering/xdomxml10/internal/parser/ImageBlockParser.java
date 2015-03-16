@@ -29,7 +29,8 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.xdomxml10.internal.parser.parameter.ResourceReferenceParser;
 
-@Component("image")
+@Component
+@Named("image")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class ImageBlockParser extends DefaultBlockParser
 {

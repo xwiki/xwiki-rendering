@@ -27,7 +27,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
-@Component("macromarker")
+@Component
+@Named("macromarker")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class MacroMarkerBlockParser extends DefaultBlockParser
 {

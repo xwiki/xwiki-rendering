@@ -34,7 +34,8 @@ import org.xwiki.rendering.xml.internal.renderer.AbstractRenderer;
  * @version $Id$
  * @since 3.3M1
  */
-@Component("xdom+xml/current")
+@Component
+@Named("xdom+xml/current")
 @Singleton
 public class XDOMXMLRenderer extends AbstractRenderer
 {

@@ -27,7 +27,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
-@Component("id")
+@Component
+@Named("id")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class IdBlockParser extends DefaultBlockParser
 {

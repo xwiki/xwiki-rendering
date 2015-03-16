@@ -31,7 +31,8 @@ import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 
-@Component("rawtext")
+@Component
+@Named("rawtext")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class RawTextBlockParser extends DefaultBlockParser
 {

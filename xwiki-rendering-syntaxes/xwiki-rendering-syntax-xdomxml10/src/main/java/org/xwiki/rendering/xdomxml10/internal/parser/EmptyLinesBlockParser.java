@@ -27,7 +27,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
-@Component("emptylines")
+@Component
+@Named("emptylines")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class EmptyLinesBlockParser extends DefaultBlockParser
 {

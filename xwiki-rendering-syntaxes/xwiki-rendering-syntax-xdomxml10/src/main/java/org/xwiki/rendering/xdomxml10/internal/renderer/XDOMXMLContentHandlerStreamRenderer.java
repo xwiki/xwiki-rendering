@@ -29,7 +29,8 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xml.internal.renderer.AbstractChainingContentHandlerStreamRenderer;
 
-@Component("xdom+xml/1.0")
+@Component
+@Named("xdom+xml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class XDOMXMLContentHandlerStreamRenderer extends AbstractChainingContentHandlerStreamRenderer implements
     Initializable
