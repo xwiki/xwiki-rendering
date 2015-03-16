@@ -22,12 +22,15 @@ package org.xwiki.rendering.xdomxml10.internal.parser;
 import java.util.Collections;
 import java.util.Set;
 
+import javax.inject.Named;
+
 import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
-@Component("emptylines")
+@Component
+@Named("emptylines")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class EmptyLinesBlockParser extends DefaultBlockParser
 {

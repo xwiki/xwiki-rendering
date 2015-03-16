@@ -20,6 +20,7 @@
 package org.xwiki.rendering.xdomxml10.internal.parser;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.dom4j.io.SAXContentHandler;
 import org.xml.sax.Attributes;
@@ -35,7 +36,8 @@ import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xdomxml10.internal.XDOMXMLConstants;
 
-@Component("xdom+xml/1.0")
+@Component
+@Named("xdom+xml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements ContentHandlerStreamParser
 {

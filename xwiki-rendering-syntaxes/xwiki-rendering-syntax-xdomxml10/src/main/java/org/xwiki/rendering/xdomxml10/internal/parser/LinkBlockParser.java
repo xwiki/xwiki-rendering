@@ -22,6 +22,8 @@ package org.xwiki.rendering.xdomxml10.internal.parser;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.inject.Named;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
@@ -29,7 +31,8 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.xdomxml10.internal.parser.parameter.ResourceReferenceParser;
 
-@Component("link")
+@Component
+@Named("link")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class LinkBlockParser extends DefaultBlockParser
 {

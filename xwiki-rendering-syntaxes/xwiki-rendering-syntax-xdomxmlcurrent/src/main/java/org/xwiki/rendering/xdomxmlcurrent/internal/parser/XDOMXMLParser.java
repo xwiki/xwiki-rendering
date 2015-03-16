@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.xdomxmlcurrent.internal.parser;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -31,7 +32,8 @@ import org.xwiki.rendering.xml.internal.parser.AbstractParser;
  * @version $Id$
  * @since 3.3M1
  */
-@Component("xdom+xml/current")
+@Component
+@Named("xdom+xml/current")
 @Singleton
 public class XDOMXMLParser extends AbstractParser
 {

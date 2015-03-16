@@ -20,6 +20,7 @@
 package org.xwiki.rendering.xdomxmlcurrent.internal.parser;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -39,7 +40,8 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 3.3M1
  */
-@Component("xdom+xml/current")
+@Component
+@Named("xdom+xml/current")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class XDOMXMLContentHandlerStreamParser implements ContentHandlerStreamParser
 {
