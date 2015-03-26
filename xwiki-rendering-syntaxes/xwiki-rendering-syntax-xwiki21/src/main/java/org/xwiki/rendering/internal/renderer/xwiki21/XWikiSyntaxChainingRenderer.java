@@ -51,8 +51,8 @@ public class XWikiSyntaxChainingRenderer
      * @since 2.5RC1
      */
     @Override
-    protected XWikiSyntaxResourceRenderer
-    createXWikiSyntaxLinkRenderer(ListenerChain listenerChain, ResourceReferenceSerializer linkReferenceSerializer)
+    protected XWikiSyntaxResourceRenderer createXWikiSyntaxLinkRenderer(ListenerChain listenerChain,
+        ResourceReferenceSerializer linkReferenceSerializer)
     {
         return new XWikiSyntaxResourceRenderer((XWikiSyntaxListenerChain) listenerChain, linkReferenceSerializer);
     }
@@ -63,8 +63,8 @@ public class XWikiSyntaxChainingRenderer
      * @since 2.5RC1
      */
     @Override
-    protected XWikiSyntaxResourceRenderer
-    createXWikiSyntaxImageRenderer(ListenerChain listenerChain, ResourceReferenceSerializer imageReferenceSerializer)
+    protected XWikiSyntaxResourceRenderer createXWikiSyntaxImageRenderer(ListenerChain listenerChain,
+        ResourceReferenceSerializer imageReferenceSerializer)
     {
         return new XWikiSyntaxResourceRenderer((XWikiSyntaxListenerChain) listenerChain, imageReferenceSerializer);
     }
