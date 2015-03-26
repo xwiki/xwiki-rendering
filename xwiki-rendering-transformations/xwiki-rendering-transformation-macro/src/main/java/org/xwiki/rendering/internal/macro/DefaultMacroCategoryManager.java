@@ -81,14 +81,14 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
     public Set<String> getMacroCategories(final Syntax syntax) throws MacroLookupException
     {
         Set<String> categories = getMacroIdsByCategory(new MacroMatcher()
-        {
-            @Override
-            public boolean match(MacroId macroId)
             {
-                // True if the macroId has no syntax or if it has one it has to match the passed syntax
-                return syntax == null || macroId.getSyntax() == null || macroId.getSyntax() == syntax;
-            }
-        }).keySet();
+                @Override
+                public boolean match(MacroId macroId)
+                {
+                    // True if the macroId has no syntax or if it has one it has to match the passed syntax
+                    return syntax == null || macroId.getSyntax() == null || macroId.getSyntax() == syntax;
+                }
+            }).keySet();
         return Collections.unmodifiableSet(categories);
     }
 
@@ -102,14 +102,14 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
     public Set<MacroId> getMacroIds(String category, final Syntax syntax) throws MacroLookupException
     {
         Set<MacroId> macros = getMacroIdsByCategory(new MacroMatcher()
-        {
-            @Override
-            public boolean match(MacroId macroId)
             {
-                // True if the macroId has no syntax or if it has one it has to match the passed syntax
-                return syntax == null || macroId.getSyntax() == null || macroId.getSyntax().equals(syntax);
-            }
-        }).get(category);
+                @Override
+                public boolean match(MacroId macroId)
+                {
+                    // True if the macroId has no syntax or if it has one it has to match the passed syntax
+                    return syntax == null || macroId.getSyntax() == null || macroId.getSyntax().equals(syntax);
+                }
+            }).get(category);
         return (null != macros) ? Collections.unmodifiableSet(macros) : Collections.<MacroId>emptySet();
     }
 
