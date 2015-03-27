@@ -152,7 +152,13 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
             public TagContext getParent()
             {
-                return fParent;
+                // If my parent is not handled, I want it to be fully ignored, so I will go up the tree until I found
+                // a handled parent, however I should not reach the root.
+                if (fParent.fHandler == null && fParent.fParent.fName != null) {
+                    return fParent.getParent();
+                } else {
+                    return fParent;
+                }
             }
 
             public WikiScannerContext getScannerContext()

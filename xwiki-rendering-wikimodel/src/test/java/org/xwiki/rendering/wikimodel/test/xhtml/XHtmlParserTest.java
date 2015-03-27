@@ -597,4 +597,67 @@ public class XHtmlParserTest extends AbstractWikiParserTest
             "<html><p><a id=\"foo\">bar</a></p></html>",
             "<p></p>");
     }
+
+    /**
+     * Test that unsupported tags, like HTML5 ones, are simply ignored
+     * @throws WikiParserException
+     */
+    public void testUnsupportedTags() throws WikiParserException
+    {
+        test("<html>This is <unsupported>tags</unsupported> ignored</html>",
+            "<p>This is tags ignored</p>");
+
+        test("<html><dl><dt>term</dt><dd>definition<unsupported><dl><dt>term</dt><dd>definition</dd></dl></unsupported></dd></dl></html>",
+            "<dl>\n"
+                + "  <dt>term</dt>\n"
+                + "  <dd>definition<dl>\n"
+                + "  <dt>term</dt>\n"
+                + "  <dd>definition</dd>\n"
+                + "</dl>\n"
+                + "</dd>\n"
+                + "</dl>");
+
+        test(
+            "<html><ul><li>a<unsupported><ul><li>b</li></ul></unsupported></li></ul></html>",
+            ""
+                + "<ul>\n"
+                + "  <li>a<ul>\n"
+                + "  <li>b</li>\n"
+                + "</ul>\n"
+                + "</li>\n"
+                + "</ul>");
+
+        test(
+            "<html><blockquote>line1<unsupported><blockquote>line2<blockquote>line3</blockquote>"
+                + "line4</blockquote></unsupported></blockquote></html>",
+            "<blockquote>\nline1<blockquote>\nline2<blockquote>\nline3\n</blockquote>"
+                + "\n\nline4\n</blockquote>\n\n</blockquote>");
+    }
+
+    /**
+     * Test malformed constructs created by the HTML cleaner not supporting HTML5
+     * @throws WikiParserException
+     */
+    public void testUnsupportedHTML5Tags() throws WikiParserException
+    {
+        test(
+            "<html><p><section><p>test</p></section></p></html>",
+            "<p></p>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<p>test</p>\n"
+                + "</div>");
+        test(
+            "<html><p><header><h1>test</h1></header></p></html>",
+            "<p></p>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<h1>test</h1>\n"
+                + "</div>");
+
+        test(
+            "<html><p><header><h1>test</h1></header></p></html>",
+            "<p></p>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<h1>test</h1>\n"
+                + "</div>");
+    }
 }
