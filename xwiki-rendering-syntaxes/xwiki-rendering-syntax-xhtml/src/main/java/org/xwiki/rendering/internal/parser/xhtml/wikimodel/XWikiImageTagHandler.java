@@ -33,30 +33,30 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 1.7M2
  */
-public class XWikiImageTagHandler extends ImgTagHandler
+public class XWikiImageTagHandler extends ImgTagHandler implements XWikiWikiModelHandler
 {
     @Override
     public void initialize(TagStack stack)
     {
-        stack.setStackParameter("isInImage", false);
-        stack.setStackParameter("isFreeStandingImage", false);
-        stack.setStackParameter("imageParameters", WikiParameters.EMPTY);
+        stack.setStackParameter(IS_IN_IMAGE, false);
+        stack.setStackParameter(IS_FREE_STANDING_IMAGE, false);
+        stack.setStackParameter(IMAGE_PARAMETERS, WikiParameters.EMPTY);
     }
 
     @Override
     protected void begin(TagContext context)
     {
-        boolean isInImage = (Boolean) context.getTagStack().getStackParameter("isInImage");
+        boolean isInImage = (Boolean) context.getTagStack().getStackParameter(IS_IN_IMAGE);
 
         if (isInImage) {
             // Verify if it's a freestanding image uri and if so save the information so that we can get it in
             // XWikiCommentHandler.
             if (isFreeStandingReference(context)) {
-                context.getTagStack().setStackParameter("isFreeStandingImage", true);
+                context.getTagStack().setStackParameter(IS_FREE_STANDING_IMAGE, true);
             } else {
                 // Save the parameters set on the IMG element so that we can generate the correct image
                 // in the XWiki Comment handler.
-                context.getTagStack().setStackParameter("imageParameters",
+                context.getTagStack().setStackParameter(IMAGE_PARAMETERS,
                     removeMeaningfulParameters(context.getParams()));
             }
         } else {
@@ -67,7 +67,7 @@ public class XWikiImageTagHandler extends ImgTagHandler
     @Override
     protected void end(TagContext context)
     {
-        boolean isInImage = (Boolean) context.getTagStack().getStackParameter("isInImage");
+        boolean isInImage = (Boolean) context.getTagStack().getStackParameter(IS_IN_IMAGE);
 
         if (!isInImage) {
             WikiParameter src = context.getParams().getParameter("src");

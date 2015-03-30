@@ -30,7 +30,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 1.6RC1
  */
-public class XWikiHeaderTagHandler extends HeaderTagHandler
+public class XWikiHeaderTagHandler extends HeaderTagHandler implements XWikiWikiModelHandler
 {
     @Override
     protected void begin(TagContext context)

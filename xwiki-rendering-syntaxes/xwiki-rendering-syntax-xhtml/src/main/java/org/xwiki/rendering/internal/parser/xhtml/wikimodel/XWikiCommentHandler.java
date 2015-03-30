@@ -48,7 +48,7 @@ import org.xwiki.xml.XMLUtils;
  * @version $Id$
  * @since 1.7M1
  */
-public class XWikiCommentHandler extends CommentHandler
+public class XWikiCommentHandler extends CommentHandler implements XWikiWikiModelHandler
 {
     private XHTMLParser parser;
 
@@ -125,24 +125,25 @@ public class XWikiCommentHandler extends CommentHandler
 
         XWikiGeneratorListener xwikiListener = this.parser.createXWikiGeneratorListener(linkLabelRenderer, null);
 
-        stack.pushStackParameter("linkListener", xwikiListener);
+        stack.pushStackParameter(LINK_LISTENER, xwikiListener);
 
-        stack.pushStackParameter("isInLink", true);
-        stack.pushStackParameter("isFreeStandingLink", false);
-        stack.pushStackParameter("linkParameters", WikiParameters.EMPTY);
+        stack.pushStackParameter(IS_IN_LINK, true);
+        stack.pushStackParameter(IS_FREE_STANDING_LINK, false);
+        stack.pushStackParameter(LINK_PARAMETERS, WikiParameters.EMPTY);
 
         this.commentContentStack.push(content.substring("startwikilink:".length()));
     }
 
     private void handleLinkCommentStop(String content, TagStack stack)
     {
-        XWikiGeneratorListener xwikiListener = (XWikiGeneratorListener) stack.popStackParameter("linkListener");
+        XWikiGeneratorListener xwikiListener =
+            (XWikiGeneratorListener) stack.popStackParameter(LINK_LISTENER);
         PrintRenderer linkLabelRenderer = (PrintRenderer) xwikiListener.getListener();
 
         // Make sure to flush whatever the renderer implementation
         linkLabelRenderer.endDocument(MetaData.EMPTY);
 
-        boolean isFreeStandingLink = (Boolean) stack.getStackParameter("isFreeStandingLink");
+        boolean isFreeStandingLink = (Boolean) stack.getStackParameter(IS_FREE_STANDING_LINK);
 
         ResourceReference linkReference = this.xhtmlMarkerResourceReferenceParser.parse(this.commentContentStack.pop());
         WikiParameters linkParams = WikiParameters.EMPTY;
@@ -151,26 +152,26 @@ public class XWikiCommentHandler extends CommentHandler
             label = linkLabelRenderer.getPrinter().toString();
 
             // Add the Link reference parameters to the link parameters.
-            linkParams = (WikiParameters) stack.getStackParameter("linkParameters");
+            linkParams = (WikiParameters) stack.getStackParameter(LINK_PARAMETERS);
         }
 
         WikiReference wikiReference = new XWikiWikiReference(linkReference, label, linkParams, isFreeStandingLink);
         stack.getScannerContext().onReference(wikiReference);
 
-        stack.popStackParameter("isInLink");
-        stack.popStackParameter("isFreeStandingLink");
-        stack.popStackParameter("linkParameters");
+        stack.popStackParameter(IS_IN_LINK);
+        stack.popStackParameter(IS_FREE_STANDING_LINK);
+        stack.popStackParameter(LINK_PARAMETERS);
     }
 
     private void handleImageCommentStart(String content, TagStack stack)
     {
-        stack.setStackParameter("isInImage", true);
+        stack.setStackParameter(IS_IN_IMAGE, true);
         this.commentContentStack.push(content.substring("startimage:".length()));
     }
 
     private void handleImageCommentStop(String content, TagStack stack)
     {
-        boolean isFreeStandingImage = (Boolean) stack.getStackParameter("isFreeStandingImage");
+        boolean isFreeStandingImage = (Boolean) stack.getStackParameter(IS_FREE_STANDING_IMAGE);
 
         ResourceReference imageReference =
             this.xhtmlMarkerResourceReferenceParser.parse(this.commentContentStack.pop());
@@ -180,7 +181,7 @@ public class XWikiCommentHandler extends CommentHandler
             // Remove the ALT attribute if the content has the same value as the original image location
             // This is because the XHTML renderer automatically adds an ALT attribute since it is mandatory
             // in the XHTML specifications.
-            imageParams = (WikiParameters) stack.getStackParameter("imageParameters");
+            imageParams = (WikiParameters) stack.getStackParameter(IMAGE_PARAMETERS);
             WikiParameter alt = imageParams.getParameter("alt");
             if (alt != null && alt.getValue().equals(computeAltAttributeValue(imageReference))) {
                 imageParams = imageParams.remove("alt");
@@ -190,9 +191,9 @@ public class XWikiCommentHandler extends CommentHandler
         WikiReference reference = new XWikiWikiReference(imageReference, null, imageParams, isFreeStandingImage);
         stack.getScannerContext().onImage(reference);
 
-        stack.setStackParameter("isInImage", false);
-        stack.setStackParameter("isFreeStandingImage", false);
-        stack.setStackParameter("imageParameters", WikiParameters.EMPTY);
+        stack.setStackParameter(IS_IN_IMAGE, false);
+        stack.setStackParameter(IS_FREE_STANDING_IMAGE, false);
+        stack.setStackParameter(IMAGE_PARAMETERS, WikiParameters.EMPTY);
     }
 
     private String computeAltAttributeValue(ResourceReference reference)

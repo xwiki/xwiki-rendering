@@ -42,7 +42,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 1.7M1
  */
-public class XWikiReferenceTagHandler extends ReferenceTagHandler
+public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWikiWikiModelHandler
 {
     private WikiModelStreamParser parser;
 
@@ -62,18 +62,18 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
     @Override
     public void initialize(TagStack stack)
     {
-        stack.setStackParameter("isInLink", false);
-        stack.setStackParameter("isFreeStandingLink", false);
-        stack.setStackParameter("linkParameters", WikiParameters.EMPTY);
+        stack.setStackParameter(IS_IN_LINK, false);
+        stack.setStackParameter(IS_FREE_STANDING_LINK, false);
+        stack.setStackParameter(LINK_PARAMETERS, WikiParameters.EMPTY);
     }
 
     @Override
     protected void begin(TagContext context)
     {
-        boolean isInLink = (Boolean) context.getTagStack().getStackParameter("isInLink");
+        boolean isInLink = (Boolean) context.getTagStack().getStackParameter(IS_IN_LINK);
         if (isInLink) {
             XWikiGeneratorListener listener =
-                (XWikiGeneratorListener) context.getTagStack().getStackParameter("linkListener");
+                (XWikiGeneratorListener) context.getTagStack().getStackParameter(LINK_LISTENER);
             context.getTagStack().pushScannerContext(new WikiScannerContext(listener));
 
             // Ensure we simulate a new document being parsed
@@ -82,9 +82,9 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
             // Verify if it's a freestanding link and if so save the information so that we can get it in
             // XWikiCommentHandler.
             if (isFreeStandingReference(context)) {
-                context.getTagStack().setStackParameter("isFreeStandingLink", true);
+                context.getTagStack().setStackParameter(IS_FREE_STANDING_LINK, true);
             } else {
-                context.getTagStack().setStackParameter("linkParameters",
+                context.getTagStack().setStackParameter(LINK_PARAMETERS,
                     removeMeaningfulParameters(context.getParams()));
             }
 
@@ -124,7 +124,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler
     @Override
     protected void end(TagContext context)
     {
-        boolean isInLink = (Boolean) context.getTagStack().getStackParameter("isInLink");
+        boolean isInLink = (Boolean) context.getTagStack().getStackParameter(IS_IN_LINK);
         if (isInLink) {
             // Ensure we simulate a document parsing end
             context.getScannerContext().endDocument();

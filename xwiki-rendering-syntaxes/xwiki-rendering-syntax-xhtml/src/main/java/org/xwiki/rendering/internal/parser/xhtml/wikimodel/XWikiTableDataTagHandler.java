@@ -31,7 +31,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 2.4M1
  */
-public class XWikiTableDataTagHandler extends TableDataTagHandler
+public class XWikiTableDataTagHandler extends TableDataTagHandler implements XWikiWikiModelHandler
 {
     /**
      * Name of the th scope attribute.
