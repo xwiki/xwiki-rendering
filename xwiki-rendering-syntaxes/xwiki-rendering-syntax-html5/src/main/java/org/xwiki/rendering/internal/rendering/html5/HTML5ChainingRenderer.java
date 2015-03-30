@@ -36,19 +36,9 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
  */
 public class HTML5ChainingRenderer extends XHTMLChainingRenderer
 {
-    private static final String ELEM_STRONG = "strong";
-
-    private static final String ELEM_EM = "em";
-
-    private static final String ELEM_DEL = "del";
-
-    private static final String ELEM_INS = "ins";
-
-    private static final String ELEM_SUP = "sup";
-
-    private static final String ELEM_SUB = "sub";
-
     private static final String ELEM_SPAN = "span";
+
+    private static final String PROP_CLASS = "class";
 
     /**
      * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
@@ -73,7 +63,12 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
         if (format == Format.MONOSPACE) {
             Map<String, String> attributes = new HashMap<>();
             attributes.putAll(parameters);
-            attributes.put("class", "monospace");
+            String cssClass = "monospace";
+            // The element may already have a class
+            if (attributes.containsKey(PROP_CLASS)) {
+                cssClass = String.format("%s %s", cssClass, attributes.get(PROP_CLASS));
+            }
+            attributes.put(PROP_CLASS, cssClass);
             getXHTMLWikiPrinter().printXMLStartElement(ELEM_SPAN, attributes);
         } else {
             // Call the super class
@@ -90,7 +85,10 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
         }
         // Right now, the only difference with the super class is about the "monospace" format
         if (format == Format.MONOSPACE) {
-            getXHTMLWikiPrinter().printXMLEndElement(ELEM_SPAN);
+            if (parameters.isEmpty()) {
+                // if the parameters are not empty, the span element has already been closed
+                getXHTMLWikiPrinter().printXMLEndElement(ELEM_SPAN);
+            }
         } else {
             // Call the super class, with an empty parameters map to avoid closing the span element twice
             super.endFormat(format, new HashMap<String, String>());
