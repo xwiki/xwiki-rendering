@@ -35,7 +35,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 5.3M2
  */
-public class PlainTextBodyTagHandler extends TagHandler
+public class PlainTextBodyTagHandler extends TagHandler implements ConfluenceTagHandler
 {
     public PlainTextBodyTagHandler()
     {
@@ -51,7 +51,7 @@ public class PlainTextBodyTagHandler extends TagHandler
     @Override
     protected void end(TagContext context)
     {
-        ConfluenceMacro macro = (ConfluenceMacro) context.getTagStack().getStackParameter("confluence-container");
+        ConfluenceMacro macro = (ConfluenceMacro) context.getTagStack().getStackParameter(CONFLUENCE_CONTAINER);
 
         if (macro != null) {
             macro.content = context.getContent();

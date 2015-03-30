@@ -35,7 +35,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 5.3M2
  */
-public class PageTagHandler extends TagHandler
+public class PageTagHandler extends TagHandler implements ConfluenceTagHandler
 {
     public PageTagHandler()
     {
@@ -45,7 +45,7 @@ public class PageTagHandler extends TagHandler
     @Override
     protected void begin(TagContext context)
     {
-        Object container = context.getTagStack().getStackParameter("confluence-container");
+        Object container = context.getTagStack().getStackParameter(CONFLUENCE_CONTAINER);
 
         WikiParameter pageParameter = context.getParams().getParameter("ri:content-title");
         if (pageParameter != null && container instanceof PageContainer) {

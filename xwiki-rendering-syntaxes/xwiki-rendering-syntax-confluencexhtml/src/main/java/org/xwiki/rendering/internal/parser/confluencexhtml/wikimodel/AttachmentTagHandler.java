@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel;
 
+import org.xwiki.rendering.internal.parser.confluencexhtml.ConfluenceXHTMLParser;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
@@ -36,7 +37,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 5.3M2
  */
-public class AttachmentTagHandler extends TagHandler
+public class AttachmentTagHandler extends TagHandler implements ConfluenceTagHandler
 {
     public class ConfluenceAttachment implements UserContainer, PageContainer
     {
@@ -83,16 +84,16 @@ public class AttachmentTagHandler extends TagHandler
             attachment.filename = filenameParameter.getValue();
         }
 
-        context.getTagStack().pushStackParameter("confluence-container", attachment);
+        context.getTagStack().pushStackParameter(CONFLUENCE_CONTAINER, attachment);
     }
 
     @Override
     protected void end(TagContext context)
     {
         ConfluenceAttachment attachment =
-            (ConfluenceAttachment) context.getTagStack().popStackParameter("confluence-container");
+            (ConfluenceAttachment) context.getTagStack().popStackParameter(CONFLUENCE_CONTAINER);
 
-        Object container = context.getTagStack().getStackParameter("confluence-container");
+        Object container = context.getTagStack().getStackParameter(CONFLUENCE_CONTAINER);
 
         if (container instanceof AttachmentContainer) {
             ((AttachmentContainer) container).setAttachment(attachment);

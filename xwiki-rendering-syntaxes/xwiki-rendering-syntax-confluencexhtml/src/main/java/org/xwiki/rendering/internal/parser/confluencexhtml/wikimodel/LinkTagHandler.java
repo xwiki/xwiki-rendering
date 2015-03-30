@@ -50,7 +50,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 5.3M2
  */
-public class LinkTagHandler extends TagHandler
+public class LinkTagHandler extends TagHandler implements ConfluenceTagHandler
 {
     public LinkTagHandler()
     {
@@ -68,14 +68,14 @@ public class LinkTagHandler extends TagHandler
             link.setAnchor(anchorParameter.getValue());
         }
 
-        context.getTagStack().pushStackParameter("confluence-container", link);
+        context.getTagStack().pushStackParameter(CONFLUENCE_CONTAINER, link);
     }
 
     @Override
     protected void end(TagContext context)
     {
         ConfluenceLinkWikiReference link =
-            (ConfluenceLinkWikiReference) context.getTagStack().popStackParameter("confluence-container");
+            (ConfluenceLinkWikiReference) context.getTagStack().popStackParameter(CONFLUENCE_CONTAINER);
 
         context.getScannerContext().onReference(link);
     }

@@ -35,7 +35,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 5.3M2
  */
-public class ImageTagHandler extends TagHandler
+public class ImageTagHandler extends TagHandler implements ConfluenceTagHandler
 {
     public ImageTagHandler()
     {
@@ -47,14 +47,14 @@ public class ImageTagHandler extends TagHandler
     {
         ConfluenceImageWikiReference image = new ConfluenceImageWikiReference();
 
-        context.getTagStack().pushStackParameter("confluence-container", image);
+        context.getTagStack().pushStackParameter(CONFLUENCE_CONTAINER, image);
     }
 
     @Override
     protected void end(TagContext context)
     {
         ConfluenceImageWikiReference image =
-            (ConfluenceImageWikiReference) context.getTagStack().popStackParameter("confluence-container");
+            (ConfluenceImageWikiReference) context.getTagStack().popStackParameter(CONFLUENCE_CONTAINER);
 
         context.getScannerContext().onImage(image);
     }

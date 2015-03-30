@@ -38,13 +38,13 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 5.4M1
  */
-public class RichTextBodyTagHandler extends PreserveTagHandler
+public class RichTextBodyTagHandler extends PreserveTagHandler implements ConfluenceTagHandler
 {
 
     @Override
     protected void handlePreservedContent(TagContext context, String preservedContent)
     {
-        ConfluenceMacro macro = (ConfluenceMacro) context.getTagStack().getStackParameter("confluence-container");
+        ConfluenceMacro macro = (ConfluenceMacro) context.getTagStack().getStackParameter(CONFLUENCE_CONTAINER);
 
         if (macro != null) {
             macro.content = preservedContent;

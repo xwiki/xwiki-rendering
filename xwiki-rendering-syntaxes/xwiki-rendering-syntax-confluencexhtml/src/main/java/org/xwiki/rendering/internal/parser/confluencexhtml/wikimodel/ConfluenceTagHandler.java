@@ -17,39 +17,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+
 package org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel;
 
-import org.xwiki.rendering.wikimodel.WikiParameter;
-import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
-
 /**
- * Handles users.
- * <p>
- * Example:
- * <p>
- * {@code
- * <ri:user ri:username="admin" />
- * }
+ * Common interface of all confluence tag handlers.
  *
  * @version $Id$
- * @since 5.3M2
  */
-public class UserTagHandler extends TagHandler implements ConfluenceTagHandler
+public interface ConfluenceTagHandler
 {
-    public UserTagHandler()
-    {
-        super(false);
-    }
-
-    @Override
-    protected void begin(TagContext context)
-    {
-        Object container = context.getTagStack().getStackParameter(CONFLUENCE_CONTAINER);
-
-        WikiParameter usernameParameter = context.getParams().getParameter("ri:username");
-        if (usernameParameter != null && container instanceof UserContainer) {
-            ((UserContainer) container).setUser(usernameParameter.getValue());
-        }
-    }
+    /**
+     * Stack parameter key pointing to the current confluence container.
+     */
+    String CONFLUENCE_CONTAINER = "confluence-container";
 }

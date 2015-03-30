@@ -40,7 +40,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 5.3M2
  */
-public class MacroTagHandler extends TagHandler
+public class MacroTagHandler extends TagHandler implements ConfluenceTagHandler
 {
     public class ConfluenceMacro
     {
@@ -63,13 +63,13 @@ public class MacroTagHandler extends TagHandler
 
         macro.name = context.getParams().getParameter("ac:name").getValue();
 
-        context.getTagStack().pushStackParameter("confluence-container", macro);
+        context.getTagStack().pushStackParameter(CONFLUENCE_CONTAINER, macro);
     }
 
     @Override
     protected void end(TagContext context)
     {
-        ConfluenceMacro macro = (ConfluenceMacro) context.getTagStack().popStackParameter("confluence-container");
+        ConfluenceMacro macro = (ConfluenceMacro) context.getTagStack().popStackParameter(CONFLUENCE_CONTAINER);
 
         context.getScannerContext().onMacro(macro.name, macro.parameters, macro.content);
     }

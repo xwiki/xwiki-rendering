@@ -35,7 +35,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * @version $Id$
  * @since 5.3M2
  */
-public class SpaceTagHandler extends TagHandler
+public class SpaceTagHandler extends TagHandler implements ConfluenceTagHandler
 {
     public SpaceTagHandler()
     {
@@ -45,7 +45,7 @@ public class SpaceTagHandler extends TagHandler
     @Override
     protected void begin(TagContext context)
     {
-        Object container = context.getTagStack().getStackParameter("confluence-container");
+        Object container = context.getTagStack().getStackParameter(CONFLUENCE_CONTAINER);
 
         WikiParameter spaceParameter = context.getParams().getParameter("ri:space-key");
         if (spaceParameter != null && container instanceof SpaceContainer) {
