@@ -30,6 +30,16 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  */
 public class DivisionTagHandler extends BlockTagHandler
 {
+    public DivisionTagHandler()
+    {
+        super();
+    }
+
+    public DivisionTagHandler(String documentClass)
+    {
+        super(documentClass);
+    }
+
     @Override
     public boolean isBlockHandler(TagContext context)
     {

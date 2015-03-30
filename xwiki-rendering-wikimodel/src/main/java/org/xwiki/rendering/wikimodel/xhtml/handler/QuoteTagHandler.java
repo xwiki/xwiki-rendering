@@ -29,7 +29,7 @@ public class QuoteTagHandler extends TagHandler
 {
     public QuoteTagHandler()
     {
-        super(false, false, true);
+        super(true);
     }
 
     @Override

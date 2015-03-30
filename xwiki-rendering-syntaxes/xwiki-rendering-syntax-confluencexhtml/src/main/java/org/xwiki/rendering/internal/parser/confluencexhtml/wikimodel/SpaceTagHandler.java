@@ -39,7 +39,7 @@ public class SpaceTagHandler extends TagHandler
 {
     public SpaceTagHandler()
     {
-        super(false, false, false);
+        super(false);
     }
 
     @Override

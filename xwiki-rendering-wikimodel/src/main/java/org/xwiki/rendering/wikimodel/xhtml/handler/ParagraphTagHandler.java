@@ -29,7 +29,7 @@ public class ParagraphTagHandler extends TagHandler
 {
     public ParagraphTagHandler()
     {
-        super(false, true, true);
+        super(true);
     }
 
     @Override

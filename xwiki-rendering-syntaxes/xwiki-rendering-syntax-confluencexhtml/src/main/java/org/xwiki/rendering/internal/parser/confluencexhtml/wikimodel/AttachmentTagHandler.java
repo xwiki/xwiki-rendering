@@ -69,7 +69,7 @@ public class AttachmentTagHandler extends TagHandler
 
     public AttachmentTagHandler()
     {
-        super(false, false, false);
+        super(false);
     }
 
     @Override

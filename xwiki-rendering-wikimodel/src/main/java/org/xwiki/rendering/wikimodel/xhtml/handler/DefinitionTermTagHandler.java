@@ -29,7 +29,7 @@ public class DefinitionTermTagHandler extends ListItemTagHandler
 {
     public DefinitionTermTagHandler()
     {
-        super(false, false, true);
+        super(true);
     }
 
     @Override

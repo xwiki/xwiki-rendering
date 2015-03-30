@@ -29,7 +29,7 @@ public class ListTagHandler extends TagHandler
 {
     public ListTagHandler()
     {
-        super(false, true, false);
+        super(false);
     }
 
     @Override

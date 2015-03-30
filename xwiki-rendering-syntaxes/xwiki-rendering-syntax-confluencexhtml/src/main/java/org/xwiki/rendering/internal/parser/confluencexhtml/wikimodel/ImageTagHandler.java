@@ -39,7 +39,7 @@ public class ImageTagHandler extends TagHandler
 {
     public ImageTagHandler()
     {
-        super(false, false, false);
+        super(false);
     }
 
     @Override

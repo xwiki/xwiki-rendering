@@ -39,7 +39,7 @@ public class PlainTextBodyTagHandler extends TagHandler
 {
     public PlainTextBodyTagHandler()
     {
-        super(false, false, true);
+        super(true);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class UserTagHandler extends TagHandler
 {
     public UserTagHandler()
     {
-        super(false, false, false);
+        super(false);
     }
 
     @Override

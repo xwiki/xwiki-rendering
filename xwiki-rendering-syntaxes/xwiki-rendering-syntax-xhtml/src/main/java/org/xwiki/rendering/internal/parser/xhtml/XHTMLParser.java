@@ -32,7 +32,6 @@ import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiCommentHandler;
-import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiDivisionTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiHeaderTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiImageTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiReferenceTagHandler;
@@ -45,8 +44,10 @@ import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
+import org.xwiki.rendering.wiki.WikiModel;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
+import org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.xml.XMLReaderFactory;
 
@@ -138,7 +139,10 @@ public class XHTMLParser extends AbstractWikiModelParser
         handlers.put("a", new XWikiReferenceTagHandler(this, this.xmlRenderer));
         handlers.put("img", new XWikiImageTagHandler());
         handlers.put("span", new XWikiSpanTagHandler());
-        handlers.put("div", new XWikiDivisionTagHandler());
+        // Change the class value indicating that the division is an embedded document. We do this in order to be
+        // independent of WikiModel in what we expose to the outside world. Thus if one day we need to change to
+        // another implementation we won't be tied to WikiModel.
+        handlers.put("div", new DivisionTagHandler("xwiki-document"));
         handlers.put("th", new XWikiTableDataTagHandler());
 
         XhtmlParser parser = new XhtmlParser();

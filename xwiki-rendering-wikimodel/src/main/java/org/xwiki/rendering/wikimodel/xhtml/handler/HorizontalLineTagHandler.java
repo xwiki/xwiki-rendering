@@ -29,7 +29,7 @@ public class HorizontalLineTagHandler extends TagHandler
 {
     public HorizontalLineTagHandler()
     {
-        super(false, true, false);
+        super(false);
     }
 
     @Override

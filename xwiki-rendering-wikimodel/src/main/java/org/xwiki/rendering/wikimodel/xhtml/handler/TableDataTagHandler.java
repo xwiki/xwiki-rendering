@@ -29,7 +29,7 @@ public class TableDataTagHandler extends TagHandler
 {
     public TableDataTagHandler()
     {
-        super(true, false, true);
+        super(true);
     }
 
     @Override

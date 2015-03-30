@@ -38,7 +38,7 @@ public class PlainTextLinkBodyTagHandler extends TagHandler
 {
     public PlainTextLinkBodyTagHandler()
     {
-        super(false, false, true);
+        super(true);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class PageTagHandler extends TagHandler
 {
     public PageTagHandler()
     {
-        super(false, false, false);
+        super(false);
     }
 
     @Override

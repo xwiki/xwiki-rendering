@@ -31,7 +31,7 @@ public class PreserveTagHandler extends TagHandler
 {
     public PreserveTagHandler()
     {
-        super(false, true, true);
+        super(true);
     }
 
     @Override

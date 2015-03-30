@@ -42,7 +42,7 @@ public class URLTagHandler extends TagHandler
      */
     public URLTagHandler()
     {
-        super(false, false, false);
+        super(false);
     }
 
     @Override

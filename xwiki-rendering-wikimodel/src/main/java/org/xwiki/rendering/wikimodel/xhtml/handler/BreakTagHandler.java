@@ -32,7 +32,7 @@ public class BreakTagHandler extends TagHandler
 {
     public BreakTagHandler()
     {
-        super(false, false, false);
+        super(false);
     }
 
     @Override

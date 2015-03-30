@@ -67,12 +67,6 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.UnderlineTagHandler;
  */
 public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 {
-    protected String fDocumentSectionUri;
-
-    protected String fDocumentUri;
-
-    protected String fDocumentWikiProperties;
-
     private TagStack fStack;
 
     public XhtmlHandler(
@@ -116,10 +110,8 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
         handlers.put("h6", handler);
         handlers.put("hr", new HorizontalLineTagHandler());
         handlers.put("pre", new PreserveTagHandler());
-        handler = new ReferenceTagHandler();
-        handlers.put("a", handler);
-        handler = new ImgTagHandler();
-        handlers.put("img", handler);
+        handlers.put("a", new ReferenceTagHandler());
+        handlers.put("img", new ImgTagHandler());
         handler = new BoldTagHandler();
         handlers.put("strong", handler);
         handlers.put("b", handler);
@@ -181,21 +173,6 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
         fStack.endElement();
     }
 
-    protected String getHref(Attributes attributes)
-    {
-        String value = attributes.getValue("HREF");
-        if (value == null) {
-            value = attributes.getValue("href");
-        }
-        if (value == null) {
-            value = attributes.getValue("src");
-        }
-        if (value == null) {
-            value = attributes.getValue("SRC");
-        }
-        return value;
-    }
-
     /**
      * @see org.xml.sax.helpers.DefaultHandler#startDocument()
      */
@@ -217,7 +194,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
         Attributes attributes) throws SAXException
     {
         fStack.beginElement(
-            getLocalName(uri, localName, qName, false),
+            getLocalName(localName, qName, false),
             getParameters(attributes));
     }
 
@@ -261,7 +238,6 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
     }
 
     private String getLocalName(
-        String uri,
         String localName,
         String name,
         boolean upperCase)
@@ -276,8 +252,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
     {
         List<WikiParameter> params = new ArrayList<WikiParameter>();
         for (int i = 0; i < attributes.getLength(); i++) {
-            String key = getLocalName(attributes.getURI(i), attributes
-                .getQName(i), attributes.getLocalName(i), false);
+            String key = getLocalName(attributes.getQName(i), attributes.getLocalName(i), false);
             String value = attributes.getValue(i);
             WikiParameter param = new WikiParameter(key, value);
 

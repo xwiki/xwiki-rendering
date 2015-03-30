@@ -59,7 +59,7 @@ public abstract class AbstractFormatTagHandler extends TagHandler
 
     protected AbstractFormatTagHandler(WikiStyle style)
     {
-        super(false, false, true);
+        super(true);
 
         this.style = style;
     }

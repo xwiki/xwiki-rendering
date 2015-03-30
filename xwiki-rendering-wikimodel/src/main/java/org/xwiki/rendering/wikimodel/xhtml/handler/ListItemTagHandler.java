@@ -29,15 +29,13 @@ public class ListItemTagHandler extends TagHandler
 {
     public ListItemTagHandler()
     {
-        super(true, false, true);
+        super(true);
     }
 
     public ListItemTagHandler(
-        boolean documentContainer,
-        boolean requiresDocument,
         boolean contentContainer)
     {
-        super(documentContainer, requiresDocument, contentContainer);
+        super(contentContainer);
     }
 
     @Override

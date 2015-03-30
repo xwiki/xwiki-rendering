@@ -40,7 +40,7 @@ public class ParameterTagHandler extends TagHandler
 {
     public ParameterTagHandler()
     {
-        super(false, false, true);
+        super(true);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class HeaderTagHandler extends TagHandler
 {
     public HeaderTagHandler()
     {
-        super(false, true, true);
+        super(true);
     }
 
     @Override

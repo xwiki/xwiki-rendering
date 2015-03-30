@@ -34,7 +34,7 @@ public class ReferenceTagHandler extends TagHandler
 {
     public ReferenceTagHandler()
     {
-        super(false, false, true);
+        super(true);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class LinkTagHandler extends TagHandler
 {
     public LinkTagHandler()
     {
-        super(false, false, false);
+        super(false);
     }
 
     @Override

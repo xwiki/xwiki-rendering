@@ -53,7 +53,7 @@ public class MacroTagHandler extends TagHandler
 
     public MacroTagHandler()
     {
-        super(false, false, false);
+        super(false);
     }
 
     @Override

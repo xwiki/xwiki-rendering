@@ -38,24 +38,10 @@ public class TagHandler
     private final boolean fContentContainer;
 
     /**
-     * This flag shows if the current tag can be used as a container for embedded documents.
+     * @param contentContainer when false, text content is dropped.
      */
-    private final boolean fDocumentContainer;
-
-    /**
-     * This flag shows if the current tag should be created as a direct child of a document.
-     */
-    private final boolean fRequiresDocument;
-
-    /**
-     * @param documentContainer
-     * @param requiresDocument
-     * @param contentContainer
-     */
-    public TagHandler(boolean documentContainer, boolean requiresDocument, boolean contentContainer)
+    public TagHandler(boolean contentContainer)
     {
-        fDocumentContainer = documentContainer;
-        fRequiresDocument = requiresDocument;
         fContentContainer = contentContainer;
     }
 
@@ -106,16 +92,6 @@ public class TagHandler
     public boolean isContentContainer()
     {
         return fContentContainer;
-    }
-
-    public boolean isDocumentContainer()
-    {
-        return fDocumentContainer;
-    }
-
-    public boolean requiresDocument()
-    {
-        return fRequiresDocument;
     }
 
     public void setAccumulateContent(boolean accumulateContent)
