@@ -35,14 +35,11 @@ public class ListTagHandler extends TagHandler
     @Override
     public boolean isBlockHandler(TagContext context)
     {
+        TagContext parent = context.getParent();
         // A new list is considered a block element only if the parent is not a
         // list item since nested lists
         // are not new block elements
-        return !(context.getParent().getName().equals("li")
-            || context.getParent().getName().equals("dd") || context
-            .getParent()
-            .getName()
-            .equals("dt"));
+        return !(parent.isTag("li") || parent.isTag("dd") || parent.isTag("dt"));
     }
 
     @Override
@@ -61,10 +58,7 @@ public class ListTagHandler extends TagHandler
         // next element to close it
         // since the next element could be an implicit paragraph.
         // For example: <html><ul><li>item</li></ul>a</html>
-        StringBuffer listStyles = (StringBuffer) context
-            .getTagStack()
-            .getStackParameter("listStyles");
-        if (listStyles.length() == 0) {
+        if (context.getTagStack().isEndOfList()) {
             context.getScannerContext().endList();
         }
     }

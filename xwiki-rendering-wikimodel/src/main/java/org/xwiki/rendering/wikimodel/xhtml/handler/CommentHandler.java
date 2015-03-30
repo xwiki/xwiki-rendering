@@ -20,7 +20,6 @@
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 import org.xwiki.rendering.wikimodel.WikiParameter;
@@ -46,7 +45,7 @@ public class CommentHandler
         // Some **content**
         // --><p>Some <strong>content</strong></p><!--stopmacro-->
         if (content.startsWith("startmacro:")) {
-            if (!(Boolean) stack.getStackParameter("ignoreElements")) {
+            if (!stack.shouldIgnoreElements()) {
                 String macroName;
                 WikiParameters macroParams = WikiParameters.EMPTY;
                 String macroContent = null;
@@ -89,9 +88,7 @@ public class CommentHandler
                 // If we're inside a block element then issue an inline macro
                 // event
                 // otherwise issue a block macro event
-                Deque<Boolean> insideBlockElementsStack =
-                    (Deque<Boolean>) stack.getStackParameter("insideBlockElement");
-                if (!insideBlockElementsStack.isEmpty() && insideBlockElementsStack.peek()) {
+                if (stack.isInsideBlockElement()) {
                     stack.getScannerContext().onMacroInline(macroName, macroParams, macroContent);
                 } else {
                     TagHandler.sendEmptyLines(stack);
@@ -99,9 +96,9 @@ public class CommentHandler
                 }
             }
 
-            stack.pushStackParameter("ignoreElements", true);
+            stack.setIgnoreElements();
         } else if (content.startsWith("stopmacro")) {
-            stack.popStackParameter("ignoreElements");
+            stack.unsetIgnoreElements();
         }
     }
 }

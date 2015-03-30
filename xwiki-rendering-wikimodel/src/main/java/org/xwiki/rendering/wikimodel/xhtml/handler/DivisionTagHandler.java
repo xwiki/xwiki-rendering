@@ -20,7 +20,6 @@
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
@@ -29,21 +28,14 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * @version $Id$
  * @since 4.0M1
  */
-public class DivisionTagHandler extends TagHandler
+public class DivisionTagHandler extends BlockTagHandler
 {
-    public DivisionTagHandler()
-    {
-        super(true, false, true);
-    }
-
     @Override
     public boolean isBlockHandler(TagContext context)
     {
         WikiParameter param = context.getParams().getParameter("class");
         if (param != null) {
-            List<String> classes = Arrays.asList(param.getValue().split(" "));
-
-            if (classes.contains("wikimodel-emptyline")) {
+            if (Arrays.asList(param.getValue().split(" ")).contains("wikimodel-emptyline")) {
                 return true;
             }
         }
@@ -51,53 +43,21 @@ public class DivisionTagHandler extends TagHandler
         return false;
     }
 
-    /**
-     * @return the class used to indicate the division block is an embedded
-     *         document. Note that use a method instead of a static private
-     *         String field so that user code can override the class name.
-     */
-    protected String getDocumentClass()
-    {
-        return "wikimodel-document";
-    }
-
     @Override
     protected void begin(TagContext context)
     {
-        WikiParameter param = context.getParams().getParameter("class");
-        if (param != null) {
-            List<String> classes = Arrays.asList(param.getValue().split(" "));
-
-            // Check if we have a div meaning an empty line between block
-            if (classes.contains("wikimodel-emptyline")) {
-                int value = (Integer) context.getTagStack().getStackParameter(
-                    "emptyLinesCount");
-                value++;
-                context.getTagStack().setStackParameter(
-                    "emptyLinesCount",
-                    value);
-            } else {
-                // Consider that we're inside an embedded document
-                beginDocument(context, context.getParams());
-            }
+        if (!isBlockHandler(context)) {
+            super.begin(context);
         } else {
-            // Consider that we're inside an embedded document
-            beginDocument(context, context.getParams());
+            context.getTagStack().incrementEmptyLinesCount();
         }
     }
 
     @Override
     protected void end(TagContext context)
     {
-        WikiParameter param = context.getParams().getParameter("class");
-        if (param != null) {
-            List<String> classes = Arrays.asList(param.getValue().split(" "));
-
-            if (!classes.contains("wikimodel-emptyline")) {
-                endDocument(context);
-            }
-        } else {
-            endDocument(context);
+        if (!isBlockHandler(context)) {
+            super.end(context);
         }
     }
 }

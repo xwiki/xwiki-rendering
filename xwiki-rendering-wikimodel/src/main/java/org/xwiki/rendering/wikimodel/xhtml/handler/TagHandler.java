@@ -19,8 +19,6 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
-import java.util.Deque;
-
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
@@ -31,6 +29,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
  */
 public class TagHandler
 {
+
     private boolean fAccumulateContent;
 
     /**
@@ -66,25 +65,17 @@ public class TagHandler
 
     public void beginElement(XhtmlHandler.TagStack.TagContext context)
     {
-
-        Deque<Boolean> insideBlockElementsStack =
-            (Deque<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
-
         if (isBlockHandler(context)) {
             // If we're starting a block tag and we're in inline mode (ie inside
             // a block element) then start a nested document
             // and save the parent tag, see endElement().
-            if (!insideBlockElementsStack.isEmpty() && insideBlockElementsStack.peek()) {
+            if (context.getTagStack().isInsideBlockElement()) {
                 beginDocument(context);
 
-                context.getTagStack().setStackParameter("documentParent", context.getParent());
-
-                // Get the new inside block element state
-                insideBlockElementsStack =
-                    (Deque<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
+                context.getTagStack().setDocumentParent();
             }
 
-            insideBlockElementsStack.push(true);
+            context.getTagStack().setInsideBlockElement();
         }
 
         begin(context);
@@ -100,19 +91,15 @@ public class TagHandler
         // opened.
         // To verify this we check the current tag being closed and verify if
         // it's the one saved when the nested document was opened.
-        XhtmlHandler.TagStack.TagContext docParent =
-            (XhtmlHandler.TagStack.TagContext) context.getTagStack().getStackParameter("documentParent");
-        if (context == docParent) {
+        if (context == context.getTagStack().getDocumentParent()) {
             endDocument(context);
+            context.getTagStack().setInsideBlockElement();
         }
 
         end(context);
 
-        Deque<Boolean> insideBlockElementsStack =
-            (Deque<Boolean>) context.getTagStack().getStackParameter("insideBlockElement");
-
         if (isBlockHandler(context)) {
-            insideBlockElementsStack.pop();
+            context.getTagStack().unsetInsideBlockElement();
         }
     }
 
@@ -151,10 +138,10 @@ public class TagHandler
 
     public static void sendEmptyLines(TagStack stack)
     {
-        int lineCount = (Integer) stack.getStackParameter("emptyLinesCount");
+        int lineCount = stack.getEmptyLinesCount();
         if (lineCount > 0) {
             stack.getScannerContext().onEmptyLines(lineCount);
-            stack.setStackParameter("emptyLinesCount", 0);
+            stack.resetEmptyLinesCount();
         }
     }
 
@@ -185,13 +172,10 @@ public class TagHandler
             context.getScannerContext().beginDocument(params);
         }
 
-        Object ignoreElements = context.getTagStack().getStackParameter("ignoreElements");
-
         // Stack context parameters since we enter in a new document
         context.getTagStack().pushStackParameters();
 
-        // ignoreElements apply on embedded document
-        context.getTagStack().setStackParameter("ignoreElements", ignoreElements);
+        context.getTagStack().unsetInsideBlockElement();
     }
 
     protected void endDocument(XhtmlHandler.TagStack.TagContext context)

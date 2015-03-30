@@ -27,8 +27,6 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  */
 public class QuoteTagHandler extends TagHandler
 {
-    public static final String QUOTEDEPTH = "quoteDepth";
-
     public QuoteTagHandler()
     {
         super(false, false, true);
@@ -40,27 +38,25 @@ public class QuoteTagHandler extends TagHandler
         // A new blockquote is considered a block element only if the parent is
         // not a blockquote item since blockquotes
         // are not new block elements
-        return !(context.getParent().getName().equals("blockquote"));
+        return !(context.getParent().isTag("blockquote"));
     }
 
     @Override
     protected void begin(TagContext context)
     {
-        int quoteDepth = (Integer) context.getTagStack().getStackParameter(
-            QUOTEDEPTH);
+        int quoteDepth = context.getTagStack().getQuoteDepth();
         if (quoteDepth == 0) {
             context.getScannerContext().beginQuot(context.getParams());
         }
         quoteDepth++;
         context.getScannerContext().beginQuotLine(quoteDepth);
-        context.getTagStack().setStackParameter(QUOTEDEPTH, quoteDepth);
+        context.getTagStack().setQuoteDepth(quoteDepth);
     }
 
     @Override
     protected void end(TagContext context)
     {
-        int quoteDepth = (Integer) context.getTagStack().getStackParameter(
-            QUOTEDEPTH);
+        int quoteDepth = context.getTagStack().getQuoteDepth();
         quoteDepth--;
         if (quoteDepth < 0) {
             quoteDepth = 0;
@@ -69,6 +65,6 @@ public class QuoteTagHandler extends TagHandler
         if (quoteDepth == 0) {
             context.getScannerContext().endQuot();
         }
-        context.getTagStack().setStackParameter(QUOTEDEPTH, quoteDepth);
+        context.getTagStack().setQuoteDepth(quoteDepth);
     }
 }

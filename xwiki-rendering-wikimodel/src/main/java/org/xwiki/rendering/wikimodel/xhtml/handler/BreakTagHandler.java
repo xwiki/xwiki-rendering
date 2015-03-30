@@ -40,8 +40,7 @@ public class BreakTagHandler extends TagHandler
     {
         // If we're inside a quotation line then a BR must close the current
         // quotation line and start a new quotation line.
-        int quoteDepth = (Integer) context.getTagStack().getStackParameter(
-            QuoteTagHandler.QUOTEDEPTH);
+        int quoteDepth = context.getTagStack().getQuoteDepth();
         if (quoteDepth > 0) {
             context.getScannerContext().beginQuotLine(quoteDepth);
 

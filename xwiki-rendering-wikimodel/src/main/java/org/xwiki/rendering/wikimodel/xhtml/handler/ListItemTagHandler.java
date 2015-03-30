@@ -43,30 +43,19 @@ public class ListItemTagHandler extends TagHandler
     @Override
     public void begin(XhtmlHandler.TagStack.TagContext context)
     {
-        String markup = context.getParent().getName().equals("ol") ? "#" : "*";
+        String markup = context.getParent().isTag("ol") ? "#" : "*";
         begin(markup, context);
     }
 
     protected void begin(String markup, XhtmlHandler.TagStack.TagContext context)
     {
-        StringBuffer listStyles = (StringBuffer) context
-            .getTagStack()
-            .getStackParameter("listStyles");
-        listStyles.append(markup);
-        context.getScannerContext().beginListItem(listStyles.toString());
+        context.getScannerContext().beginListItem(context.getTagStack().pushListStyle(markup.charAt(0)));
     }
 
     @Override
     public void end(XhtmlHandler.TagStack.TagContext context)
     {
-        StringBuffer listStyles = (StringBuffer) context
-            .getTagStack()
-            .getStackParameter("listStyles");
-        // We should always have a length greater than 0 but we handle
-        // the case where the user has entered some badly formed HTML
-        if (listStyles.length() > 0) {
-            listStyles.setLength(listStyles.length() - 1);
-        }
+        context.getTagStack().popListStyle();
         // Note: Do not generate an endListItem() event since it'll be generated
         // automatically by the next element.
     }

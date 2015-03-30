@@ -17,38 +17,47 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
 
 /**
  * @version $Id$
- * @since 4.0M1
+ * @since 7.0RC1
  */
-public class HeaderTagHandler extends TagHandler
+public class BlockTagHandler extends TagHandler
 {
-    public HeaderTagHandler()
+    public BlockTagHandler()
     {
-        super(false, true, true);
+        super(true, false, true);
     }
 
     @Override
     public boolean isBlockHandler(TagContext context)
     {
-        return true;
+        return false;
+    }
+
+    /**
+     * @return the class used to indicate the division block is an embedded
+     *         document. Note that use a method instead of a static private
+     *         String field so that user code can override the class name.
+     */
+    protected String getDocumentClass()
+    {
+        return "wikimodel-document";
     }
 
     @Override
     protected void begin(TagContext context)
     {
-        int level = Integer.parseInt(context.getName().substring(1, 2));
-        sendEmptyLines(context);
-        context.getScannerContext().beginHeader(level, context.getParams());
+        beginDocument(context, context.getParams());
     }
 
     @Override
     protected void end(TagContext context)
     {
-        context.getScannerContext().endHeader();
+        endDocument(context);
     }
 }

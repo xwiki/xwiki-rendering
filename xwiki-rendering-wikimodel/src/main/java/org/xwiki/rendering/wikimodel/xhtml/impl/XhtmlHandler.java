@@ -77,17 +77,17 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
     {
         public class TagContext
         {
+            private final TagContext fParent;
+
+            private final String fName;
+
             private final WikiParameters fParameters;
 
-            private String fName;
+            private final TagStack fTagStack;
 
             private StringBuffer fContent;
 
-            public TagHandler fHandler;
-
-            private final TagContext fParent;
-
-            TagStack fTagStack;
+            private TagHandler fHandler;
 
             public TagContext(
                 TagContext parent,
@@ -95,7 +95,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
                 WikiParameters params,
                 TagStack tagStack)
             {
-                fName = name;
+                fName = (name != null) ? name.toLowerCase() : null;
                 fParent = parent;
                 fParameters = params;
                 fTagStack = tagStack;
@@ -136,8 +136,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
             public String getContent()
             {
-                return fContent != null ? WikiPageUtil.escapeXmlString(fContent
-                    .toString()) : "";
+                return fContent != null ? WikiPageUtil.escapeXmlString(fContent.toString()) : "";
             }
 
             public String getName()
@@ -163,8 +162,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
             public WikiScannerContext getScannerContext()
             {
-                return fScannerContext.isEmpty() ? null : fScannerContext
-                    .peek();
+                return fScannerContext.isEmpty() ? null : fScannerContext.peek();
             }
 
             public TagStack getTagStack()
@@ -179,20 +177,36 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
             public boolean isTag(String string)
             {
-                return string.equals(fName.toLowerCase());
+                return string.equals(fName);
             }
         }
+
+        private static final String QUOTE_DEPTH = "quoteDepth";
+        private static final String INSIDE_BLOCK_ELEMENT = "insideBlockElement";
+        private static final String LIST_STYLES = "listStyles";
+        private static final String DOCUMENT_PARENT = "documentParent";
 
         private Map<String, TagHandler> fMap = new HashMap<String, TagHandler>();
 
         private CommentHandler fCommentHandler;
 
-        /**
-         * Allow saving parameters. For example we save the number of br
-         * elements if we're outside of a block element so that we can emit an
-         * onEmptyLines event.
-         */
+        private TagContext fPeek;
+
+        private Deque<WikiScannerContext> fScannerContext = new ArrayDeque<WikiScannerContext>();
+
         private Deque<Map<String, Object>> fStackParameters = new ArrayDeque<Map<String, Object>>();
+
+        private boolean fIgnoreElements;
+        private int fEmptyLineCount;
+
+        public TagStack(WikiScannerContext context)
+        {
+            // init stack paramaters
+            pushStackParameters();
+
+            fScannerContext.push(context);
+            fCommentHandler = new CommentHandler();
+        }
 
         public void add(String tag, TagHandler handler)
         {
@@ -209,33 +223,19 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
             fCommentHandler = handler;
         }
 
-        private TagContext fPeek;
-
-        private Deque<WikiScannerContext> fScannerContext = new ArrayDeque<WikiScannerContext>();
-
-        public TagStack(WikiScannerContext context)
-        {
-            // init stack paramaters
-            pushStackParameters();
-
-            fScannerContext.push(context);
-            fCommentHandler = new CommentHandler();
-        }
-
         public void beginElement(String name, WikiParameters params)
         {
             fPeek = new TagContext(fPeek, name, params, this);
             name = fPeek.getName();
             TagHandler handler = fMap.get(name);
-            boolean ignoreElements = (Boolean) getStackParameter("ignoreElements");
-            if (!ignoreElements) {
+            if (!shouldIgnoreElements()) {
                 fPeek.beginElement(handler);
             }
         }
 
         public void endElement()
         {
-            boolean ignoreElements = (Boolean) getStackParameter("ignoreElements");
+            boolean ignoreElements = shouldIgnoreElements();
             if (!ignoreElements) {
                 fPeek.endElement();
             }
@@ -362,7 +362,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
             if (!fPeek.isContentContainer()) {
                 return;
             }
-            boolean ignoreElements = (Boolean) getStackParameter("ignoreElements");
+            boolean ignoreElements = shouldIgnoreElements();
             if (ignoreElements) {
                 return;
             }
@@ -391,11 +391,9 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
             // Pre-initialize stack parameters for performance reason
             // (so that we don't have to check all the time if they're
             // initialized or not)
-            setStackParameter("ignoreElements", false);
-            setStackParameter("emptyLinesCount", 0);
-            setStackParameter("listStyles", new StringBuffer());
-            setStackParameter("quoteDepth", new Integer(0));
-            setStackParameter("insideBlockElement", new ArrayDeque<Boolean>());
+            setStackParameter(LIST_STYLES, new StringBuffer());
+            setQuoteDepth(0);
+            getStackParameters().put(INSIDE_BLOCK_ELEMENT, false);
 
             // Allow each handler to have some initialization
             for (TagHandler tagElementHandler : fMap.values()) {
@@ -411,6 +409,77 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
         private Map<String, Object> getStackParameters()
         {
             return fStackParameters.peek();
+        }
+
+        public void resetEmptyLinesCount() {
+            fEmptyLineCount = 0;
+        }
+
+        public void incrementEmptyLinesCount() {
+            fEmptyLineCount += 1;
+        }
+
+        public int getEmptyLinesCount() {
+            return fEmptyLineCount;
+        }
+
+        public void setQuoteDepth(int depth) {
+            setStackParameter(QUOTE_DEPTH, depth);
+        }
+
+        public int getQuoteDepth() {
+            return (int) getStackParameter(QUOTE_DEPTH);
+        }
+
+        public boolean isInsideBlockElement() {
+            return (boolean) getStackParameters().get(INSIDE_BLOCK_ELEMENT);
+        }
+
+        public void setInsideBlockElement() {
+            getStackParameters().put(INSIDE_BLOCK_ELEMENT, true);
+        }
+
+        public void unsetInsideBlockElement() {
+            getStackParameters().put(INSIDE_BLOCK_ELEMENT, false);
+        }
+
+        public void setDocumentParent() {
+            getStackParameters().put(DOCUMENT_PARENT, fPeek.getParent());
+        }
+
+        public TagContext getDocumentParent() {
+            return (TagContext) getStackParameters().get(DOCUMENT_PARENT);
+        }
+
+        public boolean shouldIgnoreElements() {
+            return fIgnoreElements;
+        }
+
+        public void setIgnoreElements() {
+            fIgnoreElements = true;
+        }
+
+        public void unsetIgnoreElements() {
+            fIgnoreElements = false;
+        }
+
+        public String pushListStyle(char style) {
+            StringBuffer listStyles = (StringBuffer) getStackParameter(LIST_STYLES);
+            listStyles.append(style);
+            return listStyles.toString();
+        }
+
+        public void popListStyle() {
+            // We should always have a length greater than 0 but we handle
+            // the case where the user has entered some badly formed HTML
+            StringBuffer listStyles = (StringBuffer) getStackParameter(LIST_STYLES);
+            if (listStyles.length() > 0) {
+                listStyles.setLength(listStyles.length() - 1);
+            }
+        }
+
+        public boolean isEndOfList() {
+            return ((StringBuffer) getStackParameter(LIST_STYLES)).length() == 0;
         }
 
         public void setStackParameter(String name, Object data)
@@ -465,7 +534,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
     protected String fDocumentWikiProperties;
 
-    TagStack fStack;
+    private TagStack fStack;
 
     public XhtmlHandler(
         WikiScannerContext context,

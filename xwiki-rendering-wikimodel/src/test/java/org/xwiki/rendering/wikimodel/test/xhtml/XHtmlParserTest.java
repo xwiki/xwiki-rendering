@@ -62,18 +62,15 @@ public class XHtmlParserTest extends AbstractWikiParserTest
                 + "  <dt>term2</dt>\n"
                 + "  <dd>definition</dd>\n"
                 + "</dl>");
-        // FIXME: this test generates an invalid structure (should be an
-        // embedded document with an internal definition list);
-        test("<html>"
-            + "<dl>"
-            + "<dt>term</dt>"
-            + "<dd>definition"
-            + "<dl>"
-            + "<dt>term</dt>"
-            + "<dd>definition</dd>"
-            + "</dl>"
-            + "</dd>"
-            + "</dl></html>");
+        test("<html><dl><dt>term</dt><dd>definition<dl><dt>term</dt><dd>definition</dd></dl></dd></dl></html>",
+            "<dl>\n"
+            + "  <dt>term</dt>\n"
+            + "  <dd>definition<dl>\n"
+            + "  <dt>term</dt>\n"
+            + "  <dd>definition</dd>\n"
+            + "</dl>\n"
+            + "</dd>\n"
+            + "</dl>");
     }
 
     /**
@@ -197,11 +194,23 @@ public class XHtmlParserTest extends AbstractWikiParserTest
                 + "</ul>");
 
         test("<html><div class='toto'>\n"
-            + "<p>inside</p>\n"
-            + "</div></html>",
+                + "<p>inside</p>\n"
+                + "</div></html>",
             "<div class='wikimodel-document' class='toto'>\n"
                 + "<p>inside</p>\n"
                 + "</div>");
+
+        test("<html><ul><li><div>document</div><p>para</p></li></ul></html>",
+            "<ul>\n"
+                + "  <li><div class='wikimodel-document'>\n"
+                + "<p>document</p>\n"
+                + "</div>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<p>para</p>\n"
+                + "</div>\n"
+                + "</li>\n"
+                + "</ul>");
+
     }
 
     /**
@@ -353,7 +362,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
      */
     public void testLists() throws WikiParserException
     {
-        // TODO: add management of embedded block elements.
         test(
             "<html><ul><li>a<ul><li>b</li></ul></li><li>c</li></ul></html>",
             ""

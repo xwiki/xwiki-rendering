@@ -35,9 +35,7 @@ public class ParagraphTagHandler extends TagHandler
     @Override
     public boolean isBlockHandler(TagContext context)
     {
-        int quoteDepth = (Integer) context.getTagStack().getStackParameter(
-            "quoteDepth");
-
+        int quoteDepth = context.getTagStack().getQuoteDepth();
         return quoteDepth == 0;
     }
 
