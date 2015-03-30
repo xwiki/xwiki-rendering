@@ -17,29 +17,34 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.rendering.html5;
+package org.xwiki.rendering.internal.renderer.html5;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
-import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.internal.renderer.AbstractBlockRenderer;
+import org.xwiki.rendering.renderer.PrintRendererFactory;
 
 /**
- * Create HTML5 Renderers.
+ * Block Renderer for HTML5 syntax. To be used to convert XDOM into HTML5.
  *
  * @version $Id$
- * @since 6.4M3
+ * @since 7.1M1
  */
 @Component
 @Named("html/5.0")
 @Singleton
-public class HTML5RendererFactory extends AbstractPrintRendererFactory
+public class HTML5BlockRenderer  extends AbstractBlockRenderer
 {
+    @Inject
+    @Named("html/5.0")
+    private PrintRendererFactory html5RendererFactory;
+
     @Override
-    public Syntax getSyntax()
+    protected PrintRendererFactory getPrintRendererFactory()
     {
-        return Syntax.HTML_5_0;
+        return this.html5RendererFactory;
     }
 }

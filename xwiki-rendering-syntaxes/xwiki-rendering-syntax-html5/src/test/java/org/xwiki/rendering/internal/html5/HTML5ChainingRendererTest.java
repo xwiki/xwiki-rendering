@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
-import org.xwiki.rendering.internal.rendering.html5.HTML5ChainingRenderer;
+import org.xwiki.rendering.internal.renderer.html5.HTML5ChainingRenderer;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
@@ -35,7 +35,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 /**
- * Test class for {@link org.xwiki.rendering.internal.rendering.html5.HTML5ChainingRenderer}.
+ * Test class for {@link org.xwiki.rendering.internal.renderer.html5.HTML5ChainingRenderer}.
  *  
  * @version $Id$
  * @since 7.1M1

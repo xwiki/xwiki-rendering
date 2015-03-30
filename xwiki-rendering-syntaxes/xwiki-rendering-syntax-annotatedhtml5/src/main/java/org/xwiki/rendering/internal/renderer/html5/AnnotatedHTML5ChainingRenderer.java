@@ -24,7 +24,6 @@ import java.util.Map;
 import org.xwiki.rendering.internal.renderer.xhtml.XHTMLMacroRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
-import org.xwiki.rendering.internal.rendering.html5.HTML5ChainingRenderer;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 
 /**
