@@ -41,8 +41,6 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
     private static final String ELEM_PRE = "pre";
 
     private static final String PROP_CLASS = "class";
-    
-    private static final String CSS_MONOSPACE_CLASS = "monospace"; 
 
     /**
      * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
@@ -67,7 +65,7 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
         if (format == Format.MONOSPACE) {
             Map<String, String> attributes = new HashMap<>();
             attributes.putAll(parameters);
-            String cssClass = CSS_MONOSPACE_CLASS;
+            String cssClass = "monospace";
             // The element may already have a class
             if (attributes.containsKey(PROP_CLASS)) {
                 cssClass = String.format("%s %s", cssClass, attributes.get(PROP_CLASS));
@@ -105,8 +103,10 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
         if (isInline) {
             // Note: We generate a span element rather than a pre element since pre elements cannot be located inside
             // paragraphs for example.
+            // The class is what is expected by wikimodel to understand the span as meaning a verbatim and not a
+            // Monospace element.
             getXHTMLWikiPrinter().printXMLStartElement(ELEM_SPAN,
-                new String[][] { { PROP_CLASS, CSS_MONOSPACE_CLASS } });
+                new String[][] { { PROP_CLASS, "wikimodel-verbatim" } });
             getXHTMLWikiPrinter().printXML(protectedString);
             getXHTMLWikiPrinter().printXMLEndElement(ELEM_SPAN);
         } else {
