@@ -668,4 +668,49 @@ public class XHtmlParserTest extends AbstractWikiParserTest
                 + "<h1>test</h1>\n"
                 + "</div>");
     }
+    
+    /**
+     * Test basic HTML5 support
+     * @throws WikiParserException
+     */
+    public void testBasicHTML5Tags() throws WikiParserException
+    {
+        test(
+            "<html><header>Header<nav>Navigation</nav></header><main><article><section><h1>section 1</h1><summary>Summary 1</summary><details>Text 1<figure><img src='target'/><figcaption>caption</figcaption></figure></details><aside>Aside</aside></section><section><h1>section 2</h1><p>text 2</p></section></article></main><footer>Footer</footer></html>",
+            "<div class='wikimodel-document'>\n"
+                + "<p>Header</p>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<p>Navigation</p>\n"
+                + "</div>\n"
+                + "</div>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<h1>section 1</h1>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<p>Summary 1</p>\n"
+                + "</div>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<p>Text 1</p>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<p><img src='target'/></p>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<p>caption</p>\n"
+                + "</div>\n"
+                + "</div>\n"
+                + "</div>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<p>Aside</p>\n"
+                + "</div>\n"
+                + "</div>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<h1>section 2</h1>\n"
+                + "<p>text 2</p>\n"
+                + "</div>\n"
+                + "</div>\n"
+                + "</div>\n"
+                + "<div class='wikimodel-document'>\n"
+                + "<p>Footer</p>\n"
+                + "</div>");
+    }
 }

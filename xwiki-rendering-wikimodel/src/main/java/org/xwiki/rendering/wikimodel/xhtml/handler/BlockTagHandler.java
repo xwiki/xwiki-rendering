@@ -47,7 +47,7 @@ public class BlockTagHandler extends TagHandler
         return false;
     }
 
-    protected String getDocumentClass()
+    public String getDocumentClass()
     {
         return documentClass;
     }

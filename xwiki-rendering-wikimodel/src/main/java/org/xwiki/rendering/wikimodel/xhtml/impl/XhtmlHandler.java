@@ -24,6 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.htmlcleaner.BelongsTo;
+import org.htmlcleaner.CloseTag;
+import org.htmlcleaner.ContentType;
+import org.htmlcleaner.Display;
+import org.htmlcleaner.TagInfo;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.Attributes2;
@@ -32,6 +37,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
+import org.xwiki.rendering.wikimodel.xhtml.handler.BlockTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.BoldTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.BreakTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
@@ -134,6 +140,26 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
         handlers.put("blockquote", handler);
         handlers.put("quote", handler);
         handlers.put("span", new SpanTagHandler());
+
+        handler = extraHandlers.get("div");
+        if (handler != null) {
+            handler = new BlockTagHandler(((BlockTagHandler) handler).getDocumentClass());
+        } else {
+            handler = new BlockTagHandler();
+        }
+
+        // Basic handling of HTML5 block tags
+        handlers.put("aside", handler);
+        handlers.put("section", handler);
+        handlers.put("article", handler);
+        handlers.put("main", handler);
+        handlers.put("nav", handler);
+        handlers.put("details", handler);
+        handlers.put("summary", handler);
+        handlers.put("figure", handler);
+        handlers.put("figcaption", handler);
+        handlers.put("header", handler);
+        handlers.put("footer", handler);
 
         // Prepare extra handlers
         handlers.putAll(extraHandlers);
