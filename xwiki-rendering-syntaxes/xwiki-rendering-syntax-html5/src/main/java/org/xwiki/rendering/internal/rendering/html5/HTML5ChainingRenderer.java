@@ -38,7 +38,11 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
 {
     private static final String ELEM_SPAN = "span";
 
+    private static final String ELEM_PRE = "pre";
+
     private static final String PROP_CLASS = "class";
+    
+    private static final String CSS_MONOSPACE_CLASS = "monospace"; 
 
     /**
      * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
@@ -63,7 +67,7 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
         if (format == Format.MONOSPACE) {
             Map<String, String> attributes = new HashMap<>();
             attributes.putAll(parameters);
-            String cssClass = "monospace";
+            String cssClass = CSS_MONOSPACE_CLASS;
             // The element may already have a class
             if (attributes.containsKey(PROP_CLASS)) {
                 cssClass = String.format("%s %s", cssClass, attributes.get(PROP_CLASS));
@@ -92,6 +96,23 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
         } else {
             // Call the super class, with an empty parameters map to avoid closing the span element twice
             super.endFormat(format, new HashMap<String, String>());
+        }
+    }
+
+    @Override
+    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    {
+        if (isInline) {
+            // Note: We generate a span element rather than a pre element since pre elements cannot be located inside
+            // paragraphs for example.
+            getXHTMLWikiPrinter().printXMLStartElement(ELEM_SPAN,
+                new String[][] { { PROP_CLASS, CSS_MONOSPACE_CLASS } });
+            getXHTMLWikiPrinter().printXML(protectedString);
+            getXHTMLWikiPrinter().printXMLEndElement(ELEM_SPAN);
+        } else {
+            getXHTMLWikiPrinter().printXMLStartElement(ELEM_PRE, parameters);
+            getXHTMLWikiPrinter().printXML(protectedString);
+            getXHTMLWikiPrinter().printXMLEndElement(ELEM_PRE);
         }
     }
 }
