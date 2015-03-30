@@ -20,8 +20,8 @@
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
 import org.xwiki.rendering.wikimodel.WikiParameters;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 
 /**
  * @version $Id$
@@ -59,11 +59,11 @@ public class TagHandler
         fContentContainer = contentContainer;
     }
 
-    protected void begin(XhtmlHandler.TagStack.TagContext context)
+    protected void begin(TagContext context)
     {
     }
 
-    public void beginElement(XhtmlHandler.TagStack.TagContext context)
+    public void beginElement(TagContext context)
     {
         if (isBlockHandler(context)) {
             // If we're starting a block tag and we're in inline mode (ie inside
@@ -81,11 +81,11 @@ public class TagHandler
         begin(context);
     }
 
-    protected void end(XhtmlHandler.TagStack.TagContext context)
+    protected void end(TagContext context)
     {
     }
 
-    public final void endElement(XhtmlHandler.TagStack.TagContext context)
+    public final void endElement(TagContext context)
     {
         // Verify if we need to close a nested document that would have been
         // opened.
@@ -131,7 +131,7 @@ public class TagHandler
     /**
      * Check if we need to emit an onEmptyLines() event.
      */
-    public static void sendEmptyLines(XhtmlHandler.TagStack.TagContext context)
+    public static void sendEmptyLines(TagContext context)
     {
         sendEmptyLines(context.getTagStack());
     }
@@ -145,7 +145,7 @@ public class TagHandler
         }
     }
 
-    public void initialize(XhtmlHandler.TagStack stack)
+    public void initialize(TagStack stack)
     {
         // Nothing to do by default. Override in children classes if need be.
     }
@@ -153,17 +153,17 @@ public class TagHandler
     /**
      * @return true if the current handler handles block tags (paragraphs, lists, tables, headers, etc)
      */
-    public boolean isBlockHandler(XhtmlHandler.TagStack.TagContext context)
+    public boolean isBlockHandler(TagContext context)
     {
         return false;
     }
 
-    protected void beginDocument(XhtmlHandler.TagStack.TagContext context)
+    protected void beginDocument(TagContext context)
     {
         beginDocument(context, null);
     }
 
-    protected void beginDocument(XhtmlHandler.TagStack.TagContext context, WikiParameters params)
+    protected void beginDocument(TagContext context, WikiParameters params)
     {
         sendEmptyLines(context);
         if (params == null) {
@@ -178,7 +178,7 @@ public class TagHandler
         context.getTagStack().unsetInsideBlockElement();
     }
 
-    protected void endDocument(XhtmlHandler.TagStack.TagContext context)
+    protected void endDocument(TagContext context)
     {
         context.getTagStack().popStackParameters();
 

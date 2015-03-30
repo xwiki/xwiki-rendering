@@ -23,8 +23,8 @@ import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.xhtml.handler.ImgTagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
  * Handle IMG tag since we're putting the original image reference into XHTML comments so that we can reconstruct the

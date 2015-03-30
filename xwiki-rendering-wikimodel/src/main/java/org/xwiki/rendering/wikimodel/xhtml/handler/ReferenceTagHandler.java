@@ -22,7 +22,7 @@ package org.xwiki.rendering.wikimodel.xhtml.handler;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
  * Handles references.

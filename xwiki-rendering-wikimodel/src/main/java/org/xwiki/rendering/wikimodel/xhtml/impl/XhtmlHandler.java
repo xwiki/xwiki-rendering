@@ -19,27 +19,19 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.impl;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.Attributes2;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xwiki.rendering.wikimodel.WikiPageUtil;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
-import org.xwiki.rendering.wikimodel.xhtml.XhtmlCharacter;
-import org.xwiki.rendering.wikimodel.xhtml.XhtmlCharacterType;
 import org.xwiki.rendering.wikimodel.xhtml.handler.BoldTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.BreakTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
@@ -68,466 +60,13 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.TeletypeTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.UnderlineTagHandler;
 
 /**
+ * SAX2 event and extension handler to parse XHTML into wikimodel events
+ *
  * @version $Id$
  * @since 4.0M1
  */
 public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 {
-    public static class TagStack
-    {
-        public class TagContext
-        {
-            private final TagContext fParent;
-
-            private final String fName;
-
-            private final WikiParameters fParameters;
-
-            private final TagStack fTagStack;
-
-            private StringBuffer fContent;
-
-            private TagHandler fHandler;
-
-            public TagContext(
-                TagContext parent,
-                String name,
-                WikiParameters params,
-                TagStack tagStack)
-            {
-                fName = (name != null) ? name.toLowerCase() : null;
-                fParent = parent;
-                fParameters = params;
-                fTagStack = tagStack;
-            }
-
-            public boolean appendContent(String content)
-            {
-                if (fHandler == null || !fHandler.isAccumulateContent()) {
-                    return false;
-                }
-                if (fContent == null) {
-                    fContent = new StringBuffer();
-                }
-                fContent.append(content);
-                return true;
-            }
-
-            public void beginElement(TagHandler handler)
-            {
-                if (fParent == null) {
-                    getScannerContext().beginDocument();
-                }
-                fHandler = handler;
-                if (fHandler != null) {
-                    fHandler.beginElement(this);
-                }
-            }
-
-            public void endElement()
-            {
-                if (fHandler != null) {
-                    fHandler.endElement(this);
-                }
-                if (fParent == null) {
-                    getScannerContext().endDocument();
-                }
-            }
-
-            public String getContent()
-            {
-                return fContent != null ? WikiPageUtil.escapeXmlString(fContent.toString()) : "";
-            }
-
-            public String getName()
-            {
-                return fName;
-            }
-
-            public WikiParameters getParams()
-            {
-                return fParameters;
-            }
-
-            public TagContext getParent()
-            {
-                // If my parent is not handled, I want it to be fully ignored, so I will go up the tree until I found
-                // a handled parent, however I should not reach the root.
-                if (fParent.fHandler == null && fParent.fParent.fName != null) {
-                    return fParent.getParent();
-                } else {
-                    return fParent;
-                }
-            }
-
-            public WikiScannerContext getScannerContext()
-            {
-                return fScannerContext.isEmpty() ? null : fScannerContext.peek();
-            }
-
-            public TagStack getTagStack()
-            {
-                return fTagStack;
-            }
-
-            public boolean isContentContainer()
-            {
-                return fHandler == null || fHandler.isContentContainer();
-            }
-
-            public boolean isTag(String string)
-            {
-                return string.equals(fName);
-            }
-        }
-
-        private static final String QUOTE_DEPTH = "quoteDepth";
-        private static final String INSIDE_BLOCK_ELEMENT = "insideBlockElement";
-        private static final String LIST_STYLES = "listStyles";
-        private static final String DOCUMENT_PARENT = "documentParent";
-
-        private Map<String, TagHandler> fMap = new HashMap<String, TagHandler>();
-
-        private CommentHandler fCommentHandler;
-
-        private TagContext fPeek;
-
-        private Deque<WikiScannerContext> fScannerContext = new ArrayDeque<WikiScannerContext>();
-
-        private Deque<Map<String, Object>> fStackParameters = new ArrayDeque<Map<String, Object>>();
-
-        private boolean fIgnoreElements;
-        private int fEmptyLineCount;
-
-        public TagStack(WikiScannerContext context)
-        {
-            // init stack paramaters
-            pushStackParameters();
-
-            fScannerContext.push(context);
-            fCommentHandler = new CommentHandler();
-        }
-
-        public void add(String tag, TagHandler handler)
-        {
-            fMap.put(tag, handler);
-        }
-
-        public void addAll(Map<String, TagHandler> handlers)
-        {
-            fMap.putAll(handlers);
-        }
-
-        public void setCommentHandler(CommentHandler handler)
-        {
-            fCommentHandler = handler;
-        }
-
-        public void beginElement(String name, WikiParameters params)
-        {
-            fPeek = new TagContext(fPeek, name, params, this);
-            name = fPeek.getName();
-            TagHandler handler = fMap.get(name);
-            if (!shouldIgnoreElements()) {
-                fPeek.beginElement(handler);
-            }
-        }
-
-        public void endElement()
-        {
-            boolean ignoreElements = shouldIgnoreElements();
-            if (!ignoreElements) {
-                fPeek.endElement();
-            }
-            fPeek = fPeek.fParent;
-        }
-
-        private XhtmlCharacterType getCharacterType(char ch)
-        {
-            XhtmlCharacterType type = XhtmlCharacterType.CHARACTER;
-            switch (ch) {
-                case '!':
-                case '\'':
-                case '#':
-                case '$':
-                case '%':
-                case '&':
-                case '(':
-                case ')':
-                case '*':
-                case '+':
-                case ',':
-                case '-':
-                case '.':
-                case '/':
-                case ':':
-                case ';':
-                case '<':
-                case '=':
-                case '>':
-                case '?':
-                case '@':
-                case '[':
-                case '\\':
-                case ']':
-                case '^':
-                case '_':
-                case '`':
-                case '{':
-                case '|':
-                case '}':
-                case '~':
-                case '\"':
-                    type = XhtmlCharacterType.SPECIAL_SYMBOL;
-                    break;
-                case ' ':
-                case '\t':
-                case 160: // This is a &nbsp;
-                    type = XhtmlCharacterType.SPACE;
-                    break;
-                case '\n':
-                case '\r':
-                    type = XhtmlCharacterType.NEW_LINE;
-                    break;
-                default:
-                    break;
-            }
-            return type;
-        }
-
-        public WikiScannerContext getScannerContext()
-        {
-            return fScannerContext.isEmpty() ? null : fScannerContext.peek();
-        }
-
-        public void setScannerContext(WikiScannerContext context)
-        {
-            if (!fScannerContext.isEmpty()) {
-                fScannerContext.pop();
-            }
-            fScannerContext.push(context);
-        }
-
-        public void pushScannerContext(WikiScannerContext context)
-        {
-            fScannerContext.push(context);
-        }
-
-        public WikiScannerContext popScannerContext()
-        {
-            return fScannerContext.pop();
-        }
-
-        private void flushStack(Queue<XhtmlCharacter> stack)
-        {
-            while (!stack.isEmpty()) {
-                XhtmlCharacter character = stack.poll();
-                switch (character.getType()) {
-                    case ESCAPED:
-                        getScannerContext().onEscape(
-                            "" + character.getCharacter());
-                        break;
-                    case SPECIAL_SYMBOL:
-                        getScannerContext().onSpecialSymbol(
-                            "" + character.getCharacter());
-                        break;
-                    case NEW_LINE:
-                        getScannerContext().onLineBreak();
-                        break;
-                    case SPACE:
-                        StringBuilder spaceBuffer = new StringBuilder(" ");
-                        while (!stack.isEmpty() && (stack.element().getType() == XhtmlCharacterType.SPACE)) {
-                            stack.poll();
-                            spaceBuffer.append(' ');
-                        }
-                        getScannerContext().onSpace(spaceBuffer.toString());
-                        break;
-                    default:
-                        StringBuilder charBuffer = new StringBuilder();
-                        charBuffer.append(character.getCharacter());
-                        while (!stack.isEmpty() && (stack.element().getType() == XhtmlCharacterType.CHARACTER)) {
-                            charBuffer.append(stack.poll().getCharacter());
-                        }
-                        getScannerContext()
-                            .onWord(
-                                WikiPageUtil.escapeXmlString(charBuffer
-                                    .toString()));
-                }
-            }
-        }
-
-        public void onCharacters(String content)
-        {
-
-            if (!fPeek.isContentContainer()) {
-                return;
-            }
-            boolean ignoreElements = shouldIgnoreElements();
-            if (ignoreElements) {
-                return;
-            }
-
-            if (!fPeek.appendContent(content)) {
-                Queue<XhtmlCharacter> stack = new ArrayDeque<XhtmlCharacter>();
-                for (int i = 0; i < content.length(); i++) {
-                    char c = content.charAt(i);
-                    stack.offer(new XhtmlCharacter(c, getCharacterType(c)));
-                }
-
-                // Now send the events.
-                flushStack(stack);
-            }
-        }
-
-        public void onComment(char[] array, int start, int length)
-        {
-            fCommentHandler.onComment(new String(array, start, length), this);
-        }
-
-        public void pushStackParameters()
-        {
-            fStackParameters.push(new HashMap<String, Object>());
-
-            // Pre-initialize stack parameters for performance reason
-            // (so that we don't have to check all the time if they're
-            // initialized or not)
-            setStackParameter(LIST_STYLES, new StringBuffer());
-            setQuoteDepth(0);
-            getStackParameters().put(INSIDE_BLOCK_ELEMENT, false);
-
-            // Allow each handler to have some initialization
-            for (TagHandler tagElementHandler : fMap.values()) {
-                tagElementHandler.initialize(this);
-            }
-        }
-
-        public void popStackParameters()
-        {
-            fStackParameters.pop();
-        }
-
-        private Map<String, Object> getStackParameters()
-        {
-            return fStackParameters.peek();
-        }
-
-        public void resetEmptyLinesCount() {
-            fEmptyLineCount = 0;
-        }
-
-        public void incrementEmptyLinesCount() {
-            fEmptyLineCount += 1;
-        }
-
-        public int getEmptyLinesCount() {
-            return fEmptyLineCount;
-        }
-
-        public void setQuoteDepth(int depth) {
-            setStackParameter(QUOTE_DEPTH, depth);
-        }
-
-        public int getQuoteDepth() {
-            return (int) getStackParameter(QUOTE_DEPTH);
-        }
-
-        public boolean isInsideBlockElement() {
-            return (boolean) getStackParameters().get(INSIDE_BLOCK_ELEMENT);
-        }
-
-        public void setInsideBlockElement() {
-            getStackParameters().put(INSIDE_BLOCK_ELEMENT, true);
-        }
-
-        public void unsetInsideBlockElement() {
-            getStackParameters().put(INSIDE_BLOCK_ELEMENT, false);
-        }
-
-        public void setDocumentParent() {
-            getStackParameters().put(DOCUMENT_PARENT, fPeek.getParent());
-        }
-
-        public TagContext getDocumentParent() {
-            return (TagContext) getStackParameters().get(DOCUMENT_PARENT);
-        }
-
-        public boolean shouldIgnoreElements() {
-            return fIgnoreElements;
-        }
-
-        public void setIgnoreElements() {
-            fIgnoreElements = true;
-        }
-
-        public void unsetIgnoreElements() {
-            fIgnoreElements = false;
-        }
-
-        public String pushListStyle(char style) {
-            StringBuffer listStyles = (StringBuffer) getStackParameter(LIST_STYLES);
-            listStyles.append(style);
-            return listStyles.toString();
-        }
-
-        public void popListStyle() {
-            // We should always have a length greater than 0 but we handle
-            // the case where the user has entered some badly formed HTML
-            StringBuffer listStyles = (StringBuffer) getStackParameter(LIST_STYLES);
-            if (listStyles.length() > 0) {
-                listStyles.setLength(listStyles.length() - 1);
-            }
-        }
-
-        public boolean isEndOfList() {
-            return ((StringBuffer) getStackParameter(LIST_STYLES)).length() == 0;
-        }
-
-        public void setStackParameter(String name, Object data)
-        {
-            Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
-            if (set != null && !set.isEmpty()) {
-                set.pop();
-            }
-            pushStackParameter(name, data);
-        }
-
-        public Object getStackParameter(String name)
-        {
-            Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
-            return (set == null) ? null : set.peek();
-        }
-
-        @Deprecated
-        public Object getStackParameter(String name, int index)
-        {
-            Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
-            if (set == null || set.size() <= index) {
-                return null;
-            }
-            return set.toArray()[set.size() - index - 1];
-        }
-
-        public Iterator<Object> getStackParameterIterator(String name) {
-            Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
-            return (set == null) ? null : set.descendingIterator();
-        }
-
-        public void pushStackParameter(String name, Object data)
-        {
-            Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
-            if (set == null) {
-                getStackParameters().put(name, set = new LinkedList<Object>());
-            }
-
-            set.push(data);
-        }
-
-        public Object popStackParameter(String name)
-        {
-            return ((Deque<Object>) getStackParameters().get(name)).pop();
-        }
-    }
-
     protected String fDocumentSectionUri;
 
     protected String fDocumentUri;
@@ -551,67 +90,64 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
         Map<String, TagHandler> extraHandlers,
         CommentHandler commentHandler)
     {
-        fStack = new TagStack(context);
-        fStack.setCommentHandler(commentHandler);
+        Map<String, TagHandler> handlers = new HashMap<String, TagHandler>();
 
-        // Register default handlers
-        fStack.add("p", new ParagraphTagHandler());
-        fStack.add("table", new TableTagHandler());
-        fStack.add("tr", new TableRowTagHandler());
+        // Prepare default handlers
+        handlers.put("p", new ParagraphTagHandler());
+        handlers.put("table", new TableTagHandler());
+        handlers.put("tr", new TableRowTagHandler());
         TagHandler handler = new TableDataTagHandler();
-        fStack.add("td", handler);
-        fStack.add("th", handler);
+        handlers.put("td", handler);
+        handlers.put("th", handler);
         handler = new ListTagHandler();
-        fStack.add("ul", handler);
-        fStack.add("ol", handler);
-        fStack.add("dl", handler);
+        handlers.put("ul", handler);
+        handlers.put("ol", handler);
+        handlers.put("dl", handler);
         handler = new ListItemTagHandler();
-        fStack.add("li", handler);
-        fStack.add("dt", new DefinitionTermTagHandler());
-        fStack.add("dd", new DefinitionDescriptionTagHandler());
+        handlers.put("li", handler);
+        handlers.put("dt", new DefinitionTermTagHandler());
+        handlers.put("dd", new DefinitionDescriptionTagHandler());
         handler = new HeaderTagHandler();
-        fStack.add("h1", handler);
-        fStack.add("h2", handler);
-        fStack.add("h3", handler);
-        fStack.add("h4", handler);
-        fStack.add("h5", handler);
-        fStack.add("h6", handler);
-        fStack.add("hr", new HorizontalLineTagHandler());
-        fStack.add("pre", new PreserveTagHandler());
+        handlers.put("h1", handler);
+        handlers.put("h2", handler);
+        handlers.put("h3", handler);
+        handlers.put("h4", handler);
+        handlers.put("h5", handler);
+        handlers.put("h6", handler);
+        handlers.put("hr", new HorizontalLineTagHandler());
+        handlers.put("pre", new PreserveTagHandler());
         handler = new ReferenceTagHandler();
-        fStack.add("a", handler);
+        handlers.put("a", handler);
         handler = new ImgTagHandler();
-        fStack.add("img", handler);
+        handlers.put("img", handler);
         handler = new BoldTagHandler();
-        fStack.add("strong", handler);
-        fStack.add("b", handler);
+        handlers.put("strong", handler);
+        handlers.put("b", handler);
         handler = new UnderlineTagHandler();
-        fStack.add("ins", handler);
-        fStack.add("u", handler);
+        handlers.put("ins", handler);
+        handlers.put("u", handler);
         handler = new StrikedOutTagHandler();
-        fStack.add("del", handler);
-        fStack.add("strike", handler);
-        fStack.add("s", handler);
+        handlers.put("del", handler);
+        handlers.put("strike", handler);
+        handlers.put("s", handler);
         handler = new ItalicTagHandler();
-        fStack.add("em", handler);
-        fStack.add("i", handler);
-        fStack.add("sup", new SuperScriptTagHandler());
-        fStack.add("sub", new SubScriptTagHandler());
-        fStack.add("tt", new TeletypeTagHandler());
-        fStack.add("br", new BreakTagHandler());
-        fStack.add("div", new DivisionTagHandler());
+        handlers.put("em", handler);
+        handlers.put("i", handler);
+        handlers.put("sup", new SuperScriptTagHandler());
+        handlers.put("sub", new SubScriptTagHandler());
+        handlers.put("tt", new TeletypeTagHandler());
+        handlers.put("br", new BreakTagHandler());
+        handlers.put("div", new DivisionTagHandler());
         handler = new QuoteTagHandler();
-        fStack.add("blockquote", handler);
-        fStack.add("quote", handler);
-        fStack.add("span", new SpanTagHandler());
+        handlers.put("blockquote", handler);
+        handlers.put("quote", handler);
+        handlers.put("span", new SpanTagHandler());
 
-        // Register extra handlers
-        fStack.addAll(extraHandlers);
+        // Prepare extra handlers
+        handlers.putAll(extraHandlers);
 
-        // Allow each handler to have some initialization
-        for (TagHandler tagElementHandler : fStack.fMap.values()) {
-            tagElementHandler.initialize(fStack);
-        }
+        // Initialize the TagStack and handlers
+        fStack = new TagStack(context, handlers, commentHandler);
     }
 
     /**
@@ -630,7 +166,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
     @Override
     public void endDocument() throws SAXException
     {
-        TagHandler.sendEmptyLines(fStack.fPeek);
+        TagHandler.sendEmptyLines(fStack);
         fStack.endElement();
     }
 

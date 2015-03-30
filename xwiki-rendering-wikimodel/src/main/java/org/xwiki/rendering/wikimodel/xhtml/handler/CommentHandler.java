@@ -25,7 +25,7 @@ import java.util.List;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 
 /**
  * Handle Macro definitions in comments (we store macro definitions in a comment since it wouldn't be possible at all to

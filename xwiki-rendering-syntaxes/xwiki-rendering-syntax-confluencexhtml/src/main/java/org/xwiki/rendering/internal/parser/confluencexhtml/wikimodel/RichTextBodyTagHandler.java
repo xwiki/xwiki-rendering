@@ -21,7 +21,7 @@ package org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel;
 
 import org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel.MacroTagHandler.ConfluenceMacro;
 import org.xwiki.rendering.wikimodel.xhtml.handler.PreserveTagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
  * Handles text inside a macro which might contain markup.

@@ -21,7 +21,7 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.xhtml.handler.SpanTagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
  * Handle XWiki span elements (we need to ensure we skip link content when we generate them and also skip the spans for

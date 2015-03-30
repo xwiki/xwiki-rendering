@@ -24,7 +24,7 @@ import java.util.Arrays;
 import org.xwiki.rendering.wikimodel.IWemConstants;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
  * @version $Id$
@@ -44,7 +44,7 @@ public class TeletypeTagHandler extends AbstractFormatTagHandler
     }
 
     @Override
-    protected void begin(XhtmlHandler.TagStack.TagContext context)
+    protected void begin(TagContext context)
     {
         WikiParameter param = context.getParams().getParameter("class");
         if ((param != null)
@@ -58,7 +58,7 @@ public class TeletypeTagHandler extends AbstractFormatTagHandler
     }
 
     @Override
-    protected void end(XhtmlHandler.TagStack.TagContext context)
+    protected void end(TagContext context)
     {
         WikiParameter param = context.getParams().getParameter("class");
         if ((param != null)
@@ -71,7 +71,7 @@ public class TeletypeTagHandler extends AbstractFormatTagHandler
         }
     }
 
-    private void beginVerbatim(XhtmlHandler.TagStack.TagContext context)
+    private void beginVerbatim(TagContext context)
     {
         // filter content of the <tt> element
         context.getTagStack().pushScannerContext(
@@ -79,7 +79,7 @@ public class TeletypeTagHandler extends AbstractFormatTagHandler
         context.getScannerContext().beginDocument();
     }
 
-    private void endVerbatim(XhtmlHandler.TagStack.TagContext context)
+    private void endVerbatim(TagContext context)
     {
         context.getScannerContext().endDocument();
         PreserverListener preserverListener = (PreserverListener) context

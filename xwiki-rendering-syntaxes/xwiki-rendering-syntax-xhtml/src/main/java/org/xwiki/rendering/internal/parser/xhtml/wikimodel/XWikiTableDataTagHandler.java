@@ -22,7 +22,7 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TableDataTagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
  * Override the default implementation of hte WikiModel XHTML parser for handling HTML table cells. We need to do this

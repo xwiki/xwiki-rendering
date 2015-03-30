@@ -25,7 +25,7 @@ import org.w3c.css.sac.InputSource;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiStyle;
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 import com.steadystate.css.dom.CSSStyleDeclarationImpl;
 import com.steadystate.css.parser.CSSOMParser;

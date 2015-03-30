@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
  * @version $Id$
@@ -33,20 +33,20 @@ public class TableTagHandler extends TagHandler
     }
 
     @Override
-    public boolean isBlockHandler(XhtmlHandler.TagStack.TagContext context)
+    public boolean isBlockHandler(TagContext context)
     {
         return true;
     }
 
     @Override
-    protected void begin(XhtmlHandler.TagStack.TagContext context)
+    protected void begin(TagContext context)
     {
         sendEmptyLines(context);
         context.getScannerContext().beginTable(context.getParams());
     }
 
     @Override
-    protected void end(XhtmlHandler.TagStack.TagContext context)
+    protected void end(TagContext context)
     {
         context.getScannerContext().endTable();
     }

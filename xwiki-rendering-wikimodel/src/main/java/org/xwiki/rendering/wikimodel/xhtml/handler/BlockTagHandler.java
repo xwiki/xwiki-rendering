@@ -20,7 +20,7 @@
 
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
  * @version $Id$

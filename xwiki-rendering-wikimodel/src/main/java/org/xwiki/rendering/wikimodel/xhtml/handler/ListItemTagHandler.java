@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
-import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
  * @version $Id$
@@ -41,19 +41,19 @@ public class ListItemTagHandler extends TagHandler
     }
 
     @Override
-    public void begin(XhtmlHandler.TagStack.TagContext context)
+    public void begin(TagContext context)
     {
         String markup = context.getParent().isTag("ol") ? "#" : "*";
         begin(markup, context);
     }
 
-    protected void begin(String markup, XhtmlHandler.TagStack.TagContext context)
+    protected void begin(String markup, TagContext context)
     {
         context.getScannerContext().beginListItem(context.getTagStack().pushListStyle(markup.charAt(0)));
     }
 
     @Override
-    public void end(XhtmlHandler.TagStack.TagContext context)
+    public void end(TagContext context)
     {
         context.getTagStack().popListStyle();
         // Note: Do not generate an endListItem() event since it'll be generated

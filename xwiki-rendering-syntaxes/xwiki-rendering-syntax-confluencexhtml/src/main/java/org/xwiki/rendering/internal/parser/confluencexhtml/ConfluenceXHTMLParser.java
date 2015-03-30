@@ -76,7 +76,7 @@ public class ConfluenceXHTMLParser extends AbstractWikiModelParser
      * more convenient to pass link labels in xwiki syntax. See referred resource for more details.
      *
      * @see XWikiCommentHandler#handleLinkCommentStop(String,
-     *      org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack)
+     *      org.xwiki.rendering.wikimodel.xhtml.impl.TagStack)
      */
     @Inject
     @Named("xdom+xml/current")
