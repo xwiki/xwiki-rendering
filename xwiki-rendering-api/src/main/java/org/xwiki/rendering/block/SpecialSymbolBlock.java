@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.block;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 
 /**
@@ -65,5 +66,30 @@ public class SpecialSymbolBlock extends AbstractBlock
     public String toString()
     {
         return String.valueOf(getSymbol());
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof SpecialSymbolBlock && super.equals(obj)) {
+            return getSymbol() == ((SpecialSymbolBlock) obj).getSymbol();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.appendSuper(super.hashCode());
+        builder.append(getSymbol());
+
+        return builder.toHashCode();
     }
 }

@@ -22,6 +22,8 @@ package org.xwiki.rendering.block;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 
 /**
@@ -122,5 +124,38 @@ public class MacroMarkerBlock extends AbstractBlock
     public void after(Listener listener)
     {
         listener.endMacroMarker(getId(), getParameters(), getContent(), isInline());
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof MacroMarkerBlock && super.equals(obj)) {
+            EqualsBuilder builder = new EqualsBuilder();
+
+            builder.append(getContent(), ((MacroMarkerBlock) obj).getContent());
+            builder.append(getId(), ((MacroMarkerBlock) obj).getId());
+            builder.append(isInline(), ((MacroMarkerBlock) obj).isInline());
+
+            return builder.isEquals();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.appendSuper(super.hashCode());
+        builder.append(getContent());
+        builder.append(getId());
+        builder.append(isInline());
+
+        return builder.toHashCode();
     }
 }

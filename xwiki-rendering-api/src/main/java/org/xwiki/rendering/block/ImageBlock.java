@@ -22,6 +22,8 @@ package org.xwiki.rendering.block;
 import java.util.Collections;
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
@@ -42,7 +44,7 @@ public class ImageBlock extends AbstractBlock
     /**
      * If true then the image is defined as a free standing URI directly in the text.
      */
-    private boolean isFreeStandingURI;
+    private boolean freeStandingURI;
 
     /**
      * @param reference the image reference
@@ -67,7 +69,7 @@ public class ImageBlock extends AbstractBlock
         super(parameters);
 
         this.reference = reference;
-        this.isFreeStandingURI = isFreeStandingURI;
+        this.freeStandingURI = isFreeStandingURI;
     }
 
     /**
@@ -85,7 +87,7 @@ public class ImageBlock extends AbstractBlock
      */
     public boolean isFreeStandingURI()
     {
-        return this.isFreeStandingURI;
+        return this.freeStandingURI;
     }
 
     @Override
@@ -105,5 +107,36 @@ public class ImageBlock extends AbstractBlock
         ImageBlock clone = (ImageBlock) super.clone(blockFilter);
         clone.reference = getReference().clone();
         return clone;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof ImageBlock && super.equals(obj)) {
+            EqualsBuilder builder = new EqualsBuilder();
+
+            builder.append(getReference(), ((ImageBlock) obj).getReference());
+            builder.append(isFreeStandingURI(), ((ImageBlock) obj).isFreeStandingURI());
+
+            return builder.isEquals();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.appendSuper(super.hashCode());
+        builder.append(getReference());
+        builder.append(isFreeStandingURI());
+
+        return builder.toHashCode();
     }
 }

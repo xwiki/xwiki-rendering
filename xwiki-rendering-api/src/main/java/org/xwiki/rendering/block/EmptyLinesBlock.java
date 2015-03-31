@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.block;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 
 /**
@@ -63,5 +64,30 @@ public class EmptyLinesBlock extends AbstractBlock
     public void traverse(Listener listener)
     {
         listener.onEmptyLines(getEmptyLinesCount());
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof EmptyLinesBlock) {
+            return getEmptyLinesCount() == ((EmptyLinesBlock) obj).getEmptyLinesCount() && super.equals(obj);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.append(super.hashCode());
+        builder.append(getEmptyLinesCount());
+
+        return builder.toHashCode();
     }
 }

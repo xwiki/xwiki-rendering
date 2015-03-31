@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.block;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.syntax.Syntax;
 
@@ -72,5 +74,36 @@ public class RawBlock extends AbstractBlock
     public Syntax getSyntax()
     {
         return this.syntax;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof RawBlock && super.equals(obj)) {
+            EqualsBuilder builder = new EqualsBuilder();
+
+            builder.append(getRawContent(), ((RawBlock) obj).getRawContent());
+            builder.append(getSyntax(), ((RawBlock) obj).getSyntax());
+
+            return builder.isEquals();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.appendSuper(super.hashCode());
+        builder.append(getRawContent());
+        builder.append(getSyntax());
+
+        return builder.toHashCode();
     }
 }

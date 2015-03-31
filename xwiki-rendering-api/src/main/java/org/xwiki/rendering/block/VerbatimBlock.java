@@ -21,6 +21,8 @@ package org.xwiki.rendering.block;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 
 /**
@@ -39,7 +41,7 @@ public class VerbatimBlock extends AbstractBlock
     /**
      * If true the macro is located in a inline content (like paragraph, etc.).
      */
-    private boolean isInline;
+    private boolean inline;
 
     /**
      * @param protectedString the string to protect from rendering.
@@ -48,7 +50,7 @@ public class VerbatimBlock extends AbstractBlock
     public VerbatimBlock(String protectedString, boolean isInline)
     {
         this.protectedString = protectedString;
-        this.isInline = isInline;
+        this.inline = isInline;
     }
 
     /**
@@ -61,7 +63,7 @@ public class VerbatimBlock extends AbstractBlock
         super(parameters);
 
         this.protectedString = protectedString;
-        this.isInline = isInline;
+        this.inline = isInline;
     }
 
     /**
@@ -77,7 +79,7 @@ public class VerbatimBlock extends AbstractBlock
      */
     public boolean isInline()
     {
-        return this.isInline;
+        return this.inline;
     }
 
     @Override
@@ -95,5 +97,36 @@ public class VerbatimBlock extends AbstractBlock
     public String toString()
     {
         return getProtectedString();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof VerbatimBlock && super.equals(obj)) {
+            EqualsBuilder builder = new EqualsBuilder();
+
+            builder.append(isInline(), ((VerbatimBlock) obj).isInline());
+            builder.append(getProtectedString(), ((VerbatimBlock) obj).getProtectedString());
+
+            return builder.isEquals();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.appendSuper(super.hashCode());
+        builder.append(isInline());
+        builder.append(getProtectedString());
+
+        return builder.toHashCode();
     }
 }

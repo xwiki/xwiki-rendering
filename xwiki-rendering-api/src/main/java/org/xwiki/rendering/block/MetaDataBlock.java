@@ -22,6 +22,8 @@ package org.xwiki.rendering.block;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 
@@ -100,5 +102,34 @@ public class MetaDataBlock extends AbstractBlock
         cloned.metaData = new MetaData(this.metaData.getMetaData());
 
         return cloned;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof MetaDataBlock && super.equals(obj)) {
+            EqualsBuilder builder = new EqualsBuilder();
+
+            builder.append(getMetaData(), ((MetaDataBlock) obj).getMetaData());
+
+            return builder.isEquals();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.appendSuper(super.hashCode());
+        builder.append(getMetaData());
+
+        return builder.toHashCode();
     }
 }

@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.Listener;
 
@@ -77,5 +78,30 @@ public class FormatBlock extends AbstractBlock
     public void after(Listener listener)
     {
         listener.endFormat(getFormat(), getParameters());
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof FormatBlock && super.equals(obj)) {
+            return getFormat() == ((FormatBlock) obj).getFormat();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.appendSuper(super.hashCode());
+        builder.append(getFormat());
+
+        return builder.toHashCode();
     }
 }

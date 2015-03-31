@@ -433,13 +433,31 @@ public abstract class AbstractBlock implements Block
     @Override
     public boolean equals(Object obj)
     {
-        return EqualsBuilder.reflectionEquals(this, obj);
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof Block) {
+            EqualsBuilder builder = new EqualsBuilder();
+
+            builder.append(getChildren(), ((Block) obj).getChildren());
+            builder.append(getParameters(), ((Block) obj).getParameters());
+
+            return builder.isEquals();
+        }
+
+        return false;
     }
 
     @Override
     public int hashCode()
     {
-        return HashCodeBuilder.reflectionHashCode(this);
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.append(this.childrenBlocks);
+        builder.append(this.parameters);
+
+        return builder.toHashCode();
     }
 
     @Override

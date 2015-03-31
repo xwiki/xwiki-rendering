@@ -21,6 +21,8 @@ package org.xwiki.rendering.block;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 
 /**
@@ -48,7 +50,7 @@ public class MacroBlock extends AbstractBlock
     /**
      * The macro is located in a inline content (like paragraph, etc.).
      */
-    private boolean isInline;
+    private boolean inline;
 
     /**
      * @param id the id of the macro
@@ -72,7 +74,7 @@ public class MacroBlock extends AbstractBlock
 
         this.id = id;
         this.content = content;
-        this.isInline = isInline;
+        this.inline = isInline;
     }
 
     /**
@@ -97,7 +99,7 @@ public class MacroBlock extends AbstractBlock
      */
     public boolean isInline()
     {
-        return this.isInline;
+        return this.inline;
     }
 
     @Override
@@ -117,5 +119,38 @@ public class MacroBlock extends AbstractBlock
         // In practice as described above this method will never get called when the whole rendering
         // process is executed. This does get called during our unit tests though.
         listener.onMacro(getId(), getParameters(), getContent(), isInline());
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof MacroBlock && super.equals(obj)) {
+            EqualsBuilder builder = new EqualsBuilder();
+
+            builder.append(getContent(), ((MacroBlock) obj).getContent());
+            builder.append(getId(), ((MacroBlock) obj).getId());
+            builder.append(isInline(), ((MacroBlock) obj).isInline());
+
+            return builder.isEquals();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.appendSuper(super.hashCode());
+        builder.append(getContent());
+        builder.append(getId());
+        builder.append(isInline());
+
+        return builder.toHashCode();
     }
 }

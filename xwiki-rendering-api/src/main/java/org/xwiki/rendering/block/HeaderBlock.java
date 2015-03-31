@@ -22,6 +22,8 @@ package org.xwiki.rendering.block;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.Listener;
 
@@ -123,5 +125,36 @@ public class HeaderBlock extends AbstractBlock
     public void after(Listener listener)
     {
         listener.endHeader(getLevel(), getId(), getParameters());
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof HeaderBlock && super.equals(obj)) {
+            EqualsBuilder builder = new EqualsBuilder();
+
+            builder.append(getLevel(), ((HeaderBlock) obj).getLevel());
+            builder.append(getId(), ((HeaderBlock) obj).getId());
+
+            return builder.isEquals();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.appendSuper(super.hashCode());
+        builder.append(getLevel());
+        builder.append(getId());
+
+        return builder.toHashCode();
     }
 }

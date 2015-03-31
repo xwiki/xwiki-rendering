@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.block;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 
 /**
@@ -56,5 +58,35 @@ public class IdBlock extends AbstractBlock
     public void traverse(Listener listener)
     {
         listener.onId(getName());
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof IdBlock) {
+            EqualsBuilder builder = new EqualsBuilder();
+
+            builder.appendSuper(super.equals(obj));
+            builder.append(getName(), ((IdBlock) obj).getName());
+
+            return builder.isEquals();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.appendSuper(super.hashCode());
+        builder.append(getName());
+
+        return builder.toHashCode();
     }
 }
