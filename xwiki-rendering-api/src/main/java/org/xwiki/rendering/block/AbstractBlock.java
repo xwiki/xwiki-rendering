@@ -415,7 +415,15 @@ public abstract class AbstractBlock implements Block
     @Override
     public void removeBlock(Block childBlockToRemove)
     {
-        getChildren().remove(childBlockToRemove);
+        // Remove block
+        List<Block> children = getChildren();
+        int position = indexOfBlock(childBlockToRemove, children);
+        if (position == -1) {
+            throw new InvalidParameterException("Provided Block to remove is not a child");
+        }
+        getChildren().remove(position);
+
+        // Re-calculate internal links between blocks
         if (childBlockToRemove != null) {
             Block previousBlock = childBlockToRemove.getPreviousSibling();
             if (previousBlock != null) {
