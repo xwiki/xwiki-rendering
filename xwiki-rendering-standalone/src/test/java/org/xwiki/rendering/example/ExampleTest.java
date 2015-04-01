@@ -22,14 +22,10 @@ package org.xwiki.rendering.example;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
 
-import org.junit.Test;
 import org.junit.Assert;
-import org.xwiki.component.descriptor.DefaultComponentDescriptor;
+import org.junit.Test;
 import org.xwiki.component.embed.EmbeddableComponentManager;
-import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.LinkBlock;
@@ -44,9 +40,9 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
-import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 
 /**
