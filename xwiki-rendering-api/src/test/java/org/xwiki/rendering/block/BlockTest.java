@@ -179,8 +179,14 @@ public class BlockTest
     public void testRemoveBlock()
     {
         WordBlock b1 = new WordBlock("b1");
+        WordBlock b1bis = new WordBlock("b1");
         WordBlock b2 = new WordBlock("b2");
-        ParagraphBlock p1 = new ParagraphBlock(Arrays.<Block>asList(b1, b2));
+        ParagraphBlock p1 = new ParagraphBlock(Arrays.<Block>asList(b1, b1bis, b2));
+
+        p1.removeBlock(b1bis);
+        Assert.assertEquals(2, p1.getChildren().size());
+        Assert.assertSame(b1, p1.getChildren().get(0));
+        Assert.assertSame(b2, p1.getChildren().get(1));
 
         p1.removeBlock(b1);
         Assert.assertEquals(1, p1.getChildren().size());
