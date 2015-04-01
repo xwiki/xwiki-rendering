@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.parser.confluencexhtml.wikimodel;
 
-import org.xwiki.rendering.internal.parser.confluencexhtml.ConfluenceXHTMLParser;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
