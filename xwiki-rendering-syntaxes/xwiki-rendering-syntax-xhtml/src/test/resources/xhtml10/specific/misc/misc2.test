@@ -1,0 +1,85 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Testing basic support of HTML5 tags
+.#-----------------------------------------------------
+<header>Header<nav>Navigation</nav></header><main><article><section><h1>section 1</h1><summary>Summary 1</summary><details>Text 1<figure><img src='target'/><figcaption>caption</figcaption></figure></details><aside>Aside</aside></section><section><h1>section 2</h1><p>text 2</p></section></article></main><footer>Footer</footer>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginGroup
+beginParagraph
+onWord [Header]
+endParagraph
+beginGroup
+beginParagraph
+onWord [Navigation]
+endParagraph
+endGroup
+endGroup
+beginGroup
+beginGroup
+beginGroup
+beginSection
+beginHeader [1, Hsection1]
+onWord [section]
+onSpace
+onWord [1]
+endHeader [1, Hsection1]
+beginGroup
+beginParagraph
+onWord [Summary]
+onSpace
+onWord [1]
+endParagraph
+endGroup
+beginGroup
+beginParagraph
+onWord [Text]
+onSpace
+onWord [1]
+endParagraph
+beginGroup
+beginParagraph
+onImage [Typed = [false] Type = [url] Reference = [target]] [false]
+endParagraph
+beginGroup
+beginParagraph
+onWord [caption]
+endParagraph
+endGroup
+endGroup
+endGroup
+beginGroup
+beginParagraph
+onWord [Aside]
+endParagraph
+endGroup
+endSection
+endGroup
+beginGroup
+beginSection
+beginHeader [1, Hsection2]
+onWord [section]
+onSpace
+onWord [2]
+endHeader [1, Hsection2]
+beginParagraph
+onWord [text]
+onSpace
+onWord [2]
+endParagraph
+endSection
+endGroup
+endGroup
+endGroup
+beginGroup
+beginParagraph
+onWord [Footer]
+endParagraph
+endGroup
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<div><p>Header</p><div><p>Navigation</p></div></div><div><div><div><h1 id="Hsection1"><span>section 1</span></h1><div><p>Summary 1</p></div><div><p>Text 1</p><div><p><img src="target" alt="target"/></p><div><p>caption</p></div></div></div><div><p>Aside</p></div></div><div><h1 id="Hsection2"><span>section 2</span></h1><p>text 2</p></div></div></div><div><p>Footer</p></div>
