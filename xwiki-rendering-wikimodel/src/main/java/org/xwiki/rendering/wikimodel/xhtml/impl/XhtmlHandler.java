@@ -149,6 +149,8 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
         }
 
         // Basic handling of HTML5 block tags
+        // There is no intend here to provide real HTML5 support which deserve its own independent parser,
+        // but only to handle some HTML5 tags like divs to avoid potentially unexpected merging of separate text nodes.
         handlers.put("aside", handler);
         handlers.put("section", handler);
         handlers.put("article", handler);

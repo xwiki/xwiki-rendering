@@ -670,7 +670,10 @@ public class XHtmlParserTest extends AbstractWikiParserTest
     }
     
     /**
-     * Test basic HTML5 support
+     * Test basic HTML5 support.
+     * While invalid in XHTML 1.0, if these tags ever appear in the submitted content, it could cause some text nodes
+     * to be merged, which is usually not nice from an end user POV. Therefore Wikimodel provide some minimal support
+     * for them, by considering those tags as simple divs.
      * @throws WikiParserException
      */
     public void testBasicHTML5Tags() throws WikiParserException

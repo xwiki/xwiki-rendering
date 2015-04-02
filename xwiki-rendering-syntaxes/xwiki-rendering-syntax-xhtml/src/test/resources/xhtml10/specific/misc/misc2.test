@@ -1,6 +1,9 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .# Testing basic support of HTML5 tags
+.# While invalid in XHTML 1.0, if these tags ever appear in the submitted content, it could cause some text nodes
+.# to be merged, which is usually not nice from an end user POV. Therefore Wikimodel provide some minimal support for
+.# them, by considering those tags as simple divs, which end up as group events.
 .#-----------------------------------------------------
 <header>Header<nav>Navigation</nav></header><main><article><section><h1>section 1</h1><summary>Summary 1</summary><details>Text 1<figure><img src='target'/><figcaption>caption</figcaption></figure></details><aside>Aside</aside></section><section><h1>section 2</h1><p>text 2</p></section></article></main><footer>Footer</footer>
 .#-----------------------------------------------------
