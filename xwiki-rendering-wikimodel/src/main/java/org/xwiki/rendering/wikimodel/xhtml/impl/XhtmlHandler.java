@@ -40,6 +40,7 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.XhtmlCharacter;
 import org.xwiki.rendering.wikimodel.xhtml.XhtmlCharacterType;
+import org.xwiki.rendering.wikimodel.xhtml.handler.BlockTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.BoldTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.BreakTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
@@ -87,7 +88,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
             private final TagContext fParent;
 
-            TagStack fTagStack;
+            private TagStack fTagStack;
 
             public TagContext(
                 TagContext parent,
@@ -152,7 +153,13 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
             public TagContext getParent()
             {
-                return fParent;
+                // If my parent is not handled, I want it to be fully ignored, so I will go up the tree until I found
+                // a handled parent, however I should not reach the root.
+                if (fParent.fHandler == null && fParent.fParent.fName != null) {
+                    return fParent.getParent();
+                } else {
+                    return fParent;
+                }
             }
 
             public WikiScannerContext getScannerContext()
@@ -529,6 +536,26 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
         fStack.add("blockquote", handler);
         fStack.add("quote", handler);
         fStack.add("span", new SpanTagHandler());
+
+        handler = extraHandlers.get("div");
+        if (handler != null) {
+            handler = new BlockTagHandler(((BlockTagHandler) handler).getDocumentClass());
+        } else {
+            handler = new BlockTagHandler();
+        }
+
+        // Basic handling of HTML5 block tags
+        fStack.add("aside", handler);
+        fStack.add("section", handler);
+        fStack.add("article", handler);
+        fStack.add("main", handler);
+        fStack.add("nav", handler);
+        fStack.add("details", handler);
+        fStack.add("summary", handler);
+        fStack.add("figure", handler);
+        fStack.add("figcaption", handler);
+        fStack.add("header", handler);
+        fStack.add("footer", handler);
 
         // Register extra handlers
         fStack.addAll(extraHandlers);

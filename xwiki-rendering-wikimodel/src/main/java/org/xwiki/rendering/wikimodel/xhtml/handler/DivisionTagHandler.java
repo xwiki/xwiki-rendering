@@ -29,11 +29,16 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler.TagStack.TagContext
  * @version $Id$
  * @since 4.0M1
  */
-public class DivisionTagHandler extends TagHandler
+public class DivisionTagHandler extends BlockTagHandler
 {
     public DivisionTagHandler()
     {
-        super(true, false, true);
+        super();
+    }
+
+    public DivisionTagHandler(String documentClass)
+    {
+        super(documentClass);
     }
 
     @Override
@@ -49,16 +54,6 @@ public class DivisionTagHandler extends TagHandler
         }
 
         return false;
-    }
-
-    /**
-     * @return the class used to indicate the division block is an embedded
-     *         document. Note that use a method instead of a static private
-     *         String field so that user code can override the class name.
-     */
-    protected String getDocumentClass()
-    {
-        return "wikimodel-document";
     }
 
     @Override

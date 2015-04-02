@@ -17,23 +17,50 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler;
+package org.xwiki.rendering.wikimodel.xhtml.handler;
+
+import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
 
 /**
- * Change the class value indicating that the division is an embedded document. We do this in order to be independent of
- * WikiModel in what we expose to the outside world. Thus if one day we need to change to another implementation we
- * won't be tied to WikiModel.
- *
  * @version $Id$
- * @since 1.8M2
+ * @since 7.0RC1, 6.4.4
  */
-public class XWikiDivisionTagHandler extends DivisionTagHandler
+public class BlockTagHandler extends TagHandler
 {
-    @Override
-    protected String getDocumentClass()
+    private String documentClass = "wikimodel-document";
+
+    public BlockTagHandler()
     {
-        return "xwiki-document";
+        super(true, false, true);
+    }
+
+    public BlockTagHandler(String documentClass)
+    {
+        super(true, false, true);
+        this.documentClass = documentClass;
+    }
+
+    @Override
+    public boolean isBlockHandler(XhtmlHandler.TagStack.TagContext context)
+    {
+        return false;
+    }
+
+    public String getDocumentClass()
+    {
+        return documentClass;
+    }
+
+    @Override
+    protected void begin(XhtmlHandler.TagStack.TagContext context)
+    {
+        beginDocument(context, context.getParams());
+    }
+
+    @Override
+    protected void end(XhtmlHandler.TagStack.TagContext context)
+    {
+        endDocument(context);
     }
 }
