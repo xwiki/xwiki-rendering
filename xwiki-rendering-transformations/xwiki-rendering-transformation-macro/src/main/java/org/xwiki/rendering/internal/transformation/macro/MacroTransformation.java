@@ -19,8 +19,10 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -85,9 +87,12 @@ public class MacroTransformation extends AbstractTransformation
 
         public List<MacroLookupExceptionElement> errors;
 
-        public PriorityMacroBlockMatcher(Syntax syntax)
+        private Map<String, Macro<?>> knownMacros;
+
+        public PriorityMacroBlockMatcher(Syntax syntax, Map<String, Macro<?>> knownMacros)
         {
             this.syntax = syntax;
+            this.knownMacros = knownMacros;
         }
 
         @Override
@@ -97,8 +102,20 @@ public class MacroTransformation extends AbstractTransformation
                 MacroBlock macroBlock = (MacroBlock) block;
 
                 try {
-                    Macro<?> macro =
-                        MacroTransformation.this.macroManager.getMacro(new MacroId(macroBlock.getId(), this.syntax));
+                    // Try to find a known macros
+                    Macro<?> macro = this.knownMacros.get(macroBlock.getId());
+
+                    // If not found use the macro manager
+                    if (macro == null) {
+                        macro =
+                            MacroTransformation.this.macroManager
+                                .getMacro(new MacroId(macroBlock.getId(), this.syntax));
+
+                        // Cache the found macro for later
+                        this.knownMacros.put(macroBlock.getId(), macro);
+                    }
+
+                    // Find higher priority macro
                     if (this.block == null || this.blockMacro.compareTo(macro) > 0) {
                         this.block = macroBlock;
                         this.blockMacro = macro;
@@ -166,10 +183,14 @@ public class MacroTransformation extends AbstractTransformation
         MacroTransformationContext macroContext = new MacroTransformationContext(context);
         macroContext.setTransformation(this);
 
+        // Cache known macros since getting them again and again from the ComponentManager might be expensive
+        Map<String, Macro<?>> knownMacros = new HashMap<>();
+
         // Counter to prevent infinite recursion if a macro generates the same macro for example.
         for (int recursions = 0; recursions < this.maxRecursions;) {
             // 1) Get highest priority macro
-            PriorityMacroBlockMatcher priorityMacroBlockMatcher = new PriorityMacroBlockMatcher(context.getSyntax());
+            PriorityMacroBlockMatcher priorityMacroBlockMatcher =
+                new PriorityMacroBlockMatcher(context.getSyntax(), knownMacros);
             rootBlock.getFirstBlock(priorityMacroBlockMatcher, Block.Axes.DESCENDANT);
 
             // 2) Apply macros lookup errors
@@ -183,7 +204,7 @@ public class MacroTransformation extends AbstractTransformation
                                 "The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
                                     + "contact your administrator.", error.macroBlock.getId()));
                         this.logger.debug("Failed to locate the [{}] macro. Ignoring it.", error.macroBlock.getId());
-                    } else if (error.exception instanceof MacroLookupException) {
+                    } else {
                         // TODO: make it internationalized
                         this.macroErrorManager.generateError(error.macroBlock,
                             String.format("Invalid macro: %s.", error.macroBlock.getId()), error.exception);
