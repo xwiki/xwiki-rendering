@@ -87,12 +87,12 @@ public class MacroTransformation extends AbstractTransformation
 
         public List<MacroLookupExceptionElement> errors;
 
-        private Map<String, Macro<?>> knownMacros;
+        // Cache known macros since getting them again and again from the ComponentManager might be expensive
+        private final Map<String, Macro<?>> knownMacros = new HashMap<>();
 
-        public PriorityMacroBlockMatcher(Syntax syntax, Map<String, Macro<?>> knownMacros)
+        public PriorityMacroBlockMatcher(Syntax syntax)
         {
             this.syntax = syntax;
-            this.knownMacros = knownMacros;
         }
 
         @Override
@@ -183,14 +183,10 @@ public class MacroTransformation extends AbstractTransformation
         MacroTransformationContext macroContext = new MacroTransformationContext(context);
         macroContext.setTransformation(this);
 
-        // Cache known macros since getting them again and again from the ComponentManager might be expensive
-        Map<String, Macro<?>> knownMacros = new HashMap<>();
-
         // Counter to prevent infinite recursion if a macro generates the same macro for example.
         for (int recursions = 0; recursions < this.maxRecursions;) {
             // 1) Get highest priority macro
-            PriorityMacroBlockMatcher priorityMacroBlockMatcher =
-                new PriorityMacroBlockMatcher(context.getSyntax(), knownMacros);
+            PriorityMacroBlockMatcher priorityMacroBlockMatcher = new PriorityMacroBlockMatcher(context.getSyntax());
             rootBlock.getFirstBlock(priorityMacroBlockMatcher, Block.Axes.DESCENDANT);
 
             // 2) Apply macros lookup errors
