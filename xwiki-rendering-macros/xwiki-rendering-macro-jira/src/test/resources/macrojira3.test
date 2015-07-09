@@ -34,7 +34,7 @@ endTableHeadCell
 endTableRow
 beginTableRow
 beginTableCell
-onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/improvement.gif]] [false] [[title]=[Improvement][alt]=[Improvement]]
+onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/improvement.gif]] [false] [[alt]=[Improvement][title]=[Improvement]]
 endTableCell
 beginTableCell
 beginLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1000]] [true]
@@ -47,7 +47,7 @@ beginTableCell
 onVerbatim [Improve PDF Output] [true]
 endTableCell
 beginTableCell
-onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_closed.gif]] [false] [[title]=[Closed][alt]=[Closed]]
+onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_closed.gif]] [false] [[alt]=[Closed][title]=[Closed]]
 endTableCell
 beginTableCell
 onVerbatim [${{{regex:.*}}}-Mar-2007] [true]
@@ -55,7 +55,7 @@ endTableCell
 endTableRow
 beginTableRow
 beginTableCell
-onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/bug.gif]] [false] [[title]=[Bug][alt]=[Bug]]
+onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/bug.gif]] [false] [[alt]=[Bug][title]=[Bug]]
 endTableCell
 beginTableCell
 beginLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1001]] [true]
@@ -66,7 +66,7 @@ beginTableCell
 onVerbatim [On jetty, non-default skins are not usable] [true]
 endTableCell
 beginTableCell
-onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_open.gif]] [false] [[title]=[Open][alt]=[Open]]
+onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_open.gif]] [false] [[alt]=[Open][title]=[Open]]
 endTableCell
 beginTableCell
 onVerbatim [${{{regex:.*}}}-Mar-2007] [true]

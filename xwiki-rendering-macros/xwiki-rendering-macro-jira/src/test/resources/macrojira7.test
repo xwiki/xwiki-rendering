@@ -13,7 +13,7 @@ XWIKI-1001
 beginDocument
 beginMacroMarkerStandalone [jira] [url=http://localhost|style=enum] [XWIKI-1000
 XWIKI-1001]
-onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_closed.gif]] [false] [[title]=[Closed][alt]=[Closed]]
+onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_closed.gif]] [false] [[alt]=[Closed][title]=[Closed]]
 onSpace
 beginLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1000]] [true]
 beginFormat [STRIKEDOUT]
@@ -21,7 +21,7 @@ onVerbatim [XWIKI-1000] [true]
 endFormat [STRIKEDOUT]
 endLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1000]] [true]
 onSpace
-onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_open.gif]] [false] [[title]=[Open][alt]=[Open]]
+onImage [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/images/icons/status_open.gif]] [false] [[alt]=[Open][title]=[Open]]
 onSpace
 beginLink [Typed = [true] Type = [url] Reference = [http://jira.xwiki.org/browse/XWIKI-1001]] [true]
 onVerbatim [XWIKI-1001] [true]

@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.renderer.event;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.listener.Format;
@@ -452,8 +453,11 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
     private String serializeParameters(Map<String, ? extends Object> parameters)
     {
+        // Start by sorting the parameters so that when comparing the output the parameter are listed in a fixed order.
+        Map<String, ? extends Object> sortedParameters = new TreeMap<>(parameters);
+
         StringBuffer parametersStr = new StringBuffer();
-        for (Map.Entry<String, ? extends Object> entry : parameters.entrySet()) {
+        for (Map.Entry<String, ? extends Object> entry : sortedParameters.entrySet()) {
             String value = entry.getValue() == null ? null : entry.getValue().toString();
             String key = entry.getKey();
 
