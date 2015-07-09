@@ -85,6 +85,7 @@ public abstract class AbstractJIRADataSource implements JIRADataSource
      */
     protected SAXBuilder createSAXBuilder()
     {
+        // Note: SAXBuilder is not thread-safe which is why we're instantiating a new one every time.
         return new SAXBuilder();
     }
 }
