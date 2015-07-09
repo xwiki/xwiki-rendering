@@ -71,13 +71,20 @@ public abstract class AbstractJIRADataSource implements JIRADataSource
         try {
             // Note: we encode using UTF8 since it's the W3C recommendation.
             // See http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars
-            SAXBuilder saxBuilder = new SAXBuilder();
-            document = saxBuilder.build(new URL(String.format("%s%s%s", jiraURL, JQL_URL_PREFIX,
+            document = createSAXBuilder().build(new URL(String.format("%s%s%s", jiraURL, JQL_URL_PREFIX,
                 URLEncoder.encode(jqlQuery, "UTF-8"))));
         } catch (Exception e) {
             throw new MacroExecutionException(String.format("Failed to retrieve JIRA data from [%s] for JQL [%s]",
                 jiraURL, jqlQuery), e);
         }
         return document;
+    }
+
+    /**
+     * @return the SAXBuilder instance to use to retrieve the data
+     */
+    protected SAXBuilder createSAXBuilder()
+    {
+        return new SAXBuilder();
     }
 }
