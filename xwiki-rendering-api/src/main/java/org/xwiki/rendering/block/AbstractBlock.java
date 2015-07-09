@@ -365,7 +365,7 @@ public abstract class AbstractBlock implements Block
     public void setParameter(String name, String value)
     {
         if (this.parameters == null) {
-            this.parameters = new LinkedHashMap<String, String>(1);
+            this.parameters = new LinkedHashMap<>(1);
         }
 
         this.parameters.put(name, value);
@@ -375,7 +375,7 @@ public abstract class AbstractBlock implements Block
     public void setParameters(Map<String, String> parameters)
     {
         if (this.parameters == null) {
-            this.parameters = new LinkedHashMap<String, String>(parameters);
+            this.parameters = new LinkedHashMap<>(parameters);
         } else {
             this.parameters.clear();
             this.parameters.putAll(parameters);
@@ -491,7 +491,7 @@ public abstract class AbstractBlock implements Block
         }
 
         if (this.parameters != null) {
-            ((AbstractBlock) block).parameters = new LinkedHashMap<String, String>(this.parameters);
+            ((AbstractBlock) block).parameters = new LinkedHashMap<>(this.parameters);
         }
 
         if (this.childrenBlocks != null) {
