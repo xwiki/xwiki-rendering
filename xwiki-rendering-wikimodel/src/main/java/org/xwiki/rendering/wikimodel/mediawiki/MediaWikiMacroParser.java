@@ -34,8 +34,7 @@ public class MediaWikiMacroParser implements IWikiMacroParser
     */
     public WikiMacro parse(String str)
     {
-        String name = null;
-        String definition = str;
+        String name;
         WikiParameters params = WikiParameters.EMPTY;
         if (str.equals("__TOC__")) {
             name = WikiMacro.MACRO_TOC;
@@ -50,24 +49,33 @@ public class MediaWikiMacroParser implements IWikiMacroParser
             name = WikiMacro.MACRO_FOOTNOTES;
         } else if (str.length() > 4 && str.startsWith("{{") && str.endsWith("}}")) {
             // template with named and unnamed parameters
-            final String macro = str.substring(2, str.length() - 2);
-            String[] parts = macro.split("[|]");
-            name = parts[0];
-            for (int i = 1; i < parts.length; i++) {
-                String key = Integer.toString(i);
-                String value = parts[i];
-                int equidx = parts[i].indexOf('=');
-                if (equidx > 0) {
-                    key = parts[i].substring(0, equidx);
-                    value = parts[i].substring(equidx + 1);
+            String macro = str.substring(2, str.length() - 2);
+            // First param is separated by a ":"
+            int colonPos = macro.indexOf(':');
+            if (colonPos > -1) {
+                name = macro.substring(0, colonPos);
+                if (macro.length() > colonPos + 1) {
+                    macro = macro.substring(colonPos + 1);
+                    String[] parts = macro.split("[|:]");
+                    for (int i = 0; i < parts.length; i++) {
+                        String key = Integer.toString(i + 1);
+                        String value = parts[i];
+                        int equidx = parts[i].indexOf('=');
+                        if (equidx > 0) {
+                            key = parts[i].substring(0, equidx);
+                            value = parts[i].substring(equidx + 1);
+                        }
+                        params = params.addParameter(key, value);
+                    }
                 }
-                params = params.addParameter(key, value);
+            } else {
+                name = macro;
             }
         } else {
             // seems to be an unsupported magic word, see
             // http://www.mediawiki.org/wiki/Help:Magic_words
             name = WikiMacro.UNHANDLED_MACRO;
         }
-        return new WikiMacro(name, params, definition);
+        return new WikiMacro(name, params);
     }
 }

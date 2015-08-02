@@ -251,7 +251,7 @@ public class MediawikiParserTest extends AbstractWikiParserTest
 
         // using an inlined macro as term
         test("; __term__ : ''definition''", "<dl>\n"
-            + "  <dt><span class='wikimodel-macro' macroName='unhandled'><![CDATA[__term__]]></span></dt>\n"
+            + "  <dt><span class='wikimodel-macro' macroName='unhandled'/></dt>\n"
             + "  <dd><em>definition</em></dd>\n" +
             "</dl>");
 
@@ -396,18 +396,16 @@ public class MediawikiParserTest extends AbstractWikiParserTest
      */
     public void testMacros() throws WikiParserException
     {
-        test("__TOC__", "<pre class='wikimodel-macro' macroName='toc' numbered='true'><![CDATA[__TOC__]]></pre>");
-        test("__FORCETOC__", "<pre class='wikimodel-macro' macroName='forcetoc'><![CDATA[__FORCETOC__]]></pre>");
-        test("{{MAGICWORD}}", "<pre class='wikimodel-macro' macroName='MAGICWORD'><![CDATA[{{MAGICWORD}}]]></pre>");
-        test("{{TestMacro|paramA|paramB}}",
-            "<pre class='wikimodel-macro' macroName='TestMacro' 1='paramA' 2='paramB'><![CDATA[{{TestMacro|paramA|paramB}}]]></pre>");
-        test("{{TestMacro|1=paramA|2=paramB}}",
-            "<pre class='wikimodel-macro' macroName='TestMacro' 1='paramA' 2='paramB'><![CDATA[{{TestMacro|1=paramA|2=paramB}}]]></pre>");
-        test("{{TestMacro|param1=X|param2=Y|lastparam}}",
-            "<pre class='wikimodel-macro' macroName='TestMacro' param1='X' param2='Y' 3='lastparam'><![CDATA[{{TestMacro|param1=X|param2=Y|lastparam}}]]></pre>");
-        test("{{NameSpace:TestMacro|paramA|paramB}}",
-            "<pre class='wikimodel-macro' macroName='NameSpace:TestMacro' 1='paramA' 2='paramB'><![CDATA[{{NameSpace:TestMacro|paramA|paramB}}]]></pre>");
-        test("<references />", "<pre class='wikimodel-macro' macroName='footnotes'><![CDATA[<references />]]></pre>");
+        test("__TOC__", "<pre class='wikimodel-macro' macroName='toc' numbered='true'/>");
+        test("__FORCETOC__", "<pre class='wikimodel-macro' macroName='forcetoc'/>");
+        test("{{MAGICWORD}}", "<pre class='wikimodel-macro' macroName='MAGICWORD'/>");
+        test("{{TestMacro:paramA|paramB}}",
+            "<pre class='wikimodel-macro' macroName='TestMacro' 1='paramA' 2='paramB'/>");
+        test("{{TestMacro:1=paramA|2=paramB}}",
+            "<pre class='wikimodel-macro' macroName='TestMacro' 1='paramA' 2='paramB'/>");
+        test("{{TestMacro:param1=X|param2=Y|lastparam}}",
+            "<pre class='wikimodel-macro' macroName='TestMacro' param1='X' param2='Y' 3='lastparam'/>");
+        test("<references />", "<pre class='wikimodel-macro' macroName='footnotes'/>");
     }
 
     /**
