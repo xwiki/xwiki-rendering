@@ -1,0 +1,7 @@
+{{testsimplemacro param1="value1" param2="value2"}}
+content
+{{/testsimplemacro}}
+
+{{testsimplemacro}}
+content
+{{/testsimplemacro}}

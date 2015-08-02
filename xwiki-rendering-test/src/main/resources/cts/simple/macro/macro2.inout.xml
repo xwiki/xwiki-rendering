@@ -36,8 +36,7 @@
       </metadata>
     </metadata>
   </p>
-  <macro id="testsimplemacro"/>
-  <macro id="testsimplemacro">
+  <macro id="testsimplemacro" content="content">
     <p>
       <parameters>
         <entry>
@@ -51,4 +50,5 @@
       </parameters>
     </p>
   </macro>
+  <macro id="testsimplemacro" content="content"/>
 </document>
