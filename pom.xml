@@ -231,8 +231,6 @@
           <excludes>
             <exclude>**/internal/**</exclude>
             <exclude>**/test/**</exclude>
-            <!-- wikimodel is not an API -->
-            <exclude>org/xwiki/rendering/wikimodel/**</exclude>
             <!-- Remove the following excludes after we release the current version as final -->
           </excludes>
         </configuration>
