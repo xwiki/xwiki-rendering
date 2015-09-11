@@ -277,6 +277,11 @@ public class LinkCheckerTransformationTest
     @Test
     public void transformWithAntiFloodKickingIn() throws Exception
     {
+        // Replace the Link checker Thread with a mock so that it doesn't remove any link item from the queue
+        // Note that the LinkCheckerTransformation getInstance() below will automatically start the Link Checker
+        // Thread.
+        this.componentManager.registerMockComponent(LinkCheckerThread.class);
+
         LinkCheckerTransformation transformation =
             this.componentManager.getInstance(Transformation.class, "linkchecker");
 
