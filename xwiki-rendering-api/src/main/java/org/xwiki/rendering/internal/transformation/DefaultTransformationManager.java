@@ -28,6 +28,7 @@ import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
@@ -115,7 +116,8 @@ public class DefaultTransformationManager implements TransformationManager
                 transformations.add(this.componentManagerProvider.get().<Transformation>getInstance(
                     Transformation.class, hint));
             } catch (ComponentLookupException e) {
-                this.logger.warn("Failed to locate transformation with hint [" + hint + "], ignoring it.");
+                this.logger.warn("Failed to locate transformation with hint [{}], ignoring it. "
+                    + "Root reason [{}]", hint, ExceptionUtils.getRootCauseMessage(e));
             }
         }
         Collections.sort(transformations);
