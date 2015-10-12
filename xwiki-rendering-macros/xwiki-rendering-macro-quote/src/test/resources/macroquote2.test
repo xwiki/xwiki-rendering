@@ -1,0 +1,40 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.#-----------------------------------------------------
+{{quote syntax="xwiki/2.0"}}
+quote **line** 1
+
+quote line 2
+{{/quote}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [quote] [syntax=xwiki/2.0] [quote **line** 1
+
+quote line 2]
+beginQuotation
+beginQuotationLine
+onWord [quote]
+onSpace
+beginFormat [BOLD]
+onWord [line]
+endFormat [BOLD]
+onSpace
+onWord [1]
+endQuotationLine
+beginQuotationLine
+endQuotationLine
+beginQuotationLine
+onWord [quote]
+onSpace
+onWord [line]
+onSpace
+onWord [2]
+endQuotationLine
+endQuotation
+endMacroMarkerStandalone [quote] [syntax=xwiki/2.0] [quote **line** 1
+
+quote line 2]
+endDocument
