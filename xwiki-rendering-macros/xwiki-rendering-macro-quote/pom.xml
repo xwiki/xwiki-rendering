@@ -31,7 +31,7 @@
   <name>XWiki Rendering - Macro - Quote</name>
   <description>Displays inline text with special quote formatting</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>1.00</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.96</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Quote Macro</xwiki.extension.name>
   </properties>
