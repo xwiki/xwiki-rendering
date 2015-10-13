@@ -28,19 +28,19 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.QuotationBlock;
 import org.xwiki.rendering.block.QuotationLineBlock;
 import org.xwiki.rendering.block.VerbatimBlock;
-import org.xwiki.rendering.macro.AbstractMacro;
+import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
-import org.xwiki.rendering.macro.quote.QuoteMacroParameters;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
- * Displays text with special quote formatting.
+ * Displays passed text as inline text, with one quote per line in the content (spearated by new line characters).
  *
  * @version $Id$
  * @since 7.3M1
@@ -48,12 +48,12 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 @Component
 @Named("quote")
 @Singleton
-public class QuoteMacro extends AbstractMacro<QuoteMacroParameters>
+public class QuoteMacro extends AbstractNoParameterMacro
 {
     /**
      * The description of the macro.
      */
-    private static final String DESCRIPTION = "Displays text with special quote formatting.";
+    private static final String DESCRIPTION = "Displays inline text with special quote formatting.";
 
     /**
      * The description of the macro content.
@@ -65,13 +65,19 @@ public class QuoteMacro extends AbstractMacro<QuoteMacroParameters>
      */
     @Inject
     private MacroContentParser macroContentParser;
+    /**
+     * Used to find the Parser corresponding to the user-specified syntax for the Macro.
+     */
+    @Inject
+    private ComponentManager componentManager;
+
 
     /**
      * Create and initialize the descriptor of the macro.
      */
     public QuoteMacro()
     {
-        super("Quote", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION), QuoteMacroParameters.class);
+        super("Quote", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION));
         setDefaultCategory(DEFAULT_CATEGORY_FORMATTING);
     }
 
@@ -82,17 +88,12 @@ public class QuoteMacro extends AbstractMacro<QuoteMacroParameters>
     }
 
     @Override
-    public List<Block> execute(QuoteMacroParameters parameters, String content, MacroTransformationContext context)
+    public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
         List<Block> quoteBlocks = new ArrayList<>();
         for (String line : content.split("\\r?\\n")) {
-            List<Block> lineContentBlocks;
-            if (parameters.getSyntax() == null) {
-                lineContentBlocks = Collections.<Block>singletonList(new VerbatimBlock(line, true));
-            } else {
-                lineContentBlocks = this.macroContentParser.parse(line, context, true, true).getChildren();
-            }
+            List<Block> lineContentBlocks = Collections.<Block>singletonList(new VerbatimBlock(line, true));
             quoteBlocks.add(new QuotationLineBlock(lineContentBlocks));
         }
         return Collections.<Block>singletonList(new QuotationBlock(quoteBlocks));

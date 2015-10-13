@@ -29,7 +29,7 @@
   </parent>
   <artifactId>xwiki-rendering-macro-quote</artifactId>
   <name>XWiki Rendering - Macro - Quote</name>
-  <description>Displays text with special quote formatting</description>
+  <description>Displays inline text with special quote formatting</description>
   <properties>
     <xwiki.jacoco.instructionRatio>1.00</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
