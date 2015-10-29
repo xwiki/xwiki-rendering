@@ -56,12 +56,12 @@ public @interface Scope
     String DEFAULT_PATTERN = ".*\\.xml";
 
     /**
-     * The classpath prefix to search in.
+     * @return the classpath prefix to search in.
      */
     String value() default "";
 
     /**
-     * The regex pattern to filter files to execute, see {@link CompatibilityTestSuite}.
+     * @return the regex pattern to filter files to execute, see {@link CompatibilityTestSuite}.
      */
     String pattern() default DEFAULT_PATTERN;
 }

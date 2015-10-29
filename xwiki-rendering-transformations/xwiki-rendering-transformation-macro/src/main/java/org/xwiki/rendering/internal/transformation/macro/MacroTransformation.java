@@ -90,7 +90,7 @@ public class MacroTransformation extends AbstractTransformation
         // Cache known macros since getting them again and again from the ComponentManager might be expensive
         private final Map<String, Macro<?>> knownMacros = new HashMap<>();
 
-        public PriorityMacroBlockMatcher(Syntax syntax)
+        PriorityMacroBlockMatcher(Syntax syntax)
         {
             this.syntax = syntax;
         }

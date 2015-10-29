@@ -66,7 +66,7 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
         /**
          * @param invalidParameter a parameter that shouldn't be there in a component
          */
-        public TestInvalidMacro(String invalidParameter)
+        TestInvalidMacro(String invalidParameter)
         {
             super("Invalid Macro");
         }

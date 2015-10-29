@@ -38,13 +38,13 @@ import java.lang.annotation.Target;
 public @interface Syntax
 {
     /**
-     * The id of the syntax that we are testing (eg "xwiki/2.0").
+     * @return the id of the syntax that we are testing (eg "xwiki/2.0")
      */
     String value() default "";
 
     /**
-     * The Syntax id of the generated XDOM Macro Block content (for Macros that contain wiki syntax). By default
-     * the tested Syntax is used if not defined.
+     * @return the Syntax id of the generated XDOM Macro Block content (for Macros that contain wiki syntax). By default
+     * the tested Syntax is used if not defined
      */
     String metadata() default "";
 }

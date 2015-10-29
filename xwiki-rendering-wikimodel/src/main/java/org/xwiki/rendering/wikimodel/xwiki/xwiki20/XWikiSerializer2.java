@@ -567,7 +567,7 @@ public class XWikiSerializer2 extends PrintTextListener
     /*
      * ========================================================================
      */
-    private static enum ListOrdering
+    private enum ListOrdering
     {
         ORDERED, UNORDERED
     }
@@ -578,7 +578,7 @@ public class XWikiSerializer2 extends PrintTextListener
 
     private class XWiki2ReferenzeHandler extends ReferenceHandler
     {
-        protected XWiki2ReferenzeHandler()
+        XWiki2ReferenzeHandler()
         {
             this(false, false);
         }
