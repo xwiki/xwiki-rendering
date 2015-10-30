@@ -45,13 +45,6 @@
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-api</artifactId>
       <version>${project.version}</version>
-      <!-- TODO: why? -->
-      <exclusions>
-          <exclusion>
-              <artifactId>dom4j</artifactId>
-              <groupId>dom4j</groupId>
-          </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
@@ -84,13 +77,6 @@
     <dependency>
       <groupId>org.reflections</groupId>
       <artifactId>reflections</artifactId>
-      <exclusions>
-        <!-- We don't need that part of reflections -->
-        <exclusion>
-          <artifactId>dom4j</artifactId>
-          <groupId>dom4j</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.velocity</groupId>
