@@ -34,6 +34,12 @@
     <xwiki.jacoco.instructionRatio>0.91</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
+    <!-- Fix duplicated files in parboiled until pegdown depend on the right version -->
+    <dependency>
+      <groupId>org.parboiled</groupId>
+      <artifactId>parboiled-java</artifactId>
+      <version>1.1.7</version>
+    </dependency>
     <dependency>
       <groupId>org.pegdown</groupId>
       <artifactId>pegdown</artifactId>
@@ -62,16 +68,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <dependencyManagement>
-    <dependencies>
-      <!-- Fix duplicated files in parboiled until pegdown depend on the right version -->
-      <dependency>
-        <groupId>org.parboiled</groupId>
-        <artifactId>parboiled-java</artifactId>
-        <version>1.1.7</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   <build>
     <plugins>
       <plugin>
