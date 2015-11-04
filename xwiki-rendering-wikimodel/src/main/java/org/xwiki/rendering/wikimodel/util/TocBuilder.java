@@ -94,7 +94,7 @@ public class TocBuilder
      */
     public void beginDocument()
     {
-        fBaseLevelStack.push(new Integer(fBaseLevel));
+        fBaseLevelStack.push(fBaseLevel);
         fBaseLevel = fLevel;
     }
 

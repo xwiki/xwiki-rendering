@@ -445,7 +445,7 @@ public class HtmlEntityUtil
     private static void add(String symbol, int code, String descr)
     {
         CharInfo info = new CharInfo(symbol, code, descr);
-        fCodeMap.put(new Integer(code), info);
+        fCodeMap.put(code, info);
         fSymbolMap.put(symbol, info);
     }
 
@@ -471,7 +471,7 @@ public class HtmlEntityUtil
      */
     public static String getDescription(char ch)
     {
-        CharInfo info = (CharInfo) fCodeMap.get(new Integer(ch));
+        CharInfo info = (CharInfo) fCodeMap.get(Integer.valueOf(ch));
         return (info != null) ? info.fDescription : null;
     }
 
@@ -497,7 +497,7 @@ public class HtmlEntityUtil
      */
     public static String getSymbol(char ch)
     {
-        CharInfo info = (CharInfo) fCodeMap.get(new Integer(ch));
+        CharInfo info = (CharInfo) fCodeMap.get(Integer.valueOf(ch));
         return (info != null) ? info.fSymbol : null;
     }
 }
