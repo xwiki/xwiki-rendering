@@ -43,7 +43,6 @@ public interface BlockRenderer
     /**
      * @param blocks the list of blocks to render in the target syntax
      * @param printer the object where to output the result of the rendering
-     * @todo remove this API once we introduce the notion of BlockCollection
      */
     void render(Collection<Block> blocks, WikiPrinter printer);
 }

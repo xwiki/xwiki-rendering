@@ -43,7 +43,6 @@ public interface ContentHandlerBlockRenderer
     /**
      * @param blocks the list of blocks to render in the target syntax
      * @param contentHandler the object to send SAX event to
-     * @todo remove this API once we introduce the notion of BlockCollection
      */
     void render(Collection<Block> blocks, ContentHandler contentHandler);
 }
