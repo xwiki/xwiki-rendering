@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering</artifactId>
-    <version>7.1.3-SNAPSHOT</version>
+    <version>7.1.3</version>
   </parent>
   <artifactId>xwiki-rendering-legacy</artifactId>
   <name>XWiki Rendering - Legacy</name>
