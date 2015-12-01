@@ -1,0 +1,30 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Verify several <blockquote> inside another <blockquote> is properly supported
+.#-----------------------------------------------------
+<blockquote><blockquote><div>XXX</div></blockquote><blockquote><div>YYY</div></blockquote></blockquote>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginQuotation
+beginQuotationLine
+beginQuotation
+beginQuotationLine
+beginGroup
+beginParagraph
+onWord [XXX]
+endParagraph
+endGroup
+endQuotationLine
+beginQuotationLine
+beginGroup
+beginParagraph
+onWord [YYY]
+endParagraph
+endGroup
+endQuotationLine
+endQuotation
+endQuotationLine
+endQuotation
+endDocument

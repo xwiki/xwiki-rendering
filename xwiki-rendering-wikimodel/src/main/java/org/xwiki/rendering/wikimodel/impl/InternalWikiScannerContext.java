@@ -505,10 +505,10 @@ public class InternalWikiScannerContext implements IWikiScannerContext
             checkTableCell();
         } else if (isInList()) {
             checkListItem();
-        } else if (!isInTableCell() && !isInListItem()) {
-            closeBlock();
         } else if (isInQuotation()) {
             checkQuotationLine();
+        } else if (!isInTableCell() && !isInListItem()) {
+            closeBlock();
         }
     }
 
@@ -878,7 +878,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
 
     public boolean isInQuotation()
     {
-        return fBlockType == IBlockTypes.QUOT;
+        return ((fBlockType & IBlockTypes.QUOT) == IBlockTypes.QUOT);
     }
 
     private boolean isInQuotationLine()
