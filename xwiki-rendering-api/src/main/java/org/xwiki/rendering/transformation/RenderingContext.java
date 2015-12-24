@@ -24,7 +24,6 @@ import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.stability.Unstable;
 
 /**
  * The context of the rendering engine during transformation.
@@ -33,7 +32,6 @@ import org.xwiki.stability.Unstable;
  * @since 6.0
  */
 @Role
-@Unstable
 public interface RenderingContext extends Cloneable
 {
     /**
