@@ -43,6 +43,10 @@ public class Syntax
 
     public static final Syntax HTML_4_01 = new Syntax(SyntaxType.HTML, "4.01");
 
+    /**
+     * @deprecated since 5.0
+     */
+    @Deprecated
     public static final Syntax XWIKI_1_0 = new Syntax(SyntaxType.XWIKI, "1.0");
 
     public static final Syntax XWIKI_2_0 = new Syntax(SyntaxType.XWIKI, "2.0");
