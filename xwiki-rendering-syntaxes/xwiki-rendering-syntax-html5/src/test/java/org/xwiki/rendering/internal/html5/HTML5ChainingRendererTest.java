@@ -24,15 +24,19 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.rendering.internal.renderer.html5.HTML5ChainingRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
-import org.xwiki.rendering.internal.renderer.html5.HTML5ChainingRenderer;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test class for {@link org.xwiki.rendering.internal.renderer.html5.HTML5ChainingRenderer}.
@@ -92,6 +96,23 @@ public class HTML5ChainingRendererTest
         chainingRenderer.onWord("hello");
         chainingRenderer.endFormat(Format.MONOSPACE, parameters);
         assertEquals("<span class=\"monospace myClass\">hello</span>", printer.toString());
+    }
+    
+    @Test
+    public void testWithBlankParameter() throws Exception
+    {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("rel", "___blank");
+        ResourceReference reference = new ResourceReference("a reference", ResourceType.DOCUMENT);
+        reference.addBaseReference("base reference");
+        
+        // Test
+        chainingRenderer.beginLink(reference, false, parameters);
+        
+        // Verify
+        Map<String, String> expectedParameters = new HashMap<>();
+        expectedParameters.put("target", "_blank");
+        verify(linkRenderer).beginLink(eq(reference), eq(false), eq(expectedParameters));
     }
     
 }
