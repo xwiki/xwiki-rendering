@@ -22,13 +22,11 @@ package org.xwiki.rendering.internal.renderer.html5;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
-import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
  * Convert listener events to HTML5.
@@ -43,12 +41,6 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
     private static final String ELEM_PRE = "pre";
 
     private static final String PROP_CLASS = "class";
-    
-    private static final String PROP_REL = "rel";
-
-    private static final String PROP_TARGET = "target";
-    
-    private static final String PROP_VALUE_BLANK = "_blank";
 
     /**
      * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
@@ -123,25 +115,4 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
             getXHTMLWikiPrinter().printXMLEndElement(ELEM_PRE);
         }
     }
-
-    @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
-    {
-        Map<String, String> params = parameters;
-        // In HTML5, the "rel" attribute cannot contains the "__blank" value (it's invalid). However, the recommended 
-        // practice to create links that open a new window, is to use this parameter (at least in XWiki Syntax 2.1).
-        // This is why, in HTML5, we manually replace this attribute by the standard "target".
-        //
-        // Note: the number of "_" is not important, as soon as the first character is "_" and the end is "_blank";
-        String relValue = parameters.get(PROP_REL);
-        if (StringUtils.startsWith(relValue, "_") && StringUtils.endsWith(relValue, PROP_VALUE_BLANK)) {
-            params = new HashMap<>(parameters);
-            // In HTML5 the corresponding value is "_blank" (not "__blank" or "___blank", etc...).
-            params.put(PROP_TARGET, PROP_VALUE_BLANK);
-            params.remove(PROP_REL);
-        }
-        // For the rest, let the super class do the job
-        super.beginLink(reference, isFreeStandingURI, params);
-    }
-
 }
