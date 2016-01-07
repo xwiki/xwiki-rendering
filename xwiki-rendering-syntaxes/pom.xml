@@ -67,7 +67,6 @@
     <module>xwiki-rendering-syntax-xdomxml10</module>
     <module>xwiki-rendering-syntax-xdomxmlcurrent</module>
     <module>xwiki-rendering-syntax-xhtml</module>
-    <module>xwiki-rendering-syntax-xwiki10</module>
     <module>xwiki-rendering-syntax-xwiki20</module>
     <module>xwiki-rendering-syntax-xwiki21</module>
   </modules>
