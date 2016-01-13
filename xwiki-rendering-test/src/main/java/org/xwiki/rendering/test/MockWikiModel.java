@@ -26,6 +26,7 @@ import org.xwiki.component.descriptor.DefaultComponentDescriptor;
 import org.xwiki.rendering.listener.reference.AttachmentResourceReference;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.wiki.WikiModel;
 
 /**
@@ -92,6 +93,15 @@ public class MockWikiModel implements WikiModel
     @Override
     public boolean isDocumentAvailable(ResourceReference documentReference)
     {
-        return "Space.ExistingPage".equals(documentReference.getReference());
+        ResourceType resourceType = documentReference.getType();
+        String resourceValue = documentReference.getReference();
+
+        if (ResourceType.DOCUMENT.equals(resourceType)) {
+            return "Space.ExistingPage".equals(resourceValue);
+        } else if (ResourceType.SPACE.equals(resourceType)) {
+            return "Space".equals(resourceValue);
+        }
+
+        return false;
     }
 }

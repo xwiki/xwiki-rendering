@@ -75,7 +75,8 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
         // Since 2.5M2, handle the special case when the link syntax used for a link to a document has the
         // query string and/or the anchor specified as parameters. This is how the XWiki Syntax 2.1 specifies
         // query string and anchor (ex: [[label>>doc:docReference||queryString="a=b" anchor="anchor"]]).
-        if (reference.getType().equals(ResourceType.DOCUMENT)) {
+        ResourceType resourceType = reference.getType();
+        if (ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType)) {
             String queryString = parameters.remove(QUERY_STRING);
             if (queryString != null) {
                 reference.setParameter(DocumentResourceReference.QUERY_STRING, queryString);
@@ -84,7 +85,7 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
             if (anchor != null) {
                 reference.setParameter(DocumentResourceReference.ANCHOR, anchor);
             }
-        } else if (reference.getType().equals(ResourceType.ATTACHMENT)) {
+        } else if (ResourceType.ATTACHMENT.equals(resourceType)) {
             String queryString = parameters.remove(QUERY_STRING);
             if (queryString != null) {
                 reference.setParameter(AttachmentResourceReference.QUERY_STRING, queryString);
@@ -98,7 +99,7 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
     protected void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         // Since 2.5M2, handle the special case when the image syntax used for an image has a query string specified.
-        if (reference.getType().equals(ResourceType.ATTACHMENT)) {
+        if (ResourceType.ATTACHMENT.equals(reference.getType())) {
             String queryString = parameters.remove(QUERY_STRING);
             if (queryString != null) {
                 reference.setParameter(DocumentResourceReference.QUERY_STRING, queryString);

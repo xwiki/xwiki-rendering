@@ -84,7 +84,8 @@ public class PlainTextBlockFilter implements BlockFilter
             try {
                 String label;
 
-                if (reference.getType().equals(ResourceType.DOCUMENT)) {
+                ResourceType resourceType = reference.getType();
+                if (ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType)) {
                     label = this.linkLabelGenerator.generate(reference);
                 } else {
                     label = reference.getReference();

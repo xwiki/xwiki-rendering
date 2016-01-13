@@ -23,6 +23,7 @@ package org.xwiki.rendering.listener.reference;
  * The Resource type. It can be one of:
  * <ul>
  * <li>document ("doc")</li>
+ * <li>space ("space")</li>
  * <li>URL ("url")</li>
  * <li>document in another wiki (interwiki) ("interwiki")</li>
  * <li>relative URL ("path")</li>
@@ -47,6 +48,11 @@ public class ResourceType
      * Represents a Document.
      */
     public static final ResourceType DOCUMENT = new ResourceType("doc");
+
+    /**
+     * Represents a Space.
+     */
+    public static final ResourceType SPACE = new ResourceType("space");
 
     /**
      * Represents an URL.
