@@ -52,20 +52,20 @@ public interface WikiModel
     String getImageURL(ResourceReference imageReference, Map<String, String> parameters);
 
     /**
-     * @param documentReference the reference to the document
-     * @return true if the document exists and can be viewed or false otherwise
+     * @param resourceReference the reference pointing to a wiki document
+     * @return true if the wiki document exists and can be viewed or false otherwise
      */
-    boolean isDocumentAvailable(ResourceReference documentReference);
+    boolean isDocumentAvailable(ResourceReference resourceReference);
 
     /**
-     * @param documentReference the reference to the document
+     * @param resourceReference the reference pointing to a wiki document
      * @return the URL to view the specified wiki document
      */
-    String getDocumentViewURL(ResourceReference documentReference);
+    String getDocumentViewURL(ResourceReference resourceReference);
 
     /**
-     * @param documentReference the reference to the document
+     * @param resourceReference the reference pointing to a wiki document
      * @return the URL to edit the specified wiki document
      */
-    String getDocumentEditURL(ResourceReference documentReference);
+    String getDocumentEditURL(ResourceReference resourceReference);
 }

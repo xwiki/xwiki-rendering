@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -33,7 +36,7 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
 /**
  * Parses the content of resource references. The format of a resource reference is the following:
  * {@code (type):(reference)} where {@code type} represents the type (see
- * {@link org.xwiki.rendering.listener.reference.ResourceType} of the resource pointed to (e.g. document, mailto,
+ * {@link org.xwiki.rendering.listener.reference.ResourceType} of the resource pointed to (e.g. document, space, mailto,
  * attachment, image, document in another wiki, etc), and {@code reference} defines the target. The syntax of
  * {@code reference} depends on the Resource type and is documented in the javadoc of the various
  * {@link org.xwiki.rendering.parser.ResourceReferenceTypeParser} implementations. Note that the implementation is
@@ -51,6 +54,18 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
      * Link Reference Type separator (eg "mailto:mail@address").
      */
     public static final String TYPE_SEPARATOR = ":";
+
+    /**
+     * Types of references that are dependent on running in wiki mode.
+     */
+    /* @formatter:off */
+    private static final List<ResourceType> WIKI_REFERENCE_TYPES = Arrays.asList(
+        ResourceType.DOCUMENT,
+        ResourceType.SPACE,
+        ResourceType.ATTACHMENT,
+        ResourceType.ICON
+    );
+    // @formatter:on
 
     @Inject
     private Logger logger;
@@ -90,11 +105,8 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
             parsedResourceReference = new ResourceReference(rawReference, ResourceType.UNKNOWN);
         }
 
-        // Step 3: If we're not in wiki mode then wiki references to documents or attachments are considered URLs.
-        if (!isInWikiMode()
-            && (parsedResourceReference.getType().equals(ResourceType.ATTACHMENT)
-                || parsedResourceReference.getType().equals(ResourceType.DOCUMENT)
-                || parsedResourceReference.getType().equals(ResourceType.ICON))) {
+        // Step 3: If we're not in wiki mode then wiki references are considered URLs.
+        if (!isInWikiMode() && WIKI_REFERENCE_TYPES.contains(parsedResourceReference.getType())) {
             parsedResourceReference = new ResourceReference(rawReference, ResourceType.URL);
             parsedResourceReference.setTyped(false);
         }

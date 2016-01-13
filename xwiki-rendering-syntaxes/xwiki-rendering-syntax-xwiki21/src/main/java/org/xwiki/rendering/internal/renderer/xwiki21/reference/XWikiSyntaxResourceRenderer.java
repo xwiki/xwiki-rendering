@@ -71,7 +71,8 @@ public class XWikiSyntaxResourceRenderer
         // - queryString and anchor.
         // The XWiki Syntax 2.1 supports one special reference parameters for attachment references:
         // - queryString.
-        if (reference.getType().equals(ResourceType.DOCUMENT)) {
+        ResourceType resourceType = reference.getType();
+        if (ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType)) {
             // Print first the query string
             String queryString = reference.getParameter(DocumentResourceReference.QUERY_STRING);
             if (!StringUtils.isEmpty(queryString)) {
@@ -90,7 +91,7 @@ public class XWikiSyntaxResourceRenderer
                 printer.print(this.parametersPrinter.print(ANCHOR, anchor, '~'));
                 shouldPrintSeparator = false;
             }
-        } else if (reference.getType().equals(ResourceType.ATTACHMENT)) {
+        } else if (ResourceType.ATTACHMENT.equals(resourceType)) {
             String queryString = reference.getParameter(AttachmentResourceReference.QUERY_STRING);
             if (!StringUtils.isEmpty(queryString)) {
                 printer.print(PARAMETER_SEPARATOR);
