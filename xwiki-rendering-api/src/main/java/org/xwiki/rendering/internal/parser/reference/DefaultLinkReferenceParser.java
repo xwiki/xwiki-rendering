@@ -29,9 +29,9 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 
 /**
- * Similar to {@link org.xwiki.rendering.internal.parser.reference.DefaultResourceReferenceParser} but handles the
- * case where the resource type wasn't specified. In this case it tries to guess the type by first looking for a URL
- * and then considering it's a reference to a document.
+ * Similar to {@link org.xwiki.rendering.internal.parser.reference.DefaultResourceReferenceParser} but handles the case
+ * where the resource type wasn't specified. In this case it tries to guess the type by first looking for a URL and then
+ * determining if it's a reference to a document or a space.
  *
  * @version $Id$
  * @since 2.6M1
