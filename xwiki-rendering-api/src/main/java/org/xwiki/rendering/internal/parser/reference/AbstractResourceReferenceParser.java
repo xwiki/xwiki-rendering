@@ -45,8 +45,8 @@ public abstract class AbstractResourceReferenceParser implements ResourceReferen
     protected Provider<ComponentManager> componentManagerProvider;
 
     /**
-     * @return true if we're in wiki mode (ie there's no implementing class for
-     *         {@link org.xwiki.rendering.wiki.WikiModel})
+     * @return true if we're in wiki mode (i.e. an implementing class for {@link org.xwiki.rendering.wiki.WikiModel}
+     *         exists)
      */
     protected boolean isInWikiMode()
     {

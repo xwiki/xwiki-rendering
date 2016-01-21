@@ -24,13 +24,15 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
+import org.xwiki.rendering.wiki.WikiModel;
 
 /**
- * Considers all passed link references to be untyped and tries to guess the type by first looking for a URL
- * and if a URL is not found then considering it's a reference to a document.
+ * Considers all passed link references to be untyped and tries to guess the type by first looking for an URL. If an URL
+ * is not found, then consider it's a reference to a document. If the document does not exist, consider it's a reference
+ * to a space, regardless if it exists or not.
  *
  * @version $Id$
  * @since 2.6M1
@@ -38,15 +40,8 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
 @Component
 @Named("link/untyped")
 @Singleton
-public class DefaultUntypedLinkReferenceParser extends AbstractResourceReferenceParser
+public class DefaultUntypedLinkReferenceParser extends AbstractUntypedReferenceParser
 {
-    /**
-     * Parser to parse link references pointing to URLs.
-     */
-    @Inject
-    @Named("url")
-    private ResourceReferenceTypeParser urlResourceReferenceTypeParser;
-
     /**
      * Parser to parse link references pointing to documents.
      */
@@ -54,26 +49,40 @@ public class DefaultUntypedLinkReferenceParser extends AbstractResourceReference
     @Named("doc")
     private ResourceReferenceTypeParser documentResourceReferenceTypeParser;
 
+    /**
+     * Parser to parse link references pointing to spaces.
+     */
+    @Inject
+    @Named("space")
+    private ResourceReferenceTypeParser spaceResourceReferenceTypeParser;
+
+    /**
+     * @param rawReference the untyped reference string to parse
+     * @return a reference to a document, if it exists, or a reference to a space instead
+     */
     @Override
-    public ResourceReference parse(String rawReference)
+    protected ResourceReference getWikiResource(String rawReference)
     {
         ResourceReference reference;
-
-        // If we're not in wiki mode then references are considered URLs.
-        if (!isInWikiMode()) {
-            reference = new ResourceReference(rawReference, ResourceType.URL);
-        } else {
-            // Try to guess the link type. It can be either:
-            // - a URL (specified without the "url" type)
-            // - a reference to a document (specified without the "doc" type)
-            reference = this.urlResourceReferenceTypeParser.parse(rawReference);
-            if (reference == null) {
-                // What remains is considered to be a link to a document, use the document link type parser to parse it.
-                reference = this.documentResourceReferenceTypeParser.parse(rawReference);
-            }
+        WikiModel wikiModel;
+        try {
+            wikiModel = this.componentManagerProvider.get().getInstance(WikiModel.class);
+        } catch (ComponentLookupException e) {
+            // Should not happen since we`ve checked that we are in wiki mode.
+            throw new RuntimeException(e);
         }
-        reference.setTyped(false);
 
+        // It can be a link to an existing terminal document.
+        ResourceReference documentResourceRefence = this.documentResourceReferenceTypeParser.parse(rawReference);
+        if (wikiModel.isDocumentAvailable(documentResourceRefence)) {
+            reference = documentResourceRefence;
+        } else {
+            // Otherwise, treat it as a link to an existing or inexistent space. If the space does not exist, it will be
+            // a wanted link.
+            ResourceReference spaceResourceReference = spaceResourceReferenceTypeParser.parse(rawReference);
+
+            reference = spaceResourceReference;
+        }
         return reference;
     }
 }
