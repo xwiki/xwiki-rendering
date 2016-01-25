@@ -64,17 +64,10 @@ public class DefaultUntypedLinkReferenceParser extends AbstractUntypedReferenceP
     protected ResourceReference getWikiResource(String rawReference)
     {
         ResourceReference reference;
-        WikiModel wikiModel;
-        try {
-            wikiModel = this.componentManagerProvider.get().getInstance(WikiModel.class);
-        } catch (ComponentLookupException e) {
-            // Should not happen since we`ve checked that we are in wiki mode.
-            throw new RuntimeException(e);
-        }
 
         // It can be a link to an existing terminal document.
         ResourceReference documentResourceRefence = this.documentResourceReferenceTypeParser.parse(rawReference);
-        if (wikiModel.isDocumentAvailable(documentResourceRefence)) {
+        if (resolveDocumentResource(documentResourceRefence)) {
             reference = documentResourceRefence;
         } else {
             // Otherwise, treat it as a link to an existing or inexistent space. If the space does not exist, it will be
@@ -84,5 +77,30 @@ public class DefaultUntypedLinkReferenceParser extends AbstractUntypedReferenceP
             reference = spaceResourceReference;
         }
         return reference;
+    }
+
+    /**
+     * @param resourceReference the reference to resolve
+     * @return true if the given reference resolves to a valid document reference that should be used to resolve the
+     *         untyped link; false otherwise
+     */
+    protected boolean resolveDocumentResource(ResourceReference resourceReference)
+    {
+        boolean result = false;
+
+        WikiModel wikiModel;
+        try {
+            wikiModel = this.componentManagerProvider.get().getInstance(WikiModel.class);
+        } catch (ComponentLookupException e) {
+            // Should not happen since we`ve checked that we are in wiki mode.
+            throw new RuntimeException(e);
+        }
+
+        // We resolve to this document reference only if it exists.
+        if (wikiModel.isDocumentAvailable(resourceReference)) {
+            result = true;
+        }
+
+        return result;
     }
 }
