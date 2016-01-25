@@ -33,6 +33,7 @@ import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
 
 /**
@@ -115,6 +116,10 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
     @Named("url")
     private ResourceReferenceTypeParser urlResourceReferenceTypeParser;
 
+    @Inject
+    @Named("link/untyped")
+    private ResourceReferenceParser untypedLinkReferenceParser;
+
     /**
      * @return the list of URI prefixes the link parser recognizes
      */
@@ -158,23 +163,33 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
      */
     private ResourceReference parseDocumentLink(StringBuffer content)
     {
+        // Extract any query string.
         String queryString = null;
         String text = parseElementAfterString(content, SEPARATOR_QUERYSTRING);
         if (text != null) {
             queryString = removeEscapesFromExtraParts(text);
         }
 
+        // Extract any anchor.
         String anchor = null;
         text = parseElementAfterString(content, SEPARATOR_ANCHOR);
         if (text != null) {
             anchor = removeEscapesFromExtraParts(text);
         }
 
-        DocumentResourceReference reference =
-            new DocumentResourceReference(removeEscapesFromReferencePart(content.toString()));
+        // Make sure to unescape the remaining reference string.
+        String unescapedReferenceString = removeEscapesFromReferencePart(content.toString());
+        // Parse the string as an untyped link reference.
+        ResourceReference reference = untypedLinkReferenceParser.parse(unescapedReferenceString);
         reference.setTyped(false);
-        reference.setQueryString(queryString);
-        reference.setAnchor(anchor);
+
+        // Set any previously extracted parameters.
+        if (StringUtils.isNotBlank(queryString)) {
+            reference.setParameter(DocumentResourceReference.QUERY_STRING, queryString);
+        }
+        if (StringUtils.isNotBlank(anchor)) {
+            reference.setParameter(DocumentResourceReference.ANCHOR, anchor);
+        }
 
         return reference;
     }
