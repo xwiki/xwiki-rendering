@@ -6,6 +6,7 @@ org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxBlockRenderer
 org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxRendererFactory
 org.xwiki.rendering.internal.renderer.xwiki20.reference.DocumentReferenceTypeSerializer
 org.xwiki.rendering.internal.renderer.xwiki20.reference.InterWikiReferenceTypeSerializer
+org.xwiki.rendering.internal.renderer.xwiki20.reference.SpaceReferenceTypeSerializer
 org.xwiki.rendering.internal.renderer.xwiki20.reference.XWiki20ResourceReferenceTypeSerializer
 org.xwiki.rendering.internal.renderer.xwiki20.reference.XWikiSyntaxImageReferenceSerializer
 org.xwiki.rendering.internal.renderer.xwiki20.reference.XWikiSyntaxLinkReferenceSerializer

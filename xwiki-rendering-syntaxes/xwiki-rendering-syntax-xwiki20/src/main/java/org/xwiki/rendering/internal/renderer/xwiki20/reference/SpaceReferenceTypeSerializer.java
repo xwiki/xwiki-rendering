@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.reference;
+package org.xwiki.rendering.internal.renderer.xwiki20.reference;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -25,16 +25,15 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 
 /**
- * Each syntax should have its own resource reference parser. However while we wait for syntax specific parser to be
- * implemented this generic parser should provide a good approximation.
+ * Serialize a link reference pointing to a space using the format {@code (space reference)(#anchor)(?query string)}.
  *
  * @version $Id$
- * @since 2.5RC1
+ * @since 7.4.1, 8.0M1
  */
 @Component
-@Named("default/image")
+@Named("xwiki/2.0/space")
 @Singleton
-public class GenericImageReferenceParser extends DefaultUntypedImageReferenceParser
+public class SpaceReferenceTypeSerializer extends DocumentReferenceTypeSerializer
 {
 
 }
