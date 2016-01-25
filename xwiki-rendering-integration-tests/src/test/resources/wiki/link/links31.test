@@ -6,6 +6,9 @@
 [[image:image]]
 [[attach:attach]]
 [[doc:doc||anchor="anchor" queryString="param=value"]]
+[[space:Space||anchor="anchor" queryString="param=value"]]
+[[Space.UnknownPage]]
+[[Space.ExistingPage]]
 
 [[path:path]]
 [[url:url]]
@@ -24,13 +27,22 @@ endLink [Typed = [true] Type = [attach] Reference = [attach]] [false]
 onNewLine
 beginLink [Typed = [true] Type = [doc] Reference = [doc] Parameters = [[queryString] = [param=value], [anchor] = [anchor]]] [false]
 endLink [Typed = [true] Type = [doc] Reference = [doc] Parameters = [[queryString] = [param=value], [anchor] = [anchor]]] [false]
+onNewLine
+beginLink [Typed = [true] Type = [space] Reference = [Space] Parameters = [[queryString] = [param=value], [anchor] = [anchor]]] [false]
+endLink [Typed = [true] Type = [space] Reference = [Space] Parameters = [[queryString] = [param=value], [anchor] = [anchor]]] [false]
+onNewLine
+beginLink [Typed = [false] Type = [space] Reference = [Space.UnknownPage]] [false]
+endLink [Typed = [false] Type = [space] Reference = [Space.UnknownPage]] [false]
+onNewLine
+beginLink [Typed = [false] Type = [doc] Reference = [Space.ExistingPage]] [false]
+endLink [Typed = [false] Type = [doc] Reference = [Space.ExistingPage]] [false]
 endParagraph
 beginParagraph
 beginLink [Typed = [true] Type = [path] Reference = [path]] [false]
 endLink [Typed = [true] Type = [path] Reference = [path]] [false]
 onNewLine
-beginLink [Typed = [false] Type = [doc] Reference = [url:url]] [false]
-endLink [Typed = [false] Type = [doc] Reference = [url:url]] [false]
+beginLink [Typed = [false] Type = [space] Reference = [url:url]] [false]
+endLink [Typed = [false] Type = [space] Reference = [url:url]] [false]
 endParagraph
 endDocument
 .#-----------------------------------------------------
@@ -41,6 +53,9 @@ endDocument
 [[attach:attach]]
 .# Yes it's the expected order, impossible to change that now...
 [[doc#anchor?param=value]]
+[[Space#anchor?param=value]]
+[[Space.UnknownPage]]
+[[Space.ExistingPage]]
 
 [[path]]
 [[url:url]]
@@ -51,6 +66,9 @@ endDocument
 [[image:image]]
 [[attach:attach]]
 [[doc:doc||queryString="param=value" anchor="anchor"]]
+[[space:Space||queryString="param=value" anchor="anchor"]]
+[[Space.UnknownPage]]
+[[Space.ExistingPage]]
 
 [[path:path]]
 [[url:url]]

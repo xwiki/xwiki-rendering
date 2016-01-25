@@ -26,8 +26,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.util.DefaultParameterizedType;
+import org.xwiki.rendering.internal.parser.reference.DefaultUntypedLinkReferenceParser;
 import org.xwiki.rendering.internal.parser.reference.type.AttachmentResourceReferenceTypeParser;
+import org.xwiki.rendering.internal.parser.reference.type.DocumentResourceReferenceTypeParser;
 import org.xwiki.rendering.internal.parser.reference.type.MailtoResourceReferenceTypeParser;
+import org.xwiki.rendering.internal.parser.reference.type.SpaceResourceReferenceTypeParser;
 import org.xwiki.rendering.internal.parser.reference.type.URLResourceReferenceTypeParser;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
@@ -39,8 +42,11 @@ import org.xwiki.test.annotation.BeforeComponent;
 import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.mockito.MockitoComponentManagerRule;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link XWiki20LinkReferenceParser}.
@@ -48,12 +54,17 @@ import static org.junit.Assert.*;
  * @version $Id$
  * @since 2.5RC1
  */
+//@formatter:off
 @ComponentList({
     XWiki20LinkReferenceParser.class,
     URLResourceReferenceTypeParser.class,
     MailtoResourceReferenceTypeParser.class,
-    AttachmentResourceReferenceTypeParser.class
+    AttachmentResourceReferenceTypeParser.class,
+    DefaultUntypedLinkReferenceParser.class,
+    DocumentResourceReferenceTypeParser.class,
+    SpaceResourceReferenceTypeParser.class
 })
+//@formatter:on
 public class XWiki20LinkReferenceParserTest
 {
     @Rule
@@ -84,14 +95,14 @@ public class XWiki20LinkReferenceParserTest
         ResourceReference reference = this.parser.parse("");
         assertEquals("", reference.getReference());
         assertFalse(reference.isTyped());
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
-        assertEquals("Typed = [false] Type = [doc] Reference = []", reference.toString());
+        assertEquals(ResourceType.SPACE, reference.getType());
+        assertEquals("Typed = [false] Type = [space] Reference = []", reference.toString());
 
         reference = this.parser.parse("Hello World");
         assertEquals("Hello World", reference.getReference());
         assertFalse(reference.isTyped());
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
-        assertEquals("Typed = [false] Type = [doc] Reference = [Hello World]", reference.toString());
+        assertEquals(ResourceType.SPACE, reference.getType());
+        assertEquals("Typed = [false] Type = [space] Reference = [Hello World]", reference.toString());
 
         reference = this.parser.parse("http://xwiki.org");
         assertEquals("http://xwiki.org", reference.getReference());
@@ -115,13 +126,13 @@ public class XWiki20LinkReferenceParserTest
         assertEquals("Typed = [true] Type = [attach] Reference = [some:content]", reference.toString());
 
         // Verify that unknown URIs are ignored
-        // Note: In this example we point to a document and we consider that myxwiki is the wiki name and
-        // http://xwiki.org is the page name
+        // Note: In this example we point to a space and we consider that myxwiki is the wiki name and
+        // http://xwiki.org is the space name
         reference = this.parser.parse("mywiki:http://xwiki.org");
         assertEquals("mywiki:http://xwiki.org", reference.getReference());
         assertFalse(reference.isTyped());
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
-        assertEquals("Typed = [false] Type = [doc] Reference = [mywiki:http://xwiki.org]", reference.toString());
+        assertEquals(ResourceType.SPACE, reference.getType());
+        assertEquals("Typed = [false] Type = [space] Reference = [mywiki:http://xwiki.org]", reference.toString());
     }
 
     @Test
@@ -130,34 +141,34 @@ public class XWiki20LinkReferenceParserTest
         // Test Query Strings in links to document
         ResourceReference reference = this.parser.parse("Hello World?xredirect=../whatever");
         assertEquals("Hello World", reference.getReference());
-        assertEquals("xredirect=../whatever", ((DocumentResourceReference) reference).getQueryString());
+        assertEquals("xredirect=../whatever", reference.getParameter(DocumentResourceReference.QUERY_STRING));
         assertFalse(reference.isTyped());
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
-        assertEquals("Typed = [false] Type = [doc] Reference = [Hello World] "
+        assertEquals(ResourceType.SPACE, reference.getType());
+        assertEquals("Typed = [false] Type = [space] Reference = [Hello World] "
             + "Parameters = [[queryString] = [xredirect=../whatever]]", reference.toString());
 
         reference = this.parser.parse("HelloWorld?xredirect=http://xwiki.org");
         assertEquals("HelloWorld", reference.getReference());
-        assertEquals("xredirect=http://xwiki.org", ((DocumentResourceReference) reference).getQueryString());
+        assertEquals("xredirect=http://xwiki.org", reference.getParameter(DocumentResourceReference.QUERY_STRING));
         assertFalse(reference.isTyped());
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
-        assertEquals("Typed = [false] Type = [doc] Reference = [HelloWorld] "
+        assertEquals(ResourceType.SPACE, reference.getType());
+        assertEquals("Typed = [false] Type = [space] Reference = [HelloWorld] "
             + "Parameters = [[queryString] = [xredirect=http://xwiki.org]]", reference.toString());
 
         // Test Anchors in links to documents
         reference = this.parser.parse("#anchor");
-        assertEquals("anchor", ((DocumentResourceReference) reference).getAnchor());
+        assertEquals("anchor", reference.getParameter(DocumentResourceReference.ANCHOR));
         assertFalse(reference.isTyped());
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
-        assertEquals("Typed = [false] Type = [doc] Reference = [] Parameters = [[anchor] = [anchor]]",
+        assertEquals(ResourceType.SPACE, reference.getType());
+        assertEquals("Typed = [false] Type = [space] Reference = [] Parameters = [[anchor] = [anchor]]",
             reference.toString());
 
         reference = this.parser.parse("Hello#anchor");
         assertEquals("Hello", reference.getReference());
-        assertEquals("anchor", ((DocumentResourceReference) reference).getAnchor());
+        assertEquals("anchor", reference.getParameter(DocumentResourceReference.ANCHOR));
         assertFalse(reference.isTyped());
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
-        assertEquals("Typed = [false] Type = [doc] Reference = [Hello] Parameters = [[anchor] = [anchor]]",
+        assertEquals(ResourceType.SPACE, reference.getType());
+        assertEquals("Typed = [false] Type = [space] Reference = [Hello] Parameters = [[anchor] = [anchor]]",
             reference.toString());
 
         // Test InterWiki links
@@ -173,32 +184,32 @@ public class XWiki20LinkReferenceParserTest
         reference = this.parser.parse("doc:whatever");
         assertEquals("doc:whatever", reference.getReference());
         assertFalse(reference.isTyped());
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
-        assertEquals("Typed = [false] Type = [doc] Reference = [doc:whatever]", reference.toString());
+        assertEquals(ResourceType.SPACE, reference.getType());
+        assertEquals("Typed = [false] Type = [space] Reference = [doc:whatever]", reference.toString());
     }
 
     @Test
     public void testParseLinksWithEscapes() throws Exception
     {
         ResourceReference reference = this.parser.parse("\\.\\#notanchor");
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
+        assertEquals(ResourceType.SPACE, reference.getType());
         assertEquals("\\.#notanchor", reference.getReference());
-        assertNull(((DocumentResourceReference) reference).getAnchor());
+        assertNull(reference.getParameter(DocumentResourceReference.ANCHOR));
 
         reference = this.parser.parse("page\\?notquerystring");
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
+        assertEquals(ResourceType.SPACE, reference.getType());
         assertEquals("page?notquerystring", reference.getReference());
-        assertNull(((DocumentResourceReference) reference).getQueryString());
+        assertNull(reference.getParameter(DocumentResourceReference.QUERY_STRING));
 
         // Verify that \ can be escaped and that escaped chars in query string, and anchors are escaped
         reference = this.parser.parse("page\\\\#anchor\\\\?querystring\\\\");
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
+        assertEquals(ResourceType.SPACE, reference.getType());
         assertEquals("page\\\\", reference.getReference());
-        assertEquals("anchor\\", ((DocumentResourceReference) reference).getAnchor());
-        assertEquals("querystring\\", ((DocumentResourceReference) reference).getQueryString());
+        assertEquals("anchor\\", reference.getParameter(DocumentResourceReference.ANCHOR));
+        assertEquals("querystring\\", reference.getParameter(DocumentResourceReference.QUERY_STRING));
 
         reference = this.parser.parse("pa\\.ge\\?query\\#anchor\\@notinterwiki");
-        assertEquals(ResourceType.DOCUMENT, reference.getType());
+        assertEquals(ResourceType.SPACE, reference.getType());
         assertEquals("pa\\.ge?query#anchor@notinterwiki", reference.getReference());
 
         // Verify that \ can be escaped and that escaped chars in query string, anchors and InterWiki aliases are
