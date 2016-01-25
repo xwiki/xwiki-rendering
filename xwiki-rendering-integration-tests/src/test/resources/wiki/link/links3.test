@@ -7,9 +7,9 @@
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-beginLink [Typed = [false] Type = [doc] Reference = [Space.UnknownPage]] [false]
+beginLink [Typed = [false] Type = [space] Reference = [Space.UnknownPage]] [false]
 onWord [label]
-endLink [Typed = [false] Type = [doc] Reference = [Space.UnknownPage]] [false]
+endLink [Typed = [false] Type = [space] Reference = [Space.UnknownPage]] [false]
 endParagraph
 endDocument
 .#-----------------------------------------------------
@@ -19,7 +19,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:false|-|doc|-|Space.UnknownPage--><span class="wikicreatelink"><a href="editurl">label</a></span><!--stopwikilink--></p>
+<p><!--startwikilink:false|-|space|-|Space.UnknownPage--><span class="wikicreatelink"><a href="editurl">label</a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -27,7 +27,7 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:false|-|doc|-|Space.UnknownPage--><span class="wikicreatelink"><a href="editurl">label</a></span><!--stopwikilink--></p>
+<p><!--startwikilink:false|-|space|-|Space.UnknownPage--><span class="wikicreatelink"><a href="editurl">label</a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|plain/1.0
 .#-----------------------------------------------------
