@@ -51,9 +51,9 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     private XWikiSyntaxMacroRenderer macroPrinter;
 
-    private ResourceReferenceSerializer linkReferenceSerializer;
+    protected ResourceReferenceSerializer linkReferenceSerializer;
 
-    private ResourceReferenceSerializer imageReferenceSerializer;
+    protected ResourceReferenceSerializer imageReferenceSerializer;
 
     // Custom States
 

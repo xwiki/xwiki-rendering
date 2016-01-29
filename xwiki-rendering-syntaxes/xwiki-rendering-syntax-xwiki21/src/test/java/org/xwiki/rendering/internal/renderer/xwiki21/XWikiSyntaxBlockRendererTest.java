@@ -19,18 +19,25 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki21;
 
+import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.GroupBlock;
+import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.WordBlock;
+import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.mockito.MockitoComponentManagerRule;
+
+import static org.junit.Assert.assertEquals;
 
 @AllComponents
 public class XWikiSyntaxBlockRendererTest
@@ -59,6 +66,25 @@ public class XWikiSyntaxBlockRendererTest
     @Test
     public void testInline()
     {
-        Assert.assertEquals("word", render(new WordBlock("word")));
+        assertEquals("word", render(new WordBlock("word")));
+    }
+
+    /**
+     * Proves that a link block with a query string parameter, located inside a Group Block, correctly renders the
+     * query string parameter.
+     */
+    @Test
+    public void renderLinkWithQueryStringParameterInsideGroupBlock()
+    {
+        DocumentResourceReference reference = new DocumentResourceReference("reference");
+        reference.setQueryString("a=b");
+        Block block = new GroupBlock(Arrays.asList((Block) new LinkBlock(
+            Arrays.asList((Block) new WordBlock("label")), reference, false)));
+
+        String expected = "(((\n"
+            + "[[label>>doc:reference||queryString=\"a=b\"]]\n"
+            + ")))";
+
+        assertEquals(expected, render(block));
     }
 }

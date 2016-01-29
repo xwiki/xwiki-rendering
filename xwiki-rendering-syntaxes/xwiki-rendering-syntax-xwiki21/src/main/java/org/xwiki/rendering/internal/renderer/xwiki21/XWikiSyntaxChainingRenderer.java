@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.renderer.xwiki21;
 import org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxListenerChain;
 import org.xwiki.rendering.internal.renderer.xwiki21.reference.XWikiSyntaxResourceRenderer;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
+import org.xwiki.rendering.listener.chaining.StackableChainingListener;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 
 /**
@@ -67,5 +68,19 @@ public class XWikiSyntaxChainingRenderer
         ResourceReferenceSerializer imageReferenceSerializer)
     {
         return new XWikiSyntaxResourceRenderer((XWikiSyntaxListenerChain) listenerChain, imageReferenceSerializer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since 6.4.8, 7.4.1
+     */
+    @Override
+    public StackableChainingListener createChainingListenerInstance()
+    {
+        XWikiSyntaxChainingRenderer renderer = new XWikiSyntaxChainingRenderer(getListenerChain(),
+            this.linkReferenceSerializer, this.imageReferenceSerializer);
+        renderer.setPrinter(getPrinter());
+        return renderer;
     }
 }
