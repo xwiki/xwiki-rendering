@@ -61,8 +61,8 @@ public class DefaultLinkReferenceParserTest
         ResourceReference reference = this.parser.parse("");
         Assert.assertEquals("", reference.getReference());
         Assert.assertFalse(reference.isTyped());
-        Assert.assertEquals(ResourceType.SPACE, reference.getType());
-        Assert.assertEquals("Typed = [false] Type = [space] Reference = []", reference.toString());
+        Assert.assertEquals(ResourceType.DOCUMENT, reference.getType());
+        Assert.assertEquals("Typed = [false] Type = [doc] Reference = []", reference.toString());
 
         reference = this.parser.parse("Hello World");
         Assert.assertEquals("Hello World", reference.getReference());
