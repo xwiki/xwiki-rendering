@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -63,19 +64,26 @@ public class DefaultUntypedLinkReferenceParser extends AbstractUntypedReferenceP
     @Override
     protected ResourceReference getWikiResource(String rawReference)
     {
+        // Default is document
+        ResourceReference documentResourceRefence = this.documentResourceReferenceTypeParser.parse(rawReference);
+
+        // Empty reference means self reference, no need to check more
+        if (StringUtils.isEmpty(rawReference)) {
+            return documentResourceRefence;
+        }
+
         ResourceReference reference;
 
-        // It can be a link to an existing terminal document.
-        ResourceReference documentResourceRefence = this.documentResourceReferenceTypeParser.parse(rawReference);
+        // It can be a link to an existing terminal document
         if (resolveDocumentResource(documentResourceRefence)) {
+            // It's a link to a terminal document
             reference = documentResourceRefence;
         } else {
             // Otherwise, treat it as a link to an existing or inexistent space. If the space does not exist, it will be
             // a wanted link.
-            ResourceReference spaceResourceReference = spaceResourceReferenceTypeParser.parse(rawReference);
-
-            reference = spaceResourceReference;
+            reference = spaceResourceReferenceTypeParser.parse(rawReference);
         }
+
         return reference;
     }
 
