@@ -12,8 +12,8 @@
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-beginLink [Typed = [false] Type = [space] Reference = []] [false]
-endLink [Typed = [false] Type = [space] Reference = []] [false]
+beginLink [Typed = [false] Type = [doc] Reference = []] [false]
+endLink [Typed = [false] Type = [doc] Reference = []] [false]
 endParagraph
 endDocument
 .#-----------------------------------------------------
@@ -23,7 +23,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:false|-|space|-|--><span class="wikilink"><a href="#"><span class="wikigeneratedlinkcontent"></span></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:false|-|doc|-|--><span class="wikilink"><a href="#"><span class="wikigeneratedlinkcontent"></span></a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -31,4 +31,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:false|-|space|-|--><span class="wikilink"><a href="viewurl"><span class="wikigeneratedlinkcontent"></span></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:false|-|doc|-|--><span class="wikilink"><a href="viewurl"><span class="wikigeneratedlinkcontent"></span></a></span><!--stopwikilink--></p>

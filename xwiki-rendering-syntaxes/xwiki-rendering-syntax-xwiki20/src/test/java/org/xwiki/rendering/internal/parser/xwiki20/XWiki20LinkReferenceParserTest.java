@@ -95,8 +95,8 @@ public class XWiki20LinkReferenceParserTest
         ResourceReference reference = this.parser.parse("");
         assertEquals("", reference.getReference());
         assertFalse(reference.isTyped());
-        assertEquals(ResourceType.SPACE, reference.getType());
-        assertEquals("Typed = [false] Type = [space] Reference = []", reference.toString());
+        assertEquals(ResourceType.DOCUMENT, reference.getType());
+        assertEquals("Typed = [false] Type = [doc] Reference = []", reference.toString());
 
         reference = this.parser.parse("Hello World");
         assertEquals("Hello World", reference.getReference());
@@ -159,8 +159,8 @@ public class XWiki20LinkReferenceParserTest
         reference = this.parser.parse("#anchor");
         assertEquals("anchor", reference.getParameter(DocumentResourceReference.ANCHOR));
         assertFalse(reference.isTyped());
-        assertEquals(ResourceType.SPACE, reference.getType());
-        assertEquals("Typed = [false] Type = [space] Reference = [] Parameters = [[anchor] = [anchor]]",
+        assertEquals(ResourceType.DOCUMENT, reference.getType());
+        assertEquals("Typed = [false] Type = [doc] Reference = [] Parameters = [[anchor] = [anchor]]",
             reference.toString());
 
         reference = this.parser.parse("Hello#anchor");
