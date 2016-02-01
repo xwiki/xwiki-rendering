@@ -237,8 +237,7 @@ public class ResourceReference implements Cloneable
         style.setSeparator("");
         ToStringBuilder builder = new ToStringBuilder(this, style);
 
-        builder = builder.append("Typed", isTyped())
-            .append("Type", getType().getScheme());
+        builder = builder.append("Typed", isTyped()).append("Type", getType());
 
         if (getReference() != null) {
             builder = builder.append("Reference", getReference());

@@ -156,4 +156,10 @@ public class ResourceType
         }
         return result;
     }
+
+    @Override
+    public String toString()
+    {
+        return getScheme();
+    }
 }
