@@ -23,17 +23,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
-import org.xwiki.rendering.wiki.WikiModel;
 
 /**
  * Considers all passed link references to be untyped and tries to guess the type by first looking for an URL. If an URL
- * is not found, then consider it's a reference to a document. If the document does not exist, consider it's a reference
- * to a space, regardless if it exists or not.
+ * is not found, then consider it's an untyped reference to a document. Any client that wants to use this parsed
+ * reference needs to first resolve it, since it could either point to a document or a space reference.
  *
  * @version $Id$
  * @since 2.6M1
@@ -51,64 +48,20 @@ public class DefaultUntypedLinkReferenceParser extends AbstractUntypedReferenceP
     private ResourceReferenceTypeParser documentResourceReferenceTypeParser;
 
     /**
-     * Parser to parse link references pointing to spaces.
-     */
-    @Inject
-    @Named("space")
-    private ResourceReferenceTypeParser spaceResourceReferenceTypeParser;
-
-    /**
      * @param rawReference the untyped reference string to parse
-     * @return a reference to a document, if it exists, or a reference to a space instead
+     * @return an untyped (isTyped returns {@code false}) document reference that needs to be resolved before being
+     *         used, since it could point to either a document or a space.
      */
     @Override
     protected ResourceReference getWikiResource(String rawReference)
     {
-        // Default is document
-        ResourceReference documentResourceRefence = this.documentResourceReferenceTypeParser.parse(rawReference);
+        // For backwards compatibility reasons and to not affect the ability to cache XDOMs, always resolve it as a
+        // document
+        ResourceReference reference = this.documentResourceReferenceTypeParser.parse(rawReference);
 
-        // Empty reference means self reference, no need to check more
-        if (StringUtils.isEmpty(rawReference)) {
-            return documentResourceRefence;
-        }
-
-        ResourceReference reference;
-
-        // It can be a link to an existing terminal document
-        if (resolveDocumentResource(documentResourceRefence)) {
-            // It's a link to a terminal document
-            reference = documentResourceRefence;
-        } else {
-            // Otherwise, treat it as a link to an existing or inexistent space. If the space does not exist, it will be
-            // a wanted link.
-            reference = spaceResourceReferenceTypeParser.parse(rawReference);
-        }
+        // ...but make sure to mark it as untyped so that clients know that it needs to be resolved to the proper type.
+        reference.setTyped(false);
 
         return reference;
-    }
-
-    /**
-     * @param resourceReference the reference to resolve
-     * @return true if the given reference resolves to a valid document reference that should be used to resolve the
-     *         untyped link; false otherwise
-     */
-    protected boolean resolveDocumentResource(ResourceReference resourceReference)
-    {
-        boolean result = false;
-
-        WikiModel wikiModel;
-        try {
-            wikiModel = this.componentManagerProvider.get().getInstance(WikiModel.class);
-        } catch (ComponentLookupException e) {
-            // Should not happen since we`ve checked that we are in wiki mode.
-            throw new RuntimeException(e);
-        }
-
-        // We resolve to this document reference only if it exists.
-        if (wikiModel.isDocumentAvailable(resourceReference)) {
-            result = true;
-        }
-
-        return result;
     }
 }
