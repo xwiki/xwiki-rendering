@@ -115,7 +115,9 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         if (getEmptyBlockState().isCurrentContainerBlockEmpty()) {
-            if (reference.getType().equals(ResourceType.DOCUMENT) && this.linkLabelGenerator != null) {
+            ResourceType resourceType = reference.getType();
+            if ((ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType))
+                && this.linkLabelGenerator != null) {
                 getPrinter().print(this.linkLabelGenerator.generate(reference));
             } else {
                 getPrinter().print(reference.getReference());
