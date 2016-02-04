@@ -1,33 +1,34 @@
 .#-----------------------------------------------------
 .input|xwiki/2.1
+.# Test space: links.
 .#-----------------------------------------------------
-[[space:Space]]
+[[space:ExistingSpace]]
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-beginLink [Typed = [true] Type = [space] Reference = [Space]] [false]
-endLink [Typed = [true] Type = [space] Reference = [Space]] [false]
+beginLink [Typed = [true] Type = [space] Reference = [ExistingSpace]] [false]
+endLink [Typed = [true] Type = [space] Reference = [ExistingSpace]] [false]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><span class="wikilink"><a href="viewurl"><span class="wikigeneratedlinkcontent">Space</span></a></span></p>
+<p><span class="wikilink"><a href="viewurl"><span class="wikigeneratedlinkcontent">ExistingSpace</span></a></span></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:true|-|space|-|Space--><span class="wikilink"><a href="viewurl"><span class="wikigeneratedlinkcontent">Space</span></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:true|-|space|-|ExistingSpace--><span class="wikilink"><a href="viewurl"><span class="wikigeneratedlinkcontent">ExistingSpace</span></a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
-[[space:Space]]
+[[space:ExistingSpace]]
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:true|-|space|-|Space--><span class="wikilink"><a href="viewurl"><span class="wikigeneratedlinkcontent">Space</span></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:true|-|space|-|ExistingSpace--><span class="wikilink"><a href="viewurl"><span class="wikigeneratedlinkcontent">ExistingSpace</span></a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|plain/1.0
 .#-----------------------------------------------------
-Space
+ExistingSpace

@@ -26,8 +26,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.util.DefaultParameterizedType;
+import org.xwiki.rendering.internal.parser.reference.DefaultUntypedLinkReferenceParser;
 import org.xwiki.rendering.internal.parser.reference.type.AttachmentResourceReferenceTypeParser;
+import org.xwiki.rendering.internal.parser.reference.type.DocumentResourceReferenceTypeParser;
 import org.xwiki.rendering.internal.parser.reference.type.MailtoResourceReferenceTypeParser;
+import org.xwiki.rendering.internal.parser.reference.type.SpaceResourceReferenceTypeParser;
 import org.xwiki.rendering.internal.parser.reference.type.URLResourceReferenceTypeParser;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
@@ -39,8 +42,11 @@ import org.xwiki.test.annotation.BeforeComponent;
 import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.mockito.MockitoComponentManagerRule;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link XWiki20LinkReferenceParser}.
@@ -48,12 +54,17 @@ import static org.junit.Assert.*;
  * @version $Id$
  * @since 2.5RC1
  */
+//@formatter:off
 @ComponentList({
     XWiki20LinkReferenceParser.class,
     URLResourceReferenceTypeParser.class,
     MailtoResourceReferenceTypeParser.class,
-    AttachmentResourceReferenceTypeParser.class
+    AttachmentResourceReferenceTypeParser.class,
+    DefaultUntypedLinkReferenceParser.class,
+    DocumentResourceReferenceTypeParser.class,
+    SpaceResourceReferenceTypeParser.class
 })
+//@formatter:on
 public class XWiki20LinkReferenceParserTest
 {
     @Rule
