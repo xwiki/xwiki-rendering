@@ -99,7 +99,7 @@ public class MockWikiModel implements WikiModel
         if (ResourceType.DOCUMENT.equals(resourceType)) {
             return "Space.ExistingPage".equals(resourceValue);
         } else if (ResourceType.SPACE.equals(resourceType)) {
-            return "Space".equals(resourceValue);
+            return "ExistingSpace".equals(resourceValue);
         }
 
         return false;
