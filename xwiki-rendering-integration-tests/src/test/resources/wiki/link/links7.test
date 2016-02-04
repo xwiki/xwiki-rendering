@@ -9,21 +9,21 @@
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-beginLink [Typed = [false] Type = [space] Reference = [Page]] [false]
+beginLink [Typed = [false] Type = [doc] Reference = [Page]] [false]
 beginFormat [BOLD]
 onWord [hello]
 endFormat [BOLD]
-endLink [Typed = [false] Type = [space] Reference = [Page]] [false]
+endLink [Typed = [false] Type = [doc] Reference = [Page]] [false]
 onNewLine
-beginLink [Typed = [false] Type = [space] Reference = [Page]] [false]
+beginLink [Typed = [false] Type = [doc] Reference = [Page]] [false]
 onSpecialSymbol [=]
 onSpace
 onWord [notheader]
-endLink [Typed = [false] Type = [space] Reference = [Page]] [false]
+endLink [Typed = [false] Type = [doc] Reference = [Page]] [false]
 onNewLine
-beginLink [Typed = [false] Type = [space] Reference = [Page]] [false]
+beginLink [Typed = [false] Type = [doc] Reference = [Page]] [false]
 onMacroInline [testsimplemacro] [] [label]
-endLink [Typed = [false] Type = [space] Reference = [Page]] [false]
+endLink [Typed = [false] Type = [doc] Reference = [Page]] [false]
 endParagraph
 endDocument
 .#-----------------------------------------------------
@@ -33,7 +33,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:false|-|space|-|Page--><span class="wikicreatelink"><a href="editurl"><strong>hello</strong></a></span><!--stopwikilink--><br/><!--startwikilink:false|-|space|-|Page--><span class="wikicreatelink"><a href="editurl">= notheader</a></span><!--stopwikilink--><br/><!--startwikilink:false|-|space|-|Page--><span class="wikicreatelink"><a href="editurl"><!--startmacro:testsimplemacro|-||-|label--><!--stopmacro--></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl"><strong>hello</strong></a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl">= notheader</a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl"><!--startmacro:testsimplemacro|-||-|label--><!--stopmacro--></a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -43,4 +43,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:false|-|space|-|Page--><span class="wikicreatelink"><a href="editurl"><strong>hello</strong></a></span><!--stopwikilink--><br/><!--startwikilink:false|-|space|-|Page--><span class="wikicreatelink"><a href="editurl">= notheader</a></span><!--stopwikilink--><br/><!--startwikilink:false|-|space|-|Page--><span class="wikicreatelink"><a href="editurl"><!--startmacro:testsimplemacro|-||-|label--><!--stopmacro--></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl"><strong>hello</strong></a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl">= notheader</a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl"><!--startmacro:testsimplemacro|-||-|label--><!--stopmacro--></a></span><!--stopwikilink--></p>
