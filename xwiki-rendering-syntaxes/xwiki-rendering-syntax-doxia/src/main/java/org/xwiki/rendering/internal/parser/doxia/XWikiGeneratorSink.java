@@ -711,6 +711,18 @@ public class XWikiGeneratorSink implements Sink
     }
 
     @Override
+    public void section6()
+    {
+        section(6, null);
+    }
+
+    @Override
+    public void section6_()
+    {
+        section_(6);
+    }
+
+    @Override
     public void sectionTitle(int level, SinkEventAttributes attributes)
     {
         flushEmptyLines();
@@ -817,6 +829,18 @@ public class XWikiGeneratorSink implements Sink
     public void sectionTitle5_()
     {
         sectionTitle_(5);
+    }
+
+    @Override
+    public void sectionTitle6()
+    {
+        sectionTitle(6, null);
+    }
+
+    @Override
+    public void sectionTitle6_()
+    {
+        sectionTitle_(6);
     }
 
     @Override
