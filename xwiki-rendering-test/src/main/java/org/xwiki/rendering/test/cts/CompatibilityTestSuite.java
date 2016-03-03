@@ -208,12 +208,6 @@ public class CompatibilityTestSuite extends Suite
         boolean isApplicable;
         if (testData.isNotApplicable()) {
             isApplicable = false;
-        } else if (testData.syntaxData == null) {
-            if (hasParserOrRenderer(testData)) {
-                isApplicable = true;
-            } else {
-                isApplicable = false;
-            }
         } else {
             if (hasParserOrRenderer(testData)) {
                 isApplicable = true;
