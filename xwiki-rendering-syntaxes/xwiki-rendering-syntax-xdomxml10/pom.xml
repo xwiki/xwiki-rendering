@@ -32,7 +32,6 @@
   <description>XWiki Rendering - Syntax - XML based XDOM representation</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.00</xwiki.jacoco.instructionRatio>
-    <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
   </properties>
   <dependencies>
     <dependency>
@@ -50,4 +49,48 @@
       <artifactId>commons-io</artifactId>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <excludes>
+          org/xwiki/rendering/xdomxml10/internal/XDOMXMLConstants.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/AbstractBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/BlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/DefaultBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/DocumentBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/EmptyLinesBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/FormatBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/HeaderBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/IdBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/ImageBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/LinkBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/ListBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/MacroBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/MacroMarkerBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/MetaDataBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/RawTextBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/SpecialSymbolBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/VerbatimBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/WordBlockParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/XDOMXMLContentHandlerStreamParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/parameter/CustomParametersParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/parameter/MetaDataParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/parameter/ResourceReferenceParser.java,
+          org/xwiki/rendering/xdomxml10/internal/parser/parameter/ValueParser.java,
+          org/xwiki/rendering/xdomxml10/internal/renderer/XDOMXMLChainingStreamRenderer.java,
+          org/xwiki/rendering/xdomxml10/internal/renderer/XDOMXMLContentHandlerStreamRenderer.java,
+          org/xwiki/rendering/xdomxml10/internal/renderer/parameter/AbstractSerializer.java,
+          org/xwiki/rendering/xdomxml10/internal/renderer/parameter/DefaultSerializer.java,
+          org/xwiki/rendering/xdomxml10/internal/renderer/parameter/FormatConverter.java,
+          org/xwiki/rendering/xdomxml10/internal/renderer/parameter/HeaderLevelConverter.java,
+          org/xwiki/rendering/xdomxml10/internal/renderer/parameter/ListTypeConverter.java,
+          org/xwiki/rendering/xdomxml10/internal/renderer/parameter/ResourceReferenceSerializer.java
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
