@@ -256,6 +256,35 @@
             <!-- Remove the following excludes after we release the current version as final --></excludes>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.github.siom79.japicmp</groupId>
+        <artifactId>japicmp-maven-plugin</artifactId>
+        <configuration>
+          <parameter>
+            <excludes combine.children="append">
+            </excludes>
+          </parameter>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.revapi</groupId>
+        <artifactId>revapi-maven-plugin</artifactId>
+        <configuration>
+          <analysisConfiguration><![CDATA[
+            {
+              "revapi": {
+                "filter": {
+                  "elements": {
+                     "exclude": [".*\\.internal\\..*", ".*\\.test\\..*"]
+                  }
+                },
+                "ignore": [
+                ]
+              }
+            }
+          ]]></analysisConfiguration>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <profiles>
