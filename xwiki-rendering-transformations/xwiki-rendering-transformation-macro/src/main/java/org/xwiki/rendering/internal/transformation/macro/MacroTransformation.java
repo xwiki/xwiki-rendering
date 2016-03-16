@@ -273,6 +273,9 @@ public class MacroTransformation extends AbstractTransformation
                 // The macro will not be executed and we generate an error message instead of the macro
                 // execution result.
                 // Note: We catch any Exception because we want to never break the whole rendering.
+                // Note: We're using ExceptionUtils.getRootCause(e).getMessage() instead of getRootCauseMessage()
+                //       below because getRootCauseMessage() adds a technical prefix (the name of the exception), that
+                //       we don't want to display to our users.
                 Throwable rootCause = ExceptionUtils.getRootCause(e);
                 this.macroErrorManager.generateError(macroBlock,
                     String.format("Failed to execute the [%s] macro.%s", macroBlock.getId(),
