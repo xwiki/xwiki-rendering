@@ -10,7 +10,7 @@
 beginDocument
 beginMacroMarkerStandalone [jira] [url=http://localhost|source=unknown]
 beginGroup [[class]=[xwikirenderingerror]]
-onWord [Failed to execute the [jira] macro. Click on this message for details.]
+onWord [Failed to execute the [jira] macro.Cause: [Can't find descriptor for the component [role = [interface org.xwiki.rendering.macro.jira.JIRADataSource] hint = [unknown]]]. Click on this message for details.]
 endGroup [[class]=[xwikirenderingerror]]
 beginGroup [[class]=[xwikirenderingerrordescription hidden]]
 onVerbatim [org.xwiki.rendering.macro.MacroExecutionException: Unknown JIRA source [unknown]${{{regex:.*}}}] [false]
