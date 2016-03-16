@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.properties.BeanManager;
@@ -273,7 +274,8 @@ public class MacroTransformation extends AbstractTransformation
                 // execution result.
                 // Note: We catch any Exception because we want to never break the whole rendering.
                 this.macroErrorManager.generateError(macroBlock,
-                    String.format("Failed to execute the [%s] macro.", macroBlock.getId()), e);
+                    String.format("Failed to execute the [%s] macro. Cause: [%s]", macroBlock.getId(),
+                        ExceptionUtils.getRootCause(e).getMessage()), e);
                 this.logger.debug("Failed to execute the [{}] macro. Internal error [{}].", macroBlock.getId(),
                     e.getMessage());
 
