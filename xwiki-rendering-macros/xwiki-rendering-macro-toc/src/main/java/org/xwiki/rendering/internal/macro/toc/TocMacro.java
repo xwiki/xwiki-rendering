@@ -33,7 +33,7 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.BulletedListBlock;
 import org.xwiki.rendering.block.HeaderBlock;
 import org.xwiki.rendering.block.LinkBlock;
-import org.xwiki.rendering.block.ListBLock;
+import org.xwiki.rendering.block.ListBlock;
 import org.xwiki.rendering.block.ListItemBlock;
 import org.xwiki.rendering.block.NumberedListBlock;
 import org.xwiki.rendering.block.SectionBlock;
@@ -200,7 +200,7 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
 
                 if (currentLevel < headerLevel) {
                     while (currentLevel < headerLevel) {
-                        if (currentBlock instanceof ListBLock) {
+                        if (currentBlock instanceof ListBlock) {
                             currentBlock = addItemBlock(currentBlock, null);
                         }
 
@@ -274,9 +274,9 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
      * @param parentBlock the block where to add the new list block.
      * @return the new list block.
      */
-    private ListBLock createChildListBlock(boolean numbered, Block parentBlock)
+    private ListBlock createChildListBlock(boolean numbered, Block parentBlock)
     {
-        ListBLock childListBlock =
+        ListBlock childListBlock =
             numbered ? new NumberedListBlock(Collections.<Block>emptyList()) : new BulletedListBlock(
                 Collections.<Block>emptyList());
 
