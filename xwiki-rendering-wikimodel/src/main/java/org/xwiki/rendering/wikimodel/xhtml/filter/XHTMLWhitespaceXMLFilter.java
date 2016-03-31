@@ -35,24 +35,21 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
- * Removes non-semantic whitespaces in XML elements. See
- * http://www.w3.org/TR/html4/struct/text.html#h-9.1 for more details. Possible
- * use cases:
+ * Removes non-semantic whitespaces in XML elements. See http://www.w3.org/TR/html4/struct/text.html#h-9.1 for more
+ * details. Possible use cases:
  * <p/>
  * <ul>
- * <li><b>UC1</b>: Any white spaces group is removed if it's before a non inline
- * (see NONINLINE_ELEMENTS) element or at the beginning of the document.</li>
- * <li><b>UC2</b>: Any white spaces group is removed if it's after a non inline
- * (see NONINLINE_ELEMENTS) element or at the end of the document.</li>
- * <li><b>UC3</b>: Inside inline content any white spaces group become a single
- * space.</li>
- * <li><b>UC5</b>: Non visible element (comments, CDATA and NONVISIBLE_ELEMENTS)
- * are invisibles and does not cut a white space group.
- * <code>text(sp)<!--comment-->(sp)text</code> becomes
- * <code>text(sp)<!--comment-->text</code></li>
- * <li><b>UC5</b>: Visible empty element like img count as text when grouping
- * white spaces</li>
- * <li><b>UC6</b>: Semantic comment count as text when grouping white spaces</li>
+ *   <li><b>UC1</b>: Any white spaces group is removed if it's before a non inline (see NONINLINE_ELEMENTS) element or
+ *       at the beginning of the document.</li>
+ *   <li><b>UC2</b>: Any white spaces group is removed if it's after a non inline (see NONINLINE_ELEMENTS) element or
+ *       at the end of the document.</li>
+ *   <li><b>UC3</b>: Inside inline content any white spaces group become a single space.</li>
+ *   <li><b>UC4</b>: Non visible elements (comments, CDATA and NONVISIBLE_ELEMENTS) are invisible and do not cut a
+ *       white space group.
+ *       <code>text(sp)<!--comment-->(sp)text</code> becomes  <code>text(sp)<!--comment-->text</code></li>
+ *   <li><b>UC5</b>: Visible empty element like img count as text when grouping white spaces</li>
+ *   <li><b>UC6</b>: Semantic comment count as text when grouping white spaces</li>
+ * </ul>
  *
  * @version $Id$
  * @since 4.0M1
@@ -68,7 +65,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     private static final Pattern HTML_WHITESPACE_TAIL_PATTERN = Pattern
         .compile("\\s+$");
 
-    private static final Set<String> NONINLINE_ELEMENTS = new HashSet<String>(
+    private static final Set<String> NONINLINE_ELEMENTS = new HashSet<>(
         Arrays.asList("address", "blockquote", "div", "dl", "dt", "dd",
             "fieldset", "form", "h1", "h2", "h3", "h4", "h5", "h6", "hr",
             "noscript", "ol", "p", "pre", "script", "table", "ul", "html",
@@ -77,23 +74,18 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
             "style", "title"));
 
     /**
-     * Non visible elements behave like CDATA and comments: it's part of the
-     * white space group.
+     * Non visible elements behave like CDATA and comments: it's part of thewhite space group.
      */
-    private static final Set<String> NONVISIBLE_ELEMENTS = new HashSet<String>(
-        Arrays.asList("script"));
+    private static final Set<String> NONVISIBLE_ELEMENTS = new HashSet<>(Arrays.asList("script"));
 
     /**
-     * Visible elements like images count in the inline text to clean white
-     * spaces.
+     * Visible elements like images count in the inline text to clean white spaces.
      */
-    private static final Set<String> EMPTYVISIBLE_ELEMENTS = new HashSet<String>(
-        Arrays.asList("img"));
+    private static final Set<String> EMPTYVISIBLE_ELEMENTS = new HashSet<>(Arrays.asList("img"));
 
     /**
-     * State indicating if the white spaces has to be cleaned. It's an int to
-     * support &lt;pre&gt;pre&lt;/pre&gt; inside &lt;tt
-     * class=&quot;wikimodel-verbatim&quot;&gt;pre&lt;/tt&gt;.
+     * State indicating if the white spaces has to be cleaned. It's an int to support &lt;pre&gt;pre&lt;/pre&gt;
+     * inside &lt;tt class=&quot;wikimodel-verbatim&quot;&gt;pre&lt;/tt&gt;.
      */
     private int fNoCleanUpLevel = 0;
 
@@ -103,32 +95,25 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     private StringBuffer fContent = new StringBuffer();
 
     /**
-     * Bufferized current inline text. It contains only text (and no inline
-     * start/end element, comment or CDATA) to be able know if a leading space
-     * has to be remove because the previous text ends with it or if there is no
-     * previous text.
+     * Bufferized current inline text. It contains only text (and no inline start/end element, comment or CDATA) to be
+     * able know if a leading space has to be removed because the previous text ends with it or if there is no previous
+     * text.
      */
     private StringBuffer fPreviousInlineText = new StringBuffer();
 
     /**
-     * The previous content to send. Buffurized waiting to know if its trailing
-     * space has to be removed when it's the last text of inline content.
+     * The previous content to send. Buffurized waiting to know if its trailing space has to be removed when it's the
+     * last text of inline content.
      */
     private String fPreviousContent = null;
 
     /**
-     * Previous inline elements. These are the elements before the previous
-     * content. It's buffurized to support space group cleaning betwen different
-     * inline elements.
+     * Previous inline elements. These are the elements before the previous content. It's buffered to support space
+     * group cleaning betwen different inline elements.
      */
     private List<Event> fPreviousElements = new ArrayList<Event>();
 
     private Deque<Attributes> fAttributes = new ArrayDeque<Attributes>();
-
-    public XHTMLWhitespaceXMLFilter()
-    {
-
-    }
 
     public XHTMLWhitespaceXMLFilter(XMLReader reader)
     {
