@@ -80,6 +80,9 @@ public class XHTMLWhitespaceXMLFilterTest extends TestCase
             "<p>toto <tt>\n  one  \n</tt></p>",
             "<p>toto <tt class=\"wikimodel-verbatim\">\n  one  \n</tt></p>");
         assertCleanedHTML(
+            "<p>one <tt>two</tt> three</p>",
+            "<p>one <tt class=\"wikimodel-verbatim\">two</tt> three</p>");
+        assertCleanedHTML(
             "<p>one <!--comment-->two</p>",
             "<p>  one  <!--comment-->  two  </p>");
         assertCleanedHTML(

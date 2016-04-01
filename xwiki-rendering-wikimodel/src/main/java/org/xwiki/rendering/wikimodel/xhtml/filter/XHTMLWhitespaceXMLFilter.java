@@ -155,16 +155,11 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
                 startEmptyVisibleElement();
 
                 super.startElement(uri, localName, qName, atts);
-            } else if (preservedInlineContent(qName, atts)) {
-                // Flush previous content and print current one
-                flushContent(false);
-
-                ++fNoCleanUpLevel;
-
-                // send start element event
-                super.startElement(uri, localName, qName, atts);
             } else {
                 appendInlineEvent(new Event(uri, localName, qName, clonedAtts));
+                if (preservedInlineContent(qName, atts)) {
+                    ++fNoCleanUpLevel;
+                }
             }
         }
     }
@@ -194,15 +189,11 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
                 endEmptyVisibleElement();
 
                 super.endElement(uri, localName, qName);
-            } else if (preservedInlineContent(qName, fAttributes.peek())) {
-                // Flush previous content and print current one
-                flushContent();
-
-                --fNoCleanUpLevel;
-
-                super.endElement(uri, localName, qName);
             } else {
                 appendInlineEvent(new Event(uri, localName, qName));
+                if (preservedInlineContent(qName, fAttributes.peek())) {
+                    --fNoCleanUpLevel;
+                }
             }
         }
 
