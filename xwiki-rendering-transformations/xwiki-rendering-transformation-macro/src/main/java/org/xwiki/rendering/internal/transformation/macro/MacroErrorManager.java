@@ -19,24 +19,17 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
-import org.xwiki.rendering.block.VerbatimBlock;
-import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.block.match.OrBlockMatcher;
-import org.xwiki.rendering.listener.Format;
+import org.xwiki.rendering.util.ErrorBlockGenerator;
 
 /**
  * Generates Blocks to signify that a Macro has failed to execute.
@@ -46,15 +39,15 @@ import org.xwiki.rendering.listener.Format;
  */
 public class MacroErrorManager
 {
-    /**
-     * The formatting parameter to use to signify that the new Blocks represent a macro execution error.
-     */
-    private static final String CLASS_PARAMETER_NAME = "class";
+    private ErrorBlockGenerator errorBlockGenerator;
 
     /**
-     * The formatting parameter value to use to signify that the new Blocks represent a macro execution error.
+     * @param errorBlockGenerator the error generator to use to generate the error blocks
      */
-    private static final String CLASS_PARAMETER_VALUE = "xwikirenderingerror";
+    public MacroErrorManager(ErrorBlockGenerator errorBlockGenerator)
+    {
+        this.errorBlockGenerator = errorBlockGenerator;
+    }
 
     /**
      * Generates Blocks to signify that the passed Macro Block has failed to execute.
@@ -66,23 +59,8 @@ public class MacroErrorManager
      */
     public void generateError(MacroBlock macroToReplace, String message, String description)
     {
-        List<Block> errorBlocks = new ArrayList<Block>();
-
-        Map<String, String> errorBlockParams = Collections.singletonMap(CLASS_PARAMETER_NAME, CLASS_PARAMETER_VALUE);
-        Map<String, String> errorDescriptionBlockParams =
-            Collections.singletonMap(CLASS_PARAMETER_NAME, "xwikirenderingerrordescription hidden");
-
-        Block descriptionBlock = new VerbatimBlock(description, macroToReplace.isInline());
-
-        if (macroToReplace.isInline()) {
-            errorBlocks.add(new FormatBlock(Arrays.<Block>asList(new WordBlock(message)), Format.NONE,
-                errorBlockParams));
-            errorBlocks.add(new FormatBlock(Arrays.asList(descriptionBlock), Format.NONE, errorDescriptionBlockParams));
-        } else {
-            errorBlocks.add(new GroupBlock(Arrays.<Block>asList(new WordBlock(message)), errorBlockParams));
-            errorBlocks.add(new GroupBlock(Arrays.asList(descriptionBlock), errorDescriptionBlockParams));
-        }
-
+        List<Block> errorBlocks =
+            this.errorBlockGenerator.generateErrorBlocks(message, description, macroToReplace.isInline());
         macroToReplace.getParent().replaceChild(wrapInMacroMarker(macroToReplace, errorBlocks), macroToReplace);
     }
 
@@ -96,9 +74,9 @@ public class MacroErrorManager
      */
     public void generateError(MacroBlock macroToReplace, String message, Throwable throwable)
     {
-        String augmentedMessage = String.format("%s%sClick on this message for details.", message,
-            message.trim().endsWith(".") ? " " : ". ");
-        generateError(macroToReplace, augmentedMessage, ExceptionUtils.getStackTrace(throwable));
+        List<Block> errorBlocks =
+            this.errorBlockGenerator.generateErrorBlocks(message, throwable, macroToReplace.isInline());
+        macroToReplace.getParent().replaceChild(wrapInMacroMarker(macroToReplace, errorBlocks), macroToReplace);
     }
 
     /**
@@ -114,8 +92,8 @@ public class MacroErrorManager
                 new ClassBlockMatcher(FormatBlock.class)),
             Block.Axes.DESCENDANT);
         for (Block block : groupAndFormatBlocks) {
-            String classParameter = block.getParameters().get(CLASS_PARAMETER_NAME);
-            if (classParameter != null && classParameter.contains(CLASS_PARAMETER_VALUE)) {
+            String classParameter = block.getParameters().get(ErrorBlockGenerator.CLASS_ATTRIBUTE_NAME);
+            if (classParameter != null && classParameter.contains(ErrorBlockGenerator.CLASS_ATTRIBUTE_MESSAGE_VALUE)) {
                 foundError = true;
                 break;
             }

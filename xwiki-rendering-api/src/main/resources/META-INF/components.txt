@@ -30,3 +30,4 @@ org.xwiki.rendering.internal.syntax.DefaultSyntaxFactory
 org.xwiki.rendering.internal.syntax.SyntaxConverter
 org.xwiki.rendering.internal.transformation.DefaultRenderingContext
 org.xwiki.rendering.internal.transformation.DefaultTransformationManager
+org.xwiki.rendering.internal.util.DefaultErrorBlockGenerator

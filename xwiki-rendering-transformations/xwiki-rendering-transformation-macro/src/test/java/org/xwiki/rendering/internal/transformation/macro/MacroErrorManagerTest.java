@@ -23,15 +23,19 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
-import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.internal.util.DefaultErrorBlockGenerator;
 import org.xwiki.rendering.listener.Format;
+import org.xwiki.rendering.util.ErrorBlockGenerator;
+import org.xwiki.test.annotation.ComponentList;
+import org.xwiki.test.mockito.MockitoComponentManagerRule;
 
 /**
  * Unit tests for {@link MacroErrorManager}.
@@ -39,31 +43,40 @@ import org.xwiki.rendering.listener.Format;
  * @version $Id$
  * @since 4.3M2
  */
+@ComponentList({
+    DefaultErrorBlockGenerator.class
+})
 public class MacroErrorManagerTest
 {
+    @Rule
+    public MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
+
     @Test
-    public void containsErrorWhenNoError()
+    public void containsErrorWhenNoError() throws Exception
     {
-        MacroErrorManager errorManager = new MacroErrorManager();
-        XDOM xdom = new XDOM(Arrays.<Block>asList(new ParagraphBlock(Arrays.<Block>asList(new WordBlock("test")))));
+        MacroErrorManager errorManager =
+            new MacroErrorManager(this.componentManager.getInstance(ErrorBlockGenerator.class));
+        XDOM xdom = new XDOM(Arrays.asList(new ParagraphBlock(Arrays.asList(new WordBlock("test")))));
         Assert.assertFalse(errorManager.containsError(xdom));
     }
 
     @Test
-    public void containsErrorWhenNoErrorButGroupAndFormatBlocks()
+    public void containsErrorWhenNoErrorButGroupAndFormatBlocks() throws Exception
     {
-        MacroErrorManager errorManager = new MacroErrorManager();
-        XDOM xdom = new XDOM(Arrays.<Block>asList(new GroupBlock(Arrays.<Block>asList(
-            new FormatBlock(Arrays.<Block>asList(new WordBlock("test")), Format.BOLD)))));
+        MacroErrorManager errorManager =
+            new MacroErrorManager(this.componentManager.getInstance(ErrorBlockGenerator.class));
+        XDOM xdom = new XDOM(Arrays.asList(new GroupBlock(Arrays.asList(
+            new FormatBlock(Arrays.asList(new WordBlock("test")), Format.BOLD)))));
         Assert.assertFalse(errorManager.containsError(xdom));
     }
 
     @Test
-    public void containsErrorWhenInlineMacroError()
+    public void containsErrorWhenInlineMacroError() throws Exception
     {
-        MacroErrorManager errorManager = new MacroErrorManager();
-        MacroBlock macroBlock = new MacroBlock("testmacro", Collections.<String, String>emptyMap(), true);
-        XDOM xdom = new XDOM(Arrays.<Block>asList(macroBlock));
+        MacroErrorManager errorManager =
+            new MacroErrorManager(this.componentManager.getInstance(ErrorBlockGenerator.class));
+        MacroBlock macroBlock = new MacroBlock("testmacro", Collections.emptyMap(), true);
+        XDOM xdom = new XDOM(Arrays.asList(macroBlock));
         errorManager.generateError(macroBlock, "test message", "test description");
         Assert.assertTrue(errorManager.containsError(xdom));
     }

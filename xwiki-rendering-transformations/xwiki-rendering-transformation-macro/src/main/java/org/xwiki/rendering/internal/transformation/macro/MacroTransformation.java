@@ -28,9 +28,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.phase.Initializable;
+import org.xwiki.component.phase.InitializationException;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
@@ -48,6 +49,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
+import org.xwiki.rendering.util.ErrorBlockGenerator;
 
 /**
  * Look for all {@link org.xwiki.rendering.block.MacroBlock} blocks in the passed {@link Block} and iteratively execute
@@ -63,7 +65,7 @@ import org.xwiki.rendering.transformation.TransformationException;
 @Component
 @Named("macro")
 @Singleton
-public class MacroTransformation extends AbstractTransformation
+public class MacroTransformation extends AbstractTransformation implements Initializable
 {
     private static class MacroLookupExceptionElement
     {
@@ -164,10 +166,19 @@ public class MacroTransformation extends AbstractTransformation
     @Inject
     private Logger logger;
 
+    @Inject
+    private ErrorBlockGenerator errorBlockGenerator;
+
     /**
      * Used to generate Macro error blocks when a Macro fails to execute.
      */
-    private MacroErrorManager macroErrorManager = new MacroErrorManager();
+    private MacroErrorManager macroErrorManager;
+
+    @Override
+    public void initialize() throws InitializationException
+    {
+        this.macroErrorManager = new MacroErrorManager(this.errorBlockGenerator);
+    }
 
     @Override
     public int getPriority()
@@ -200,13 +211,10 @@ public class MacroTransformation extends AbstractTransformation
                             String.format("Unknown macro: %s.", error.macroBlock.getId()), String.format(
                                 "The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
                                     + "contact your administrator.", error.macroBlock.getId()));
-                        this.logger.debug("Failed to locate the [{}] macro. Ignoring it.", error.macroBlock.getId());
                     } else {
                         // TODO: make it internationalized
                         this.macroErrorManager.generateError(error.macroBlock,
-                            String.format("Invalid macro: %s.", error.macroBlock.getId()), error.exception);
-                        this.logger.debug("Failed to instantiate the [{}] macro. Ignoring it.",
-                            error.macroBlock.getId());
+                            String.format("Invalid macro: %s", error.macroBlock.getId()), error.exception);
                     }
                 }
             }
@@ -231,17 +239,14 @@ public class MacroTransformation extends AbstractTransformation
                         // The macro doesn't support inline mode, raise a warning but continue.
                         // The macro will not be executed and we generate an error message instead of the macro
                         // execution result.
-                        this.macroErrorManager
-                            .generateError(
-                                macroBlock,
-                                "This is a standalone macro only and it cannot be used inline",
-                                "This macro generates standalone content. As a consequence you need to make sure to use a "
-                                    + "syntax that separates your macro from the content before and after it so that it's on a "
-                                    + "line by itself. For example in XWiki Syntax 2.0+ this means having 2 newline characters "
-                                    + "(a.k.a line breaks) separating your macro from the content before and after it.");
-                        this.logger.debug("The [{}] macro doesn't support inline mode.", macroBlock.getId());
-
-                        continue;
+                        this.macroErrorManager.generateError(macroBlock, String.format(
+                            "The [%s] macro is a standalone macro and it cannot be used inline",
+                            macroBlock.getId()),
+                            "This macro generates standalone content. As a consequence you need to make sure to use a "
+                            + "syntax that separates your macro from the content before and after it so that it's on a "
+                            + "line by itself. For example in XWiki Syntax 2.0+ this means having 2 newline characters "
+                            + "(a.k.a line breaks) separating your macro from the content before and after it.");
+                       continue;
                     }
                 } else {
                     macroContext.setInline(false);
@@ -260,10 +265,7 @@ public class MacroTransformation extends AbstractTransformation
                     // The macro will not be executed and we generate an error message instead of the macro
                     // execution result.
                     this.macroErrorManager.generateError(macroBlock,
-                        String.format("Invalid macro parameters used for the \"%s\" macro.", macroBlock.getId()), e);
-                    this.logger.debug("Invalid macro parameter for the [{}] macro. Internal error: [{}].",
-                        macroBlock.getId(), e.getMessage());
-
+                        String.format("Invalid macro parameters used for the \"%s\" macro", macroBlock.getId()), e);
                     continue;
                 }
 
@@ -273,15 +275,8 @@ public class MacroTransformation extends AbstractTransformation
                 // The macro will not be executed and we generate an error message instead of the macro
                 // execution result.
                 // Note: We catch any Exception because we want to never break the whole rendering.
-                // Note: We're using ExceptionUtils.getRootCause(e).getMessage() instead of getRootCauseMessage()
-                //       below because getRootCauseMessage() adds a technical prefix (the name of the exception), that
-                //       we don't want to display to our users.
-                Throwable rootCause = ExceptionUtils.getRootCause(e);
                 this.macroErrorManager.generateError(macroBlock,
-                    String.format("Failed to execute the [%s] macro.%s", macroBlock.getId(),
-                        rootCause == null ? "" : String.format("Cause: [%s]", rootCause.getMessage())), e);
-                this.logger.debug("Failed to execute the [{}] macro. Internal error [{}].", macroBlock.getId(),
-                    rootCause == null ? "<unknown>" : rootCause.getMessage());
+                    String.format("Failed to execute the [%s] macro", macroBlock.getId()), e);
                 continue;
             } finally {
                 ((MutableRenderingContext) this.renderingContext).setCurrentBlock(null);
