@@ -24,10 +24,8 @@ package org.xwiki.rendering.block;
  *
  * @version $Id$
  * @since 1.5M2
- * @deprecated since 8.1M1, use {@link ListBlock} instead
  */
-@Deprecated
-public interface ListBLock extends ListBlock
+public interface ListBLock extends Block
 {
     // This is currently only a tagging interface and thus it has no methods.
 }
