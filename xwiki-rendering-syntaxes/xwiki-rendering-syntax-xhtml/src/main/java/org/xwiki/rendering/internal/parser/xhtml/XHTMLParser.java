@@ -19,6 +19,10 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml;
 
+import java.io.IOException;
+import java.io.PushbackReader;
+import java.io.Reader;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +32,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener;
@@ -127,7 +132,7 @@ public class XHTMLParser extends AbstractWikiModelParser
     public IWikiParser createWikiModelParser() throws ParseException
     {
         // Override some of the WikiModel XHTML parser tag handlers to introduce our own logic.
-        Map<String, TagHandler> handlers = new HashMap<String, TagHandler>();
+        Map<String, TagHandler> handlers = new HashMap<>();
         TagHandler handler = new XWikiHeaderTagHandler();
         handlers.put("h1", handler);
         handlers.put("h2", handler);
@@ -182,5 +187,54 @@ public class XHTMLParser extends AbstractWikiModelParser
     {
         return new XHTMLXWikiGeneratorListener(getLinkLabelParser(), listener, getLinkReferenceParser(),
             getImageReferenceParser(), this.plainRendererFactory, idGenerator, getSyntax());
+    }
+
+    @Override
+    public XDOM parse(Reader source) throws ParseException
+    {
+        Reader pushBackReader = getPushBackReader(source);
+        if (pushBackReader != null) {
+            return super.parse(pushBackReader);
+        } else {
+            return new XDOM(Collections.emptyList());
+        }
+    }
+
+    @Override
+    public void parse(Reader source, Listener listener) throws ParseException
+    {
+        Reader pushBackReader = getPushBackReader(source);
+        if (pushBackReader != null) {
+            super.parse(pushBackReader, listener);
+        }
+    }
+
+    @Override
+    protected void parse(Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
+    {
+        Reader pushBackReader = getPushBackReader(source);
+        if (pushBackReader != null) {
+            super.parse(pushBackReader, listener, idGenerator);
+        }
+    }
+
+    /**
+     * In order to handle empty content we use a {@link PushbackReader} to try to read one character from the stream
+     * and if we get -1 it means that the stream is empty and in this case we return an empty XDOM.
+     */
+    private Reader getPushBackReader(Reader source) throws ParseException
+    {
+        PushbackReader pushbackReader = new PushbackReader(source);
+        int c;
+        try {
+            c = pushbackReader.read();
+            if (c == -1) {
+                return null;
+            }
+            pushbackReader.unread(c);
+        } catch (IOException e) {
+            throw new ParseException("Failed to find out if the source to parse is empty or not", e);
+        }
+        return  pushbackReader;
     }
 }
