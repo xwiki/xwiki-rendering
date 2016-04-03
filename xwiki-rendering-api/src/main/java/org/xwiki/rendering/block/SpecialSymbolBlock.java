@@ -23,7 +23,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 
 /**
- * Represent a non-alphanumeric and non-space symbol (>, ]...).
+ * Represent a non-alphanumeric and non-space symbol ({@code >}, {@code ]}, ...).
  *
  * @version $Id$
  * @since 1.5M2

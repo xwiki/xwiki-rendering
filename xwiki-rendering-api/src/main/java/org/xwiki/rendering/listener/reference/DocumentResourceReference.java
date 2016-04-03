@@ -49,7 +49,7 @@ public class DocumentResourceReference extends ResourceReference
 
     /**
      * @return the query string for specifying parameters that will be used in the rendered URL or null if no query
-     *         string has been specified. Example: "mydata1=5&mydata2=Hello"
+     *         string has been specified. Example: {@code mydata1=5&mydata2=Hello}
      */
     public String getQueryString()
     {

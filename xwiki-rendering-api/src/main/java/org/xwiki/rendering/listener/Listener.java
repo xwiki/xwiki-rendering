@@ -402,7 +402,8 @@ public interface Listener extends LinkListener, ImageListener
     void onSpace();
 
     /**
-     * A special symbol ("*", "<", ">", "=", quote, etc). Any non alpha numeric character is a special symbol.
+     * A special symbol ({@code *}, {@code <}, {@code >}, {@code =}, quote, etc). Any non alpha numeric character is a
+     * special symbol.
      *
      * @param symbol the symbol encountered
      */

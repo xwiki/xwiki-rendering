@@ -33,8 +33,7 @@ public interface PrintRenderer extends Renderer
 {
     /**
      * @return the printer to which events generate results in. For example the XHTML print renderer outputs XHTML to a
-     *         {@link WikiPrinter} and the resulting XHTML can be retrieved by calling
-     *         {@link org.xwiki.rendering.renderer.printer.WikiPrinter#toString()}
+     *         {@link WikiPrinter} and the resulting XHTML can be retrieved by calling {@code toString()} on it
      */
     WikiPrinter getPrinter();
 
