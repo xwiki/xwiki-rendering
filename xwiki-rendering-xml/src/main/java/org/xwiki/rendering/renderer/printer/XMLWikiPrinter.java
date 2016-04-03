@@ -68,6 +68,8 @@ public class XMLWikiPrinter
 
     /**
      * Print provided text. Takes care of xml escaping.
+     *
+     * @param str the string to print
      */
     public void printXML(String str)
     {
@@ -79,7 +81,9 @@ public class XMLWikiPrinter
     }
 
     /**
-     * Print the xml element. In the form <name/>.
+     * Print the xml element. In the form {@code <name/>}.
+     *
+     * @param name the xml element to print
      */
     public void printXMLElement(String name)
     {
@@ -87,7 +91,10 @@ public class XMLWikiPrinter
     }
 
     /**
-     * Print the xml element. In the form <name att1="value1" att2="value2"/>.
+     * Print the xml element. In the form {@code <name att1="value1" att2="value2"/>}.
+     *
+     * @param name the xml element to print
+     * @param attributes the xml attributes of the element to print
      */
     public void printXMLElement(String name, String[][] attributes)
     {
@@ -107,7 +114,10 @@ public class XMLWikiPrinter
     }
 
     /**
-     * Print the xml element. In the form <name att1="value1" att2="value2"/>.
+     * Print the xml element. In the form {@code <name att1="value1" att2="value2"/>}.
+     *
+     * @param name the xml element to print
+     * @param attributes the xml attributes of the element to print
      */
     public void printXMLElement(String name, Map<String, String> attributes)
     {
@@ -127,7 +137,9 @@ public class XMLWikiPrinter
     }
 
     /**
-     * Print the start tag of xml element. In the form &lt;name&gt;.
+     * Print the start tag of xml element. In the form {@code <name>}.
+     *
+     * @param name the xml element to print
      */
     public void printXMLStartElement(String name)
     {
@@ -135,7 +147,10 @@ public class XMLWikiPrinter
     }
 
     /**
-     * Print the start tag of xml element. In the form &lt;name att1="value1" att2="value2"&gt;.
+     * Print the start tag of xml element. In the form {@code <name att1="value1" att2="value2">}.
+     *
+     * @param name the xml element to print
+     * @param attributes the xml attributes of the element to print
      */
     public void printXMLStartElement(String name, String[][] attributes)
     {
@@ -143,7 +158,10 @@ public class XMLWikiPrinter
     }
 
     /**
-     * Print the start tag of xml element. In the form &lt;name att1="value1" att2="value2"&gt;.
+     * Print the start tag of xml element. In the form {@code <name att1="value1" att2="value2">}.
+     *
+     * @param name the xml element to print
+     * @param attributes the xml attributes of the element to print
      */
     public void printXMLStartElement(String name, Map<String, String> attributes)
     {
@@ -151,7 +169,10 @@ public class XMLWikiPrinter
     }
 
     /**
-     * Print the start tag of xml element. In the form &lt;name att1="value1" att2="value2"&gt;.
+     * Print the start tag of xml element. In the form {@code <name att1="value1" att2="value2">}.
+     *
+     * @param name the xml element to print
+     * @param attributes the xml attributes of the element to print
      */
     public void printXMLStartElement(String name, Attributes attributes)
     {
@@ -163,7 +184,9 @@ public class XMLWikiPrinter
     }
 
     /**
-     * Print the end tag of xml element. In the form &lt;/name&gt;.
+     * Print the end tag of xml element. In the form {@code </name>}.
+     *
+     * @param name the xml element to print
      */
     public void printXMLEndElement(String name)
     {
