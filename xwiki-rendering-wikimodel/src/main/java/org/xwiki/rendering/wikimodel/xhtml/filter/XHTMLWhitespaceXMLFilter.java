@@ -115,6 +115,10 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
 
     private Deque<Attributes> fAttributes = new ArrayDeque<Attributes>();
 
+    public XHTMLWhitespaceXMLFilter()
+    {
+    }
+
     public XHTMLWhitespaceXMLFilter(XMLReader reader)
     {
         super(reader);
