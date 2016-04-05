@@ -31,10 +31,6 @@
   <name>XWiki Rendering - Standalone Distribution</name>
   <packaging>pom</packaging>
   <description>XWiki Rendering - Standalone Distribution</description>
-  <properties>
-    <!-- Skip CLIRR since this is not a Java module -->
-    <xwiki.clirr.skip>true</xwiki.clirr.skip>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
