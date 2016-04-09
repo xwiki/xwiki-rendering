@@ -20,9 +20,8 @@
 package org.xwiki.rendering.wikimodel;
 
 /**
- * Instances of this type are used to notify about parsed documents. This
- * listener is called for top-level documents as well as for "embedded"
- * documents found in the main document.
+ * Instances of this type are used to notify about parsed documents. This listener is called for top-level documents as
+ * well as for "embedded" documents found in the main document.
  *
  * <pre>
  *
@@ -109,49 +108,45 @@ package org.xwiki.rendering.wikimodel;
 public interface IWemListenerDocument
 {
     /**
-     * This method is called to notify about the beginning of the top-level
-     * parsed document or about the beginning of an embedded document (contained
-     * in the main one).
+     * This method is called to notify about the beginning of the top-level parsed document or about the beginning of an
+     * embedded document (contained in the main one).
+     *
+     * @param params the list of parameters for this event
      */
     void beginDocument(WikiParameters params);
 
     /**
-     * This method is called to notify about a new section header found in the
-     * document.
+     * This method is called to notify about a new section header found in the document.
      *
      * @param headerLevel the level of the found header; valid values: 1-6
-     * @param params wiki parameters associated with the
+     * @param params the list of parameters for this event
      */
     void beginHeader(int headerLevel, WikiParameters params);
 
     /**
-     * This method is used to notify about the beginning of a section. Document
-     * sections delimits a set of structural elements at the same "level". A new
-     * level starts with a new document or a new header.
+     * This method is used to notify about the beginning of a section. Document sections delimits a set of structural
+     * elements at the same "level". A new level starts with a new document or a new header.
      *
      * @param docLevel the level (depth) of the document containing this section
      * @param headerLevel the level of the header defining this section
-     * @param params parameters parameters of the document or the header
+     * @param params the list of parameters for this event
      */
     void beginSection(int docLevel, int headerLevel, WikiParameters params);
 
     /**
-     * This method is used to notify about the beginning of a section. Document
-     * sections delimits a set of structural elements at the same "level". A new
-     * level starts with a new document or a new header.
+     * This method is used to notify about the beginning of a section. Document sections delimits a set of structural
+     * elements at the same "level". A new level starts with a new document or a new header.
      *
      * @param docLevel the level (depth) of the document containing this section
      * @param headerLevel the level of the header defining this section
-     * @param params parameters parameters of the document or the header
+     * @param params the list of parameters for this event
      */
-    void beginSectionContent(
-        int docLevel,
-        int headerLevel,
-        WikiParameters params);
+    void beginSectionContent(int docLevel, int headerLevel, WikiParameters params);
 
     /**
-     * This method is used to notify about the end of a top-level or an internal
-     * document.
+     * This method is used to notify about the end of a top-level or an internal document.
+     *
+     * @param params the list of parameters for this event
      */
     void endDocument(WikiParameters params);
 
@@ -159,7 +154,7 @@ public interface IWemListenerDocument
      * This method is called to notify about the end of a section-level header.
      *
      * @param headerLevel the level of the header
-     * @param params wiki parameters of the header
+     * @param params the list of parameters for this event
      */
     void endHeader(int headerLevel, WikiParameters params);
 
@@ -168,7 +163,7 @@ public interface IWemListenerDocument
      *
      * @param docLevel the level (depth) of the document containing this section
      * @param headerLevel the level of the header defining this section
-     * @param params parameters parameters of the document or the header
+     * @param params the list of parameters for this event
      */
     void endSection(int docLevel, int headerLevel, WikiParameters params);
 
@@ -177,7 +172,7 @@ public interface IWemListenerDocument
      *
      * @param docLevel the level (depth) of the document containing this section
      * @param headerLevel the level of the header defining this section
-     * @param params parameters parameters of the document or the header
+     * @param params the list of parameters for this event
      */
     void endSectionContent(int docLevel, int headerLevel, WikiParameters params);
 }
