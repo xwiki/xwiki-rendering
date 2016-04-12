@@ -82,6 +82,11 @@ public class DefaultErrorBlockGenerator implements ErrorBlockGenerator
         //       below because getRootCauseMessage() adds a technical prefix (the name of the exception), that
         //       we don't want to display to our users.
         Throwable rootCause = ExceptionUtils.getRootCause(throwable);
+        if (rootCause == null) {
+            // If there's no nested exception, fall back to the throwable itself for getting the cause
+            rootCause = throwable;
+        }
+
         String augmentedMessage = String.format("%s%s", messagePrefix,
             rootCause == null ? "" : String.format(". Cause: [%s]", rootCause.getMessage()));
         augmentedMessage = String.format("%s%sClick on this message for details.", augmentedMessage,
