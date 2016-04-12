@@ -15,7 +15,7 @@ onWord [Execution]
 onSpace
 beginMacroMarkerInline [testfailingmacro] []
 beginFormat [NONE] [[class]=[xwikirenderingerror]]
-onWord [Failed to execute the [testfailingmacro] macro. Click on this message for details.]
+onWord [Failed to execute the [testfailingmacro] macro. Cause: [Macro execution error]. Click on this message for details.]
 endFormat [NONE] [[class]=[xwikirenderingerror]]
 beginFormat [NONE] [[class]=[xwikirenderingerrordescription hidden]]
 onVerbatim [stack trace here] [true]
@@ -26,7 +26,7 @@ onWord [error]
 endParagraph
 beginMacroMarkerStandalone [testfailingmacro] []
 beginGroup [[class]=[xwikirenderingerror]]
-onWord [Failed to execute the [testfailingmacro] macro. Click on this message for details.]
+onWord [Failed to execute the [testfailingmacro] macro. Cause: [Macro execution error]. Click on this message for details.]
 endGroup [[class]=[xwikirenderingerror]]
 beginGroup [[class]=[xwikirenderingerrordescription hidden]]
 onVerbatim [stack trace here] [false]
@@ -36,11 +36,11 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>Execution <span class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Click on this message for details.</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">stack trace here</tt></span> error</p><div class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Click on this message for details.</div><div class="xwikirenderingerrordescription hidden"><pre>stack trace here</pre></div>
+<p>Execution <span class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Cause: [Macro execution error]. Click on this message for details.</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">stack trace here</tt></span> error</p><div class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Cause: [Macro execution error]. Click on this message for details.</div><div class="xwikirenderingerrordescription hidden"><pre>stack trace here</pre></div>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p>Execution <!--startmacro:testfailingmacro|-|--><span class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Click on this message for details.</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">stack trace here</tt></span><!--stopmacro--> error</p><!--startmacro:testfailingmacro|-|--><div class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Click on this message for details.</div><div class="xwikirenderingerrordescription hidden"><pre>stack trace here</pre></div><!--stopmacro-->
+<p>Execution <!--startmacro:testfailingmacro|-|--><span class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Cause: [Macro execution error]. Click on this message for details.</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">stack trace here</tt></span><!--stopmacro--> error</p><!--startmacro:testfailingmacro|-|--><div class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Cause: [Macro execution error]. Click on this message for details.</div><div class="xwikirenderingerrordescription hidden"><pre>stack trace here</pre></div><!--stopmacro-->
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -50,4 +50,4 @@ Execution {{testfailingmacro/}} error
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p>Execution <!--startmacro:testfailingmacro|-|--><span class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Click on this message for details.</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">stack trace here</tt></span><!--stopmacro--> error</p><!--startmacro:testfailingmacro|-|--><div class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Click on this message for details.</div><div class="xwikirenderingerrordescription hidden"><pre>stack trace here</pre></div><!--stopmacro-->
+<p>Execution <!--startmacro:testfailingmacro|-|--><span class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Cause: [Macro execution error]. Click on this message for details.</span><span class="xwikirenderingerrordescription hidden"><tt class="wikimodel-verbatim">stack trace here</tt></span><!--stopmacro--> error</p><!--startmacro:testfailingmacro|-|--><div class="xwikirenderingerror">Failed to execute the [testfailingmacro] macro. Cause: [Macro execution error]. Click on this message for details.</div><div class="xwikirenderingerrordescription hidden"><pre>stack trace here</pre></div><!--stopmacro-->

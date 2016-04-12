@@ -10,7 +10,7 @@
 beginDocument
 beginMacroMarkerStandalone [jira] []
 beginGroup [[class]=[xwikirenderingerror]]
-onWord [Invalid macro parameters used for the "jira" macro. Click on this message for details.]
+onWord [Invalid macro parameters used for the "jira" macro. Cause: [Property [url] mandatory]. Click on this message for details.]
 endGroup [[class]=[xwikirenderingerror]]
 beginGroup [[class]=[xwikirenderingerrordescription hidden]]
 onVerbatim [org.xwiki.properties.PropertyMandatoryException: Property [url] mandatory${{{regex:.*}}}] [false]
