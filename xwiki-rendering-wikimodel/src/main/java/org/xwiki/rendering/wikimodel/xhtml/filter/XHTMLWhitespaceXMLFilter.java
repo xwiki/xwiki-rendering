@@ -37,7 +37,6 @@ import org.xml.sax.helpers.AttributesImpl;
 /**
  * Removes non-semantic whitespaces in XML elements. See http://www.w3.org/TR/html4/struct/text.html#h-9.1 for more
  * details. Possible use cases:
- * <p/>
  * <ul>
  *   <li><b>UC1</b>: Any white spaces group is removed if it's before a non inline (see NONINLINE_ELEMENTS) element or
  *       at the beginning of the document.</li>

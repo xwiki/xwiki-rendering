@@ -42,13 +42,13 @@ import org.xwiki.rendering.wikimodel.WikiReference;
  * <li>This serializer is only tested with transformed MediaWiki sources</li>
  * <li>To support nested tables, we're using a stack of tables.</li>
  * <li>To get the table caption in front of a table definition, we're using a
- * simple model for --> see nested Table class</li>
+ * simple model for, see nested Table class</li>
  * <li>Nested definition lists are NOT supported</li>
  * </ul>
  *
  * @version $Id$
  * @since 4.0M1
- * @see {@link org.xwiki.rendering.wikimodel.xwiki.xwiki10.XWikiSerializer}
+ * @see org.xwiki.rendering.wikimodel.xwiki.xwiki10.XWikiSerializer
  */
 public class XWikiSerializer2 extends PrintTextListener
 {
@@ -469,7 +469,7 @@ public class XWikiSerializer2 extends PrintTextListener
     }
 
     /**
-     * @see {@link #clearName(String)}
+     * @see #clearName(String)
      */
     public final static String clearName(String name, boolean stripDots, boolean ascii)
     {
@@ -554,8 +554,6 @@ public class XWikiSerializer2 extends PrintTextListener
      *
      * RECOMMENDED FOR NAMES OF UPLOADED FILES. (boolean stripDots = false;
      * boolean ascii = true;)
-     *
-     * @see {@link com.xpn.xwiki.XWiki#clearName(String, boolean, boolean, com.xpn.xwiki.XWikiContext)}
      */
     public final static String clearName(String name)
     {

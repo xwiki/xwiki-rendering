@@ -35,19 +35,12 @@ public class WikiParameter
 
     private String fValue;
 
-    /**
-     * @param key
-     * @param value
-     */
     public WikiParameter(String key, String value)
     {
         fKey = key;
         fValue = value;
     }
 
-    /**
-     * @param pair
-     */
     public WikiParameter(WikiParameter pair)
     {
         fKey = pair.getKey();

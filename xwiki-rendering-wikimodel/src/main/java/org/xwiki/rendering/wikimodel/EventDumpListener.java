@@ -30,9 +30,6 @@ public class EventDumpListener extends PrintTextListener
 {
     private int fDepth;
 
-    /**
-     * @param printer
-     */
     public EventDumpListener(IWikiPrinter printer)
     {
         super(printer);

@@ -44,16 +44,10 @@ public class WikiFormat
 
     private WikiParameters fParams = WikiParameters.EMPTY;
 
-    /**
-     *
-     */
     public WikiFormat()
     {
     }
 
-    /**
-     * @param styles
-     */
     public WikiFormat(Set<WikiStyle> styles)
     {
         this(styles, Collections.<WikiParameter>emptyList());
@@ -74,9 +68,6 @@ public class WikiFormat
         this(Collections.<WikiStyle>emptySet(), params);
     }
 
-    /**
-     * @param style
-     */
     public WikiFormat(WikiStyle style)
     {
         this(Collections.<WikiStyle>singleton(style));
@@ -87,9 +78,6 @@ public class WikiFormat
         this(Collections.<WikiStyle>singleton(style), params);
     }
 
-    /**
-     * @param styles
-     */
     public WikiFormat(WikiStyle[] styles)
     {
         super();

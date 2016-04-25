@@ -50,9 +50,6 @@ public class WemToSax implements ITagListener
 
     private ContentHandler fHandler;
 
-    /**
-     *
-     */
     public WemToSax(ContentHandler handler)
     {
         fHandler = handler;

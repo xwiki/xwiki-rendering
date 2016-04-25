@@ -58,9 +58,6 @@ public class WemReader implements XMLReader
 
     protected Map<String, Object> fProperties = new HashMap<String, Object>();
 
-    /**
-     *
-     */
     public WemReader(IWikiParser parser)
     {
         fParser = parser;

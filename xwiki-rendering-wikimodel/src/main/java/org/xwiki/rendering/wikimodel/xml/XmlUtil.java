@@ -112,15 +112,6 @@ public class XmlUtil
         formatXML(xml, xsl, null, output);
     }
 
-    /**
-     * @param xmlSource
-     * @param xslSource
-     * @param resolver
-     * @param output
-     * @throws TransformerFactoryConfigurationError
-     * @throws TransformerConfigurationException
-     * @throws TransformerException
-     */
     public static void formatXML(
         Source xmlSource,
         Source xslSource,
@@ -272,13 +263,6 @@ public class XmlUtil
         write(root, writer);
     }
 
-    /**
-     * @param root
-     * @param writer
-     * @throws TransformerConfigurationException
-     * @throws TransformerFactoryConfigurationError
-     * @throws TransformerException
-     */
     public static void write(Element root, Writer writer)
         throws TransformerConfigurationException,
         TransformerFactoryConfigurationError,
@@ -288,14 +272,6 @@ public class XmlUtil
         write(input, writer);
     }
 
-    /**
-     * @param reader
-     * @param parser
-     * @param output
-     * @throws TransformerConfigurationException
-     * @throws TransformerFactoryConfigurationError
-     * @throws TransformerException
-     */
     public static void write(Reader reader, XMLReader parser, Result output)
         throws TransformerConfigurationException,
         TransformerFactoryConfigurationError,
@@ -309,13 +285,6 @@ public class XmlUtil
         write(input, output);
     }
 
-    /**
-     * @param parser
-     * @param writer
-     * @throws TransformerConfigurationException
-     * @throws TransformerFactoryConfigurationError
-     * @throws TransformerException
-     */
     public static void write(Reader reader, XMLReader parser, Writer writer)
         throws TransformerConfigurationException,
         TransformerFactoryConfigurationError,
@@ -359,13 +328,6 @@ public class XmlUtil
         idTransform.transform(input, output);
     }
 
-    /**
-     * @param input
-     * @param os
-     * @throws TransformerConfigurationException
-     * @throws TransformerFactoryConfigurationError
-     * @throws TransformerException
-     */
     public static void write(Source input, Writer writer)
         throws TransformerConfigurationException,
         TransformerFactoryConfigurationError,

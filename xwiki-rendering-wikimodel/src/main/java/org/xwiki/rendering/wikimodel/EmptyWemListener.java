@@ -55,7 +55,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#beginDocument()
+     * @see IWemListener#beginDocument(WikiParameters)
      */
     public void beginDocument()
     {
@@ -79,8 +79,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#beginHeader(int,
-     *      WikiParameters)
+     * @see IWemListener#beginHeader(int, WikiParameters)
      */
     public void beginHeader(int headerLevel, WikiParameters params)
     {
@@ -88,8 +87,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#beginInfoBlock(String,
-     *      WikiParameters)
+     * @see IWemListener#beginInfoBlock(String, WikiParameters)
      */
     public void beginInfoBlock(String infoType, WikiParameters params)
     {
@@ -97,8 +95,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#beginList(WikiParameters,
-     *      boolean)
+     * @see IWemListener#beginList(WikiParameters, boolean)
      */
     public void beginList(WikiParameters params, boolean ordered)
     {
@@ -122,8 +119,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#beginPropertyBlock(java.lang.String,
-     *      boolean)
+     * @see IWemListener#beginPropertyBlock(java.lang.String, boolean)
      */
     public void beginPropertyBlock(String propertyUri, boolean doc)
     {
@@ -155,27 +151,19 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListenerDocument#beginSection(int, int,
-     *      WikiParameters)
+     * @see IWemListenerDocument#beginSection(int, int, WikiParameters)
      */
-    public void beginSection(
-        int docLevel,
-        int headerLevel,
-        WikiParameters params)
+    public void beginSection(int docLevel, int headerLevel, WikiParameters params)
     {
-        // 
+        //
     }
 
     /**
-     * @see IWemListenerDocument#beginSectionContent(int, int,
-     *      WikiParameters)
+     * @see IWemListenerDocument#beginSectionContent(int, int, WikiParameters)
      */
-    public void beginSectionContent(
-        int docLevel,
-        int headerLevel,
-        WikiParameters params)
+    public void beginSectionContent(int docLevel, int headerLevel, WikiParameters params)
     {
-        // 
+        //
     }
 
     /**
@@ -187,8 +175,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#beginTableCell(boolean,
-     *      WikiParameters)
+     * @see IWemListener#beginTableCell(boolean, WikiParameters)
      */
     public void beginTableCell(boolean tableHead, WikiParameters params)
     {
@@ -228,7 +215,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#endDocument()
+     * @see IWemListener#endDocument(WikiParameters)
      */
     public void endDocument()
     {
@@ -252,8 +239,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#endHeader(int,
-     *      WikiParameters)
+     * @see IWemListener#endHeader(int, WikiParameters)
      */
     public void endHeader(int headerLevel, WikiParameters params)
     {
@@ -261,8 +247,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#endInfoBlock(String,
-     *      WikiParameters)
+     * @see IWemListener#endInfoBlock(String, WikiParameters)
      */
     public void endInfoBlock(String infoType, WikiParameters params)
     {
@@ -270,8 +255,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#endList(WikiParameters,
-     *      boolean)
+     * @see IWemListener#endList(WikiParameters, boolean)
      */
     public void endList(WikiParameters params, boolean ordered)
     {
@@ -295,8 +279,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#endPropertyBlock(java.lang.String,
-     *      boolean)
+     * @see IWemListener#endPropertyBlock(java.lang.String, boolean)
      */
     public void endPropertyBlock(String propertyUri, boolean doc)
     {
@@ -328,24 +311,19 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListenerDocument#endSection(int, int,
-     *      WikiParameters)
+     * @see IWemListenerDocument#endSection(int, int, WikiParameters)
      */
     public void endSection(int docLevel, int headerLevel, WikiParameters params)
     {
-        // 
+        //
     }
 
     /**
-     * @see IWemListenerDocument#endSectionContent(int, int,
-     *      WikiParameters)
+     * @see IWemListenerDocument#endSectionContent(int, int, WikiParameters)
      */
-    public void endSectionContent(
-        int docLevel,
-        int headerLevel,
-        WikiParameters params)
+    public void endSectionContent(int docLevel, int headerLevel, WikiParameters params)
     {
-        // 
+        //
     }
 
     /**
@@ -357,8 +335,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#endTableCell(boolean,
-     *      WikiParameters)
+     * @see IWemListener#endTableCell(boolean, WikiParameters)
      */
     public void endTableCell(boolean tableHead, WikiParameters params)
     {
@@ -390,8 +367,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#onExtensionBlock(java.lang.String,
-     *      WikiParameters)
+     * @see IWemListener#onExtensionBlock(java.lang.String, WikiParameters)
      */
     public void onExtensionBlock(String extensionName, WikiParameters params)
     {
@@ -399,8 +375,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#onExtensionInline(java.lang.String,
-     *      WikiParameters)
+     * @see IWemListener#onExtensionInline(java.lang.String, WikiParameters)
      */
     public void onExtensionInline(String extensionName, WikiParameters params)
     {
@@ -408,8 +383,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#onHorizontalLine(WikiParameters
-     *      params)
+     * @see IWemListener#onHorizontalLine(WikiParameters params)
      */
     public void onHorizontalLine(WikiParameters params)
     {
@@ -421,7 +395,7 @@ public class EmptyWemListener implements IWemListener
      */
     public void onImage(String ref)
     {
-        //   
+        //
     }
 
     /**
@@ -429,7 +403,7 @@ public class EmptyWemListener implements IWemListener
      */
     public void onImage(WikiReference ref)
     {
-        // 
+        //
     }
 
     /**
@@ -441,25 +415,17 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#onMacroBlock(java.lang.String,
-     *      WikiParameters, java.lang.String)
+     * @see IWemListener#onMacroBlock(java.lang.String, WikiParameters, java.lang.String)
      */
-    public void onMacroBlock(
-        String macroName,
-        WikiParameters params,
-        String content)
+    public void onMacroBlock(String macroName, WikiParameters params, String content)
     {
         //
     }
 
     /**
-     * @see IWemListener#onMacroInline(java.lang.String,
-     *      WikiParameters, java.lang.String)
+     * @see IWemListener#onMacroInline(java.lang.String, WikiParameters, java.lang.String)
      */
-    public void onMacroInline(
-        String macroName,
-        WikiParameters params,
-        String content)
+    public void onMacroInline(String macroName, WikiParameters params, String content)
     {
         //
     }
@@ -482,7 +448,7 @@ public class EmptyWemListener implements IWemListener
 
     public void onReference(WikiReference ref)
     {
-        // 
+        //
     }
 
     /**
@@ -510,8 +476,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#onVerbatimBlock(String,
-     *      WikiParameters)
+     * @see IWemListener#onVerbatimBlock(String, WikiParameters)
      */
     public void onVerbatimBlock(String str, WikiParameters params)
     {
@@ -519,8 +484,7 @@ public class EmptyWemListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#onVerbatimInline(java.lang.String,
-     *      WikiParameters)
+     * @see IWemListener#onVerbatimInline(java.lang.String, WikiParameters)
      */
     public void onVerbatimInline(String str, WikiParameters params)
     {

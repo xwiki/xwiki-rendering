@@ -206,10 +206,12 @@ public class WikiPageUtil
 
     /**
      * Returns <code>true</code> if the given value is a valid XML character.
+     * <p>
+     * See http://www.w3.org/TR/xml/#charsets
+     * </p>
      *
      * @param ch the value to check
      * @return <code>true</code> if the given value is a valid XML character.
-     * @see http://www.w3.org/TR/xml/#charsets
      */
     public static boolean isValidXmlChar(int ch)
     {
@@ -222,14 +224,14 @@ public class WikiPageUtil
     }
 
     /**
-     * This method checks the given string and returns <code>true</code> if it
-     * is a valid XML name
+     * This method checks the given string and returns <code>true</code> if it is a valid XML name
+     * <p>
+     * See http://www.w3.org/TR/xml/#NT-Name.
+     * </p>
      *
      * @param tagName the name to check
-     * @param colonEnabled if this flag is <code>true</code> then this method
-     * accepts the ':' symbol in the name
+     * @param colonEnabled if this flag is <code>true</code> then this method accepts the ':' symbol in the name
      * @return <code>true</code> if the given string is a valid XML name
-     * @see http://www.w3.org/TR/xml/#NT-Name
      */
     public static boolean isValidXmlName(String tagName, boolean colonEnabled)
     {
@@ -252,13 +254,15 @@ public class WikiPageUtil
     /**
      * Returns <code>true</code> if the given value is a valid XML name
      * character.
-     *
+     * <p>
+     * See http://www.w3.org/TR/xml/#NT-NameChar.
+     * </p>
+     * 
      * @param ch the character to check
      * @param colonEnabled if this flag is <code>true</code> then this method
      * accepts the ':' symbol.
      * @return <code>true</code> if the given value is a valid XML name
      *         character
-     * @see http://www.w3.org/TR/xml/#NT-NameChar
      */
     public static boolean isValidXmlNameChar(char ch, boolean colonEnabled)
     {
@@ -274,13 +278,15 @@ public class WikiPageUtil
     /**
      * Returns <code>true</code> if the given value is a valid first character
      * of an XML name.
-     *
+     * <p>
+     * See http://www.w3.org/TR/xml/#NT-NameStartChar.
+     * </p>
+     * 
      * @param ch the character to check
      * @param colonEnabled if this flag is <code>true</code> then this method
      * accepts the ':' symbol.
      * @return <code>true</code> if the given value is a valid first character
      *         for an XML name
-     * @see http://www.w3.org/TR/xml/#NT-NameStartChar
      */
     public static boolean isValidXmlNameStartChar(char ch, boolean colonEnabled)
     {

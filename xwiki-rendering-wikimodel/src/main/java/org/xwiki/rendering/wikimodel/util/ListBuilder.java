@@ -96,9 +96,6 @@ public class ListBuilder
 
     private IListListener fListener;
 
-    /**
-     * @param listener
-     */
     public ListBuilder(IListListener listener)
     {
         fListener = listener;

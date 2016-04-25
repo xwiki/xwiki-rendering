@@ -28,7 +28,7 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
  *
  * @version $Id$
  * @since 4.0M1
- * @see {@link org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiSerializer2}
+ * @see org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiSerializer2
  */
 public class XWikiSerializer extends PrintTextListener
 {

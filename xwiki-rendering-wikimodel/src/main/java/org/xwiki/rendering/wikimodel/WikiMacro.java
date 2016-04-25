@@ -53,28 +53,16 @@ public class WikiMacro
 
     private final String content;
 
-    /**
-     * @param name
-     */
     public WikiMacro(String name)
     {
         this(name, WikiParameters.EMPTY, null);
     }
 
-    /**
-     * @param name
-     * @param wikiParameters
-     */
     public WikiMacro(String name, WikiParameters wikiParameters)
     {
         this(name, wikiParameters, null);
     }
 
-    /**
-     * @param name
-     * @param wikiParameters
-     * @param content
-     */
     public WikiMacro(String name, WikiParameters wikiParameters, String content)
     {
         super();
@@ -107,9 +95,6 @@ public class WikiMacro
         return wikiParameters;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode()
     {
@@ -119,9 +104,6 @@ public class WikiMacro
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj)
     {
@@ -145,9 +127,6 @@ public class WikiMacro
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString()
     {

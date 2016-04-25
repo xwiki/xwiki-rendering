@@ -29,7 +29,7 @@ import java.util.Map;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
 
 /**
- * This is a default implementation of the {@link IWikiParams} interface.
+ * Allow iterating over {@link WikiParameter}s.
  *
  * @version $Id$
  * @since 4.0M1
@@ -46,9 +46,6 @@ public class WikiParameters implements Iterable<WikiParameter>
      */
     public final static WikiParameters EMPTY = new WikiParameters();
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1253393289284318413L;
 
     public static WikiParameters newWikiParameters(String str)

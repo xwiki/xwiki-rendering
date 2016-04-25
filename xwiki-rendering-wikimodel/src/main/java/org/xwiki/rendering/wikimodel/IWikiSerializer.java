@@ -29,11 +29,6 @@ import java.io.Reader;
  */
 public interface IWikiSerializer
 {
-    /**
-     * @param reader
-     * @param listener
-     * @throws WikiParserException
-     */
     void serialize(Reader reader, IWemListener listener)
         throws WikiParserException;
 }

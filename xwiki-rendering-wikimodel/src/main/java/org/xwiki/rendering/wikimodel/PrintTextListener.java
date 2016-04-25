@@ -33,9 +33,6 @@ public class PrintTextListener implements IWemListener
 
     private boolean supportDownload;
 
-    /**
-     * @param printer
-     */
     public PrintTextListener(IWikiPrinter printer)
     {
         this(printer, false, false);
