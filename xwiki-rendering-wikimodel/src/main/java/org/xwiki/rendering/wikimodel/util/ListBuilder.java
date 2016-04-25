@@ -102,7 +102,7 @@ public class ListBuilder
     }
 
     /**
-     * @param rowParams the parameters of the row
+     * @param row the parameters of the row
      */
     public void alignContext(String row)
     {
