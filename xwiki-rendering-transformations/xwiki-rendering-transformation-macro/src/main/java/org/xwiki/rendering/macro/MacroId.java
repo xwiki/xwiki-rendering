@@ -26,11 +26,11 @@ import org.xwiki.rendering.syntax.Syntax;
  * pass Macro instances; it's also required when we need to create a Macro instance from an identifier.
  * <p>
  * A Macro is identified by 2 parameters:
+ * </p>
  * <ul>
  *   <li>a string representing a technical id (eg "toc")</li>
  *   <li>an optional syntax (can be null) if the macro is only available for a given syntax</li>
  * </ul>
- * </p>
  *
  * @version $Id$
  * @since 2.0M3
