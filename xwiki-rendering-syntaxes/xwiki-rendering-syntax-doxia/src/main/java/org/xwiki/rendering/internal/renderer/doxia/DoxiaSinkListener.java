@@ -58,11 +58,6 @@ public class DoxiaSinkListener implements Listener
         this.sink = sink;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 3.0M2
-     */
     @Override
     public void beginDocument(MetaData metaData)
     {
@@ -71,11 +66,6 @@ public class DoxiaSinkListener implements Listener
         this.sink.body();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 3.0M2
-     */
     @Override
     public void endDocument(MetaData metaData)
     {
@@ -308,11 +298,6 @@ public class DoxiaSinkListener implements Listener
         // TODO: Find what to do...
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 2.0RC1
-     */
     @Override
     public void beginDefinitionList(Map<String, String> parameters)
     {
@@ -320,11 +305,6 @@ public class DoxiaSinkListener implements Listener
         this.sink.definitionList();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 2.0RC1
-     */
     @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
@@ -332,88 +312,48 @@ public class DoxiaSinkListener implements Listener
         this.sink.definitionList_();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 1.6M2
-     */
     @Override
     public void beginDefinitionTerm()
     {
         this.sink.definedTerm();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 1.6M2
-     */
     @Override
     public void beginDefinitionDescription()
     {
         this.sink.definition();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 1.6M2
-     */
     @Override
     public void endDefinitionTerm()
     {
         this.sink.definedTerm_();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 1.6M2
-     */
     @Override
     public void endDefinitionDescription()
     {
         this.sink.definition_();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 1.6M2
-     */
     @Override
     public void beginQuotation(Map<String, String> parameters)
     {
         // TODO: Doxia doesn't seem to have support for quotation... Find out what to do...
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 1.6M2
-     */
     @Override
     public void endQuotation(Map<String, String> parameters)
     {
         // TODO: Doxia doesn't seem to have support for quotation... Find out what to do...
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 1.6M2
-     */
     @Override
     public void beginQuotationLine()
     {
         // TODO: Doxia doesn't seem to have support for quotation... Find out what to do...
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 1.6M2
-     */
     @Override
     public void endQuotationLine()
     {
@@ -468,33 +408,18 @@ public class DoxiaSinkListener implements Listener
         this.sink.tableRow_();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 2.5RC1
-     */
     @Override
     public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         this.sink.link(reference.getReference());
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 2.5RC1
-     */
     @Override
     public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
         this.sink.link_();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 2.5RC1
-     */
     @Override
     public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
     {
@@ -506,22 +431,12 @@ public class DoxiaSinkListener implements Listener
         this.sink.figure_();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 3.0M2
-     */
     @Override
     public void beginMetaData(MetaData metadata)
     {
         // Doxia doesn't support the notion of metadata
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 3.0M2
-     */
     @Override
     public void endMetaData(MetaData metadata)
     {

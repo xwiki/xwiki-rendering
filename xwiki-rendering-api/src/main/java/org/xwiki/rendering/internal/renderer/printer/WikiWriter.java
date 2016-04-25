@@ -78,6 +78,7 @@ public class WikiWriter extends Writer
      * <p>
      * Override it to improve speed a little. Otherwise the String is transformed in char table passed to the over
      * methods which recreate a String.
+     * </p>
      */
     @Override
     public void write(String str) throws IOException

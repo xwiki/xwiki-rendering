@@ -151,6 +151,7 @@ public class SyntaxType
      * {@inheritDoc}
      * <p>
      * Display a human readable name of the Syntax type.
+     * </p>
      *
      * @see java.lang.Object#toString()
      */

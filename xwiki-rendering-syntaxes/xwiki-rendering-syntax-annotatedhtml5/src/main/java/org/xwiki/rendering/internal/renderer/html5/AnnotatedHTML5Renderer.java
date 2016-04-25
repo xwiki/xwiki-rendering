@@ -67,11 +67,6 @@ public class AnnotatedHTML5Renderer extends AbstractChainingPrintRenderer implem
     @Named("annotated")
     private XHTMLImageRenderer imageRenderer;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.component.phase.Initializable#initialize()
-     */
     @Override
     public void initialize() throws InitializationException
     {

@@ -225,7 +225,7 @@ public class ResourceReference implements Cloneable
      * {@inheritDoc}
      * <p>
      * The output is syntax independent since this class is used for all syntaxes. Specific syntaxes should extend this
-     * class and override this method to perform syntax-dependent formatting.
+     * class and override this method to perform syntax-dependent formatting.</p>
      *
      * @see java.lang.Object#toString()
      */

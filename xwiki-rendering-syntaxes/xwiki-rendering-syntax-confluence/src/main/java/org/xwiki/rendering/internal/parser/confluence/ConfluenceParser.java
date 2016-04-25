@@ -67,24 +67,12 @@ public class ConfluenceParser extends AbstractWikiModelParser
         return new ConfluenceWikiParser();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see AbstractWikiModelParser#getLinkReferenceParser()
-     * @since 2.5RC1
-     */
     @Override
     public ResourceReferenceParser getLinkReferenceParser()
     {
         return this.referenceParser;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser#getImageReferenceParser()
-     * @since 2.5RC1
-     */
     @Override
     public ResourceReferenceParser getImageReferenceParser()
     {
