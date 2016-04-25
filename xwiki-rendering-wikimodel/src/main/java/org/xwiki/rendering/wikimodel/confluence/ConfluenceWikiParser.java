@@ -46,9 +46,6 @@ public class ConfluenceWikiParser implements IWikiParser
     {
     }
 
-    /**
-     *
-     */
     public ConfluenceWikiParser(boolean noformatAsMacro)
     {
         fNoformatAsMacro = noformatAsMacro;

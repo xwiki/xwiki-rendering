@@ -28,23 +28,11 @@ package org.xwiki.rendering.wikimodel.util;
  */
 public interface ITocListener
 {
-    /**
-     *
-     */
     void beginItem();
 
-    /**
-     * @param headerLevel
-     */
     void beginLevel(int headerLevel);
 
-    /**
-     *
-     */
     void endItem();
 
-    /**
-     * @param headerLevel
-     */
     void endLevel(int headerLevel);
 }

@@ -138,16 +138,10 @@ public final class TreeBuilder<X extends TreeBuilder.IPos<X>>
         }
     }
 
-    /**
-     *
-     */
     public List<X> fList = new ArrayList<X>();
 
     private ITreeListener<X> fListener;
 
-    /**
-     *
-     */
     public TreeBuilder(ITreeListener<X> listener)
     {
         super();

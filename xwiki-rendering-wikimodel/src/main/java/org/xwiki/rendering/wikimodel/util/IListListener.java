@@ -26,7 +26,7 @@ package org.xwiki.rendering.wikimodel.util;
 public interface IListListener
 {
     /**
-     * Begins of a new row
+     * Begins of a new row.
      *
      * @param treeType TODO
      * @param rowType the type of the row
@@ -47,7 +47,7 @@ public interface IListListener
     void endRow(char treeType, char rowType);
 
     /**
-     * Ends of the tree of the given type
+     * Ends of the tree of the given type.
      */
     void endTree(char type);
 }

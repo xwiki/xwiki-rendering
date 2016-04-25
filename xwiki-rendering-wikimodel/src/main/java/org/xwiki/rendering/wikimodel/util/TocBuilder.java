@@ -44,39 +44,21 @@ public class TocBuilder
 
     private int fTotalDepth;
 
-    /**
-     * @param listener
-     */
     public TocBuilder(ITocListener listener)
     {
         this(listener, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
-    /**
-     * @param listener
-     * @param totalDepth
-     */
     public TocBuilder(ITocListener listener, int totalDepth)
     {
         this(listener, Integer.MAX_VALUE, Integer.MAX_VALUE, totalDepth);
     }
 
-    /**
-     * @param listener
-     * @param documentDepth
-     * @param headerDepth
-     */
     public TocBuilder(ITocListener listener, int documentDepth, int headerDepth)
     {
         this(listener, documentDepth, headerDepth, Integer.MAX_VALUE);
     }
 
-    /**
-     * @param listener
-     * @param documentDepth
-     * @param headerDepth
-     * @param totalDepth
-     */
     public TocBuilder(
         ITocListener listener,
         int documentDepth,
@@ -89,18 +71,12 @@ public class TocBuilder
         fTotalDepth = totalDepth;
     }
 
-    /**
-     *
-     */
     public void beginDocument()
     {
         fBaseLevelStack.push(fBaseLevel);
         fBaseLevel = fLevel;
     }
 
-    /**
-     * @param level
-     */
     public void beginHeader(int level)
     {
         setHeaderLevel(level);
@@ -121,9 +97,6 @@ public class TocBuilder
             && (documentDepth + headerLevel) <= fTotalDepth;
     }
 
-    /**
-     *
-     */
     public void endDocument()
     {
         setHeaderLevel(0);
@@ -131,9 +104,6 @@ public class TocBuilder
         fBaseLevel = level.intValue();
     }
 
-    /**
-     *
-     */
     public void endHeader()
     {
         if (checkDepth()) {
