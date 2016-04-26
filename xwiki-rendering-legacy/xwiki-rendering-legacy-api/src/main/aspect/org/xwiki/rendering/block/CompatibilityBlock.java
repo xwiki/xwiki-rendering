@@ -39,7 +39,7 @@ public interface CompatibilityBlock
      * @param blockClass the block class to look for
      * @return the found block, null if nothing is found
      * @since 1.9.1
-     * @deprecated since 3.0M3 use {@link #getBlocks(BlockMatcher, Axes)} instead
+     * @deprecated since 3.0M3 use {@link Block#getBlocks(BlockMatcher, Axes)} instead
      */
     @Deprecated
     <T extends Block> T getParentBlockByType(Class<T> blockClass);
@@ -47,15 +47,15 @@ public interface CompatibilityBlock
     /**
      * Look upward to find a block which inherit or is provided type.
      * <p>
-     * The difference with {@code #getParentBlockByType(Class)} is that this one look also at previous block in the same
-     * parent when {@code #getParentBlockByType(Class)} only look at parents.
+     * The difference with {@link #getParentBlockByType(Class)} is that this one look also at previous block in the same
+     * parent when {@link #getParentBlockByType(Class)} only look at parents.
      *
      * @param <T> the class of the Blocks to return
      * @param blockClass the block class to look for
      * @param recurse if true also search in parents levels
      * @return the found block, null if nothing is found
      * @since 1.6M1
-     * @deprecated since 3.0M3 use {@link #getBlocks(BlockMatcher, Axes)} instead
+     * @deprecated since 3.0M3 use {@link Block#getBlocks(BlockMatcher, Axes)} instead
      */
     @Deprecated
     <T extends Block> T getPreviousBlockByType(Class<T> blockClass, boolean recurse);
@@ -68,9 +68,9 @@ public interface CompatibilityBlock
      * @param recurse if true also search recursively children
      * @return all the matching blocks
      * @since 1.6M1
-     * @deprecated since 3.0M3 use {@code #getBlocks(new ClassBlockMatcher(blockClass), Axes.DESCENDANT)} instead if
-     *             {@code recurse} was true and {@code #getBlocks(new ClassBlockMatcher(blockClass), Axes.CHILD)}
-     *             otherwise
+     * @deprecated since 3.0M3 use {@code Block#getBlocks(new ClassBlockMatcher(blockClass), Axes.DESCENDANT)} instead
+     *             if {@code recurse} was true and
+     *             {@code Block#getBlocks(new ClassBlockMatcher(blockClass), Axes.CHILD)} otherwise
      */
     @Deprecated
     <T extends Block> List<T> getChildrenByType(Class<T> blockClass, boolean recurse);
