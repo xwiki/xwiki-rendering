@@ -10,7 +10,7 @@ XWiki Platform, XWiki Enterprise, XWiki Commons and XWiki Rendering are part of 
 * [Development Zone](http://dev.xwiki.org/xwiki/bin/view/Community/)
 
 ## Download
-The XWiki Rendering JARs are available in the [Maven Central Repository](http://repo2.maven.org/maven2/org/xwiki/rendering/).
+The XWiki Rendering JARs are available in the [![Maven Central Repository](https://img.shields.io/maven-central/v/org.xwiki.rendering/xwiki-rendering.svg?maxAge=3600)](http://search.maven.org/#search|ga|1|g%3A%22org.xwiki.rendering%22).
 
 ## Release Notes
 Read our [Release Notes](http://www.xwiki.org/xwiki/bin/view/ReleaseNotes/).
