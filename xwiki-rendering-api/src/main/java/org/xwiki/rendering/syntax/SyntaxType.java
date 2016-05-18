@@ -22,11 +22,13 @@ package org.xwiki.rendering.syntax;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 /**
  * @version $Id$
  * @since 2.0RC1
  */
-public class SyntaxType
+public class SyntaxType implements Comparable<SyntaxType>
 {
     /**
      * Well-known Syntax types.
@@ -193,5 +195,13 @@ public class SyntaxType
         }
 
         return result;
+    }
+
+    @Override
+    public int compareTo(SyntaxType syntaxType)
+    {
+        return new CompareToBuilder()
+            .append(getName(), syntaxType.getName())
+            .toComparison();
     }
 }

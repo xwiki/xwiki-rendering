@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.syntax;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -30,7 +31,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @version $Id$
  * @since 2.0RC1
  */
-public class Syntax
+public class Syntax implements Comparable<Syntax>
 {
     /**
      * HTML5 syntax.
@@ -193,5 +194,15 @@ public class Syntax
             .append(getVersion(), rhs.getVersion())
             .append(getQualifier(), rhs.getQualifier())
             .isEquals();
+    }
+
+    @Override
+    public int compareTo(Syntax syntax)
+    {
+        return new CompareToBuilder()
+            .append(getType(), syntax.getType())
+            // TODO: Add a real version parser to compare the versions
+            .append(getVersion(), syntax.getVersion())
+            .toComparison();
     }
 }

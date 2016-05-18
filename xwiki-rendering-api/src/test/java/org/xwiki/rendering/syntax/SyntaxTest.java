@@ -17,12 +17,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.parser;
+package org.xwiki.rendering.syntax;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.syntax.SyntaxType;
+
+import static org.junit.Assert.*;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.syntax.Syntax}.
@@ -39,12 +38,12 @@ public class SyntaxTest
         Syntax syntax2 = new Syntax(new SyntaxType("mytype", "My Type"), "1.0");
         Syntax syntax3 = new Syntax(new SyntaxType("mytype", "Still same type"), "1.0");
 
-        Assert.assertEquals("mytype", syntax1.getType().getId());
-        Assert.assertEquals("My Type", syntax1.getType().getName());
+        assertEquals("mytype", syntax1.getType().getId());
+        assertEquals("My Type", syntax1.getType().getName());
 
-        Assert.assertEquals(syntax2, syntax1);
+        assertEquals(syntax2, syntax1);
         // The syntax type name is not part of the equality test.
-        Assert.assertEquals(syntax3, syntax1);
+        assertEquals(syntax3, syntax1);
     }
 
     @Test
@@ -54,22 +53,34 @@ public class SyntaxTest
         Syntax syntax2 = new Syntax(SyntaxType.XWIKI, "2.0");
         Syntax syntax3 = new Syntax(SyntaxType.CONFLUENCE, "1.0");
 
-        Assert.assertFalse(syntax2.equals(syntax1));
-        Assert.assertFalse(syntax3.equals(syntax1));
+        assertFalse(syntax2.equals(syntax1));
+        assertFalse(syntax3.equals(syntax1));
     }
 
     @Test
     public void testToString()
     {
         Syntax syntax = new Syntax(SyntaxType.XWIKI, "1.0");
-        Assert.assertEquals("XWiki 1.0", syntax.toString());
-        Assert.assertEquals("xwiki/1.0", syntax.toIdString());
+        assertEquals("XWiki 1.0", syntax.toString());
+        assertEquals("xwiki/1.0", syntax.toIdString());
     }
 
     @Test
     public void getWellKnownSyntaxes()
     {
-        Assert.assertEquals(18, SyntaxType.getSyntaxTypes().size());
-        Assert.assertEquals(new SyntaxType("xwiki", "XWiki"), SyntaxType.getSyntaxTypes().get("xwiki"));
+        assertEquals(18, SyntaxType.getSyntaxTypes().size());
+        assertEquals(new SyntaxType("xwiki", "XWiki"), SyntaxType.getSyntaxTypes().get("xwiki"));
+    }
+
+    @Test
+    public void comparisons()
+    {
+        Syntax syntax1 = new Syntax(new SyntaxType("mytype1", "BBB"), "1.0");
+        Syntax syntax2 = new Syntax(new SyntaxType("mytype2", "AAA"), "1.0");
+        Syntax syntax3 = new Syntax(new SyntaxType("mytype3", "BBB"), "1.1");
+
+        assertEquals(0, syntax1.compareTo(syntax1));
+        assertTrue(syntax1.compareTo(syntax2) > 0);
+        assertTrue(syntax3.compareTo(syntax1) > 0);
     }
 }
