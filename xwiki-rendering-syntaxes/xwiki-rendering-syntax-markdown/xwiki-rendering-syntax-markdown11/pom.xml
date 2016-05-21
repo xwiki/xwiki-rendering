@@ -24,21 +24,20 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.rendering</groupId>
-    <artifactId>xwiki-rendering-syntaxes</artifactId>
+    <artifactId>xwiki-rendering-syntax-markdown</artifactId>
     <version>8.2-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-syntax-markdown10</artifactId>
-  <name>XWiki Rendering - Syntax - Markdown 1.0</name>
-  <description>XWiki Rendering - Syntax - Markdown 1.0</description>
+  <artifactId>xwiki-rendering-syntax-markdown11</artifactId>
+  <name>XWiki Rendering - Syntax - Markdown Syntax - Markdown 1.1</name>
+  <description>XWiki Rendering - Syntax - Markdown Syntax - Markdown 1.1</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.91</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.40</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
-    <!-- Fix duplicated files in parboiled until pegdown depend on the right version -->
     <dependency>
-      <groupId>org.parboiled</groupId>
-      <artifactId>parboiled-java</artifactId>
-      <version>1.1.7</version>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-markdown10</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.pegdown</groupId>
@@ -46,13 +45,13 @@
       <version>1.4.1</version>
     </dependency>
     <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
     </dependency>
     <!-- Test Dependencies -->
     <dependency>
@@ -67,19 +66,25 @@
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-markdown10</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+      <type>test-jar</type>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>test-jar</goal>
-            </goals>
-          </execution>
-        </executions>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <!-- Parboiled parser classes uses specific naming etc. -->
+          <excludes>
+            org/xwiki/rendering/internal/parser/markdown11/*PegdownPluginParser.java
+          </excludes>
+        </configuration>
       </plugin>
     </plugins>
   </build>
