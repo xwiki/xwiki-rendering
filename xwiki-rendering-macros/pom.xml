@@ -116,7 +116,6 @@ Thus it is forbidden to depend on the HTML Macro.
     <module>xwiki-rendering-macro-footnotes</module>
     <module>xwiki-rendering-macro-html</module>
     <module>xwiki-rendering-macro-id</module>
-    <module>xwiki-rendering-macro-jira</module>
     <module>xwiki-rendering-macro-message</module>
     <module>xwiki-rendering-macro-quote</module>
     <module>xwiki-rendering-macro-toc</module>
