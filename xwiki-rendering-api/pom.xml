@@ -84,7 +84,6 @@
           <excludes>
             org/xwiki/rendering/block/match/BlockNavigator.java,
             org/xwiki/rendering/internal/parser/XDOMGeneratorListener.java,
-            org/xwiki/rendering/internal/renderer/printer/WikiWriter.java,
             org/xwiki/rendering/listener/chaining/LookaheadChainingListener.java,
             org/xwiki/rendering/listener/chaining/TextOnNewLineStateChainingListener.java,
             org/xwiki/rendering/listener/chaining/EmptyBlockChainingListener.java,

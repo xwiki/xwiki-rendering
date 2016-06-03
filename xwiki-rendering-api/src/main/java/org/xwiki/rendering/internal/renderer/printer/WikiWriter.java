@@ -70,7 +70,7 @@ public class WikiWriter extends Writer
     @Override
     public void write(char[] cbuf, int off, int len) throws IOException
     {
-        getWikiPrinter().print(new String(cbuf, off, len));
+        getWikiPrinter().print(String.valueOf(cbuf, off, len));
     }
 
     /**
