@@ -1,4 +1,0 @@
-paragraph
-<br />same paragraph
-
-paragraph<br/>same paragraph
