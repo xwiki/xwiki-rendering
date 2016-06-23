@@ -74,12 +74,6 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-mediawiki</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-confluence</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
