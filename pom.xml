@@ -249,6 +249,21 @@
           -->
           <ignored>
             <!-- Remove the following ignores after we release the current version as final -->
+            <difference>
+               <differenceType></differenceType>
+               <className></className>
+               <justification>Moved to different module</justification>
+             </difference>
+            <difference>
+               <differenceType></differenceType>
+               <className></className>
+               <justification>Moved to different module</justification>
+             </difference>
+            <difference>
+               <differenceType></differenceType>
+               <className></className>
+               <justification>Moved to different module</justification>
+             </difference>
           </ignored>
           <excludes>
             <exclude>**/internal/**</exclude>

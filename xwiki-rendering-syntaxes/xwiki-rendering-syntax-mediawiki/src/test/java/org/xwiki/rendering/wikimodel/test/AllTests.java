@@ -32,13 +32,7 @@ public class AllTests
     {
         TestSuite suite = new TestSuite("Test for WikiModel grammars");
         // $JUnit-BEGIN$
-        suite.addTestSuite(WikiScannerUtilTest.class);
-        suite.addTestSuite(CreoleWikiParserTest.class);
-        suite.addTestSuite(ConfluenceWikiParserTest.class);
-        suite.addTestSuite(GWikiParserTest.class);
-        suite.addTestSuite(JspWikiParserTest.class);
-        suite.addTestSuite(XWiki20ParserTest.class);
-        suite.addTestSuite(CommonWikiParserTest.class);
+        suite.addTestSuite(MediawikiParserTest.class);
         // $JUnit-END$
         return suite;
     }

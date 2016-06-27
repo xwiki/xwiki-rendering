@@ -31,7 +31,8 @@
   <name>XWiki Rendering - Syntax - MediaWiki</name>
   <description>XWiki Rendering - Syntax - MediaWiki</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>1.00</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.60</xwiki.jacoco.instructionRatio>
+    <xwiki.surefire.captureconsole.skip>true</xwiki.surefire.captureconsole.skip>
   </properties>
   <dependencies>
     <dependency>
@@ -47,4 +48,62 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>javacc</id>
+            <goals>
+              <goal>javacc</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>net.java.dev.javacc</groupId>
+            <artifactId>javacc</artifactId>
+            <version>6.1.2</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <!-- Add specific excludes for this module for license checks -->
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- Unfortunately we need to copy some excludes from the top level POM since Maven or the License plugin
+                 don't merge excludes apparently... -->
+            <exclude>**/components.txt</exclude>
+            <!-- Exclude *.dtd files since they're not under XWiki's license headers -->
+            <exclude>**/*.dtd</exclude>
+            <!-- Exclude Rendering Test Data files -->
+            <exclude>**/*.test</exclude>
+            <exclude>**/*.in.*txt</exclude>
+            <exclude>**/*.out.txt</exclude>
+            <exclude>**/*.inout.txt</exclude>
+            <exclude>**/*.in.*xml</exclude>
+            <exclude>**/*.out.xml</exclude>
+            <exclude>**/*.inout.xml</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <excludes>
+            org/xwiki/rendering/wikimodel/mediawiki/MediaWikiParser.java,
+            org/xwiki/rendering/wikimodel/mediawiki/MediaWikiReferenceParser.java,
+            org/xwiki/rendering/wikimodel/mediawiki/MediaWikiMacroParser.java,
+            org/xwiki/rendering/wikimodel/internal/mediawiki/javacc/*.java
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
