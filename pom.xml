@@ -250,18 +250,18 @@
           <ignored>
             <!-- Remove the following ignores after we release the current version as final -->
             <difference>
-               <differenceType></differenceType>
-               <className></className>
+               <differenceType>8001</differenceType>
+               <className>org/xwiki/rendering/wikimodel/mediawiki/MediaWikiMacroParser</className>
                <justification>Moved to different module</justification>
              </difference>
             <difference>
-               <differenceType></differenceType>
-               <className></className>
+               <differenceType>8001</differenceType>
+               <className>org/xwiki/rendering/wikimodel/mediawiki/MediaWikiParser</className>
                <justification>Moved to different module</justification>
              </difference>
             <difference>
-               <differenceType></differenceType>
-               <className></className>
+               <differenceType>8001</differenceType>
+               <className>org/xwiki/rendering/wikimodel/mediawiki/MediaWikiReferenceParser</className>
                <justification>Moved to different module</justification>
              </difference>
           </ignored>
