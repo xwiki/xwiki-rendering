@@ -224,6 +224,21 @@
                   }
                 },
                 "ignore": [
+                  {
+                    "code": "java.class.removed",
+                    "old": "class org.xwiki.rendering.wikimodel.mediawiki.MediaWikiMacroParser",
+                    "justification": "Moved to a different module"
+                  },
+                  {
+                    "code": "java.class.removed",
+                    "old": "class org.xwiki.rendering.wikimodel.mediawiki.MediaWikiParser",
+                    "justification": "Moved to a different module"
+                  },
+                  {
+                    "code": "java.class.removed",
+                    "old": "class org.xwiki.rendering.wikimodel.mediawiki.MediaWikiReferenceParser",
+                    "justification": "Moved to a different module"
+                  }
                 ]
               }
             }
