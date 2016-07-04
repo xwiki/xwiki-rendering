@@ -46,7 +46,7 @@ public class XWikiSyntaxResourceRenderer
      */
     protected static final String PARAMETER_SEPARATOR = "||";
 
-    protected ParametersPrinter parametersPrinter = new ParametersPrinter();
+    protected static final ParametersPrinter PARAMETERS_PRINTER = new ParametersPrinter('~', "||", "]]", ">>");
 
     private Deque<Boolean> forceFullSyntax = new ArrayDeque<Boolean>();
 
@@ -154,7 +154,7 @@ public class XWikiSyntaxResourceRenderer
         // If there were parameters specified, output them separated by the "||" characters
         if (!parameters.isEmpty()) {
             printer.print(PARAMETER_SEPARATOR);
-            printer.print(this.parametersPrinter.print(parameters, '~'));
+            printer.print(PARAMETERS_PRINTER.print(parameters));
         }
     }
 }

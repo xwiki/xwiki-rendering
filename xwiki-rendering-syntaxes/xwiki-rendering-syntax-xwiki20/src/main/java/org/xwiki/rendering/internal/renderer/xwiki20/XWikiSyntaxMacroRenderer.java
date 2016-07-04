@@ -31,7 +31,7 @@ import org.xwiki.rendering.internal.renderer.ParametersPrinter;
  */
 public class XWikiSyntaxMacroRenderer
 {
-    private ParametersPrinter parametersPrinter = new ParametersPrinter();
+    private static final ParametersPrinter PARAMETERS_PRINTER = new ParametersPrinter('~');
 
     public String renderMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {
@@ -69,6 +69,6 @@ public class XWikiSyntaxMacroRenderer
 
     public String renderMacroParameters(Map<String, String> parameters)
     {
-        return this.parametersPrinter.print(parameters, '~').replace("}}", "~}~}");
+        return PARAMETERS_PRINTER.print(parameters).replace("}}", "~}~}");
     }
 }

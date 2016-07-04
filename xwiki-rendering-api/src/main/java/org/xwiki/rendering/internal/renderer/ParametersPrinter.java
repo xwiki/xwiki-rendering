@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.renderer;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Generates syntax for a parameters group like macros and links.
@@ -34,29 +35,109 @@ public class ParametersPrinter
      */
     private static final String QUOTE = "\"";
 
+    private final String escapedStrings;
+
+    private char escapeChar;
+
+    private Pattern escaped;
+
+    private String replacement;
+
+    /**
+     * Default constructor.
+     * 
+     * @deprecated since 7.4.5 and 8.2RC1, use {@link #ParametersPrinter(char, String...) instead
+     */
+    @Deprecated
+    public ParametersPrinter()
+    {
+        this.escapedStrings = Pattern.quote(QUOTE);
+    }
+
+    /**
+     * @param escapeChar the character used to escape a meaningful string
+     * @param escapedStrings the meaningful strings to escape
+     * @since 7.4.5, 8.2RC1
+     */
+    public ParametersPrinter(char escapeChar, String... escapedStrings)
+    {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(Pattern.quote(QUOTE));
+        for (String str : escapedStrings) {
+            builder.append('|');
+            builder.append(Pattern.quote(str));
+        }
+
+        this.escapedStrings = builder.toString();
+
+        setEscapeChar(escapeChar);
+    }
+
+    private void setEscapeChar(char escapeChar)
+    {
+        this.escapeChar = escapeChar;
+
+        StringBuilder replacementBuilder = new StringBuilder();
+        switch (escapeChar) {
+            case '\\':
+                replacementBuilder.append("\\\\");
+                break;
+
+            case '$':
+                replacementBuilder.append("\\$");
+                break;
+
+            default:
+                replacementBuilder.append(this.escapeChar);
+                break;
+        }
+        replacementBuilder.append("$0");
+        this.replacement = replacementBuilder.toString();
+
+        this.escaped = Pattern.compile(Pattern.quote(String.valueOf(this.escapeChar)) + '|' + this.escapedStrings);
+    }
+
     /**
      * Print the parameters as a String.
      *
      * @param parameters the parameters to print
      * @param escapeChar the character used in front of a special character when need to escape it
      * @return the printed parameters
+     * @deprecated since 7.4.5 and 8.2RC1, use {@link #print(Map)} instead
      */
+    @Deprecated
     public String print(Map<String, String> parameters, char escapeChar)
     {
-        StringBuffer buffer = new StringBuffer();
+        this.escapeChar = escapeChar;
+
+        return print(parameters);
+    }
+
+    /**
+     * Print the parameters as a String.
+     *
+     * @param parameters the parameters to print
+     * @return the printed parameters
+     * @since 7.4.5, 8.2RC1
+     */
+    public String print(Map<String, String> parameters)
+    {
+        StringBuilder builder = new StringBuilder();
+
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             String value = entry.getValue();
             String key = entry.getKey();
 
             if (key != null && value != null) {
-                if (buffer.length() > 0) {
-                    buffer.append(' ');
+                if (builder.length() > 0) {
+                    builder.append(' ');
                 }
-                buffer.append(print(key, value, escapeChar));
+                builder.append(print(key, value));
             }
         }
 
-        return buffer.toString();
+        return builder.toString();
     }
 
     /**
@@ -66,13 +147,27 @@ public class ParametersPrinter
      * @param parameterValue the value of the parameter to print
      * @param escapeChar the character used in front of a special character when need to escape it
      * @return the printed parameter
+     * @deprecated since 7.4.5 and 8.2RC1, use {@link #print(String, String)} instead
      */
     public String print(String parameterName, String parameterValue, char escapeChar)
     {
-        // escape the escaping character
-        String value = parameterValue.replace(String.valueOf(escapeChar), String.valueOf(escapeChar) + escapeChar);
-        // escape quote
-        value = value.replace(QUOTE, String.valueOf(escapeChar) + QUOTE);
+        this.escapeChar = escapeChar;
+
+        return print(parameterName, parameterValue);
+    }
+
+    /**
+     * Print a parameter as a String.
+     *
+     * @param parameterName the name of the parameter to print
+     * @param parameterValue the value of the parameter to print
+     * @return the printed parameter
+     * @since 7.4.5, 8.2RC1
+     */
+    public String print(String parameterName, String parameterValue)
+    {
+        // escape meaningfull strings
+        String value = this.escaped.matcher(parameterValue).replaceAll(this.replacement);
 
         return parameterName + "=" + QUOTE + value + QUOTE;
     }

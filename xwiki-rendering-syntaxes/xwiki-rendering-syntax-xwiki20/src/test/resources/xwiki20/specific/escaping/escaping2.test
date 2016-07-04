@@ -1,0 +1,22 @@
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Test escaping support in link and image parameters
+.#-----------------------------------------------------
+[[reference||parameter="v~~al~]]u~"e"]]
+[[image:reference||parameter="v~~al~]]u~"e"]]
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+[[reference||parameter="v~~al~]]u~"e"]]
+[[image:reference||parameter="v~~al~]]u~"e"]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [false] Type = [url] Reference = [reference]] [false] [[parameter]=[v~al]]u"e]]
+endLink [Typed = [false] Type = [url] Reference = [reference]] [false] [[parameter]=[v~al]]u"e]]
+onNewLine
+onImage [Typed = [false] Type = [url] Reference = [reference]] [false] [[parameter]=[v~al]]u"e]]
+endParagraph
+endDocument

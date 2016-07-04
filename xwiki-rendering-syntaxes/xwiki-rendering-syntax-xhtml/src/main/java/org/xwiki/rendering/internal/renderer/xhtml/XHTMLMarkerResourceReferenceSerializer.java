@@ -50,7 +50,7 @@ public class XHTMLMarkerResourceReferenceSerializer implements ResourceReference
     /**
      * Used to print Link Parameters in XHTML comments.
      */
-    private ParametersPrinter parametersPrinter = new ParametersPrinter();
+    private static final ParametersPrinter PARAMETERS_PRINTER = new ParametersPrinter('\\');
 
     @Override
     public String serialize(ResourceReference reference)
@@ -74,7 +74,7 @@ public class XHTMLMarkerResourceReferenceSerializer implements ResourceReference
         Map<String, String> linkReferenceParameters = reference.getParameters();
         if (!linkReferenceParameters.isEmpty()) {
             buffer.append(COMMENT_SEPARATOR);
-            buffer.append(this.parametersPrinter.print(linkReferenceParameters, '\\'));
+            buffer.append(PARAMETERS_PRINTER.print(linkReferenceParameters));
         }
 
         return buffer.toString();
