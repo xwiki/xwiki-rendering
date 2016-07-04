@@ -37,7 +37,7 @@ public class XHTMLMacroRenderer
      */
     private static final String COMMENT_SEPARATOR = "|-|";
 
-    private ParametersPrinter parametersPrinter = new ParametersPrinter();
+    private static final ParametersPrinter PARAMETERS_PRINTER = new ParametersPrinter('\\');
 
     public void render(XHTMLWikiPrinter printer, String name, Map<String, String> parameters, String content)
     {
@@ -55,7 +55,7 @@ public class XHTMLMacroRenderer
         // Print parameters
         buffer.append(COMMENT_SEPARATOR);
         if (!parameters.isEmpty()) {
-            buffer.append(this.parametersPrinter.print(parameters, '\\'));
+            buffer.append(PARAMETERS_PRINTER.print(parameters));
         }
 
         // Print content

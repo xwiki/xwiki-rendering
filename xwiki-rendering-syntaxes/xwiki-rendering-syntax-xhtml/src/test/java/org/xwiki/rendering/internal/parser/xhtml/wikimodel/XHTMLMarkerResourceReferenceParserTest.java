@@ -59,8 +59,8 @@ public class XHTMLMarkerResourceReferenceParserTest extends AbstractComponentTes
         ResourceReference expected = new ResourceReference("reference", ResourceType.DOCUMENT);
         expected.setParameter("param", "va\"l\\=ue");
 
-        ParametersPrinter printer = new ParametersPrinter();
+        ParametersPrinter printer = new ParametersPrinter('\\');
         Assert.assertEquals(expected, this.parser.parse("true|-|doc|-|reference|-|"
-            + printer.print("param", "va\"l\\=ue", '\\')));
+            + printer.print("param", "va\"l\\=ue")));
     }
 }
