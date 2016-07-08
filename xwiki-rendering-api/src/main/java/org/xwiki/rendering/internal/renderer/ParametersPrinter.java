@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.renderer;
 
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -79,19 +80,7 @@ public class ParametersPrinter
         this.escapeChar = escapeChar;
 
         StringBuilder replacementBuilder = new StringBuilder();
-        switch (escapeChar) {
-            case '\\':
-                replacementBuilder.append("\\\\");
-                break;
-
-            case '$':
-                replacementBuilder.append("\\$");
-                break;
-
-            default:
-                replacementBuilder.append(this.escapeChar);
-                break;
-        }
+        replacementBuilder.append(Matcher.quoteReplacement(String.valueOf(escapeChar)));
         replacementBuilder.append("$0");
         this.replacement = replacementBuilder.toString();
 
