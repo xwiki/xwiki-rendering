@@ -69,7 +69,7 @@ public class AnnotatedXHTMLLinkRenderer implements XHTMLLinkRenderer
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // Add an XML comment as a placeholder so that the XHTML parser can find the document name.
         // Otherwise it would be too difficult to transform a URL into a document name especially since
@@ -78,13 +78,13 @@ public class AnnotatedXHTMLLinkRenderer implements XHTMLLinkRenderer
         buffer.append(this.xhtmlMarkerSerializer.serialize(reference));
 
         getXHTMLWikiPrinter().printXMLComment(buffer.toString(), true);
-        this.defaultLinkRenderer.beginLink(reference, isFreeStandingURI, parameters);
+        this.defaultLinkRenderer.beginLink(reference, freestanding, parameters);
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        this.defaultLinkRenderer.endLink(reference, isFreeStandingURI, parameters);
+        this.defaultLinkRenderer.endLink(reference, freestanding, parameters);
 
         // Add a XML comment to signify the end of the link.
         getXHTMLWikiPrinter().printXMLComment("stopwikilink");

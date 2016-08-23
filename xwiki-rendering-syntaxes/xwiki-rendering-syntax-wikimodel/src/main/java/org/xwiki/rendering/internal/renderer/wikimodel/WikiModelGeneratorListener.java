@@ -82,7 +82,7 @@ public class WikiModelGeneratorListener implements Listener
     }
 
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
         pushContext();
 
@@ -91,7 +91,7 @@ public class WikiModelGeneratorListener implements Listener
     }
 
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
         this.wikimodelListener.endSection(this.docLevel--, getContext().headerLevel, WikiParameters.EMPTY);
         this.wikimodelListener.endDocument(WikiParameters.EMPTY);
@@ -188,9 +188,9 @@ public class WikiModelGeneratorListener implements Listener
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
-        this.wikimodelListener.beginList(createWikiParameters(parameters), listType == ListType.NUMBERED);
+        this.wikimodelListener.beginList(createWikiParameters(parameters), type == ListType.NUMBERED);
     }
 
     @Override
@@ -226,9 +226,9 @@ public class WikiModelGeneratorListener implements Listener
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
-        this.wikimodelListener.endList(createWikiParameters(parameters), listType == ListType.NUMBERED);
+        this.wikimodelListener.endList(createWikiParameters(parameters), type == ListType.NUMBERED);
     }
 
     @Override
@@ -264,23 +264,23 @@ public class WikiModelGeneratorListener implements Listener
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // TODO wait for WikiModel to support wiki syntax in links
         // See http://code.google.com/p/wikimodel/issues/detail?id=87
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // TODO wait for WikiModel to support wiki syntax in links
         // See http://code.google.com/p/wikimodel/issues/detail?id=87
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
-        if (isInline) {
+        if (inline) {
             this.wikimodelListener.onMacroInline(id, createWikiParameters(parameters), content);
         } else {
             this.wikimodelListener.onMacroBlock(id, createWikiParameters(parameters), content);
@@ -338,14 +338,14 @@ public class WikiModelGeneratorListener implements Listener
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        if (isInline) {
+        if (inline) {
             // TODO: we're currently not handling any inline verbatim parameters (we don't have support for this in
             // XWiki Blocks for now).
-            this.wikimodelListener.onVerbatimInline(protectedString, WikiParameters.EMPTY);
+            this.wikimodelListener.onVerbatimInline(content, WikiParameters.EMPTY);
         } else {
-            this.wikimodelListener.onVerbatimBlock(protectedString, createWikiParameters(parameters));
+            this.wikimodelListener.onVerbatimBlock(content, createWikiParameters(parameters));
         }
     }
 
@@ -458,7 +458,7 @@ public class WikiModelGeneratorListener implements Listener
     }
 
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // Note: This means that any WikiModel listener needs to be overridden with a XWiki specific
         // version that knows how to handle XWiki image location format.

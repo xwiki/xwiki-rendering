@@ -98,20 +98,20 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        if (isInline) {
+        if (inline) {
             // Note: We generate a span element rather than a pre element since pre elements cannot be located inside
             // paragraphs for example.
             // The class is what is expected by wikimodel to understand the span as meaning a verbatim and not a
             // Monospace element.
             getXHTMLWikiPrinter().printXMLStartElement(ELEM_SPAN,
                 new String[][] { { PROP_CLASS, "wikimodel-verbatim" } });
-            getXHTMLWikiPrinter().printXML(protectedString);
+            getXHTMLWikiPrinter().printXML(content);
             getXHTMLWikiPrinter().printXMLEndElement(ELEM_SPAN);
         } else {
             getXHTMLWikiPrinter().printXMLStartElement(ELEM_PRE, parameters);
-            getXHTMLWikiPrinter().printXML(protectedString);
+            getXHTMLWikiPrinter().printXML(content);
             getXHTMLWikiPrinter().printXMLEndElement(ELEM_PRE);
         }
     }

@@ -54,9 +54,9 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
      * @since 3.0M2
      */
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
-        getPrinter().println("beginDocument" + serializeParameters(metaData.getMetaData()));
+        getPrinter().println("beginDocument" + serializeParameters(metadata.getMetaData()));
     }
 
     /**
@@ -65,9 +65,9 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
      * @since 3.0M2
      */
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
-        getPrinter().print("endDocument" + serializeParameters(metaData.getMetaData()));
+        getPrinter().print("endDocument" + serializeParameters(metadata.getMetaData()));
     }
 
     @Override
@@ -113,23 +113,23 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         getPrinter().println(
-            "beginLink [" + reference + "] [" + isFreeStandingURI + "]" + serializeParameters(parameters));
+            "beginLink [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         getPrinter().println(
-            "endLink [" + reference + "] [" + isFreeStandingURI + "]" + serializeParameters(parameters));
+            "endLink [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
-        printMacroData("onMacro", id, parameters, content, isInline);
+        printMacroData("onMacro", id, parameters, content, inline);
     }
 
     @Override
@@ -163,9 +163,9 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
-        getPrinter().println("beginList [" + listType + "]" + serializeParameters(parameters));
+        getPrinter().println("beginList [" + type + "]" + serializeParameters(parameters));
     }
 
     @Override
@@ -175,9 +175,9 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
-        getPrinter().println("endList [" + listType + "]" + serializeParameters(parameters));
+        getPrinter().println("endList [" + type + "]" + serializeParameters(parameters));
     }
 
     @Override
@@ -222,9 +222,9 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
      * @since 3.0M2
      */
     @Override
-    public void beginMetaData(MetaData metaData)
+    public void beginMetaData(MetaData metadata)
     {
-        getPrinter().println("beginMetaData" + serializeParameters(metaData.getMetaData()));
+        getPrinter().println("beginMetaData" + serializeParameters(metadata.getMetaData()));
     }
 
     /**
@@ -233,9 +233,9 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
      * @since 3.0M2
      */
     @Override
-    public void endMetaData(MetaData metaData)
+    public void endMetaData(MetaData metadata)
     {
-        getPrinter().println("endMetaData" + serializeParameters(metaData.getMetaData()));
+        getPrinter().println("endMetaData" + serializeParameters(metadata.getMetaData()));
     }
 
     @Override
@@ -257,10 +257,10 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
         getPrinter().println(
-            "onVerbatim [" + protectedString + "] [" + isInline + "]" + serializeParameters(parameters));
+            "onVerbatim [" + content + "] [" + inline + "]" + serializeParameters(parameters));
     }
 
     /**
@@ -387,10 +387,10 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
      * @since 2.5RC1
      */
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         getPrinter().println(
-            "onImage [" + reference + "] [" + isFreeStandingURI + "]" + serializeParameters(parameters));
+            "onImage [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
     }
 
     public String getEscaped(String str)

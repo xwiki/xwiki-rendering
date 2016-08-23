@@ -30,13 +30,13 @@ import java.util.Map;
 public class InlineFilterListener extends WrappingListener
 {
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
         // Disable this event
     }
 
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
         // Disable this event
     }

@@ -283,19 +283,19 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
      * @since 2.5RC1
      */
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         ++this.linkDepth;
 
-        super.beginLink(reference, isFreeStandingURI, parameters);
+        super.beginLink(reference, freestanding, parameters);
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
         this.listDepth.push(new ListState());
 
-        super.beginList(listType, parameters);
+        super.beginList(type, parameters);
     }
 
     @Override
@@ -426,11 +426,11 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
      * @since 3.0M2
      */
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
         this.previousEvent = Event.DOCUMENT;
 
-        super.endDocument(metaData);
+        super.endDocument(metadata);
     }
 
     @Override
@@ -447,18 +447,18 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
      * @since 2.5RC1
      */
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        super.endLink(reference, isFreeStandingURI, parameters);
+        super.endLink(reference, freestanding, parameters);
 
         --this.linkDepth;
         this.previousEvent = Event.LINK;
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
-        super.endList(listType, parameters);
+        super.endList(type, parameters);
 
         this.listDepth.pop();
 
@@ -610,11 +610,11 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
      * @since 2.5RC1
      */
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         this.previousEvent = Event.IMAGE;
 
-        super.onImage(reference, isFreeStandingURI, parameters);
+        super.onImage(reference, freestanding, parameters);
     }
 
     @Override
@@ -642,11 +642,11 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
         this.previousEvent = Event.VERBATIM_STANDALONE;
 
-        super.onVerbatim(protectedString, isInline, parameters);
+        super.onVerbatim(content, inline, parameters);
     }
 
     @Override
@@ -658,11 +658,11 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
         this.previousEvent = Event.MACRO;
 
-        super.onMacro(id, parameters, content, isInline);
+        super.onMacro(id, parameters, content, inline);
     }
 
     private static class ListState

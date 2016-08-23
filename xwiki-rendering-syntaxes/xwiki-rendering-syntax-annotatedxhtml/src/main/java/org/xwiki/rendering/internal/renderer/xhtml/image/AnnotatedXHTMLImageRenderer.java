@@ -69,7 +69,7 @@ public class AnnotatedXHTMLImageRenderer implements XHTMLImageRenderer
     }
 
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // We need to save the image location in XML comment so that it can be reconstructed later on when moving
         // from XHTML to wiki syntax.
@@ -77,7 +77,7 @@ public class AnnotatedXHTMLImageRenderer implements XHTMLImageRenderer
         buffer.append(this.xhtmlMarkerSerializer.serialize(reference));
 
         getXHTMLWikiPrinter().printXMLComment(buffer.toString(), true);
-        this.defaultImageRenderer.onImage(reference, isFreeStandingURI, parameters);
+        this.defaultImageRenderer.onImage(reference, freestanding, parameters);
         getXHTMLWikiPrinter().printXMLComment("stopimage");
     }
 }

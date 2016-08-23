@@ -137,9 +137,9 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
      * @since 3.0M2
      */
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
-        saveEvent(EventType.BEGIN_DOCUMENT, metaData);
+        saveEvent(EventType.BEGIN_DOCUMENT, metadata);
     }
 
     @Override
@@ -166,15 +166,15 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
      * @since 2.5RC1
      */
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        saveEvent(EventType.BEGIN_LINK, reference, isFreeStandingURI, parameters);
+        saveEvent(EventType.BEGIN_LINK, reference, freestanding, parameters);
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
-        saveEvent(EventType.BEGIN_LIST, listType, parameters);
+        saveEvent(EventType.BEGIN_LIST, type, parameters);
     }
 
     @Override
@@ -277,9 +277,9 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
      * @since 3.0M2
      */
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
-        saveEvent(EventType.END_DOCUMENT, metaData);
+        saveEvent(EventType.END_DOCUMENT, metadata);
     }
 
     @Override
@@ -306,15 +306,15 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
      * @since 2.5RC1
      */
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        saveEvent(EventType.END_LINK, reference, isFreeStandingURI, parameters);
+        saveEvent(EventType.END_LINK, reference, freestanding, parameters);
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
-        saveEvent(EventType.END_LIST, listType, parameters);
+        saveEvent(EventType.END_LIST, type, parameters);
     }
 
     @Override
@@ -418,15 +418,15 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
      * @since 2.5RC1
      */
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        saveEvent(EventType.ON_IMAGE, reference, isFreeStandingURI, parameters);
+        saveEvent(EventType.ON_IMAGE, reference, freestanding, parameters);
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
-        saveEvent(EventType.ON_MACRO, id, parameters, content, isInline);
+        saveEvent(EventType.ON_MACRO, id, parameters, content, inline);
     }
 
     @Override
@@ -448,9 +448,9 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        saveEvent(EventType.ON_VERBATIM, protectedString, isInline, parameters);
+        saveEvent(EventType.ON_VERBATIM, content, inline, parameters);
     }
 
     @Override

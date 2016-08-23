@@ -57,7 +57,7 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
         // Do not do any rendering but we still need to save the macro definition in some hidden XHTML
         // so that the macro can be reconstructed when moving back from XHTML to XDOM.

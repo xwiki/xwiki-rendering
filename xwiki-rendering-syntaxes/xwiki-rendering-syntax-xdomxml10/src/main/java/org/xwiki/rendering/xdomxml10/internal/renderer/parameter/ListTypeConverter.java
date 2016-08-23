@@ -47,9 +47,9 @@ public class ListTypeConverter
         return STRINGTOLISTTYPE.containsKey(str) ? STRINGTOLISTTYPE.get(str) : ListType.BULLETED;
     }
 
-    public String toString(ListType listType)
+    public String toString(ListType type)
     {
-        return LISTTYPETOSTRING.containsKey(listType) ? LISTTYPETOSTRING.get(listType) : LISTTYPETOSTRING
+        return LISTTYPETOSTRING.containsKey(type) ? LISTTYPETOSTRING.get(type) : LISTTYPETOSTRING
             .get(ListType.BULLETED);
     }
 }

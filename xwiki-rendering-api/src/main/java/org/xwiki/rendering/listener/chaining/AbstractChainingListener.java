@@ -85,11 +85,11 @@ public abstract class AbstractChainingListener implements ChainingListener
     }
 
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
-            next.beginDocument(metaData);
+            next.beginDocument(metadata);
         }
     }
 
@@ -121,20 +121,20 @@ public abstract class AbstractChainingListener implements ChainingListener
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
-            next.beginLink(reference, isFreeStandingURI, parameters);
+            next.beginLink(reference, freestanding, parameters);
         }
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
-            next.beginList(listType, parameters);
+            next.beginList(type, parameters);
         }
     }
 
@@ -265,11 +265,11 @@ public abstract class AbstractChainingListener implements ChainingListener
     }
 
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
-            next.endDocument(metaData);
+            next.endDocument(metadata);
         }
     }
 
@@ -301,20 +301,20 @@ public abstract class AbstractChainingListener implements ChainingListener
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
-            next.endLink(reference, isFreeStandingURI, parameters);
+            next.endLink(reference, freestanding, parameters);
         }
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
-            next.endList(listType, parameters);
+            next.endList(type, parameters);
         }
     }
 
@@ -445,20 +445,20 @@ public abstract class AbstractChainingListener implements ChainingListener
     }
 
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
-            next.onImage(reference, isFreeStandingURI, parameters);
+            next.onImage(reference, freestanding, parameters);
         }
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
-            next.onMacro(id, parameters, content, isInline);
+            next.onMacro(id, parameters, content, inline);
         }
     }
 
@@ -490,11 +490,11 @@ public abstract class AbstractChainingListener implements ChainingListener
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
-            next.onVerbatim(protectedString, isInline, parameters);
+            next.onVerbatim(content, inline, parameters);
         }
     }
 

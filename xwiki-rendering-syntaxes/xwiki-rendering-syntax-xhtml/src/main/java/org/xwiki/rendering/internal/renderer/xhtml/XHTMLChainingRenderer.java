@@ -215,7 +215,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // Ensure the link renderer is using the latest printer since the original printer used could have been
         // superseded by another one in the printer stack.
@@ -228,14 +228,14 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
             reference.addBaseReferences(getMetaDataState().<String>getAllMetaData(MetaData.BASE));
         }
 
-        this.linkRenderer.beginLink(reference, isFreeStandingURI, parameters);
+        this.linkRenderer.beginLink(reference, freestanding, parameters);
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         this.linkRenderer.setHasLabel(!getEmptyBlockState().isCurrentContainerBlockEmpty());
-        this.linkRenderer.endLink(reference, isFreeStandingURI, parameters);
+        this.linkRenderer.endLink(reference, freestanding, parameters);
     }
 
     @Override
@@ -297,9 +297,9 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
-        if (listType == ListType.BULLETED) {
+        if (type == ListType.BULLETED) {
             getXHTMLWikiPrinter().printXMLStartElement("ul", parameters);
         } else {
             getXHTMLWikiPrinter().printXMLStartElement("ol", parameters);
@@ -313,9 +313,9 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
-        if (listType == ListType.BULLETED) {
+        if (type == ListType.BULLETED) {
             getXHTMLWikiPrinter().printXMLEndElement("ul");
         } else {
             getXHTMLWikiPrinter().printXMLEndElement("ol");
@@ -352,20 +352,20 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        if (isInline) {
+        if (inline) {
             // Note: We generate a tt element rather than a pre element since pre elements cannot be located inside
             // paragraphs for example. There also no tag in XHTML that has a semantic of preserving inline content so
             // tt is the closed to pre for inline.
             // The class is what is expected by wikimodel to understand the tt as meaning a verbatim and not a Monospace
             // element.
             getXHTMLWikiPrinter().printXMLStartElement("tt", new String[][] { { "class", "wikimodel-verbatim" } });
-            getXHTMLWikiPrinter().printXML(protectedString);
+            getXHTMLWikiPrinter().printXML(content);
             getXHTMLWikiPrinter().printXMLEndElement("tt");
         } else {
             getXHTMLWikiPrinter().printXMLStartElement("pre", parameters);
-            getXHTMLWikiPrinter().printXML(protectedString);
+            getXHTMLWikiPrinter().printXML(content);
             getXHTMLWikiPrinter().printXMLEndElement("pre");
         }
     }
@@ -532,7 +532,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
      * @since 2.5RC1
      */
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // Ensure the image renderer is using the latest printer since the original printer used could have been
         // superseded by another one in the printer stack.
@@ -545,7 +545,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
             reference.addBaseReferences(getMetaDataState().<String>getAllMetaData(MetaData.BASE));
         }
 
-        this.imageRenderer.onImage(reference, isFreeStandingURI, parameters);
+        this.imageRenderer.onImage(reference, freestanding, parameters);
     }
 
     @Override

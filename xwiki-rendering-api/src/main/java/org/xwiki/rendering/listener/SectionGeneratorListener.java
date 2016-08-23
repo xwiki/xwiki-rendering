@@ -56,13 +56,13 @@ public class SectionGeneratorListener extends WrappingListener
     }
 
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
         // Close sections that need to be closed
         for (; this.sectionDepth > -1; --this.sectionDepth) {
             endSection(Listener.EMPTY_PARAMETERS);
         }
 
-        super.endDocument(metaData);
+        super.endDocument(metadata);
     }
 }

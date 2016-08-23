@@ -96,10 +96,10 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
      * @since 3.0M2
      */
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
         this.newLineCount = 0;
-        super.endDocument(metaData);
+        super.endDocument(metadata);
     }
 
     @Override
@@ -122,17 +122,17 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
      * @since 2.5RC1
      */
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         this.newLineCount = 0;
-        super.endLink(reference, isFreeStandingURI, parameters);
+        super.endLink(reference, freestanding, parameters);
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
         this.newLineCount = 0;
-        super.endList(listType, parameters);
+        super.endList(type, parameters);
     }
 
     @Override
@@ -239,10 +239,10 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
      * @since 2.5RC1
      */
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         this.newLineCount = 0;
-        super.onImage(reference, isFreeStandingURI, parameters);
+        super.onImage(reference, freestanding, parameters);
     }
 
     @Override
@@ -267,17 +267,17 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
         this.newLineCount = 0;
-        super.onMacro(id, parameters, content, isInline);
+        super.onMacro(id, parameters, content, inline);
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
         this.newLineCount = 0;
-        super.onVerbatim(protectedString, isInline, parameters);
+        super.onVerbatim(content, inline, parameters);
     }
 
     @Override

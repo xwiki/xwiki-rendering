@@ -91,9 +91,9 @@ public class LookaheadChainingListener extends AbstractChainingListener
      * @since 3.0M2
      */
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
-        this.previousEvents.beginDocument(metaData);
+        this.previousEvents.beginDocument(metadata);
         flush();
     }
 
@@ -124,16 +124,16 @@ public class LookaheadChainingListener extends AbstractChainingListener
      * @since 2.5RC1
      */
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        this.previousEvents.beginLink(reference, isFreeStandingURI, parameters);
+        this.previousEvents.beginLink(reference, freestanding, parameters);
         firePreviousEvent();
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
-        this.previousEvents.beginList(listType, parameters);
+        this.previousEvents.beginList(type, parameters);
         firePreviousEvent();
     }
 
@@ -251,9 +251,9 @@ public class LookaheadChainingListener extends AbstractChainingListener
      * @since 3.0M2
      */
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
-        this.previousEvents.endDocument(metaData);
+        this.previousEvents.endDocument(metadata);
         flush();
     }
 
@@ -284,16 +284,16 @@ public class LookaheadChainingListener extends AbstractChainingListener
      * @since 2.5RC1
      */
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        this.previousEvents.endLink(reference, isFreeStandingURI, parameters);
+        this.previousEvents.endLink(reference, freestanding, parameters);
         firePreviousEvent();
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
-        this.previousEvents.endList(listType, parameters);
+        this.previousEvents.endList(type, parameters);
         firePreviousEvent();
     }
 
@@ -413,16 +413,16 @@ public class LookaheadChainingListener extends AbstractChainingListener
      * @since 2.5RC1
      */
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        this.previousEvents.onImage(reference, isFreeStandingURI, parameters);
+        this.previousEvents.onImage(reference, freestanding, parameters);
         firePreviousEvent();
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
-        this.previousEvents.onMacro(id, parameters, content, isInline);
+        this.previousEvents.onMacro(id, parameters, content, inline);
         firePreviousEvent();
     }
 
@@ -448,9 +448,9 @@ public class LookaheadChainingListener extends AbstractChainingListener
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        this.previousEvents.onVerbatim(protectedString, isInline, parameters);
+        this.previousEvents.onVerbatim(content, inline, parameters);
         firePreviousEvent();
     }
 

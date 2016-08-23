@@ -44,32 +44,32 @@ public class ImageBlock extends AbstractBlock
     /**
      * If true then the image is defined as a free standing URI directly in the text.
      */
-    private boolean freeStandingURI;
+    private boolean freestanding;
 
     /**
      * @param reference the image reference
-     * @param isFreeStandingURI indicate if the image syntax is simple a full descriptive syntax (detail depending of
-     *            the syntax)
+     * @param freestanding indicate if the image syntax is simple a full descriptive syntax (detail depending of the
+     *            syntax)
      * @since 2.5RC1
      */
-    public ImageBlock(ResourceReference reference, boolean isFreeStandingURI)
+    public ImageBlock(ResourceReference reference, boolean freestanding)
     {
-        this(reference, isFreeStandingURI, Collections.<String, String>emptyMap());
+        this(reference, freestanding, Collections.<String, String>emptyMap());
     }
 
     /**
      * @param reference the image reference
-     * @param isFreeStandingURI indicate if the image syntax is simple a full descriptive syntax (detail depending of
-     *            the syntax)
+     * @param freestanding indicate if the image syntax is simple a full descriptive syntax (detail depending of the
+     *            syntax)
      * @param parameters the custom parameters
      * @since 2.5RC1
      */
-    public ImageBlock(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public ImageBlock(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         super(parameters);
 
         this.reference = reference;
-        this.freeStandingURI = isFreeStandingURI;
+        this.freestanding = freestanding;
     }
 
     /**
@@ -87,7 +87,7 @@ public class ImageBlock extends AbstractBlock
      */
     public boolean isFreeStandingURI()
     {
-        return this.freeStandingURI;
+        return this.freestanding;
     }
 
     @Override

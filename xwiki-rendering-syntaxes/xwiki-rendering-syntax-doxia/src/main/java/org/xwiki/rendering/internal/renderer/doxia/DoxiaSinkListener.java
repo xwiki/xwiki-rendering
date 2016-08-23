@@ -59,7 +59,7 @@ public class DoxiaSinkListener implements Listener
     }
 
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
         this.sink.head();
         this.sink.head_();
@@ -67,7 +67,7 @@ public class DoxiaSinkListener implements Listener
     }
 
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
         this.sink.body_();
     }
@@ -85,11 +85,11 @@ public class DoxiaSinkListener implements Listener
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
         // TODO: Handle parameters
         this.sink.verbatim(null);
-        this.sink.text(protectedString);
+        this.sink.text(content);
         this.sink.verbatim_();
     }
 
@@ -142,9 +142,9 @@ public class DoxiaSinkListener implements Listener
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
-        if (listType == ListType.BULLETED) {
+        if (type == ListType.BULLETED) {
             this.sink.list();
         } else {
             // TODO: Handle other numerotations (Roman, etc)
@@ -190,9 +190,9 @@ public class DoxiaSinkListener implements Listener
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
-        if (listType == ListType.BULLETED) {
+        if (type == ListType.BULLETED) {
             this.sink.list_();
         } else {
             this.sink.numberedList_();
@@ -235,7 +235,7 @@ public class DoxiaSinkListener implements Listener
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
         // Don't do anything since macros have already been transformed so this method
         // should not be called.
@@ -409,19 +409,19 @@ public class DoxiaSinkListener implements Listener
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         this.sink.link(reference.getReference());
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         this.sink.link_();
     }
 
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         this.sink.figure();
         // TODO: handle special XWiki format for image locations. How do we pass image bits to Doxia?

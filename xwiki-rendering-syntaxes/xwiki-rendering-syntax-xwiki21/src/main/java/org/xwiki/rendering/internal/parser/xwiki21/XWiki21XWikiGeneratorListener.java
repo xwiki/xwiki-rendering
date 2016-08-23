@@ -69,7 +69,7 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
     }
 
     @Override
-    protected void onReference(ResourceReference reference, String label, boolean isFreeStandingURI,
+    protected void onReference(ResourceReference reference, String label, boolean freestanding,
         Map<String, String> parameters)
     {
         // Since 2.5M2, handle the special case when the link syntax used for a link to a document has the
@@ -92,11 +92,11 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
             }
         }
 
-        super.onReference(reference, label, isFreeStandingURI, parameters);
+        super.onReference(reference, label, freestanding, parameters);
     }
 
     @Override
-    protected void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    protected void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // Since 2.5M2, handle the special case when the image syntax used for an image has a query string specified.
         if (ResourceType.ATTACHMENT.equals(reference.getType())) {
@@ -106,6 +106,6 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
             }
         }
 
-        super.onImage(reference, isFreeStandingURI, parameters);
+        super.onImage(reference, freestanding, parameters);
     }
 }

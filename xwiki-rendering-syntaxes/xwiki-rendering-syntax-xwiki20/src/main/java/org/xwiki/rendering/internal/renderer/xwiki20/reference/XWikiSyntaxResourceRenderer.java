@@ -77,7 +77,7 @@ public class XWikiSyntaxResourceRenderer
     }
 
     public void beginRenderLink(XWikiSyntaxEscapeWikiPrinter printer, ResourceReference reference,
-        boolean isFreeStandingURI, Map<String, String> parameters)
+        boolean freestanding, Map<String, String> parameters)
     {
         // find if the last printed char is part of a syntax (i.e. consumed by the parser before starting to parse the
         // link)
@@ -85,7 +85,7 @@ public class XWikiSyntaxResourceRenderer
 
         printer.flush();
 
-        if (forceFullSyntax(printer, isLastSyntax, isFreeStandingURI, parameters)) {
+        if (forceFullSyntax(printer, isLastSyntax, freestanding, parameters)) {
             this.forceFullSyntax.push(true);
 
             printer.print("[[");
@@ -94,14 +94,14 @@ public class XWikiSyntaxResourceRenderer
         }
     }
 
-    public boolean forceFullSyntax(XWikiSyntaxEscapeWikiPrinter printer, boolean isFreeStandingURI,
+    public boolean forceFullSyntax(XWikiSyntaxEscapeWikiPrinter printer, boolean freestanding,
         Map<String, String> parameters)
     {
-        return forceFullSyntax(printer, true, isFreeStandingURI, parameters);
+        return forceFullSyntax(printer, true, freestanding, parameters);
     }
 
     public boolean forceFullSyntax(XWikiSyntaxEscapeWikiPrinter printer, boolean isLastSyntax,
-        boolean isFreeStandingURI, Map<String, String> parameters)
+        boolean freestanding, Map<String, String> parameters)
     {
         Event nextEvent = this.listenerChain.getLookaheadChainingListener().getNextEvent();
 
@@ -112,7 +112,7 @@ public class XWikiSyntaxResourceRenderer
         // a another link)
         // 4: it's followed by a character which is not a white space (TODO: find a better way than this endless list of
         // EventType test but it probably need some big refactoring of the printer and XWikiSyntaxResourceRenderer)
-        return !isFreeStandingURI
+        return !freestanding
             || !parameters.isEmpty()
             || (!isLastSyntax && !printer.isAfterWhiteSpace() && (!PlainTextStreamParser.SPECIALSYMBOL_PATTERN.matcher(
                 String.valueOf(printer.getLastPrinted().charAt(printer.getLastPrinted().length() - 1))).matches()))
@@ -134,14 +134,14 @@ public class XWikiSyntaxResourceRenderer
     }
 
     public void endRenderLink(XWikiSyntaxEscapeWikiPrinter printer, ResourceReference reference,
-        boolean isFreeStandingURI, Map<String, String> parameters)
+        boolean freestanding, Map<String, String> parameters)
     {
-        printer.print(serialize(reference, isFreeStandingURI));
+        printer.print(serialize(reference, freestanding));
 
         // If there were parameters specified, print them
         printParameters(printer, reference, parameters);
 
-        if (this.forceFullSyntax.peek() || !isFreeStandingURI) {
+        if (this.forceFullSyntax.peek() || !freestanding) {
             printer.print("]]");
         }
 

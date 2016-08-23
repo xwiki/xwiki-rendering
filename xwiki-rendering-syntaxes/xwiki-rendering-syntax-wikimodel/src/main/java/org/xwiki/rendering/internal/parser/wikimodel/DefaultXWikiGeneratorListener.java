@@ -789,31 +789,31 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         onReference(reference.getLink(), reference.getLabel(), false, convertParameters(reference.getParameters()));
     }
 
-    protected void onReference(String reference, String label, boolean isFreeStandingURI, Map<String, String> parameters)
+    protected void onReference(String reference, String label, boolean freestanding, Map<String, String> parameters)
     {
         flushFormat();
 
         // If there's no resource reference parser defined, don't handle links...
         if (getLinkReferenceParser() != null) {
-            onReference(getLinkReferenceParser().parse(reference), label, isFreeStandingURI, parameters);
+            onReference(getLinkReferenceParser().parse(reference), label, freestanding, parameters);
         }
     }
 
-    protected void onReference(ResourceReference reference, String label, boolean isFreeStandingURI,
+    protected void onReference(ResourceReference reference, String label, boolean freestanding,
         Map<String, String> parameters)
     {
-        onReference(reference, label, isFreeStandingURI, parameters, true);
+        onReference(reference, label, freestanding, parameters, true);
     }
 
     /**
      * @since 6.0RC1, 5.4.5
      */
-    protected void onReference(ResourceReference reference, String label, boolean isFreeStandingURI,
+    protected void onReference(ResourceReference reference, String label, boolean freestanding,
         Map<String, String> parameters, boolean prefix)
     {
         // Since WikiModel doesn't handle syntax in link labels and thus doesn't have begin/end events for links, we
         // need to call the XWiki events and use an inline parser to parse the syntax in the label.
-        getListener().beginLink(reference, isFreeStandingURI, parameters);
+        getListener().beginLink(reference, freestanding, parameters);
         if (label != null) {
             try {
                 // TODO: Use an inline parser. See http://jira.xwiki.org/jira/browse/XWIKI-2748
@@ -823,7 +823,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
                 // TODO what should we do here ?
             }
         }
-        getListener().endLink(reference, isFreeStandingURI, parameters);
+        getListener().endLink(reference, freestanding, parameters);
     }
 
     @Override
@@ -841,22 +841,22 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * @since 2.5RC1
      */
-    protected void onImage(String reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    protected void onImage(String reference, boolean freestanding, Map<String, String> parameters)
     {
         flushFormat();
 
         // If there's no resource reference parser defined, don't handle images...
         if (getImageReferenceParser() != null) {
-            onImage(getImageReferenceParser().parse(reference), isFreeStandingURI, parameters);
+            onImage(getImageReferenceParser().parse(reference), freestanding, parameters);
         }
     }
 
     /**
      * @since 2.5RC1
      */
-    protected void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    protected void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getListener().onImage(reference, isFreeStandingURI, parameters);
+        getListener().onImage(reference, freestanding, parameters);
     }
 
     @Override

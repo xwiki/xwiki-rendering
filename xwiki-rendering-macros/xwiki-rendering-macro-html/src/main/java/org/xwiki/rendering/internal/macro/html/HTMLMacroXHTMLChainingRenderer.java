@@ -131,7 +131,7 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
         // Don't print anything since we are already in the html macro.
     }

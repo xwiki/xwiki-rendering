@@ -103,7 +103,7 @@ public class XDOMGeneratorListener implements Listener
      * @since 3.0M2
      */
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
         this.builder.startBlockList();
     }
@@ -127,7 +127,7 @@ public class XDOMGeneratorListener implements Listener
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
         this.builder.startBlockList();
     }
@@ -193,7 +193,7 @@ public class XDOMGeneratorListener implements Listener
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         this.builder.startBlockList();
     }
@@ -234,9 +234,9 @@ public class XDOMGeneratorListener implements Listener
      * @since 3.0M2
      */
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
-        this.builder.addBlock(new XDOM(this.builder.endBlockList(), metaData));
+        this.builder.addBlock(new XDOM(this.builder.endBlockList(), metadata));
     }
 
     @Override
@@ -261,9 +261,9 @@ public class XDOMGeneratorListener implements Listener
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
-        if (listType == ListType.BULLETED) {
+        if (type == ListType.BULLETED) {
             this.builder.addBlock(new BulletedListBlock(this.builder.endBlockList(), parameters != null ? parameters
                 : Listener.EMPTY_PARAMETERS));
         } else {
@@ -341,9 +341,9 @@ public class XDOMGeneratorListener implements Listener
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        this.builder.addBlock(new LinkBlock(this.builder.endBlockList(), reference, isFreeStandingURI,
+        this.builder.addBlock(new LinkBlock(this.builder.endBlockList(), reference, freestanding,
             parameters != null
             ? parameters : Listener.EMPTY_PARAMETERS));
     }
@@ -378,10 +378,10 @@ public class XDOMGeneratorListener implements Listener
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> macroParameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
-        this.builder.addBlock(new MacroBlock(id, macroParameters != null ? macroParameters : Listener.EMPTY_PARAMETERS,
-            content, isInline));
+        this.builder.addBlock(new MacroBlock(id, parameters != null ? parameters : Listener.EMPTY_PARAMETERS,
+            content, inline));
     }
 
     @Override
@@ -391,9 +391,9 @@ public class XDOMGeneratorListener implements Listener
     }
 
     @Override
-    public void onRawText(String rawContent, Syntax syntax)
+    public void onRawText(String content, Syntax syntax)
     {
-        this.builder.addBlock(new RawBlock(rawContent, syntax));
+        this.builder.addBlock(new RawBlock(content, syntax));
     }
 
     @Override
@@ -409,11 +409,11 @@ public class XDOMGeneratorListener implements Listener
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        this.builder.addBlock(new VerbatimBlock(protectedString,
+        this.builder.addBlock(new VerbatimBlock(content,
             parameters != null ? parameters : Listener.EMPTY_PARAMETERS,
-            isInline));
+            inline));
     }
 
     @Override
@@ -423,9 +423,9 @@ public class XDOMGeneratorListener implements Listener
     }
 
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        this.builder.addBlock(new ImageBlock(reference, isFreeStandingURI, parameters != null ? parameters
+        this.builder.addBlock(new ImageBlock(reference, freestanding, parameters != null ? parameters
             : Listener.EMPTY_PARAMETERS));
     }
 }

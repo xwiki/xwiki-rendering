@@ -44,7 +44,7 @@ public class LookaheadChainingListenerTest
         }
 
         @Override
-        public void beginDocument(MetaData metaData)
+        public void beginDocument(MetaData metadata)
         {
             this.calls++;
         }
@@ -56,7 +56,7 @@ public class LookaheadChainingListenerTest
         }
 
         @Override
-        public void endDocument(MetaData metaData)
+        public void endDocument(MetaData metadata)
         {
             this.calls++;
         }

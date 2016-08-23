@@ -127,7 +127,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         Map<String, String> spanAttributes = new LinkedHashMap<String, String>();
         Map<String, String> anchorAttributes = new LinkedHashMap<String, String>();
@@ -140,7 +140,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
         } else {
             spanAttributes.put(CLASS, "wikiinternallink");
         }
-        if (isFreeStandingURI) {
+        if (freestanding) {
             anchorAttributes.put(CLASS, addAttributeValue(anchorAttributes.get(CLASS), "wikimodel-freestanding"));
         }
 
@@ -151,7 +151,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // If there was no link content then generate it based on the passed reference
         if (!hasLabel()) {

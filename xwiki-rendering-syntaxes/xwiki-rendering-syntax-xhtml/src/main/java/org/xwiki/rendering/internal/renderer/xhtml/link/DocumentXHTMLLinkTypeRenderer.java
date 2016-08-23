@@ -77,12 +77,12 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         if (this.wikiModel == null) {
-            super.beginLink(reference, isFreeStandingURI, parameters);
+            super.beginLink(reference, freestanding, parameters);
         } else {
-            beginInternalLink(reference, isFreeStandingURI, parameters);
+            beginInternalLink(reference, freestanding, parameters);
         }
     }
 
@@ -110,7 +110,7 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      * @param isFreeStandingURI if true then the link is a free standing URI directly in the text
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      */
-    private void beginInternalLink(ResourceReference reference, boolean isFreeStandingURI,
+    private void beginInternalLink(ResourceReference reference, boolean freestanding,
         Map<String, String> parameters)
     {
         Map<String, String> spanAttributes = new LinkedHashMap<String, String>();

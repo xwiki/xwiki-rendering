@@ -31,7 +31,6 @@ import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.filter.annotation.Default;
-import org.xwiki.filter.annotation.Name;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 
@@ -72,11 +71,9 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer
     }
 
     @Override
-    public void onImage(@Name("reference") ResourceReference reference,
-        @Name("freestanding") boolean isFreeStandingURI,
-        @Default("") @Name("parameters") Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, @Default("") Map<String, String> parameters)
     {
-        getXHTMLImageTypeRenderer(reference).onImage(reference, isFreeStandingURI, parameters);
+        getXHTMLImageTypeRenderer(reference).onImage(reference, freestanding, parameters);
     }
 
     private XHTMLImageTypeRenderer getXHTMLImageTypeRenderer(ResourceReference reference)

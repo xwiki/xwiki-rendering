@@ -156,7 +156,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
      * @since 3.0M2
      */
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
         // Ensure that all data in the escape printer have been flushed
         getXWikiPrinter().flush();
@@ -173,14 +173,14 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // Flush test content before the link.
         // TODO: improve the block state renderer to be able to make the difference between what is bufferized
         // before the link and what in the label link
         getXWikiPrinter().setBeforeLink(true);
         // escape open link syntax when before a link
-        if (getLinkRenderer().forceFullSyntax(getXWikiPrinter(), isFreeStandingURI, parameters)
+        if (getLinkRenderer().forceFullSyntax(getXWikiPrinter(), freestanding, parameters)
             && getXWikiPrinter().getBuffer().length() > 0
             && getXWikiPrinter().getBuffer().charAt(getXWikiPrinter().getBuffer().length() - 1) == '[') {
             getXWikiPrinter().setEscapeLastChar(true);
@@ -193,7 +193,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         // If we are at a depth of 2 or greater it means we're in a link inside a link and in this case we
         // shouldn't output the nested link as a link unless it's a free standing link.
         if (linkDepth < 2) {
-            getLinkRenderer().beginRenderLink(getXWikiPrinter(), reference, isFreeStandingURI, parameters);
+            getLinkRenderer().beginRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
 
             XWikiSyntaxEscapeWikiPrinter linkLabelPrinter =
                 new XWikiSyntaxEscapeWikiPrinter(new DefaultWikiPrinter(), getXWikiSyntaxListenerChain());
@@ -203,13 +203,13 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
             // Defer printing the link content since we need to gather all nested elements
             pushPrinter(linkLabelPrinter);
-        } else if (isFreeStandingURI) {
-            print(getLinkRenderer().serialize(reference, isFreeStandingURI));
+        } else if (freestanding) {
+            print(getLinkRenderer().serialize(reference, freestanding));
         }
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // The links in a top level link label are not rendered as link (only the label is printed)
         if (getBlockState().getLinkDepth() == 1) {
@@ -219,7 +219,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             popPrinter();
 
             getLinkRenderer().renderLinkContent(getXWikiPrinter(), content);
-            getLinkRenderer().endRenderLink(getXWikiPrinter(), reference, isFreeStandingURI, parameters);
+            getLinkRenderer().endRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
         }
     }
 
@@ -356,13 +356,13 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
-        if (!isInline) {
+        if (!inline) {
             printEmptyLine();
-            print(getMacroPrinter().renderMacro(id, parameters, content, isInline));
+            print(getMacroPrinter().renderMacro(id, parameters, content, inline));
         } else {
-            getXWikiPrinter().printInlineMacro(getMacroPrinter().renderMacro(id, parameters, content, isInline));
+            getXWikiPrinter().printInlineMacro(getMacroPrinter().renderMacro(id, parameters, content, inline));
         }
     }
 
@@ -399,7 +399,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
         // This need to be done in case of a subitem before endListItem() is not called
         this.previousFormatParameters = null;
@@ -410,7 +410,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             getPrinter().print("\n");
         }
 
-        if (listType == ListType.BULLETED) {
+        if (type == ListType.BULLETED) {
             this.listStyle.append("*");
         } else {
             this.listStyle.append("1");
@@ -433,7 +433,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
         this.listStyle.setLength(this.listStyle.length() - 1);
 
@@ -485,15 +485,15 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        if (!isInline) {
+        if (!inline) {
             printEmptyLine();
         }
         printParameters(parameters);
 
         print("{{{");
-        getXWikiPrinter().printVerbatimContent(protectedString);
+        getXWikiPrinter().printVerbatimContent(content);
         print("}}}");
     }
 
@@ -674,10 +674,10 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
      * @since 2.5RC1
      */
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getImageRenderer().beginRenderLink(getXWikiPrinter(), reference, isFreeStandingURI, parameters);
-        getImageRenderer().endRenderLink(getXWikiPrinter(), reference, isFreeStandingURI, parameters);
+        getImageRenderer().beginRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
+        getImageRenderer().endRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
     }
 
     protected void printParameters(Map<String, String> parameters)

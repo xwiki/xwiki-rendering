@@ -22,7 +22,6 @@ package org.xwiki.rendering.listener;
 import java.util.Map;
 
 import org.xwiki.filter.annotation.Default;
-import org.xwiki.filter.annotation.Name;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
 /**
@@ -39,23 +38,21 @@ public interface LinkListener
      * Start of a link.
      *
      * @param reference the link reference
-     * @param isFreeStandingURI if true then the link is a free standing URI directly in the text
+     * @param freestanding if true then the link is a free standing URI directly in the text
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      * @see ResourceReference
      * @since 2.5RC1
      */
-    void beginLink(@Name("reference") ResourceReference reference, @Name("freestanding") boolean isFreeStandingURI,
-        @Default("") @Name("parameters") Map<String, String> parameters);
+    void beginLink(ResourceReference reference, boolean freestanding, @Default("") Map<String, String> parameters);
 
     /**
      * End of a link.
      *
      * @param reference the link reference
-     * @param isFreeStandingURI if true then the link is a free standing URI directly in the text
+     * @param freestanding if true then the link is a free standing URI directly in the text
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      * @see ResourceReference
      * @since 2.5RC1
      */
-    void endLink(@Name("reference") ResourceReference reference, @Name("freestanding") boolean isFreeStandingURI,
-        @Default("") @Name("parameters") Map<String, String> parameters);
+    void endLink(ResourceReference reference, boolean freestanding, @Default("") Map<String, String> parameters);
 }

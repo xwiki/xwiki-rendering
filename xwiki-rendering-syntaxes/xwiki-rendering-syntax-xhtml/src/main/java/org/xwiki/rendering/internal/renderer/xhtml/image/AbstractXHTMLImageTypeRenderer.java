@@ -82,7 +82,7 @@ public abstract class AbstractXHTMLImageTypeRenderer implements XHTMLImageTypeRe
      * @since 2.5RC1
      */
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         Map<String, String> attributes = new LinkedHashMap<String, String>();
 
@@ -94,7 +94,7 @@ public abstract class AbstractXHTMLImageTypeRenderer implements XHTMLImageTypeRe
             attributes.put(XHTMLImageRenderer.SRC, imageSrcAttributeValue);
 
             // Add the class if we're on a freestanding uri
-            if (isFreeStandingURI) {
+            if (freestanding) {
                 attributes.put(CLASS, "wikimodel-freestanding");
             }
 

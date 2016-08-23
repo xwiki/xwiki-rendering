@@ -90,10 +90,10 @@ public class CompositeListener implements Listener
      * @since 3.0M2
      */
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
         for (Listener listener : this.listeners) {
-            listener.beginDocument(metaData);
+            listener.beginDocument(metadata);
         }
     }
 
@@ -122,10 +122,10 @@ public class CompositeListener implements Listener
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
         for (Listener listener : this.listeners) {
-            listener.beginList(listType, parameters);
+            listener.beginList(type, parameters);
         }
     }
 
@@ -239,10 +239,10 @@ public class CompositeListener implements Listener
      * @since 3.0M2
      */
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
         for (Listener listener : this.listeners) {
-            listener.endDocument(metaData);
+            listener.endDocument(metadata);
         }
     }
 
@@ -271,10 +271,10 @@ public class CompositeListener implements Listener
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
         for (Listener listener : this.listeners) {
-            listener.endList(listType, parameters);
+            listener.endList(type, parameters);
         }
     }
 
@@ -383,10 +383,10 @@ public class CompositeListener implements Listener
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> macroParameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
         for (Listener listener : this.listeners) {
-            listener.onMacro(id, macroParameters, content, isInline);
+            listener.onMacro(id, parameters, content, inline);
         }
     }
 
@@ -423,10 +423,10 @@ public class CompositeListener implements Listener
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
         for (Listener listener : this.listeners) {
-            listener.onVerbatim(protectedString, isInline, parameters);
+            listener.onVerbatim(content, inline, parameters);
         }
     }
 
@@ -444,10 +444,10 @@ public class CompositeListener implements Listener
      * @since 2.5RC1
      */
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         for (Listener listener : this.listeners) {
-            listener.beginLink(reference, isFreeStandingURI, parameters);
+            listener.beginLink(reference, freestanding, parameters);
         }
     }
 
@@ -457,10 +457,10 @@ public class CompositeListener implements Listener
      * @since 2.5RC1
      */
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         for (Listener listener : this.listeners) {
-            listener.endLink(reference, isFreeStandingURI, parameters);
+            listener.endLink(reference, freestanding, parameters);
         }
     }
 
@@ -470,10 +470,10 @@ public class CompositeListener implements Listener
      * @since 2.5RC1
      */
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         for (Listener listener : this.listeners) {
-            listener.onImage(reference, isFreeStandingURI, parameters);
+            listener.onImage(reference, freestanding, parameters);
         }
     }
 

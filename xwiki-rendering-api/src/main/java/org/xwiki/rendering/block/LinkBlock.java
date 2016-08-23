@@ -45,32 +45,32 @@ public class LinkBlock extends AbstractBlock
     /**
      * If true then the link is a free standing URI directly in the text.
      */
-    private boolean freeStandingURI;
+    private boolean freestanding;
 
     /**
      * @param childrenBlocks the nested children blocks
      * @param reference the reference to the target resource to link to
-     * @param isFreeStandingURI if true then the link is a free standing URI directly in the text
+     * @param freestanding if true then the link is a free standing URI directly in the text
      * @since 2.5RC1
      */
-    public LinkBlock(List<Block> childrenBlocks, ResourceReference reference, boolean isFreeStandingURI)
+    public LinkBlock(List<Block> childrenBlocks, ResourceReference reference, boolean freestanding)
     {
-        this(childrenBlocks, reference, isFreeStandingURI, Collections.<String, String>emptyMap());
+        this(childrenBlocks, reference, freestanding, Collections.<String, String>emptyMap());
     }
 
     /**
      * @param childrenBlocks the nested children blocks
      * @param reference the reference to the target resource to link to
-     * @param isFreeStandingURI if true then the link is a free standing URI directly in the text
+     * @param freestanding if true then the link is a free standing URI directly in the text
      * @param parameters the parameters to set
      * @since 2.5RC1
      */
-    public LinkBlock(List<Block> childrenBlocks, ResourceReference reference, boolean isFreeStandingURI,
+    public LinkBlock(List<Block> childrenBlocks, ResourceReference reference, boolean freestanding,
         Map<String, String> parameters)
     {
         super(childrenBlocks, parameters);
         this.reference = reference;
-        this.freeStandingURI = isFreeStandingURI;
+        this.freestanding = freestanding;
     }
 
     /**
@@ -88,7 +88,7 @@ public class LinkBlock extends AbstractBlock
      */
     public boolean isFreeStandingURI()
     {
-        return this.freeStandingURI;
+        return this.freestanding;
     }
 
     @Override

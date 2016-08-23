@@ -112,7 +112,7 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         if (getEmptyBlockState().isCurrentContainerBlockEmpty()) {
             ResourceType resourceType = reference.getType();
@@ -138,7 +138,7 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
         if (getBlockState().getListDepth() == 1) {
             printEmptyLine();
@@ -183,9 +183,9 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        getPrinter().print(protectedString);
+        getPrinter().print(content);
     }
 
     /**
@@ -263,7 +263,7 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
      * @since 2.5RC1
      */
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // TODO: maybe something could be done here
     }

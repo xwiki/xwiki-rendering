@@ -33,7 +33,6 @@ import javax.script.ScriptContext;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.context.Execution;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
@@ -43,7 +42,7 @@ import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.xwiki.script.internal.ScriptExecutionContextInitializer;
+import org.xwiki.script.ScriptContextManager;
 
 /**
  * Parses CTS JUnit Results and make the generated data structures available in the Script Context for Script macros
@@ -74,11 +73,8 @@ public class CTSDataMacro extends AbstractNoParameterMacro
     @Inject
     private Logger logger;
 
-    /**
-     * Used to get the Script Context.
-     */
     @Inject
-    private Execution execution;
+    private ScriptContextManager scriptContextManager;
 
     /**
      * Used to parse the macro content since it can contain wiki markup.
@@ -126,7 +122,7 @@ public class CTSDataMacro extends AbstractNoParameterMacro
         }
 
         // Bind 2 variables in the Script Context so that they can be used by Script macros
-        ScriptContext scriptContext = getScriptContext();
+        ScriptContext scriptContext = this.scriptContextManager.getCurrentScriptContext();
         if (scriptContext != null) {
             ResultExtractor extractor = new ResultExtractor();
             Set<String> testNames = extractor.extractByTestName(results);
@@ -139,14 +135,5 @@ public class CTSDataMacro extends AbstractNoParameterMacro
         }
 
         return Collections.emptyList();
-    }
-
-    /**
-     * @return the Script Context taken from the Execution Context (can be null)
-     */
-    private ScriptContext getScriptContext()
-    {
-        return (ScriptContext) this.execution.getContext().getProperty(
-            ScriptExecutionContextInitializer.SCRIPT_CONTEXT_ID);
     }
 }

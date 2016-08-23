@@ -73,12 +73,12 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     // Events
 
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
         startBlock("document");
 
-        if (!metaData.getMetaData().isEmpty()) {
-            serializeParameter("metaData", metaData, false);
+        if (!metadata.getMetaData().isEmpty()) {
+            serializeParameter("metaData", metadata, false);
         }
     }
 
@@ -103,13 +103,13 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         startBlock("link", parameters);
 
         this.linkSerializer.serialize(reference, getContentHandler());
-        if (isFreeStandingURI) {
-            serializeParameter("freestanding", isFreeStandingURI, false);
+        if (freestanding) {
+            serializeParameter("freestanding", freestanding, false);
         }
     }
 
@@ -129,11 +129,11 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
         startBlock("list", parameters);
 
-        serializeParameter("type", this.listTypeConverter.toString(listType), false);
+        serializeParameter("type", this.listTypeConverter.toString(type), false);
     }
 
     @Override
@@ -211,17 +211,17 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     }
 
     @Override
-    public void beginMetaData(MetaData metaData)
+    public void beginMetaData(MetaData metadata)
     {
         startBlock("metaData");
 
-        if (!metaData.getMetaData().isEmpty()) {
-            serializeParameter("metaData", metaData, false);
+        if (!metadata.getMetaData().isEmpty()) {
+            serializeParameter("metaData", metadata, false);
         }
     }
 
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
         endBlock();
     }
@@ -245,7 +245,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         endBlock();
     }
@@ -263,7 +263,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
         endBlock();
     }
@@ -347,7 +347,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
         startBlock("macro", parameters);
 
@@ -355,8 +355,8 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         if (content != null) {
             serializeParameter("content", content, false);
         }
-        if (isInline) {
-            serializeParameter("inline", isInline, false);
+        if (inline) {
+            serializeParameter("inline", inline, false);
         }
 
         endBlock();
@@ -428,24 +428,24 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
         startBlock("verbatim");
 
-        serializeParameter("content", protectedString, false);
-        if (isInline) {
-            serializeParameter("inline", isInline, false);
+        serializeParameter("content", content, false);
+        if (inline) {
+            serializeParameter("inline", inline, false);
         }
 
         endBlock();
     }
 
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         startBlock("image", parameters);
 
-        serializeParameter("freestanding", isFreeStandingURI, false);
+        serializeParameter("freestanding", freestanding, false);
         this.linkSerializer.serialize(reference, getContentHandler());
 
         endBlock();
@@ -503,7 +503,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         SERIALIZER.serializeParameter(name, map, type, getContentHandler());
     }
 
-    public void serializeParameter(String name, MetaData metaData, boolean type)
+    public void serializeParameter(String name, MetaData metadata, boolean type)
     {
         Attributes attributes;
 
@@ -516,7 +516,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         }
 
         startElement(name, attributes);
-        for (Map.Entry<String, Object> entry : metaData.getMetaData().entrySet()) {
+        for (Map.Entry<String, Object> entry : metadata.getMetaData().entrySet()) {
             serializeParameter(entry.getKey(), entry.getValue(), true);
         }
         endElement(name);

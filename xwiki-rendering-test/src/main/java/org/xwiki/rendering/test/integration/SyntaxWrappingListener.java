@@ -34,18 +34,18 @@ import org.xwiki.rendering.listener.WrappingListener;
 public class SyntaxWrappingListener extends WrappingListener
 {
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
-        Map<String, Object> metadataMap = new HashMap<String, Object>(metaData.getMetaData());
+        Map<String, Object> metadataMap = new HashMap<String, Object>(metadata.getMetaData());
         metadataMap.remove(MetaData.SYNTAX);
 
         super.beginDocument(new MetaData(metadataMap));
     }
 
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
-        Map<String, Object> metadataMap = new HashMap<String, Object>(metaData.getMetaData());
+        Map<String, Object> metadataMap = new HashMap<String, Object>(metadata.getMetaData());
         metadataMap.remove(MetaData.SYNTAX);
 
         super.endDocument(new MetaData(metadataMap));

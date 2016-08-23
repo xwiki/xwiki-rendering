@@ -85,15 +85,15 @@ public class DefaultXHTMLLinkRenderer implements XHTMLLinkRenderer
     }
 
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getXHTMLLinkTypeRenderer(reference).beginLink(reference, isFreeStandingURI, parameters);
+        getXHTMLLinkTypeRenderer(reference).beginLink(reference, freestanding, parameters);
     }
 
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getXHTMLLinkTypeRenderer(reference).endLink(reference, isFreeStandingURI, parameters);
+        getXHTMLLinkTypeRenderer(reference).endLink(reference, freestanding, parameters);
     }
 
     private XHTMLLinkTypeRenderer getXHTMLLinkTypeRenderer(ResourceReference reference)

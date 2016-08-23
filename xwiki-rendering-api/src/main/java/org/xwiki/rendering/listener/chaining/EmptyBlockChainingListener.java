@@ -58,10 +58,10 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
      * @since 3.0M2
      */
     @Override
-    public void beginDocument(MetaData metaData)
+    public void beginDocument(MetaData metadata)
     {
         startContainerBlock();
-        super.beginDocument(metaData);
+        super.beginDocument(metadata);
     }
 
     @Override
@@ -115,19 +115,19 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
      * @since 2.5RC1
      */
     @Override
-    public void beginLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         markNotEmpty();
         startContainerBlock();
-        super.beginLink(reference, isFreeStandingURI, parameters);
+        super.beginLink(reference, freestanding, parameters);
     }
 
     @Override
-    public void beginList(ListType listType, Map<String, String> parameters)
+    public void beginList(ListType type, Map<String, String> parameters)
     {
         markNotEmpty();
         startContainerBlock();
-        super.beginList(listType, parameters);
+        super.beginList(type, parameters);
     }
 
     @Override
@@ -224,9 +224,9 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
      * @since 3.0M2
      */
     @Override
-    public void endDocument(MetaData metaData)
+    public void endDocument(MetaData metadata)
     {
-        super.endDocument(metaData);
+        super.endDocument(metadata);
         stopContainerBlock();
     }
 
@@ -276,16 +276,16 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
      * @since 2.5RC1
      */
     @Override
-    public void endLink(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        super.endLink(reference, isFreeStandingURI, parameters);
+        super.endLink(reference, freestanding, parameters);
         stopContainerBlock();
     }
 
     @Override
-    public void endList(ListType listType, Map<String, String> parameters)
+    public void endList(ListType type, Map<String, String> parameters)
     {
-        super.endList(listType, parameters);
+        super.endList(type, parameters);
         stopContainerBlock();
     }
 
@@ -400,9 +400,9 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
      * @since 2.5RC1
      */
     @Override
-    public void onImage(ResourceReference reference, boolean isFreeStandingURI, Map<String, String> parameters)
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        super.onImage(reference, isFreeStandingURI, parameters);
+        super.onImage(reference, freestanding, parameters);
         markNotEmpty();
     }
 
@@ -428,9 +428,9 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
     }
 
     @Override
-    public void onVerbatim(String protectedString, boolean isInline, Map<String, String> parameters)
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        super.onVerbatim(protectedString, isInline, parameters);
+        super.onVerbatim(content, inline, parameters);
         markNotEmpty();
     }
 
@@ -442,9 +442,9 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
     }
 
     @Override
-    public void onMacro(String id, Map<String, String> parameters, String content, boolean isInline)
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
-        super.onMacro(id, parameters, content, isInline);
+        super.onMacro(id, parameters, content, inline);
         markNotEmpty();
     }
 
