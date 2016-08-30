@@ -191,7 +191,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
             // Parse the current values
             String relAttribute = anchorAttributes.get(REL);
             if (relAttribute != null) {
-                relAttributes = Arrays.asList(relAttribute.split(" "));
+                relAttributes = new ArrayList<>(Arrays.asList(relAttribute.split(" ")));
             } else {
                 relAttributes = new ArrayList<>();
             }
