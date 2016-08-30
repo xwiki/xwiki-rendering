@@ -19,7 +19,10 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml.link;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -47,6 +50,12 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
      * The name of the XHTML format element.
      */
     protected static final String SPAN = "span";
+
+    private static final String NOOPENER = "noopener";
+
+    private static final String NOREFERRER = "noreferrer";
+
+    private static final String REL = "rel";
 
     /**
      * Used to look for {@link org.xwiki.rendering.renderer.reference.link.URILabelGenerator} component implementations
@@ -137,6 +146,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
 
         if (isExternalLink(reference)) {
             spanAttributes.put(CLASS, "wikiexternallink");
+            handleTargetAttribute(anchorAttributes);
         } else {
             spanAttributes.put(CLASS, "wikiinternallink");
         }
@@ -148,6 +158,56 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
 
         getXHTMLWikiPrinter().printXMLStartElement(SPAN, spanAttributes);
         getXHTMLWikiPrinter().printXMLStartElement(XHTMLLinkRenderer.ANCHOR, anchorAttributes);
+    }
+
+    /**
+     * When a link is open in an other window or in an other frame, the loaded page has some restricted access to the
+     * parent window. Among other things, it has the ability to redirect it to an other page, which can lead to
+     * dangerous phishing attacks.
+     *
+     * See: https://mathiasbynens.github.io/rel-noopener/ or https://dev.to/phishing or
+     * http://jira.xwiki.org/browse/XRENDERING-462
+     *
+     * To avoid this vulnerability, we automatically add the "noopener" value to the "rel" attribute of the anchor.
+     * But because Firefox does not handle it, we also need to add the "noreferer" value.
+     *
+     * @param anchorAttributes the anchor attributes (that going to be changed)
+     */
+    private void handleTargetAttribute(Map<String, String> anchorAttributes)
+    {
+        String target = anchorAttributes.get("target");
+
+        // Target can have these values:
+        //
+        // "_blank" which opens the link in a new window
+        // "_self" which opens the link in the same window (default)
+        // "_top" and "_parent" which control the top or the parent window of some frame
+        // "frame-name" (it could be anything) which opens the link in the frame called "frame-name".
+        //
+        // "_self", "_top" and "_parent" are the only safe values. So we need to handle any other value...
+        if (target != null && !"_self".equals(target) && !"_parent".equals(target) && !"_top".equals(target)) {
+            List<String> relAttributes;
+
+            // Parse the current values
+            String relAttribute = anchorAttributes.get(REL);
+            if (relAttribute != null) {
+                relAttributes = Arrays.asList(relAttribute.split(" "));
+            } else {
+                relAttributes = new ArrayList<>();
+            }
+
+            // Add the "noopener" attribute
+            if (!relAttributes.contains(NOOPENER)) {
+                relAttributes.add(NOOPENER);
+            }
+
+            // Add the "noreferrer" attribute
+            if (!relAttributes.contains(NOREFERRER)) {
+                relAttributes.add(NOREFERRER);
+            }
+
+            anchorAttributes.put(REL, String.join(" ", relAttributes));
+        }
     }
 
     @Override

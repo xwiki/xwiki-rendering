@@ -1,0 +1,9 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Testing anchor with target="_blank"
+.#-----------------------------------------------------
+<a href="http://server/something" target="_blank">label</a>
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p><span class="wikiexternallink"><a target="_blank" rel="noopener noreferrer" href="http://server/something">label</a></span></p>
