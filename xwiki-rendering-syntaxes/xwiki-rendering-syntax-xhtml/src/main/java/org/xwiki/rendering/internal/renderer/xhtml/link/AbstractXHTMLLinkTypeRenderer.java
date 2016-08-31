@@ -172,6 +172,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
      * But because Firefox does not handle it, we also need to add the "noreferer" value.
      *
      * @param anchorAttributes the anchor attributes (that going to be changed)
+     * @since 7.4.5, 8.2.2, 8.3M2
      */
     private void handleTargetAttribute(Map<String, String> anchorAttributes)
     {
@@ -204,7 +205,10 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
                 relAttributes.add(NOREFERRER);
             }
 
-            anchorAttributes.put(REL, String.join(" ", relAttributes));
+            // Serialize the attributes
+            if (!relAttributes.isEmpty()) {
+                anchorAttributes.put(REL, String.join(" ", relAttributes));
+            }
         }
     }
 
