@@ -27,6 +27,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -186,7 +187,8 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
         // "frame-name" (it could be anything) which opens the link in the frame called "frame-name".
         //
         // "_self", "_top" and "_parent" are the only safe values. So we need to handle any other value...
-        if (target != null && !"_self".equals(target) && !"_parent".equals(target) && !"_top".equals(target)) {
+        if (StringUtils.isNotBlank(target)
+                && !"_self".equals(target) && !"_parent".equals(target) && !"_top".equals(target)) {
             List<String> relAttributes = new ArrayList<>();
 
             // Parse the current values
