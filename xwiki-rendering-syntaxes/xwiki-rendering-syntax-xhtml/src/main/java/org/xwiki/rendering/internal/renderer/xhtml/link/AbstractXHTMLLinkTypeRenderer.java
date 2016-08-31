@@ -186,14 +186,12 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
         //
         // "_self", "_top" and "_parent" are the only safe values. So we need to handle any other value...
         if (target != null && !"_self".equals(target) && !"_parent".equals(target) && !"_top".equals(target)) {
-            List<String> relAttributes;
+            List<String> relAttributes = new ArrayList<>();
 
             // Parse the current values
             String relAttribute = anchorAttributes.get(REL);
             if (relAttribute != null) {
-                relAttributes = new ArrayList<>(Arrays.asList(relAttribute.split(" ")));
-            } else {
-                relAttributes = new ArrayList<>();
+                relAttributes.addAll(Arrays.asList(relAttribute.split(" ")));
             }
 
             // Add the "noopener" attribute
