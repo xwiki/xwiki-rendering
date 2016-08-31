@@ -53,7 +53,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-xhtml</artifactId>
+      <artifactId>xwiki-rendering-syntax-html5</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
       <type>test-jar</type>
