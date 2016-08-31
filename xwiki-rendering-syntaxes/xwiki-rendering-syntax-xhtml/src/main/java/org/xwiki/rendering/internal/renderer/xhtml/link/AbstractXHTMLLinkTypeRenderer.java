@@ -32,6 +32,7 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
+import org.xwiki.text.StringUtils;
 
 /**
  * Common code for XHTML Link Type Renderer implementations.
@@ -207,7 +208,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
 
             // Serialize the attributes
             if (!relAttributes.isEmpty()) {
-                anchorAttributes.put(REL, String.join(" ", relAttributes));
+                anchorAttributes.put(REL, StringUtils.join(relAttributes, " "));
             }
         }
     }
