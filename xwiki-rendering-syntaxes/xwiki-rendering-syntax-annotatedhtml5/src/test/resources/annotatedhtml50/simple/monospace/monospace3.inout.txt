@@ -1,0 +1,1 @@
+<p><span class="monospace myClass">monospace</span></p>
