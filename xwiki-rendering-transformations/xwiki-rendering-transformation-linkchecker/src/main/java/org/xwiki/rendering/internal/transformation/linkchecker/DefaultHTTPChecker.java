@@ -52,7 +52,7 @@ public class DefaultHTTPChecker implements HTTPChecker, Initializable
 
     /**
      * The client to connect to the remote site using HTTP.
-     * <p/>
+     * <p>
      * Note: If one day we wish to configure timeouts, here's some good documentation about it:
      * http://brian.olore.net/wp/2009/08/apache-httpclient-timeout/
      */
