@@ -58,7 +58,8 @@ public class ParametersPrinter
     /**
      * @param escapeChar the character used to escape a meaningful string
      * @param escapedStrings the meaningful strings to escape
-     * @since 7.4.5, 8.2RC1
+     * @since 7.4.5
+     * @since 8.2RC1
      */
     public ParametersPrinter(char escapeChar, String... escapedStrings)
     {
@@ -108,7 +109,8 @@ public class ParametersPrinter
      *
      * @param parameters the parameters to print
      * @return the printed parameters
-     * @since 7.4.5, 8.2RC1
+     * @since 7.4.5
+     * @since 8.2RC1
      */
     public String print(Map<String, String> parameters)
     {
@@ -151,7 +153,8 @@ public class ParametersPrinter
      * @param parameterName the name of the parameter to print
      * @param parameterValue the value of the parameter to print
      * @return the printed parameter
-     * @since 7.4.5, 8.2RC1
+     * @since 7.4.5
+     * @since 8.2RC1
      */
     public String print(String parameterName, String parameterValue)
     {

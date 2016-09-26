@@ -42,7 +42,8 @@ public class WikiModelParserUtils extends ParserUtils
     }
 
     /**
-     * @since 6.0RC1, 5.4.5
+     * @since 6.0RC1
+     * @since 5.4.5
      */
     public void parseInline(StreamParser parser, String content, Listener listener, boolean prefix)
         throws ParseException

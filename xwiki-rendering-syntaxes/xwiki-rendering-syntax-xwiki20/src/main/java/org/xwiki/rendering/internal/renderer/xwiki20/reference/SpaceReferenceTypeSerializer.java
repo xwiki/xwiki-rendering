@@ -30,7 +30,8 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
  * Serialize a link reference pointing to a space using the format {@code (space reference)(#anchor)(?query string)}.
  *
  * @version $Id$
- * @since 7.4.1, 8.0M1
+ * @since 7.4.1
+ * @since 8.0M1
  */
 @Component
 @Named("xwiki/2.0/space")

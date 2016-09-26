@@ -806,7 +806,8 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     }
 
     /**
-     * @since 6.0RC1, 5.4.5
+     * @since 6.0RC1
+     * @since 5.4.5
      */
     protected void onReference(ResourceReference reference, String label, boolean freestanding,
         Map<String, String> parameters, boolean prefix)

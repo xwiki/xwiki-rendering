@@ -25,7 +25,8 @@ import org.apache.commons.lang3.StringUtils;
  * Represents a reference to a Space.
  *
  * @version $Id$
- * @since 7.4.1, 8.0M1
+ * @since 7.4.1
+ * @since 8.0M1
  */
 public class SpaceResourceReference extends ResourceReference
 {

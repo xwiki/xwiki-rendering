@@ -29,7 +29,8 @@ import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
  * Handle XHTML rendering for links to spaces.
  *
  * @version $Id$
- * @since 7.4.1, 8.0M1
+ * @since 7.4.1
+ * @since 8.0M1
  */
 @Component
 @Named("space")

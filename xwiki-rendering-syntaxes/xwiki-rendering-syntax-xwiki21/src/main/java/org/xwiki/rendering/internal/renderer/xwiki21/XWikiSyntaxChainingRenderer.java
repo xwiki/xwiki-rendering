@@ -73,7 +73,8 @@ public class XWikiSyntaxChainingRenderer
     /**
      * {@inheritDoc}
      *
-     * @since 6.4.8, 7.4.1
+     * @since 6.4.8
+     * @since 7.4.1
      */
     @Override
     public StackableChainingListener createChainingListenerInstance()

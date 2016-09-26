@@ -31,7 +31,8 @@ import org.xwiki.rendering.parser.ResourceReferenceTypeParser;
  * not found, then a wiki resource (based on the implementation) will be resolved.
  *
  * @version $Id$
- * @since 7.4.1, 8.0M1
+ * @since 7.4.1
+ * @since 8.0M1
  */
 public abstract class AbstractUntypedReferenceParser extends AbstractResourceReferenceParser
 {
