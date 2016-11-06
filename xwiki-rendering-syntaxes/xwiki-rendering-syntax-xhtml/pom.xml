@@ -81,23 +81,29 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <excludes>
-            org/xwiki/rendering/internal/parser/xhtml/XHTMLParser.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXHTMLWhitespaceXMLFilter.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiImageTagHandler.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiReferenceTagHandler.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiCommentHandler.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiHeaderTagHandler.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiSpanTagHandler.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXMLReaderFactory.java,
-            org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiWikiReference.java,
-            org/xwiki/rendering/internal/renderer/xhtml/link/DefaultXHTMLLinkRenderer.java,
-            org/xwiki/rendering/internal/renderer/xhtml/XHTMLChainingRenderer.java,
-            org/xwiki/rendering/internal/renderer/xhtml/XHTMLBlockRenderer.java,
-            org/xwiki/rendering/internal/renderer/xhtml/image/DefaultXHTMLImageRenderer.java
-          </excludes>
-        </configuration>
+        <executions>
+          <execution>
+            <!-- Specify the "default" execution id so that the "blocker" one is always executed -->
+            <id>default</id>
+            <configuration>
+              <excludes>
+                org/xwiki/rendering/internal/parser/xhtml/XHTMLParser.java,
+                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXHTMLWhitespaceXMLFilter.java,
+                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiImageTagHandler.java,
+                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiReferenceTagHandler.java,
+                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiCommentHandler.java,
+                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiHeaderTagHandler.java,
+                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiSpanTagHandler.java,
+                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXMLReaderFactory.java,
+                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiWikiReference.java,
+                org/xwiki/rendering/internal/renderer/xhtml/link/DefaultXHTMLLinkRenderer.java,
+                org/xwiki/rendering/internal/renderer/xhtml/XHTMLChainingRenderer.java,
+                org/xwiki/rendering/internal/renderer/xhtml/XHTMLBlockRenderer.java,
+                org/xwiki/rendering/internal/renderer/xhtml/image/DefaultXHTMLImageRenderer.java
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

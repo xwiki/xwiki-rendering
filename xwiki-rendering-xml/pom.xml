@@ -62,13 +62,19 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <excludes>
-            org/xwiki/rendering/xml/internal/renderer/printer/XHTMLWriter.java,
-            org/xwiki/rendering/renderer/printer/XHTMLWikiPrinter.java,
-            org/xwiki/rendering/renderer/printer/XMLWikiPrinter.java
-          </excludes>
-        </configuration>
+        <executions>
+          <execution>
+            <!-- Specify the "default" execution id so that the "blocker" one is always executed -->
+            <id>default</id>
+            <configuration>
+              <excludes>
+                org/xwiki/rendering/xml/internal/renderer/printer/XHTMLWriter.java,
+                org/xwiki/rendering/renderer/printer/XHTMLWikiPrinter.java,
+                org/xwiki/rendering/renderer/printer/XMLWikiPrinter.java
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

@@ -67,30 +67,36 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <excludes>
-            org/xwiki/rendering/internal/parser/confluencexhtml/ConfluenceXHTMLParser.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/AttachmentContainer.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/AttachmentTagHandler.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/ConfluenceImageWikiReference.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/ConfluenceLinkWikiReference.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/ConfluenceXWikiGeneratorListener.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/ImageTagHandler.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/LabelContainer.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/LinkTagHandler.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/MacroTagHandler.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/PageContainer.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/PageTagHandler.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/ParameterTagHandler.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/PlainTextBodyTagHandler.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/PlainTextLinkBodyTagHandler.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/RichTextBodyTagHandler.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/SpaceContainer.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/SpaceTagHandler.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/UserContainer.java,
-            org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/UserTagHandler.java
-          </excludes>
-        </configuration>
+        <executions>
+          <execution>
+            <!-- Specify the "default" execution id so that the "blocker" one is always executed -->
+            <id>default</id>
+            <configuration>
+              <excludes>
+                org/xwiki/rendering/internal/parser/confluencexhtml/ConfluenceXHTMLParser.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/AttachmentContainer.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/AttachmentTagHandler.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/ConfluenceImageWikiReference.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/ConfluenceLinkWikiReference.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/ConfluenceXWikiGeneratorListener.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/ImageTagHandler.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/LabelContainer.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/LinkTagHandler.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/MacroTagHandler.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/PageContainer.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/PageTagHandler.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/ParameterTagHandler.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/PlainTextBodyTagHandler.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/PlainTextLinkBodyTagHandler.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/RichTextBodyTagHandler.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/SpaceContainer.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/SpaceTagHandler.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/UserContainer.java,
+                org/xwiki/rendering/internal/parser/confluencexhtml/wikimodel/UserTagHandler.java
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

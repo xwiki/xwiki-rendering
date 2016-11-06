@@ -88,15 +88,21 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <excludes>
-            org/xwiki/rendering/test/integration/RenderingTest.java,
-            org/xwiki/rendering/test/integration/RenderingTestSuite.java,
-            org/xwiki/rendering/test/integration/TestData.java,
-            org/xwiki/rendering/test/integration/TestDataGenerator.java,
-            org/xwiki/rendering/test/integration/TestDataParser.java
-          </excludes>
-        </configuration>
+        <executions>
+          <execution>
+            <!-- Specify the "default" execution id so that the "blocker" one is always executed -->
+            <id>default</id>
+            <configuration>
+              <excludes>
+                org/xwiki/rendering/test/integration/RenderingTest.java,
+                org/xwiki/rendering/test/integration/RenderingTestSuite.java,
+                org/xwiki/rendering/test/integration/TestData.java,
+                org/xwiki/rendering/test/integration/TestDataGenerator.java,
+                org/xwiki/rendering/test/integration/TestDataParser.java
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
