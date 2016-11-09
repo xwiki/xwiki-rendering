@@ -41,7 +41,7 @@ import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.mockito.MockitoComponentManagerRule;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ComponentList({ DefaultMacroContentParser.class })
