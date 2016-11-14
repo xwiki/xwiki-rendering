@@ -31,6 +31,10 @@
   <name>XWiki Rendering - Standalone Distribution</name>
   <packaging>pom</packaging>
   <description>XWiki Rendering - Standalone Distribution</description>
+  <properties>
+    <!-- Skip Enforcer check on legacy dependencies since we want to bundle the legacy modules -->
+    <xwiki.enforcer.no-legacy-dependencies.skip>true</xwiki.enforcer.no-legacy-dependencies.skip>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
@@ -199,19 +203,6 @@
               <descriptors>
                 <descriptor>${basedir}/src/assemble/zip-with-dependencies.xml</descriptor>
               </descriptors>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>enforce-no-legacy-dependencies</id>
-            <configuration>
-              <!-- Skip Enforcer check on legacy dependencies since we want to bundle the legacy modules -->
-              <skip>true</skip>
             </configuration>
           </execution>
         </executions>

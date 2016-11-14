@@ -31,6 +31,10 @@
   <name>XWiki Rendering - Legacy</name>
   <packaging>pom</packaging>
   <description>Legacy modules for XWiki Rendering</description>
+  <properties>
+    <!-- Skip Enforcer check on legacy dependencies since we allow legacy modules to depend on other legacy modules -->
+    <xwiki.enforcer.no-legacy-dependencies.skip>true</xwiki.enforcer.no-legacy-dependencies.skip>
+  </properties>
   <modules>
     <module>xwiki-rendering-legacy-api</module>
   </modules>
@@ -41,22 +45,4 @@
       <artifactId>aspectjrt</artifactId>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>enforce-no-legacy-dependencies</id>
-            <configuration>
-              <!-- Skip Enforcer check on legacy dependencies since we allow legacy modules to depend on other legacy
-                   modules -->
-              <skip>true</skip>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 </project>
