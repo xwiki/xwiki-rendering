@@ -30,9 +30,6 @@
   <artifactId>xwiki-rendering-xml</artifactId>
   <name>XWiki Rendering - XML</name>
   <description>XML related tools for the rendering</description>
-  <properties>
-    <xwiki.clover.targetPercentage>0%</xwiki.clover.targetPercentage>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
