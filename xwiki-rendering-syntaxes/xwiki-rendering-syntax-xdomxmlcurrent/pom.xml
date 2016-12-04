@@ -30,9 +30,6 @@
   <artifactId>xwiki-rendering-syntax-xdomxmlcurrent</artifactId>
   <name>XWiki Rendering - Syntax - XDOM+XML Current</name>
   <description>XML/Reflexion based representation synchronized on current events</description>
-  <properties>
-    <xwiki.clover.targetPercentage>0%</xwiki.clover.targetPercentage>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
