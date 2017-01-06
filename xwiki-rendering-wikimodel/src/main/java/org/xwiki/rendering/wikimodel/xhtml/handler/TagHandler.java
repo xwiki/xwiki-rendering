@@ -116,7 +116,7 @@ public class TagHandler
     {
         int lineCount = stack.getEmptyLinesCount();
         if (lineCount > 0) {
-            stack.getScannerContext().onEmptyLines(lineCount);
+            stack.getScannerContext().getfListener().onEmptyLines(lineCount);
             stack.resetEmptyLinesCount();
         }
     }
@@ -157,6 +157,8 @@ public class TagHandler
     protected void endDocument(TagContext context)
     {
         context.getTagStack().popStackParameters();
+
+        sendEmptyLines(context);
 
         context.getScannerContext().endDocument();
     }

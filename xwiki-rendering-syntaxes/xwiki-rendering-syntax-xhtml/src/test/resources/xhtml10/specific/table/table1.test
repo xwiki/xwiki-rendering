@@ -1,0 +1,30 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Testing table with empty line in cells.
+.# See XRENDERING-453
+.#-----------------------------------------------------
+<table>
+  <tr>
+    <td><div class="wikimodel-emptyline"></div></td>
+    <td><div class="wikimodel-emptyline"></div></td>
+  </tr>
+</table>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginTable
+beginTableRow
+beginTableCell
+beginGroup
+onEmptyLines [1]
+endGroup
+endTableCell
+beginTableCell
+beginGroup
+onEmptyLines [1]
+endGroup
+endTableCell
+endTableRow
+endTable
+endDocument
