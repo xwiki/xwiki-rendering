@@ -60,7 +60,12 @@ public interface MacroDescriptor
     ContentDescriptor getContentDescriptor();
 
     /**
-     * @return a {@link Map} containing the {@link ParameterDescriptor} for each parameter.
+     * Get all the parameters descriptors.
+     * <p>
+     * The {@link Map} key is lower case. {@link ParameterDescriptor#getId()} can be used to access the source parameter
+     * identifier (with the source case).
+     * 
+     * @return a {@link Map} containing the {@link ParameterDescriptor} for each parameter (the keys are lower cased).
      * @since 1.7M2
      */
     Map<String, ParameterDescriptor> getParameterDescriptorMap();
