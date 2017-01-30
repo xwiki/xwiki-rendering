@@ -4,10 +4,6 @@
 .# They are not meant to verify their completeness. The completeness tests
 .# are supposed to be located in the sources of the external frameworks
 .# providing the parsers/renderers.
-.#-------------------------------------------------------------------------
-.input|confluence/1.0
-.#-------------------------------------------------------------------------
-paragraph
 .#-----------------------------------------------------
 .input|jspwiki/1.0
 .#-----------------------------------------------------
