@@ -1,1 +1,0 @@
-<ac:macro ac:name="testsimplemacro"></ac:macro><ac:macro ac:name="testsimplemacro"><ac:parameter ac:name="param1">value1</ac:parameter><ac:parameter ac:name="param2">value2</ac:parameter></ac:macro>
