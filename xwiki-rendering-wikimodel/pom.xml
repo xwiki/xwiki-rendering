@@ -32,7 +32,7 @@
   <packaging>jar</packaging>
   <description>XWiki Rendering - WikiModel</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.49</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.47</xwiki.jacoco.instructionRatio>
     <!-- Skip checkstyle checks for now since aligning WikiModel code base to the XWiki coding style is going to take
          some time and this module is temporary anyway. -->
     <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
