@@ -224,36 +224,6 @@
                   }
                 },
                 "ignore": [
-                  {
-                    "code": "java.class.removed",
-                    "old": "class org.xwiki.rendering.wikimodel.confluence.ConfluenceExtendedWikiParser",
-                    "justification": "Wiki Model is actually internal from XWiki point of view"
-                  },
-                  {
-                    "code": "java.class.removed",
-                    "old": "class org.xwiki.rendering.wikimodel.confluence.ConfluenceImageWikiReferenceParser",
-                    "justification": "Wiki Model is actually internal from XWiki point of view"
-                  },
-                  {
-                    "code": "java.class.removed",
-                    "old": "class org.xwiki.rendering.wikimodel.confluence.ConfluenceInternalWikiScannerContext",
-                    "justification": "Wiki Model is actually internal from XWiki point of view"
-                  },
-                  {
-                    "code": "java.class.removed",
-                    "old": "class org.xwiki.rendering.wikimodel.confluence.ConfluenceWikiParser",
-                    "justification": "Wiki Model is actually internal from XWiki point of view"
-                  },
-                  {
-                    "code": "java.class.removed",
-                    "old": "class org.xwiki.rendering.wikimodel.confluence.ConfluenceWikiReferenceParser",
-                    "justification": "Wiki Model is actually internal from XWiki point of view"
-                  },
-                  {
-                    "code": "java.class.removed",
-                    "old": "class org.xwiki.rendering.wikimodel.confluence.ConfluenceWikiScannerContext",
-                    "justification": "Wiki Model is actually internal from XWiki point of view"
-                  }
                 ]
               }
             }
