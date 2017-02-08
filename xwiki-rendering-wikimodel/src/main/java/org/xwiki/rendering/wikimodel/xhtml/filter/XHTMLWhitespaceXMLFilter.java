@@ -293,7 +293,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
         fPreviousElements.clear();
     }
 
-    protected void sendInlineEvent(Event event) throws SAXException
+    private void sendInlineEvent(Event event) throws SAXException
     {
         if (event.type == Event.Type.BEGIN_ELEMENT) {
             super.startElement(event.uri, event.localName, event.qName,
@@ -345,7 +345,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
      * Append an inline element. Inline elements ending with a space are stacked
      * waiting for a non space character or the end of the inline content.
      */
-    protected void appendInlineEvent(Event event) throws SAXException
+    private void appendInlineEvent(Event event) throws SAXException
     {
         cleanContentLeadingSpaces();
         cleanContentExtraWhiteSpaces();
