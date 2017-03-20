@@ -214,6 +214,13 @@
           <analysisConfiguration><![CDATA[
             {
               "revapi": {
+                "filter": {
+                  // We're ignoring all API incompatibilities from XWiki dependencies (i.e. commons)
+                  // since they're already covered by their own builds and we release all of them together.
+                  "archives": {
+                      "exclude": ["org\\.xwiki\\.commons:.*:.*"]
+                    }
+                },
                 "ignore" : [
                   // Add more ignores below...
                   {
