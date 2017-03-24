@@ -817,7 +817,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         getListener().beginLink(reference, freestanding, parameters);
         if (label != null) {
             try {
-                // TODO: Use an inline parser. See http://jira.xwiki.org/jira/browse/XWIKI-2748
+                // TODO: Use an inline parser. See https://jira.xwiki.org/browse/XWIKI-2748
                 WikiModelParserUtils parserUtils = new WikiModelParserUtils();
                 parserUtils.parseInline(this.parser, label, getListener(), prefix);
             } catch (ParseException e) {

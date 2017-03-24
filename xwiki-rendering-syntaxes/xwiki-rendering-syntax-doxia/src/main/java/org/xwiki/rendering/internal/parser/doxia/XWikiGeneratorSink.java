@@ -991,7 +991,7 @@ public class XWikiGeneratorSink implements Sink
         // Since Doxia doesn't generate events at the word level we need to reparse the
         // text to extract spaces, special symbols and words.
 
-        // TODO: Use an inline parser. See http://jira.xwiki.org/jira/browse/XWIKI-2748
+        // TODO: Use an inline parser. See https://jira.xwiki.org/browse/XWIKI-2748
         WrappingListener inlineFilterListener = new InlineFilterListener();
         inlineFilterListener.setWrappedListener(getListener());
 

@@ -45,7 +45,7 @@
       <version>${project.version}</version>
     </dependency>
     <!-- Runtime dependency -->
-    <!-- TODO: That's very bad and should be fixed by http://jira.xwiki.org/jira/browse/XRENDERING-83 -->
+    <!-- TODO: That's very bad and should be fixed by https://jira.xwiki.org/browse/XRENDERING-83 -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-xdomxmlcurrent</artifactId>
