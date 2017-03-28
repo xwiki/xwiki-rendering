@@ -223,18 +223,6 @@
                 },
                 "ignore" : [
                   // Add more ignores below...
-                  {
-                    "code": "java.method.visibilityReduced",
-                    "old": "method void org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter::appendInlineEvent(org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter.Event) throws org.xml.sax.SAXException",
-                    "new": "method void org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter::appendInlineEvent(org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter.Event) throws org.xml.sax.SAXException",
-                    "justification": "This method was wrongly exposed as protected and was exposing the Event class which is a private class and thus the method couldn't be used as protected anyway"
-                  },
-                  {
-                    "code": "java.method.visibilityReduced",
-                    "old": "method void org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter::sendInlineEvent(org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter.Event) throws org.xml.sax.SAXException",
-                    "new": "method void org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter::sendInlineEvent(org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter.Event) throws org.xml.sax.SAXException",
-                    "justification": "This method was wrongly exposed as protected and was exposing the Event class which is a private class and thus the method couldn't be used as protected anyway"
-                  }
                 ]
               }
             }
