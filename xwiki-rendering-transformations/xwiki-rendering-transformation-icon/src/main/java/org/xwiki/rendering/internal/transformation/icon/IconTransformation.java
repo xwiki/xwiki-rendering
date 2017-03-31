@@ -47,6 +47,7 @@ import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 import org.xwiki.rendering.util.ParserUtils;
+import org.xwiki.text.StringUtils;
 
 /**
  * Transforms some special characters representing icons into images. For example transforms {@code :)} characters into
@@ -105,7 +106,9 @@ public class IconTransformation extends AbstractTransformation implements Initia
                 XDOM xdom = this.plainTextParser.parse(new StringReader((String) entry.getKey()));
                 // Remove top level paragraph
                 this.parserUtils.removeTopLevelParagraph(xdom.getChildren());
-                mergeTree(this.mappingTree, convertToDeepTree(xdom, (String) entry.getValue()));
+                if (!StringUtils.isEmpty((String) entry.getValue())) {
+                    mergeTree(this.mappingTree, convertToDeepTree(xdom, (String) entry.getValue()));
+                }
             } catch (ParseException e) {
                 this.logger.warn("Failed to parse icon symbols [" + entry.getKey() + "]. Reason = ["
                     + e.getMessage() + "]");
