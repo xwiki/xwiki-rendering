@@ -102,16 +102,16 @@ public class IconTransformation extends AbstractTransformation implements Initia
 
         // Transform mappings into Blocks
         for (Map.Entry<Object, Object> entry : this.configuration.getMappings().entrySet()) {
-            try {
-                XDOM xdom = this.plainTextParser.parse(new StringReader((String) entry.getKey()));
-                // Remove top level paragraph
-                this.parserUtils.removeTopLevelParagraph(xdom.getChildren());
-                if (!StringUtils.isEmpty((String) entry.getValue())) {
+            if (!StringUtils.isEmpty((String) entry.getValue())) {
+                try {
+                    XDOM xdom = this.plainTextParser.parse(new StringReader((String) entry.getKey()));
+                    // Remove top level paragraph
+                    this.parserUtils.removeTopLevelParagraph(xdom.getChildren());
                     mergeTree(this.mappingTree, convertToDeepTree(xdom, (String) entry.getValue()));
+                } catch (ParseException e) {
+                    this.logger.warn("Failed to parse icon symbols [" + entry.getKey() + "]. Reason = ["
+                        + e.getMessage() + "]");
                 }
-            } catch (ParseException e) {
-                this.logger.warn("Failed to parse icon symbols [" + entry.getKey() + "]. Reason = ["
-                    + e.getMessage() + "]");
             }
         }
     }
