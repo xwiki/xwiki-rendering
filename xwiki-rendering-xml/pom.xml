@@ -42,7 +42,7 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>dom4j</groupId>
+      <groupId>org.dom4j</groupId>
       <artifactId>dom4j</artifactId>
     </dependency>
     <!-- We need the Xerces dependency at runtime since we have an optimization for the Xerces
