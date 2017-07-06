@@ -107,7 +107,7 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      * Start of an internal link.
      *
      * @param reference the reference to the link
-     * @param isFreeStandingURI if true then the link is a free standing URI directly in the text
+     * @param freestanding if true then the link is a free standing URI directly in the text
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      */
     private void beginInternalLink(ResourceReference reference, boolean freestanding,
