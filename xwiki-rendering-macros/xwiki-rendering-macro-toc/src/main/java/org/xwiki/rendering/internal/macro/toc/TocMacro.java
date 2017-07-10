@@ -49,7 +49,7 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
     /**
      * The description of the macro.
      */
-    protected static final String DESCRIPTION = "Generates a Table Of Contents.";
+    private static final String DESCRIPTION = "Generates a Table Of Contents.";
 
     private TocTreeBuilder tocTreeBuilder;
 
