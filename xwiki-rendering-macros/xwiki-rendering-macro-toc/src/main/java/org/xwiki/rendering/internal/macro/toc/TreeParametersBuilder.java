@@ -37,21 +37,18 @@ public class TreeParametersBuilder
     /**
      * @param rootBlock the optional XDOM block from where to start generating the TOC from. If null then starts from
      *                  the current macro block
-     * @param documentResourceReference the optional reference used when generating the TOC anchor links. If null then
-     *                                  local links are generated.
      * @param macroParameters the TOC macro parameters as passed by the user
      * @param context the Macro Context from which we extract the root block is not specified
      * @return a {@link TreeParameters} object containing the resolved parameters that will then be used to call
      *         {@link TocTreeBuilder}
      */
-    public TreeParameters build(Block rootBlock, String documentResourceReference, TocMacroParameters macroParameters,
-        MacroTransformationContext context)
+    public TreeParameters build(Block rootBlock, TocMacroParameters macroParameters, MacroTransformationContext context)
     {
         TreeParameters parameters = new TreeParameters();
         parameters.start = macroParameters.getStart();
         parameters.depth = macroParameters.getDepth();
         parameters.isNumbered = macroParameters.isNumbered();
-        parameters.documentResourceReference = documentResourceReference;
+        parameters.documentReference = macroParameters.getReference();
 
         Block resolvedRootBlock = rootBlock;
 

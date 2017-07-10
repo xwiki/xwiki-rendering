@@ -23,13 +23,13 @@ import org.junit.runner.RunWith;
 import org.xwiki.rendering.test.integration.RenderingTestSuite;
 
 /**
- * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
- * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
+ * Run some tests when there's no WikiModel implementation available.
  *
  * @version $Id$
- * @since 3.0RC1
+ * @since 9.6RC1
  */
 @RunWith(RenderingTestSuite.class)
-public class IntegrationTests
+@RenderingTestSuite.Scope("nowikimodel")
+public class NoWikiModelIntegrationTests
 {
 }

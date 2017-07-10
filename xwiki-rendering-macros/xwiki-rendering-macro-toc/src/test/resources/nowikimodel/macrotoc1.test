@@ -1,0 +1,19 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# TOC for another document
+.#-----------------------------------------------------
+{{toc reference="somereference" /}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [toc] [reference=somereference]
+beginGroup [[class]=[xwikirenderingerror]]
+onWord [Failed to execute the [toc] macro. Cause: [The "reference" parameter can only be used when a WikiModel implementation is available]. Click on this message for details.]
+endGroup [[class]=[xwikirenderingerror]]
+beginGroup [[class]=[xwikirenderingerrordescription hidden]]
+onVerbatim [${{{regex:.*}}}] [false]
+endGroup [[class]=[xwikirenderingerrordescription hidden]]
+endMacroMarkerStandalone [toc] [reference=somereference]
+endDocument

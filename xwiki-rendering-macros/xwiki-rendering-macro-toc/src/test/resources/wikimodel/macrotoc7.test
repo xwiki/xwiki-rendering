@@ -53,8 +53,8 @@ endList [NUMBERED]
 endMacroMarkerStandalone [toc] [start=1|depth=6|numbered=true|scope=local]
 beginSection
 beginHeader [2, HTitle1.1]
-beginLink [Typed = [false] Type = [url] Reference = [Title1.1]] [false]
-endLink [Typed = [false] Type = [url] Reference = [Title1.1]] [false]
+beginLink [Typed = [false] Type = [doc] Reference = [Title1.1]] [false]
+endLink [Typed = [false] Type = [doc] Reference = [Title1.1]] [false]
 endHeader [2, HTitle1.1]
 beginSection
 beginSection

@@ -21,25 +21,51 @@ package org.xwiki.rendering.macro.toc;
 
 import java.util.Collections;
 
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.properties.PropertyException;
+import org.xwiki.properties.internal.DefaultBeanManager;
+import org.xwiki.properties.internal.DefaultConverterManager;
+import org.xwiki.properties.internal.converter.ConvertUtilsConverter;
+import org.xwiki.properties.internal.converter.EnumConverter;
 import org.xwiki.rendering.internal.macro.toc.TocMacro;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.rendering.listener.reference.DocumentResourceReference;
+import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.rendering.wiki.WikiModel;
+import org.xwiki.rendering.wiki.WikiModelException;
+import org.xwiki.test.annotation.ComponentList;
+import org.xwiki.test.mockito.MockitoComponentMockingRule;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Validate {@link TocMacro}.
  *
  * @version $Id$
  */
-public class TocMacroTest extends AbstractComponentTestCase
+@ComponentList({
+    DefaultBeanManager.class,
+    DefaultConverterManager.class,
+    EnumConverter.class,
+    ConvertUtilsConverter.class
+})
+public class TocMacroTest
 {
+    @Rule
+    public MockitoComponentMockingRule<TocMacro> mocker = new MockitoComponentMockingRule<TocMacro>(TocMacro.class);
+
     private BeanManager beanManager;
 
-    @Override
-    protected void registerComponents() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
-        this.beanManager = getComponentManager().getInstance(BeanManager.class);
+        this.beanManager = this.mocker.getInstance(BeanManager.class);
     }
 
     @Test(expected = PropertyException.class)
@@ -52,5 +78,25 @@ public class TocMacroTest extends AbstractComponentTestCase
     public void testDepthTooLow() throws PropertyException
     {
         this.beanManager.populate(new TocMacroParameters(), Collections.singletonMap("depth", "0"));
+    }
+
+    @Test
+    public void executeWhenXDOMRetrievalFailed() throws Exception
+    {
+        TocMacroParameters parameters = new TocMacroParameters();
+        parameters.setReference("reference");
+        WikiModel wikiModel = this.mocker.getInstance(WikiModel.class);
+        when(wikiModel.getXDOM(new DocumentResourceReference("reference"))).thenThrow(new WikiModelException("error"));
+
+        MacroTransformationContext mtc = mock(MacroTransformationContext.class);
+
+        try {
+            this.mocker.getComponentUnderTest().execute(parameters, null, mtc);
+            fail("Should have thrown an exception here");
+        } catch (MacroExecutionException expected) {
+            assertEquals("Failed to get XDOM for [Typed = [true] Type = [doc] Reference = [reference]]",
+                expected.getMessage());
+        }
+
     }
 }

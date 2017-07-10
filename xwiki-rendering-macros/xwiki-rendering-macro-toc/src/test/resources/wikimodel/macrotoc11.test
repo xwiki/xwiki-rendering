@@ -1,0 +1,19 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# TOC for another document
+.#-----------------------------------------------------
+{{toc reference="somereference" /}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [toc] [reference=somereference]
+beginList [BULLETED]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Reference = [somereference]] [false]
+endLink [Typed = [true] Type = [doc] Reference = [somereference]] [false]
+endListItem
+endList [BULLETED]
+endMacroMarkerStandalone [toc] [reference=somereference]
+endDocument

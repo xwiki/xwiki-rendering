@@ -93,7 +93,7 @@ public class TocTreeBuilder
 
         // Construct table of content from sections list
         Block tocBlock = generateTree(headers, parameters.start, parameters.depth, parameters.isNumbered,
-            parameters.documentResourceReference);
+            parameters.documentReference);
         if (tocBlock != null) {
             result = Arrays.asList(tocBlock);
         } else {
@@ -113,7 +113,7 @@ public class TocTreeBuilder
      * @return the root block of generated block tree or null if no header was matching the specified parameters
      */
     private Block generateTree(List<HeaderBlock> headers, int start, int depth, boolean numbered,
-        String documentResourceReference)
+        String documentReference)
     {
         Block tocBlock = null;
 
@@ -128,7 +128,7 @@ public class TocTreeBuilder
                 if (currentLevel < headerLevel) {
                     while (currentLevel < headerLevel) {
                         if (currentBlock instanceof ListBLock) {
-                            currentBlock = addItemBlock(currentBlock, null, documentResourceReference);
+                            currentBlock = addItemBlock(currentBlock, null, documentReference);
                         }
 
                         currentBlock = createChildListBlock(numbered, currentBlock);
@@ -142,7 +142,7 @@ public class TocTreeBuilder
                     currentBlock = currentBlock.getParent();
                 }
 
-                currentBlock = addItemBlock(currentBlock, headerBlock, documentResourceReference);
+                currentBlock = addItemBlock(currentBlock, headerBlock, documentReference);
             }
         }
 
@@ -160,10 +160,10 @@ public class TocTreeBuilder
      * @param headerBlock the {@link HeaderBlock} to use to generate toc anchor label.
      * @return the new {@link ListItemBlock}.
      */
-    private Block addItemBlock(Block currentBlock, HeaderBlock headerBlock, String documentResourceReference)
+    private Block addItemBlock(Block currentBlock, HeaderBlock headerBlock, String documentReference)
     {
         ListItemBlock itemBlock =
-            headerBlock == null ? createEmptyTocEntry() : createTocEntry(headerBlock, documentResourceReference);
+            headerBlock == null ? createEmptyTocEntry() : createTocEntry(headerBlock, documentReference);
 
         currentBlock.addChild(itemBlock);
 
@@ -185,10 +185,10 @@ public class TocTreeBuilder
      * @param headerBlock the {@link HeaderBlock}.
      * @return the new list item block.
      */
-    private ListItemBlock createTocEntry(HeaderBlock headerBlock, String documentResourceReference)
+    private ListItemBlock createTocEntry(HeaderBlock headerBlock, String documentReference)
     {
         // Create the link to target the header anchor
-        DocumentResourceReference reference = new DocumentResourceReference(documentResourceReference);
+        DocumentResourceReference reference = new DocumentResourceReference(documentReference);
         reference.setAnchor(headerBlock.getId());
         LinkBlock linkBlock = new LinkBlock(this.tocBlockFilter.generateLabel(headerBlock), reference, false);
 

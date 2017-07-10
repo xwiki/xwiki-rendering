@@ -75,6 +75,8 @@ public class TocMacroParameters
      */
     private boolean numbered;
 
+    private String reference;
+
     /**
      * @param start the minimum section level. For example if 2 then level 1 sections will not be listed.
      */
@@ -154,5 +156,24 @@ public class TocMacroParameters
     public boolean isNumbered()
     {
         return this.numbered;
+    }
+
+    /**
+     * @param reference the reference to the document for which to generate the table of content. If not defined, then
+     *                  the current document is used
+     */
+    @PropertyDescription("the reference to the document for which to generate the table of contents. "
+        + "Leave empty for the current page")
+    public void setReference(String reference)
+    {
+        this.reference = reference;
+    }
+
+    /**
+     * @return the reference to the document for which to generate the table of content
+     */
+    public String getReference()
+    {
+        return this.reference;
     }
 }

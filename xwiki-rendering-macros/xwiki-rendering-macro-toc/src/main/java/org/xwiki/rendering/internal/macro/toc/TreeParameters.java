@@ -53,5 +53,5 @@ public class TreeParameters
     /**
      * The reference used when generating the TOC anchor links. If null then local links are generated.
      */
-    public String documentResourceReference;
+    public String documentReference;
 }

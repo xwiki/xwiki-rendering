@@ -22,7 +22,9 @@ package org.xwiki.rendering.wiki;
 import java.util.Map;
 
 import org.xwiki.component.annotation.Role;
+import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.stability.Unstable;
 
 /**
  * Bridge between the Rendering module and a Wiki Model. Contains wiki APIs required by Rendering classes such as
@@ -68,4 +70,18 @@ public interface WikiModel
      * @return the URL to edit the specified wiki document
      */
     String getDocumentEditURL(ResourceReference resourceReference);
+
+    /**
+     * @param resourceReference the resource reference for which to return the XDOM (note that only some reference
+     *                          type can be supported, such as DocumentResourceReference since some resources have
+     *                          no XDOM content)
+     * @return the XDOM
+     * @throws WikiModelException if the XDOM content for the passed resource cannot be retrieved
+     * @since 9.6RC1
+     */
+    @Unstable
+    default XDOM getXDOM(ResourceReference resourceReference) throws WikiModelException
+    {
+        throw new WikiModelException("Not implemented");
+    }
 }

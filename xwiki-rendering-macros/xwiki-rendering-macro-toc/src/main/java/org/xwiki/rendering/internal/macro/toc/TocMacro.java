@@ -23,17 +23,23 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.listener.reference.DocumentResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.toc.TocMacroParameters;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.rendering.wiki.WikiModel;
+import org.xwiki.rendering.wiki.WikiModelException;
 
 /**
  * Generate a Table Of Contents based on the document sections.
@@ -65,6 +71,9 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
      */
     @Inject
     private LinkLabelGenerator linkLabelGenerator;
+
+    @Inject
+    private Provider<WikiModel> wikiModelProvider;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -98,8 +107,31 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
     public List<Block> execute(TocMacroParameters parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
+        Block rootBlock = null;
+        WikiModel wikiModel = this.wikiModelProvider.get();
+        if (parameters.getReference() != null) {
+            if (wikiModel != null) {
+                // Remote TOC always has a PAGE scope since a LOCAL scope would have no meaning
+                parameters.setScope(TocMacroParameters.Scope.PAGE);
+                // Get the referenced source's XDOM
+                rootBlock = getXDOM(new DocumentResourceReference(parameters.getReference()), wikiModel);
+            } else {
+                throw new MacroExecutionException(
+                    "The \"reference\" parameter can only be used when a WikiModel implementation is available");
+            }
+        }
+
         TreeParametersBuilder builder = new TreeParametersBuilder();
-        TreeParameters treeParameters = builder.build(null, null, parameters, context);
+        TreeParameters treeParameters = builder.build(rootBlock, parameters, context);
         return this.tocTreeBuilder.build(treeParameters);
+    }
+
+    private XDOM getXDOM(ResourceReference reference, WikiModel wikiModel) throws MacroExecutionException
+    {
+        try {
+            return wikiModel.getXDOM(reference);
+        } catch (WikiModelException e) {
+            throw new MacroExecutionException(String.format("Failed to get XDOM for [%s]", reference), e);
+        }
     }
 }
