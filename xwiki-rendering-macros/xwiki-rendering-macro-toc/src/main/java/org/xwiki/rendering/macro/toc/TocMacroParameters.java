@@ -54,7 +54,7 @@ public class TocMacroParameters
     private int start = 1;
 
     /**
-     * Indicate if the start has been set or if it has the default value.
+     * Indicate if the start parameter has been set by the user or if it has the default value.
      */
     private boolean customStart;
 
