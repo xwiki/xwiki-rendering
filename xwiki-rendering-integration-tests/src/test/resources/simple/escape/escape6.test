@@ -27,7 +27,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<h1 id="Hinheader3D"><span>inheader =</span></h1><p>== notheader</p>
+<h1 id="Hinheader3D" class="wikigeneratedid"><span>inheader =</span></h1><p>== notheader</p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -37,4 +37,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<h1 id="Hinheader3D"><span>inheader =</span></h1><p>== notheader</p>
+<h1 id="Hinheader3D" class="wikigeneratedid"><span>inheader =</span></h1><p>== notheader</p>

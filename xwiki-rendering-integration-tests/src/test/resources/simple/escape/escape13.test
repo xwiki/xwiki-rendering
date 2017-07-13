@@ -10,7 +10,7 @@
   <p>!! notcell</p>
   <p>|= notcell</p>
   <p>something | notcell |= notcell !! notcell</p>
-  <h1 id="HTitlelevel1"><span>| notcell</span></h1>
+  <h1 id="HTitlelevel1" class="wikigeneratedid"><span>| notcell</span></h1>
   <table>
     <tr>
       <th>col1|=notcol</th>

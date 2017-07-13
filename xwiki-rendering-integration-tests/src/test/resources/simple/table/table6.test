@@ -27,7 +27,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<table><tr><td><div><h1 id="Hx"><span>x</span></h1></div></td><td>y</td></tr></table>
+<table><tr><td><div><h1 id="Hx" class="wikigeneratedid"><span>x</span></h1></div></td><td>y</td></tr></table>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -37,4 +37,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<table><tr><td><div><h1 id="Hx"><span>x</span></h1></div></td><td>y</td></tr></table>
+<table><tr><td><div><h1 id="Hx" class="wikigeneratedid"><span>x</span></h1></div></td><td>y</td></tr></table>

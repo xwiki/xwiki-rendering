@@ -30,7 +30,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<h1 id="HTitlelevel1"><span>Title level 1</span></h1><p>text after a header</p>
+<h1 id="HTitlelevel1" class="wikigeneratedid"><span>Title level 1</span></h1><p>text after a header</p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -40,4 +40,4 @@ text after a header
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<html><h1 id="HTitlelevel1"><span>Title level 1</span></h1><p>text after a header</p></html>
+<html><h1 id="HTitlelevel1" class="wikigeneratedid"><span>Title level 1</span></h1><p>text after a header</p></html>

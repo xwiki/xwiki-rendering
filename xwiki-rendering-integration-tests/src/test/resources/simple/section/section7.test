@@ -24,7 +24,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<h1 id="Hheaderstillinheader"><span>header<br/><br/>still in header</span></h1>
+<h1 id="Hheaderstillinheader" class="wikigeneratedid"><span>header<br/><br/>still in header</span></h1>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -33,4 +33,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<html><h1 id="Hheaderstillinheader"><span>header<br/><br/>still in header</span></h1></html>
+<html><h1 id="Hheaderstillinheader" class="wikigeneratedid"><span>header<br/><br/>still in header</span></h1></html>

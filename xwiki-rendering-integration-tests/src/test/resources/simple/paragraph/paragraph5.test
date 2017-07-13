@@ -19,7 +19,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>Paragraph</p><h1 id="HHeader"><span>Header</span></h1>
+<p>Paragraph</p><h1 id="HHeader" class="wikigeneratedid"><span>Header</span></h1>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -29,4 +29,4 @@ Paragraph
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<html><p>Paragraph</p><h1 id="HHeader"><span>Header</span></h1></html>
+<html><p>Paragraph</p><h1 id="HHeader" class="wikigeneratedid"><span>Header</span></h1></html>

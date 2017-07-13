@@ -7,7 +7,7 @@
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<h1 id="HTitlelevel1"><span>Title level 1</span></h1><h1 id="HTitlelevel1-1"><span>Title level 1</span></h1>
+<h1 id="HTitlelevel1" class="wikigeneratedid"><span>Title level 1</span></h1><h1 id="HTitlelevel1-1" class="wikigeneratedid"><span>Title level 1</span></h1>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -17,4 +17,4 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<html><h1 id="HTitlelevel1"><span>Title level 1</span></h1><h1 id="HTitlelevel1-1"><span>Title level 1</span></h1></html>
+<html><h1 id="HTitlelevel1" class="wikigeneratedid"><span>Title level 1</span></h1><h1 id="HTitlelevel1-1" class="wikigeneratedid"><span>Title level 1</span></h1></html>

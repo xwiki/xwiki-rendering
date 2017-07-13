@@ -23,4 +23,4 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<h2 id="Hheader"><span>header</span></h2><p>paragraph</p>
+<h2 id="Hheader" class="wikigeneratedid"><span>header</span></h2><p>paragraph</p>

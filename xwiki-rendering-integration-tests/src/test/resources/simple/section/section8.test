@@ -22,7 +22,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<h1 id="Hheaderonnewline"><span><br/>header on newline</span></h1>
+<h1 id="Hheaderonnewline" class="wikigeneratedid"><span><br/>header on newline</span></h1>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -31,4 +31,4 @@ header on newline =
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<html><h1 id="Hheaderonnewline"><span><br/>header on newline</span></h1></html>
+<html><h1 id="Hheaderonnewline" class="wikigeneratedid"><span><br/>header on newline</span></h1></html>

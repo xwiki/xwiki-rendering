@@ -1,0 +1,16 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<h1 id="one" class="two">
+  <span>Heading</span>
+</h1>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginSection
+beginHeader [1, HHeading] [[class]=[two][id]=[one]]
+onWord [Heading]
+endHeader [1, HHeading] [[class]=[two][id]=[one]]
+endSection
+endDocument

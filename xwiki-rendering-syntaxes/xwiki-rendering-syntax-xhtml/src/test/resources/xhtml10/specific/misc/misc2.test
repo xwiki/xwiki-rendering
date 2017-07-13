@@ -85,4 +85,4 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<div><p>Header</p><div><p>Navigation</p></div></div><div><div><div><h1 id="Hsection1"><span>section 1</span></h1><div><p>Summary 1</p></div><div><p>Text 1</p><div><p><img src="target" alt="target"/></p><div><p>caption</p></div></div></div><div><p>Aside</p></div></div><div><h1 id="Hsection2"><span>section 2</span></h1><p>text 2</p></div></div></div><div><p>Footer</p></div>
+<div><p>Header</p><div><p>Navigation</p></div></div><div><div><div><h1 id="Hsection1" class="wikigeneratedid"><span>section 1</span></h1><div><p>Summary 1</p></div><div><p>Text 1</p><div><p><img src="target" alt="target"/></p><div><p>caption</p></div></div></div><div><p>Aside</p></div></div><div><h1 id="Hsection2" class="wikigeneratedid"><span>section 2</span></h1><p>text 2</p></div></div></div><div><p>Footer</p></div>
