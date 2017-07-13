@@ -157,7 +157,7 @@ public class ExampleTest
 
         String expected = "<ul><li><span class=\"wikilink\"><a href=\"#Hheader\">header</a></span></li></ul>"
             + "<div id=\"header1\"></div>"
-            + "<h1 id=\"Hheader\"><span>header</span></h1>"
+            + "<h1 id=\"Hheader\" class=\"wikigeneratedid\"><span>header</span></h1>"
             + "<div class=\"box\"><p>content</p></div>"
             + "<div class=\"box infomessage\">info</div>"
             + "<div class=\"box warningmessage\">warning</div>"
