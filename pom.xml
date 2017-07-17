@@ -62,6 +62,13 @@
     <rendering.version>${commons.version}</rendering.version>
     <!-- By default check that unit tests don't output anything to the console -->
     <xwiki.surefire.captureconsole.skip>false</xwiki.surefire.captureconsole.skip>
+
+    <!-- The recommended version of known extensions to use -->
+    <xwiki.extension.recommendedVersion.rendering>
+      ${xwiki.extension.recommendedVersion.commons},
+      org.xwiki.rendering:.*/${rendering.version}
+    </xwiki.extension.recommendedVersion.rendering>
+    <xwiki.extension.recommendedVersion>${xwiki.extension.recommendedVersion.rendering}</xwiki.extension.recommendedVersion>
   </properties>
   <build>
     <pluginManagement>
