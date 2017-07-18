@@ -64,11 +64,11 @@
     <xwiki.surefire.captureconsole.skip>false</xwiki.surefire.captureconsole.skip>
 
     <!-- The recommended version of known extensions to use -->
-    <xwiki.extension.recommendedVersion.rendering>
-      ${xwiki.extension.recommendedVersion.commons},
+    <xwiki.extension.recommendedVersions.rendering>
+      ${xwiki.extension.recommendedVersions.commons},
       org.xwiki.rendering:.*/[${rendering.version}]
-    </xwiki.extension.recommendedVersion.rendering>
-    <xwiki.extension.recommendedVersion>${xwiki.extension.recommendedVersion.rendering}</xwiki.extension.recommendedVersion>
+    </xwiki.extension.recommendedVersions.rendering>
+    <xwiki.extension.recommendedVersions>${xwiki.extension.recommendedVersions.rendering}</xwiki.extension.recommendedVersions>
   </properties>
   <build>
     <pluginManagement>
