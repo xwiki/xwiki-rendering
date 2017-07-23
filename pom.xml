@@ -202,11 +202,11 @@
                 <validateDependencyVersion implementation="org.xwiki.tool.enforcer.ValidateDependencyVersion">
                   <versionCheck>
                     <groupIdPrefix>org.xwiki.commons</groupIdPrefix>
-                    <allowedVersionRegex>\$\{commons.version\}|[^$].*</allowedVersionRegex>
+                    <allowedVersionRegex>\$\{commons.version\}</allowedVersionRegex>
                   </versionCheck>
                   <versionCheck>
                     <groupIdPrefix>org.xwiki.rendering</groupIdPrefix>
-                    <allowedVersionRegex>\$\{project.version\}|[^$].*</allowedVersionRegex>
+                    <allowedVersionRegex>\$\{project.version\}|${rendering.version}</allowedVersionRegex>
                   </versionCheck>
                 </validateDependencyVersion>
               </rules>
