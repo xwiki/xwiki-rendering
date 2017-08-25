@@ -68,9 +68,11 @@ public class TreeParametersBuilder
         if (macroParameters.getScope() == TocMacroParameters.Scope.LOCAL && !macroParameters.isCustomStart()) {
             SectionBlock rootSection = context.getCurrentMacroBlock().getFirstBlock(
                 new ClassBlockMatcher(SectionBlock.class), Block.Axes.ANCESTOR);
-            HeaderBlock header = rootSection.getHeaderBlock();
-            if (header != null) {
-                parameters.start = header.getLevel().getAsInt() + 1;
+            if (rootSection != null) {
+                HeaderBlock header = rootSection.getHeaderBlock();
+                if (header != null) {
+                    parameters.start = header.getLevel().getAsInt() + 1;
+                }
             }
         }
 
