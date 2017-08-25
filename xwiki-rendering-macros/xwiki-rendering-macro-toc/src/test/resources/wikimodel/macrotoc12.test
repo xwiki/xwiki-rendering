@@ -1,0 +1,13 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# TOC for another document
+.#-----------------------------------------------------
+{{toc scope="local" /}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [toc] [scope=local]
+endMacroMarkerStandalone [toc] [scope=local]
+endDocument
