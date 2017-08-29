@@ -1,7 +1,7 @@
 .runTransformations
 .#-----------------------------------------------------
 .input|xwiki/2.0
-.# TOC for another document
+.# Make sure local scope does not crash when used outside of a section (even if this use case does not make much sense)
 .#-----------------------------------------------------
 {{toc scope="local" /}}
 .#-----------------------------------------------------
