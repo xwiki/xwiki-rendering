@@ -29,8 +29,10 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
-import org.apache.commons.configuration.CompositeConfiguration;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.CompositeConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -67,8 +69,8 @@ public class TestDataParser
      * @param syntaxId the id of the syntax for which to parse data for
      * @param ctsRootPackageName the root of the CTS resources
      * @param packageFilter the regex to filter packages
-     * @param pattern a regex to decide which {@code *.xml} resources should be found. The default should be to
-     *        find them all
+     * @param pattern a regex to decide which {@code *.xml} resources should be found. The default should be to find
+     *            them all
      * @return the list of test data
      * @throws Exception in case of error while reading test data
      */
@@ -101,7 +103,7 @@ public class TestDataParser
      * Parse data for single test.
      *
      * @param syntaxDirectory the syntax directory from where to read syntax test data (eg "xwiki20" for "xwiki/2.0"
-     *        syntax)
+     *            syntax)
      * @param ctsRootPackageName the root of the CTS resources
      * @param relativeDirectoryName the name of the relative directory for a CTS test (eg "/simple/bold/bold1")
      * @param configuration the test configuration
@@ -134,16 +136,15 @@ public class TestDataParser
         testDataOUT.ctsExtension = ctsData.getLeft().getRight();
 
         // Read possible "in" aliases
-        List<TestData> testDataINAliases = parseAliasesTestData(syntaxDirectory, relativeDirectoryName, ctsData,
-            configuration, classLoader);
+        List<TestData> testDataINAliases =
+            parseAliasesTestData(syntaxDirectory, relativeDirectoryName, ctsData, configuration, classLoader);
 
         // If the inherit configuration property is set and if the returned syntax is empty load from the inherit
         // syntax.
         if (configuration.inheritSyntax != null) {
-            Pair<Pair<String, String>, Pair<String, String>> inheritedSyntaxData = readDataForPrefix(
-                computeSyntaxDirectory(configuration.inheritSyntax) + SLASH + relativeDirectoryName,
-                    configuration.fileExtension,
-                    classLoader);
+            Pair<Pair<String, String>, Pair<String, String>> inheritedSyntaxData =
+                readDataForPrefix(computeSyntaxDirectory(configuration.inheritSyntax) + SLASH + relativeDirectoryName,
+                    configuration.fileExtension, classLoader);
             if (testDataIN.syntaxData == null) {
                 testDataIN.syntaxData = inheritedSyntaxData.getLeft().getLeft();
                 testDataIN.syntaxExtension = inheritedSyntaxData.getLeft().getRight();
@@ -165,7 +166,7 @@ public class TestDataParser
      * Parse Alias test data for inputs.
      *
      * @param syntaxDirectory the syntax directory from where to read syntax test data (eg "xwiki20" for "xwiki/2.0"
-     *        syntax)
+     *            syntax)
      * @param relativeDirectoryName the name of the relative directory for a CTS test (eg "/simple/bold/bold1")
      * @param ctsData the CTS data to use to construct the alias test data
      * @param configuration the test configuration
@@ -181,8 +182,8 @@ public class TestDataParser
         Pair<Pair<String, String>, Pair<String, String>> syntaxDataAlias;
         int i = 1;
         do {
-            syntaxDataAlias = readDataForPrefix(
-                syntaxDirectory + SLASH + relativeDirectoryName, i + DOT + configuration.fileExtension, classLoader);
+            syntaxDataAlias = readDataForPrefix(syntaxDirectory + SLASH + relativeDirectoryName,
+                i + DOT + configuration.fileExtension, classLoader);
             if (syntaxDataAlias.getLeft().getLeft() != null) {
                 TestData testDataINAlias = new TestData();
                 testDataINAlias.isSyntaxInputTest = true;
@@ -240,7 +241,10 @@ public class TestDataParser
     {
         URL configurationURL = classLoader.getResource(rootPackageName + "/config.properties");
         if (configurationURL != null) {
-            configuration.addConfiguration(new PropertiesConfiguration(configurationURL));
+            FileBasedConfigurationBuilder<PropertiesConfiguration> builder =
+                new FileBasedConfigurationBuilder<PropertiesConfiguration>(PropertiesConfiguration.class)
+                    .configure(new Parameters().properties().setURL(configurationURL));
+            configuration.addConfiguration(builder.getConfiguration());
         }
     }
 
@@ -272,8 +276,7 @@ public class TestDataParser
         }
 
         return new ImmutablePair<Pair<String, String>, Pair<String, String>>(
-            new ImmutablePair<String, String>(in, inExtension),
-            new ImmutablePair<String, String>(out, outExtension));
+            new ImmutablePair<String, String>(in, inExtension), new ImmutablePair<String, String>(out, outExtension));
     }
 
     /**
@@ -301,13 +304,12 @@ public class TestDataParser
      * @param ctsRootPackageName the root of the CTS resources
      * @param packageFilter the regex to filter packages
      * @param pattern a regex to decide which {@code *.xml} resources should be found. The default should be to find
-     *        them all
+     *            them all
      * @return the list of relative test directories found
      */
     public Set<String> findRelativeTestDirectoryNames(String ctsRootPackageName, String packageFilter, String pattern)
     {
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-            .setScanners(new ResourcesScanner())
+        Reflections reflections = new Reflections(new ConfigurationBuilder().setScanners(new ResourcesScanner())
             .setUrls(ClasspathHelper.forPackage(ctsRootPackageName))
             .filterInputsBy(new FilterBuilder.Include(FilterBuilder.prefix(ctsRootPackageName + DOT + packageFilter))));
 
