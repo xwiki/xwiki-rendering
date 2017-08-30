@@ -30,9 +30,7 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import org.apache.commons.configuration2.CompositeConfiguration;
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
-import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -241,10 +239,7 @@ public class TestDataParser
     {
         URL configurationURL = classLoader.getResource(rootPackageName + "/config.properties");
         if (configurationURL != null) {
-            FileBasedConfigurationBuilder<PropertiesConfiguration> builder =
-                new FileBasedConfigurationBuilder<PropertiesConfiguration>(PropertiesConfiguration.class)
-                    .configure(new Parameters().properties().setURL(configurationURL));
-            configuration.addConfiguration(builder.getConfiguration());
+            configuration.addConfiguration(new Configurations().properties(configurationURL));
         }
     }
 
