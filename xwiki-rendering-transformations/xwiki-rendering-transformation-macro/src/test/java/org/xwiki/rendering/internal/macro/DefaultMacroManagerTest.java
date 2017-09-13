@@ -41,7 +41,7 @@ import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroManager;
 import org.xwiki.rendering.macro.MacroNotFoundException;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.syntax.SyntaxFactory;
+
 import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.test.annotation.AllComponents;
@@ -214,7 +214,6 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
                 + "For example \"html/xwiki/2.0\". This macro will not be available in the system.");
         }});
 
-        SyntaxFactory syntaxFactory = getComponentManager().getInstance(SyntaxFactory.class);
-        macroManager.getMacroIds(syntaxFactory.createSyntaxFromIdString("macro/xwiki/2.0"));
+        macroManager.getMacroIds(Syntax.valueOf("macro/xwiki/2.0"));
     }
 }

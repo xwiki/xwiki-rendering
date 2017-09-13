@@ -26,7 +26,6 @@ import org.xwiki.properties.converter.ConversionException;
 import org.xwiki.properties.converter.Converter;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
 import static org.mockito.Mockito.when;
@@ -39,15 +38,12 @@ import static org.mockito.Mockito.when;
 public class SyntaxConverterTest
 {
     @Rule
-    public MockitoComponentMockingRule<Converter<Syntax>> mocker = new MockitoComponentMockingRule<Converter<Syntax>>(
-        SyntaxConverter.class);
+    public MockitoComponentMockingRule<Converter<Syntax>> mocker =
+        new MockitoComponentMockingRule<Converter<Syntax>>(SyntaxConverter.class);
 
     @Test
     public void convertToSyntaxObject() throws Exception
     {
-        final SyntaxFactory factory = this.mocker.getInstance(SyntaxFactory.class);
-        when(factory.createSyntaxFromIdString("xwiki/2.1")).thenReturn(Syntax.XWIKI_2_1);
-
         Syntax syntax = this.mocker.getComponentUnderTest().convert(Syntax.class, "xwiki/2.1");
         Assert.assertEquals(Syntax.XWIKI_2_1, syntax);
     }
@@ -55,9 +51,6 @@ public class SyntaxConverterTest
     @Test
     public void convertToSyntaxObjectWhenUnknownSyntax() throws Exception
     {
-        final SyntaxFactory factory = this.mocker.getInstance(SyntaxFactory.class);
-        when(factory.createSyntaxFromIdString("invalid")).thenThrow(new ParseException("invalid syntax"));
-
         try {
             this.mocker.getComponentUnderTest().convert(Syntax.class, "invalid");
             Assert.fail("Should have thrown ConversionException");

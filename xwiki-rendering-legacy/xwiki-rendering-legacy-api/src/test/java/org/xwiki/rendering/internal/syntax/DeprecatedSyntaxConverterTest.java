@@ -19,8 +19,6 @@
  */
 package org.xwiki.rendering.internal.syntax;
 
-import static org.mockito.Mockito.when;
-
 import java.util.Arrays;
 
 import org.junit.Assert;
@@ -30,10 +28,11 @@ import org.xwiki.properties.converter.ConversionException;
 import org.xwiki.properties.converter.Converter;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.test.annotation.BeforeComponent;
 import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
+
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link DeprecatedSyntaxConverter}.
@@ -44,13 +43,12 @@ import org.xwiki.test.mockito.MockitoComponentMockingRule;
 public class DeprecatedSyntaxConverterTest
 {
     @Rule
-    public MockitoComponentMockingRule<Converter> mocker = new MockitoComponentMockingRule<Converter>(
-        DeprecatedSyntaxConverter.class, Arrays.asList(Converter.class));
+    public MockitoComponentMockingRule<Converter> mocker =
+        new MockitoComponentMockingRule<Converter>(DeprecatedSyntaxConverter.class, Arrays.asList(Converter.class));
 
     @BeforeComponent
     public void beforeComponent() throws Exception
     {
-        this.mocker.registerMockComponent(SyntaxFactory.class);
     }
 
     // Tests
@@ -58,8 +56,7 @@ public class DeprecatedSyntaxConverterTest
     @Test
     public void convertToSyntaxObject() throws Exception
     {
-        final SyntaxFactory factory = this.mocker.getInstance(SyntaxFactory.class);
-        when(factory.createSyntaxFromIdString("xwiki/2.1")).thenReturn(Syntax.XWIKI_2_1);
+        when(Syntax.valueOf("xwiki/2.1")).thenReturn(Syntax.XWIKI_2_1);
 
         Syntax syntax = (Syntax) this.mocker.getComponentUnderTest().convert(Syntax.class, "xwiki/2.1");
         Assert.assertEquals(Syntax.XWIKI_2_1, syntax);
@@ -68,8 +65,7 @@ public class DeprecatedSyntaxConverterTest
     @Test
     public void convertToSyntaxObjectWhenUnknownSyntax() throws Exception
     {
-        final SyntaxFactory factory = this.mocker.getInstance(SyntaxFactory.class);
-        when(factory.createSyntaxFromIdString("invalid")).thenThrow(new ParseException("invalid syntax"));
+        when(Syntax.valueOf("invalid")).thenThrow(new ParseException("invalid syntax"));
 
         try {
             this.mocker.getComponentUnderTest().convert(Syntax.class, "invalid");

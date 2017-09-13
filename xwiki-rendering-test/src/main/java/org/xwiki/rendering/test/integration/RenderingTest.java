@@ -38,7 +38,6 @@ import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
-import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationManager;
 import org.xwiki.test.internal.MockConfigurationSource;
@@ -68,8 +67,8 @@ public class RenderingTest
 
     private ComponentManager componentManager;
 
-    public RenderingTest(String input, String expected, String parserId, String targetSyntaxId,
-        boolean streaming, boolean runTransformations, Map<String, ?> configuration, ComponentManager componentManager)
+    public RenderingTest(String input, String expected, String parserId, String targetSyntaxId, boolean streaming,
+        boolean runTransformations, Map<String, ?> configuration, ComponentManager componentManager)
     {
         this.input = input;
         this.expected = expected;
@@ -125,17 +124,19 @@ public class RenderingTest
     {
         WikiPrinter printer = new DefaultWikiPrinter();
 
+        StreamParser streamParser = getComponentManager().getInstance(StreamParser.class, this.parserId);
+        PrintRendererFactory streamRendererFactory =
+            getComponentManager().getInstance(PrintRendererFactory.class, this.targetSyntaxId);
+
         if (!this.streaming) {
             Parser parser = getComponentManager().getInstance(Parser.class, this.parserId);
             XDOM xdom = parser.parse(new StringReader(this.input));
 
             if (this.runTransformations) {
-                SyntaxFactory syntaxFactory = getComponentManager().getInstance(SyntaxFactory.class);
                 TransformationManager transformationManager =
                     getComponentManager().getInstance(TransformationManager.class);
-                TransformationContext txContext =
-                    new TransformationContext(xdom, syntaxFactory.createSyntaxFromIdString(this.parserId));
-                txContext.setTargetSyntax(syntaxFactory.createSyntaxFromIdString(this.targetSyntaxId));
+                TransformationContext txContext = new TransformationContext(xdom, streamParser.getSyntax());
+                txContext.setTargetSyntax(streamRendererFactory.getSyntax());
                 txContext.setId("test");
                 transformationManager.performTransformations(xdom, txContext);
             }
@@ -151,15 +152,11 @@ public class RenderingTest
 
             renderer.render(xdom, printer);
         } else {
-            StreamParser parser = getComponentManager().getInstance(StreamParser.class, this.parserId);
-            PrintRendererFactory printRendererFactory =
-                getComponentManager().getInstance(PrintRendererFactory.class, this.targetSyntaxId);
-
             // remove source syntax from begin/endDocument metadata
             WrappingListener listener = new SyntaxWrappingListener();
-            listener.setWrappedListener(printRendererFactory.createRenderer(printer));
+            listener.setWrappedListener(streamRendererFactory.createRenderer(printer));
 
-            parser.parse(new StringReader(this.input), listener);
+            streamParser.parse(new StringReader(this.input), listener);
         }
 
         // Verify the expected result against the result we got.
@@ -167,9 +164,8 @@ public class RenderingTest
     }
 
     /**
-     * Compare the passed expected string with the passed result.
-     * We support regexes for comparison usng the format: ${{{regex:...}}}. For example:
-     * <code>
+     * Compare the passed expected string with the passed result. We support regexes for comparison usng the format:
+     * ${{{regex:...}}}. For example: <code>
      *  .#-----------------------------------------------------
      *  .expect|event/1.0
      *  .#-----------------------------------------------------

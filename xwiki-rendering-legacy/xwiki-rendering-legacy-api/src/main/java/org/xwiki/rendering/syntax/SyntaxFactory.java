@@ -25,14 +25,18 @@ import org.xwiki.rendering.parser.ParseException;
 /**
  * @version $Id$
  * @since 2.0RC1
+ * @deprecated since 9.8RC1, use {@link Syntax#valueOf(String)} instead
  */
 @Role
+@Deprecated
 public interface SyntaxFactory
 {
     /**
      * @param syntaxAsIdString the syntax as a string (eg "xwiki/2.0", "plain/1.0")
      * @return the parsed syntax as a Syntax object
      * @throws ParseException in case the string doesn't represent a valid syntax
+     * @deprecated since 9.8RC1, use {@link Syntax#valueOf(String)} instead
      */
+    @Deprecated
     Syntax createSyntaxFromIdString(String syntaxAsIdString) throws ParseException;
 }

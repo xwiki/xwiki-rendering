@@ -35,7 +35,6 @@ import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
-import org.xwiki.rendering.syntax.SyntaxFactory;
 import org.xwiki.velocity.internal.log.SLF4JLogChute;
 import org.xwiki.xml.XMLUtils;
 
@@ -88,7 +87,7 @@ public class RenderingTest
     /**
      * @see RenderingTest
      */
-    private org.xwiki.rendering.syntax.Syntax metadataSyntax;
+    private String metadataSyntaxId;
 
     /**
      * @param testData the data for a single test
@@ -99,7 +98,7 @@ public class RenderingTest
     {
         this.testData = testData;
         this.componentManager = componentManager;
-        this.metadataSyntax = parseSyntax(metadataSyntaxId);
+        this.metadataSyntaxId = metadataSyntaxId;
     }
 
     /**
@@ -159,10 +158,26 @@ public class RenderingTest
     private void executeTest(String inputData, String inputSyntaxId, String expectedOutputData, String outputSyntaxId)
         throws Exception
     {
-        String evaluatedInputData = evaluateContent(inputData);
-        String evaluatedOutputData = evaluateContent(expectedOutputData);
+        StreamParser parser = getComponentManager().getInstance(StreamParser.class, inputSyntaxId);
+        PrintRendererFactory rendererFactory =
+            getComponentManager().getInstance(PrintRendererFactory.class, outputSyntaxId);
 
-        String result = convert(evaluatedInputData, inputSyntaxId, outputSyntaxId);
+        // Get the syntax from the parser/renderer to be sure to get the right display name (Syntax#valueOf() may not
+        // know it)
+        org.xwiki.rendering.syntax.Syntax inputSyntax = parser.getSyntax();
+        org.xwiki.rendering.syntax.Syntax expectedSyntax = rendererFactory.getSyntax();
+
+        org.xwiki.rendering.syntax.Syntax validatedSyntax;
+        if (inputSyntax.toIdString().equals(this.metadataSyntaxId)) {
+            validatedSyntax = inputSyntax;
+        } else {
+            validatedSyntax = expectedSyntax;
+        }
+
+        String evaluatedInputData = evaluateContent(inputData, validatedSyntax);
+        String evaluatedOutputData = evaluateContent(expectedOutputData, validatedSyntax);
+
+        String result = convert(evaluatedInputData, parser, rendererFactory);
         try {
             if (isXMLSyntax(outputSyntaxId)) {
                 assertExpectedResult(
@@ -185,19 +200,18 @@ public class RenderingTest
         return syntaxId.startsWith("xdom+xml") || syntaxId.startsWith("docbook");
     }
 
-    /**
-     * @param source the source content
-     * @param sourceSyntaxId the source syntax
-     * @param targetSyntaxId the target syntax
-     * @return the target content
-     * @throws Exception when failing to convert
-     */
     private String convert(String source, String sourceSyntaxId, String targetSyntaxId) throws Exception
     {
+        StreamParser parser = getComponentManager().getInstance(StreamParser.class, sourceSyntaxId);
         PrintRendererFactory rendererFactory =
             getComponentManager().getInstance(PrintRendererFactory.class, targetSyntaxId);
+
+        return convert(source, parser, rendererFactory);
+    }
+
+    private String convert(String source, StreamParser parser, PrintRendererFactory rendererFactory) throws Exception
+    {
         PrintRenderer renderer = rendererFactory.createRenderer(new DefaultWikiPrinter());
-        StreamParser parser = getComponentManager().getInstance(StreamParser.class, sourceSyntaxId);
 
         parser.parse(new StringReader(source), renderer);
 
@@ -226,7 +240,7 @@ public class RenderingTest
      * @param content the content to evaluate
      * @return the evaluated content
      */
-    private String evaluateContent(String content)
+    private String evaluateContent(String content, org.xwiki.rendering.syntax.Syntax syntax)
     {
         StringBuilder builder = new StringBuilder();
         String fullSpecialSyntaxStart = String.format("%svelocity:", SPECIAL_SYNTAX_START);
@@ -240,13 +254,13 @@ public class RenderingTest
             }
 
             VelocityContext context = new VelocityContext();
-            context.put("syntax", this.metadataSyntax);
+            context.put("syntax", syntax);
             StringWriter writer = new StringWriter();
             VELOCITY_ENGINE.evaluate(context, writer, "Rendering CTS",
                 content.substring(pos + fullSpecialSyntaxStart.length(), pos2));
             builder.append(writer.toString());
 
-            builder.append(evaluateContent(content.substring(pos2 + SPECIAL_SYNTAX_END.length())));
+            builder.append(evaluateContent(content.substring(pos2 + SPECIAL_SYNTAX_END.length()), syntax));
         } else {
             builder.append(content);
         }
@@ -330,8 +344,7 @@ public class RenderingTest
     private org.xwiki.rendering.syntax.Syntax parseSyntax(String syntaxId)
     {
         try {
-            SyntaxFactory factory = getComponentManager().getInstance(SyntaxFactory.class);
-            return factory.createSyntaxFromIdString(syntaxId);
+            return org.xwiki.rendering.syntax.Syntax.valueOf(syntaxId);
         } catch (Exception e) {
             throw new RuntimeException(String.format("Failed to parse Syntax [%s]", syntaxId), e);
         }

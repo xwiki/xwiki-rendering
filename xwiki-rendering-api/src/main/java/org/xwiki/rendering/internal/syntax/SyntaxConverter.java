@@ -21,7 +21,6 @@ package org.xwiki.rendering.internal.syntax;
 
 import java.lang.reflect.Type;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -29,7 +28,6 @@ import org.xwiki.properties.converter.AbstractConverter;
 import org.xwiki.properties.converter.ConversionException;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.syntax.SyntaxFactory;
 
 /**
  * Convert a Syntax from a String to a Syntax object and the other way around.
@@ -41,18 +39,12 @@ import org.xwiki.rendering.syntax.SyntaxFactory;
 @Singleton
 public class SyntaxConverter extends AbstractConverter<Syntax>
 {
-    /**
-     * Used to convert the a Syntax specified as a String into a Syntax object.
-     */
-    @Inject
-    private SyntaxFactory syntaxFactory;
-
     @Override
     protected Syntax convertToType(Type targetType, Object value)
     {
         try {
-            return value == null || value.toString().isEmpty() ? null : this.syntaxFactory
-                .createSyntaxFromIdString(value.toString());
+            return value == null || value.toString().isEmpty() ? null
+                : Syntax.valueOf(value.toString());
         } catch (ParseException e) {
             // The specified syntax is not recognized, return an error
             throw new ConversionException(String.format("Unknown syntax [%s]", value.toString()), e);

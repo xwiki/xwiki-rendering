@@ -19,53 +19,27 @@
  */
 package org.xwiki.rendering.internal.syntax;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxFactory;
-import org.xwiki.rendering.syntax.SyntaxType;
+
 
 /**
  * @version $Id$
  * @since 1.5M2
+ * @deprecated since 9.8RC1, use {@link Syntax#valueOf(String)} instead
  */
 @Component
 @Singleton
+@Deprecated
 public class DefaultSyntaxFactory implements SyntaxFactory
 {
-    /**
-     * Used to cut the syntax identifier into syntax name and syntax version.
-     */
-    private static final Pattern SYNTAX_PATTERN = Pattern.compile("(.*)\\/(.*)");
-
     @Override
     public Syntax createSyntaxFromIdString(String syntaxIdAsString) throws ParseException
     {
-        if (syntaxIdAsString == null) {
-            throw new ParseException("The passed Syntax cannot be NULL");
-        }
-
-        Matcher matcher = SYNTAX_PATTERN.matcher(syntaxIdAsString);
-        if (!matcher.matches()) {
-            throw new ParseException("Invalid Syntax format [" + syntaxIdAsString + "]");
-        }
-
-        String syntaxId = matcher.group(1);
-        String version = matcher.group(2);
-
-        // For well-known syntaxes, get the Syntax Name from the registered SyntaxType, otherwise use the id as both
-        // the human readable name and the technical id (since the syntax string doesn't contain any information about
-        // the pretty name of a syntax type).
-        SyntaxType syntaxType = SyntaxType.getSyntaxTypes().get(syntaxId);
-        if (syntaxType == null) {
-            syntaxType = new SyntaxType(syntaxId, syntaxId);
-        }
-
-        return new Syntax(syntaxType, version);
+        return Syntax.valueOf(syntaxIdAsString);
     }
 }

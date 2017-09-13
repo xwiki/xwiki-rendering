@@ -22,7 +22,6 @@ package org.xwiki.rendering.xdomxml10.internal.parser;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.xml.sax.SAXException;
@@ -30,7 +29,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.rendering.syntax.SyntaxFactory;
+import org.xwiki.rendering.syntax.Syntax;
 
 @Component
 @Named("rawtext")
@@ -45,9 +44,6 @@ public class RawTextBlockParser extends DefaultBlockParser
         }
     };
 
-    @Inject
-    private SyntaxFactory syntaxFactory;
-
     public RawTextBlockParser()
     {
         super(NAMES);
@@ -58,7 +54,7 @@ public class RawTextBlockParser extends DefaultBlockParser
     {
         try {
             getListener().onRawText(getParameterAsString("content", ""),
-                this.syntaxFactory.createSyntaxFromIdString(getParameterAsString("syntax", null)));
+                Syntax.valueOf(getParameterAsString("syntax", null)));
         } catch (ParseException e) {
             throw new SAXException("Failed to parse [syntax] parameter in rw block", e);
         }

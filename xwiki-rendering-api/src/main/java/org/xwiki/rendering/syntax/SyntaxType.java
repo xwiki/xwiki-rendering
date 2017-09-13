@@ -33,8 +33,11 @@ public class SyntaxType implements Comparable<SyntaxType>
     /**
      * Well-known Syntax types.
      */
-    private static final Map<String, SyntaxType> KNOWN_SYNTAX_TYPES = new HashMap<String, SyntaxType>();
+    private static final Map<String, SyntaxType> KNOWN_SYNTAX_TYPES = new HashMap<>();
 
+    /**
+     * XWiki wiki syntax.
+     */
     public static final SyntaxType XWIKI = register("xwiki", "XWiki");
 
     /**
@@ -47,46 +50,116 @@ public class SyntaxType implements Comparable<SyntaxType>
      *
      * @since 5.3M1
      */
-    public static final SyntaxType CONFLUENCEXHTML = register("confluence+xhtml", "Confluence");
+    public static final SyntaxType CONFLUENCEXHTML = register("confluence+xhtml", CONFLUENCE.getName());
 
+    /**
+     * MediaWiki wiki syntax.
+     */
     public static final SyntaxType MEDIAWIKI = register("mediawiki", "MediaWiki");
 
+    /**
+     * DokuWiki wiki syntax.
+     * 
+     * @since 9.8RC1
+     */
+    public static final SyntaxType DOKUWIKI = new SyntaxType("dokuwiki", "DokuWiki");
+
+    /**
+     * Creole wiki syntax.
+     */
     public static final SyntaxType CREOLE = register("creole", "Creole");
 
+    /**
+     * JSPWiki wiki syntax.
+     */
     public static final SyntaxType JSPWIKI = register("jspwiki", "JSPWiki");
 
+    /**
+     * TWiki wiki syntax.
+     */
     public static final SyntaxType TWIKI = register("twiki", "TWiki");
 
+    /**
+     * XHTML syntax.
+     */
     public static final SyntaxType XHTML = register("xhtml", "XHTML");
 
+    /**
+     * Annotated XHTML syntax.
+     */
     public static final SyntaxType ANNOTATED_XHTML = register("annotatedxhtml", "Annotated XHTML");
 
+    /**
+     * Annotated HTML syntax.
+     */
     public static final SyntaxType ANNOTATED_HTML = register("annotatedhtml", "Annotated HTML");
 
+    /**
+     * HTML syntaxes.
+     */
     public static final SyntaxType HTML = register("html", "HTML");
 
+    /**
+     * Plain text syntax.
+     */
     public static final SyntaxType PLAIN = register("plain", "Plain");
 
+    /**
+     * Events syntax.
+     */
     public static final SyntaxType EVENT = register("event", "Event");
 
+    /**
+     * TEX syntax.
+     */
     public static final SyntaxType TEX = register("tex", "TeX");
 
+    /**
+     * DoxBook syntax.
+     */
     public static final SyntaxType DOCBOOK = register("docbook", "DocBook");
 
     /**
+     * XML based XWiki DOM syntax.
+     * 
      * @since 3.3M1
      */
     public static final SyntaxType XDOMXML = register("xdom+xml", "XML based XDOM");
 
     /**
+     * MarkDown wiki syntax.
+     * 
      * @since 3.4M1
      */
     public static final SyntaxType MARKDOWN = register("markdown", "Markdown");
 
     /**
+     * APT syntax.
+     * 
      * @since 4.3M1
      */
     public static final SyntaxType APT = register("apt", "APT");
+
+    /**
+     * @see #getName()
+     */
+    private String name;
+
+    /**
+     * @see #getId()
+     */
+    private String id;
+
+    /**
+     * @param id the technical id of the Syntax type (ex "annotatedxhtml")
+     * @param name the human readable name of the Syntax type (ex "Annotated XHTML")
+     * @since 2.0M3
+     */
+    public SyntaxType(String id, String name)
+    {
+        this.name = name;
+        this.id = id;
+    }
 
     /**
      * Register a Syntax Type.
@@ -108,27 +181,6 @@ public class SyntaxType implements Comparable<SyntaxType>
     public static Map<String, SyntaxType> getSyntaxTypes()
     {
         return KNOWN_SYNTAX_TYPES;
-    }
-
-    /**
-     * @see #getName()
-     */
-    private String name;
-
-    /**
-     * @see #getId()
-     */
-    private String id;
-
-    /**
-     * @param id the technical id of the Syntax type (ex "annotatedxhtml")
-     * @param name the human readable name of the Syntax type (ex "Annotated XHTML")
-     * @since 2.0M3
-     */
-    public SyntaxType(String id, String name)
-    {
-        this.name = name;
-        this.id = id;
     }
 
     /**
@@ -200,8 +252,6 @@ public class SyntaxType implements Comparable<SyntaxType>
     @Override
     public int compareTo(SyntaxType syntaxType)
     {
-        return new CompareToBuilder()
-            .append(getName(), syntaxType.getName())
-            .toComparison();
+        return new CompareToBuilder().append(getName(), syntaxType.getName()).toComparison();
     }
 }

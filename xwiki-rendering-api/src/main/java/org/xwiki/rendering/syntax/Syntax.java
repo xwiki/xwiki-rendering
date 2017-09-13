@@ -19,9 +19,13 @@
  */
 package org.xwiki.rendering.syntax;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.xwiki.rendering.parser.ParseException;
 
 /**
  * Represents a wiki syntax that the user can use to enter wiki content. A syntax is made of two parts: a type (eg
@@ -40,34 +44,86 @@ public class Syntax implements Comparable<Syntax>
      */
     public static final Syntax HTML_5_0 = new Syntax(SyntaxType.HTML, "5.0");
 
+    /**
+     * XHTML 1.0 syntax.
+     */
     public static final Syntax XHTML_1_0 = new Syntax(SyntaxType.XHTML, "1.0");
 
+    /**
+     * HTML 4.01 syntax.
+     */
     public static final Syntax HTML_4_01 = new Syntax(SyntaxType.HTML, "4.01");
 
     /**
-     * @deprecated since 5.0
+     * XWiki 1.0 syntax.
+     * 
+     * @deprecated since 5.0, use {@link #XWIKI_2_1} instead
      */
     @Deprecated
     public static final Syntax XWIKI_1_0 = new Syntax(SyntaxType.XWIKI, "1.0");
 
+    /**
+     * XWiki 2.0 syntax.
+     */
     public static final Syntax XWIKI_2_0 = new Syntax(SyntaxType.XWIKI, "2.0");
 
+    /**
+     * XWiki 2.1 syntax.
+     */
     public static final Syntax XWIKI_2_1 = new Syntax(SyntaxType.XWIKI, "2.1");
 
+    /**
+     * Plain text syntax.
+     */
     public static final Syntax PLAIN_1_0 = new Syntax(SyntaxType.PLAIN, "1.0");
 
+    /**
+     * Events syntax.
+     */
     public static final Syntax EVENT_1_0 = new Syntax(SyntaxType.EVENT, "1.0");
 
+    /**
+     * TEX syntax.
+     */
     public static final Syntax TEX_1_0 = new Syntax(SyntaxType.TEX, "1.0");
 
+    /**
+     * Creole syntax.
+     */
     public static final Syntax CREOLE_1_0 = new Syntax(SyntaxType.CREOLE, "1.0");
 
+    /**
+     * JSPWiki syntax.
+     */
     public static final Syntax JSPWIKI_1_0 = new Syntax(SyntaxType.JSPWIKI, "1.0");
 
+    /**
+     * Old MediaWiki syntax.
+     * 
+     * @deprecated since 8.2RC1, use {@link #MEDIAWIKI_1_6} instead
+     */
     public static final Syntax MEDIAWIKI_1_0 = new Syntax(SyntaxType.MEDIAWIKI, "1.0");
 
+    /**
+     * New MediaWiki syntax.
+     */
+    public static final Syntax MEDIAWIKI_1_6 = new Syntax(SyntaxType.MEDIAWIKI, "1.6");
+
+    /**
+     * DokuWiki syntax.
+     * 
+     * @since 9.8RC1
+     */
+    public static final Syntax DOKUWIKI_1_0 = new Syntax(SyntaxType.DOKUWIKI, "1.0");
+
+    /**
+     * TWiki syntax.
+     */
     public static final Syntax TWIKI_1_0 = new Syntax(SyntaxType.TWIKI, "1.0");
 
+    /**
+     * Docbook 4.4 syntax.
+     */
     public static final Syntax DOCBOOK_4_4 = new Syntax(SyntaxType.DOCBOOK, "4.4");
 
     /**
@@ -111,13 +167,20 @@ public class Syntax implements Comparable<Syntax>
      * This is HTML with annotations (comments) in order to allow round tripping between for example the WYSIWYG editor
      * and wiki syntax.
      */
-    public static final Syntax ANNOTATED_XHTML_1_0 = new Syntax(SyntaxType.ANNOTATED_XHTML, "1.0");
+    public static final Syntax ANNOTATED_XHTML_1_0 = new Syntax(SyntaxType.ANNOTATED_XHTML, XHTML_1_0.getVersion());
 
     /**
      * This is HTML5 with annotations (comments) in order to allow round tripping between for example the WYSIWYG editor
      * and wiki syntax.
      */
-    public static final Syntax ANNOTATED_HTML_5_0 = new Syntax(SyntaxType.ANNOTATED_HTML, "5.0");
+    public static final Syntax ANNOTATED_HTML_5_0 = new Syntax(SyntaxType.ANNOTATED_HTML, HTML_5_0.getVersion());
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Used to cut the syntax identifier into syntax name and syntax version.
+     */
+    private static final Pattern SYNTAX_PATTERN = Pattern.compile("(.*)\\/(.*)");
 
     private SyntaxType type;
 
@@ -128,36 +191,95 @@ public class Syntax implements Comparable<Syntax>
      */
     private String qualifier;
 
+    private transient volatile String idStringCache;
+
+    /**
+     * @param type the type of the syntax
+     * @param version the specific version of the syntax
+     */
     public Syntax(SyntaxType type, String version)
     {
         this.type = type;
         this.version = version;
     }
 
+    /**
+     * @param type the type of the syntax
+     * @param version the specific version of the syntax
+     * @param qualifier a qualifier
+     */
     public Syntax(SyntaxType type, String version, String qualifier)
     {
         this(type, version);
         this.qualifier = qualifier;
     }
 
+    /**
+     * @param syntaxIdAsString the syntax as a string (eg "xwiki/2.0", "plain/1.0")
+     * @return the parsed syntax as a Syntax object
+     * @throws ParseException in case the string doesn't represent a valid syntax
+     * @since 9.8RC1
+     */
+    public static Syntax valueOf(String syntaxIdAsString) throws ParseException
+    {
+        if (syntaxIdAsString == null) {
+            throw new ParseException("The passed Syntax cannot be NULL");
+        }
+
+        Matcher matcher = SYNTAX_PATTERN.matcher(syntaxIdAsString);
+        if (!matcher.matches()) {
+            throw new ParseException("Invalid Syntax format [" + syntaxIdAsString + "]");
+        }
+
+        String syntaxId = matcher.group(1);
+        String version = matcher.group(2);
+
+        // For well-known syntaxes, get the Syntax Name from the registered SyntaxType, otherwise use the id as both
+        // the human readable name and the technical id (since the syntax string doesn't contain any information about
+        // the pretty name of a syntax type).
+        SyntaxType syntaxType = SyntaxType.getSyntaxTypes().get(syntaxId);
+        if (syntaxType == null) {
+            syntaxType = new SyntaxType(syntaxId, syntaxId);
+        }
+
+        return new Syntax(syntaxType, version);
+    }
+
+    /**
+     * @return the type of the syntax
+     */
     public SyntaxType getType()
     {
         return this.type;
     }
 
+    /**
+     * @return the specific version of the syntax
+     */
     public String getVersion()
     {
         return this.version;
     }
 
+    /**
+     * @return a qualifier
+     */
     public String getQualifier()
     {
         return this.qualifier;
     }
 
+    /**
+     * @return a unique String identifier, does not contain display name and qualifier. Usable when searching for
+     *         parsers and renderers components for example.
+     */
     public String toIdString()
     {
-        return getType().getId() + "/" + getVersion().toLowerCase();
+        if (this.idStringCache == null) {
+            this.idStringCache = getType().getId() + "/" + getVersion().toLowerCase();
+        }
+
+        return this.idStringCache;
     }
 
     @Override
@@ -169,11 +291,7 @@ public class Syntax implements Comparable<Syntax>
     @Override
     public int hashCode()
     {
-        return new HashCodeBuilder(5, 7)
-            .append(getType())
-            .append(getVersion())
-            .append(getQualifier())
-            .toHashCode();
+        return new HashCodeBuilder(5, 7).append(getType()).append(getVersion()).append(getQualifier()).toHashCode();
     }
 
     @Override
@@ -189,20 +307,15 @@ public class Syntax implements Comparable<Syntax>
             return false;
         }
         Syntax rhs = (Syntax) object;
-        return new EqualsBuilder()
-            .append(getType(), rhs.getType())
-            .append(getVersion(), rhs.getVersion())
-            .append(getQualifier(), rhs.getQualifier())
-            .isEquals();
+        return new EqualsBuilder().append(getType(), rhs.getType()).append(getVersion(), rhs.getVersion())
+            .append(getQualifier(), rhs.getQualifier()).isEquals();
     }
 
     @Override
     public int compareTo(Syntax syntax)
     {
-        return new CompareToBuilder()
-            .append(getType(), syntax.getType())
+        return new CompareToBuilder().append(getType(), syntax.getType())
             // TODO: Add a real version parser to compare the versions
-            .append(getVersion(), syntax.getVersion())
-            .toComparison();
+            .append(getVersion(), syntax.getVersion()).toComparison();
     }
 }
