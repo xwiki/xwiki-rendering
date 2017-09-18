@@ -56,8 +56,6 @@ public class DeprecatedSyntaxConverterTest
     @Test
     public void convertToSyntaxObject() throws Exception
     {
-        when(Syntax.valueOf("xwiki/2.1")).thenReturn(Syntax.XWIKI_2_1);
-
         Syntax syntax = (Syntax) this.mocker.getComponentUnderTest().convert(Syntax.class, "xwiki/2.1");
         Assert.assertEquals(Syntax.XWIKI_2_1, syntax);
     }
@@ -65,8 +63,6 @@ public class DeprecatedSyntaxConverterTest
     @Test
     public void convertToSyntaxObjectWhenUnknownSyntax() throws Exception
     {
-        when(Syntax.valueOf("invalid")).thenThrow(new ParseException("invalid syntax"));
-
         try {
             this.mocker.getComponentUnderTest().convert(Syntax.class, "invalid");
             Assert.fail("Should have thrown ConversionException");
