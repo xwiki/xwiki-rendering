@@ -230,6 +230,13 @@
                 },
                 "ignore" : [
                   // Add more ignores below...
+                  {
+                    "regex" : true,
+                    "code": "java\.class\.removed",
+                    "old": ".* org\.xwiki\.rendering\.wikimodel\.xml\..*",
+                    "package": "org\.xwiki\.rendering\.wikimodel\.xml|org\.xwiki\.rendering\.wikimodel\.xml\..*",
+                    "justification": "Not a breakage. Unused code (and code that shouldn't have been public anyway)."
+                  }
                 ]
               }
             }
