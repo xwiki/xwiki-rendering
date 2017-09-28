@@ -48,9 +48,20 @@ public class MacroIdTest
         Assert.assertTrue(id1.hashCode() == id2.hashCode());
 
         Assert.assertFalse(id3 == id1);
+        Assert.assertFalse(id3.equals(id1));
+        Assert.assertFalse(id1.equals(id3));
+
         Assert.assertFalse(id4 == id1);
+        Assert.assertFalse(id4.equals(id1));
+        Assert.assertFalse(id1.equals(id4));
+
         Assert.assertFalse(id5 == id3);
+        Assert.assertFalse(id5.equals(id1));
+        Assert.assertFalse(id1.equals(id5));
+
         Assert.assertFalse(id6 == id1);
+        Assert.assertFalse(id6.equals(id1));
+        Assert.assertFalse(id1.equals(id6));
 
         Assert.assertEquals(id7, id6);
         // Equal objects must have equal hashcode

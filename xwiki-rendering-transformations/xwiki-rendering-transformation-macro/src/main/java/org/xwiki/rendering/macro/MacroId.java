@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.macro;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -95,33 +97,28 @@ public class MacroId
     @Override
     public int hashCode()
     {
-        // Random number. See http://www.technofundo.com/tech/java/equalhash.html for the detail of this
-        // algorithm.
-        int hash = 7;
-        hash = 31 * hash + (null == getId() ? 0 : getId().hashCode());
-        hash = 31 * hash + (null == getSyntax() ? 0 : getSyntax().hashCode());
-        return hash;
+        return new HashCodeBuilder(5, 3)
+            .append(getId())
+            .append(getSyntax())
+            .toHashCode();
     }
 
     @Override
     public boolean equals(Object object)
     {
-        boolean result;
-
-        // See http://www.technofundo.com/tech/java/equalhash.html for the detail of this algorithm.
-        if (this == object) {
-            result = true;
-        } else {
-            if ((object == null) || (object.getClass() != this.getClass())) {
-                result = false;
-            } else {
-                MacroId macroId = (MacroId) object;
-                result =
-                    (getId() == macroId.getId() || (getId() != null && getId().equals(macroId.getId())))
-                        && (getSyntax() == macroId.getSyntax() || (getSyntax() != null && getSyntax().equals(
-                            macroId.getSyntax())));
-            }
+        if (object == null) {
+            return false;
         }
-        return result;
+        if (object == this) {
+            return true;
+        }
+        if (object.getClass() != getClass()) {
+            return false;
+        }
+        MacroId rhs = (MacroId) object;
+        return new EqualsBuilder()
+            .append(getId(), rhs.getId())
+            .append(getSyntax(), rhs.getSyntax())
+            .isEquals();
     }
 }

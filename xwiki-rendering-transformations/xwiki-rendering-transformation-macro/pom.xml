@@ -31,7 +31,7 @@
   <name>XWiki Rendering - Transformation - Macro</name>
   <description>XWiki Rendering - Transformation - Macro</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.70</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.74</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>
