@@ -99,7 +99,7 @@ public class ParametersPrinter
     @Deprecated
     public String print(Map<String, String> parameters, char escapeChar)
     {
-        this.escapeChar = escapeChar;
+        setEscapeChar(escapeChar);
 
         return print(parameters);
     }
@@ -142,7 +142,7 @@ public class ParametersPrinter
      */
     public String print(String parameterName, String parameterValue, char escapeChar)
     {
-        this.escapeChar = escapeChar;
+        setEscapeChar(escapeChar);
 
         return print(parameterName, parameterValue);
     }
