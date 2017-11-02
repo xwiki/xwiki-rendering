@@ -45,7 +45,7 @@ public class HTMLMacroTest extends AbstractComponentTestCase
     @Test(expected = MacroExecutionException.class)
     public void executeMacroWhenNonInlineContentInInlineContext() throws Exception
     {
-        HTMLMacro macro = (HTMLMacro) getComponentManager().getInstance(Macro.class, "html");
+        HTMLMacro macro = getComponentManager().getInstance(Macro.class, "html");
         HTMLMacroParameters parameters = new HTMLMacroParameters();
         MacroTransformationContext context = new MacroTransformationContext();
         context.setInline(true);
@@ -55,7 +55,7 @@ public class HTMLMacroTest extends AbstractComponentTestCase
     @Test
     public void macroDescriptor() throws Exception
     {
-        HTMLMacro macro = (HTMLMacro) getComponentManager().getInstance(Macro.class, "html");
+        HTMLMacro macro = getComponentManager().getInstance(Macro.class, "html");
 
         Assert.assertEquals("Indicate if the HTML should be transformed into valid XHTML or not.",
             macro.getDescriptor().getParameterDescriptorMap().get("clean").getDescription());
@@ -64,7 +64,7 @@ public class HTMLMacroTest extends AbstractComponentTestCase
     @Test
     public void restrictedHtml() throws Exception
     {
-        HTMLMacro macro = (HTMLMacro) getComponentManager().getInstance(Macro.class, "html");
+        HTMLMacro macro = getComponentManager().getInstance(Macro.class, "html");
         HTMLMacroParameters parameters = new HTMLMacroParameters();
         MacroTransformationContext context = new MacroTransformationContext();
         context.getTransformationContext().setRestricted(true);
