@@ -11,4 +11,4 @@
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<ul><li><span class="wikilink"><a href="#Htitle">title</a></span></li></ul><h1 class="wikigeneratedid" id="Htitle"><span>title</span></h1>
+<ul><li><span class="wikilink"><a href="#Htitle">title</a></span></li></ul><h1 class="wikigeneratedid wikigeneratedheader" id="Htitle"><span>title</span></h1>

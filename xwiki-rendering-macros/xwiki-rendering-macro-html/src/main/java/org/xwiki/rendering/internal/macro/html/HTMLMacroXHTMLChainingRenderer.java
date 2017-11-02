@@ -24,6 +24,7 @@ import java.util.Map;
 import org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
+import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 
 /**
@@ -57,7 +58,8 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
      */
     private boolean isInGeneratedBlock()
     {
-        return getBlockState().isInMacro();
+        // Since we're already inside the HTML macro, we check for a depth of 2 (macro inside of macro).
+        return getBlockState().getMacroDepth() > 1;
     }
 
     @Override
@@ -146,5 +148,10 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         // Don't print anything since we are already in the html macro.
+    }
+
+    protected BlockStateChainingListener getBlockState()
+    {
+        return (BlockStateChainingListener) getListenerChain().getListener(HTMLMacroBlockStateChainingListener.class);
     }
 }
