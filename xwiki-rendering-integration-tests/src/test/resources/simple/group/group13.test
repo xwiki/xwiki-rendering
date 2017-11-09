@@ -1,0 +1,26 @@
+.#-------------------------------------------------------------------
+.inputexpect|xwiki/2.0
+.# Verify that when a group is started, any previous format is closed
+.#-------------------------------------------------------------------
+* Some ##format##(((
+whatever
+)))
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginList [BULLETED]
+beginListItem
+onWord [Some]
+onSpace
+beginFormat [MONOSPACE]
+onWord [format]
+endFormat [MONOSPACE]
+beginGroup
+beginParagraph
+onWord [whatever]
+endParagraph
+endGroup
+endListItem
+endList [BULLETED]
+endDocument

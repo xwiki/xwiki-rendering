@@ -361,6 +361,8 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     @Override
     public void beginDocument(WikiParameters params)
     {
+        flushFormat();
+
         if (this.documentDepth > 0) {
             getListener().beginGroup(convertParameters(params));
         } else {
