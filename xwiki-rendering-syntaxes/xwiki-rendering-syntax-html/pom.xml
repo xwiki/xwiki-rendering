@@ -32,6 +32,8 @@
   <description>XWiki Rendering - Syntax - HTML</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.57</xwiki.jacoco.instructionRatio>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>HTML 4 Syntax</xwiki.extension.name>
   </properties>
   <dependencies>
     <dependency>
