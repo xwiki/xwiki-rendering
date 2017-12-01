@@ -502,7 +502,7 @@ public abstract class AbstractBlock implements Block
 
                     List<Block> filteredBlocks = blockFilter.filter(clonedChildBlocks);
 
-                    if (filteredBlocks.size() == 0) {
+                    if (filteredBlocks.isEmpty()) {
                         filteredBlocks = clonedChildBlocks.getChildren();
                     }
 
