@@ -327,7 +327,7 @@ public abstract class AbstractBlock implements Block
         int position = 0;
 
         for (Block child : blocks) {
-            if (child.equals(block)) {
+            if (child == block) {
                 return position;
             }
             ++position;
