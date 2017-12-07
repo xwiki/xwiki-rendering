@@ -75,7 +75,7 @@ public class TestDataParser
     public List<TestData> parseTestData(String syntaxId, String ctsRootPackageName, String packageFilter,
         String pattern) throws Exception
     {
-        ClassLoader classLoader = getClass().getClassLoader();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
         List<TestData> data = new ArrayList<TestData>();
         String syntaxDirectory = computeSyntaxDirectory(syntaxId);
