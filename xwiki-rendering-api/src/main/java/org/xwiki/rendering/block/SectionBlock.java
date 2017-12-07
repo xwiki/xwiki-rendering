@@ -68,7 +68,7 @@ public class SectionBlock extends AbstractBlock
 
         List<Block> children = getChildren();
 
-        if (children.size() > 0) {
+        if (!children.isEmpty()) {
             Block firstChild = children.get(0);
             if (firstChild instanceof HeaderBlock) {
                 headerBlock = (HeaderBlock) firstChild;
