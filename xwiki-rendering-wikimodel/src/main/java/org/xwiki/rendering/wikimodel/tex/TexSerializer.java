@@ -44,6 +44,7 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.images.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  * @version $Id$
  * @since 4.0M1
@@ -51,6 +52,7 @@ import org.slf4j.LoggerFactory;
 public class TexSerializer extends PrintTextListener
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(TexSerializer.class);
+
     private static class DocumentContext
     {
         boolean fFirstRowCell = false;
@@ -163,15 +165,15 @@ public class TexSerializer extends PrintTextListener
         {
             DataInputStream in = new DataInputStream(url.getInputStream());
             printHeader(url);
-
+            
             try {
                 while (true) {
                     System.out.println((char) in.readUnsignedByte());
                 }
             } catch (EOFException e) {
-                LOGGER.error("EOF Exception while reading url : ",e);
+                LOGGER.error("EOF Exception while reading url, [{}] ", url.toString(), e);
             } catch (IOException e) {
-                LOGGER.error("IO Exception while reading url : ",e);
+                LOGGER.error("IO Exception while reading url, [{}]", url.toString(), e);
             }
         }
 
@@ -467,7 +469,7 @@ public class TexSerializer extends PrintTextListener
                 WGet wget = new WGet();
                 wget.fetchURL(url, fos);
             } catch (Exception e) {
-                LOGGER.error("Error while getting image input",e);;
+                LOGGER.error("Error while getting image input with ref [{}], and url [{}]", ref, url, e);
             }
             fos.flush();
             fos.close();
