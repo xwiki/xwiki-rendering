@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.listener.descriptor;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -115,7 +116,7 @@ public class DefaultListenerDescriptorManager implements ListenerDescriptorManag
      */
     private void addElement(String elementName, ListenerDescriptor descriptor, Method method)
     {
-        String lowerElementName = elementName.toLowerCase();
+        String lowerElementName = elementName.toLowerCase(Locale.ENGLISH);
 
         ListenerElement element = descriptor.getElements().get(lowerElementName);
 
