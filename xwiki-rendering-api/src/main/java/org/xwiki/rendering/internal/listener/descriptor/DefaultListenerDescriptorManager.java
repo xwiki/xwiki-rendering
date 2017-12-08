@@ -116,7 +116,7 @@ public class DefaultListenerDescriptorManager implements ListenerDescriptorManag
      */
     private void addElement(String elementName, ListenerDescriptor descriptor, Method method)
     {
-        String lowerElementName = elementName.toLowerCase(Locale.ENGLISH);
+        String lowerElementName = elementName.toLowerCase(Locale.ROOT);
 
         ListenerElement element = descriptor.getElements().get(lowerElementName);
 
