@@ -64,7 +64,7 @@ public class ListBuilder
         @Override 
         public int hashCode()
         {
-            return new HashCodeBuilder(3,17)
+            return new HashCodeBuilder()
                 .append(fTreeChar)
                 .append(fPos)
                 .toHashCode();
