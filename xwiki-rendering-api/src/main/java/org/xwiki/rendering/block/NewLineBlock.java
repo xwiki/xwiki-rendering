@@ -37,10 +37,6 @@ public final class NewLineBlock extends AbstractBlock
      *
      * @since 2.6RC1
      */
-    public NewLineBlock()
-    {
-        // We need to keep this constructor to override the ones in AbstractBlock
-    }
 
     @Override
     public void traverse(Listener listener)
