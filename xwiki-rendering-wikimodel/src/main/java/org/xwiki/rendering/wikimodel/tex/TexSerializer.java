@@ -165,7 +165,7 @@ public class TexSerializer extends PrintTextListener
         {
             DataInputStream in = new DataInputStream(url.getInputStream());
             printHeader(url);
-            
+
             try {
                 while (true) {
                     System.out.println((char) in.readUnsignedByte());
