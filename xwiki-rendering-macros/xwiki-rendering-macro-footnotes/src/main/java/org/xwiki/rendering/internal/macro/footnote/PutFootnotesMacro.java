@@ -191,7 +191,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
      */
     private Block createFootnoteReferenceBlock(int counter)
     {
-        Block result = new WordBlock(counter + "");
+        Block result = new WordBlock(String.valueOf(counter));
         DocumentResourceReference reference = new DocumentResourceReference(null);
         reference.setAnchor(FOOTNOTE_ID_PREFIX + counter);
         result = new LinkBlock(Collections.singletonList(result), reference, false);
