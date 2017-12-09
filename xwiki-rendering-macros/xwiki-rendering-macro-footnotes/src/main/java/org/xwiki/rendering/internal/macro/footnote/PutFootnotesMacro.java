@@ -117,7 +117,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
             }
             it.remove();
         }
-        if (footnotes.size() <= 0) {
+        if (footnotes.isEmpty()) {
             return result;
         }
 
