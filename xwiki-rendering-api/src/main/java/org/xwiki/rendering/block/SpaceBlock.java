@@ -33,8 +33,6 @@ public final class SpaceBlock extends AbstractBlock
      * A space block. Note that we don't make SpaceBlock a singleton since that would cause problems when using Block
      * APIs to manipulate a tree of blocks (for example to find the position of a space block in a list using
      * {@link java.util.List#indexOf(Object)} which would always return the first space block).
-     *
-     * @since 2.6RC1
      */
 
     @Override
