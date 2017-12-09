@@ -22,19 +22,15 @@ package org.xwiki.rendering.block;
 import org.xwiki.rendering.listener.Listener;
 
 /**
- * Represents a space.
+ * A space block represents a space. Note that we don't make SpaceBlock a singleton since that would cause problems when
+ * using Block APIs to manipulate a tree of blocks (for example to find the position of a space block in a list using
+ * {@link java.util.List#indexOf(Object)} which would always return the first space block).
  *
  * @version $Id$
  * @since 1.5M2
  */
 public final class SpaceBlock extends AbstractBlock
 {
-    /**
-     * A space block. Note that we don't make SpaceBlock a singleton since that would cause problems when using Block
-     * APIs to manipulate a tree of blocks (for example to find the position of a space block in a list using
-     * {@link java.util.List#indexOf(Object)} which would always return the first space block).
-     */
-
     @Override
     public void traverse(Listener listener)
     {
