@@ -66,7 +66,7 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
     public void onSpecialSymbol(char symbol)
     {
         if (!isInGeneratedBlock()) {
-            getPrinter().print("" + symbol);
+            getPrinter().print(String.valueOf(symbol));
         } else {
             super.onSpecialSymbol(symbol);
         }
