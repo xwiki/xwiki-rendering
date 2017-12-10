@@ -87,7 +87,9 @@ public class WikiModelGeneratorListener implements Listener
         pushContext();
 
         this.wikimodelListener.beginDocument(WikiParameters.EMPTY);
-        this.wikimodelListener.beginSection(this.docLevel++, getContext().headerLevel++, WikiParameters.EMPTY);
+        docLevel++;
+        headerLevel++;
+        this.wikimodelListener.beginSection(this.docLevel, getContext().headerLevel, WikiParameters.EMPTY);
     }
 
     @Override
