@@ -87,13 +87,16 @@ public class WikiModelGeneratorListener implements Listener
         pushContext();
 
         this.wikimodelListener.beginDocument(WikiParameters.EMPTY);
-        this.wikimodelListener.beginSection(this.docLevel++, getContext().headerLevel++, WikiParameters.EMPTY);
+        this.wikimodelListener.beginSection(this.docLevel, getContext().headerLevel, WikiParameters.EMPTY);
+        this.docLevel++;
+        getContext().headerLevel++;
     }
 
     @Override
     public void endDocument(MetaData metadata)
     {
-        this.wikimodelListener.endSection(this.docLevel--, getContext().headerLevel, WikiParameters.EMPTY);
+        this.wikimodelListener.endSection(this.docLevel, getContext().headerLevel, WikiParameters.EMPTY);
+        this.docLevel--;
         this.wikimodelListener.endDocument(WikiParameters.EMPTY);
 
         popContext();

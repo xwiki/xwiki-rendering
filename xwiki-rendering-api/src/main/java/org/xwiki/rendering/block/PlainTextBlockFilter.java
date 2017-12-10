@@ -78,7 +78,7 @@ public class PlainTextBlockFilter implements BlockFilter
     {
         if (VALID_PLAINTEXT_BLOCKS.contains(block.getClass())) {
             return Collections.singletonList(block);
-        } else if (LinkBlock.class.isAssignableFrom(block.getClass()) && block.getChildren().size() == 0) {
+        } else if (LinkBlock.class.isAssignableFrom(block.getClass()) && block.getChildren().isEmpty()) {
             ResourceReference reference = ((LinkBlock) block).getReference();
 
             try {

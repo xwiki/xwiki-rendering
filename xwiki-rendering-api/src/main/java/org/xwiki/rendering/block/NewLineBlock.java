@@ -30,18 +30,6 @@ import org.xwiki.rendering.listener.Listener;
  */
 public final class NewLineBlock extends AbstractBlock
 {
-    /**
-     * A new line block. Note that we don't make NewLineBlock a singleton since that would cause problems when using
-     * Block APIs to manipulate a tree of blocks (for example to find the position of a new line block in a list using
-     * {@link java.util.List#indexOf(Object)} wich would always return the first new line block).
-     *
-     * @since 2.6RC1
-     */
-    public NewLineBlock()
-    {
-        // We need to keep this constructor to override the ones in AbstractBlock
-    }
-
     @Override
     public void traverse(Listener listener)
     {

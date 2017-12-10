@@ -22,6 +22,8 @@ package org.xwiki.rendering.wikimodel.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * This is an internal utility class used as a context to keep in memory the
  * current state of parsed trees (list items).
@@ -58,6 +60,16 @@ public class ListBuilder
             CharPos pos = (CharPos) obj;
             return equalsData(pos) && pos.fPos == fPos;
         }
+        
+        @Override 
+        public int hashCode()
+        {
+            return new HashCodeBuilder()
+                .append(fTreeChar)
+                .append(fPos)
+                .toHashCode();
+        }
+        
 
         public boolean equalsData(CharPos pos)
         {
