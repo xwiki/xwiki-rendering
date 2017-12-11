@@ -106,7 +106,7 @@ public class DefaultMacroManager implements MacroManager
                     + "For example \"html/xwiki/2.0\". This macro will not be available in the system.");
                 continue;
             }
-            if (syntax == null || macroId.getSyntax() == null || syntax == macroId.getSyntax()) {
+            if (syntax == null || macroId.getSyntax() == null || syntax.equals(macroId.getSyntax())) {
                 result.add(macroId);
             }
         }
