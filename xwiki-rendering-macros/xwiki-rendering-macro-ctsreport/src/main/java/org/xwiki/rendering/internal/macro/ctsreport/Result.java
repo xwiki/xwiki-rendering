@@ -59,7 +59,7 @@ public class Result
     @Override
     public boolean equals(Object object)
     {
-        if(!(object instanceof Result)){
+        if (!(object instanceof Result)){
             return false;
         }
         if (object == this) {
