@@ -307,7 +307,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 break;
             case NONE:
                 break;
-            default : //none of the case matched
+            default : // Unsupported format
                 break;
         }
         if (!parameters.isEmpty()) {
