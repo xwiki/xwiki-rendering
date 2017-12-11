@@ -65,7 +65,7 @@ public class Test implements Comparable<Test>
     @Override
     public boolean equals(Object object)
     {
-        if (!(object instanceof Result)) {
+        if (!(object instanceof Test)) {
             return false;
         }
         if (object == this) {
