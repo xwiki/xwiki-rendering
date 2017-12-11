@@ -560,7 +560,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     {
         // If there's any style or parameter defined, do something. The reason we need to check for this is because
         // wikimodel sends an empty begin/endFormat event before starting an inline block (such as a paragraph).
-        if ((!format.getStyles().isEmpty()) || (!format.getParams().isEmpty())) {
+        if (!format.getStyles().isEmpty() || !format.getParams().isEmpty()) {
             this.lastEndFormat = format;
         }
     }
