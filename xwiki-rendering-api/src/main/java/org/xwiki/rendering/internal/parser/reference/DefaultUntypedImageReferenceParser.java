@@ -55,8 +55,7 @@ public class DefaultUntypedImageReferenceParser extends AbstractUntypedReference
     @Override
     protected ResourceReference getWikiResource(String rawReference)
     {
-        ResourceReference result = this.attachmentResourceReferenceTypeParser.parse(rawReference);
-
-        return result;
+      
+        return this.attachmentResourceReferenceTypeParser.parse(rawReference);
     }
 }
