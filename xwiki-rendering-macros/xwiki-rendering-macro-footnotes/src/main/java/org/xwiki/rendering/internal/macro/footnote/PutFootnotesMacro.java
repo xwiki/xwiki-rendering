@@ -174,11 +174,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
      */
     private void addFootnoteRef(MacroMarkerBlock footnoteMacro, Block footnoteRef)
     {
-        for (ListIterator<Block> it = footnoteMacro.getChildren().listIterator(); it.hasNext();) {
-            Block b = it.next();
-            it.remove();
-            // b.replace(Collections.<Block> emptyList());
-        }
+        footnoteMacro.getChildren().clear();
         footnoteMacro.addChild(footnoteRef);
     }
 
