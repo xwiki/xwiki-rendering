@@ -105,7 +105,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
     private PrintRendererFactory plainRendererFactory;
 
-    private int documentDepth = 0;
+    private int documentDepth;
 
     private Deque<WikiFormat> currentFormatStack = new ArrayDeque<WikiFormat>();
 
