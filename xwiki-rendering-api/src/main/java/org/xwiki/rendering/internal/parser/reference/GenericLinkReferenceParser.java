@@ -204,7 +204,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
     private ResourceReference parseURILinks(String rawLink)
     {
         ResourceReference result = null;
-        int uriSchemeDelimiterPos = rawLink.indexOf(":");
+        int uriSchemeDelimiterPos = rawLink.indexOf(':');
         if (uriSchemeDelimiterPos > -1) {
             String scheme = rawLink.substring(0, uriSchemeDelimiterPos);
             String reference = rawLink.substring(uriSchemeDelimiterPos + 1);
