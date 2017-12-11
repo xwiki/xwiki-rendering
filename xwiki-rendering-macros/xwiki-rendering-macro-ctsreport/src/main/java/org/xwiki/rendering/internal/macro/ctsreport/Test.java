@@ -65,14 +65,11 @@ public class Test implements Comparable<Test>
     @Override
     public boolean equals(Object object)
     {
-        if (object == null) {
+        if (!(object instanceof Test)) {
             return false;
         }
         if (object == this) {
             return true;
-        }
-        if (object.getClass() != getClass()) {
-            return false;
         }
         Test rhs = (Test) object;
         return new EqualsBuilder()
