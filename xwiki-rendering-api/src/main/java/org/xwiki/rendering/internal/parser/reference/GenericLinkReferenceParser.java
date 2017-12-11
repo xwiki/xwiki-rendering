@@ -102,7 +102,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
     /**
      * Replacements chars for the escapes to be removed from the interwiki content.
      */
-    private static final String[] ESCAPE_REPLACEMENTS_INTERWIKI = new String[] { "" + ESCAPE_CHAR, "" };
+    private static final String[] ESCAPE_REPLACEMENTS_INTERWIKI = new String[] { String.valueOf(ESCAPE_CHAR) };
 
     /**
      * The list of recognized URL prefixes.
