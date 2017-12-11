@@ -140,17 +140,4 @@ public class MacroBlock extends AbstractBlock
 
         return false;
     }
-
-    @Override
-    public int hashCode()
-    {
-        HashCodeBuilder builder = new HashCodeBuilder();
-
-        builder.appendSuper(super.hashCode());
-        builder.append(getContent());
-        builder.append(getId());
-        builder.append(isInline());
-
-        return builder.toHashCode();
-    }
 }
