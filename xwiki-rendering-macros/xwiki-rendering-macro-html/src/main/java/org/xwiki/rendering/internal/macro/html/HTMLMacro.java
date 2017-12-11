@@ -255,7 +255,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             // have the chole context and can clean better
             List<MacroBlock> macros = xdom.getBlocks(MACROBLOCKMATCHER, Axes.DESCENDANT);
             for (MacroBlock macro : macros) {
-                if (macro.getId().equals("html")) {
+                if ("html".equals(macro.getId())) {
                     macro.setParameter("clean", "false");
                 }
             }
