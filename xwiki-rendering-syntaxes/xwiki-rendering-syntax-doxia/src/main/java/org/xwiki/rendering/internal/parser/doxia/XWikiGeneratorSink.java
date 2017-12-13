@@ -68,9 +68,9 @@ public class XWikiGeneratorSink implements Sink
 
     private StreamParser plainParser;
 
-    private int lineBreaks = 0;
+    private int lineBreaks;
 
-    private int inlineDepth = 0;
+    private int inlineDepth;
 
     private Syntax syntax;
 
