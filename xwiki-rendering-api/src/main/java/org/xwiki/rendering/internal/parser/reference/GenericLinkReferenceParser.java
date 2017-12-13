@@ -80,12 +80,12 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
      * Escapes to remove from the query string, anchor and interwiki parts when parsing the raw reference.
      */
     private static final String[] ESCAPES_EXTRA = new String[] { ESCAPE_CHAR + SEPARATOR_QUERYSTRING,
-        ESCAPE_CHAR + SEPARATOR_INTERWIKI, ESCAPE_CHAR + SEPARATOR_ANCHOR, String.valueOf(ESCAPE_CHAR )+ String.valueOf(ESCAPE_CHAR) };
+        ESCAPE_CHAR + SEPARATOR_INTERWIKI, ESCAPE_CHAR + SEPARATOR_ANCHOR, String.valueOf(ESCAPE_CHAR) + ESCAPE_CHAR };
 
     /**
      * Escapes to remove the interwiki content.
      */
-    private static final String[] ESCAPE_INTERWIKI = new String[] { String.valueOf(ESCAPE_CHAR + ESCAPE_CHAR), String.valueOf(ESCAPE_CHAR) };
+    private static final String[] ESCAPE_INTERWIKI = new String[] { String.valueOf(ESCAPE_CHAR) + ESCAPE_CHAR, String.valueOf(ESCAPE_CHAR) };
 
     /**
      * Replacement chars for the escapes to be removed from the reference part.
