@@ -80,12 +80,12 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
      * Escapes to remove from the query string, anchor and interwiki parts when parsing the raw reference.
      */
     private static final String[] ESCAPES_EXTRA = new String[] { ESCAPE_CHAR + SEPARATOR_QUERYSTRING,
-        ESCAPE_CHAR + SEPARATOR_INTERWIKI, ESCAPE_CHAR + SEPARATOR_ANCHOR, "" + ESCAPE_CHAR + ESCAPE_CHAR };
+        ESCAPE_CHAR + SEPARATOR_INTERWIKI, ESCAPE_CHAR + SEPARATOR_ANCHOR, String.valueOf(ESCAPE_CHAR) + ESCAPE_CHAR };
 
     /**
      * Escapes to remove the interwiki content.
      */
-    private static final String[] ESCAPE_INTERWIKI = new String[] { "" + ESCAPE_CHAR + ESCAPE_CHAR, "" + ESCAPE_CHAR };
+    private static final String[] ESCAPE_INTERWIKI = new String[] { String.valueOf(ESCAPE_CHAR) + ESCAPE_CHAR, String.valueOf(ESCAPE_CHAR) };
 
     /**
      * Replacement chars for the escapes to be removed from the reference part.
@@ -97,12 +97,12 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
      * Replacement chars for the escapes to be removed from the query string, anchor and interwiki parts.
      */
     private static final String[] ESCAPE_REPLACEMENTS_EXTRA = new String[] { SEPARATOR_QUERYSTRING,
-        SEPARATOR_INTERWIKI, SEPARATOR_ANCHOR, "" + ESCAPE_CHAR };
+        SEPARATOR_INTERWIKI, SEPARATOR_ANCHOR, String.valueOf(ESCAPE_CHAR) };
 
     /**
      * Replacements chars for the escapes to be removed from the interwiki content.
      */
-    private static final String[] ESCAPE_REPLACEMENTS_INTERWIKI = new String[] { "" + ESCAPE_CHAR, "" };
+    private static final String[] ESCAPE_REPLACEMENTS_INTERWIKI = new String[] { String.valueOf(ESCAPE_CHAR), "" };
 
     /**
      * The list of recognized URL prefixes.
@@ -296,7 +296,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
             counter++;
             pos--;
         }
-        return (counter % 2 != 0);
+        return counter % 2 != 0;
     }
 
     /**
