@@ -296,7 +296,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
             counter++;
             pos--;
         }
-        return (counter % 2 != 0);
+        return counter % 2 != 0;
     }
 
     /**
