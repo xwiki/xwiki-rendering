@@ -85,7 +85,8 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
     /**
      * Escapes to remove the interwiki content.
      */
-    private static final String[] ESCAPE_INTERWIKI = new String[] { String.valueOf(ESCAPE_CHAR) + ESCAPE_CHAR, String.valueOf(ESCAPE_CHAR) };
+    private static final String[] ESCAPE_INTERWIKI =
+        new String[] { String.valueOf(ESCAPE_CHAR) + ESCAPE_CHAR, String.valueOf(ESCAPE_CHAR) };
 
     /**
      * Replacement chars for the escapes to be removed from the reference part.
