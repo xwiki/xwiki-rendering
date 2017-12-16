@@ -139,7 +139,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
         }
 
         // Step 2: Look for an InterWiki link
-        StringBuffer content = new StringBuffer(rawReference);
+        StringBuilder content = new StringBuilder(rawReference);
         resourceReference = parseInterWikiLinks(content);
         if (resourceReference != null) {
             return resourceReference;
