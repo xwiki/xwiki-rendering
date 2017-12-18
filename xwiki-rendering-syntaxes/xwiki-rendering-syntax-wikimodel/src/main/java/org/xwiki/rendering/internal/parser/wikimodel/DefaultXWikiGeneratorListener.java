@@ -109,7 +109,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
     private Deque<WikiFormat> currentFormatStack = new ArrayDeque<WikiFormat>();
 
-    private WikiFormat lastEndFormat = null;
+    private WikiFormat lastEndFormat;
 
     private Syntax syntax;
 
