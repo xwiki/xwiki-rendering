@@ -80,6 +80,9 @@ public class DefaultTransformationManager implements TransformationManager
     private Provider<ComponentManager> componentManagerProvider;
 
     @Override
+    /**
+    * @deprecated
+    */
     @Deprecated
     public void performTransformations(XDOM dom, Syntax syntax) throws TransformationException
     {
