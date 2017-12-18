@@ -310,7 +310,7 @@ public class WikiModelGeneratorListener implements Listener
     @Override
     public void onSpecialSymbol(char symbol)
     {
-        this.wikimodelListener.onSpecialSymbol(symbol);
+        this.wikimodelListener.onSpecialSymbol(String.valueOf(symbol));
     }
 
     @Override
