@@ -208,7 +208,7 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
                 } else {
                     StringBuffer subVerbatim = subVerbatimStack.pop();
 
-                    if (subVerbatimStack.size() == 0) {
+                    if (subVerbatimStack.isEmpty()) {
                         result.append("{{{");
                         result.append(subVerbatim);
                         result.append("}}}");
