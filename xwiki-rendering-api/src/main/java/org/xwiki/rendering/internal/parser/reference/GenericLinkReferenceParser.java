@@ -162,7 +162,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
      * @param content the string containing the Document link reference
      * @return the parsed Link Object corresponding to the Document link reference
      */
-    private ResourceReference parseDocumentLink(StringBuffer content)
+    private ResourceReference parseDocumentLink(StringBuilder content)
     {
         // Extract any query string.
         String queryString = null;
@@ -238,7 +238,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
      * @param content the original content to parse
      * @return the parsed Link object or null if the passed reference is not an interwiki link reference
      */
-    private ResourceReference parseInterWikiLinks(StringBuffer content)
+    private ResourceReference parseInterWikiLinks(StringBuilder content)
     {
         ResourceReference result = null;
         String interWikiAlias = parseElementAfterString(content, SEPARATOR_INTERWIKI);
@@ -257,7 +257,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
      * @param separator the separator string to locate the element
      * @return the parsed element or null if the separator string wasn't found
      */
-    protected String parseElementAfterString(StringBuffer content, String separator)
+    protected String parseElementAfterString(StringBuilder content, String separator)
     {
         String element = null;
 
@@ -289,7 +289,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
      * @param charPosition the position of the char for which to decide if it should be escaped or not
      * @return true if the character should be escaped
      */
-    private boolean shouldEscape(StringBuffer content, int charPosition)
+    private boolean shouldEscape(StringBuilder content, int charPosition)
     {
         int counter = 0;
         int pos = charPosition - 1;
