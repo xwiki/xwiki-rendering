@@ -260,9 +260,8 @@ public class WikiModelGeneratorListener implements Listener
     @Override
     public void endSection(Map<String, String> parameters)
     {
-        this.wikimodelListener
-            .beginSection(this.docLevel, getContext().headerLevel, createWikiParameters(parameters));
-            getContext().headerLevel--;
+        this.wikimodelListener.beginSection(this.docLevel, getContext().headerLevel, createWikiParameters(parameters));
+        getContext().headerLevel--;
     }
 
     @Override
