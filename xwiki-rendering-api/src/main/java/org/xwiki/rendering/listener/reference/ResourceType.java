@@ -151,7 +151,7 @@ public class ResourceType
                 // object must be ResourceType at this point
                 ResourceType type = (ResourceType) object;
                 result =
-                    (getScheme() == type.getScheme() || (getScheme() != null && getScheme().equals(type.getScheme())));
+                    getScheme() == type.getScheme() || (getScheme() != null && getScheme().equals(type.getScheme()));
             }
         }
         return result;
