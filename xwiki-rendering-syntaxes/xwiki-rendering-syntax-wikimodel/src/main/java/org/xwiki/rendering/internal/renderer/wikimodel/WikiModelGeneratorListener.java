@@ -189,6 +189,8 @@ public class WikiModelGeneratorListener implements Listener
             case NONE:
                 this.wikimodelListener.endFormat(new WikiFormat(createWikiParameters(parameters).toList()));
                 break;
+            default: //Unsupported format
+                break;
         }
     }
 
