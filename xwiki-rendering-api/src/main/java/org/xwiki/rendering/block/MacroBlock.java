@@ -51,8 +51,8 @@ public class MacroBlock extends AbstractBlock
      * The macro is located in a inline content (like paragraph, etc.).
      */
     private boolean inline;
-
-    /**
+     
+     /**
      * @param id the id of the macro
      * @param parameters the parameters of the macro
      * @param isInline indicate if the macro is located in a inline content (like paragraph, etc.)
@@ -61,7 +61,8 @@ public class MacroBlock extends AbstractBlock
     {
         this(id, parameters, null, isInline);
     }
-
+     
+     
     /**
      * @param id the id of the macro
      * @param parameters the parameters of the macro
