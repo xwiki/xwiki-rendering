@@ -163,11 +163,5 @@ public class DoxiaListener extends WrappingListener
         return listener;
     }
 
-    /**
-     * @return the last listener in the stack
-     */
-    private Listener peekListener()
-    {
-        return this.listenerStack.peek();
-    }
+
 }
