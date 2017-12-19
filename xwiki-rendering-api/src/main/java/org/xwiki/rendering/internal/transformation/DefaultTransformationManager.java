@@ -81,11 +81,8 @@ public class DefaultTransformationManager implements TransformationManager
 
     /**
      * {@inheritDoc}
-     * inherits on {@link TransformationManager}
-     *
-     * @deprecated
-     *
-     * Replaced by {@link #performTransformations(Block, TransformationContext)}
+     * 
+     * @deprecated Replaced by {@link #performTransformations(Block, TransformationContext)}
      *
      */
     @Override
