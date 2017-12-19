@@ -79,10 +79,16 @@ public class DefaultTransformationManager implements TransformationManager
     @Named("context")
     private Provider<ComponentManager> componentManagerProvider;
 
-    @Override
     /**
-    * @deprecated
-    */
+     * {@inheritDoc}
+     * inherits on {@link TransformationManager}
+     *
+     * @deprecated
+     *
+     * Replaced by {@link #performTransformations(Block, TransformationContext)}
+     *
+     */
+    @Override
     @Deprecated
     public void performTransformations(XDOM dom, Syntax syntax) throws TransformationException
     {
