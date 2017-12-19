@@ -193,7 +193,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         // If we are at a depth of 2 or greater it means we're in a link inside a link and in this case we
         // shouldn't output the nested link as a link unless it's a free standing link.
         if (linkDepth < 2) {
-            getLinkRenderer().beginRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
+            getLinkRenderer().beginRenderLink(getXWikiPrinter(), freestanding, parameters);
 
             XWikiSyntaxEscapeWikiPrinter linkLabelPrinter =
                 new XWikiSyntaxEscapeWikiPrinter(new DefaultWikiPrinter(), getXWikiSyntaxListenerChain());
@@ -678,7 +678,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getImageRenderer().beginRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
+        getImageRenderer().beginRenderLink(getXWikiPrinter(), freestanding, parameters);
         getImageRenderer().endRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
     }
 
