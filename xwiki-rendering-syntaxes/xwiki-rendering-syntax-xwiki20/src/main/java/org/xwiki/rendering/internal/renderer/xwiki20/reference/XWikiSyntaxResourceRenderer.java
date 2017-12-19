@@ -76,7 +76,7 @@ public class XWikiSyntaxResourceRenderer
         return result;
     }
 
-    public void beginRenderLink(XWikiSyntaxEscapeWikiPrinter printer, ResourceReference reference,
+    public void beginRenderLink(XWikiSyntaxEscapeWikiPrinter printer,
         boolean freestanding, Map<String, String> parameters)
     {
         // find if the last printed char is part of a syntax (i.e. consumed by the parser before starting to parse the
