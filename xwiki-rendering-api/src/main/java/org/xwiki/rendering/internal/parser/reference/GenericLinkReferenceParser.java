@@ -142,7 +142,7 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
         StringBuilder content = new StringBuilder(rawReference);
         resourceReference = parseInterWikiLinks(content);
         if (resourceReference != null) {
-            return resourceReference;
+            resourceReference=resourceReference;
         }
 
         // Step 3: If we're in non wiki mode, we consider the reference to be a URL.
@@ -152,8 +152,8 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
             return resourceReference;
         }
 
-        // Step 4: Consider that we have a reference to a document
-        return parseDocumentLink(content);
+        // Step 4: Returns resourceReference if there is an InterWiki link
+        return resourceReference;
     }
 
     /**
