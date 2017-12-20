@@ -146,14 +146,13 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
         }
 
         // Step 3: If we're in non wiki mode, we consider the reference to be a URL.
-        if (!isInWikiMode()) {
+        else{
             resourceReference = new ResourceReference(rawReference, ResourceType.URL);
             resourceReference.setTyped(false);
             return resourceReference;
         }
 
-        // Step 4: Consider that we have a reference to a document
-        return parseDocumentLink(content);
+        
     }
 
     /**
