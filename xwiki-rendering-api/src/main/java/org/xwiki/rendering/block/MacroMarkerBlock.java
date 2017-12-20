@@ -34,7 +34,7 @@ import org.xwiki.rendering.listener.Listener;
  * @version $Id$
  * @since 1.5M2
  */
-public class MacroMarkerBlock extends AbstractBlock
+public class MacroMarkerBlock extends AbstractMacroBlock
 {
     /**
      * The macro name that we are preserving.
@@ -144,18 +144,5 @@ public class MacroMarkerBlock extends AbstractBlock
         }
 
         return false;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        HashCodeBuilder builder = new HashCodeBuilder();
-
-        builder.appendSuper(super.hashCode());
-        builder.append(getContent());
-        builder.append(getId());
-        builder.append(isInline());
-
-        return builder.toHashCode();
     }
 }

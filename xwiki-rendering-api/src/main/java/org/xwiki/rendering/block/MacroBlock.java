@@ -35,7 +35,7 @@ import org.xwiki.rendering.listener.Listener;
  * @version $Id$
  * @since 1.8M2
  */
-public class MacroBlock extends AbstractBlock
+public class MacroBlock extends AbstractMacroBlock
 {
     /**
      * @see #getId
@@ -139,18 +139,5 @@ public class MacroBlock extends AbstractBlock
         }
 
         return false;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        HashCodeBuilder builder = new HashCodeBuilder();
-
-        builder.appendSuper(super.hashCode());
-        builder.append(getContent());
-        builder.append(getId());
-        builder.append(isInline());
-
-        return builder.toHashCode();
     }
 }
