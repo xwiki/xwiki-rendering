@@ -22,8 +22,6 @@ package org.xwiki.rendering.block;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 
 /**
@@ -34,23 +32,8 @@ import org.xwiki.rendering.listener.Listener;
  * @version $Id$
  * @since 1.5M2
  */
-public class MacroMarkerBlock extends AbstractBlock
+public class MacroMarkerBlock extends AbstractMacroBlock
 {
-    /**
-     * The macro name that we are preserving.
-     */
-    private String id;
-
-    /**
-     * The macro content that we are preserving.
-     */
-    private String content;
-
-    /**
-     * The macro is located in a inline content (like paragraph, etc.).
-     */
-    private boolean inline;
-
     /**
      * @param id the name of the macro
      * @param parameters the parameters of the macro
@@ -70,13 +53,9 @@ public class MacroMarkerBlock extends AbstractBlock
      * @param inline indicate if the macro is located in a inline content (like paragraph, etc.)
      */
     public MacroMarkerBlock(String id, Map<String, String> parameters, String content, List<Block> childBlocks,
-        boolean inline)
+            boolean inline)
     {
-        super(childBlocks, parameters);
-
-        this.id = id;
-        this.content = content;
-        this.inline = inline;
+        super(childBlocks, parameters, id, content, inline);
     }
 
     /**
@@ -87,31 +66,6 @@ public class MacroMarkerBlock extends AbstractBlock
     public String getName()
     {
         return getId();
-    }
-
-    /**
-     * @return the macro identifier.
-     * @since 2.4M1
-     */
-    public String getId()
-    {
-        return this.id;
-    }
-
-    /**
-     * @return the macro content.
-     */
-    public String getContent()
-    {
-        return this.content;
-    }
-
-    /**
-     * @return if true the macro is located in a inline content (like paragraph, etc.).
-     */
-    public boolean isInline()
-    {
-        return this.inline;
     }
 
     @Override
@@ -133,29 +87,16 @@ public class MacroMarkerBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof MacroMarkerBlock && super.equals(obj)) {
-            EqualsBuilder builder = new EqualsBuilder();
-
-            builder.append(getContent(), ((MacroMarkerBlock) obj).getContent());
-            builder.append(getId(), ((MacroMarkerBlock) obj).getId());
-            builder.append(isInline(), ((MacroMarkerBlock) obj).isInline());
-
-            return builder.isEquals();
+        if (!(obj instanceof MacroMarkerBlock)) {
+            return false;
         }
 
-        return false;
+        return abstractBlockEquals((MacroMarkerBlock) obj);
     }
 
     @Override
     public int hashCode()
     {
-        HashCodeBuilder builder = new HashCodeBuilder();
-
-        builder.appendSuper(super.hashCode());
-        builder.append(getContent());
-        builder.append(getId());
-        builder.append(isInline());
-
-        return builder.toHashCode();
+        return abstractBlockHashCode();
     }
 }

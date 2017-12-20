@@ -31,6 +31,9 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.xwiki.rendering.block.AbstractMacroBlock;
+import org.xwiki.rendering.block.MacroBlock;
+import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.match.AnyBlockMatcher;
 import org.xwiki.rendering.block.match.BlockNavigatorTest;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
@@ -279,5 +282,73 @@ public class BlockTest
         Assert.assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlock.getRoot());
         Assert.assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlockChild1.getRoot());
         Assert.assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlockChild11.getRoot());
+    }
+
+    @Test
+    public void testAbstractBlockEquals()
+    {
+        final String ID = "Test id";
+        final String CONTENT = "Test content";
+        final boolean IS_INLINE = true;
+        final Map<String, String> PARAMETERS = new HashMap<>();
+
+        PARAMETERS.put("TestKey", "TestValue");
+        
+        AbstractMacroBlock macroBlock1, macroBlock2, macroBlock3;
+
+        macroBlock1 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
+        macroBlock2 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
+        macroBlock3 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
+
+        //must be reflexive.
+        Assert.assertEquals(macroBlock1, macroBlock1);
+
+        //must be symmetric.
+        Assert.assertEquals(macroBlock1, macroBlock2);
+        Assert.assertEquals(macroBlock2, macroBlock1);
+
+        //must be transitive.
+        Assert.assertEquals(macroBlock1, macroBlock2);
+        Assert.assertEquals(macroBlock2, macroBlock3);
+        Assert.assertEquals(macroBlock1, macroBlock3);
+
+        //must be consistent (already checked).
+
+        //equals(null) == false.
+        Assert.assertFalse(macroBlock1.equals(null));
+        Assert.assertFalse(macroBlock2.equals(null));
+        Assert.assertFalse(macroBlock3.equals(null));
+
+        //hashCode must be equal.
+        Assert.assertEquals(macroBlock1.hashCode(), macroBlock2.hashCode());
+
+        List<Block> childBlocks = new ArrayList<>();
+        AbstractMacroBlock macroMarkerBlock1, macroMarkerBlock2, macroMarkerBlock3;
+
+        macroMarkerBlock1 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
+        macroMarkerBlock2 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
+        macroMarkerBlock3 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
+
+        //must be reflexive.
+        Assert.assertEquals(macroMarkerBlock1, macroMarkerBlock1);
+
+        //must be symmetric.
+        Assert.assertEquals(macroMarkerBlock1, macroMarkerBlock2);
+        Assert.assertEquals(macroMarkerBlock2, macroMarkerBlock1);
+
+        //must be transitive.
+        Assert.assertEquals(macroMarkerBlock1, macroMarkerBlock2);
+        Assert.assertEquals(macroMarkerBlock2, macroMarkerBlock3);
+        Assert.assertEquals(macroMarkerBlock1, macroMarkerBlock3);
+
+        //must be consistent (already checked).
+
+        //equals(null) == false.
+        Assert.assertFalse(macroMarkerBlock1.equals(null));
+        Assert.assertFalse(macroMarkerBlock2.equals(null));
+        Assert.assertFalse(macroMarkerBlock3.equals(null));
+
+        //hashCode must be equal.
+        Assert.assertEquals(macroMarkerBlock1.hashCode(), macroMarkerBlock2.hashCode());
     }
 }

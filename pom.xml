@@ -230,6 +230,18 @@
                 },
                 "ignore" : [
                   // Add more ignores below...
+
+                  // AbstractMacroBlock.
+                  {
+                  	"code": "java.class.nonFinalClassInheritsFromNewClass",
+                  	"old": "class org.xwiki.rendering.block.MacroBlock",
+                  	"new": "class org.xwiki.rendering.block.MacroBlock",                  	
+                  	"superClass": "org.xwiki.rendering.block.AbstractMacroBlock",
+                  	"package": "org.xwiki.rendering.block",
+                  	"classSimpleName": "MacroBlock",
+                  	"elementKind": "class",
+                  	"justification": "To reduce code duplication." 
+                  }
                 ]
               }
             }
