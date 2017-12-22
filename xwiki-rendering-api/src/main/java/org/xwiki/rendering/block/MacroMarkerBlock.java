@@ -22,8 +22,6 @@ package org.xwiki.rendering.block;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 
 /**
@@ -90,25 +88,28 @@ public class MacroMarkerBlock extends AbstractMacroBlock
     }
 
     /**
-     * @return the macro identifier.
+     * {@inheritDoc}
      * @since 2.4M1
      */
+    @Override
     public String getId()
     {
         return this.id;
     }
 
     /**
-     * @return the macro content.
+     * {@inheritDoc}
      */
+    @Override
     public String getContent()
     {
         return this.content;
     }
 
     /**
-     * @return if true the macro is located in a inline content (like paragraph, etc.).
+     * {@inheritDoc}
      */
+    @Override
     public boolean isInline()
     {
         return this.inline;
@@ -133,16 +134,16 @@ public class MacroMarkerBlock extends AbstractMacroBlock
             return true;
         }
 
-        if (obj instanceof MacroMarkerBlock && super.equals(obj)) {
-            EqualsBuilder builder = new EqualsBuilder();
-
-            builder.append(getContent(), ((MacroMarkerBlock) obj).getContent());
-            builder.append(getId(), ((MacroMarkerBlock) obj).getId());
-            builder.append(isInline(), ((MacroMarkerBlock) obj).isInline());
-
-            return builder.isEquals();
+        if (!(obj instanceof MacroMarkerBlock)) {
+            return false;
         }
 
-        return false;
+        return abstractBlockEquals((MacroMarkerBlock) obj);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return abstractBlockHashCode();
     }
 }
