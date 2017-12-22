@@ -231,7 +231,7 @@
                 "ignore" : [
                   // Add more ignores below...
 
-	          // AbstractMacroBlock.
+                  // AbstractMacroBlock.
                   {
                   	"code": "java.class.nonFinalClassInheritsFromNewClass",
                   	"old": "class org.xwiki.rendering.block.MacroBlock",
