@@ -33,87 +33,63 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 public abstract class AbstractMacroBlock extends AbstractBlock
 {
-
     /**
-     * @see AbstractMacroBlock#AbstractMacroBlock() 
+     * @see #getId
      */
-    public AbstractMacroBlock()
-    {
-        // Nothing to do
-    }
+    private String id;
 
     /**
-     * @see AbstractMacroBlock#AbstractMacroBlock(Map)
-     *
-     * @param parameters the parameters to set
-     */    
-    public AbstractMacroBlock(Map<String, String> parameters)
-    {
-        super(parameters);
-    }
-
-
-    /**
-     * @see AbstractMacroBlock#AbstractMacroBlock(Block)
-     *
-     * @param childBlock the child block of this block
+     * The macro content for macro that have content. Otherwise it's null.
      */
-    public AbstractMacroBlock(Block childBlock)
-    {
-        super(childBlock);
-    }
+    private String content;
 
     /**
-     * @see AbstractMacroBlock#AbstractMacroBlock(List)
-     *
-     * @param childrenBlocks the list of children blocks of the block to construct
+     * The macro is located in a inline content (like paragraph, etc.).
      */
-    public AbstractMacroBlock(List<? extends Block> childrenBlocks)
-    {
-        super(childrenBlocks);
-    }
+    private boolean inline;
 
     /**
-     * @see AbstractMacroBlock#AbstractMacroBlock(Block, Map)
-     *
-     * @param childBlock the child block of this block
-     * @param parameters the parameters to set
-     */
-    public AbstractMacroBlock(Block childBlock, Map<String, String> parameters)
-    {
-        super(childBlock, parameters);
-    }
-
-    /**
-     * @see AbstractMacroBlock#AbstractMacroBlock(List, Map)
-     *
      * @param childrenBlocks the list of children blocks of the block to construct
      * @param parameters the parameters to set
+     * @param id the name of the macro
+     * @param content the content of the macro
+     * @param inline indicate if the macro is located in a inline content
      */
-    public AbstractMacroBlock(List<? extends Block> childrenBlocks, Map<String, String> parameters)
+    public AbstractMacroBlock(List<? extends Block> childrenBlocks, Map<String, String> parameters,
+            String id, String content, boolean inline)
     {
         super(childrenBlocks, parameters);
+
+        this.id = id;
+        this.content = content;
+        this.inline = inline;
     }
 
     /**
      * @return the macro content.
      */
-    public abstract String getContent();
+    public String getContent() {
+        return content;
+    }
 
     /**
      * @return the macro identifier.
      */
-    public abstract String getId();
+    public String getId() {
+        return id;
+    }
 
     /**
      * @return if true the macro is located in a inline content (like paragraph, etc.).
      */
-    public abstract boolean isInline();
+    public boolean isInline() {
+        return inline;
+    }
 
     /**
      * Helper hashCode method for any AbstractMacroBlock.
      *
-     * @return hashCode.
+     * @return a hashcode.
      */
     protected int abstractBlockHashCode()
     {   
@@ -131,7 +107,7 @@ public abstract class AbstractMacroBlock extends AbstractBlock
      * Helper equals method for any AbstractMacroBlock.
      *
      * @param obj AbstractMacroBlock.
-     * @return true  
+     * @return true if obj is equals.
      */
     protected boolean abstractBlockEquals(AbstractMacroBlock obj)
     {

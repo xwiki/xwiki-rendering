@@ -20,6 +20,7 @@
 package org.xwiki.rendering.block;
 
 import java.util.Map;
+import java.util.Collections;
 
 import org.xwiki.rendering.listener.Listener;
 
@@ -35,21 +36,6 @@ import org.xwiki.rendering.listener.Listener;
  */
 public class MacroBlock extends AbstractMacroBlock
 {
-    /**
-     * @see #getId
-     */
-    private String id;
-
-    /**
-     * The macro content for macro that have content. Otherwise it's null.
-     */
-    private String content;
-
-    /**
-     * The macro is located in a inline content (like paragraph, etc.).
-     */
-    private boolean inline;
-
     /**
      * @param id the id of the macro
      * @param parameters the parameters of the macro
@@ -68,39 +54,7 @@ public class MacroBlock extends AbstractMacroBlock
      */
     public MacroBlock(String id, Map<String, String> parameters, String content, boolean isInline)
     {
-        super(parameters);
-
-        this.id = id;
-        this.content = content;
-        this.inline = isInline;
-    }
-
-    /**
-     * {@inheritDoc} (eg "toc" for the TOC Macro).
-     * @since 2.0M3
-     */
-    @Override
-    public String getId()
-    {
-        return this.id;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getContent()
-    {
-        return this.content;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isInline()
-    {
-        return this.inline;
+        super(Collections.<Block>emptyList(), parameters, id, content, isInline);
     }
 
     @Override
