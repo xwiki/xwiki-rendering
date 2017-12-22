@@ -319,6 +319,9 @@ public class BlockTest
         Assert.assertFalse(macroBlock2.equals(null));
         Assert.assertFalse(macroBlock3.equals(null));
 
+        //hashCode must be equal.
+        Assert.assertEquals(macroBlock1.hashCode(), macroBlock2.hashCode());
+
         List<Block> childBlocks = new ArrayList<>();
         AbstractMacroBlock macroMarkerBlock1, macroMarkerBlock2, macroMarkerBlock3;
 
@@ -344,5 +347,8 @@ public class BlockTest
         Assert.assertFalse(macroMarkerBlock1.equals(null));
         Assert.assertFalse(macroMarkerBlock2.equals(null));
         Assert.assertFalse(macroMarkerBlock3.equals(null));
+
+        //hashCode must be equal.
+        Assert.assertEquals(macroMarkerBlock1.hashCode(), macroMarkerBlock2.hashCode());
     }
 }
