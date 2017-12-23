@@ -25,13 +25,15 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-transformations</artifactId>
-    <version>9.12-SNAPSHOT</version>
+    <version>10.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-transformation-wikiword</artifactId>
   <name>XWiki Rendering - Transformation - WikiWord</name>
-  <description>XWiki Rendering - Transformation - WikiWord</description>
+  <description>A rendering transformation to automatically generate page links for WikiWords</description>
   <properties>
     <xwiki.jacoco.instructionRatio>1.00</xwiki.jacoco.instructionRatio>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>WikiWord Transformation</xwiki.extension.name>
   </properties>
   <dependencies>
     <!-- Testing Dependencies -->

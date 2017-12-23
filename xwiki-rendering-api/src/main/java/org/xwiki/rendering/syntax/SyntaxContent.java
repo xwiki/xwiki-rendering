@@ -19,15 +19,12 @@
  */
 package org.xwiki.rendering.syntax;
 
-import org.xwiki.stability.Unstable;
-
 /**
  * Represents text content that has a syntax.
  * 
  * @version $Id$
  * @since 8.2RC1
  */
-@Unstable
 public class SyntaxContent
 {
     /**
