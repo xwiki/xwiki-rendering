@@ -46,6 +46,22 @@ public class TocMacroParameters
          */
         PAGE
     }
+    
+    /**
+     * @version $Id$
+     */
+    public enum Floating
+    {
+        /**
+         * Floating to the left.
+         */
+        LEFT,
+        
+        /**
+         * Floating to the right.
+         */
+        RIGHT
+    }
 
     /**
      * The minimum section level. For example if 2 then level 1 sections will not be listed.
@@ -76,13 +92,16 @@ public class TocMacroParameters
     private boolean numbered;
     
     /**
-     * Set to 0 if floating to the left, 1 if floating to the right. Default : 1
+     * Whether TOC is floating to the left or the right.
      */
-    private int floating = 1;
-
+    private Floating floating = Floating.LEFT;
+    
     private String reference;
 
-    private boolean box = true;
+    /**
+     * Whether there is a box.
+     */
+    private boolean box;
 
     /**
      * @param start the minimum section level. For example if 2 then level 1 sections will not be listed.
@@ -185,26 +204,23 @@ public class TocMacroParameters
     }
     
     /**
-     * @param floating int of value 0 or 1 that sets the floating to left or right respectively
+     * @param floating Floating with value left or right
      */
-    public void setFloating(int floating)
+    public void setFloating(Floating floating)
     {
-        if (floating != 1 && floating != 0) {
-            return;
-        }
         this.floating = floating;
     }
 
     /**
-     * @return the int value of floating : 0 for left and 1 for right
+     * @return current value of floating
      */
-    public int getFloating()
+    public Floating getFloating()
     {
         return this.floating;
     }
 
     /**
-     * @param box whether or not the toc is a box
+     * @param box whether or not there is a box
      */
     public void setBox(boolean box)
     {
@@ -212,7 +228,7 @@ public class TocMacroParameters
     }
 
     /**
-     * @return whether or not the toc is a box
+     * @return whether or not there is a box
      */
     public boolean getBox()
     {
