@@ -97,6 +97,6 @@ public class MacroMarkerBlock extends AbstractMacroBlock
     @Override
     public int hashCode()
     {
-        return abstractBlockHashCode();
+        return super.hashCode();
     }
 }

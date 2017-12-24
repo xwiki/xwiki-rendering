@@ -68,43 +68,29 @@ public abstract class AbstractMacroBlock extends AbstractBlock
     /**
      * @return the macro content.
      */
-    public String getContent() {
+    public String getContent()
+    {
         return content;
     }
 
     /**
      * @return the macro identifier.
      */
-    public String getId() {
+    public String getId()
+    {
         return id;
     }
 
     /**
      * @return if true the macro is located in a inline content (like paragraph, etc.).
      */
-    public boolean isInline() {
+    public boolean isInline()
+    {
         return inline;
     }
 
     /**
-     * Helper hashCode method for any AbstractMacroBlock.
-     *
-     * @return a hashcode.
-     */
-    protected int abstractBlockHashCode()
-    {   
-        HashCodeBuilder builder = new HashCodeBuilder();
-
-        builder.appendSuper(super.hashCode());
-        builder.append(getContent());
-        builder.append(getId());
-        builder.append(isInline());
-
-        return builder.toHashCode();
-    }
-
-    /**
-     * Helper equals method for any AbstractMacroBlock.
+     * Helper method for any AbstractMacroBlock equals method.
      *
      * @param obj AbstractMacroBlock.
      * @return true if obj is equals.
@@ -122,5 +108,24 @@ public abstract class AbstractMacroBlock extends AbstractBlock
         builder.append(isInline(), obj.isInline());
 
         return builder.isEquals();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode()
+    {   
+        HashCodeBuilder builder = new HashCodeBuilder();
+
+        builder.appendSuper(super.hashCode());
+        builder.append(getContent());
+        builder.append(getId());
+        builder.append(isInline());
+
+        return builder.toHashCode();
     }
 }
