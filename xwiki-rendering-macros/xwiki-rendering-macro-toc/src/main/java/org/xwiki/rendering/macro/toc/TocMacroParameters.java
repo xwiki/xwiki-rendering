@@ -74,8 +74,15 @@ public class TocMacroParameters
      * If true the section title number is printed.
      */
     private boolean numbered;
+    
+    /**
+     * Set to 0 if floating to the left, 1 if floating to the right. Default : 1
+     */
+    private int floating = 1;
 
     private String reference;
+
+    private boolean box = true;
 
     /**
      * @param start the minimum section level. For example if 2 then level 1 sections will not be listed.
@@ -175,5 +182,40 @@ public class TocMacroParameters
     public String getReference()
     {
         return this.reference;
+    }
+    
+    /**
+     * @param floating int of value 0 or 1 that sets the floating to left or right respectively
+     */
+    public void setFloating(int floating)
+    {
+        if (floating != 1 && floating != 0) {
+            return;
+        }
+        this.floating = floating;
+    }
+
+    /**
+     * @return the int value of floating : 0 for left and 1 for right
+     */
+    public int getFloating()
+    {
+        return this.floating;
+    }
+
+    /**
+     * @param box whether or not the toc is a box
+     */
+    public void setBox(boolean box)
+    {
+        this.box = box;
+    }
+
+    /**
+     * @return whether or not the toc is a box
+     */
+    public boolean getBox()
+    {
+        return this.box;
     }
 }
