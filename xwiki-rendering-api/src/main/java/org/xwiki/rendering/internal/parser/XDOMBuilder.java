@@ -52,13 +52,14 @@ public class XDOMBuilder
      */
     public XDOM getXDOM()
     {
-        List<Block> blocks = endBlockList();
-
+        
         if (!this.stack.isEmpty()) {
             throw new IllegalStateException("Unbalanced begin/end Block events, missing " + this.stack.size()
                 + " calls to endBlockList().");
         }
-
+        
+        List<Block> blocks = endBlockList();
+        
         // support even events without begin/endDocument for partial content
         if (!blocks.isEmpty() && blocks.get(0) instanceof XDOM) {
             return (XDOM) blocks.get(0);
