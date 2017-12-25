@@ -51,9 +51,9 @@ public class WikiModelParserUtils extends ParserUtils
         if (prefix) {
             WrappingListener inlineFilterListener = new InlineFilterListener()
             {
-                private boolean foundWord;
+                private boolean foundWord = false;
 
-                private boolean foundSpace;
+                private boolean foundSpace = false;
 
                 @Override
                 public void onWord(String word)
