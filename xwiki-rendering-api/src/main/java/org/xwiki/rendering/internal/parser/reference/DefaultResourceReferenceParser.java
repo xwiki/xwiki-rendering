@@ -53,7 +53,7 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
     /**
      * Link Reference Type separator (eg "mailto:mail@address").
      */
-    public static final String TYPE_SEPARATOR = ":";
+    public static final char TYPE_SEPARATOR = ':';
 
     /**
      * Types of references that are dependent on running in wiki mode.
