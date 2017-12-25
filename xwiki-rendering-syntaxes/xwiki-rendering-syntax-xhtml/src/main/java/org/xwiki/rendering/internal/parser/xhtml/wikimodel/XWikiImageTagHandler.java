@@ -91,9 +91,7 @@ public class XWikiImageTagHandler extends ImgTagHandler implements XWikiWikiMode
     protected WikiParameters removeMeaningfulParameters(WikiParameters parameters)
     {
         WikiParameter classParam = parameters.getParameter("class");
-        boolean isFreeStanding =
-            ((classParam != null) && classParam.getValue().equalsIgnoreCase("wikimodel-freestanding"));
-
+        boolean isFreeStanding = classParam != null && "wikimodel-freestanding".equalsIgnoreCase(classParam.getValue());
         if (isFreeStanding) {
             return removeFreestanding(parameters).remove("alt").remove("src");
         } else {
