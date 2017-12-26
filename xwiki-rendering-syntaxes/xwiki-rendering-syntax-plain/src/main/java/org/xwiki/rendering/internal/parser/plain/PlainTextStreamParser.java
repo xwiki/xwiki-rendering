@@ -80,7 +80,7 @@ public class PlainTextStreamParser implements StreamParser
     @Override
     public void parse(Reader source, Listener listener) throws ParseException
     {
-        StringBuffer word = new StringBuffer();
+        StringBuilder word = new StringBuilder();
         BufferedReader bufferedSource = new BufferedReader(source);
         int charAsInt;
 
@@ -108,7 +108,7 @@ public class PlainTextStreamParser implements StreamParser
         listener.endDocument(MetaData.EMPTY);
     }
 
-    private void parseChar(int charAsInt, StringBuffer word, Listener listener) throws ParseException
+    private void parseChar(int charAsInt, StringBuilder word, Listener listener) throws ParseException
     {
         char c = (char) charAsInt;
         if (c == '\n') {
