@@ -20,9 +20,8 @@
 package org.xwiki.rendering.block;
 
 import java.util.Map;
+import java.util.Collections;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 
 /**
@@ -35,23 +34,8 @@ import org.xwiki.rendering.listener.Listener;
  * @version $Id$
  * @since 1.8M2
  */
-public class MacroBlock extends AbstractBlock
+public class MacroBlock extends AbstractMacroBlock
 {
-    /**
-     * @see #getId
-     */
-    private String id;
-
-    /**
-     * The macro content for macro that have content. Otherwise it's null.
-     */
-    private String content;
-
-    /**
-     * The macro is located in a inline content (like paragraph, etc.).
-     */
-    private boolean inline;
-
     /**
      * @param id the id of the macro
      * @param parameters the parameters of the macro
@@ -70,36 +54,7 @@ public class MacroBlock extends AbstractBlock
      */
     public MacroBlock(String id, Map<String, String> parameters, String content, boolean isInline)
     {
-        super(parameters);
-
-        this.id = id;
-        this.content = content;
-        this.inline = isInline;
-    }
-
-    /**
-     * @return the macro id (eg "toc" for the TOC Macro).
-     * @since 2.0M3
-     */
-    public String getId()
-    {
-        return this.id;
-    }
-
-    /**
-     * @return the macro content.
-     */
-    public String getContent()
-    {
-        return this.content;
-    }
-
-    /**
-     * @return if true the macro is located in a inline content (like paragraph, etc.).
-     */
-    public boolean isInline()
-    {
-        return this.inline;
+        super(Collections.<Block>emptyList(), parameters, id, content, isInline);
     }
 
     @Override
@@ -128,29 +83,16 @@ public class MacroBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof MacroBlock && super.equals(obj)) {
-            EqualsBuilder builder = new EqualsBuilder();
-
-            builder.append(getContent(), ((MacroBlock) obj).getContent());
-            builder.append(getId(), ((MacroBlock) obj).getId());
-            builder.append(isInline(), ((MacroBlock) obj).isInline());
-
-            return builder.isEquals();
+        if (!(obj instanceof MacroBlock)) {
+            return false;
         }
 
-        return false;
+        return abstractBlockEquals((MacroBlock) obj);
     }
 
     @Override
     public int hashCode()
     {
-        HashCodeBuilder builder = new HashCodeBuilder();
-
-        builder.appendSuper(super.hashCode());
-        builder.append(getContent());
-        builder.append(getId());
-        builder.append(isInline());
-
-        return builder.toHashCode();
+        return super.hashCode();
     }
 }
