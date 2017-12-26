@@ -19,8 +19,8 @@
  */
 package org.xwiki.rendering.block;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -55,8 +55,8 @@ public abstract class AbstractMacroBlock extends AbstractBlock
      * @param content the content of the macro
      * @param inline indicate if the macro is located in a inline content
      */
-    public AbstractMacroBlock(List<? extends Block> childrenBlocks, Map<String, String> parameters,
-            String id, String content, boolean inline)
+    public AbstractMacroBlock(List<? extends Block> childrenBlocks, Map<String, String> parameters, String id,
+        String content, boolean inline)
     {
         super(childrenBlocks, parameters);
 
@@ -89,18 +89,22 @@ public abstract class AbstractMacroBlock extends AbstractBlock
         return inline;
     }
 
-    /**
-     * Helper method for any AbstractMacroBlock equals method.
-     *
-     * @param obj AbstractMacroBlock.
-     * @return true if obj is equals.
-     */
-    protected boolean abstractBlockEquals(AbstractMacroBlock obj)
+    @Override
+    public boolean equals(Object obj)
     {
+        if (this == obj) {
+            return true;
+        }
+
         if (!super.equals(obj)) {
             return false;
         }
 
+        return equals((AbstractMacroBlock) obj);
+    }
+
+    private boolean equals(AbstractMacroBlock obj)
+    {
         EqualsBuilder builder = new EqualsBuilder();
 
         builder.append(getContent(), obj.getContent());
@@ -111,14 +115,8 @@ public abstract class AbstractMacroBlock extends AbstractBlock
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        return super.equals(obj);
-    }
-
-    @Override
     public int hashCode()
-    {   
+    {
         HashCodeBuilder builder = new HashCodeBuilder();
 
         builder.appendSuper(super.hashCode());

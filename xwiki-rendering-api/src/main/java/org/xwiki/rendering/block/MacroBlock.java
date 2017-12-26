@@ -19,8 +19,8 @@
  */
 package org.xwiki.rendering.block;
 
-import java.util.Map;
 import java.util.Collections;
+import java.util.Map;
 
 import org.xwiki.rendering.listener.Listener;
 
@@ -74,25 +74,5 @@ public class MacroBlock extends AbstractMacroBlock
         // In practice as described above this method will never get called when the whole rendering
         // process is executed. This does get called during our unit tests though.
         listener.onMacro(getId(), getParameters(), getContent(), isInline());
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (obj == this) {
-            return true;
-        }
-
-        if (!(obj instanceof MacroBlock)) {
-            return false;
-        }
-
-        return abstractBlockEquals((MacroBlock) obj);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return super.hashCode();
     }
 }

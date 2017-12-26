@@ -53,7 +53,7 @@ public class MacroMarkerBlock extends AbstractMacroBlock
      * @param inline indicate if the macro is located in a inline content (like paragraph, etc.)
      */
     public MacroMarkerBlock(String id, Map<String, String> parameters, String content, List<Block> childBlocks,
-            boolean inline)
+        boolean inline)
     {
         super(childBlocks, parameters, id, content, inline);
     }
@@ -78,25 +78,5 @@ public class MacroMarkerBlock extends AbstractMacroBlock
     public void after(Listener listener)
     {
         listener.endMacroMarker(getId(), getParameters(), getContent(), isInline());
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (obj == this) {
-            return true;
-        }
-
-        if (!(obj instanceof MacroMarkerBlock)) {
-            return false;
-        }
-
-        return abstractBlockEquals((MacroMarkerBlock) obj);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return super.hashCode();
     }
 }
