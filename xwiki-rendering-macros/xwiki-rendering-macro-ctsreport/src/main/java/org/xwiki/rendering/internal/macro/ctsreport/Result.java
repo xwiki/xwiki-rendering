@@ -86,7 +86,7 @@ public class Result
     //Variable accessors
 
     public String getSyntaxId(){
-        return syntaxId;
+        return this.syntaxId;
     }
 
 }
