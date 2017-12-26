@@ -34,7 +34,7 @@ public class Test implements Comparable<Test>
     /**
      * The location where this tests is found in the CTS classpath (eg "cts/simple/bold/bold1").
      */
-    public String prefix;
+    private String prefix;
 
     /**
      * Test Syntax file extension. To compute the full Syntax test name, use: prefix + syntaxExtension.
@@ -76,7 +76,7 @@ public class Test implements Comparable<Test>
             .append(this.syntaxExtension, rhs.syntaxExtension)
             .append(this.ctsExtension, rhs.ctsExtension)
             .append(this.state, rhs.state)
-            .append(this.prefix, rhs.prefix)
+            .append(this.prefix, rhs.getPrefix())
             .isEquals();
     }
 
@@ -94,6 +94,15 @@ public class Test implements Comparable<Test>
     @Override
     public int compareTo(Test test)
     {
-        return this.prefix.compareTo(test.prefix);
+        return this.prefix.compareTo(test.getPrefix());
     }
+
+    //accessors
+    public String getPrefix(){
+        return this.prefix;
+    }
+    public void setPrefix(String newPrefix){
+        this.prefix=newPrefix;
+    }
+
 }

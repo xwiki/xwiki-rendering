@@ -46,7 +46,7 @@ public class ResultExtractor
     {
         Set<String> testNames = new TreeSet<String>();
         for (Result result : results) {
-            testNames.add(result.test.prefix);
+            testNames.add(result.test.getPrefix());
         }
         return testNames;
     }
@@ -117,7 +117,7 @@ public class ResultExtractor
                 if (!inTestNames.contains(testName)) {
                     // Add it with a Not Applicable State!
                     Test test = new Test();
-                    test.prefix = testName;
+                    test.setPrefix(testName);
                     test.state = State.NOT_APPLICABLE;
                     tests.add(test);
                 }
