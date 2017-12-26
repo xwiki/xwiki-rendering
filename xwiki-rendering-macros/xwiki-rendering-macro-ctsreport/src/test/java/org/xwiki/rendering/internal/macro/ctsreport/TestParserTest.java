@@ -41,16 +41,16 @@ public class TestParserTest
         Assert.assertEquals("bold1.in.txt", result.test.syntaxExtension);
         Assert.assertEquals("bold1.inout.xml", result.test.ctsExtension);
         Assert.assertTrue(result.isSyntaxInputTest);
-        Assert.assertEquals(State.UNKNOWN, result.test.state);
+        Assert.assertEquals(State.UNKNOWN, result.test.getState());
 
         result = parser.parse(input + " - Failing");
-        Assert.assertEquals(State.FAILING, result.test.state);
+        Assert.assertEquals(State.FAILING, result.test.getState());
 
         result = parser.parse(input + " - Missing");
-        Assert.assertEquals(State.MISSING, result.test.state);
+        Assert.assertEquals(State.MISSING, result.test.getState());
 
         result = parser.parse(input + " - Passed");
-        Assert.assertEquals(State.PASSED, result.test.state);
+        Assert.assertEquals(State.PASSED, result.test.getState());
     }
 
     @Test

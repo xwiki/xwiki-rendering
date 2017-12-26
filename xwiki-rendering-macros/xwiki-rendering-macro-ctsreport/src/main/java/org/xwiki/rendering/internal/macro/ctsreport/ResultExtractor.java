@@ -118,7 +118,7 @@ public class ResultExtractor
                     // Add it with a Not Applicable State!
                     Test test = new Test();
                     test.prefix = testName;
-                    test.state = State.NOT_APPLICABLE;
+                    test.setState(State.NOT_APPLICABLE);
                     tests.add(test);
                 }
             }
