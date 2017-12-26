@@ -29,6 +29,7 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -123,7 +124,13 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
 
         TreeParametersBuilder builder = new TreeParametersBuilder();
         TreeParameters treeParameters = builder.build(rootBlock, parameters, context);
-        return this.tocTreeBuilder.build(treeParameters);
+        List<Block> parametersList = this.tocTreeBuilder.build(treeParameters);
+        if (parameters.getBox()) {
+            MacroBlock mb = new MacroBlock("toc", parametersList.get(0).getRoot().getParameters(), false);
+        }
+
+        return parametersList;
+
     }
 
     private XDOM getXDOM(ResourceReference reference, WikiModel wikiModel) throws MacroExecutionException
