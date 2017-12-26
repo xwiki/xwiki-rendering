@@ -90,11 +90,11 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         if (!ignoreElements && content.startsWith("startwikilink:")) {
             handleLinkCommentStart(XMLUtils.unescapeXMLComment(content), stack);
         } else if (!ignoreElements && content.startsWith("stopwikilink")) {
-            handleLinkCommentStop(XMLUtils.unescapeXMLComment(content), stack);
+            handleLinkCommentStop(stack);
         } else if (!ignoreElements && content.startsWith("startimage:")) {
             handleImageCommentStart(XMLUtils.unescapeXMLComment(content), stack);
         } else if (!ignoreElements && content.startsWith("stopimage")) {
-            handleImageCommentStop(XMLUtils.unescapeXMLComment(content), stack);
+            handleImageCommentStop(stack);
         } else if (!ignoreElements && content.startsWith("startmacro")) {
             super.onComment(XMLUtils.unescapeXMLComment(content), stack);
         } else {
@@ -134,7 +134,7 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         this.commentContentStack.push(content.substring("startwikilink:".length()));
     }
 
-    private void handleLinkCommentStop(String content, TagStack stack)
+    private void handleLinkCommentStop(TagStack stack)
     {
         XWikiGeneratorListener xwikiListener =
             (XWikiGeneratorListener) stack.popStackParameter(LINK_LISTENER);
@@ -169,7 +169,7 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         this.commentContentStack.push(content.substring("startimage:".length()));
     }
 
-    private void handleImageCommentStop(String content, TagStack stack)
+    private void handleImageCommentStop(TagStack stack)
     {
         boolean isFreeStandingImage = (Boolean) stack.getStackParameter(IS_FREE_STANDING_IMAGE);
 
