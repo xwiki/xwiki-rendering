@@ -53,7 +53,7 @@ public class XDOMBuilder
     public XDOM getXDOM()
     {
         
-        if (!this.stack.isEmpty()) {
+        if (!this.stack.size()==1) {
             throw new IllegalStateException("Unbalanced begin/end Block events, missing " + this.stack.size()
                 + " calls to endBlockList().");
         }
