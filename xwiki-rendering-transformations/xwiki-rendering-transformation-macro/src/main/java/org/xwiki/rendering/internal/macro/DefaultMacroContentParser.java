@@ -45,6 +45,7 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.RenderingContext;
+import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.util.ParserUtils;
 
@@ -98,6 +99,16 @@ public class DefaultMacroContentParser implements MacroContentParser
             throw new MacroExecutionException("Invalid Transformation: missing Syntax");
         }
 
+        return createXDOM(content, macroContext, transform,
+            metadata, inline, syntax);
+    }
+
+    /**
+     * creates XDOM.
+     */
+    private XDOM createXDOM(String content, MacroTransformationContext macroContext, boolean transform,
+        MetaData metadata, boolean inline, Syntax syntax) throws MacroExecutionException
+    {
         try {
             XDOM result = getSyntaxParser(syntax).parse(new StringReader(content));
 
@@ -108,12 +119,8 @@ public class DefaultMacroContentParser implements MacroContentParser
             if (transform && macroContext.getTransformation() != null) {
                 TransformationContext txContext = new TransformationContext(result, syntax);
                 txContext.setId(macroContext.getId());
-                try {
-                    ((MutableRenderingContext) this.renderingContext).transformInContext(
-                        macroContext.getTransformation(), txContext, result);
-                } catch (Exception e) {
-                    throw new MacroExecutionException("Failed to perform transformation", e);
-                }
+                performTransformation((MutableRenderingContext) this.renderingContext,
+                    macroContext.getTransformation(), txContext, result);
             }
 
             if (inline) {
@@ -123,6 +130,19 @@ public class DefaultMacroContentParser implements MacroContentParser
             return result;
         } catch (Exception e) {
             throw new MacroExecutionException("Failed to parse content [" + content + "]", e);
+        }
+    }
+
+    /**
+     * Calls transformInContext on renderingContext.
+     */
+    private void performTransformation(MutableRenderingContext renderingContext, Transformation transformation,
+        TransformationContext context, Block block) throws MacroExecutionException
+    {
+        try {
+            renderingContext.transformInContext(transformation, context, block);
+        } catch (Exception e) {
+            throw new MacroExecutionException("Failed to perform transformation", e);
         }
     }
 
