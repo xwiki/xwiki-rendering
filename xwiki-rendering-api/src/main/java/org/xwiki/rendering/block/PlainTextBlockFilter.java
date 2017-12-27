@@ -42,15 +42,14 @@ public class PlainTextBlockFilter implements BlockFilter
     /**
      * The set of valid Block classes as plain text content.
      */
-    private static final Set<Class<? extends Block>> VALID_PLAINTEXT_BLOCKS = new HashSet<Class<? extends Block>>()
-    {
-        {
-            add(WordBlock.class);
-            add(SpaceBlock.class);
-            add(SpecialSymbolBlock.class);
-            add(NewLineBlock.class);
-        }
-    };
+    private static final Set<Class<? extends Block>> VALID_PLAINTEXT_BLOCKS = new HashSet<Class<? extends Block>>();
+
+    static {
+        VALID_PLAINTEXT_BLOCKS.add(WordBlock.class);
+        VALID_PLAINTEXT_BLOCKS.add(SpaceBlock.class);
+        VALID_PLAINTEXT_BLOCKS.add(SpecialSymbolBlock.class);
+        VALID_PLAINTEXT_BLOCKS.add(NewLineBlock.class);
+    }
 
     /**
      * A parser that knows how to parse plain text; this is used to transform link labels into plain text.
@@ -78,27 +77,33 @@ public class PlainTextBlockFilter implements BlockFilter
     {
         if (VALID_PLAINTEXT_BLOCKS.contains(block.getClass())) {
             return Collections.singletonList(block);
-        } else if (LinkBlock.class.isAssignableFrom(block.getClass()) && block.getChildren().isEmpty()) {
+        }
+
+        if (LinkBlock.class.isAssignableFrom(block.getClass()) && block.getChildren().isEmpty()) {
             ResourceReference reference = ((LinkBlock) block).getReference();
+            return filterLinkBlock(reference);
+        }
 
-            try {
-                String label;
+        return Collections.emptyList();
+    }
 
-                ResourceType resourceType = reference.getType();
-                if (ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType)) {
-                    label = this.linkLabelGenerator.generate(reference);
-                } else {
-                    label = reference.getReference();
-                }
+    private List<Block> filterLinkBlock(ResourceReference reference)
+    {
+        try {
+            String label;
+            ResourceType resourceType = reference.getType();
 
-                return this.plainTextParser.parse(new StringReader(label)).getChildren().get(0).getChildren();
-            } catch (ParseException e) {
-                // This shouldn't happen since the parser cannot throw an exception since the source is a memory
-                // String.
-                throw new RuntimeException("Failed to parse link label as plain text", e);
+            if (ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType)) {
+                label = this.linkLabelGenerator.generate(reference);
+            } else {
+                label = reference.getReference();
             }
-        } else {
-            return Collections.emptyList();
+
+            return this.plainTextParser.parse(new StringReader(label)).getChildren().get(0).getChildren();
+        } catch (ParseException e) {
+            // This shouldn't happen since the parser cannot throw an exception since the source is a memory
+            // String.
+            throw new RuntimeException("Failed to parse link label as plain text", e);
         }
     }
 }
