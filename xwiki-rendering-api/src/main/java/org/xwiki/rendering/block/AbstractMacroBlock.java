@@ -95,21 +95,17 @@ public abstract class AbstractMacroBlock extends AbstractBlock
         if (this == obj) {
             return true;
         }
-
-        if (!super.equals(obj)) {
+        
+        if (!super.equals(obj) || !(obj instanceof AbstractMacroBlock)) {
             return false;
         }
-
-        return equals((AbstractMacroBlock) obj);
-    }
-
-    private boolean equals(AbstractMacroBlock obj)
-    {
+        
+        AbstractMacroBlock asAMB = (AbstractMacroBlock) obj;
         EqualsBuilder builder = new EqualsBuilder();
 
-        builder.append(getContent(), obj.getContent());
-        builder.append(getId(), obj.getId());
-        builder.append(isInline(), obj.isInline());
+        builder.append(getContent(), asAMB.getContent());
+        builder.append(getId(), asAMB.getId());
+        builder.append(isInline(), asAMB.isInline());
 
         return builder.isEquals();
     }
