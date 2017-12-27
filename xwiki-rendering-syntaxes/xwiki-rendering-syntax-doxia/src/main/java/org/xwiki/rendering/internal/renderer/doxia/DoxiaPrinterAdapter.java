@@ -49,7 +49,7 @@ public class DoxiaPrinterAdapter extends Writer
     @Override
     public Writer append(char c) throws IOException
     {
-        this.printer.print("" + c);
+        this.printer.print(String.valueOf(c));
         return this;
     }
 
@@ -93,7 +93,7 @@ public class DoxiaPrinterAdapter extends Writer
     @Override
     public void write(int i) throws IOException
     {
-        this.printer.print("" + i);
+        this.printer.print(String.valueOf(i));
     }
 
     @Override
