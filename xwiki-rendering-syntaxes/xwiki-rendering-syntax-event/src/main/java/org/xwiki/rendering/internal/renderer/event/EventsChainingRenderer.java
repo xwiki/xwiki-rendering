@@ -402,7 +402,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
         } else if (StringUtils.isAsciiPrintable(str)) {
             printableStr = str;
         } else {
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             for (int i = 0; i < str.length(); i++) {
                 char c = str.charAt(i);
                 if (c > 126) {
@@ -420,7 +420,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     private void printMacroData(String eventName, String name, Map<String, String> parameters, String content,
         boolean isInline)
     {
-        StringBuffer parametersBuffer = new StringBuffer();
+        StringBuilder parametersBuffer = new StringBuilder();
         for (Iterator<Map.Entry<String, String>> paramsIt = parameters.entrySet().iterator(); paramsIt.hasNext();) {
             Map.Entry<String, String> entry = paramsIt.next();
             parametersBuffer.append(entry.getKey()).append("=").append(entry.getValue());
@@ -429,7 +429,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
             }
         }
 
-        StringBuffer macroBuffer = new StringBuffer();
+        StringBuilder macroBuffer = new StringBuilder();
 
         macroBuffer.append(eventName);
         macroBuffer.append(isInline ? "Inline" : "Standalone");
@@ -456,7 +456,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
         // Start by sorting the parameters so that when comparing the output the parameter are listed in a fixed order.
         Map<String, ? extends Object> sortedParameters = new TreeMap<>(parameters);
 
-        StringBuffer parametersStr = new StringBuffer();
+        StringBuilder parametersStr = new StringBuilder();
         for (Map.Entry<String, ? extends Object> entry : sortedParameters.entrySet()) {
             String value = entry.getValue() == null ? null : entry.getValue().toString();
             String key = entry.getKey();
@@ -468,7 +468,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
         }
 
         if (parametersStr.length() > 0) {
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             buffer.append(' ').append('[');
             buffer.append(parametersStr);
             buffer.append(']');
