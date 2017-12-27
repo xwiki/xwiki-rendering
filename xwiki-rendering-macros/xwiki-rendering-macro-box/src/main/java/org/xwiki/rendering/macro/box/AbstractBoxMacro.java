@@ -113,38 +113,117 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
             boxParameters.put("style", "width:" + parameters.getWidth());
         }
 
-        Block boxBlock;
+        Block boxBlock = new BoxBlockBuilder()
+            .setParameters(parameters)
+            .setContent(content)
+            .setContext(context)
+            .setBoxParameters(boxParameters)
+            .setImageReference(imageReference)
+            .setTitleParameter(titleParameter)
+            .setTitleBlockList(titleBlockList)
+            .build();
 
-        if (content != null) {
+        if (boxBlock == null) {
+            return Collections.emptyList();
+        }
+
+        return Collections.singletonList(boxBlock);
+    }
+
+    private final class BoxBlockBuilder
+    {
+        private P parameters;
+
+        private String content;
+
+        private MacroTransformationContext context;
+
+        private Map<String, String> boxParameters;
+
+        private ResourceReference imageReference;
+
+        private String titleParameter;
+
+        private List<? extends Block> titleBlockList;
+
+        public BoxBlockBuilder setParameters(P parameters)
+        {
+            this.parameters = parameters;
+            return this;
+        }
+
+        public BoxBlockBuilder setContent(String content)
+        {
+            this.content = content;
+            return this;
+        }
+
+        public BoxBlockBuilder setContext(MacroTransformationContext context)
+        {
+            this.context = context;
+            return this;
+        }
+
+        public BoxBlockBuilder setBoxParameters(Map<String, String> boxParameters)
+        {
+            this.boxParameters = boxParameters;
+            return this;
+        }
+
+        public BoxBlockBuilder setImageReference(ResourceReference imageReference)
+        {
+            this.imageReference = imageReference;
+            return this;
+        }
+
+        public BoxBlockBuilder setTitleParameter(String titleParameter)
+        {
+            this.titleParameter = titleParameter;
+            return this;
+        }
+
+        public BoxBlockBuilder setTitleBlockList(List<? extends Block> titleBlockList)
+        {
+            this.titleBlockList = titleBlockList;
+            return this;
+        }
+
+        public Block build() throws MacroExecutionException
+        {
+            Block ret = null;
+
+            if (content == null) {
+                return ret;
+            }
+
             if (context.isInline()) {
                 List<Block> contentBlocks = parseContent(parameters, content, context);
                 FormatBlock spanBlock = new FormatBlock(contentBlocks, Format.NONE);
                 spanBlock.setParameters(boxParameters);
-                boxBlock = spanBlock;
+                ret = spanBlock;
             } else {
-                boxBlock = new GroupBlock(boxParameters);
+                ret = new GroupBlock(boxParameters);
 
                 // we add the image, if there is one
                 if (imageReference != null) {
                     Block imageBlock = new ImageBlock(imageReference, true);
-                    boxBlock.addChild(imageBlock);
-                    boxBlock.addChild(new NewLineBlock());
+                    ret.addChild(imageBlock);
+                    ret.addChild(new NewLineBlock());
                 }
                 // we add the title, if there is one
                 if (!StringUtils.isEmpty(titleParameter)) {
                     // Don't execute transformations explicitly. They'll be executed on the generated content later on.
-                    boxBlock.addChildren(this.contentParser.parse(titleParameter, context, false, true).getChildren());
+                    ret.addChildren(AbstractBoxMacro.this.contentParser.parse(
+                        titleParameter, context, false, true).getChildren());
                 }
                 if (titleBlockList != null) {
-                    boxBlock.addChildren(titleBlockList);
+                    ret.addChildren(titleBlockList);
                 }
                 List<Block> contentBlocks = parseContent(parameters, content, context);
-                boxBlock.addChildren(contentBlocks);
+                ret.addChildren(contentBlocks);
             }
 
-            return Collections.singletonList(boxBlock);
-        } else {
-            return Collections.emptyList();
+            return ret;
         }
     }
 
