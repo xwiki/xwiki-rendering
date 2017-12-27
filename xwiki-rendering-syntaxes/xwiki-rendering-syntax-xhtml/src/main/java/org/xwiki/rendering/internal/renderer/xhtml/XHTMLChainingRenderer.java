@@ -296,7 +296,6 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void onSpace()
     {
-        // The XHTML printer will decide whether to print a normal space or a &nbsp;
         getXHTMLWikiPrinter().printSpace();
     }
 
