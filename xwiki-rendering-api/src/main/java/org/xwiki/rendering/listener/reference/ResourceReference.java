@@ -283,14 +283,11 @@ public class ResourceReference implements Cloneable
     @Override
     public boolean equals(Object object)
     {
-        if (object == null) {
+        if (!(object instanceof ResourceReference)) {
             return false;
         }
         if (object == this) {
             return true;
-        }
-        if (object.getClass() != getClass()) {
-            return false;
         }
         ResourceReference rhs = (ResourceReference) object;
         return new EqualsBuilder()
