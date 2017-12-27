@@ -242,7 +242,7 @@ public class SyntaxType implements Comparable<SyntaxType>
                 SyntaxType syntaxType = (SyntaxType) object;
                 // Note that the name isn't part of the hashCode computation since it's not part of the Syntax type's
                 // identity.
-                result = (getId() == syntaxType.getId() || (getId() != null && getId().equals(syntaxType.getId())));
+                result = (getId() == syntaxType.getId() || getId() != null && getId().equals(syntaxType.getId()));
             }
         }
 
