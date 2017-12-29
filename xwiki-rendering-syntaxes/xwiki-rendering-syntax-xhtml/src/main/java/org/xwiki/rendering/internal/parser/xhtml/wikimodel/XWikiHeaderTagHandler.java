@@ -37,7 +37,7 @@ public class XWikiHeaderTagHandler extends HeaderTagHandler implements XWikiWiki
 {
     private static final String CLASS = "class";
 
-    private final static String ID = "id";
+    private static final String ID = "id";
 
     @Override
     protected void begin(TagContext context)
