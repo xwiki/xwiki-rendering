@@ -194,7 +194,7 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
                 }
             }
 
-            if (subVerbatimStack.size() == 0) {
+            if (subVerbatimStack.isEmpty()) {
                 result.append(before);
             } else {
                 subVerbatimStack.peek().append(before);
@@ -203,7 +203,7 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
             if (matcher.group(1) != null) {
                 subVerbatimStack.push(new StringBuffer());
             } else {
-                if (subVerbatimStack.size() == 0) {
+                if (subVerbatimStack.isEmpty()) {
                     printEndVerbatim = true;
                 } else {
                     StringBuffer subVerbatim = subVerbatimStack.pop();
@@ -236,15 +236,15 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
             }
         }
 
-        if (subVerbatimStack.size() > 0) {
+        if (!subVerbatimStack.isEmpty()) {
             // Append remaining string
             subVerbatimStack.peek().append(end);
 
             // Escape not closed verbatim blocks
-            while (subVerbatimStack.size() > 0) {
+            while (!subVerbatimStack.isEmpty()) {
                 StringBuffer subVerbatim = subVerbatimStack.pop();
 
-                if (subVerbatimStack.size() == 0) {
+                if (subVerbatimStack.isEmpty()) {
                     if (subVerbatim.length() > 0 && subVerbatim.charAt(0) == '{') {
                         result.append("~{~{~{");
                     } else {
