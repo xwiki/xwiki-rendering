@@ -44,7 +44,7 @@ public class Test implements Comparable<Test>
     /**
      * CTS file extension. To compute the full CTS test name, use: prefix + ctsExtension.
      */
-    public String ctsExtension;
+    private String ctsExtension;
 
     /**
      * The state of the tests (passing, missing, etc).
@@ -74,7 +74,7 @@ public class Test implements Comparable<Test>
         Test rhs = (Test) object;
         return new EqualsBuilder()
             .append(this.syntaxExtension, rhs.syntaxExtension)
-            .append(this.ctsExtension, rhs.ctsExtension)
+            .append(this.ctsExtension, rhs.getCtsExtension())
             .append(this.state, rhs.state)
             .append(this.prefix, rhs.prefix)
             .isEquals();
@@ -96,4 +96,14 @@ public class Test implements Comparable<Test>
     {
         return this.prefix.compareTo(test.prefix);
     }
+
+    //accessors
+    public String getCtsExtension(){
+        return this.ctsExtension;
+    }
+    public void setCtsExtension(String newCtsExtension){
+        this.ctsExtension = newCtsExtension;
+    }
+
+
 }
