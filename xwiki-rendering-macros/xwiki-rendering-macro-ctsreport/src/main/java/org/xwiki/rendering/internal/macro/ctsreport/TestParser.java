@@ -56,13 +56,13 @@ public class TestParser
 
             String cause = matcher.group(6);
             if (cause.contains("Failing")) {
-                test.state = State.FAILING;
+                test.setState(State.FAILING);
             } else if (cause.contains("Missing")) {
-                test.state = State.MISSING;
+                test.setState(State.MISSING);
             } else if (cause.contains("Passed")) {
-                test.state = State.PASSED;
+                test.setState(State.PASSED);
             } else {
-                test.state = State.UNKNOWN;
+                test.setState(State.UNKNOWN);
             }
         } else {
             throw new RuntimeException(String.format("Invalid Syntax Test format for [%s]", syntaxTest));

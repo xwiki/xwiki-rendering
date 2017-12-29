@@ -49,7 +49,7 @@ public class Test implements Comparable<Test>
     /**
      * The state of the tests (passing, missing, etc).
      */
-    public State state;
+    private State state;
 
     @Override
     public String toString()
@@ -75,7 +75,7 @@ public class Test implements Comparable<Test>
         return new EqualsBuilder()
             .append(this.syntaxExtension, rhs.syntaxExtension)
             .append(this.ctsExtension, rhs.ctsExtension)
-            .append(this.state, rhs.state)
+            .append(this.state, rhs.getState())
             .append(this.prefix, rhs.prefix)
             .isEquals();
     }
@@ -96,4 +96,13 @@ public class Test implements Comparable<Test>
     {
         return this.prefix.compareTo(test.prefix);
     }
+
+    //accessors
+    public State getState(){
+        return this.state;
+    }
+    public void setState(State newState){
+        this.state=newState;
+    }
+
 }
