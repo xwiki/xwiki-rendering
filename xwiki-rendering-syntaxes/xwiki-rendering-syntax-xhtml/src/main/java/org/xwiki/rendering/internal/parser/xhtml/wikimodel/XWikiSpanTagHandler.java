@@ -42,12 +42,12 @@ public class XWikiSpanTagHandler extends SpanTagHandler implements XWikiWikiMode
             if (classParam.getValue().contains("wikigeneratedlinkcontent"))
             {
                 setAccumulateContent(true);
-            } else if (classParam.getValue().equals("wikilink")
-                || classParam.getValue().equals("wikicreatelink")
-                || classParam.getValue().equals("wikiexternallink"))
+            } else if ("wikilink".equals(classParam.getValue())
+                || "wikicreatelink".equals(classParam.getValue())
+                || "wikiexternallink".equals(classParam.getValue()))
             {
                 // Nothing to do
-            } else if (classParam.getValue().equals("xwikirenderingerror")) {
+            } else if ("xwikirenderingerror".equals(classParam.getValue())) {
                 setAccumulateContent(true);
             } else {
                 super.begin(context);
