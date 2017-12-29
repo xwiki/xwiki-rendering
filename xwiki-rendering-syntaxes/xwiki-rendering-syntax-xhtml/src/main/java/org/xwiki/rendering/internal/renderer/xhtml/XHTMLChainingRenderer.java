@@ -168,6 +168,8 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
                 break;
             case NONE:
                 break;
+            default : //Unsupported format
+                break;
         }
         if (!parameters.isEmpty()) {
             getXHTMLWikiPrinter().printXMLStartElement("span", parameters);
@@ -203,6 +205,8 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
                 getXHTMLWikiPrinter().printXMLEndElement("tt");
                 break;
             case NONE:
+                break;
+            default : //Unsupported format
                 break;
         }
     }
