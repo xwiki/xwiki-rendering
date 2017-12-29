@@ -50,7 +50,7 @@ public class TestParser
 
             Test test = new Test();
             data.test = test;
-            test.prefix = matcher.group(1);
+            test.setPrefix(matcher.group(1));
             test.syntaxExtension = matcher.group(4);
             test.ctsExtension = matcher.group(5);
 
