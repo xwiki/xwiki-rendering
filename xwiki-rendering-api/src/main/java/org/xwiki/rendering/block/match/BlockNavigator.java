@@ -204,6 +204,14 @@ public class BlockNavigator
         return newBlocks;
     }
 
+    private Axes returnFollowingAxes(Block block, Axes currentAxes) {
+        if (!block.getChildren().isEmpty()) {
+            return Axes.FOLLOWING_SIBLING;
+        }
+
+        return currentAxes;
+    }
+
     // First block
 
     /**
@@ -239,14 +247,21 @@ public class BlockNavigator
                     nextBlock = block.getParent();
                     break;
                 // DESCENDANT
-                case CHILD:
-                    List<Block> children = block.getChildren();
-                    if (!children.isEmpty()) {
-                        nextBlock = children.get(0);
-                        axes = Axes.FOLLOWING_SIBLING;
-                        if (this.matcher.match(nextBlock)) {
-                            return (T) nextBlock;
+                /* In order to reduce number of lines from 9 to 5,
+                   all variables with the exception of axes were removed from the code.
+                        nextBlock = block.getChildren().get(0)
+                        children = block.getChildren()
+                   The function returnFollowingAxes executes takes the place of the previously used code, shown below
+                        if (!block.getChildren().isEmpty()) {
+                            axes = Axes.FOLLOWING_SIBLING;
                         }
+                   The function returns Axes.FOLLOWING_SIBLING if the condition is true, and if false returns
+                   the current axes.
+                 */
+                case CHILD:
+                    axes = returnFollowingAxes(block, currentAxes);
+                    if (this.matcher.match(nextBlock)) {
+                        return (T) block.getChildren().get(0);
                     }
                     break;
                 case DESCENDANT_OR_SELF:
