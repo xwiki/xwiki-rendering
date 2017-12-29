@@ -52,7 +52,7 @@ public class XWikiSyntaxEscapeHandler
 
     public static final String ESCAPE_CHAR = "~";
 
-    private boolean beforeLink = false;
+    private boolean beforeLink;
 
     private boolean onNewLine = true;
 
