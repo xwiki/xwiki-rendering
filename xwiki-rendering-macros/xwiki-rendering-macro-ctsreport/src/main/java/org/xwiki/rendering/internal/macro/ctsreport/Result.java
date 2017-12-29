@@ -34,7 +34,7 @@ public class Result
     /**
      * The syntax being tested and in which the syntax data is written in (eg "xwiki/2.0").
      */
-    public String syntaxId;
+    private String syntaxId;
 
     /**
      * True if this test is an input test, ie the syntax data represents an input, false otherwise.
@@ -82,4 +82,11 @@ public class Result
             .append(this.isSyntaxInputTest)
             .toHashCode();
     }
+
+    //Variable accessors
+
+    public String getSyntaxId(){
+        return this.syntaxId;
+    }
+
 }

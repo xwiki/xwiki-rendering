@@ -37,7 +37,7 @@ public class TestParserTest
         String input = "simple/bold/bold1 [xwiki/2.0, IN:bold1.in.txt, CTS:bold1.inout.xml]";
         Result result = parser.parse(input);
         Assert.assertEquals("simple/bold/bold1", result.test.prefix);
-        Assert.assertEquals("xwiki/2.0", result.syntaxId);
+        Assert.assertEquals("xwiki/2.0", result.getSyntaxId());
         Assert.assertEquals("bold1.in.txt", result.test.syntaxExtension);
         Assert.assertEquals("bold1.inout.xml", result.test.ctsExtension);
         Assert.assertTrue(result.isSyntaxInputTest);

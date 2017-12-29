@@ -63,11 +63,11 @@ public class ResultExtractor
         for (Result result : results) {
 
             // Is there already an entry for the syntax?
-            Pair<Set<Test>, Set<Test>> inOutTests = tests.get(result.syntaxId);
+            Pair<Set<Test>, Set<Test>> inOutTests = tests.get(result.getSyntaxId());
             if (inOutTests == null) {
                 inOutTests = new ImmutablePair<Set<Test>, Set<Test>>(
                     new TreeSet<Test>(), new TreeSet<Test>());
-                tests.put(result.syntaxId, inOutTests);
+                tests.put(result.getSyntaxId(), inOutTests);
             }
 
             // Get the list of Test for the result type (In or Out)
