@@ -307,7 +307,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void onSpecialSymbol(char symbol)
     {
-        getXHTMLWikiPrinter().printXML("" + symbol);
+        getXHTMLWikiPrinter().printXML(String.valueOf(symbol));
     }
 
     @Override
