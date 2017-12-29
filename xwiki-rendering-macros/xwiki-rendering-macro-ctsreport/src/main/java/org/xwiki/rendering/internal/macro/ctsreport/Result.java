@@ -39,7 +39,7 @@ public class Result
     /**
      * True if this test is an input test, ie the syntax data represents an input, false otherwise.
      */
-    public boolean isSyntaxInputTest;
+    private boolean isSyntaxInputTest;
 
     /**
      * Test Data (test name, syntax extension, cts extension, state).
