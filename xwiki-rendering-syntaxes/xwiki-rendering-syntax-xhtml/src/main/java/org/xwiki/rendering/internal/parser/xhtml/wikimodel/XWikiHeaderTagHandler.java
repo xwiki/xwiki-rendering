@@ -35,7 +35,7 @@ import org.xwiki.text.StringUtils;
  */
 public class XWikiHeaderTagHandler extends HeaderTagHandler implements XWikiWikiModelHandler
 {
-    private final static String CLASS = "class";
+    private static final String CLASS = "class";
 
     private final static String ID = "id";
 
