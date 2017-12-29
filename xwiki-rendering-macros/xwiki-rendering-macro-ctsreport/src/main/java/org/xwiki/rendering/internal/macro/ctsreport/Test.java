@@ -39,7 +39,7 @@ public class Test implements Comparable<Test>
     /**
      * Test Syntax file extension. To compute the full Syntax test name, use: prefix + syntaxExtension.
      */
-    public String syntaxExtension;
+    private String syntaxExtension;
 
     /**
      * CTS file extension. To compute the full CTS test name, use: prefix + ctsExtension.
@@ -73,7 +73,7 @@ public class Test implements Comparable<Test>
         }
         Test rhs = (Test) object;
         return new EqualsBuilder()
-            .append(this.syntaxExtension, rhs.syntaxExtension)
+            .append(this.syntaxExtension, rhs.getSyntaxExtension())
             .append(this.ctsExtension, rhs.ctsExtension)
             .append(this.state, rhs.state)
             .append(this.prefix, rhs.prefix)
@@ -96,4 +96,13 @@ public class Test implements Comparable<Test>
     {
         return this.prefix.compareTo(test.prefix);
     }
+
+    //accessors
+    public String getSyntaxExtension(){
+        return this.syntaxExtension;
+    }
+    public void setSyntaxExtension(String newSyntaxExtension){
+        this.syntaxExtension=newSyntaxExtension;
+    }
+
 }
