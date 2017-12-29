@@ -78,7 +78,7 @@ public class XWikiGeneratorSink implements Sink
 
     private boolean isInVerbatim;
 
-    private StringBuffer accumulatedText = new StringBuffer();
+    private StringBuilder accumulatedText = new StringBuilder();
 
     /**
      * @since 3.0M3
