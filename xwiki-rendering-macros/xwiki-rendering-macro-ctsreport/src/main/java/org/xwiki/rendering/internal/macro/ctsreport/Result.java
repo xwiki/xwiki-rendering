@@ -44,7 +44,7 @@ public class Result
     /**
      * Test Data (test name, syntax extension, cts extension, state).
      */
-    public Test test;
+    private Test test;
 
     @Override
     public String toString()
