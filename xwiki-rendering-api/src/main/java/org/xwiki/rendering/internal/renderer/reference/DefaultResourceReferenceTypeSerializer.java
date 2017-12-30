@@ -41,7 +41,7 @@ public class DefaultResourceReferenceTypeSerializer implements ResourceReference
     @Override
     public String serialize(ResourceReference reference)
     {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         if (reference.isTyped() && isSupportedType(reference.getType())) {
             result.append(reference.getType().getScheme());
             result.append(DefaultResourceReferenceParser.TYPE_SEPARATOR);
