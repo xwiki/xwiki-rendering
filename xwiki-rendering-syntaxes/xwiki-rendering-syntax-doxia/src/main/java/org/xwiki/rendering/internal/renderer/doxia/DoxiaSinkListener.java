@@ -261,7 +261,7 @@ public class DoxiaSinkListener implements Listener
     public void onSpecialSymbol(char symbol)
     {
         // Since there's no On Special Symbol event in Doxia we simply generate text
-        this.sink.text("" + symbol);
+        this.sink.text(String.valueOf(symbol));
     }
 
     @Override
