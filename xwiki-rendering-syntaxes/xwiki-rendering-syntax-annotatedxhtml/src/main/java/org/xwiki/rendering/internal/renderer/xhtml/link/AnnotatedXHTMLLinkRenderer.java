@@ -74,10 +74,10 @@ public class AnnotatedXHTMLLinkRenderer implements XHTMLLinkRenderer
         // Add an XML comment as a placeholder so that the XHTML parser can find the document name.
         // Otherwise it would be too difficult to transform a URL into a document name especially since
         // a link can refer to an external URL.
-        StringBuffer buffer = new StringBuffer("startwikilink:");
-        buffer.append(this.xhtmlMarkerSerializer.serialize(reference));
+        StringBuilder builder = new StringBuilder("startwikilink:");
+        builder.append(this.xhtmlMarkerSerializer.serialize(reference));
 
-        getXHTMLWikiPrinter().printXMLComment(buffer.toString(), true);
+        getXHTMLWikiPrinter().printXMLComment(builder.toString(), true);
         this.defaultLinkRenderer.beginLink(reference, freestanding, parameters);
     }
 
