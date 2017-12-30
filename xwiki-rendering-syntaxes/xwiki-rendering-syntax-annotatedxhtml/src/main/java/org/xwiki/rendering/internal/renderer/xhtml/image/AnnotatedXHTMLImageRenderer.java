@@ -73,10 +73,10 @@ public class AnnotatedXHTMLImageRenderer implements XHTMLImageRenderer
     {
         // We need to save the image location in XML comment so that it can be reconstructed later on when moving
         // from XHTML to wiki syntax.
-        StringBuffer buffer = new StringBuffer("startimage:");
-        buffer.append(this.xhtmlMarkerSerializer.serialize(reference));
+        StringBuilder builder = new StringBuilder("startimage:");
+        builder.append(this.xhtmlMarkerSerializer.serialize(reference));
 
-        getXHTMLWikiPrinter().printXMLComment(buffer.toString(), true);
+        getXHTMLWikiPrinter().printXMLComment(builder.toString(), true);
         this.defaultImageRenderer.onImage(reference, freestanding, parameters);
         getXHTMLWikiPrinter().printXMLComment("stopimage");
     }
