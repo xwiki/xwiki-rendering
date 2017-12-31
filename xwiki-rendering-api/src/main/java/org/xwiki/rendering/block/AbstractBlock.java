@@ -547,7 +547,7 @@ public abstract class AbstractBlock implements Block
      * @param listener the listener that will receive the events sent by this block before its children blocks have
      *            emitted their own events.
      */
-    public void after(Listener listener)
+    public abstract void after(Listener listener)
     {
         // Do nothing by default, should be overridden by extending Blocks
     }
