@@ -42,5 +42,10 @@
       <version>4.3.0.Final</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-macro-box</artifactId>
+      <version>10.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>

@@ -34,6 +34,8 @@ import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.macro.AbstractMacro;
+import org.xwiki.rendering.macro.Macro;
+import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.toc.TocMacroParameters;
 import org.xwiki.rendering.parser.Parser;
@@ -57,7 +59,11 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
      * The description of the macro.
      */
     private static final String DESCRIPTION = "Generates a Table Of Contents.";
-
+    
+    @Inject
+    @Named("box")
+    private Macro<BoxMacroParameters> boxMacro;
+    
     private TocTreeBuilder tocTreeBuilder;
 
     /**
@@ -126,7 +132,9 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
         TreeParameters treeParameters = builder.build(rootBlock, parameters, context);
         List<Block> parametersList = this.tocTreeBuilder.build(treeParameters);
         if (parameters.getBox()) {
-            MacroBlock mb = new MacroBlock("toc", parametersList.get(0).getRoot().getParameters(), false);
+            BoxMacroParameters boxParameters = new BoxMacroParameters();
+            boxParameters.setCssClass(context.getId() + "message");
+            parametersList = boxMacro.execute(boxParameters, content, context);
         }
 
         return parametersList;
