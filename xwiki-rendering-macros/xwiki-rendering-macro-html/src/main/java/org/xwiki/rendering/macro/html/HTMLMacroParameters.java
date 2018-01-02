@@ -60,7 +60,7 @@ public class HTMLMacroParameters
     /**
      * @return if the user has asked to interpret wiki syntax or not
      */
-    public boolean getWiki()
+    public boolean isWiki()
     {
         return this.wiki;
     }
@@ -68,7 +68,7 @@ public class HTMLMacroParameters
     /**
      * @return if the HTML should be transformed into valid XHTML or not
      */
-    public boolean getClean()
+    public boolean isClean()
     {
         return this.clean;
     }
