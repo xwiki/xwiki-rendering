@@ -69,14 +69,24 @@ public class MacroTransformation extends AbstractTransformation implements Initi
 {
     private static class MacroLookupExceptionElement
     {
-        public MacroBlock macroBlock;
+        private MacroBlock macroBlock;
 
-        public MacroLookupException exception;
+        private MacroLookupException exception;
 
         public MacroLookupExceptionElement(MacroBlock macroBlock, MacroLookupException exception)
         {
             this.macroBlock = macroBlock;
             this.exception = exception;
+        }
+
+        public MacroBlock getMacroBlock()
+        {
+            return macroBlock;
+        }
+
+        public MacroLookupException getException()
+        {
+            return exception;
         }
     }
 
@@ -84,11 +94,11 @@ public class MacroTransformation extends AbstractTransformation implements Initi
     {
         private final Syntax syntax;
 
-        public MacroBlock block;
+        private MacroBlock block;
 
-        public Macro<?> blockMacro;
+        private Macro<?> blockMacro;
 
-        public List<MacroLookupExceptionElement> errors;
+        private List<MacroLookupExceptionElement> errors;
 
         // Cache known macros since getting them again and again from the ComponentManager might be expensive
         private final Map<String, Macro<?>> knownMacros = new HashMap<>();
@@ -96,6 +106,21 @@ public class MacroTransformation extends AbstractTransformation implements Initi
         PriorityMacroBlockMatcher(Syntax syntax)
         {
             this.syntax = syntax;
+        }
+
+        public MacroBlock getBlock()
+        {
+            return block;
+        }
+
+        public Macro<?> getBlockMacro()
+        {
+            return blockMacro;
+        }
+
+        public List<MacroLookupExceptionElement> getErrors()
+        {
+            return errors;
         }
 
         @Override
@@ -202,31 +227,31 @@ public class MacroTransformation extends AbstractTransformation implements Initi
             rootBlock.getFirstBlock(priorityMacroBlockMatcher, Block.Axes.DESCENDANT);
 
             // 2) Apply macros lookup errors
-            if (priorityMacroBlockMatcher.errors != null) {
-                for (MacroLookupExceptionElement error : priorityMacroBlockMatcher.errors) {
-                    if (error.exception instanceof MacroNotFoundException) {
+            if (priorityMacroBlockMatcher.getErrors() != null) {
+                for (MacroLookupExceptionElement error : priorityMacroBlockMatcher.getErrors()) {
+                    if (error.getException() instanceof MacroNotFoundException) {
                         // Macro cannot be found. Generate an error message instead of the macro execution result.
                         // TODO: make it internationalized
-                        this.macroErrorManager.generateError(error.macroBlock,
-                            String.format("Unknown macro: %s.", error.macroBlock.getId()), String.format(
+                        this.macroErrorManager.generateError(error.getMacroBlock(),
+                            String.format("Unknown macro: %s.", error.getMacroBlock().getId()), String.format(
                                 "The \"%s\" macro is not in the list of registered macros. Verify the spelling or "
-                                    + "contact your administrator.", error.macroBlock.getId()));
+                                    + "contact your administrator.", error.getMacroBlock().getId()));
                     } else {
                         // TODO: make it internationalized
-                        this.macroErrorManager.generateError(error.macroBlock,
-                            String.format("Invalid macro: %s", error.macroBlock.getId()), error.exception);
+                        this.macroErrorManager.generateError(error.getMacroBlock(),
+                            String.format("Invalid macro: %s", error.getMacroBlock().getId()), error.getException());
                     }
                 }
             }
 
-            MacroBlock macroBlock = priorityMacroBlockMatcher.block;
+            MacroBlock macroBlock = priorityMacroBlockMatcher.getBlock();
 
             if (macroBlock == null) {
                 // Nothing left to do
                 return;
             }
 
-            Macro<?> macro = priorityMacroBlockMatcher.blockMacro;
+            Macro<?> macro = priorityMacroBlockMatcher.getBlockMacro();
 
             boolean incrementRecursions = macroBlock.getParent() instanceof MacroMarkerBlock;
 
