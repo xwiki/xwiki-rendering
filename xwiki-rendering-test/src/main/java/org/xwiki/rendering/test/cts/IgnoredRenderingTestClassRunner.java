@@ -55,13 +55,13 @@ public class IgnoredRenderingTestClassRunner extends IgnoredClassRunner
     public Description getDescription()
     {
         // Add the cause of the ignore at the end of the test description
-        String testName = this.testData.computeTestName();
+        StringBuilder testName = new StringBuilder(this.testData.computeTestName());
         if (this.testData.syntaxData == null) {
-            testName = testName + " - Missing";
+            testName.append(" - Missing");
         } else if (this.testData.isFailingTest()) {
-            testName = testName + " - Failing";
+            testName.append(" - Failing");
         }
 
-        return Description.createTestDescription(this.testClass, testName);
+        return Description.createTestDescription(this.testClass, testName.toString());
     }
 }
