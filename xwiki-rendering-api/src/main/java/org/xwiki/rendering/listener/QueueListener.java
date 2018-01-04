@@ -54,7 +54,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
         /**
          * The parameters of the event.
          */
-        public Object... eventParameters;
+        public Object[] eventParameters;
 
         /**
          * @param eventType the type of the event
