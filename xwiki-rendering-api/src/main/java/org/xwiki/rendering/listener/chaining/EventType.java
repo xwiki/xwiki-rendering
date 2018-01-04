@@ -42,7 +42,7 @@ public enum EventType
      */
     BEGIN_DOCUMENT {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginDocument((MetaData) eventParameters[0]);
         }
@@ -52,7 +52,7 @@ public enum EventType
      */
     END_DOCUMENT {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endDocument((MetaData) eventParameters[0]);
         }
@@ -62,7 +62,7 @@ public enum EventType
      */
     BEGIN_GROUP {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginGroup((Map<String, String>) eventParameters[0]);
         }
@@ -72,7 +72,7 @@ public enum EventType
      */
     END_GROUP {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endGroup((Map<String, String>) eventParameters[0]);
         }
@@ -88,7 +88,7 @@ public enum EventType
      */
     BEGIN_PARAGRAPH {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginParagraph((Map<String, String>) eventParameters[0]);
         }
@@ -98,7 +98,7 @@ public enum EventType
      */
     END_PARAGRAPH {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endParagraph((Map<String, String>) eventParameters[0]);
         }
@@ -114,7 +114,7 @@ public enum EventType
      */
     BEGIN_DEFINITION_LIST {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginDefinitionList((Map<String, String>) eventParameters[0]);
         }
@@ -132,7 +132,7 @@ public enum EventType
      */
     END_DEFINITION_LIST {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endDefinitionList((Map<String, String>) eventParameters[0]);
         }
@@ -142,7 +142,7 @@ public enum EventType
      */
     BEGIN_DEFINITION_TERM {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginDefinitionTerm();
         }
@@ -152,7 +152,7 @@ public enum EventType
      */
     END_DEFINITION_TERM {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endDefinitionTerm();
         }
@@ -168,7 +168,7 @@ public enum EventType
      */
     BEGIN_DEFINITION_DESCRIPTION {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginDefinitionDescription();
         }
@@ -178,7 +178,7 @@ public enum EventType
      */
     END_DEFINITION_DESCRIPTION {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endDefinitionDescription();
         }
@@ -194,7 +194,7 @@ public enum EventType
      */
     BEGIN_FORMAT {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginFormat((Format) eventParameters[0], (Map<String, String>) eventParameters[1]);
         }
@@ -204,7 +204,7 @@ public enum EventType
      */
     END_FORMAT {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endFormat((Format) eventParameters[0], (Map<String, String>) eventParameters[1]);
         }
@@ -214,7 +214,7 @@ public enum EventType
      */
     BEGIN_HEADER {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginHeader((HeaderLevel) eventParameters[0], (String) eventParameters[1],
                 (Map<String, String>) eventParameters[2]);
@@ -225,7 +225,7 @@ public enum EventType
      */
     END_HEADER {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endHeader((HeaderLevel) eventParameters[0], (String) eventParameters[1],
                 (Map<String, String>) eventParameters[2]);
@@ -236,7 +236,7 @@ public enum EventType
      */
     BEGIN_LINK {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginLink((ResourceReference) eventParameters[0], (Boolean) eventParameters[1],
                 (Map<String, String>) eventParameters[2]);
@@ -247,7 +247,7 @@ public enum EventType
      */
     END_LINK {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endLink((ResourceReference) eventParameters[0], (Boolean) eventParameters[1],
                 (Map<String, String>) eventParameters[2]);
@@ -258,7 +258,7 @@ public enum EventType
      */
     BEGIN_LIST {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginList((ListType) eventParameters[0], (Map<String, String>) eventParameters[1]);
         }
@@ -275,7 +275,7 @@ public enum EventType
      */
     END_LIST {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endList((ListType) eventParameters[0], (Map<String, String>) eventParameters[1]);
         }
@@ -285,7 +285,7 @@ public enum EventType
      */
     BEGIN_LIST_ITEM {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginListItem();
         }
@@ -295,7 +295,7 @@ public enum EventType
      */
     END_LIST_ITEM {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endListItem();
         }
@@ -311,7 +311,7 @@ public enum EventType
      */
     BEGIN_MACRO_MARKER {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginMacroMarker((String) eventParameters[0], (Map<String, String>) eventParameters[1],
                 (String) eventParameters[2], (Boolean) eventParameters[3]);
@@ -322,7 +322,7 @@ public enum EventType
      */
     END_MACRO_MARKER {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endMacroMarker((String) eventParameters[0], (Map<String, String>) eventParameters[1],
                 (String) eventParameters[2], (Boolean) eventParameters[3]);
@@ -333,7 +333,7 @@ public enum EventType
      */
     BEGIN_QUOTATION {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginQuotation((Map<String, String>) eventParameters[0]);
         }
@@ -350,7 +350,7 @@ public enum EventType
      */
     END_QUOTATION {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endQuotation((Map<String, String>) eventParameters[0]);
         }
@@ -360,7 +360,7 @@ public enum EventType
      */
     BEGIN_QUOTATION_LINE {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginQuotationLine();
         }
@@ -370,7 +370,7 @@ public enum EventType
      */
     END_QUOTATION_LINE {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endQuotationLine();
         }
@@ -386,7 +386,7 @@ public enum EventType
      */
     BEGIN_SECTION {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginSection((Map<String, String>) eventParameters[0]);
         }
@@ -396,7 +396,7 @@ public enum EventType
      */
     END_SECTION {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endSection((Map<String, String>) eventParameters[0]);
         }
@@ -406,7 +406,7 @@ public enum EventType
      */
     BEGIN_TABLE {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginTable((Map<String, String>) eventParameters[0]);
         }
@@ -416,7 +416,7 @@ public enum EventType
      */
     END_TABLE {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endTable((Map<String, String>) eventParameters[0]);
         }
@@ -426,7 +426,7 @@ public enum EventType
      */
     BEGIN_TABLE_CELL {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginTableCell((Map<String, String>) eventParameters[0]);
         }
@@ -436,7 +436,7 @@ public enum EventType
      */
     END_TABLE_CELL {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endTableCell((Map<String, String>) eventParameters[0]);
         }
@@ -452,7 +452,7 @@ public enum EventType
      */
     BEGIN_TABLE_HEAD_CELL {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginTableHeadCell((Map<String, String>) eventParameters[0]);
         }
@@ -462,7 +462,7 @@ public enum EventType
      */
     END_TABLE_HEAD_CELL {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endTableHeadCell((Map<String, String>) eventParameters[0]);
         }
@@ -478,7 +478,7 @@ public enum EventType
      */
     BEGIN_TABLE_ROW {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginTableRow((Map<String, String>) eventParameters[0]);
         }
@@ -488,7 +488,7 @@ public enum EventType
      */
     END_TABLE_ROW {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endTableRow((Map<String, String>) eventParameters[0]);
         }
@@ -498,7 +498,7 @@ public enum EventType
      */
     BEGIN_METADATA {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.beginMetaData((MetaData) eventParameters[0]);
         }
@@ -508,7 +508,7 @@ public enum EventType
      */
     END_METADATA {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endMetaData((MetaData) eventParameters[0]);
         }
@@ -518,7 +518,7 @@ public enum EventType
      */
     ON_RAW_TEXT {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.onRawText((String) eventParameters[0], (Syntax) eventParameters[1]);
         }
@@ -528,7 +528,7 @@ public enum EventType
      */
     ON_EMPTY_LINES {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.onEmptyLines((Integer) eventParameters[0]);
         }
@@ -538,7 +538,7 @@ public enum EventType
      */
     ON_HORIZONTAL_LINE {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.onHorizontalLine((Map<String, String>) eventParameters[0]);
         }
@@ -548,7 +548,7 @@ public enum EventType
      */
     ON_ID {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.onId((String) eventParameters[0]);
         }
@@ -558,7 +558,7 @@ public enum EventType
      */
     ON_IMAGE {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.onImage((ResourceReference) eventParameters[0], (Boolean) eventParameters[1],
                 (Map<String, String>) eventParameters[2]);
@@ -569,7 +569,7 @@ public enum EventType
      */
     ON_MACRO {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.onMacro((String) eventParameters[0], (Map<String, String>) eventParameters[1],
                 (String) eventParameters[2], (Boolean) eventParameters[3]);
@@ -580,7 +580,7 @@ public enum EventType
      */
     ON_NEW_LINE {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.onNewLine();
         }
@@ -590,7 +590,7 @@ public enum EventType
      */
     ON_SPACE {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.onSpace();
         }
@@ -600,7 +600,7 @@ public enum EventType
      */
     ON_SPECIAL_SYMBOL {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.onSpecialSymbol((Character) eventParameters[0]);
         }
@@ -610,7 +610,7 @@ public enum EventType
      */
     ON_VERBATIM {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.onVerbatim((String) eventParameters[0], (Boolean) eventParameters[1],
                 (Map<String, String>) eventParameters[2]);
@@ -621,7 +621,7 @@ public enum EventType
      */
     ON_WORD {
         @Override
-        public void fireEvent(Listener listener, Object[] eventParameters)
+        public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.onWord((String) eventParameters[0]);
         }
@@ -633,7 +633,7 @@ public enum EventType
      * @param listener the listener to call
      * @param eventParameters the parameters to use when calling the event method on the passed listener
      */
-    public abstract void fireEvent(Listener listener, Object[] eventParameters);
+    public abstract void fireEvent(Listener listener, Object... eventParameters);
 
     /**
      * @return true if the event stops the inline mode or false otherwise

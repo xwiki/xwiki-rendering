@@ -60,7 +60,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
          * @param eventType the type of the event
          * @param eventParameters the parameters of the event
          */
-        public Event(EventType eventType, Object[] eventParameters)
+        public Event(EventType eventType, Object... eventParameters)
         {
             this.eventType = eventType;
             this.eventParameters = eventParameters;
