@@ -48,7 +48,7 @@ public class XWikiSyntaxResourceRenderer
 
     protected static final ParametersPrinter PARAMETERS_PRINTER = new ParametersPrinter('~', "||", "]]", ">>");
 
-    private Deque<Boolean> forceFullSyntax = new ArrayDeque<Boolean>();
+    private Deque<Boolean> forceFullSyntaxDeque = new ArrayDeque<Boolean>();
 
     private XWikiSyntaxListenerChain listenerChain;
 
@@ -62,7 +62,7 @@ public class XWikiSyntaxResourceRenderer
     {
         this.listenerChain = listenerChain;
         this.referenceSerializer = referenceSerializer;
-        this.forceFullSyntax.push(false);
+        this.forceFullSyntaxDeque.push(false);
     }
 
     public String serialize(ResourceReference reference, boolean isFreeStanding)
@@ -86,11 +86,11 @@ public class XWikiSyntaxResourceRenderer
         printer.flush();
 
         if (forceFullSyntax(printer, isLastSyntax, freestanding, parameters)) {
-            this.forceFullSyntax.push(true);
+            this.forceFullSyntaxDeque.push(true);
 
             printer.print("[[");
         } else {
-            this.forceFullSyntax.push(false);
+            this.forceFullSyntaxDeque.push(false);
         }
     }
 
@@ -114,14 +114,24 @@ public class XWikiSyntaxResourceRenderer
         // EventType test but it probably need some big refactoring of the printer and XWikiSyntaxResourceRenderer)
         return !freestanding
             || !parameters.isEmpty()
-            || (!isLastSyntax && !printer.isAfterWhiteSpace() && (!PlainTextStreamParser.SPECIALSYMBOL_PATTERN.matcher(
-                String.valueOf(printer.getLastPrinted().charAt(printer.getLastPrinted().length() - 1))).matches()))
-            || (nextEvent != null && nextEvent.eventType != EventType.ON_SPACE
-                && nextEvent.eventType != EventType.ON_NEW_LINE && nextEvent.eventType != EventType.END_PARAGRAPH
-                && nextEvent.eventType != EventType.END_LINK && nextEvent.eventType != EventType.END_LIST_ITEM
-                && nextEvent.eventType != EventType.END_DEFINITION_DESCRIPTION
-                && nextEvent.eventType != EventType.END_DEFINITION_TERM
-                && nextEvent.eventType != EventType.END_QUOTATION_LINE && nextEvent.eventType != EventType.END_SECTION);
+            || isNonWhiteSpaceAndConsumed(isLastSyntax, printer)
+            || isNotAWhiteSpace(nextEvent);
+    }
+
+    private boolean isNonWhiteSpaceAndConsumed(boolean isLastSyntax, XWikiSyntaxEscapeWikiPrinter printer)
+    {
+        return !isLastSyntax && !printer.isAfterWhiteSpace() && (!PlainTextStreamParser.SPECIALSYMBOL_PATTERN.matcher(
+            String.valueOf(printer.getLastPrinted().charAt(printer.getLastPrinted().length() - 1))).matches());
+    }
+
+    private boolean isNotAWhiteSpace(Event nextEvent)
+    {
+        return nextEvent != null && nextEvent.eventType != EventType.ON_SPACE
+            && nextEvent.eventType != EventType.ON_NEW_LINE && nextEvent.eventType != EventType.END_PARAGRAPH
+            && nextEvent.eventType != EventType.END_LINK && nextEvent.eventType != EventType.END_LIST_ITEM
+            && nextEvent.eventType != EventType.END_DEFINITION_DESCRIPTION
+            && nextEvent.eventType != EventType.END_DEFINITION_TERM
+            && nextEvent.eventType != EventType.END_QUOTATION_LINE && nextEvent.eventType != EventType.END_SECTION;
     }
 
     public void renderLinkContent(XWikiSyntaxEscapeWikiPrinter printer, String label)
@@ -141,11 +151,11 @@ public class XWikiSyntaxResourceRenderer
         // If there were parameters specified, print them
         printParameters(printer, reference, parameters);
 
-        if (this.forceFullSyntax.peek() || !freestanding) {
+        if (this.forceFullSyntaxDeque.peek() || !freestanding) {
             printer.print("]]");
         }
 
-        this.forceFullSyntax.pop();
+        this.forceFullSyntaxDeque.pop();
     }
 
     protected void printParameters(XWikiSyntaxEscapeWikiPrinter printer, ResourceReference resourceReference,
