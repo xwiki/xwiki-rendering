@@ -106,7 +106,7 @@ public class MacroId
     @Override
     public boolean equals(Object object)
     {
-        if ((object == null) || (object.getClass() != getClass())) {
+        if (object == null || object.getClass() != getClass()) {
             return false;
         }
         if (object == this) {
