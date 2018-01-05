@@ -77,7 +77,7 @@ public class XWikiXHTMLWhitespaceXMLFilter extends XHTMLWhitespaceXMLFilter
     public void endCDATA() throws SAXException
     {
         if (getContent().length() > 0 && this.containsWikiSyntax) {
-                // Make sure we clean head/trail white spaces
+            // Make sure we clean head/trail white spaces
             trimLeadingWhiteSpaces();
             trimTrailingWhiteSpaces();
         }
