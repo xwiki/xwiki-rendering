@@ -87,17 +87,19 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         // If the comment starts with "startwikilink" then we need to gather all XHTML tags inside
         // the A tag, till we get a "stopwikilink" comment.
         // Same for "startimage" and "stopimage".
-        if (!ignoreElements && content.startsWith("startwikilink:")) {
+        if(!ignoreElements) {
+        if (content.startsWith("startwikilink:")) {
             handleLinkCommentStart(XMLUtils.unescapeXMLComment(content), stack);
-        } else if (!ignoreElements && content.startsWith("stopwikilink")) {
+        } else if (content.startsWith("stopwikilink")) {
             handleLinkCommentStop(stack);
-        } else if (!ignoreElements && content.startsWith("startimage:")) {
+        } else if (content.startsWith("startimage:")) {
             handleImageCommentStart(XMLUtils.unescapeXMLComment(content), stack);
-        } else if (!ignoreElements && content.startsWith("stopimage")) {
+        } else if (content.startsWith("stopimage")) {
             handleImageCommentStop(stack);
-        } else if (!ignoreElements && content.startsWith("startmacro")) {
+        } else (content.startsWith("startmacro")) {
             super.onComment(XMLUtils.unescapeXMLComment(content), stack);
-        } else {
+        } }
+        else {
             super.onComment(content, stack);
         }
     }
@@ -127,8 +129,8 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
         stack.pushStackParameter(LINK_LISTENER, xwikiListener);
 
-        stack.pushStackParameter(IS_IN_LINK, true);
-        stack.pushStackParameter(IS_FREE_STANDING_LINK, false);
+        stack.pushStackParameter(IS_IN_LINK, Boolean.TRUE);
+        stack.pushStackParameter(IS_FREE_STANDING_LINK, Boolean.FALSE);
         stack.pushStackParameter(LINK_PARAMETERS, WikiParameters.EMPTY);
 
         this.commentContentStack.push(content.substring("startwikilink:".length()));
@@ -165,7 +167,7 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
     private void handleImageCommentStart(String content, TagStack stack)
     {
-        stack.setStackParameter(IS_IN_IMAGE, true);
+        stack.setStackParameter(IS_IN_IMAGE, Boolean.TRUE);
         this.commentContentStack.push(content.substring("startimage:".length()));
     }
 
@@ -191,8 +193,8 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         WikiReference reference = new XWikiWikiReference(imageReference, null, imageParams, isFreeStandingImage);
         stack.getScannerContext().onImage(reference);
 
-        stack.setStackParameter(IS_IN_IMAGE, false);
-        stack.setStackParameter(IS_FREE_STANDING_IMAGE, false);
+        stack.setStackParameter(IS_IN_IMAGE, Boolean.FALSE);
+        stack.setStackParameter(IS_FREE_STANDING_IMAGE, Boolean.FALSE);
         stack.setStackParameter(IMAGE_PARAMETERS, WikiParameters.EMPTY);
     }
 
