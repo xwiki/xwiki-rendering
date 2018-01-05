@@ -106,15 +106,14 @@ public class MacroId
     @Override
     public boolean equals(Object object)
     {
-        if (object == null) {
-            return false;
-        }
         if (object == this) {
             return true;
         }
-        if (object.getClass() != getClass()) {
+        
+        if (!(object instanceof MacroId)) {
             return false;
         }
+        
         MacroId rhs = (MacroId) object;
         return new EqualsBuilder()
             .append(getId(), rhs.getId())
