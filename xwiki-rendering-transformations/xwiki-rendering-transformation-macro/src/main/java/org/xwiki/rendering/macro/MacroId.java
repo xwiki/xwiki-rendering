@@ -106,12 +106,14 @@ public class MacroId
     @Override
     public boolean equals(Object object)
     {
-        if (object == null || object.getClass() != getClass()) {
-            return false;
-        }
         if (object == this) {
             return true;
         }
+        
+        if (!(object instanceof MacroId)) {             // Can't be null if instance of MacroId.
+            return false;                               // MacroId is not really supposed to be extended.
+        }
+        
         MacroId rhs = (MacroId) object;
         return new EqualsBuilder()
             .append(getId(), rhs.getId())
