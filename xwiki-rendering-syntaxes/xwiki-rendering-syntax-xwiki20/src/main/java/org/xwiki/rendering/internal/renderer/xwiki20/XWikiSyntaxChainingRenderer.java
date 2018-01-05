@@ -229,7 +229,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         // If the previous format had parameters and the parameters are different from the current ones then close them
         if (this.previousFormatParameters != null) {
             if (parameters.isEmpty()) {
-                
+                 print("(%%)");
+                this.previousFormatParameters = null;
             } else if (!this.previousFormatParameters.equals(parameters)) {
                 this.previousFormatParameters = null;
                 printParameters(parameters, false);
