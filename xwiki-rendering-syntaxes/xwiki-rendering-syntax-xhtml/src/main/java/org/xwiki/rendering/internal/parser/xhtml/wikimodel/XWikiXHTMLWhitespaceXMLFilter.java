@@ -78,8 +78,8 @@ public class XWikiXHTMLWhitespaceXMLFilter extends XHTMLWhitespaceXMLFilter
     {
         if (getContent().length() > 0 && this.containsWikiSyntax) {
                 // Make sure we clean head/trail white spaces
-                trimLeadingWhiteSpaces();
-                trimTrailingWhiteSpaces();
+            trimLeadingWhiteSpaces();
+            trimTrailingWhiteSpaces();
         }
         super.endCDATA();
     }
