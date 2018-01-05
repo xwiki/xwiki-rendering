@@ -79,7 +79,7 @@ public class DoxiaPrinterAdapter extends Writer
     }
 
     @Override
-    public void write(char[] chars) throws IOException
+    public void write(char... chars) throws IOException
     {
         this.printer.print(new String(chars));
     }
