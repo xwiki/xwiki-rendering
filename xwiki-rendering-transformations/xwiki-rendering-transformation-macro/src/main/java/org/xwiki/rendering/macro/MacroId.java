@@ -110,8 +110,8 @@ public class MacroId
             return true;
         }
         
-        if (!(object instanceof MacroId)) {             // Can't be null if instance of MacroId.
-            return false;                               // MacroId is not really supposed to be extended.
+        if (!(object instanceof MacroId)) {
+            return false;
         }
         
         MacroId rhs = (MacroId) object;
