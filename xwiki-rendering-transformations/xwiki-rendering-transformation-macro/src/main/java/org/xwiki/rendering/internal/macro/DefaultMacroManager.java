@@ -89,6 +89,8 @@ public class DefaultMacroManager implements MacroManager
             throw new MacroLookupException("Failed to lookup Macros", e);
         }
 
+        Set<MacroId> result = new HashSet<MacroId>();
+
         // Loop through all the macros and filter those macros that will work with the given syntax.
         for (Map.Entry<String, Macro> entry : allMacros.entrySet()) {
             MacroId macroId;
@@ -104,7 +106,6 @@ public class DefaultMacroManager implements MacroManager
                     + "For example \"html/xwiki/2.0\". This macro will not be available in the system.");
                 continue;
             }
-            Set<MacroId> result = new HashSet<MacroId>();
             if (syntax == null || macroId.getSyntax() == null || syntax.equals(macroId.getSyntax())) {
                 result.add(macroId);
             }
