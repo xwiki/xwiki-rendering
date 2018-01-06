@@ -81,25 +81,25 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
     @Override
     public void onComment(String content, TagStack stack)
     {
-         // if ignoreElements is true it means we are inside a macro or another block we don't want to parse content
-         boolean ignoreElements = stack.shouldIgnoreElements();
+        // if ignoreElements is true it means we are inside a macro or another block we don't want to parse content
+        boolean ignoreElements = stack.shouldIgnoreElements();
 
-         // If the comment starts with "startwikilink" then we need to gather all XHTML tags inside
-         // the A tag, till we get a "stopwikilink" comment.
-         // Same for "startimage" and "stopimage".
-         if (!ignoreElements && content.startsWith("startwikilink:")) {
-             handleLinkCommentStart(XMLUtils.unescapeXMLComment(content), stack);
-         } else if (!ignoreElements && content.startsWith("stopwikilink")) {
-             handleLinkCommentStop(stack);
-         } else if (!ignoreElements && content.startsWith("startimage:")) {
-             handleImageCommentStart(XMLUtils.unescapeXMLComment(content), stack);
-         } else if (!ignoreElements && content.startsWith("stopimage")) {
-             handleImageCommentStop(stack);
-         } else if (!ignoreElements && content.startsWith("startmacro")) {
-             super.onComment(XMLUtils.unescapeXMLComment(content), stack);
-         } else {
-             super.onComment(content, stack);
-         }
+        // If the comment starts with "startwikilink" then we need to gather all XHTML tags inside
+        // the A tag, till we get a "stopwikilink" comment.
+        // Same for "startimage" and "stopimage".
+        if (!ignoreElements && content.startsWith("startwikilink:")) {
+            handleLinkCommentStart(XMLUtils.unescapeXMLComment(content), stack);
+        } else if (!ignoreElements && content.startsWith("stopwikilink")) {
+            handleLinkCommentStop(stack);
+        } else if (!ignoreElements && content.startsWith("startimage:")) {
+            handleImageCommentStart(XMLUtils.unescapeXMLComment(content), stack);
+        } else if (!ignoreElements && content.startsWith("stopimage")) {
+            handleImageCommentStop(stack);
+        } else if (!ignoreElements && content.startsWith("startmacro")) {
+            super.onComment(XMLUtils.unescapeXMLComment(content), stack);
+        } else {
+            super.onComment(content, stack);
+        }
     }
 
     private void handleLinkCommentStart(String content, TagStack stack)
