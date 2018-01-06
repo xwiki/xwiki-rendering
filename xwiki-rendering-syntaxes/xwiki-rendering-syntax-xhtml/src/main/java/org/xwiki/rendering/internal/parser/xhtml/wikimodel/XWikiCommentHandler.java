@@ -88,17 +88,18 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         // the A tag, till we get a "stopwikilink" comment.
         // Same for "startimage" and "stopimage".
         if(!ignoreElements) {
-        if (content.startsWith("startwikilink:")) {
-            handleLinkCommentStart(XMLUtils.unescapeXMLComment(content), stack);
-        } else if (content.startsWith("stopwikilink")) {
-            handleLinkCommentStop(stack);
-        } else if (content.startsWith("startimage:")) {
-            handleImageCommentStart(XMLUtils.unescapeXMLComment(content), stack);
-        } else if (content.startsWith("stopimage")) {
-            handleImageCommentStop(stack);
-        } else (content.startsWith("startmacro")) {
-            super.onComment(XMLUtils.unescapeXMLComment(content), stack);
-        } }
+            if (content.startsWith("startwikilink:")) {
+                handleLinkCommentStart(XMLUtils.unescapeXMLComment(content), stack);
+            } else if (content.startsWith("stopwikilink")) {
+                handleLinkCommentStop(stack);
+            } else if (content.startsWith("startimage:")) {
+                handleImageCommentStart(XMLUtils.unescapeXMLComment(content), stack);
+            } else if (content.startsWith("stopimage")) {
+                handleImageCommentStop(stack);
+            } else (content.startsWith("startmacro")) {
+                super.onComment(XMLUtils.unescapeXMLComment(content), stack);
+            }
+        }
         else {
             super.onComment(content, stack);
         }
