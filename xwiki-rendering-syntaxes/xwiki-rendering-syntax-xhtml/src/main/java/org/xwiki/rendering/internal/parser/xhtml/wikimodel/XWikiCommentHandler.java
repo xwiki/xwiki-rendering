@@ -87,20 +87,20 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         // If the comment starts with "startwikilink" then we need to gather all XHTML tags inside
         // the A tag, till we get a "stopwikilink" comment.
         // Same for "startimage" and "stopimage".
-        if (!ignoreElements && content.startsWith("startwikilink:")) {
-            handleLinkCommentStart(XMLUtils.unescapeXMLComment(content), stack);
-        } else if (!ignoreElements && content.startsWith("stopwikilink")) {
+         if (!ignoreElements && content.startsWith("startwikilink:")) {
+             handleLinkCommentStart(XMLUtils.unescapeXMLComment(content), stack);
+         } else if (!ignoreElements && content.startsWith("stopwikilink")) {
              handleLinkCommentStop(stack);
-        } else if (!ignoreElements && content.startsWith("startimage:")) {
+         } else if (!ignoreElements && content.startsWith("startimage:")) {
              handleImageCommentStart(XMLUtils.unescapeXMLComment(content), stack);
-        } else if (!ignoreElements && content.startsWith("stopimage")) {
+         } else if (!ignoreElements && content.startsWith("stopimage")) {
              handleImageCommentStop(stack);
-        } else if (!ignoreElements && content.startsWith("startmacro")) {
+         } else if (!ignoreElements && content.startsWith("startmacro")) {
              super.onComment(XMLUtils.unescapeXMLComment(content), stack);
-        } else {
+         } else {
              super.onComment(content, stack);
-        }
-    }
+         }
+     }
 
     private void handleLinkCommentStart(String content, TagStack stack)
     {
