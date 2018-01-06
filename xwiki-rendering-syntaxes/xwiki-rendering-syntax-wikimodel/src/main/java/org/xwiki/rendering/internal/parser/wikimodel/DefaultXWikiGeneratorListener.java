@@ -225,8 +225,8 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
             genericParameters = new LinkedHashMap<String, String>();
             for (WikiParameter wikiParameter : params.toList()) {
                 String key = wikiParameter.getKey();
-                if ((DocumentResourceReference.ANCHOR).equals(key)
-                    || (DocumentResourceReference.QUERY_STRING).equals(key))
+                if (DocumentResourceReference.ANCHOR.equals(key)
+                    || DocumentResourceReference.QUERY_STRING).equals(key))
                 {
                     resourceParameters.put(key, wikiParameter.getValue());
                 } else {
