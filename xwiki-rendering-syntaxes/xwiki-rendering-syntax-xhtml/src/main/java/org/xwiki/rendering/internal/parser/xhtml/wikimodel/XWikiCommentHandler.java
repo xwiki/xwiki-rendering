@@ -127,8 +127,8 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
         stack.pushStackParameter(LINK_LISTENER, xwikiListener);
 
-        stack.pushStackParameter(IS_IN_LINK, true);
-        stack.pushStackParameter(IS_FREE_STANDING_LINK, false);
+        stack.pushStackParameter(IS_IN_LINK, Boolean.TRUE);
+        stack.pushStackParameter(IS_FREE_STANDING_LINK, Boolean.FALSE);
         stack.pushStackParameter(LINK_PARAMETERS, WikiParameters.EMPTY);
 
         this.commentContentStack.push(content.substring("startwikilink:".length()));
@@ -165,7 +165,7 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
     private void handleImageCommentStart(String content, TagStack stack)
     {
-        stack.setStackParameter(IS_IN_IMAGE, true);
+        stack.setStackParameter(IS_IN_IMAGE, Boolean.TRUE);
         this.commentContentStack.push(content.substring("startimage:".length()));
     }
 
@@ -191,8 +191,8 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         WikiReference reference = new XWikiWikiReference(imageReference, null, imageParams, isFreeStandingImage);
         stack.getScannerContext().onImage(reference);
 
-        stack.setStackParameter(IS_IN_IMAGE, false);
-        stack.setStackParameter(IS_FREE_STANDING_IMAGE, false);
+        stack.setStackParameter(IS_IN_IMAGE, Boolean.FALSE);
+        stack.setStackParameter(IS_FREE_STANDING_IMAGE, Boolean.FALSE);
         stack.setStackParameter(IMAGE_PARAMETERS, WikiParameters.EMPTY);
     }
 
