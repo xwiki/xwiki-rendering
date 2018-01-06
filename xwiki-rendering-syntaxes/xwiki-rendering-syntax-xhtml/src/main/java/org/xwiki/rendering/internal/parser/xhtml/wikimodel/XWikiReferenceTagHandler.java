@@ -32,8 +32,8 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.handler.ReferenceTagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 
 /**
  * Override the default WikiModel Reference handler to handle XWiki references since we store some information in
