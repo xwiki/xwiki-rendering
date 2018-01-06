@@ -226,7 +226,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
             for (WikiParameter wikiParameter : params.toList()) {
                 String key = wikiParameter.getKey();
                 if (DocumentResourceReference.ANCHOR.equals(key)
-                    || DocumentResourceReference.QUERY_STRING).equals(key))
+                    || DocumentResourceReference.QUERY_STRING.equals(key))
                 {
                     resourceParameters.put(key, wikiParameter.getValue());
                 } else {
