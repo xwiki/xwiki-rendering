@@ -132,28 +132,38 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
     @Override
     public ResourceReference parse(String rawReference)
     {
-        // Step 1: Check if it's a known URI by looking for one of the known URI schemes. If not, check if it's a URL.
-        ResourceReference resourceReference = parseURILinks(rawReference);
-        if (resourceReference != null) {
-            return resourceReference;
-        }
+        while(true) {
+        
+            // Step 1: Check if it's a known URI by looking for one of the known URI schemes. If not, check if it's a URL.
+            ResourceReference resourceReference = parseURILinks(rawReference);
+            if (resourceReference != null) {
+                String parseReturn = resourceReference;
+                break; 
+            }
 
-        // Step 2: Look for an InterWiki link
-        StringBuilder content = new StringBuilder(rawReference);
-        resourceReference = parseInterWikiLinks(content);
-        if (resourceReference != null) {
-            return resourceReference;
-        }
+            // Step 2: Look for an InterWiki link
+            StringBuilder content = new StringBuilder(rawReference);
+            resourceReference = parseInterWikiLinks(content);
+            if (resourceReference != null) {
+                String parseReturn = resourceReference;
+                break;
+            }
 
-        // Step 3: If we're in non wiki mode, we consider the reference to be a URL.
-        if (!isInWikiMode()) {
-            resourceReference = new ResourceReference(rawReference, ResourceType.URL);
-            resourceReference.setTyped(false);
-            return resourceReference;
+            // Step 3: If we're in non wiki mode, we consider the reference to be a URL.
+            if (!isInWikiMode()) {
+                resourceReference = new ResourceReference(rawReference, ResourceType.URL);
+                resourceReference.setTyped(false);
+                String parseReturn = resourceReference;
+                break;
+            }
         }
-
+        
+        if (parseReturn == null) {
         // Step 4: Consider that we have a reference to a document
-        return parseDocumentLink(content);
+        String parseReturn = parseDocumentLink(content);
+        }
+        
+        return parseReturn;
     }
 
     /**

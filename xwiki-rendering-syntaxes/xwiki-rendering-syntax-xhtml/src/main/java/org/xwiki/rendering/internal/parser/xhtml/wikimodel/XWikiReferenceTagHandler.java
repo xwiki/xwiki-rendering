@@ -32,8 +32,8 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.handler.ReferenceTagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 
 /**
  * Override the default WikiModel Reference handler to handle XWiki references since we store some information in
@@ -62,8 +62,8 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
     @Override
     public void initialize(TagStack stack)
     {
-        stack.setStackParameter(IS_IN_LINK, false);
-        stack.setStackParameter(IS_FREE_STANDING_LINK, false);
+        stack.setStackParameter(IS_IN_LINK, Boolean.FALSE);
+        stack.setStackParameter(IS_FREE_STANDING_LINK, Boolean.FALSE);
         stack.setStackParameter(LINK_PARAMETERS, WikiParameters.EMPTY);
     }
 
@@ -82,7 +82,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
             // Verify if it's a freestanding link and if so save the information so that we can get it in
             // XWikiCommentHandler.
             if (isFreeStandingReference(context)) {
-                context.getTagStack().setStackParameter(IS_FREE_STANDING_LINK, true);
+                context.getTagStack().setStackParameter(IS_FREE_STANDING_LINK, Boolean.TRUE);
             } else {
                 context.getTagStack().setStackParameter(LINK_PARAMETERS,
                     removeMeaningfulParameters(context.getParams()));

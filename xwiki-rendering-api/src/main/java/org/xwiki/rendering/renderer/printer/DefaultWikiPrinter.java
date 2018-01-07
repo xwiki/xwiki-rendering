@@ -30,7 +30,7 @@ public class DefaultWikiPrinter implements WikiPrinter
     /**
      * The buffer where to put the provided {@link String}s.
      */
-    private StringBuffer buffer;
+    private StringBuilder buffer;   //Replaced StringBuffer with StringBuilder
 
     /**
      * The default constructor. It initialize a new empty {@link StringBuffer}.
@@ -43,7 +43,7 @@ public class DefaultWikiPrinter implements WikiPrinter
     /**
      * @param buffer the {@link StringBuffer} to where to put the provided {@link String}s.
      */
-    public DefaultWikiPrinter(StringBuffer buffer)
+    public DefaultWikiPrinter(StringBuilder buffer)
     {
         this.buffer = buffer;
     }
@@ -51,7 +51,7 @@ public class DefaultWikiPrinter implements WikiPrinter
     /**
      * @return the buffer containing the printed {@link String}s.
      */
-    public StringBuffer getBuffer()
+    public StringBuilder getBuffer()
     {
         return this.buffer;
     }
