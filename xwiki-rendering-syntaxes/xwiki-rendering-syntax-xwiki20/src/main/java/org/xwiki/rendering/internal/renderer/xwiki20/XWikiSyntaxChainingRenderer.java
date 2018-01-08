@@ -705,7 +705,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         }
 
         if (parametersStr.length() > 0) {
-            StringBuilder buffer = new StringBuilder("(%");     //Replaced StringBuffer with unsynchronized StringBuilder
+            StringBuilder buffer = new StringBuilder("(%");
             buffer.append(parametersStr);
             buffer.append(" %)");
 
