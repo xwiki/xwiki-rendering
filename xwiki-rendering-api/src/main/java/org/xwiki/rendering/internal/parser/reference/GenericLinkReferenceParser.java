@@ -156,6 +156,8 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
                 String parseReturn = resourceReference;
                 break;
             }
+            
+            break;
         }
         
         if (parseReturn == null) {
