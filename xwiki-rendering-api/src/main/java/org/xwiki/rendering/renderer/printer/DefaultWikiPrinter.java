@@ -30,7 +30,7 @@ public class DefaultWikiPrinter implements WikiPrinter
     /**
      * The buffer where to put the provided {@link String}s.
      */
-    private StringBuilder buffer;   //Replaced StringBuffer with StringBuilder
+    private StringBuilder buffer;
 
     /**
      * The default constructor. It initialize a new empty {@link StringBuffer}.
