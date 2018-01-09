@@ -25,22 +25,22 @@ package org.xwiki.rendering.wikimodel;
  */
 public class WikiPrinter implements IWikiPrinter
 {
-    private StringBuffer fBuffer;
+    private StringBuilder fBuffer;
 
     public WikiPrinter()
     {
-        this(new StringBuffer());
+        this(new StringBuilder());
     }
 
     /**
      * @param buffer
      */
-    public WikiPrinter(StringBuffer buffer)
+    public WikiPrinter(StringBuilder buffer)
     {
         fBuffer = buffer;
     }
 
-    public StringBuffer getBuffer()
+    public StringBuilder getBuffer()
     {
         return fBuffer;
     }
