@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.transformation;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Collections;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -202,7 +203,7 @@ public class DefaultRenderingContext implements MutableRenderingContext
             return stack;
         }
 
-        return null;
+        return Collections.emptyList();
     }
 
     protected Context peek()
@@ -266,7 +267,7 @@ public class DefaultRenderingContext implements MutableRenderingContext
     public void setTargetSyntax(Syntax targetSyntax)
     {
         Context context = peek();
-        if (context != null && context != NULL_CONTEXT) {
+        if (context != null && context.equals(NULL_CONTEXT)) {
             context.targetSyntax = targetSyntax;
         }
     }
