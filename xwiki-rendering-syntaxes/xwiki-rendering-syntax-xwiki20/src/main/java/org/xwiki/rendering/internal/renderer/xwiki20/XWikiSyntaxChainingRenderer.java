@@ -310,7 +310,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     }
 
     @Override
-    private void handleEmptyParameters() {
+    private void handleEmptyParameters() 
+    {
         if (this.previousFormatParameters != null) {
             getPrinter().print("(%%)");
             this.previousFormatParameters = null;
