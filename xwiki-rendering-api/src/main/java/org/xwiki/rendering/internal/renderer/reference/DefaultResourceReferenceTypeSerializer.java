@@ -57,7 +57,7 @@ public class DefaultResourceReferenceTypeSerializer implements ResourceReference
      * @param type the type of resource
      * @return true if the type is supported
      */
-    protected boolean isSupportedType(ResourceType type)
+    protected boolean isSupportedType()
     {
         return true;
     }
