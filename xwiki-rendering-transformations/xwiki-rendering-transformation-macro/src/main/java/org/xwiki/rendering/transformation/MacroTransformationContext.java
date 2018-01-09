@@ -44,7 +44,7 @@ public class MacroTransformationContext implements Cloneable
     /**
      * Whether the macro is called in inline mode or not.
      */
-    private boolean isInline;
+    private boolean inline;
 
     /**
      * See {@link #getTransformation()}.
@@ -112,11 +112,11 @@ public class MacroTransformationContext implements Cloneable
     }
 
     /**
-     * @param isInline if true then the macro is called in inline mode
+     * @param inline if true then the macro is called in inline mode
      */
-    public void setInline(boolean isInline)
+    public void setInline(boolean inline)
     {
-        this.isInline = isInline;
+        this.inline = inline;
     }
 
     /**
@@ -124,7 +124,7 @@ public class MacroTransformationContext implements Cloneable
      */
     public boolean isInline()
     {
-        return this.isInline;
+        return this.inline;
     }
 
     /**
