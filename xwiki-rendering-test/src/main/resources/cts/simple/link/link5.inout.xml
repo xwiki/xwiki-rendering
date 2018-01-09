@@ -40,7 +40,7 @@
     <link freestanding="true">
       <p>
         <reference>
-          <isTyped>true</isTyped>
+          <typed>true</typed>
           <reference>john@doe.com</reference>
           <type>
             <scheme>mailto</scheme>

@@ -40,7 +40,7 @@
     <link freestanding="true">
       <p>
         <reference>
-          <isTyped>false</isTyped>
+          <typed>false</typed>
           <reference>http://xwiki.org</reference>
           <type>
             <scheme>url</scheme>
