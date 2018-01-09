@@ -133,8 +133,8 @@ public class DefaultMacroManager implements MacroManager
                 throw new MacroNotFoundException(String.format("No macro [%s] could be found.", macroId.toString()));
             }
         } catch (ComponentLookupException e) {
-            throw new MacroLookupException(String.format("Macro [%s] failed to be instantiated.", macroId.toString()),
-                e);
+            throw new MacroLookupException(String.format("Macro [%s] failed to be instantiated."
+                + , macroId.toString()), e);
         }
     }
 
