@@ -99,11 +99,12 @@ public class DefaultMacroManager implements MacroManager
             } catch (ParseException e) {
                 // One of the macros is registered against the component manager with an invalid macro id, ignore it
                 // but log a warning.
-                this.logger.warn("Invalid Macro descriptor format for hint [ {}" 
-                    + " ]. The hint should contain either the macro name only or the macro name followed by "
+                this.logger.warn("Invalid Macro descriptor format for hint [{}" 
+                    + "]. The hint should contain either the macro name only or the macro name followed by "
                     + "the syntax for which it is valid. In that case the macro name should be followed by a "
                     + "\"/\" followed by the syntax name followed by another \"/\" followed by the syntax version. "
-                    + "For example \"html/xwiki/2.0\". This macro will not be available in the system."), entry.getKey();
+                    + "For example \"html/xwiki/2.0\". This macro will not be available in the system."
+                    + , entry.getKey());
                 continue;
             }
             if (syntax == null || macroId.getSyntax() == null || syntax.equals(macroId.getSyntax())) {
