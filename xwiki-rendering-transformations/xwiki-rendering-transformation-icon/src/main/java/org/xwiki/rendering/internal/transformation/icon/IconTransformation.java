@@ -250,7 +250,7 @@ public class IconTransformation extends AbstractTransformation implements Initia
             }
             // Look for a match in children of the source block
             List<Block> filteredSourceBlocks = this.filter.filter(sourceBlock.getChildren());
-            if (filteredSourceBlocks.size() > 0) {
+            if (!filteredSourceBlocks.isEmpty()) {
                 parseTree(filteredSourceBlocks);
             } else if (mappingCursor == null) {
                 // No match has been found, reset state variables
