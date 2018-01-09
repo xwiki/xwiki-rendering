@@ -42,7 +42,7 @@ public class ResourceReference implements Cloneable
     /**
      * @see #isTyped()
      */
-    private boolean isTyped = true;
+    private boolean typed = true;
 
     /**
      * @see #getReference()
@@ -81,11 +81,11 @@ public class ResourceReference implements Cloneable
     }
 
     /**
-     * @param isTyped see {@link #isTyped()}
+     * @param typed see {@link #isTyped()}
      */
-    public void setTyped(boolean isTyped)
+    public void setTyped(boolean typed)
     {
-        this.isTyped = isTyped;
+        this.typed = typed;
     }
 
     /**
@@ -94,7 +94,7 @@ public class ResourceReference implements Cloneable
      */
     public boolean isTyped()
     {
-        return this.isTyped;
+        return this.typed;
     }
 
     /**
