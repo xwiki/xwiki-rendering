@@ -62,11 +62,19 @@ public class XWikiWikiReference extends WikiReference
     @Override
     public boolean equals(Object obj)
     {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof XWikiWikiReference)) {
+            return false;
+        }
+
         EqualsBuilder builder = new EqualsBuilder();
 
         builder.appendSuper(super.equals(obj));
-        builder.append(reference);
-        builder.append(freeStanding);
+        builder.append(this.reference, ((XWikiWikiReference) obj).reference);
+        builder.append(this.freeStanding, ((XWikiWikiReference) obj).freeStanding);
 
         return builder.isEquals();
     }
