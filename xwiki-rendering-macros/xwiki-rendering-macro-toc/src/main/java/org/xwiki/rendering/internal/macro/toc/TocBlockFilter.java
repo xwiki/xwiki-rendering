@@ -49,7 +49,7 @@ public class TocBlockFilter extends PlainTextBlockFilter
      * @param headerBlock the section title.
      * @return the filtered label to use in toc anchor link.
      */
-    public List<Block> generateLabel(HeaderBlock headerBlock)
+    public List<Block> generateLabel (Block headerBlock)
     {
         return headerBlock.clone(this).getChildren();
     }
