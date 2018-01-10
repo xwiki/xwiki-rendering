@@ -66,7 +66,7 @@ public enum HeaderLevel
     @Override
     public String toString()
     {
-        return "" + getAsInt();
+        return String.valueOf(getAsInt());
     }
 
     /**
