@@ -62,8 +62,8 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
     @Override
     public void initialize(TagStack stack)
     {
-        stack.setStackParameter(IS_IN_LINK, false);
-        stack.setStackParameter(IS_FREE_STANDING_LINK, false);
+        stack.setStackParameter(IS_IN_LINK, Boolean.FALSE);
+        stack.setStackParameter(IS_FREE_STANDING_LINK, Boolean.FALSE);
         stack.setStackParameter(LINK_PARAMETERS, WikiParameters.EMPTY);
     }
 
@@ -82,7 +82,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
             // Verify if it's a freestanding link and if so save the information so that we can get it in
             // XWikiCommentHandler.
             if (isFreeStandingReference(context)) {
-                context.getTagStack().setStackParameter(IS_FREE_STANDING_LINK, true);
+                context.getTagStack().setStackParameter(IS_FREE_STANDING_LINK, Boolean.TRUE);
             } else {
                 context.getTagStack().setStackParameter(LINK_PARAMETERS,
                     removeMeaningfulParameters(context.getParams()));

@@ -23,8 +23,8 @@ import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.xhtml.handler.ImgTagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 
 /**
  * Handle IMG tag since we're putting the original image reference into XHTML comments so that we can reconstruct the
@@ -38,8 +38,8 @@ public class XWikiImageTagHandler extends ImgTagHandler implements XWikiWikiMode
     @Override
     public void initialize(TagStack stack)
     {
-        stack.setStackParameter(IS_IN_IMAGE, false);
-        stack.setStackParameter(IS_FREE_STANDING_IMAGE, false);
+        stack.setStackParameter(IS_IN_IMAGE, Boolean.FALSE);
+        stack.setStackParameter(IS_FREE_STANDING_IMAGE, Boolean.FALSE);
         stack.setStackParameter(IMAGE_PARAMETERS, WikiParameters.EMPTY);
     }
 
@@ -52,7 +52,7 @@ public class XWikiImageTagHandler extends ImgTagHandler implements XWikiWikiMode
             // Verify if it's a freestanding image uri and if so save the information so that we can get it in
             // XWikiCommentHandler.
             if (isFreeStandingReference(context)) {
-                context.getTagStack().setStackParameter(IS_FREE_STANDING_IMAGE, true);
+                context.getTagStack().setStackParameter(IS_FREE_STANDING_IMAGE, Boolean.TRUE);
             } else {
                 // Save the parameters set on the IMG element so that we can generate the correct image
                 // in the XWiki Comment handler.

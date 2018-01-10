@@ -139,13 +139,10 @@ public class TestData
     @Override
     public boolean equals(Object object)
     {
-        if (object == null) {
-            return false;
-        }
         if (object == this) {
             return true;
         }
-        if (object.getClass() != getClass()) {
+        if (!(object instanceof TestData)) {
             return false;
         }
         TestData rhs = (TestData) object;

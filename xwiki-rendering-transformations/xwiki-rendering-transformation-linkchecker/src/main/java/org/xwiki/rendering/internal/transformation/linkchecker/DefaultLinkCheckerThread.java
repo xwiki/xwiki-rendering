@@ -166,10 +166,8 @@ public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCh
                 this.linkStateManager.getLinkStates().get(queueItem.getLinkReference());
             if (contentReferences != null) {
                 LinkState state = contentReferences.get(queueItem.getContentReference());
-                if (state != null) {
-                    if (System.currentTimeMillis() - state.getLastCheckedTime() <= timeout) {
-                        shouldBeChecked = false;
-                    }
+                if (state != null && (System.currentTimeMillis() - state.getLastCheckedTime() <= timeout)) {
+                    shouldBeChecked = false;
                 }
             }
         }

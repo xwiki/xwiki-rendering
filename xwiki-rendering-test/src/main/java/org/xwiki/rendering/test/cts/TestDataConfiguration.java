@@ -76,13 +76,10 @@ public class TestDataConfiguration
     @Override
     public boolean equals(Object object)
     {
-        if (object == null) {
-            return false;
-        }
         if (object == this) {
             return true;
         }
-        if (object.getClass() != getClass()) {
+        if (!(object instanceof TestDataConfiguration)) {
             return false;
         }
         TestDataConfiguration rhs = (TestDataConfiguration) object;

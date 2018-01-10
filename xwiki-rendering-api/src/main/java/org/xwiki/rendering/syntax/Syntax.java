@@ -297,13 +297,10 @@ public class Syntax implements Comparable<Syntax>
     @Override
     public boolean equals(Object object)
     {
-        if (object == null) {
-            return false;
-        }
         if (object == this) {
             return true;
         }
-        if (object.getClass() != getClass()) {
+        if (!(object instanceof Syntax)) {
             return false;
         }
         Syntax rhs = (Syntax) object;

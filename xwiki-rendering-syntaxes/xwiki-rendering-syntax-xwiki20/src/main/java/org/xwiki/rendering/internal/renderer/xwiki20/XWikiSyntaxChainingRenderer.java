@@ -244,19 +244,13 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         switch (format) {
             case BOLD:
                 // Handle empty formatting parameters.
-                if (this.previousFormatParameters != null) {
-                    getPrinter().print("(%%)");
-                    this.previousFormatParameters = null;
-                }
-
+                handleEmptyParameters();
+ 
                 getXWikiPrinter().printBeginBold();
                 break;
             case ITALIC:
                 // Handle empty formatting parameters.
-                if (this.previousFormatParameters != null) {
-                    getPrinter().print("(%%)");
-                    this.previousFormatParameters = null;
-                }
+                handleEmptyParameters();
 
                 getXWikiPrinter().printBeginItalic();
                 break;
@@ -314,6 +308,14 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         }
         if (!parameters.isEmpty()) {
             this.previousFormatParameters = parameters;
+        }
+    }
+
+    private void handleEmptyParameters() 
+    {
+        if (this.previousFormatParameters != null) {
+            getPrinter().print("(%%)");
+            this.previousFormatParameters = null;
         }
     }
 
@@ -691,7 +693,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     protected void printParameters(Map<String, String> parameters, boolean newLine)
     {
-        StringBuffer parametersStr = new StringBuffer();
+        StringBuilder parametersStr = new StringBuilder();
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             String value = entry.getValue();
             String key = entry.getKey();
@@ -706,7 +708,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         }
 
         if (parametersStr.length() > 0) {
-            StringBuffer buffer = new StringBuffer("(%");
+            StringBuilder buffer = new StringBuilder("(%");
             buffer.append(parametersStr);
             buffer.append(" %)");
 
