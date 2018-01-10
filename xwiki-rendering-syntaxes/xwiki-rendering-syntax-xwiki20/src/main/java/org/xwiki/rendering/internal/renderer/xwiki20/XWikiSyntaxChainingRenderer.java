@@ -309,7 +309,6 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         }
     }
 
-    @Override
     private void handleEmptyParameters() 
     {
         if (this.previousFormatParameters != null) {
