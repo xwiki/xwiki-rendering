@@ -58,7 +58,7 @@ public class XWikiTableDataTagHandler extends TableDataTagHandler implements XWi
 
         if (scopeParameter != null) {
             if (context.getScannerContext().getTableRowCounter() == 0) {
-                if (TH_SCOPE_COL.equals(scopeParameter.getValue()) {
+                if (TH_SCOPE_COL.equals(scopeParameter.getValue())) {
                     parameters = parameters.remove(TH_SCOPE);
                 }
             } else if (context.getScannerContext().getTableCellCounter() == 0) {
