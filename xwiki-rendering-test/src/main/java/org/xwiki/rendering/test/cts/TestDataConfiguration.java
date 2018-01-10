@@ -79,7 +79,7 @@ public class TestDataConfiguration
         if (object == this) {
             return true;
         }
-        if (!(object instanceof TestDataConfiguration))) {
+        if (!(object instanceof TestDataConfiguration)) {
             return false;
         }
         TestDataConfiguration rhs = (TestDataConfiguration) object;
