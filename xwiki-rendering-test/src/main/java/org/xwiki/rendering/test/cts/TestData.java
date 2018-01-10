@@ -142,7 +142,7 @@ public class TestData
         if (object == this) {
             return true;
         }
-        if (!(object instanceof TestData))) {
+        if (!(object instanceof TestData)) {
             return false;
         }
         TestData rhs = (TestData) object;
