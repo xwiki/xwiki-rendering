@@ -129,31 +129,45 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
         return URI_PREFIXES;
     }
 
+
+    /*
+    Changes:
+    I set up a nested if statement to check if each value of resourceReference is null at each step.
+    If it is, it moves on to the next step and performs an action, then checks to see if it is still null.
+    If at the end of this all, the value of resourceReference is not null, resourceReference will be returned.
+    If it is still null, it returns a reference to a document.
+    This halves the number of return statement from 4 to 2, while only parsing when required.
+     */
     @Override
     public ResourceReference parse(String rawReference)
     {
         // Step 1: Check if it's a known URI by looking for one of the known URI schemes. If not, check if it's a URL.
         ResourceReference resourceReference = parseURILinks(rawReference);
-        if (resourceReference != null) {
-            return resourceReference;
-        }
-
-        // Step 2: Look for an InterWiki link
         StringBuilder content = new StringBuilder(rawReference);
-        resourceReference = parseInterWikiLinks(content);
+
+        if (resourceReference == null) {
+
+            // Step 2: Look for an InterWiki link
+            resourceReference = parseInterWikiLinks(content);
+            if (resourceReference == null) {
+
+                // Step 3: If we're in non wiki mode, we consider the reference to be a URL.
+                if (!isInWikiMode()) {
+                    resourceReference = new ResourceReference(rawReference, ResourceType.URL);
+                    resourceReference.setTyped(false);
+                }
+
+            }
+
+        }
+
         if (resourceReference != null) {
             return resourceReference;
+            // Step 4: Consider that we have a reference to a document
+            else {
+                return parseDocumentLink(content);
+            }
         }
-
-        // Step 3: If we're in non wiki mode, we consider the reference to be a URL.
-        if (!isInWikiMode()) {
-            resourceReference = new ResourceReference(rawReference, ResourceType.URL);
-            resourceReference.setTyped(false);
-            return resourceReference;
-        }
-
-        // Step 4: Consider that we have a reference to a document
-        return parseDocumentLink(content);
     }
 
     /**
