@@ -41,7 +41,8 @@ public class WikiModelParserUtils extends ParserUtils
         parseInline(parser, content, listener, false);
     }
     
-    private class PrefixIgnoredInlineFilterListener extends InlineFilterListener {
+    private class PrefixIgnoredInlineFilterListener extends InlineFilterListener 
+    {
         private boolean foundWord;
 
         private boolean foundSpace;
@@ -77,10 +78,12 @@ public class WikiModelParserUtils extends ParserUtils
         if (prefix) {
             WrappingListener inlineFilterListener = new PrefixIgnoredInlineFilterListener();
             inlineFilterListener.setWrappedListener(listener);
+            
             parser.parse(new StringReader("wikimarker " + content), inlineFilterListener);
         } else {
             WrappingListener inlineFilterListener = new InlineFilterListener();
             inlineFilterListener.setWrappedListener(listener);
+            
             parser.parse(new StringReader(content), inlineFilterListener);
         }
     }
