@@ -73,20 +73,20 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     /**
      * @see #setHasLabel(boolean)
      */
-    private boolean hasLabel;
+    private boolean isLabelExist;
 
     /**
      * @return See {@link #setHasLabel(boolean)}
      */
     protected boolean hasLabel()
     {
-        return this.hasLabel;
+        return this.isLabelExist;
     }
 
     @Override
     public void setHasLabel(boolean hasLabel)
     {
-        this.hasLabel = hasLabel;
+        this.isLabelExist = hasLabel;
     }
 
     @Override
