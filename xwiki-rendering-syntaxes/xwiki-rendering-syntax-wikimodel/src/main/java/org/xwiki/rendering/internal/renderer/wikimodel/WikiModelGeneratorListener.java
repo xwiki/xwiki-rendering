@@ -149,7 +149,8 @@ public class WikiModelGeneratorListener implements Listener
             case NONE:
                 this.wikimodelListener.beginFormat(new WikiFormat(createWikiParameters(parameters).toList()));
                 break;
-            default: //Unsupported format
+            //Unsupported format
+            default: 
                 break;
         }
     }
@@ -189,7 +190,8 @@ public class WikiModelGeneratorListener implements Listener
             case NONE:
                 this.wikimodelListener.endFormat(new WikiFormat(createWikiParameters(parameters).toList()));
                 break;
-            default: //Unsupported format
+            //Unsupported format
+            default: 
                 break;
         }
     }
