@@ -40,6 +40,33 @@ public class WikiModelParserUtils extends ParserUtils
     {
         parseInline(parser, content, listener, false);
     }
+    
+    private class PrefixIgnoredInlineFilterListener extends InlineFilterListener 
+    {
+        private boolean foundWord;
+
+        private boolean foundSpace;
+
+        @Override
+        public void onWord(String word)
+        {
+            if (this.foundWord) {
+                super.onWord(word);
+            } else {
+                this.foundWord = true;
+            }
+        }
+
+        @Override
+        public void onSpace()
+        {
+            if (this.foundSpace) {
+                super.onSpace();
+            } else {
+                this.foundSpace = true;
+            }
+        }
+    }
 
     /**
      * @since 6.0RC1
@@ -49,38 +76,14 @@ public class WikiModelParserUtils extends ParserUtils
         throws ParseException
     {
         if (prefix) {
-            WrappingListener inlineFilterListener = new InlineFilterListener()
-            {
-                private boolean foundWord;
-
-                private boolean foundSpace;
-
-                @Override
-                public void onWord(String word)
-                {
-                    if (this.foundWord) {
-                        super.onWord(word);
-                    } else {
-                        this.foundWord = true;
-                    }
-                }
-
-                @Override
-                public void onSpace()
-                {
-                    if (this.foundSpace) {
-                        super.onSpace();
-                    } else {
-                        this.foundSpace = true;
-                    }
-                }
-            };
+            WrappingListener inlineFilterListener = new PrefixIgnoredInlineFilterListener();
             inlineFilterListener.setWrappedListener(listener);
-
+            
             parser.parse(new StringReader("wikimarker " + content), inlineFilterListener);
         } else {
             WrappingListener inlineFilterListener = new InlineFilterListener();
             inlineFilterListener.setWrappedListener(listener);
+            
             parser.parse(new StringReader(content), inlineFilterListener);
         }
     }
