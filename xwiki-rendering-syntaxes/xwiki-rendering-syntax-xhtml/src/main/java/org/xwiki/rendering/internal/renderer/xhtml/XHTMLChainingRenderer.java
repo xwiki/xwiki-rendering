@@ -168,7 +168,8 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
                 break;
             case NONE:
                 break;
-            default : //Unsupported format
+            //Unsupported format
+            default:
                 break;
         }
         if (!parameters.isEmpty()) {
@@ -206,7 +207,8 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
                 break;
             case NONE:
                 break;
-            default : //Unsupported format
+            //Unsupported format
+            default : 
                 break;
         }
     }
