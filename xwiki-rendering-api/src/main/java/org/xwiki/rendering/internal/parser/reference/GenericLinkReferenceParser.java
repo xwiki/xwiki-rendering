@@ -134,16 +134,17 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
     {
         // Step 1: Check if it's a known URI by looking for one of the known URI schemes. If not, check if it's a URL.
         ResourceReference resourceReference = parseURILinks(rawReference);
-        if (resourceReference != null) {
-            return resourceReference;
+        // Step 2: If resourceReference is null, look for an InterWiki link
+        if (resourceReference == null) {
+            StringBuilder content = new StringBuilder(rawReference);
+            resourceReference = parseInterWikiLinks(content);
         }
-
-        // Step 2: Look for an InterWiki link
-        StringBuilder content = new StringBuilder(rawReference);
-        resourceReference = parseInterWikiLinks(content);
-        if (resourceReference != null) {
-            return resourceReference;
+        // Return resourceReference if it is not null
+        if(resourceRefernece != null) {  
+        return resourceReference;
         }
+        
+        
 
         // Step 3: If we're in non wiki mode, we consider the reference to be a URL.
         if (!isInWikiMode()) {
