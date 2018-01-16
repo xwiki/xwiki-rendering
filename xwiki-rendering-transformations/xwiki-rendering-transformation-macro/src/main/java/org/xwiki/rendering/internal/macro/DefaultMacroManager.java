@@ -107,6 +107,9 @@ public class DefaultMacroManager implements MacroManager
                     + "This macro will not be available in the system.", entry.getKey());
                 continue;
             }
+            
+            Set<MacroId> result = new HashSet<MacroId>();
+            
             if (syntax == null || macroId.getSyntax() == null || syntax.equals(macroId.getSyntax())) {
                 result.add(macroId);
             }

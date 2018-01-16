@@ -263,19 +263,16 @@ public class GenericLinkReferenceParser extends AbstractResourceReferenceParser
 
         // Find the first non escaped separator (starting from the end of the content buffer).
         int index = content.lastIndexOf(separator);
-        while (index != -1) {
+        while (index > 0) {
             // Check if the element is found and it's not escaped.
             if (!shouldEscape(content, index)) {
                 element = content.substring(index + separator.length()).trim();
                 content.delete(index, content.length());
                 break;
             }
-
-            if (index > 0) {
-                index = content.lastIndexOf(separator, index - 1);
-            } else {
-                break;
-            }
+            
+            index = content.lastIndexOf(separator, index - 1);
+            
         }
 
         return element;
