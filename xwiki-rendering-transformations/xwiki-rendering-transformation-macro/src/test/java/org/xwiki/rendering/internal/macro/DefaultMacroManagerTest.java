@@ -208,10 +208,10 @@ public class DefaultMacroManagerTest extends AbstractMockingComponentTestCase<Ma
 
             // Test: Make sure the logger is called with the following content. This is the assert for this test.
             oneOf(logger).warn("Invalid Macro descriptor format for hint "
-                + "[macro/invalidsyntax]. The hint should contain either the macro name only or the macro name "
+                + "[{}]. The hint should contain either the macro name only or the macro name "
                 + "followed by the syntax for which it is valid. In that case the macro name should be followed by "
                 + "a \"/\" followed by the syntax name followed by another \"/\" followed by the syntax version. "
-                + "For example \"html/xwiki/2.0\". This macro will not be available in the system.");
+                + "For example \"html/xwiki/2.0\". This macro will not be available in the system.", "macro/invalidsyntax");
         }});
 
         macroManager.getMacroIds(Syntax.valueOf("macro/xwiki/2.0"));

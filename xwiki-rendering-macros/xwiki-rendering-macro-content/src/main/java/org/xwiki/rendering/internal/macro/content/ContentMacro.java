@@ -103,11 +103,15 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
      */
     protected Parser getSyntaxParser(Syntax syntax) throws MacroExecutionException
     {
-        try {
-            return this.componentManager.getInstance(Parser.class, syntax.toIdString());
-        } catch (ComponentLookupException e) {
-            throw new MacroExecutionException(String.format("Cannot find Parser for syntax [%s]", syntax.toIdString()),
-                e);
+        if (this.componentManager.hasComponent(Parser.class, syntax.toIdString())) {
+            try {
+                return this.componentManager.getInstance(Parser.class, syntax.toIdString());
+            } catch (ComponentLookupException e) {
+                throw new MacroExecutionException(
+                    String.format("Failed to lookup Parser for for syntax [%s]", syntax.toIdString()), e);
+            }
+        } else {
+            throw new MacroExecutionException(String.format("Cannot find Parser for syntax [%s]", syntax.toIdString()));
         }
     }
 }
