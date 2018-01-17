@@ -20,6 +20,7 @@
 package org.xwiki.rendering.block;
 
 import java.util.List;
+import java.util.Map;
 
 import org.xwiki.rendering.listener.Listener;
 
@@ -41,15 +42,28 @@ public class ListItemBlock extends AbstractBlock
         super(childrenBlocks);
     }
 
+    /**
+     * Constructs a list item Block.
+     *
+     * @param childrenBlocks the blocks representing the list item content
+     * @param parameters see {@link org.xwiki.rendering.block.AbstractBlock#getParameter(String)} for more details on
+     *            parameters
+     * @since 10.0RC1
+     */
+    public ListItemBlock(List<Block> childrenBlocks, Map<String, String> parameters)
+    {
+        super(childrenBlocks, parameters);
+    }
+
     @Override
     public void before(Listener listener)
     {
-        listener.beginListItem();
+        listener.beginListItem(getParameters());
     }
 
     @Override
     public void after(Listener listener)
     {
-        listener.endListItem();
+        listener.endListItem(getParameters());
     }
 }

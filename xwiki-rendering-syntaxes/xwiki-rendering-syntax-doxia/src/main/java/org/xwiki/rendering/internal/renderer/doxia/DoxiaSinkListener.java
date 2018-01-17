@@ -45,8 +45,8 @@ public class DoxiaSinkListener implements Listener
 
     /**
      * Since we need to tell Doxia the section level and since XWiki Events only give the level for begin/endHeader
-     * events, we need to remember the header level in order to be able to properly close the section by sending
-     * the correct Doxia event.
+     * events, we need to remember the header level in order to be able to properly close the section by sending the
+     * correct Doxia event.
      */
     private HeaderLevel headerLevel;
 
@@ -159,6 +159,12 @@ public class DoxiaSinkListener implements Listener
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        beginListItem();
+    }
+
+    @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         // Don't do anything since Doxia doesn't have macro markers and anyway we shouldn't
@@ -201,6 +207,12 @@ public class DoxiaSinkListener implements Listener
 
     @Override
     public void endListItem()
+    {
+        this.sink.listItem_();
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
     {
         this.sink.listItem_();
     }

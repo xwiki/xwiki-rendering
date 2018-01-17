@@ -139,6 +139,14 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        markNotEmpty();
+        startContainerBlock();
+        super.beginListItem(parameters);
+    }
+
+    @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         markNotEmpty();
@@ -296,6 +304,13 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         stopContainerBlock();
     }
 
+    @Override
+    public void endListItem(Map<String, String> parameters)
+    {
+        super.endListItem(parameters);
+        stopContainerBlock();
+    }
+    
     @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {

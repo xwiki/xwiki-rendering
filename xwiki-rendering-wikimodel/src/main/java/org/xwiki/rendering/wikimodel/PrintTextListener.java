@@ -123,6 +123,12 @@ public class PrintTextListener implements IWemListener
     {
     }
 
+    @Override
+    public void beginListItem(WikiParameters params)
+    {
+        
+    }
+
     /**
      * @see IWemListener#beginParagraph(WikiParameters)
      */
@@ -283,6 +289,12 @@ public class PrintTextListener implements IWemListener
      * @see IWemListener#endListItem()
      */
     public void endListItem()
+    {
+        endBlock();
+    }
+
+    @Override
+    public void endListItem(WikiParameters params)
     {
         endBlock();
     }

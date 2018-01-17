@@ -87,6 +87,12 @@ public class VoidListener implements Listener
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        // Do nothing.
+    }
+
+    @Override
     public void beginMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
         // Do nothing.
@@ -334,6 +340,12 @@ public class VoidListener implements Listener
 
     @Override
     public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
+    {
+        // Do nothing.
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
     {
         // Do nothing.
     }

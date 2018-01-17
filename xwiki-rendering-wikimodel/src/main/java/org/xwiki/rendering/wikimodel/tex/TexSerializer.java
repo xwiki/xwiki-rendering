@@ -323,6 +323,12 @@ public class TexSerializer extends PrintTextListener
     }
 
     @Override
+    public void beginListItem(WikiParameters params)
+    {
+        beginListItem();
+    }
+
+    @Override
     public void beginParagraph(WikiParameters params)
     {
         printEmptyLine();
@@ -407,6 +413,11 @@ public class TexSerializer extends PrintTextListener
 
     @Override
     public void endListItem()
+    {
+    }
+
+    @Override
+    public void endListItem(WikiParameters params)
     {
     }
 

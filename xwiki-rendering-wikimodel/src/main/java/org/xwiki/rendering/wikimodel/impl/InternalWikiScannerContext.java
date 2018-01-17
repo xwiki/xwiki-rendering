@@ -41,18 +41,31 @@ public class InternalWikiScannerContext implements IWikiScannerContext
     protected interface IBlockTypes
     {
         int HEADER = 1 << 1;
+
         int INFO = 1 << 2;
+
         int LIST = 1 << 3;
+
         int LIST_DL = (1 << 4) | LIST;
+
         int LIST_DL_DD = (1 << 5) | LIST_DL;
+
         int LIST_DL_DT = (1 << 6) | LIST_DL;
+
         int LIST_LI = (1 << 7) | LIST;
+
         int NONE = 0;
+
         int PARAGRAPH = 1 << 8;
+
         int QUOT = 1 << 9;
+
         int QUOT_LI = (1 << 10) | QUOT;
+
         int TABLE = 1 << 11;
+
         int TABLE_ROW = (1 << 12) | TABLE;
+
         int TABLE_ROW_CELL = (1 << 13) | TABLE_ROW;
     }
 
@@ -77,6 +90,8 @@ public class InternalWikiScannerContext implements IWikiScannerContext
     protected final IWemListener fListener;
 
     protected WikiParameters fListParams;
+
+    protected WikiParameters fListItem = WikiParameters.EMPTY;
 
     protected String fMacroContent = null;
 
@@ -116,9 +131,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
 
     protected WikiParameters fVerbatimParameters = WikiParameters.EMPTY;
 
-    public InternalWikiScannerContext(
-        SectionBuilder<WikiParameters> sectionBuilder,
-        IWemListener listener)
+    public InternalWikiScannerContext(SectionBuilder<WikiParameters> sectionBuilder, IWemListener listener)
     {
         fListener = listener;
         fSectionBuilder = sectionBuilder;
@@ -203,7 +216,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
                         fListener.beginDefinitionTerm();
                     } else {
                         fBlockType = IBlockTypes.LIST_LI;
-                        fListener.beginListItem();
+                        fListener.beginListItem(fListItem);
                     }
                     beginStyleContainer();
                 }
@@ -246,7 +259,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
                         }
                         fBlockType = IBlockTypes.LIST_DL;
                     } else {
-                        fListener.endListItem();
+                        fListener.endListItem(fListItem);
                         fBlockType = IBlockTypes.LIST;
                     }
                 }
@@ -259,8 +272,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
                             fBlockType = IBlockTypes.LIST;
                             break;
                         case 'd':
-                            fListener
-                                .endDefinitionList(fListParamsStack.peek());
+                            fListener.endDefinitionList(fListParamsStack.peek());
                             fBlockType = IBlockTypes.LIST;
                             break;
                         default:
@@ -298,13 +310,20 @@ public class InternalWikiScannerContext implements IWikiScannerContext
         beginListItem(item, WikiParameters.EMPTY);
     }
 
-    public void beginListItem(String item, WikiParameters params)
+    public void beginListItem(String item, WikiParameters listParams)
+    {
+        beginListItem(item, listParams, WikiParameters.EMPTY);
+    }
+
+    public void beginListItem(String item, WikiParameters listParams, WikiParameters itemParams)
     {
         beginList();
 
         if (fListParams == WikiParameters.EMPTY) {
-            fListParams = params;
+            fListParams = listParams;
         }
+
+        fListItem = itemParams;
 
         item = trimLineBreaks(item);
         item = replace(item, ";:", ":");
@@ -463,10 +482,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
         }
     }
 
-    public void beginTableRow(
-        boolean head,
-        WikiParameters rowParams,
-        WikiParameters cellParams)
+    public void beginTableRow(boolean head, WikiParameters rowParams, WikiParameters cellParams)
     {
         if (beginTableRowInternal(rowParams)) {
             beginTableCell(head, cellParams);
@@ -485,9 +501,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
             beginTable();
             fBlockType = IBlockTypes.TABLE_ROW;
             fTableCellCounter = 0;
-            fTableRowParams = rowParams != null
-                ? rowParams
-                : WikiParameters.EMPTY;
+            fTableRowParams = rowParams != null ? rowParams : WikiParameters.EMPTY;
             fListener.beginTableRow(fTableRowParams);
             result = true;
         }
@@ -520,7 +534,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
     private void checkListItem()
     {
         if (!isInListItem()) {
-            beginListItem("*");
+            beginListItem("*", fListItem);
         }
     }
 
@@ -528,15 +542,9 @@ public class InternalWikiScannerContext implements IWikiScannerContext
     {
         if (fMacroName != null) {
             if (!inline) {
-                fListener.onMacroBlock(
-                    fMacroName,
-                    fMacroParameters,
-                    fMacroContent);
+                fListener.onMacroBlock(fMacroName, fMacroParameters, fMacroContent);
             } else {
-                fListener.onMacroInline(
-                    fMacroName,
-                    fMacroParameters,
-                    fMacroContent);
+                fListener.onMacroInline(fMacroName, fMacroParameters, fMacroContent);
             }
 
             fMacroName = null;
@@ -592,12 +600,9 @@ public class InternalWikiScannerContext implements IWikiScannerContext
     {
         if (fVerbatimContent != null) {
             if (!inline) {
-                fListener
-                    .onVerbatimBlock(fVerbatimContent, fVerbatimParameters);
+                fListener.onVerbatimBlock(fVerbatimContent, fVerbatimParameters);
             } else {
-                fListener.onVerbatimInline(
-                    fVerbatimContent,
-                    fVerbatimParameters);
+                fListener.onVerbatimInline(fVerbatimContent, fVerbatimParameters);
             }
 
             fVerbatimContent = null;
@@ -1014,11 +1019,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
         fMacroContent = content;
     }
 
-    public void onMacro(
-        String macroName,
-        WikiParameters params,
-        String content,
-        boolean inline)
+    public void onMacro(String macroName, WikiParameters params, String content, boolean inline)
     {
         if (inline) {
             onMacroInline(macroName, params, content);
@@ -1027,19 +1028,13 @@ public class InternalWikiScannerContext implements IWikiScannerContext
         }
     }
 
-    public void onMacroBlock(
-        String macroName,
-        WikiParameters params,
-        String content)
+    public void onMacroBlock(String macroName, WikiParameters params, String content)
     {
         checkBlockContainer();
         fListener.onMacroBlock(macroName, params, content);
     }
 
-    public void onMacroInline(
-        String macroName,
-        WikiParameters params,
-        String content)
+    public void onMacroInline(String macroName, WikiParameters params, String content)
     {
         checkStyleOpened();
         fListener.onMacroInline(macroName, params, content);

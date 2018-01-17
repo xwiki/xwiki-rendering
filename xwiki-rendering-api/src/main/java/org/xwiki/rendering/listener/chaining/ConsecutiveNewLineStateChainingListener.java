@@ -34,8 +34,8 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id; $
  * @since 1.8RC1
  */
-public class ConsecutiveNewLineStateChainingListener extends AbstractChainingListener implements
-    StackableChainingListener
+public class ConsecutiveNewLineStateChainingListener extends AbstractChainingListener
+    implements StackableChainingListener
 {
     /**
      * Number of found new lines.
@@ -140,6 +140,13 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
     {
         this.newLineCount = 0;
         super.endListItem();
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
+    {
+        this.newLineCount = 0;
+        super.endListItem(parameters);
     }
 
     @Override

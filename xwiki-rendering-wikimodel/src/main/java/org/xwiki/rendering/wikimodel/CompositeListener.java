@@ -135,6 +135,14 @@ public class CompositeListener implements IWemListener
         }
     }
 
+    @Override
+    public void beginListItem(WikiParameters params)
+    {
+        for (IWemListener listener : fListeners) {
+            listener.beginListItem(params);
+        }
+    }
+
     /**
      * @see IWemListener#beginParagraph(WikiParameters)
      */
@@ -334,6 +342,14 @@ public class CompositeListener implements IWemListener
     {
         for (IWemListener listener : fListeners) {
             listener.endListItem();
+        }
+    }
+
+    @Override
+    public void endListItem(WikiParameters params)
+    {
+        for (IWemListener listener : fListeners) {
+            listener.endListItem(params);
         }
     }
 

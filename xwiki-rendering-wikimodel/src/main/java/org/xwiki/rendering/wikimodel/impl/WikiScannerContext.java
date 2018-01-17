@@ -168,9 +168,15 @@ public class WikiScannerContext implements IWikiScannerContext
         getContext().beginListItem(item);
     }
 
-    public void beginListItem(String item, WikiParameters params)
+    public void beginListItem(String item, WikiParameters listParams)
     {
-        getContext().beginListItem(item, params);
+        getContext().beginListItem(item, listParams);
+    }
+
+    @Override
+    public void beginListItem(String item, WikiParameters listParams, WikiParameters itemParams)
+    {
+        getContext().beginListItem(item, listParams, itemParams);
     }
 
     public void beginParagraph()

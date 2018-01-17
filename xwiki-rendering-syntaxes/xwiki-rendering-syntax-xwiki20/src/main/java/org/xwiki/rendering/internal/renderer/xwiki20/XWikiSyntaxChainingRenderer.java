@@ -66,8 +66,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     /**
      * @since 2.5RC1
      */
-    public XWikiSyntaxChainingRenderer(ListenerChain listenerChain,
-        ResourceReferenceSerializer linkReferenceSerializer, ResourceReferenceSerializer imageReferenceSerializer)
+    public XWikiSyntaxChainingRenderer(ListenerChain listenerChain, ResourceReferenceSerializer linkReferenceSerializer,
+        ResourceReferenceSerializer imageReferenceSerializer)
     {
         setListenerChain(listenerChain);
 
@@ -245,7 +245,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             case BOLD:
                 // Handle empty formatting parameters.
                 handleEmptyParameters();
- 
+
                 getXWikiPrinter().printBeginBold();
                 break;
             case ITALIC:
@@ -303,7 +303,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 break;
             case NONE:
                 break;
-            default : // Unsupported format
+            default: // Unsupported format
                 break;
         }
         if (!parameters.isEmpty()) {
@@ -311,7 +311,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         }
     }
 
-    private void handleEmptyParameters() 
+    private void handleEmptyParameters()
     {
         if (this.previousFormatParameters != null) {
             getPrinter().print("(%%)");
@@ -439,6 +439,13 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        // TODO: introduce a syntax for list items
+        beginListItem();
+    }
+
+    @Override
     public void endList(ListType type, Map<String, String> parameters)
     {
         this.listStyle.setLength(this.listStyle.length() - 1);
@@ -450,6 +457,12 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     @Override
     public void endListItem()
+    {
+        this.previousFormatParameters = null;
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
     {
         this.previousFormatParameters = null;
     }

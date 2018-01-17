@@ -138,6 +138,14 @@ public class CompositeListener implements Listener
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        for (Listener listener : this.listeners) {
+            listener.beginListItem(parameters);
+        }
+    }
+
+    @Override
     public void beginMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
         for (Listener listener : this.listeners) {
@@ -283,6 +291,14 @@ public class CompositeListener implements Listener
     {
         for (Listener listener : this.listeners) {
             listener.endListItem();
+        }
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
+    {
+        for (Listener listener : this.listeners) {
+            listener.endListItem(parameters);
         }
     }
 

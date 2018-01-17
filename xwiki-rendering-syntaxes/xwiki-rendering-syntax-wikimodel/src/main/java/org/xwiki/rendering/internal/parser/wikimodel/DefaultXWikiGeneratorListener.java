@@ -468,6 +468,12 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     }
 
     @Override
+    public void beginListItem(WikiParameters params)
+    {
+        getListener().beginListItem(convertParameters(params));
+    }
+
+    @Override
     public void beginParagraph(WikiParameters params)
     {
         getListener().beginParagraph(convertParameters(params));
@@ -631,6 +637,15 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
         // Note: This means we support Paragraphs inside lists.
         getListener().endListItem();
+    }
+
+    @Override
+    public void endListItem(WikiParameters params)
+    {
+        flushInline();
+
+        // Note: This means we support Paragraphs inside lists.
+        getListener().endListItem(convertParameters(params));        
     }
 
     @Override

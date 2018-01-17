@@ -287,7 +287,11 @@ public enum EventType
         @Override
         public void fireEvent(Listener listener, Object... eventParameters)
         {
-            listener.beginListItem();
+            if (eventParameters.length > 0) {
+                listener.beginListItem((Map<String, String>) eventParameters[0]);
+            } else {
+                listener.beginListItem();
+            }
         }
     },
     /**
@@ -297,7 +301,11 @@ public enum EventType
         @Override
         public void fireEvent(Listener listener, Object... eventParameters)
         {
-            listener.endListItem();
+            if (eventParameters.length > 0) {
+                listener.endListItem((Map<String, String>) eventParameters[0]);
+            } else {
+                listener.endListItem();
+            }
         }
 
         @Override

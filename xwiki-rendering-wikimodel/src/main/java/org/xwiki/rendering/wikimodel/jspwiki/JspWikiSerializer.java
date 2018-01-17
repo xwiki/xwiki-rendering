@@ -106,6 +106,12 @@ public class JspWikiSerializer implements IWemListener
         print("* ");
     }
 
+    @Override
+    public void beginListItem(WikiParameters params)
+    {
+        beginListItem();
+    }
+
     public void beginParagraph(WikiParameters params)
     {
         // TODO Auto-generated method stub
@@ -227,6 +233,12 @@ public class JspWikiSerializer implements IWemListener
     }
 
     public void endListItem()
+    {
+        println("");
+    }
+
+    @Override
+    public void endListItem(WikiParameters params)
     {
         println("");
     }

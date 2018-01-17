@@ -115,15 +115,13 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getPrinter().println(
-            "beginLink [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
+        getPrinter().println("beginLink [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
     }
 
     @Override
     public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getPrinter().println(
-            "endLink [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
+        getPrinter().println("endLink [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
     }
 
     @Override
@@ -175,6 +173,12 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        getPrinter().println("beginListItem" + serializeParameters(parameters));
+    }
+
+    @Override
     public void endList(ListType type, Map<String, String> parameters)
     {
         getPrinter().println("endList [" + type + "]" + serializeParameters(parameters));
@@ -184,6 +188,12 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     public void endListItem()
     {
         getPrinter().println("endListItem");
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
+    {
+        getPrinter().println("endListItem" + serializeParameters(parameters));
     }
 
     @Override
@@ -259,8 +269,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        getPrinter().println(
-            "onVerbatim [" + content + "] [" + inline + "]" + serializeParameters(parameters));
+        getPrinter().println("onVerbatim [" + content + "] [" + inline + "]" + serializeParameters(parameters));
     }
 
     /**
@@ -389,8 +398,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getPrinter().println(
-            "onImage [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
+        getPrinter().println("onImage [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
     }
 
     public String getEscaped(String str)

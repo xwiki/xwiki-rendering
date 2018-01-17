@@ -184,6 +184,12 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        saveEvent(EventType.BEGIN_LIST_ITEM, parameters);
+    }
+
+    @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         saveEvent(EventType.BEGIN_MACRO_MARKER, name, parameters, content, isInline);
@@ -319,6 +325,12 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
 
     @Override
     public void endListItem()
+    {
+        saveEvent(EventType.END_LIST_ITEM);
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
     {
         saveEvent(EventType.END_LIST_ITEM);
     }

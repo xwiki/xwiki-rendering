@@ -143,6 +143,12 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        startBlock("listItem", parameters);
+    }
+
+    @Override
     public void beginDefinitionTerm()
     {
         startBlock("definitionTerm");
@@ -270,6 +276,12 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
 
     @Override
     public void endListItem()
+    {
+        endBlock();
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
     {
         endBlock();
     }
@@ -498,7 +510,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         }
     }
 
-    public void serializeParameter(String name, Map< ? , ? > map, boolean type)
+    public void serializeParameter(String name, Map<?, ?> map, boolean type)
     {
         SERIALIZER.serializeParameter(name, map, type, getContentHandler());
     }
@@ -600,7 +612,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         } else if (value instanceof MetaData) {
             serializeParameter(name, (MetaData) value, type);
         } else if (value instanceof Map) {
-            serializeParameter(name, (Map< ? , ? >) value, type);
+            serializeParameter(name, (Map<?, ?>) value, type);
         }
     }
 

@@ -119,38 +119,38 @@ public class WikiModelGeneratorListener implements Listener
     {
         switch (format) {
             case BOLD:
-                this.wikimodelListener.beginFormat(new WikiFormat(IWemConstants.STRONG,
-                    createWikiParameters(parameters).toList()));
+                this.wikimodelListener
+                    .beginFormat(new WikiFormat(IWemConstants.STRONG, createWikiParameters(parameters).toList()));
                 break;
             case ITALIC:
-                this.wikimodelListener.beginFormat(new WikiFormat(IWemConstants.EM, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .beginFormat(new WikiFormat(IWemConstants.EM, createWikiParameters(parameters).toList()));
                 break;
             case STRIKEDOUT:
-                this.wikimodelListener.beginFormat(new WikiFormat(IWemConstants.STRIKE,
-                    createWikiParameters(parameters).toList()));
+                this.wikimodelListener
+                    .beginFormat(new WikiFormat(IWemConstants.STRIKE, createWikiParameters(parameters).toList()));
                 break;
             case UNDERLINED:
-                this.wikimodelListener.beginFormat(new WikiFormat(IWemConstants.INS, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .beginFormat(new WikiFormat(IWemConstants.INS, createWikiParameters(parameters).toList()));
                 break;
             case MONOSPACE:
-                this.wikimodelListener.beginFormat(new WikiFormat(IWemConstants.MONO, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .beginFormat(new WikiFormat(IWemConstants.MONO, createWikiParameters(parameters).toList()));
                 break;
             case SUBSCRIPT:
-                this.wikimodelListener.beginFormat(new WikiFormat(IWemConstants.SUB, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .beginFormat(new WikiFormat(IWemConstants.SUB, createWikiParameters(parameters).toList()));
                 break;
             case SUPERSCRIPT:
-                this.wikimodelListener.beginFormat(new WikiFormat(IWemConstants.SUP, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .beginFormat(new WikiFormat(IWemConstants.SUP, createWikiParameters(parameters).toList()));
                 break;
             case NONE:
                 this.wikimodelListener.beginFormat(new WikiFormat(createWikiParameters(parameters).toList()));
                 break;
-            //Unsupported format
-            default: 
+            // Unsupported format
+            default:
                 break;
         }
     }
@@ -160,38 +160,38 @@ public class WikiModelGeneratorListener implements Listener
     {
         switch (format) {
             case BOLD:
-                this.wikimodelListener.endFormat(new WikiFormat(IWemConstants.STRONG, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .endFormat(new WikiFormat(IWemConstants.STRONG, createWikiParameters(parameters).toList()));
                 break;
             case ITALIC:
-                this.wikimodelListener.endFormat(new WikiFormat(IWemConstants.EM, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .endFormat(new WikiFormat(IWemConstants.EM, createWikiParameters(parameters).toList()));
                 break;
             case STRIKEDOUT:
-                this.wikimodelListener.endFormat(new WikiFormat(IWemConstants.STRIKE, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .endFormat(new WikiFormat(IWemConstants.STRIKE, createWikiParameters(parameters).toList()));
                 break;
             case UNDERLINED:
-                this.wikimodelListener.endFormat(new WikiFormat(IWemConstants.INS, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .endFormat(new WikiFormat(IWemConstants.INS, createWikiParameters(parameters).toList()));
                 break;
             case MONOSPACE:
-                this.wikimodelListener.endFormat(new WikiFormat(IWemConstants.MONO, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .endFormat(new WikiFormat(IWemConstants.MONO, createWikiParameters(parameters).toList()));
                 break;
             case SUBSCRIPT:
-                this.wikimodelListener.endFormat(new WikiFormat(IWemConstants.SUB, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .endFormat(new WikiFormat(IWemConstants.SUB, createWikiParameters(parameters).toList()));
                 break;
             case SUPERSCRIPT:
-                this.wikimodelListener.endFormat(new WikiFormat(IWemConstants.SUP, createWikiParameters(parameters)
-                    .toList()));
+                this.wikimodelListener
+                    .endFormat(new WikiFormat(IWemConstants.SUP, createWikiParameters(parameters).toList()));
                 break;
             case NONE:
                 this.wikimodelListener.endFormat(new WikiFormat(createWikiParameters(parameters).toList()));
                 break;
-            //Unsupported format
-            default: 
+            // Unsupported format
+            default:
                 break;
         }
     }
@@ -206,6 +206,12 @@ public class WikiModelGeneratorListener implements Listener
     public void beginListItem()
     {
         this.wikimodelListener.beginListItem();
+    }
+
+    @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        this.wikimodelListener.beginListItem(createWikiParameters(parameters));
     }
 
     @Override
@@ -244,6 +250,12 @@ public class WikiModelGeneratorListener implements Listener
     public void endListItem()
     {
         this.wikimodelListener.endListItem();
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
+    {
+        this.wikimodelListener.endListItem(createWikiParameters(parameters));
     }
 
     @Override
@@ -324,8 +336,8 @@ public class WikiModelGeneratorListener implements Listener
     @Override
     public void onId(String name)
     {
-        this.wikimodelListener.onExtensionBlock(DefaultXWikiGeneratorListener.EXT_ID, createWikiParameters(Collections
-            .singletonMap("name", name)));
+        this.wikimodelListener.onExtensionBlock(DefaultXWikiGeneratorListener.EXT_ID,
+            createWikiParameters(Collections.singletonMap("name", name)));
     }
 
     @Override

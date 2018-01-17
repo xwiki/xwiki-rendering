@@ -225,7 +225,6 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
         result = new ListItemBlock(Collections.singletonList(result));
         result.addChild(new SpaceBlock());
         result.addChildren(parsedContent);
-        result.setParameter(CLASS_ATTRIBUTE_NAME, FootnoteMacro.MACRO_NAME);
         return (ListItemBlock) result;
     }
 }

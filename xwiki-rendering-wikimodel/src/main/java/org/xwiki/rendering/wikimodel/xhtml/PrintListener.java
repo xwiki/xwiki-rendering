@@ -95,6 +95,12 @@ public class PrintListener extends PrintInlineListener
     }
 
     @Override
+    public void beginListItem(WikiParameters params)
+    {
+        print("  <li" + params + ">");
+    }
+
+    @Override
     public void beginParagraph(WikiParameters params)
     {
         print("<p" + params + ">");
@@ -190,6 +196,12 @@ public class PrintListener extends PrintInlineListener
 
     @Override
     public void endListItem()
+    {
+        println("</li>");
+    }
+
+    @Override
+    public void endListItem(WikiParameters params)
     {
         println("</li>");
     }

@@ -92,6 +92,19 @@ public interface IWemListenerList
     void beginListItem();
 
     /**
+     * This method is used to notify about the beginning of a new item of a
+     * simple list (see {@link #beginList(WikiParameters, boolean)}/
+     * {@link #endList(WikiParameters, boolean)} methods).
+     *
+     * @see #endListItem(WikiParameters)
+     * @since 10.0RC1
+     */
+    default void beginListItem(WikiParameters params)
+    {
+        beginListItem();
+    }
+
+    /**
      * Notifies about the beginning of a quotation elements.
      *
      * @param params parameters of the list
@@ -148,6 +161,19 @@ public interface IWemListenerList
      * @see #beginListItem()
      */
     void endListItem();
+
+    /**
+     * This method is used to notify about the end of an item of a simple list
+     * (see {@link #beginList(WikiParameters, boolean)}/
+     * {@link #endList(WikiParameters, boolean)} methods).
+     *
+     * @see #beginListItem(WikiParameters)
+     * @since 10.0RC1
+     */
+    default void endListItem(WikiParameters params)
+    {
+        endListItem();
+    }
 
     /**
      * Notifies about the end of a quotation element sequence.

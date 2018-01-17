@@ -46,7 +46,12 @@ public interface IWikiScannerContext extends IWemConstants
 
     void beginListItem(String item);
 
-    void beginListItem(String item, WikiParameters params);
+    void beginListItem(String item, WikiParameters listParams);
+
+    default void beginListItem(String item, WikiParameters listParams, WikiParameters itemParams)
+    {
+        beginListItem(item, listParams);
+    }
 
     void beginParagraph();
 

@@ -109,6 +109,14 @@ public class WrappingListener implements Listener
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        if (this.listener != null) {
+            this.listener.beginListItem(parameters);
+        }
+    }
+
+    @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         if (this.listener != null) {
@@ -161,6 +169,14 @@ public class WrappingListener implements Listener
     {
         if (this.listener != null) {
             this.listener.endListItem();
+        }
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
+    {
+        if (this.listener != null) {
+            this.listener.endListItem(parameters);
         }
     }
 

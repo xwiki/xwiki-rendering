@@ -148,6 +148,15 @@ public abstract class AbstractChainingListener implements ChainingListener
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        ChainingListener next = getListenerChain().getNextListener(getClass());
+        if (next != null) {
+            next.beginListItem(parameters);
+        }
+    }
+
+    @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -324,6 +333,15 @@ public abstract class AbstractChainingListener implements ChainingListener
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
             next.endListItem();
+        }
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
+    {
+        ChainingListener next = getListenerChain().getNextListener(getClass());
+        if (next != null) {
+            next.endListItem(parameters);
         }
     }
 

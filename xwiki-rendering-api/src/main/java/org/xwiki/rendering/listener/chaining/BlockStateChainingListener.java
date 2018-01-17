@@ -308,6 +308,15 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        ++this.inlineDepth;
+        ++this.listDepth.peek().listItemIndex;
+
+        super.beginListItem(parameters);
+    }
+
+    @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         ++this.macroDepth;
@@ -472,6 +481,15 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
         --this.inlineDepth;
         this.previousEvent = Event.LIST_ITEM;
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
+    {
+        super.endListItem(parameters);
+
+        --this.inlineDepth;
+        this.previousEvent = Event.LIST_ITEM;        
     }
 
     @Override

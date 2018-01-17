@@ -139,6 +139,12 @@ public class XDOMGeneratorListener implements Listener
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        this.builder.startBlockList();
+    }
+
+    @Override
     public void beginMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
         this.builder.startBlockList();
@@ -218,8 +224,8 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
-        this.builder.addBlock(new DefinitionListBlock(this.builder.endBlockList(), parameters != null ? parameters
-            : Listener.EMPTY_PARAMETERS));
+        this.builder.addBlock(new DefinitionListBlock(this.builder.endBlockList(),
+            parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
@@ -249,26 +255,26 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void endGroup(Map<String, String> parameters)
     {
-        this.builder.addBlock(new GroupBlock(this.builder.endBlockList(), parameters != null ? parameters
-            : Listener.EMPTY_PARAMETERS));
+        this.builder.addBlock(
+            new GroupBlock(this.builder.endBlockList(), parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        this.builder.addBlock(new HeaderBlock(this.builder.endBlockList(), level, parameters != null ? parameters
-            : Listener.EMPTY_PARAMETERS, id));
+        this.builder.addBlock(new HeaderBlock(this.builder.endBlockList(), level,
+            parameters != null ? parameters : Listener.EMPTY_PARAMETERS, id));
     }
 
     @Override
     public void endList(ListType type, Map<String, String> parameters)
     {
         if (type == ListType.BULLETED) {
-            this.builder.addBlock(new BulletedListBlock(this.builder.endBlockList(), parameters != null ? parameters
-                : Listener.EMPTY_PARAMETERS));
+            this.builder.addBlock(new BulletedListBlock(this.builder.endBlockList(),
+                parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
         } else {
-            this.builder.addBlock(new NumberedListBlock(this.builder.endBlockList(), parameters != null ? parameters
-                : Listener.EMPTY_PARAMETERS));
+            this.builder.addBlock(new NumberedListBlock(this.builder.endBlockList(),
+                parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
         }
     }
 
@@ -279,24 +285,31 @@ public class XDOMGeneratorListener implements Listener
     }
 
     @Override
+    public void endListItem(Map<String, String> parameters)
+    {
+        this.builder.addBlock(new ListItemBlock(this.builder.endBlockList(), parameters));
+    }
+
+    @Override
     public void endMacroMarker(String name, Map<String, String> macroParameters, String content, boolean isInline)
     {
-        this.builder.addBlock(new MacroMarkerBlock(name, macroParameters != null ? macroParameters
-            : Listener.EMPTY_PARAMETERS, content, this.builder.endBlockList(), isInline));
+        this.builder
+            .addBlock(new MacroMarkerBlock(name, macroParameters != null ? macroParameters : Listener.EMPTY_PARAMETERS,
+                content, this.builder.endBlockList(), isInline));
     }
 
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
-        this.builder.addBlock(new ParagraphBlock(this.builder.endBlockList(), parameters != null ? parameters
-            : Listener.EMPTY_PARAMETERS));
+        this.builder.addBlock(new ParagraphBlock(this.builder.endBlockList(),
+            parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endQuotation(Map<String, String> parameters)
     {
-        this.builder.addBlock(new QuotationBlock(this.builder.endBlockList(), parameters != null ? parameters
-            : Listener.EMPTY_PARAMETERS));
+        this.builder.addBlock(new QuotationBlock(this.builder.endBlockList(),
+            parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
@@ -308,44 +321,43 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void endSection(Map<String, String> parameters)
     {
-        this.builder.addBlock(new SectionBlock(this.builder.endBlockList(), parameters != null ? parameters
-            : Listener.EMPTY_PARAMETERS));
+        this.builder.addBlock(
+            new SectionBlock(this.builder.endBlockList(), parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTable(Map<String, String> parameters)
     {
-        this.builder.addBlock(new TableBlock(this.builder.endBlockList(), parameters != null ? parameters
-            : Listener.EMPTY_PARAMETERS));
+        this.builder.addBlock(
+            new TableBlock(this.builder.endBlockList(), parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTableCell(Map<String, String> parameters)
     {
-        this.builder.addBlock(new TableCellBlock(this.builder.endBlockList(), parameters != null ? parameters
-            : Listener.EMPTY_PARAMETERS));
+        this.builder.addBlock(new TableCellBlock(this.builder.endBlockList(),
+            parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
-        this.builder.addBlock(new TableHeadCellBlock(this.builder.endBlockList(), parameters != null ? parameters
-            : Listener.EMPTY_PARAMETERS));
+        this.builder.addBlock(new TableHeadCellBlock(this.builder.endBlockList(),
+            parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endTableRow(Map<String, String> parameters)
     {
-        this.builder.addBlock(new TableRowBlock(this.builder.endBlockList(), parameters != null ? parameters
-            : Listener.EMPTY_PARAMETERS));
+        this.builder.addBlock(new TableRowBlock(this.builder.endBlockList(),
+            parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     @Override
     public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         this.builder.addBlock(new LinkBlock(this.builder.endBlockList(), reference, freestanding,
-            parameters != null
-            ? parameters : Listener.EMPTY_PARAMETERS));
+            parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 
     /**
@@ -380,8 +392,8 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
-        this.builder.addBlock(new MacroBlock(id, parameters != null ? parameters : Listener.EMPTY_PARAMETERS,
-            content, inline));
+        this.builder
+            .addBlock(new MacroBlock(id, parameters != null ? parameters : Listener.EMPTY_PARAMETERS, content, inline));
     }
 
     @Override
@@ -411,9 +423,8 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        this.builder.addBlock(new VerbatimBlock(content,
-            parameters != null ? parameters : Listener.EMPTY_PARAMETERS,
-            inline));
+        this.builder
+            .addBlock(new VerbatimBlock(content, parameters != null ? parameters : Listener.EMPTY_PARAMETERS, inline));
     }
 
     @Override
@@ -425,7 +436,7 @@ public class XDOMGeneratorListener implements Listener
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        this.builder.addBlock(new ImageBlock(reference, freestanding, parameters != null ? parameters
-            : Listener.EMPTY_PARAMETERS));
+        this.builder.addBlock(
+            new ImageBlock(reference, freestanding, parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
 }

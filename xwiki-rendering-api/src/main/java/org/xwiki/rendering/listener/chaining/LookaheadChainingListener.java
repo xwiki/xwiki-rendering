@@ -145,6 +145,13 @@ public class LookaheadChainingListener extends AbstractChainingListener
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        this.previousEvents.beginListItem(parameters);
+        firePreviousEvent();
+    }
+
+    @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
         this.previousEvents.beginMacroMarker(name, parameters, content, isInline);
@@ -301,6 +308,13 @@ public class LookaheadChainingListener extends AbstractChainingListener
     public void endListItem()
     {
         this.previousEvents.endListItem();
+        firePreviousEvent();
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
+    {
+        this.previousEvents.endListItem(parameters);
         firePreviousEvent();
     }
 

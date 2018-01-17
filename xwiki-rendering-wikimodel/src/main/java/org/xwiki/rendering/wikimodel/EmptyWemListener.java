@@ -110,6 +110,12 @@ public class EmptyWemListener implements IWemListener
         //
     }
 
+    @Override
+    public void beginListItem(WikiParameters params)
+    {
+        //    
+    }
+
     /**
      * @see IWemListener#beginParagraph(WikiParameters)
      */
@@ -262,6 +268,12 @@ public class EmptyWemListener implements IWemListener
         //
     }
 
+    @Override
+    public void endListItem(WikiParameters params)
+    {
+        // 
+    }
+    
     /**
      * @see IWemListener#endListItem()
      */

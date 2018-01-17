@@ -177,6 +177,17 @@ public interface Listener extends LinkListener, ImageListener
     void beginListItem();
 
     /**
+     * Start of a list item.
+     * 
+     * @param parameters a generic list of parameters for the list item. Example: "style"/"background-color: blue"
+     * @since 10.0RC1
+     */
+    default void beginListItem(@Default("") Map<String, String> parameters)
+    {
+        beginListItem();
+    }
+
+    /**
      * Start of a definition list term. For example in HTML this is the equivalent of &lt;dt&gt;.
      *
      * @since 1.6M2
@@ -194,6 +205,17 @@ public interface Listener extends LinkListener, ImageListener
      * End of a list item.
      */
     void endListItem();
+
+    /**
+     * End of a list item.
+     * 
+     * @param parameters a generic list of parameters for the list item. Example: "style"/"background-color: blue"
+     * @since 10.0RC1
+     */
+    default void endListItem(@Default("") Map<String, String> parameters)
+    {
+        endListItem();
+    }
 
     /**
      * End of a definition list term. For example in HTML this is the equivalent of &lt;/dt&gt;.

@@ -56,6 +56,12 @@ public class XWikiSerializer extends PrintTextListener
     }
 
     @Override
+    public void beginListItem(WikiParameters params)
+    {
+        print("* ");
+    }
+
+    @Override
     public void beginTable(WikiParameters params)
     {
         println("{table}");
@@ -91,6 +97,12 @@ public class XWikiSerializer extends PrintTextListener
 
     @Override
     public void endListItem()
+    {
+        println();
+    }
+
+    @Override
+    public void endListItem(WikiParameters params)
     {
         println();
     }

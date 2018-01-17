@@ -55,8 +55,8 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     public static final String GENERATEDHEADERCLASS = "wikigeneratedheader";
 
     /**
-     * Class attribute value that indicates if the header id attribute was generated automatically or if it was the
-     * user who specified an id.
+     * Class attribute value that indicates if the header id attribute was generated automatically or if it was the user
+     * who specified an id.
      */
     public static final String GENERATEDIDCLASS = "wikigeneratedid";
 
@@ -168,7 +168,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
                 break;
             case NONE:
                 break;
-            //Unsupported format
+            // Unsupported format
             default:
                 break;
         }
@@ -207,8 +207,8 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
                 break;
             case NONE:
                 break;
-            //Unsupported format
-            default : 
+            // Unsupported format
+            default:
                 break;
         }
     }
@@ -329,6 +329,12 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        getXHTMLWikiPrinter().printXMLStartElement("li", parameters);
+    }
+
+    @Override
     public void endList(ListType type, Map<String, String> parameters)
     {
         if (type == ListType.BULLETED) {
@@ -342,6 +348,12 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     public void endListItem()
     {
         getXHTMLWikiPrinter().printXMLEndElement("li");
+    }
+
+    @Override
+    public void endListItem(Map<String, String> parameters)
+    {
+        endListItem();
     }
 
     @Override

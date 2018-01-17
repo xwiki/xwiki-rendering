@@ -158,6 +158,12 @@ public class PlainTextChainingRenderer extends AbstractChainingPrintRenderer
     }
 
     @Override
+    public void beginListItem(Map<String, String> parameters)
+    {
+        beginListItem();
+    }
+
+    @Override
     public void onSpace()
     {
         getPrinter().print(" ");

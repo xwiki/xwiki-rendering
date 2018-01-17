@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
+import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
@@ -32,8 +33,7 @@ public class ListItemTagHandler extends TagHandler
         super(true);
     }
 
-    public ListItemTagHandler(
-        boolean contentContainer)
+    public ListItemTagHandler(boolean contentContainer)
     {
         super(contentContainer);
     }
@@ -47,7 +47,8 @@ public class ListItemTagHandler extends TagHandler
 
     protected void begin(String markup, TagContext context)
     {
-        context.getScannerContext().beginListItem(context.getTagStack().pushListStyle(markup.charAt(0)));
+        context.getScannerContext().beginListItem(context.getTagStack().pushListStyle(markup.charAt(0)),
+            WikiParameters.EMPTY, context.getParams());
     }
 
     @Override

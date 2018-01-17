@@ -133,11 +133,23 @@ public class XWikiSerializer2 extends PrintTextListener
     }
 
     @Override
+    public void beginListItem(WikiParameters params)
+    {
+        beginListItem();
+    }
+
+    @Override
     public void endListItem()
     {
         if (listItemWritten) { // don't split related lists
             println();
         }
+    }
+
+    @Override
+    public void endListItem(WikiParameters params)
+    {
+        endListItem();
     }
 
     // ------------------------------------------------------------------------

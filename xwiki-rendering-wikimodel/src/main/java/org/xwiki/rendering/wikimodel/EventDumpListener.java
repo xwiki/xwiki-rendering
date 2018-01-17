@@ -99,6 +99,13 @@ public class EventDumpListener extends PrintTextListener
     }
 
     @Override
+    public void beginListItem(WikiParameters params)
+    {
+        println("beginListItem([" + params + "])");
+        inc();
+    }
+
+    @Override
     public void beginParagraph(WikiParameters params)
     {
         println("beginParagraph([" + params + "])");
@@ -247,6 +254,13 @@ public class EventDumpListener extends PrintTextListener
     {
         dec();
         println("endListItem()");
+    }
+
+    @Override
+    public void endListItem(WikiParameters params)
+    {
+        dec();
+        println("endListItem()[" + params + "]");
     }
 
     @Override

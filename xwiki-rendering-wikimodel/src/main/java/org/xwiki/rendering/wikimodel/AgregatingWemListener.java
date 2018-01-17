@@ -137,6 +137,14 @@ public class AgregatingWemListener implements IWemListener
         }
     }
 
+    @Override
+    public void beginListItem(WikiParameters params)
+    {
+        if (fListListener != null) {
+            fListListener.beginListItem(params);
+        }
+    }
+    
     /**
      * @see IWemListenerSimpleBlocks#beginParagraph(WikiParameters)
      */
@@ -340,6 +348,14 @@ public class AgregatingWemListener implements IWemListener
     {
         if (fListListener != null) {
             fListListener.endListItem();
+        }
+    }
+
+    @Override
+    public void endListItem(WikiParameters params)
+    {
+        if (fListListener != null) {
+            fListListener.endListItem(params);
         }
     }
 
