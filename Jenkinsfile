@@ -36,8 +36,7 @@ stage ('Rendering Builds') {
         xwikiBuild('Main') {
           mavenOpts = globalMavenOpts
           profiles = 'legacy,integration-tests,standalone'
-          systemProperties =
-            '-Dxwiki.checkstyle.skip=true -Dxwiki.surefire.captureconsole.skip=true -Dxwiki.revapi.skip=true'
+          properties = '-Dxwiki.checkstyle.skip=true -Dxwiki.surefire.captureconsole.skip=true -Dxwiki.revapi.skip=true'
         }
       }
     },
@@ -48,7 +47,7 @@ stage ('Rendering Builds') {
           mavenOpts = globalMavenOpts
           goals = 'clean install'
           profiles = 'legacy,integration-tests,standalone'
-          systemProperties = '-DskipTests -DperformRelease=true -Dgpg.skip=true -Dxwiki.checkstyle.skip=true'
+          properties = '-DskipTests -DperformRelease=true -Dgpg.skip=true -Dxwiki.checkstyle.skip=true'
         }
       }
     },
