@@ -13,7 +13,8 @@ onSpace
 onWord [(((732)))(((8364)))]
 endParagraph
 beginParagraph [[param1]=[val(((252)))e]]
-onWord [(((160)))(((732)))(((8364)))]
+onSpace
+onWord [(((732)))(((8364)))]
 endParagraph [[param1]=[val(((252)))e]]
 endDocument
 .#-----------------------------------------------------

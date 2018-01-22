@@ -32,6 +32,7 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.XhtmlCharacter;
 import org.xwiki.rendering.wikimodel.xhtml.XhtmlCharacterType;
+import org.xwiki.rendering.wikimodel.xhtml.handler.AbstractFormatTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 
@@ -86,6 +87,10 @@ public class TagStack
         name = fPeek.getName();
         TagHandler handler = fMap.get(name);
         if (!shouldIgnoreElements()) {
+            if (!(handler instanceof AbstractFormatTagHandler)) {
+                //previousCharType = null;
+            }
+
             fPeek.beginElement(handler);
         }
     }
@@ -99,7 +104,7 @@ public class TagStack
         fPeek = fPeek.getParentContext();
     }
 
-    private XhtmlCharacterType getCharacterType(char ch, XhtmlCharacterType prevCharType)
+    private XhtmlCharacterType getCharacterType(char ch, XhtmlCharacterType prevCharType, boolean isLast)
     {
         XhtmlCharacterType type = XhtmlCharacterType.CHARACTER;
         switch (ch) {
@@ -141,11 +146,15 @@ public class TagStack
             case '\t':
                 type = XhtmlCharacterType.SPACE;
                 break;
-            case 160: // This is a &nbsp;
+            case 160:
+                // This is a &nbsp;
                 // if previous character was a space as well, send it as a space, it will be rendered back in XHTML as a
                 // space anyway. If it's in the middle of a word, it's a regular word character
-                type = (prevCharType == XhtmlCharacterType.SPACE) ? XhtmlCharacterType.SPACE
-                    : XhtmlCharacterType.CHARACTER;
+                if (prevCharType == XhtmlCharacterType.SPACE || prevCharType == null || isLast) {
+                    type = XhtmlCharacterType.SPACE;
+                } else {
+                    type = XhtmlCharacterType.CHARACTER;
+                }
                 break;
             case '\n':
             case '\r':
@@ -225,7 +234,7 @@ public class TagStack
             XhtmlCharacterType charType = null;
             for (int i = 0; i < content.length(); i++) {
                 char c = content.charAt(i);
-                charType = getCharacterType(c, charType);
+                charType = getCharacterType(c, charType, i == content.length() - 1);
                 stack.offer(new XhtmlCharacter(c, charType));
             }
 
