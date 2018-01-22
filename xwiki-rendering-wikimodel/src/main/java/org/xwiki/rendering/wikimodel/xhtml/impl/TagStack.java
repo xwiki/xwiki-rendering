@@ -44,8 +44,11 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 public class TagStack
 {
     private static final String QUOTE_DEPTH = "quoteDepth";
+
     private static final String INSIDE_BLOCK_ELEMENT = "insideBlockElement";
+
     private static final String LIST_STYLES = "listStyles";
+
     private static final String DOCUMENT_PARENT = "documentParent";
 
     private final Map<String, TagHandler> fMap;
@@ -59,6 +62,7 @@ public class TagStack
     private final Deque<Map<String, Object>> fStackParameters = new ArrayDeque<Map<String, Object>>();
 
     private boolean fIgnoreElements;
+
     private int fEmptyLineCount;
 
     public TagStack(WikiScannerContext context, Map<String, TagHandler> handlers)
@@ -95,7 +99,7 @@ public class TagStack
         fPeek = fPeek.getParentContext();
     }
 
-    private XhtmlCharacterType getCharacterType(char ch)
+    private XhtmlCharacterType getCharacterType(char ch, XhtmlCharacterType prevCharType)
     {
         XhtmlCharacterType type = XhtmlCharacterType.CHARACTER;
         switch (ch) {
@@ -135,8 +139,13 @@ public class TagStack
                 break;
             case ' ':
             case '\t':
-            case 160: // This is a &nbsp;
                 type = XhtmlCharacterType.SPACE;
+                break;
+            case 160: // This is a &nbsp;
+                // if previous character was a space as well, send it as a space, it will be rendered back in XHTML as a
+                // space anyway. If it's in the middle of a word, it's a regular word character
+                type = (prevCharType == XhtmlCharacterType.SPACE) ? XhtmlCharacterType.SPACE
+                    : XhtmlCharacterType.CHARACTER;
                 break;
             case '\n':
             case '\r':
@@ -177,12 +186,10 @@ public class TagStack
             XhtmlCharacter character = stack.poll();
             switch (character.getType()) {
                 case ESCAPED:
-                    getScannerContext().onEscape(
-                        "" + character.getCharacter());
+                    getScannerContext().onEscape("" + character.getCharacter());
                     break;
                 case SPECIAL_SYMBOL:
-                    getScannerContext().onSpecialSymbol(
-                        "" + character.getCharacter());
+                    getScannerContext().onSpecialSymbol("" + character.getCharacter());
                     break;
                 case NEW_LINE:
                     getScannerContext().onLineBreak();
@@ -201,10 +208,7 @@ public class TagStack
                     while (!stack.isEmpty() && (stack.element().getType() == XhtmlCharacterType.CHARACTER)) {
                         charBuffer.append(stack.poll().getCharacter());
                     }
-                    getScannerContext()
-                        .onWord(
-                            WikiPageUtil.escapeXmlString(charBuffer
-                                .toString()));
+                    getScannerContext().onWord(WikiPageUtil.escapeXmlString(charBuffer.toString()));
             }
         }
     }
@@ -218,9 +222,11 @@ public class TagStack
 
         if (!fPeek.appendContent(content)) {
             Queue<XhtmlCharacter> stack = new ArrayDeque<XhtmlCharacter>();
+            XhtmlCharacterType charType = null;
             for (int i = 0; i < content.length(); i++) {
                 char c = content.charAt(i);
-                stack.offer(new XhtmlCharacter(c, getCharacterType(c)));
+                charType = getCharacterType(c, charType);
+                stack.offer(new XhtmlCharacter(c, charType));
             }
 
             // Now send the events.
@@ -285,7 +291,8 @@ public class TagStack
         return set.toArray()[set.size() - index - 1];
     }
 
-    public Iterator<Object> getStackParameterIterator(String name) {
+    public Iterator<Object> getStackParameterIterator(String name)
+    {
         Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
         return (set == null) ? null : set.descendingIterator();
     }
@@ -305,41 +312,50 @@ public class TagStack
         return ((Deque<Object>) getStackParameters().get(name)).pop();
     }
 
-    public void setQuoteDepth(int depth) {
+    public void setQuoteDepth(int depth)
+    {
         setStackParameter(QUOTE_DEPTH, depth);
     }
 
-    public int getQuoteDepth() {
+    public int getQuoteDepth()
+    {
         return (int) getStackParameter(QUOTE_DEPTH);
     }
 
-    public boolean isInsideBlockElement() {
+    public boolean isInsideBlockElement()
+    {
         return (boolean) getStackParameters().get(INSIDE_BLOCK_ELEMENT);
     }
 
-    public void setInsideBlockElement() {
+    public void setInsideBlockElement()
+    {
         getStackParameters().put(INSIDE_BLOCK_ELEMENT, true);
     }
 
-    public void unsetInsideBlockElement() {
+    public void unsetInsideBlockElement()
+    {
         getStackParameters().put(INSIDE_BLOCK_ELEMENT, false);
     }
 
-    public void setDocumentParent() {
+    public void setDocumentParent()
+    {
         getStackParameters().put(DOCUMENT_PARENT, fPeek.getParent());
     }
 
-    public TagContext getDocumentParent() {
+    public TagContext getDocumentParent()
+    {
         return (TagContext) getStackParameters().get(DOCUMENT_PARENT);
     }
 
-    public String pushListStyle(char style) {
+    public String pushListStyle(char style)
+    {
         StringBuffer listStyles = (StringBuffer) getStackParameter(LIST_STYLES);
         listStyles.append(style);
         return listStyles.toString();
     }
 
-    public void popListStyle() {
+    public void popListStyle()
+    {
         // We should always have a length greater than 0 but we handle
         // the case where the user has entered some badly formed HTML
         StringBuffer listStyles = (StringBuffer) getStackParameter(LIST_STYLES);
@@ -348,31 +364,38 @@ public class TagStack
         }
     }
 
-    public boolean isEndOfList() {
+    public boolean isEndOfList()
+    {
         return ((StringBuffer) getStackParameter(LIST_STYLES)).length() == 0;
     }
 
-    public void resetEmptyLinesCount() {
+    public void resetEmptyLinesCount()
+    {
         fEmptyLineCount = 0;
     }
 
-    public void incrementEmptyLinesCount() {
+    public void incrementEmptyLinesCount()
+    {
         fEmptyLineCount += 1;
     }
 
-    public int getEmptyLinesCount() {
+    public int getEmptyLinesCount()
+    {
         return fEmptyLineCount;
     }
 
-    public boolean shouldIgnoreElements() {
+    public boolean shouldIgnoreElements()
+    {
         return fIgnoreElements;
     }
 
-    public void setIgnoreElements() {
+    public void setIgnoreElements()
+    {
         fIgnoreElements = true;
     }
 
-    public void unsetIgnoreElements() {
+    public void unsetIgnoreElements()
+    {
         fIgnoreElements = false;
     }
 }
