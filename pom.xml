@@ -238,7 +238,7 @@
                     "package": "org.xwiki.rendering.block",
                     "classSimpleName": "MacroBlock",
                     "elementKind": "class",
-                    "justification": "No breackage. Just moved commons stuff in an abtract class."
+                    "justification": "No breakage. Just moved commons stuff in an abtract class."
                   },
                   {
                     "code": "java.class.nonFinalClassInheritsFromNewClass",
@@ -248,7 +248,7 @@
                     "package": "org.xwiki.rendering.block",
                     "classSimpleName": "MacroMarkerBlock",
                     "elementKind": "class",
-                    "justification": "No breackage. Just moved commons stuff in an abtract class."
+                    "justification": "No breakage. Just moved commons stuff in an abtract class."
                   }
                 ]
               }
