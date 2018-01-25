@@ -1,5 +1,6 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
+.# nbsps are preserved around a special character, with surrounding words (dash-connected words)
 .#-----------------------------------------------------
 <p>Baden&nbsp;-&nbsp;Baden</p>
 .#-----------------------------------------------------

@@ -1,5 +1,6 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
+.# nbsp preceeded by a whitespace is preserved, even when followed by a special character (symmetric to nbsp11)
 .#-----------------------------------------------------
 <p>Baden &nbsp;-&nbsp;Baden</p>
 .#-----------------------------------------------------

@@ -1,5 +1,6 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
+.# nbsp followed by a whitespace is preserved, even when following a special character
 .#-----------------------------------------------------
 <p>Baden&nbsp;-&nbsp; Baden</p>
 .#-----------------------------------------------------

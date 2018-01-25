@@ -1,5 +1,6 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
+.# Keep words with different formatting together with an nbsp - nbsp inside formatting, at the end
 .#-----------------------------------------------------
 <p>text <strong>bold&nbsp;</strong>test</p>
 .#-----------------------------------------------------

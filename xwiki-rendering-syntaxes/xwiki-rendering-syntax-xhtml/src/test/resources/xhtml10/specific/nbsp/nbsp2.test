@@ -1,5 +1,6 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
+.# Keep words with different formatting together with an nbsp - nbsp outside formatting, after formatting 
 .#-----------------------------------------------------
 <p>XV<sup>e</sup>&nbsp;siècle</p>
 .#-----------------------------------------------------
