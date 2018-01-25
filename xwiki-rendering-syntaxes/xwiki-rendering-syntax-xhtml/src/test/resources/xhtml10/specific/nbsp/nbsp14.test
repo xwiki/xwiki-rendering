@@ -1,0 +1,49 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Single or multiple nbsps are kept at the beginning and end of elements or inside elements
+.#-----------------------------------------------------
+<p>17&nbsp;&nbsp; a</p>
+<p>17&nbsp;&nbsp;b</p>
+<p>17&nbsp;&nbsp;&nbsp;c</p>
+<p>&nbsp;&nbsp;d</p>
+<p>17&nbsp;&nbsp;</p>
+.# The space here at the end won't be preserved and it's normal, it doesn't mean anything from an HTML point of view. it would have to be an nbsp to stay.
+<p>17&nbsp; </p>
+<h1>&nbsp;Test</h1>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [17(((160)))(((160)))]
+onSpace
+onWord [a]
+endParagraph
+beginParagraph
+onWord [17(((160)))(((160)))b]
+endParagraph
+beginParagraph
+onWord [17(((160)))(((160)))(((160)))c]
+endParagraph
+beginParagraph
+onSpace
+onSpace
+onWord [d]
+endParagraph
+beginParagraph
+onWord [17(((160)))(((160)))]
+endParagraph
+beginParagraph
+onWord [17(((160)))]
+endParagraph
+beginSection
+beginHeader [1, HTest]
+onSpace
+onWord [Test]
+endHeader [1, HTest]
+endSection
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>17${{{regex:\u00A0}}}${{{regex:\u00A0}}} a</p><p>17${{{regex:\u00A0}}}${{{regex:\u00A0}}}b</p><p>17${{{regex:\u00A0}}}${{{regex:\u00A0}}}${{{regex:\u00A0}}}c</p><p>&nbsp;&nbsp;d</p><p>17${{{regex:\u00A0}}}${{{regex:\u00A0}}}</p><p>17${{{regex:\u00A0}}}</p><h1 id="HTest" class="wikigeneratedid"><span>&nbsp;Test</span></h1>
