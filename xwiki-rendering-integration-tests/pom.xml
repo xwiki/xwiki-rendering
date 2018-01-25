@@ -29,7 +29,7 @@
   </parent>
   <artifactId>xwiki-rendering-integration-tests</artifactId>
   <name>XWiki Rendering - Integration Tests</name>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
   <description>XWiki Rendering - Integration Tests</description>
   <properties>
     <!-- TODO: Remove once the tests have been fixed to not output anything to the console! -->

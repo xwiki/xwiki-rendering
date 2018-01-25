@@ -19,7 +19,7 @@ endFormat [ITALIC]
 endParagraph
 endDocument
 .#-----------------------------------------------------
-.inputexpect|xhtml/1.0
+.expect|xhtml/1.0
 .#-----------------------------------------------------
 <p>This is <em>&nbsp;italic&nbsp;</em></p>
 .#-----------------------------------------------------
