@@ -1,0 +1,24 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Verify that STRONG tag parameters are recognized.
+.#-----------------------------------------------------
+<p>This is <strong>&nbsp;bold&nbsp;</strong></p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+beginFormat [BOLD]
+onSpace
+onWord [bold(((160)))]
+endFormat [BOLD]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>This is <strong>&nbsp;bold </strong></p>

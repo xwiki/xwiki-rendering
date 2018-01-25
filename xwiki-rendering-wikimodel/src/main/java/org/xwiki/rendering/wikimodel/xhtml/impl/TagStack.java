@@ -66,6 +66,8 @@ public class TagStack
 
     private int fEmptyLineCount;
 
+    private XhtmlCharacterType fPreviousCharType = null;
+
     public TagStack(WikiScannerContext context, Map<String, TagHandler> handlers)
     {
         this(context, handlers, new CommentHandler());
@@ -88,7 +90,7 @@ public class TagStack
         TagHandler handler = fMap.get(name);
         if (!shouldIgnoreElements()) {
             if (!(handler instanceof AbstractFormatTagHandler)) {
-                //previousCharType = null;
+                fPreviousCharType = null;
             }
 
             fPeek.beginElement(handler);
@@ -104,7 +106,7 @@ public class TagStack
         fPeek = fPeek.getParentContext();
     }
 
-    private XhtmlCharacterType getCharacterType(char ch, XhtmlCharacterType prevCharType, boolean isLast)
+    private XhtmlCharacterType getCharacterType(char ch, XhtmlCharacterType prevCharType)
     {
         XhtmlCharacterType type = XhtmlCharacterType.CHARACTER;
         switch (ch) {
@@ -150,7 +152,7 @@ public class TagStack
                 // This is a &nbsp;
                 // if previous character was a space as well, send it as a space, it will be rendered back in XHTML as a
                 // space anyway. If it's in the middle of a word, it's a regular word character
-                if (prevCharType == XhtmlCharacterType.SPACE || prevCharType == null || isLast) {
+                if (prevCharType == XhtmlCharacterType.SPACE || prevCharType == null) {
                     type = XhtmlCharacterType.SPACE;
                 } else {
                     type = XhtmlCharacterType.CHARACTER;
@@ -231,11 +233,10 @@ public class TagStack
 
         if (!fPeek.appendContent(content)) {
             Queue<XhtmlCharacter> stack = new ArrayDeque<XhtmlCharacter>();
-            XhtmlCharacterType charType = null;
             for (int i = 0; i < content.length(); i++) {
                 char c = content.charAt(i);
-                charType = getCharacterType(c, charType, i == content.length() - 1);
-                stack.offer(new XhtmlCharacter(c, charType));
+                fPreviousCharType = getCharacterType(c, fPreviousCharType);
+                stack.offer(new XhtmlCharacter(c, fPreviousCharType));
             }
 
             // Now send the events.
