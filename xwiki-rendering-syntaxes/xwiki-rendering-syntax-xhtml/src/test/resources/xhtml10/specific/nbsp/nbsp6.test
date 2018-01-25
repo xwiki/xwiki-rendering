@@ -1,0 +1,22 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<p>text <strong>bold&nbsp;</strong>test</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [text]
+onSpace
+beginFormat [BOLD]
+onWord [bold]
+onSpace
+endFormat [BOLD]
+onWord [test]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>text <strong>bold&nbsp;</strong>test</p>

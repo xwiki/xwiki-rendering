@@ -1,0 +1,22 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<p>XV<sup>e</sup> &nbsp;siècle</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [XV]
+beginFormat [SUPERSCRIPT]
+onWord [e]
+endFormat [SUPERSCRIPT]
+onSpace
+onSpace
+onWord [si(((232)))cle]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>XV<sup>e</sup> &nbsp;siècle</p>

@@ -1,0 +1,21 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<p>text&nbsp;<strong>bold</strong> test</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [text(((160)))]
+beginFormat [BOLD]
+onWord [bold]
+endFormat [BOLD]
+onSpace
+onWord [test]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>text${{{regex:\u00A0}}}<strong>bold</strong> test</p>
