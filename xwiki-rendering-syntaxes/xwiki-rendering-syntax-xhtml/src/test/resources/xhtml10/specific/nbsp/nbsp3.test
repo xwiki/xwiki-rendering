@@ -9,8 +9,7 @@ beginDocument
 beginParagraph
 onWord [text]
 beginFormat [BOLD]
-onSpace
-onWord [bold]
+onWord [(((160)))bold]
 endFormat [BOLD]
 onSpace
 onWord [test]
@@ -19,4 +18,4 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>text<strong>&nbsp;bold</strong> test</p>
+<p>text<strong>${{{regex:\u00A0}}}bold</strong> test</p>
