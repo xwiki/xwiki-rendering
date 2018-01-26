@@ -74,4 +74,9 @@ stage ('Rendering Builds') {
       }
     }
   )
+
+  // If the job is successful, trigger the platform job
+  if (currentBuild.result == 'SUCCESS') {
+    build job: "../xwiki-platform/${env.BRANCH_NAME}", wait: false
+  }
 }
