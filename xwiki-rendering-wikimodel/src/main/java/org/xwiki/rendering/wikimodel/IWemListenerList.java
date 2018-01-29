@@ -97,7 +97,7 @@ public interface IWemListenerList
      * {@link #endList(WikiParameters, boolean)} methods).
      *
      * @see #endListItem(WikiParameters)
-     * @since 10.0RC1
+     * @since 10.0
      */
     default void beginListItem(WikiParameters params)
     {
@@ -168,7 +168,7 @@ public interface IWemListenerList
      * {@link #endList(WikiParameters, boolean)} methods).
      *
      * @see #beginListItem(WikiParameters)
-     * @since 10.0RC1
+     * @since 10.0
      */
     default void endListItem(WikiParameters params)
     {

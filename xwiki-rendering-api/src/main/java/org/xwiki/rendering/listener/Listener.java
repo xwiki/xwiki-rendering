@@ -180,7 +180,7 @@ public interface Listener extends LinkListener, ImageListener
      * Start of a list item.
      * 
      * @param parameters a generic list of parameters for the list item. Example: "style"/"background-color: blue"
-     * @since 10.0RC1
+     * @since 10.0
      */
     default void beginListItem(@Default("") Map<String, String> parameters)
     {
@@ -210,7 +210,7 @@ public interface Listener extends LinkListener, ImageListener
      * End of a list item.
      * 
      * @param parameters a generic list of parameters for the list item. Example: "style"/"background-color: blue"
-     * @since 10.0RC1
+     * @since 10.0
      */
     default void endListItem(@Default("") Map<String, String> parameters)
     {

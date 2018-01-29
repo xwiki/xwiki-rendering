@@ -48,7 +48,7 @@ public class ListItemBlock extends AbstractBlock
      * @param childrenBlocks the blocks representing the list item content
      * @param parameters see {@link org.xwiki.rendering.block.AbstractBlock#getParameter(String)} for more details on
      *            parameters
-     * @since 10.0RC1
+     * @since 10.0
      */
     public ListItemBlock(List<Block> childrenBlocks, Map<String, String> parameters)
     {

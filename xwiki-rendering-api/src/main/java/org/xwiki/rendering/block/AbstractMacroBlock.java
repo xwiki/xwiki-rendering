@@ -29,7 +29,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * Common class to MacroBlock and MacroMakerBlock.
  *
  * @version $Id$
- * @since 10.0RC1
+ * @since 10.0
  */
 public abstract class AbstractMacroBlock extends AbstractBlock
 {
