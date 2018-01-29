@@ -125,7 +125,3 @@ before(% param="value" %)x(%%)**y**after
 (% param="value" %)1//2//(%%)//3//
 
 (% param1="value1" %)**1**(% param2="value2" %)**2**
-.#-----------------------------------------------------
-.input|xhtml/1.0
-.#-----------------------------------------------------
-<p param1="value1" param2="value2"><span param3="value3">hello</span> world</p><p><span param4="valueA">hello&nbsp;</span><span param4="valueB">world</span></p><p><strong><span param5="value4">hello</span></strong><span param5="value4">&nbsp;world</span></p><p><span param6="valueA">hello&nbsp;</span><span param7="valueB">world</span></p><p>before<span param="value">x</span><strong>y</strong>after</p><p>12<strong>34<span param="value">56</span>78</strong>90</p><p><span param="value">1<em>2</em></span><em>3</em></p><p><strong><span param1="value1">1</span></strong><strong><span param2="value2">2</span></strong></p>

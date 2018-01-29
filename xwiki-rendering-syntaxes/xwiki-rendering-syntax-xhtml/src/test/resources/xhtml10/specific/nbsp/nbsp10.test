@@ -1,0 +1,19 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# nbsps are preserved around a special character, with surrounding words (dash-connected words)
+.#-----------------------------------------------------
+<p>Baden&nbsp;-&nbsp;Baden</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Baden(((160)))]
+onSpecialSymbol [-]
+onWord [(((160)))Baden]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>Baden${{{regex:\u00A0}}}-${{{regex:\u00A0}}}Baden</p>

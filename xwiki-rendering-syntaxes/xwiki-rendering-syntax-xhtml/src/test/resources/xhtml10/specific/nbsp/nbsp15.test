@@ -1,0 +1,64 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test behaviour of nbsp in table cells: start, end, alone in table cell.
+.#-----------------------------------------------------
+<table><tr><th>&nbsp;Start</th><th>End&nbsp;</th></tr><tr><td>&nbsp;</td><td>failing for now</td></tr><tr><td><i>After i</i>&nbsp;</td><td><i>&nbsp;in</i></td></tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;1</td></tr></table>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginTable
+beginTableRow
+beginTableHeadCell
+onSpace
+onWord [Start]
+endTableHeadCell
+beginTableHeadCell
+onWord [End(((160)))]
+endTableHeadCell
+endTableRow
+beginTableRow
+beginTableCell
+onSpace
+endTableCell
+beginTableCell
+onWord [failing]
+onSpace
+onWord [for]
+onSpace
+onWord [now]
+endTableCell
+endTableRow
+beginTableRow
+beginTableCell
+beginFormat [ITALIC]
+onWord [After]
+onSpace
+onWord [i]
+endFormat [ITALIC]
+onWord [(((160)))]
+endTableCell
+beginTableCell
+beginFormat [ITALIC]
+onSpace
+onWord [in]
+endFormat [ITALIC]
+endTableCell
+endTableRow
+beginTableRow
+beginTableCell
+onSpace
+onSpace
+endTableCell
+beginTableCell
+onSpace
+onSpace
+onWord [1]
+endTableCell
+endTableRow
+endTable
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<table><tr><th scope="col">&nbsp;Start</th><th scope="col">End${{{regex:\u00A0}}}</th></tr><tr><td>&nbsp;</td><td>failing for now</td></tr><tr><td><em>After i</em>${{{regex:\u00A0}}}</td><td><em>&nbsp;in</em></td></tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;1</td></tr></table>

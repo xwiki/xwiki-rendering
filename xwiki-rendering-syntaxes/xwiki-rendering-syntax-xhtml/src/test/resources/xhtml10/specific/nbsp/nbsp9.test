@@ -1,0 +1,24 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# nbsp attached to word stays a nbsp, but word is in formatting, not text
+.#-----------------------------------------------------
+<p>XV &nbsp;<sup>e</sup> siècle</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [XV]
+onSpace
+onSpace
+beginFormat [SUPERSCRIPT]
+onWord [e]
+endFormat [SUPERSCRIPT]
+onSpace
+onWord [si(((232)))cle]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>XV &nbsp;<sup>e</sup> siècle</p>

@@ -1,0 +1,21 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Keep words with different formatting together with an nbsp - nbsp outside formatting, after formatting 
+.#-----------------------------------------------------
+<p>XV<sup>e</sup>&nbsp;siècle</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [XV]
+beginFormat [SUPERSCRIPT]
+onWord [e]
+endFormat [SUPERSCRIPT]
+onWord [(((160)))si(((232)))cle]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>XV<sup>e</sup>${{{regex:\u00A0}}}siècle</p>

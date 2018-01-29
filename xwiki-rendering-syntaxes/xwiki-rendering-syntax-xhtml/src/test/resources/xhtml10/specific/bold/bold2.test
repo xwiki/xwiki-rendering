@@ -1,7 +1,8 @@
 .#-----------------------------------------------------
-.input|xwiki/2.0
+.input|xhtml/1.0
+.# Verify that STRONG tag parameters are recognized.
 .#-----------------------------------------------------
-This is //italic // not italic// italic
+<p>This is <strong>&nbsp;bold&nbsp;</strong></p>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -11,25 +12,13 @@ onWord [This]
 onSpace
 onWord [is]
 onSpace
-beginFormat [ITALIC]
-onWord [italic]
+beginFormat [BOLD]
 onSpace
-endFormat [ITALIC]
-onSpace
-onWord [not]
-onSpace
-onWord [italic]
-beginFormat [ITALIC]
-onSpace
-onWord [italic]
-endFormat [ITALIC]
+onWord [bold(((160)))]
+endFormat [BOLD]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>This is <em>italic&nbsp;</em> not italic<em>&nbsp;italic</em></p>
-.#-----------------------------------------------------
-.expect|xwiki/2.0
-.#-----------------------------------------------------
-This is //italic // not italic// italic//
+<p>This is <strong>&nbsp;bold </strong></p>

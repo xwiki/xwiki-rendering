@@ -1,0 +1,17 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Make sure non-breaking white space and kept as such (i.e. UTF8 non breaking spaces)
+.#-----------------------------------------------------
+<p>before&nbsp;after</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [before(((160)))after]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>before${{{regex:\u00A0}}}after</p>

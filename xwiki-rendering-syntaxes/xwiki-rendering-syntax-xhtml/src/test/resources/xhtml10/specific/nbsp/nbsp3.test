@@ -1,0 +1,22 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Keep words with different formatting together with an nbsp - nbsp inside formatting, at beginning
+.#-----------------------------------------------------
+<p>text<strong>&nbsp;bold</strong> test</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [text]
+beginFormat [BOLD]
+onWord [(((160)))bold]
+endFormat [BOLD]
+onSpace
+onWord [test]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>text<strong>${{{regex:\u00A0}}}bold</strong> test</p>

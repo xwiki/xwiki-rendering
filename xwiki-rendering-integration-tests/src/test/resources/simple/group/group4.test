@@ -71,7 +71,3 @@ endDocument
 |Line Two | Second doc:(((
 lkjlj
 )))skdjg
-.#-----------------------------------------------------
-.input|xhtml/1.0
-.#-----------------------------------------------------
-<table><tr><td>&nbsp;Line One&nbsp;</td><td>&nbsp;First doc:<div><p>&nbsp;inside</p></div>after</td></tr><tr><td>Line Two&nbsp;</td><td>&nbsp;Second doc:<div><p>lkjlj</p></div>skdjg</td></tr></table>

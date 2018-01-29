@@ -1,0 +1,19 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# nbsp separating 2 sentences is kept as nbsp
+.#-----------------------------------------------------
+<p>Stop.&nbsp;Start</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Stop]
+onSpecialSymbol [.]
+onWord [(((160)))Start]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>Stop.${{{regex:\u00A0}}}Start</p>

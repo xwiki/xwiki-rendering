@@ -1,0 +1,21 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# nbsp preceeded by a whitespace is preserved, even when followed by a special character (symmetric to nbsp11)
+.#-----------------------------------------------------
+<p>Baden &nbsp;-&nbsp;Baden</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Baden]
+onSpace
+onSpace
+onSpecialSymbol [-]
+onWord [(((160)))Baden]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>Baden &nbsp;-${{{regex:\u00A0}}}Baden</p>
