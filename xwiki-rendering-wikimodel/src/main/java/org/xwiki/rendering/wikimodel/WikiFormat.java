@@ -146,7 +146,7 @@ public class WikiFormat
             StringBuffer o = new StringBuffer();
             StringBuffer c = new StringBuffer();
             for (WikiStyle style : fStyles) {
-                o.append("<").append(style).append(">");
+                o.append(String.valueOf('<')).append(style).append(String.valueOf('>'));
                 c.insert(0, ">").insert(0, style).insert(0, "</");
             }
             fOpeningTags = o.toString().intern();
