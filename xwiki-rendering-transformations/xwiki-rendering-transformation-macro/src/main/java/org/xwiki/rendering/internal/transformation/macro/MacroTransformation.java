@@ -271,7 +271,7 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                             + "syntax that separates your macro from the content before and after it so that it's on a "
                             + "line by itself. For example in XWiki Syntax 2.0+ this means having 2 newline characters "
                             + "(a.k.a line breaks) separating your macro from the content before and after it.");
-                       continue;
+                        continue;
                     }
                 } else {
                     macroContext.setInline(false);
