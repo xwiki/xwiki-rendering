@@ -280,7 +280,7 @@ public class WikiParameters implements Iterable<WikiParameter>
             for (int i = 0; i < len; i++) {
                 WikiParameter pair = fList.get(i);
                 if (pair.isValid()) {
-                    buf.append(String.valueOf(' '));
+                    buf.append(' ');
                     buf.append(pair);
                     counter++;
                 }
