@@ -223,12 +223,13 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         }
     }
 
-        @Override
+    @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
         // If the previous format had parameters and the parameters are different from the current ones then close them
         if (this.previousFormatParameters != null) {
             if (!this.previousFormatParameters.equals(parameters)) {
+                this.previousFormatParameters = null;
                 printParameters(parameters, false);
             } 
             this.previousFormatParameters = null;
