@@ -118,16 +118,16 @@ public class XWikiSerializer2 extends PrintTextListener
         boolean isordered = false;
         for (int i = 0; i < orders.length; i++) {
             if (orders[i] == ListOrdering.ORDERED) {
-                sb.append(String.valueOf('1'));
+                sb.append('1');
                 isordered = true;
             } else {
-                sb.append(String.valueOf('*'));
+                sb.append('*');
             }
         }
         if (isordered) {
-            sb.append(String.valueOf('.'));
+            sb.append('.');
         }
-        sb.append(String.valueOf(' '));
+        sb.append(' ');
         print(sb.toString());
         listItemWritten = true;
     }
