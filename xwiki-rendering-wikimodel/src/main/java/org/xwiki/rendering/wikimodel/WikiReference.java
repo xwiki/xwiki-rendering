@@ -192,9 +192,9 @@ public class WikiReference
             StringBuffer buf = new StringBuffer();
             buf.append(fLink);
             if (fLabel != null) {
-                buf.append(String.valueOf('('));
+                buf.append('(');
                 buf.append(fLabel);
-                buf.append(String.valueOf(')'));
+                buf.append(')');
             }
             buf.append(fParameters);
             fString = buf.toString();
