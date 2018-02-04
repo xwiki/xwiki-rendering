@@ -70,7 +70,8 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
      *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */
     public XWikiCommentHandler(ComponentManager componentManager, XHTMLParser parser,
-        PrintRendererFactory xwikiSyntaxPrintRendererFactory, ResourceReferenceParser xhtmlMarkerResourceReferenceParser)
+        PrintRendererFactory xwikiSyntaxPrintRendererFactory, 
+        ResourceReferenceParser xhtmlMarkerResourceReferenceParser)
     {
         this.componentManager = componentManager;
         this.parser = parser;
