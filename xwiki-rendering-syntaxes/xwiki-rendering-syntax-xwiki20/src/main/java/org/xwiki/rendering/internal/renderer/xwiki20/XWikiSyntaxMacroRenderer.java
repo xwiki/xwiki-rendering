@@ -54,11 +54,11 @@ public class XWikiSyntaxMacroRenderer
             buffer.append("}}");
             if (content.length() > 0) {
                 if (!isInline) {
-                    buffer.append("\n");
+                    buffer.append('\n');
                 }
                 buffer.append(content);
                 if (!isInline) {
-                    buffer.append("\n");
+                    buffer.append('\n');
                 }
             }
             buffer.append("{{/").append(id).append("}}");

@@ -726,7 +726,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             buffer.append(" %)");
 
             if (newLine) {
-                buffer.append("\n");
+                buffer.append('\n');
             }
 
             print(buffer.toString());

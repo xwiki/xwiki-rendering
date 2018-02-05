@@ -431,9 +431,9 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
         StringBuilder parametersBuffer = new StringBuilder();
         for (Iterator<Map.Entry<String, String>> paramsIt = parameters.entrySet().iterator(); paramsIt.hasNext();) {
             Map.Entry<String, String> entry = paramsIt.next();
-            parametersBuffer.append(entry.getKey()).append("=").append(entry.getValue());
+            parametersBuffer.append(entry.getKey()).append('=').append(entry.getValue());
             if (paramsIt.hasNext()) {
-                parametersBuffer.append("|");
+                parametersBuffer.append('|');
             }
         }
 
@@ -444,16 +444,16 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 
         macroBuffer.append(" [");
         macroBuffer.append(name);
-        macroBuffer.append("]");
+        macroBuffer.append(']');
 
         macroBuffer.append(" [");
         macroBuffer.append(parametersBuffer);
-        macroBuffer.append("]");
+        macroBuffer.append(']');
 
         if (content != null) {
             macroBuffer.append(" [");
             macroBuffer.append(content);
-            macroBuffer.append("]");
+            macroBuffer.append(']');
         }
 
         getPrinter().println(macroBuffer.toString());

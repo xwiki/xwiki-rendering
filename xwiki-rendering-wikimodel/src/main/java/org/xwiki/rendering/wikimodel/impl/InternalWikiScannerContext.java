@@ -427,9 +427,9 @@ public class InternalWikiScannerContext implements IWikiScannerContext
         beginQuot();
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < depth; i++) {
-            buf.append(" ");
+            buf.append(' ');
         }
-        buf.append("*");
+        buf.append('*');
         fQuoteDepth = depth;
         fQuotBuilder.alignContext(buf.toString());
     }
