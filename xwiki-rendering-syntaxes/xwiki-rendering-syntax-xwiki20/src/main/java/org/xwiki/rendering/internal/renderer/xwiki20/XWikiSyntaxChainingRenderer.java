@@ -231,7 +231,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             if (!this.previousFormatParameters.equals(parameters)) {
                 printParameters(parameters, false);
             }
-                this.previousFormatParameters = null;
+            this.previousFormatParameters = null;
         } else if (this.previousFormatParameters == null) {
             printParameters(parameters, false);
         }
