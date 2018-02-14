@@ -32,6 +32,8 @@ import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.rendering.wikimodel.tex.TexSerializer;
 
 /**
@@ -95,6 +97,15 @@ public class TexRenderer extends WrappingListener implements PrintRenderer
             default:
                 // Not supported by default, additional packages are needed
                 break;
+        }
+    }
+
+    @Override
+    public void onRawText(String text, Syntax syntax)
+    {
+        // Directly inject the Tex content in the wiki printer.
+        if (syntax.getType().equals(SyntaxType.TEX)) {
+            getPrinter().print(text);
         }
     }
 }

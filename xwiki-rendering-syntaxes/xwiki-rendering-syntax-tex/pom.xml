@@ -31,7 +31,7 @@
   <name>XWiki Rendering - Syntax - TeX</name>
   <description>XWiki Rendering - Syntax - TeX</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.90</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.97</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>
@@ -43,6 +43,18 @@
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-transformation-macro</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-xwiki21</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
