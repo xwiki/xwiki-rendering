@@ -30,11 +30,15 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.parser.ParseException;
+import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.parser.StreamParser;
+import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
+import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.velocity.internal.log.SLF4JLogChute;
 import org.xwiki.xml.XMLUtils;
 
@@ -158,14 +162,10 @@ public class RenderingTest
     private void executeTest(String inputData, String inputSyntaxId, String expectedOutputData, String outputSyntaxId)
         throws Exception
     {
-        StreamParser parser = getComponentManager().getInstance(StreamParser.class, inputSyntaxId);
-        PrintRendererFactory rendererFactory =
-            getComponentManager().getInstance(PrintRendererFactory.class, outputSyntaxId);
-
         // Get the syntax from the parser/renderer to be sure to get the right display name (Syntax#valueOf() may not
         // know it)
-        org.xwiki.rendering.syntax.Syntax inputSyntax = parser.getSyntax();
-        org.xwiki.rendering.syntax.Syntax expectedSyntax = rendererFactory.getSyntax();
+        org.xwiki.rendering.syntax.Syntax inputSyntax = getInputSyntax(inputSyntaxId, outputSyntaxId);
+        org.xwiki.rendering.syntax.Syntax expectedSyntax = getOutputSyntax(inputSyntaxId, outputSyntaxId);
 
         org.xwiki.rendering.syntax.Syntax validatedSyntax;
         if (inputSyntax.toIdString().equals(this.metadataSyntaxId)) {
@@ -177,7 +177,7 @@ public class RenderingTest
         String evaluatedInputData = evaluateContent(inputData, validatedSyntax);
         String evaluatedOutputData = evaluateContent(expectedOutputData, validatedSyntax);
 
-        String result = convert(evaluatedInputData, parser, rendererFactory);
+        String result = convert(evaluatedInputData, inputSyntax.toIdString(), expectedSyntax.toIdString());
         try {
             if (isXMLSyntax(outputSyntaxId)) {
                 assertExpectedResult(
@@ -191,6 +191,40 @@ public class RenderingTest
         }
     }
 
+    private boolean isStreamingTest(String inputSyntaxId, String outputSyntaxId)
+    {
+        return getComponentManager().hasComponent(StreamParser.class, inputSyntaxId)
+            && getComponentManager().hasComponent(PrintRendererFactory.class, outputSyntaxId);
+    }
+
+    private org.xwiki.rendering.syntax.Syntax getInputSyntax(String inputSyntaxId, String outputSyntaxId)
+        throws Exception
+    {
+        org.xwiki.rendering.syntax.Syntax syntax;
+        if (isStreamingTest(inputSyntaxId, outputSyntaxId)) {
+            StreamParser parser = getComponentManager().getInstance(StreamParser.class, inputSyntaxId);
+            syntax = parser.getSyntax();
+        } else {
+            Parser parser = getComponentManager().getInstance(Parser.class, inputSyntaxId);
+            syntax = parser.getSyntax();
+        }
+        return syntax;
+    }
+
+    private org.xwiki.rendering.syntax.Syntax getOutputSyntax(String inputSyntaxId, String outputSyntaxId)
+        throws Exception
+    {
+        org.xwiki.rendering.syntax.Syntax syntax;
+        if (isStreamingTest(inputSyntaxId, outputSyntaxId)) {
+            PrintRendererFactory rendererFactory =
+                getComponentManager().getInstance(PrintRendererFactory.class, outputSyntaxId);
+            syntax = rendererFactory.getSyntax();
+        } else {
+            syntax = org.xwiki.rendering.syntax.Syntax.valueOf(outputSyntaxId);
+        }
+        return syntax;
+    }
+
     /**
      * @param syntaxId the syntax to check
      * @return true if the passed syntax id represents an XML syntax
@@ -202,20 +236,33 @@ public class RenderingTest
 
     private String convert(String source, String sourceSyntaxId, String targetSyntaxId) throws Exception
     {
-        StreamParser parser = getComponentManager().getInstance(StreamParser.class, sourceSyntaxId);
-        PrintRendererFactory rendererFactory =
-            getComponentManager().getInstance(PrintRendererFactory.class, targetSyntaxId);
-
-        return convert(source, parser, rendererFactory);
+        String result;
+        if (isStreamingTest(sourceSyntaxId, targetSyntaxId)) {
+            StreamParser parser = getComponentManager().getInstance(StreamParser.class, sourceSyntaxId);
+            PrintRendererFactory rendererFactory =
+                getComponentManager().getInstance(PrintRendererFactory.class, targetSyntaxId);
+            result = convert(source, parser, rendererFactory);
+        } else {
+            Parser parser = getComponentManager().getInstance(Parser.class, sourceSyntaxId);
+            BlockRenderer blockRenderer = getComponentManager().getInstance(BlockRenderer.class, targetSyntaxId);
+            result = convert(source, parser, blockRenderer);
+        }
+        return result;
     }
 
     private String convert(String source, StreamParser parser, PrintRendererFactory rendererFactory) throws Exception
     {
         PrintRenderer renderer = rendererFactory.createRenderer(new DefaultWikiPrinter());
-
         parser.parse(new StringReader(source), renderer);
-
         return renderer.getPrinter().toString();
+    }
+
+    private String convert(String source, Parser parser, BlockRenderer blockRenderer) throws Exception
+    {
+        XDOM xdom = parser.parse(new StringReader(source));
+        WikiPrinter printer = new DefaultWikiPrinter();
+        blockRenderer.render(xdom, printer);
+        return printer.toString();
     }
 
     /**

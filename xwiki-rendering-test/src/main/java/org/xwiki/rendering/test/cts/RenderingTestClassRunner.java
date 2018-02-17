@@ -28,7 +28,11 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
+import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.jmock.XWikiComponentInitializer;
+import org.xwiki.test.mockito.MockitoComponentManager;
 
 /**
  * Represents a Test Runner for a single Rendering Test to execute.
@@ -42,6 +46,8 @@ public class RenderingTestClassRunner extends BlockJUnit4ClassRunner
      * Used to pass the Component Manager to the Rendering Test instance executing.
      */
     private XWikiComponentInitializer componentInitializer = new XWikiComponentInitializer();
+
+    private final MockitoComponentManager mockitoComponentManager = new MockitoComponentManager();
 
     /**
      * @see #RenderingTestClassRunner(Object, Class, TestData, String)
@@ -79,7 +85,7 @@ public class RenderingTestClassRunner extends BlockJUnit4ClassRunner
     public Object createTest() throws Exception
     {
         return getTestClass().getOnlyConstructor().newInstance(
-            this.testData, this.metadataSyntaxId, this.componentInitializer.getComponentManager());
+            this.testData, this.metadataSyntaxId, getComponentManager());
     }
 
     @Override
@@ -117,13 +123,7 @@ public class RenderingTestClassRunner extends BlockJUnit4ClassRunner
     @Override
     protected void runChild(FrameworkMethod method, RunNotifier notifier)
     {
-        try {
-            this.componentInitializer.initializeConfigurationSource();
-            this.componentInitializer.initializeExecution();
-        } catch (Exception e) {
-            notifier.fireTestFailure(new Failure(getDescription(),
-                new RuntimeException("Failed to initialize Component Manager", e)));
-        }
+        initializeComponentManager(notifier);
 
         // Check all methods for a ComponentManager annotation and call the found ones.
         try {
@@ -131,7 +131,7 @@ public class RenderingTestClassRunner extends BlockJUnit4ClassRunner
                 Initialized componentManagerAnnotation = klassMethod.getAnnotation(Initialized.class);
                 if (componentManagerAnnotation != null) {
                     // Call it!
-                    klassMethod.invoke(this.testInstance, this.componentInitializer.getComponentManager());
+                    klassMethod.invoke(this.testInstance, getComponentManager());
                 }
             }
         } catch (Exception e) {
@@ -148,6 +148,55 @@ public class RenderingTestClassRunner extends BlockJUnit4ClassRunner
                 notifier.fireTestFailure(new Failure(getDescription(),
                     new RuntimeException("Failed to shutdown Component Manager", e)));
             }
+        }
+    }
+
+    private void initializeComponentManager(RunNotifier notifier)
+    {
+        try {
+            if (isLegacyMode()) {
+                this.componentInitializer.initializeConfigurationSource();
+                this.componentInitializer.initializeExecution();
+            } else {
+                this.mockitoComponentManager.initializeTest(RenderingTestClassRunner.this.testInstance);
+                this.mockitoComponentManager.registerMemoryConfigurationSource();
+            }
+        } catch (Exception e) {
+            notifier.fireTestFailure(new Failure(getDescription(),
+                new RuntimeException("Failed to initialize Component Manager", e)));
+        }
+
+    }
+
+    private boolean isLegacyMode()
+    {
+        boolean isLegacyMode = true;
+        for (Method klassMethod : RenderingTestClassRunner.this.testInstance.getClass().getMethods()) {
+            Initialized componentManagerAnnotation = klassMethod.getAnnotation(Initialized.class);
+            if (componentManagerAnnotation != null) {
+                if (MockitoComponentManager.class.isAssignableFrom(klassMethod.getParameterTypes()[0])) {
+                    isLegacyMode = false;
+                }
+                break;
+            }
+        }
+        // If the class is using either @AllComponents or @ComponentList then consider we're not in legacy.
+        if (isLegacyMode
+            && (RenderingTestClassRunner.this.testInstance.getClass().getAnnotation(AllComponents.class) != null
+            || RenderingTestClassRunner.this.testInstance.getClass().getAnnotation(ComponentList.class) != null))
+        {
+            isLegacyMode = false;
+        }
+
+        return isLegacyMode;
+    }
+
+    private ComponentManager getComponentManager() throws Exception
+    {
+        if (isLegacyMode()) {
+            return this.componentInitializer.getComponentManager();
+        } else {
+            return this.mockitoComponentManager;
         }
     }
 }
