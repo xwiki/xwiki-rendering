@@ -38,6 +38,7 @@ import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationManager;
 import org.xwiki.test.internal.MockConfigurationSource;
@@ -125,8 +126,6 @@ public class RenderingTest
         WikiPrinter printer = new DefaultWikiPrinter();
 
         StreamParser streamParser = getComponentManager().getInstance(StreamParser.class, this.parserId);
-        PrintRendererFactory streamRendererFactory =
-            getComponentManager().getInstance(PrintRendererFactory.class, this.targetSyntaxId);
 
         if (!this.streaming) {
             Parser parser = getComponentManager().getInstance(Parser.class, this.parserId);
@@ -136,7 +135,7 @@ public class RenderingTest
                 TransformationManager transformationManager =
                     getComponentManager().getInstance(TransformationManager.class);
                 TransformationContext txContext = new TransformationContext(xdom, streamParser.getSyntax());
-                txContext.setTargetSyntax(streamRendererFactory.getSyntax());
+                txContext.setTargetSyntax(getRendererSyntax());
                 txContext.setId("test");
                 transformationManager.performTransformations(xdom, txContext);
             }
@@ -152,6 +151,8 @@ public class RenderingTest
 
             renderer.render(xdom, printer);
         } else {
+            PrintRendererFactory streamRendererFactory =
+                getComponentManager().getInstance(PrintRendererFactory.class, this.targetSyntaxId);
             // remove source syntax from begin/endDocument metadata
             WrappingListener listener = new SyntaxWrappingListener();
             listener.setWrappedListener(streamRendererFactory.createRenderer(printer));
@@ -161,6 +162,19 @@ public class RenderingTest
 
         // Verify the expected result against the result we got.
         assertExpectedResult(this.expected, printer.toString());
+    }
+
+    private Syntax getRendererSyntax() throws Exception
+    {
+        Syntax syntax;
+        if (getComponentManager().hasComponent(PrintRendererFactory.class, this.targetSyntaxId)) {
+            PrintRendererFactory streamRendererFactory =
+                getComponentManager().getInstance(PrintRendererFactory.class, this.targetSyntaxId);
+            syntax = streamRendererFactory.getSyntax();
+        } else {
+            syntax = Syntax.valueOf(this.targetSyntaxId);
+        }
+        return syntax;
     }
 
     /**
