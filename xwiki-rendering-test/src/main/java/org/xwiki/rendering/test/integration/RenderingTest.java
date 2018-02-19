@@ -52,6 +52,18 @@ import org.xwiki.test.internal.MockConfigurationSource;
  */
 public class RenderingTest
 {
+    /**
+     * Symbols to start a special syntax block. For example: <code>${{{regex:...}}}</code> or
+     * <code>${{{velocity:...}}}</code>
+     */
+    private static final String SPECIAL_SYNTAX_START = "${{{";
+
+    /**
+     * Symbols to close a special syntax block. For example: <code>${{{regex:...}}}</code> or
+     * <code>${{{velocity:...}}}</code>
+     */
+    private static final String SPECIAL_SYNTAX_END = "}}}";
+
     private String input;
 
     private String expected;
@@ -209,19 +221,30 @@ public class RenderingTest
 
     private void normalizeExpectedValue(StringBuilder builder, String expected)
     {
-        int pos = expected.indexOf("${{{regex:");
+        String fullSpecialSyntaxStart = String.format("%sregex:", SPECIAL_SYNTAX_START);
+        int pos = expected.indexOf(fullSpecialSyntaxStart);
         if (pos > -1) {
             builder.append(Pattern.quote(expected.substring(0, pos)));
             // Find end of regex definition
-            int pos2 = expected.indexOf("}}}", pos + 10);
+            int pos2 = findPositionOfRegexEnd(expected, pos + fullSpecialSyntaxStart.length());
             if (pos2 == -1) {
                 throw new RuntimeException("Invalid regex declaration: missing closing part }}}");
             }
-            builder.append(expected.substring(pos + 10, pos2));
+            builder.append(expected.substring(pos + fullSpecialSyntaxStart.length(), pos2));
             normalizeExpectedValue(builder, expected.substring(pos2 + 3));
         } else {
             builder.append(Pattern.quote(expected));
         }
+    }
+
+    private int findPositionOfRegexEnd(String expected, int pos)
+    {
+        int result = expected.indexOf(SPECIAL_SYNTAX_END, pos);
+        // Verify the first char of the SPECIAL_SYNTAX_END is not escaped
+        if (result > -1 && expected.charAt(result - 1) == '\\') {
+            result = findPositionOfRegexEnd(expected, result + 1);
+        }
+        return result;
     }
 
     public ComponentManager getComponentManager() throws Exception
