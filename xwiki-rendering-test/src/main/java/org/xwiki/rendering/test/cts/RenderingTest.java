@@ -362,7 +362,7 @@ public class RenderingTest
         if (pos > -1) {
             builder.append(Pattern.quote(content.substring(0, pos)));
             // Find end of regex definition
-            int pos2 = content.lastIndexOf(SPECIAL_SYNTAX_END);
+            int pos2 = findPositionOfRegexEnd(content, pos + fullSpecialSyntaxStart.length());
             if (pos2 == -1) {
                 throw new RuntimeException("Invalid regex declaration: missing closing part " + SPECIAL_SYNTAX_END);
             }
@@ -372,6 +372,16 @@ public class RenderingTest
             builder.append(Pattern.quote(content));
         }
         return builder.toString();
+    }
+
+    private int findPositionOfRegexEnd(String content, int pos)
+    {
+        int result = content.indexOf(SPECIAL_SYNTAX_END, pos);
+        // Verify the first char of the SPECIAL_SYNTAX_END is not escaped
+        if (result > -1 && content.charAt(result - 1) == '\\') {
+            result = findPositionOfRegexEnd(content, result + 1);
+        }
+        return result;
     }
 
     /**
