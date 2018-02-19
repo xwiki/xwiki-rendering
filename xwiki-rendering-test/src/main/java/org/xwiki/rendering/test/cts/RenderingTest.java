@@ -362,7 +362,7 @@ public class RenderingTest
         if (pos > -1) {
             builder.append(Pattern.quote(content.substring(0, pos)));
             // Find end of regex definition
-            int pos2 = content.indexOf(SPECIAL_SYNTAX_END, pos + fullSpecialSyntaxStart.length());
+            int pos2 = content.lastIndexOf(SPECIAL_SYNTAX_END);
             if (pos2 == -1) {
                 throw new RuntimeException("Invalid regex declaration: missing closing part " + SPECIAL_SYNTAX_END);
             }
