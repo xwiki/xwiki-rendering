@@ -231,6 +231,14 @@
                 "ignore" : [
                   // Add more ignores below...
                   {
+                    "code": "java.class.removed",
+                    "old": "class org.xwiki.rendering.wikimodel.tex.TexSerializer.DocumentContext",
+                    "package": "org.xwiki.rendering.wikimodel.tex",
+                    "classSimpleName": "TexSerializer",
+                    "elementKind": "class",
+                    "justification": "We decided to drop the tex/1.0 syntax in favor of the latex/1.0 one available in XWiki Contrib"
+                  },
+                  {
                     "code": "java.class.nonFinalClassInheritsFromNewClass",
                     "old": "class org.xwiki.rendering.block.MacroBlock",
                     "new": "class org.xwiki.rendering.block.MacroBlock",

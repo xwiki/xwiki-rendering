@@ -1,1 +1,0 @@
-This is \begin{verbatim}verbatim\end{verbatim}
