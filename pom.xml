@@ -237,26 +237,6 @@
                     "classSimpleName": "TexSerializer",
                     "elementKind": "class",
                     "justification": "We decided to drop the tex/1.0 syntax in favor of the latex/1.0 one available in XWiki Contrib"
-                  },
-                  {
-                    "code": "java.class.nonFinalClassInheritsFromNewClass",
-                    "old": "class org.xwiki.rendering.block.MacroBlock",
-                    "new": "class org.xwiki.rendering.block.MacroBlock",
-                    "superClass": "org.xwiki.rendering.block.AbstractMacroBlock",
-                    "package": "org.xwiki.rendering.block",
-                    "classSimpleName": "MacroBlock",
-                    "elementKind": "class",
-                    "justification": "No breakage. Just moved commons stuff in an abtract class."
-                  },
-                  {
-                    "code": "java.class.nonFinalClassInheritsFromNewClass",
-                    "old": "class org.xwiki.rendering.block.MacroMarkerBlock",
-                    "new": "class org.xwiki.rendering.block.MacroMarkerBlock",
-                    "superClass": "org.xwiki.rendering.block.AbstractMacroBlock",
-                    "package": "org.xwiki.rendering.block",
-                    "classSimpleName": "MacroMarkerBlock",
-                    "elementKind": "class",
-                    "justification": "No breakage. Just moved commons stuff in an abtract class."
                   }
                 ]
               }
