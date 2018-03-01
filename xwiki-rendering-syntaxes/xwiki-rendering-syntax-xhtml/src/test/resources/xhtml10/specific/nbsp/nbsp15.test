@@ -14,7 +14,8 @@ onSpace
 onWord [Start]
 endTableHeadCell
 beginTableHeadCell
-onWord [End(((160)))]
+onWord [End]
+onSpace
 endTableHeadCell
 endTableRow
 beginTableRow
@@ -36,7 +37,7 @@ onWord [After]
 onSpace
 onWord [i]
 endFormat [ITALIC]
-onWord [(((160)))]
+onSpace
 endTableCell
 beginTableCell
 beginFormat [ITALIC]
@@ -61,4 +62,4 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<table><tr><th scope="col">&nbsp;Start</th><th scope="col">End${{{regex:\u00A0}}}</th></tr><tr><td>&nbsp;</td><td>failing for now</td></tr><tr><td><em>After i</em>${{{regex:\u00A0}}}</td><td><em>&nbsp;in</em></td></tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;1</td></tr></table>
+<table><tr><th scope="col">&nbsp;Start</th><th scope="col">End&nbsp;</th></tr><tr><td>&nbsp;</td><td>failing for now</td></tr><tr><td><em>After i</em>&nbsp;</td><td><em>&nbsp;in</em></td></tr><tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;1</td></tr></table>

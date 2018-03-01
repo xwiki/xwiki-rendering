@@ -27,10 +27,9 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  * the conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
  *
  * @version $Id$
- * @since 4.5M1
  */
 @RunWith(RenderingTestSuite.class)
-@RenderingTestSuite.Scope(value="xhtml10.specific"/*, pattern="nbsp3.test"*/)
+@RenderingTestSuite.Scope(value="xhtml10.specific"/*, pattern="nbsp14.test"*/)
 public class XHTMLSpecificTest
 {
 }

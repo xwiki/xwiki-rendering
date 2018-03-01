@@ -31,10 +31,12 @@ onSpace
 onWord [d]
 endParagraph
 beginParagraph
-onWord [17(((160)))(((160)))]
+onWord [17(((160)))]
+onSpace
 endParagraph
 beginParagraph
-onWord [17(((160)))]
+onWord [17]
+onSpace
 endParagraph
 beginSection
 beginHeader [1, HTest]
@@ -46,4 +48,4 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>17${{{regex:\u00A0}}}${{{regex:\u00A0}}} a</p><p>17${{{regex:\u00A0}}}${{{regex:\u00A0}}}b</p><p>17${{{regex:\u00A0}}}${{{regex:\u00A0}}}${{{regex:\u00A0}}}c</p><p>&nbsp;&nbsp;d</p><p>17${{{regex:\u00A0}}}${{{regex:\u00A0}}}</p><p>17${{{regex:\u00A0}}}</p><h1 id="HTest" class="wikigeneratedid"><span>&nbsp;Test</span></h1>
+<p>17${{{regex:\u00A0}}}${{{regex:\u00A0}}} a</p><p>17${{{regex:\u00A0}}}${{{regex:\u00A0}}}b</p><p>17${{{regex:\u00A0}}}${{{regex:\u00A0}}}${{{regex:\u00A0}}}c</p><p>&nbsp;&nbsp;d</p><p>17${{{regex:\u00A0}}}&nbsp;</p><p>17&nbsp;</p><h1 id="HTest" class="wikigeneratedid"><span>&nbsp;Test</span></h1>

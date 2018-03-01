@@ -68,6 +68,8 @@ public class TagStack
 
     private XhtmlCharacterType fPreviousCharType = null;
 
+    private String characters;
+
     public TagStack(WikiScannerContext context, Map<String, TagHandler> handlers)
     {
         this(context, handlers, new CommentHandler());
@@ -85,6 +87,8 @@ public class TagStack
 
     public void beginElement(String name, WikiParameters params)
     {
+        flushCharacters(true);
+
         fPeek = new TagContext(fPeek, name, params, this);
         name = fPeek.getName();
         TagHandler handler = fMap.get(name);
@@ -99,6 +103,8 @@ public class TagStack
 
     public void endElement()
     {
+        flushCharacters(false);
+
         boolean ignoreElements = shouldIgnoreElements();
         if (!ignoreElements) {
             fPeek.endElement();
@@ -106,7 +112,7 @@ public class TagStack
         fPeek = fPeek.getParentContext();
     }
 
-    private XhtmlCharacterType getCharacterType(char ch, XhtmlCharacterType prevCharType)
+    private XhtmlCharacterType getCharacterType(char ch, XhtmlCharacterType prevCharType, boolean isLast)
     {
         XhtmlCharacterType type = XhtmlCharacterType.CHARACTER;
         switch (ch) {
@@ -150,9 +156,9 @@ public class TagStack
                 break;
             case 160:
                 // This is a &nbsp;
-                // if previous character was a space as well, send it as a space, it will be rendered back in XHTML as a
-                // space anyway. If it's in the middle of a word, it's a regular word character
-                if (prevCharType == XhtmlCharacterType.SPACE || prevCharType == null) {
+                // If previous character was a space as well, send it as a space, it will be rendered back in XHTML as a
+                // nbsp anyway. If it's in the middle of a word, it's a regular word character.
+                if (prevCharType == XhtmlCharacterType.SPACE || prevCharType == null || isLast) {
                     type = XhtmlCharacterType.SPACE;
                 } else {
                     type = XhtmlCharacterType.CHARACTER;
@@ -226,26 +232,37 @@ public class TagStack
 
     public void onCharacters(String content)
     {
-
         if (!fPeek.isContentContainer() || shouldIgnoreElements()) {
             return;
         }
 
         if (!fPeek.appendContent(content)) {
-            Queue<XhtmlCharacter> stack = new ArrayDeque<XhtmlCharacter>();
-            for (int i = 0; i < content.length(); i++) {
-                char c = content.charAt(i);
-                fPreviousCharType = getCharacterType(c, fPreviousCharType);
+            this.characters = content;
+        }
+    }
+
+    private void flushCharacters(boolean begin)
+    {
+        if (this.characters != null) {
+            Queue<XhtmlCharacter> stack = new ArrayDeque<>();
+            for (int i = 0; i < this.characters.length(); i++) {
+                char c = this.characters.charAt(i);
+                fPreviousCharType =
+                    getCharacterType(c, fPreviousCharType, (this.characters.length() == i + 1) && !begin);
                 stack.offer(new XhtmlCharacter(c, fPreviousCharType));
             }
 
             // Now send the events.
             flushStack(stack);
+
+            this.characters = null;
         }
     }
 
     public void onComment(char[] array, int start, int length)
     {
+        flushCharacters(true);
+
         fCommentHandler.onComment(new String(array, start, length), this);
     }
 

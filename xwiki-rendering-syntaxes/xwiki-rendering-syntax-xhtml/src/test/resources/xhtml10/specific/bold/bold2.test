@@ -14,11 +14,12 @@ onWord [is]
 onSpace
 beginFormat [BOLD]
 onSpace
-onWord [bold(((160)))]
+onWord [bold]
+onSpace
 endFormat [BOLD]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>This is <strong>&nbsp;bold </strong></p>
+<p>This is <strong>&nbsp;bold&nbsp;</strong></p>
