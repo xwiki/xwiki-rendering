@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.wikimodel.WikiPageUtil;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
@@ -87,7 +88,7 @@ public class TagStack
 
     public void beginElement(String name, WikiParameters params)
     {
-        flushCharacters(true);
+        flushCharacters(false);
 
         fPeek = new TagContext(fPeek, name, params, this);
         name = fPeek.getName();
@@ -103,7 +104,7 @@ public class TagStack
 
     public void endElement()
     {
-        flushCharacters(false);
+        flushCharacters(true);
 
         boolean ignoreElements = shouldIgnoreElements();
         if (!ignoreElements) {
@@ -112,7 +113,7 @@ public class TagStack
         fPeek = fPeek.getParentContext();
     }
 
-    private XhtmlCharacterType getCharacterType(char ch, XhtmlCharacterType prevCharType, boolean isLast)
+    private XhtmlCharacterType getCharacterType(char ch, XhtmlCharacterType prevCharType, boolean beforeEnd)
     {
         XhtmlCharacterType type = XhtmlCharacterType.CHARACTER;
         switch (ch) {
@@ -158,7 +159,7 @@ public class TagStack
                 // This is a &nbsp;
                 // If previous character was a space as well, send it as a space, it will be rendered back in XHTML as a
                 // nbsp anyway. If it's in the middle of a word, it's a regular word character.
-                if (prevCharType == XhtmlCharacterType.SPACE || prevCharType == null || isLast) {
+                if (prevCharType == XhtmlCharacterType.SPACE || prevCharType == null || beforeEnd) {
                     type = XhtmlCharacterType.SPACE;
                 } else {
                     type = XhtmlCharacterType.CHARACTER;
@@ -237,18 +238,25 @@ public class TagStack
         }
 
         if (!fPeek.appendContent(content)) {
+            flushCharacters(false);
+
             this.characters = content;
+
+            // Don't wait if the content does not contain any non breaking space
+            if (!StringUtils.contains(content, 160)) {
+                flushCharacters(false);
+            }
         }
     }
 
-    private void flushCharacters(boolean begin)
+    private void flushCharacters(boolean beforeEnd)
     {
         if (this.characters != null) {
             Queue<XhtmlCharacter> stack = new ArrayDeque<>();
             for (int i = 0; i < this.characters.length(); i++) {
                 char c = this.characters.charAt(i);
                 fPreviousCharType =
-                    getCharacterType(c, fPreviousCharType, (this.characters.length() == i + 1) && !begin);
+                    getCharacterType(c, fPreviousCharType, (this.characters.length() == i + 1) && beforeEnd);
                 stack.offer(new XhtmlCharacter(c, fPreviousCharType));
             }
 
@@ -261,7 +269,7 @@ public class TagStack
 
     public void onComment(char[] array, int start, int length)
     {
-        flushCharacters(true);
+        flushCharacters(false);
 
         fCommentHandler.onComment(new String(array, start, length), this);
     }
