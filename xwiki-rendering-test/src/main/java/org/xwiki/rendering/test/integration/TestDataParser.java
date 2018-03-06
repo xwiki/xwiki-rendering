@@ -23,14 +23,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Parses test data defined using the following syntax, shown with this example:
  * {@code
  * .streaming
- * .runTransformations
+ * .runTransformations or .runTransformations:tx1,tx2,...txN
  * .configuration <key=value>
  * .input|<syntax parser id>
  * <input content here>
@@ -46,6 +51,8 @@ import java.util.StringTokenizer;
  */
 public class TestDataParser
 {
+    private final static String TRANSFORMATION_PREFIX = ".runTransformations";
+
     public TestData parse(InputStream source, String resourceName) throws IOException
     {
         TestData data = new TestData();
@@ -67,8 +74,8 @@ public class TestDataParser
                         // Ignore comments
                     } else if (line.startsWith(".streaming")) {
                         data.streaming = true;
-                    } else if (line.startsWith(".runTransformations")) {
-                        data.runTransformations = true;
+                    } else if (line.startsWith(TRANSFORMATION_PREFIX)) {
+                        data.transformations = parseTransformationDirective(line);
                     } else if (line.startsWith(".configuration")) {
                         StringTokenizer st = new StringTokenizer(line.substring(".configuration".length() + 1), "=");
                         data.configuration.put(st.nextToken(), st.nextToken());
@@ -108,6 +115,15 @@ public class TestDataParser
         }
 
         return data;
+    }
+
+    private List<String> parseTransformationDirective(String line)
+    {
+        if (line.length() > TRANSFORMATION_PREFIX.length() + 1 && line.charAt(TRANSFORMATION_PREFIX.length()) == ':') {
+            return Arrays.asList(StringUtils.split(line.substring(TRANSFORMATION_PREFIX.length() + 1), ","));
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     private void saveData(String action, StringBuffer buffer, TestData data, String keyName)
