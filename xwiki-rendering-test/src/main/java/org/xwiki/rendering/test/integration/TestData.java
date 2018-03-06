@@ -20,6 +20,7 @@
 package org.xwiki.rendering.test.integration;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,9 +39,13 @@ public class TestData
     public boolean streaming;
 
     /**
-     * @since 2.5RC1
+     * If null it means don't execute transformations. If empty then it means execute all transformations. Otherwise
+     * execute the transformations corresponding to the tx hints in the list.
+     *
+     * @since 9.11.4
+     * @since 10.2RC1
      */
-    public boolean runTransformations;
+    public List<String> transformations;
 
     /**
      * @since 2.5RC1

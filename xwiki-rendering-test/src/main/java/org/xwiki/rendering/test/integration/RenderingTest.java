@@ -21,6 +21,7 @@ package org.xwiki.rendering.test.integration;
 
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,6 +40,7 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationManager;
 import org.xwiki.test.internal.MockConfigurationSource;
@@ -74,21 +76,21 @@ public class RenderingTest
 
     private boolean streaming;
 
-    private boolean runTransformations;
+    private List<String> transformations;
 
     private Map<String, ?> configuration;
 
     private ComponentManager componentManager;
 
     public RenderingTest(String input, String expected, String parserId, String targetSyntaxId, boolean streaming,
-        boolean runTransformations, Map<String, ?> configuration, ComponentManager componentManager)
+        List<String> transformations, Map<String, ?> configuration, ComponentManager componentManager)
     {
         this.input = input;
         this.expected = expected;
         this.parserId = parserId;
         this.targetSyntaxId = targetSyntaxId;
         this.streaming = streaming;
-        this.runTransformations = runTransformations;
+        this.transformations = transformations;
         this.configuration = configuration;
         this.componentManager = componentManager;
     }
@@ -143,13 +145,8 @@ public class RenderingTest
             Parser parser = getComponentManager().getInstance(Parser.class, this.parserId);
             XDOM xdom = parser.parse(new StringReader(this.input));
 
-            if (this.runTransformations) {
-                TransformationManager transformationManager =
-                    getComponentManager().getInstance(TransformationManager.class);
-                TransformationContext txContext = new TransformationContext(xdom, streamParser.getSyntax());
-                txContext.setTargetSyntax(getRendererSyntax());
-                txContext.setId("test");
-                transformationManager.performTransformations(xdom, txContext);
+            if (this.transformations != null) {
+                runTransformations(xdom, streamParser);
             }
 
             BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, this.targetSyntaxId);
@@ -174,6 +171,24 @@ public class RenderingTest
 
         // Verify the expected result against the result we got.
         assertExpectedResult(this.expected, printer.toString());
+    }
+
+    private void runTransformations(XDOM xdom, StreamParser streamParser) throws Throwable
+    {
+        TransformationContext txContext = new TransformationContext(xdom, streamParser.getSyntax());
+        txContext.setTargetSyntax(getRendererSyntax());
+        txContext.setId("test");
+
+        if (this.transformations.isEmpty()) {
+            TransformationManager transformationManager =
+                getComponentManager().getInstance(TransformationManager.class);
+            transformationManager.performTransformations(xdom, txContext);
+        } else {
+            for (String txHint : this.transformations) {
+                Transformation transformation = getComponentManager().getInstance(Transformation.class, txHint);
+                transformation.transform(xdom, txContext);
+            }
+        }
     }
 
     private Syntax getRendererSyntax() throws Exception

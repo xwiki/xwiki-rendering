@@ -117,7 +117,7 @@ public class TestDataGenerator
                     singleResult[3] = parserId;
                     singleResult[4] = targetSyntaxId;
                     singleResult[5] = data.streaming;
-                    singleResult[6] = data.runTransformations;
+                    singleResult[6] = data.transformations;
                     singleResult[7] = data.configuration;
 
                     result.add(singleResult);
