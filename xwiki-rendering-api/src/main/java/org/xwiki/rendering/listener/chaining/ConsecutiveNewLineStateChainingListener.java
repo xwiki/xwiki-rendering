@@ -213,6 +213,20 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
     }
 
     @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        this.newLineCount = 0;
+        super.endFigure(parameters);
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        this.newLineCount = 0;
+        super.endFigureCaption(parameters);
+    }
+
+    @Override
     public void onRawText(String text, Syntax syntax)
     {
         this.newLineCount = 0;

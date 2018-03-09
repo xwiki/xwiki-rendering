@@ -226,6 +226,22 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
         super.beginSection(parameters);
     }
 
+    @Override
+    public void beginFigure(Map<String, String> parameters)
+    {
+        markNotEmpty();
+        startContainerBlock();
+        super.beginFigure(parameters);
+    }
+
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        markNotEmpty();
+        startContainerBlock();
+        super.beginFigureCaption(parameters);
+    }
+
     /**
      * {@inheritDoc}
      *
@@ -378,6 +394,20 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
     public void endTableRow(Map<String, String> parameters)
     {
         super.endTableRow(parameters);
+        stopContainerBlock();
+    }
+
+    @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        super.endFigure(parameters);
+        stopContainerBlock();
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        super.endFigureCaption(parameters);
         stopContainerBlock();
     }
 

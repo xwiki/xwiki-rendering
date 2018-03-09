@@ -227,6 +227,20 @@ public class LookaheadChainingListener extends AbstractChainingListener
     }
 
     @Override
+    public void beginFigure(Map<String, String> parameters)
+    {
+        this.previousEvents.beginFigure(parameters);
+        firePreviousEvent();
+    }
+
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        this.previousEvents.beginFigureCaption(parameters);
+        firePreviousEvent();
+    }
+
+    @Override
     public void endDefinitionDescription()
     {
         this.previousEvents.endDefinitionDescription();
@@ -390,6 +404,20 @@ public class LookaheadChainingListener extends AbstractChainingListener
     public void endTableRow(Map<String, String> parameters)
     {
         this.previousEvents.endTableRow(parameters);
+        firePreviousEvent();
+    }
+
+    @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        this.previousEvents.endFigure(parameters);
+        firePreviousEvent();
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        this.previousEvents.endFigureCaption(parameters);
         firePreviousEvent();
     }
 

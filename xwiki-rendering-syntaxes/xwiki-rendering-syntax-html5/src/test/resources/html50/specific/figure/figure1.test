@@ -1,0 +1,13 @@
+.runTransformations:macro
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.#-----------------------------------------------------
+{{figure}}
+whatever
+
+{{figureCaption}}caption{{/figureCaption}}
+{{/figure}}
+.#-----------------------------------------------------
+.expect|html/5.0
+.#-----------------------------------------------------
+<figure><p>whatever</p><figcaption>caption</figcaption></figure>

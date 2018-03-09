@@ -1,0 +1,2 @@
+org.xwiki.rendering.internal.macro.figure.FigureMacro
+org.xwiki.rendering.internal.macro.figure.FigureCaptionMacro

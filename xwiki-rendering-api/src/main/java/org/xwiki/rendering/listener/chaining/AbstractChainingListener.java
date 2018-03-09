@@ -247,6 +247,24 @@ public abstract class AbstractChainingListener implements ChainingListener
     }
 
     @Override
+    public void beginFigure(Map<String, String> parameters)
+    {
+        ChainingListener next = getListenerChain().getNextListener(getClass());
+        if (next != null) {
+            next.beginFigure(parameters);
+        }
+    }
+
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        ChainingListener next = getListenerChain().getNextListener(getClass());
+        if (next != null) {
+            next.beginFigureCaption(parameters);
+        }
+    }
+
+    @Override
     public void endDefinitionDescription()
     {
         ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -432,6 +450,24 @@ public abstract class AbstractChainingListener implements ChainingListener
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
             next.endMetaData(metadata);
+        }
+    }
+
+    @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        ChainingListener next = getListenerChain().getNextListener(getClass());
+        if (next != null) {
+            next.endFigure(parameters);
+        }
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        ChainingListener next = getListenerChain().getNextListener(getClass());
+        if (next != null) {
+            next.endFigureCaption(parameters);
         }
     }
 

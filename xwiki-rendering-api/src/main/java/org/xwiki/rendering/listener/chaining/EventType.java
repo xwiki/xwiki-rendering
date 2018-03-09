@@ -492,6 +492,26 @@ public enum EventType
         }
     },
     /**
+     * @see Listener#beginFigure(Map)
+     */
+    BEGIN_FIGURE {
+        @Override
+        public void fireEvent(Listener listener, Object... eventParameters)
+        {
+            listener.beginFigure((Map<String, String>) eventParameters[0]);
+        }
+    },
+    /**
+     * @see Listener#beginFigureCaption(Map)
+     */
+    BEGIN_FIGURE_CAPTION {
+        @Override
+        public void fireEvent(Listener listener, Object... eventParameters)
+        {
+            listener.beginFigureCaption((Map<String, String>) eventParameters[0]);
+        }
+    },
+    /**
      * @see Listener#endTableRow(java.util.Map)
      */
     END_TABLE_ROW {
@@ -499,6 +519,26 @@ public enum EventType
         public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endTableRow((Map<String, String>) eventParameters[0]);
+        }
+    },
+    /**
+     * @see Listener#endFigure(Map)
+     */
+    END_FIGURE {
+        @Override
+        public void fireEvent(Listener listener, Object... eventParameters)
+        {
+            listener.endFigure((Map<String, String>) eventParameters[0]);
+        }
+    },
+    /**
+     * @see Listener#endFigureCaption(Map)
+     */
+    END_FIGURE_CAPTION {
+        @Override
+        public void fireEvent(Listener listener, Object... eventParameters)
+        {
+            listener.endFigureCaption((Map<String, String>) eventParameters[0]);
         }
     },
     /**

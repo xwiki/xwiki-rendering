@@ -383,6 +383,46 @@ public interface Listener extends LinkListener, ImageListener
     void endQuotationLine();
 
     /**
+     * Start of a figure.
+     *
+     * @param parameters a generic list of parameters for the figure
+     */
+    default void beginFigure(Map<String, String> parameters)
+    {
+        // No default implementation, needs to be implemented by Listener wanting to handle this event
+    }
+
+    /**
+     * End of a figure.
+     *
+     * @param parameters a generic list of parameters for the figure
+     */
+    default void endFigure(Map<String, String> parameters)
+    {
+        // No default implementation, needs to be implemented by Listener wanting to handle this event
+    }
+
+    /**
+     * Start of a figure caption.
+     *
+     * @param parameters a generic list of parameters for the figure
+     */
+    default void beginFigureCaption(Map<String, String> parameters)
+    {
+        // No default implementation, needs to be implemented by Listener wanting to handle this event
+    }
+
+    /**
+     * End of a figure caption.
+     *
+     * @param parameters a generic list of parameters for the figure
+     */
+    default void endFigureCaption(Map<String, String> parameters)
+    {
+        // No default implementation, needs to be implemented by Listener wanting to handle this event
+    }
+
+    /**
      * A new line or line break (it's up to the renderers to decide if it should be outputted as a new line or as a line
      * break in the given syntax).
      */

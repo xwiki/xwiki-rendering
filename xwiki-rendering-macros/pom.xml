@@ -42,7 +42,6 @@
       <artifactId>xwiki-rendering-transformation-macro</artifactId>
       <version>${project.version}</version>
     </dependency>
-
     <!-- Testing dependencies -->
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
@@ -113,6 +112,7 @@ Thus it is forbidden to depend on the HTML Macro.
     <module>xwiki-rendering-macro-comment</module>
     <module>xwiki-rendering-macro-content</module>
     <module>xwiki-rendering-macro-ctsreport</module>
+    <module>xwiki-rendering-macro-figure</module>
     <module>xwiki-rendering-macro-footnotes</module>
     <module>xwiki-rendering-macro-html</module>
     <module>xwiki-rendering-macro-id</module>

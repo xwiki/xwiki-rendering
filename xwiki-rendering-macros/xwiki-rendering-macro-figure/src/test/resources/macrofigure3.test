@@ -1,0 +1,22 @@
+.runTransformations:macro
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.#-----------------------------------------------------
+{{figure}}
+whatever1
+whatever2
+{{/figure}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [figure] [] [whatever1
+whatever2]
+beginParagraph
+onWord [whatever1]
+onNewLine
+onWord [whatever2]
+endParagraph
+endMacroMarkerStandalone [figure] [] [whatever1
+whatever2]
+endDocument

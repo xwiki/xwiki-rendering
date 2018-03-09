@@ -42,6 +42,10 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
 
     private static final String PROP_CLASS = "class";
 
+    private static final String FIGURE_TAG = "figure";
+
+    private static final String FIGURE_CAPTION_TAG = "figcaption";
+
     /**
      * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
      * rendering depends on how the underlying system wants to handle it. For example for XWiki we check if the document
@@ -114,5 +118,29 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
             getXHTMLWikiPrinter().printXML(content);
             getXHTMLWikiPrinter().printXMLEndElement(ELEM_PRE);
         }
+    }
+
+    @Override
+    public void beginFigure(Map<String, String> parameters)
+    {
+        getXHTMLWikiPrinter().printXMLStartElement(FIGURE_TAG, parameters);
+    }
+
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        getXHTMLWikiPrinter().printXMLStartElement(FIGURE_CAPTION_TAG, parameters);
+    }
+
+    @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        getXHTMLWikiPrinter().printXMLEndElement(FIGURE_TAG);
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        getXHTMLWikiPrinter().printXMLEndElement(FIGURE_CAPTION_TAG);
     }
 }
