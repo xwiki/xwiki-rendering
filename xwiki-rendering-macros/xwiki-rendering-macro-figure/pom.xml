@@ -31,7 +31,7 @@
   <name>XWiki Rendering - Macro - Figure</name>
   <description>Tag content as an illustration and with an optional caption</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>1.00</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.95</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Figure Macro</xwiki.extension.name>
   </properties>
