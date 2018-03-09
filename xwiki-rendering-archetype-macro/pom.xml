@@ -33,6 +33,10 @@
   <description>
     Make it easy to create a maven project for creating XWiki Rendering Macros.
   </description>
+  <properties>
+    <!-- FIXME: remove when https://github.com/INRIA/spoon/issues/1901 is fixed -->
+    <xwiki.spoon.skip>true</xwiki.spoon.skip>
+  </properties>
   <dependencies>
     <!--Dependencies required by the integration test project -->
     <dependency>
