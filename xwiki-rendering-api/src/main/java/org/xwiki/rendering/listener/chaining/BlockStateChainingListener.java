@@ -70,7 +70,9 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         MACRO,
         VERBATIM_INLINE,
         VERBATIM_STANDALONE,
-        WORD
+        WORD,
+        FIGURE,
+        FIGURE_CAPTION
     }
 
     private Event previousEvent = Event.NONE;
@@ -588,6 +590,31 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
         this.previousEvent = Event.TABLE_ROW;
         this.cellCol = -1;
+    }
+
+    @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        super.endFigure(parameters);
+
+        this.previousEvent = Event.FIGURE;
+    }
+
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        ++this.inlineDepth;
+
+        super.beginFigureCaption(parameters);
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        super.endFigureCaption(parameters);
+
+        --this.inlineDepth;
+        this.previousEvent = Event.FIGURE_CAPTION;
     }
 
     @Override
