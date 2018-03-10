@@ -1,2 +1,3 @@
 org.xwiki.rendering.internal.macro.figure.FigureMacro
 org.xwiki.rendering.internal.macro.figure.FigureCaptionMacro
+org.xwiki.rendering.internal.macro.figure.DefaultFigureTypeRecognizer
