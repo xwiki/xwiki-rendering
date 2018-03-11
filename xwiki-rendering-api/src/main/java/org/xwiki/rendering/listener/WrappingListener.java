@@ -61,10 +61,42 @@ public class WrappingListener implements Listener
     }
 
     @Override
+    public void beginFigure(Map<String, String> parameters)
+    {
+        if (this.listener != null) {
+            this.listener.beginFigure(parameters);
+        }
+    }
+
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        if (this.listener != null) {
+            this.listener.beginFigureCaption(parameters);
+        }
+    }
+
+    @Override
     public void endDocument(MetaData metadata)
     {
         if (this.listener != null) {
             this.listener.endDocument(metadata);
+        }
+    }
+
+    @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        if (this.listener != null) {
+            this.listener.endFigure(parameters);
+        }
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        if (this.listener != null) {
+            this.listener.endFigureCaption(parameters);
         }
     }
 

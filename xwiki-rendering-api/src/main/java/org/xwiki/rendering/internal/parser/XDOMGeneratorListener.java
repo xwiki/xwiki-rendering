@@ -26,6 +26,8 @@ import org.xwiki.rendering.block.DefinitionDescriptionBlock;
 import org.xwiki.rendering.block.DefinitionListBlock;
 import org.xwiki.rendering.block.DefinitionTermBlock;
 import org.xwiki.rendering.block.EmptyLinesBlock;
+import org.xwiki.rendering.block.FigureBlock;
+import org.xwiki.rendering.block.FigureCaptionBlock;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.HeaderBlock;
@@ -104,6 +106,18 @@ public class XDOMGeneratorListener implements Listener
      */
     @Override
     public void beginDocument(MetaData metadata)
+    {
+        this.builder.startBlockList();
+    }
+
+    @Override
+    public void beginFigure(Map<String, String> parameters)
+    {
+        this.builder.startBlockList();
+    }
+
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
     {
         this.builder.startBlockList();
     }
@@ -243,6 +257,18 @@ public class XDOMGeneratorListener implements Listener
     public void endDocument(MetaData metadata)
     {
         this.builder.addBlock(new XDOM(this.builder.endBlockList(), metadata));
+    }
+
+    @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        this.builder.addBlock(new FigureBlock(this.builder.endBlockList(), parameters));
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        this.builder.addBlock(new FigureCaptionBlock(this.builder.endBlockList(), parameters));
     }
 
     @Override
