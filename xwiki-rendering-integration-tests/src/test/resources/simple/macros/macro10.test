@@ -1,48 +1,55 @@
 .runTransformations
 .#--------------------------------------------------------------------------
-.input|xwiki/2.0
+.inputexpect|xwiki/2.0
 .# Verify mix of styles in and outside macros. We had a bug previously where
-.# styles inside a macro was affecting how the macro was displayed.
+.# styles inside a macro was affecting how the macro was displayed and
+.# another where the format block wasn't closed before a macro.
 .#--------------------------------------------------------------------------
 {{testformatmacro/}}
 
 (% a="b" %){{testformatmacro/}} text
+
+(% a="b" %)text(%%){{testformatmacro/}}
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
 beginMacroMarkerStandalone [testformatmacro] []
 beginFormat [NONE] [[param]=[value]]
-onWord [formatmacro1]
+onWord [formatmacro2]
 endFormat [NONE] [[param]=[value]]
 endMacroMarkerStandalone [testformatmacro] []
 beginParagraph
 beginFormat [NONE] [[a]=[b]]
 beginMacroMarkerInline [testformatmacro] []
 beginFormat [NONE] [[param]=[value]]
-onWord [formatmacro2]
+onWord [formatmacro3]
 endFormat [NONE] [[param]=[value]]
 endMacroMarkerInline [testformatmacro] []
 onSpace
 onWord [text]
 endFormat [NONE] [[a]=[b]]
 endParagraph
+beginParagraph
+beginFormat [NONE] [[a]=[b]]
+onWord [text]
+endFormat [NONE] [[a]=[b]]
+beginMacroMarkerInline [testformatmacro] []
+beginFormat [NONE] [[param]=[value]]
+onWord [formatmacro4]
+endFormat [NONE] [[param]=[value]]
+endMacroMarkerInline [testformatmacro] []
+endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<span param="value">formatmacro1</span><p><span a="b"><span param="value">formatmacro2</span> text</span></p>
+<span param="value">formatmacro2</span><p><span a="b"><span param="value">formatmacro3</span> text</span></p><p><span a="b">text</span><span param="value">formatmacro4</span></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<!--startmacro:testformatmacro|-|--><span param="value">formatmacro1</span><!--stopmacro--><p><span a="b"><!--startmacro:testformatmacro|-|--><span param="value">formatmacro2</span><!--stopmacro--> text</span></p>
-.#-----------------------------------------------------
-.expect|xwiki/2.0
-.#-----------------------------------------------------
-{{testformatmacro/}}
-
-(% a="b" %){{testformatmacro/}} text
+<!--startmacro:testformatmacro|-|--><span param="value">formatmacro2</span><!--stopmacro--><p><span a="b"><!--startmacro:testformatmacro|-|--><span param="value">formatmacro3</span><!--stopmacro--> text</span></p><p><span a="b">text</span><!--startmacro:testformatmacro|-|--><span param="value">formatmacro4</span><!--stopmacro--></p>
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<!--startmacro:testformatmacro|-|--><span param="value">formatmacro1</span><!--stopmacro--><p><span a="b"><!--startmacro:testformatmacro|-|--><span param="value">formatmacro2</span><!--stopmacro--> text</span></p>
+<!--startmacro:testformatmacro|-|--><span param="value">formatmacro2</span><!--stopmacro--><p><span a="b"><!--startmacro:testformatmacro|-|--><span param="value">formatmacro3</span><!--stopmacro--> text</span></p><p><span a="b">text</span><!--startmacro:testformatmacro|-|--><span param="value">formatmacro4</span><!--stopmacro--></p>
