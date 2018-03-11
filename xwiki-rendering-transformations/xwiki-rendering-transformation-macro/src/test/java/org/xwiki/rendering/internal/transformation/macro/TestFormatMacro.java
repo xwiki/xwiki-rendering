@@ -55,7 +55,6 @@ public class TestFormatMacro extends AbstractNoParameterMacro
 
     @Override
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
-        throws MacroExecutionException
     {
         int wordCount = context.getXDOM().getBlocks(
             new ClassBlockMatcher(WordBlock.class), Block.Axes.DESCENDANT).size();

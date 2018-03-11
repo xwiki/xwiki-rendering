@@ -476,6 +476,12 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
         // When we encounter a macro marker we ignore all other blocks inside since we're going to use the macro
         // definition wrapped by the macro marker to construct the xwiki syntax.
+        // However we need to handle the closing of any format block since that's normally handled by any print() calls
+        // but since we use a VoidWikiPrinter this won't have any effect.
+        if (this.previousFormatParameters != null) {
+            getPrinter().print("(%%)");
+            this.previousFormatParameters = null;
+        }
         pushPrinter(new XWikiSyntaxEscapeWikiPrinter(VoidWikiPrinter.VOIDWIKIPRINTER, getXWikiSyntaxListenerChain()));
     }
 
