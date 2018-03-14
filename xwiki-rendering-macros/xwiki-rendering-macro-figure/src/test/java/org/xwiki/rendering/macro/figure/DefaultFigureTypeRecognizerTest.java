@@ -30,7 +30,6 @@ import org.xwiki.rendering.block.FigureBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.TableBlock;
 import org.xwiki.rendering.internal.macro.figure.DefaultFigureTypeRecognizer;
-import org.xwiki.rendering.marcro.figure.FigureTypeRecognizer;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
 import static org.junit.Assert.assertFalse;

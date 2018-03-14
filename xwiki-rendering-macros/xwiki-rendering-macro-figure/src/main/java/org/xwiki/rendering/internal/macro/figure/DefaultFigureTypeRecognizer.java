@@ -29,7 +29,7 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FigureBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.TableBlock;
-import org.xwiki.rendering.marcro.figure.FigureTypeRecognizer;
+import org.xwiki.rendering.macro.figure.FigureTypeRecognizer;
 
 /**
  * Recognize a FigureBlock content and more specifically if contains a single table or not. Should be executed on an
