@@ -228,7 +228,7 @@ public class Syntax implements Comparable<Syntax>
 
         Matcher matcher = SYNTAX_PATTERN.matcher(syntaxIdAsString);
         if (!matcher.matches()) {
-            throw new ParseException("Invalid Syntax format [" + syntaxIdAsString + "]");
+            throw new ParseException(String.format("Invalid Syntax format [%s]", syntaxIdAsString));
         }
 
         String syntaxId = matcher.group(1);

@@ -20,6 +20,7 @@
 package org.xwiki.rendering.syntax;
 
 import org.junit.Test;
+import org.xwiki.rendering.parser.ParseException;
 
 import static org.junit.Assert.*;
 
@@ -32,7 +33,7 @@ import static org.junit.Assert.*;
 public class SyntaxTest
 {
     @Test
-    public void testEquality()
+    public void equality()
     {
         Syntax syntax1 = new Syntax(new SyntaxType("mytype", "My Type"), "1.0");
         Syntax syntax2 = new Syntax(new SyntaxType("mytype", "My Type"), "1.0");
@@ -47,7 +48,7 @@ public class SyntaxTest
     }
 
     @Test
-    public void testNonEquality()
+    public void nonEquality()
     {
         Syntax syntax1 = new Syntax(SyntaxType.XWIKI, "1.0");
         Syntax syntax2 = new Syntax(SyntaxType.XWIKI, "2.0");
@@ -58,7 +59,7 @@ public class SyntaxTest
     }
 
     @Test
-    public void testToString()
+    public void toStringValidation()
     {
         Syntax syntax = new Syntax(SyntaxType.XWIKI, "1.0");
         assertEquals("XWiki 1.0", syntax.toString());
@@ -66,14 +67,14 @@ public class SyntaxTest
     }
 
     @Test
-    public void getWellKnownSyntaxes()
+    public void getSyntaxTypes()
     {
         assertEquals(18, SyntaxType.getSyntaxTypes().size());
         assertEquals(new SyntaxType("xwiki", "XWiki"), SyntaxType.getSyntaxTypes().get("xwiki"));
     }
 
     @Test
-    public void comparisons()
+    public void compareToValidation()
     {
         Syntax syntax1 = new Syntax(new SyntaxType("mytype1", "BBB"), "1.0");
         Syntax syntax2 = new Syntax(new SyntaxType("mytype2", "AAA"), "1.0");
@@ -82,5 +83,36 @@ public class SyntaxTest
         assertEquals(0, syntax1.compareTo(syntax1));
         assertTrue(syntax1.compareTo(syntax2) > 0);
         assertTrue(syntax3.compareTo(syntax1) > 0);
+    }
+
+    @Test
+    public void valueOfOk() throws Exception
+    {
+        Syntax syntax = Syntax.valueOf("type/version");
+        assertEquals("type", syntax.getType().getId());
+        assertEquals("type", syntax.getType().getName());
+        assertEquals("version", syntax.getVersion());
+    }
+
+    @Test
+    public void valueOfWhenInvalid()
+    {
+        try {
+            Syntax.valueOf("invalid");
+            fail("Should have thrown an exception");
+        } catch (ParseException expected) {
+            assertEquals("Invalid Syntax format [invalid]", expected.getMessage());
+        }
+    }
+
+    @Test
+    public void valueOfWhenNull()
+    {
+        try {
+            Syntax.valueOf(null);
+            fail("Should have thrown an exception");
+        } catch (ParseException expected) {
+            assertEquals("The passed Syntax cannot be NULL", expected.getMessage());
+        }
     }
 }
