@@ -46,6 +46,22 @@ public class TocMacroParameters
          */
         PAGE
     }
+    
+    /**
+     * @version $Id$
+     */
+    public enum Floating
+    {
+        /**
+         * Floating to the left.
+         */
+        LEFT,
+        
+        /**
+         * Floating to the right.
+         */
+        RIGHT
+    }
 
     /**
      * The minimum section level. For example if 2 then level 1 sections will not be listed.
@@ -74,8 +90,18 @@ public class TocMacroParameters
      * If true the section title number is printed.
      */
     private boolean numbered;
-
+    
+    /**
+     * Whether TOC is floating to the left or the right.
+     */
+    private Floating floating = Floating.LEFT;
+    
     private String reference;
+
+    /**
+     * Whether there is a box.
+     */
+    private boolean box;
 
     /**
      * @param start the minimum section level. For example if 2 then level 1 sections will not be listed.
@@ -175,5 +201,37 @@ public class TocMacroParameters
     public String getReference()
     {
         return this.reference;
+    }
+    
+    /**
+     * @param floating Floating with value left or right
+     */
+    public void setFloating(Floating floating)
+    {
+        this.floating = floating;
+    }
+
+    /**
+     * @return current value of floating
+     */
+    public Floating getFloating()
+    {
+        return this.floating;
+    }
+
+    /**
+     * @param box whether or not there is a box
+     */
+    public void setBox(boolean box)
+    {
+        this.box = box;
+    }
+
+    /**
+     * @return whether or not there is a box
+     */
+    public boolean getBox()
+    {
+        return this.box;
     }
 }

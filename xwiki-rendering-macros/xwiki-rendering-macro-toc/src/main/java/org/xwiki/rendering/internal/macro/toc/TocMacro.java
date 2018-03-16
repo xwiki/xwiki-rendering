@@ -29,10 +29,13 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.macro.AbstractMacro;
+import org.xwiki.rendering.macro.Macro;
+import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.toc.TocMacroParameters;
 import org.xwiki.rendering.parser.Parser;
@@ -56,7 +59,11 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
      * The description of the macro.
      */
     private static final String DESCRIPTION = "Generates a Table Of Contents.";
-
+    
+    @Inject
+    @Named("box")
+    private Macro<BoxMacroParameters> boxMacro;
+    
     private TocTreeBuilder tocTreeBuilder;
 
     /**
@@ -123,7 +130,15 @@ public class TocMacro extends AbstractMacro<TocMacroParameters>
 
         TreeParametersBuilder builder = new TreeParametersBuilder();
         TreeParameters treeParameters = builder.build(rootBlock, parameters, context);
-        return this.tocTreeBuilder.build(treeParameters);
+        List<Block> parametersList = this.tocTreeBuilder.build(treeParameters);
+        if (parameters.getBox()) {
+            BoxMacroParameters boxParameters = new BoxMacroParameters();
+            boxParameters.setCssClass(context.getId() + "message");
+            parametersList = boxMacro.execute(boxParameters, content, context);
+        }
+
+        return parametersList;
+
     }
 
     private XDOM getXDOM(ResourceReference reference, WikiModel wikiModel) throws MacroExecutionException
