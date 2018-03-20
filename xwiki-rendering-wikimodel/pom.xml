@@ -38,9 +38,6 @@
     <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
     <!-- TODO: Remove once the tests have been fixed to not output anything to the console! -->
     <xwiki.surefire.captureconsole.skip>true</xwiki.surefire.captureconsole.skip>
-
-    <!-- FIXME: remove when https://github.com/INRIA/spoon/issues/1902 is fixed -->
-    <xwiki.spoon.skip>true</xwiki.spoon.skip>
   </properties>
   <dependencies>
     <!-- For parsing the CSS from the style attribute. -->

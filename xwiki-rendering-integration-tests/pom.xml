@@ -34,9 +34,6 @@
   <properties>
     <!-- TODO: Remove once the tests have been fixed to not output anything to the console! -->
     <xwiki.surefire.captureconsole.skip>true</xwiki.surefire.captureconsole.skip>
-
-    <!-- FIXME: remove when https://github.com/INRIA/spoon/issues/1901 is fixed -->
-    <xwiki.spoon.skip>true</xwiki.spoon.skip>
   </properties>
   <dependencies>
     <dependency>
