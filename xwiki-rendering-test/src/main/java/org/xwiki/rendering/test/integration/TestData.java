@@ -43,7 +43,7 @@ public class TestData
      * execute the transformations corresponding to the tx hints in the list.
      *
      * @since 9.11.4
-     * @since 10.2RC1
+     * @since 10.2
      */
     public List<String> transformations;
 

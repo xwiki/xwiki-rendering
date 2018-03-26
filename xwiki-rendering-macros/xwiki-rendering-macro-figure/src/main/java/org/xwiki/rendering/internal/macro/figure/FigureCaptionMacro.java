@@ -42,7 +42,7 @@ import org.xwiki.rendering.util.ParserUtils;
  * Provides a caption inside the Figure Macro content. Needs to be used as the first or last block.
  *
  * @version $Id$
- * @since 10.2RC1
+ * @since 10.2
  */
 @Component
 @Named("figureCaption")

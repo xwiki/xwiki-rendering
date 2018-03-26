@@ -27,7 +27,7 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
  *
  * @version $Id$
- * @since 10.2RC1
+ * @since 10.2
  */
 @RunWith(RenderingTestSuite.class)
 public class IntegrationTests

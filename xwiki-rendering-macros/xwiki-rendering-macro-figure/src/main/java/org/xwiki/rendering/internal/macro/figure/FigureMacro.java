@@ -40,7 +40,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * Tag content as an illustration and with an optional caption.
  *
  * @version $Id$
- * @since 10.2RC1
+ * @since 10.2
  */
 @Component
 @Named("figure")

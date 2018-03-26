@@ -36,7 +36,7 @@ import org.xwiki.rendering.macro.figure.FigureTypeRecognizer;
  * XDOM that has had the Macro Transformation executed on it (i.e. that contains MacroMarkerBlock blocks).
  *
  * @version $Id$
- * @since 10.2RC1
+ * @since 10.2
  */
 @Component
 @Singleton

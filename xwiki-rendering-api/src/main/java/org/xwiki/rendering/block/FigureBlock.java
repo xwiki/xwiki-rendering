@@ -29,7 +29,7 @@ import org.xwiki.rendering.listener.Listener;
  * This is similar to the HTML5 {@code <figure>} element), with the ability to associate a caption to the figure.
  *
  * @version $Id$
- * @since 10.2RC1
+ * @since 10.2
  */
 public class FigureBlock extends AbstractBlock
 {

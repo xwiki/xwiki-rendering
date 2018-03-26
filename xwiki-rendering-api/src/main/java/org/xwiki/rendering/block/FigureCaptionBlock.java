@@ -29,7 +29,7 @@ import org.xwiki.rendering.listener.Listener;
  * {@link FigureBlock} block (either the first children block or the last children block).
  *
  * @version $Id$
- * @since 10.2RC1
+ * @since 10.2
  */
 public class FigureCaptionBlock extends AbstractBlock
 {

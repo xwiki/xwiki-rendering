@@ -27,7 +27,7 @@ import org.xwiki.stability.Unstable;
  * Recognize the content of a figure (is it representing a table?).
  *
  * @version $Id$
- * @since 10.2RC1
+ * @since 10.2
  */
 @Role
 @Unstable
