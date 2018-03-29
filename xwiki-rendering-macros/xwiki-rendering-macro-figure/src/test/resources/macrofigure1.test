@@ -16,16 +16,27 @@ beginMacroMarkerStandalone [figure] [] [{{figureCaption}}caption{{/figureCaption
 
 whatever1
 whatever2]
+beginFigure
 beginMacroMarkerStandalone [figureCaption] [] [caption]
+beginFigureCaption
 onWord [caption]
+endFigureCaption
 endMacroMarkerStandalone [figureCaption] [] [caption]
 beginParagraph
 onWord [whatever1]
 onNewLine
 onWord [whatever2]
 endParagraph
+endFigure
 endMacroMarkerStandalone [figure] [] [{{figureCaption}}caption{{/figureCaption}}
 
 whatever1
 whatever2]
 endDocument
+.#--------------------------------------------------------------------------------------------------
+.expect|xhtml/1.0
+.# This test should be in the Syntax - XHTML modules but that would cause a cyclic dependency issue.
+.# The main problem is that ATM we don't have a way to input FigureBlock/FigureCaptionBlock without
+.# resorting to the XWiki 2.0+ syntax and Transformations.
+.#--------------------------------------------------------------------------------------------------
+<p>caption</p><p>whatever1<br/>whatever2</p>

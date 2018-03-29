@@ -390,6 +390,30 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
         getPrinter().println("endTableRow" + serializeParameters(parameters));
     }
 
+    @Override
+    public void beginFigure(Map<String, String> parameters)
+    {
+        getPrinter().println("beginFigure" + serializeParameters(parameters));
+    }
+
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        getPrinter().println("beginFigureCaption" + serializeParameters(parameters));
+    }
+
+    @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        getPrinter().println("endFigure" + serializeParameters(parameters));
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        getPrinter().println("endFigureCaption" + serializeParameters(parameters));
+    }
+
     /**
      * {@inheritDoc}
      *

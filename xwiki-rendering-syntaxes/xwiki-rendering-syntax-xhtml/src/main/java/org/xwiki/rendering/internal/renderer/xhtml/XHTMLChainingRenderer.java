@@ -585,6 +585,21 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         }
     }
 
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        // FigureCaptionBlock contain inline elements and must be converted to standalone. We add a paragraph around
+        // them to have some nice fallback (since <figure>/<figcaption> tags are not supported in XHTML 1.0).
+        getXHTMLWikiPrinter().printXMLStartElement("p", parameters);
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        // See beginFigureCaption()
+        getXHTMLWikiPrinter().printXMLEndElement("p");
+    }
+
     private void addClassValue(String classAttributeName, String newClassValue, Map<String, String> attributes)
     {
         String classValue = attributes.get(classAttributeName);
