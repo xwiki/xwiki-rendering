@@ -81,7 +81,7 @@ public abstract class AbstractFormatTagHandler extends TagHandler
                 String value = parameter.getValue();
 
                 if (currentParameter != null) {
-                    if (parameter.getKey().equals("style")) {
+                    if ("style".equals(parameter.getKey())) {
                         CSSStyleDeclarationImpl mergedStyle = mergeStyle(
                             currentStyle, currentParameter.getValue(),
                             parameter.getValue());
@@ -90,7 +90,7 @@ public abstract class AbstractFormatTagHandler extends TagHandler
                             value = mergedStyle.getCssText();
                             currentStyle = mergedStyle;
                         }
-                    } else if (parameter.getKey().equals("class")) {
+                    } else if ("class".equals(parameter.getKey())) {
                         value = mergeClass(currentParameter.getValue(),
                             parameter.getValue());
                     }

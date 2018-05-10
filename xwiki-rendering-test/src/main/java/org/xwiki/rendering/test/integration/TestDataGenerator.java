@@ -101,7 +101,7 @@ public class TestDataGenerator
                 // The reason these tests are not needed is because rendering is done from the XDOM and the event/1.0
                 // syntax is an exact representation of the XDOM object and thus we only need to check once the
                 // expected output (except for event/1.0).
-                if (inputCounter < 2 || !hasEventOutput || targetSyntaxId.equals("event/1.0")) {
+                if (inputCounter < 2 || !hasEventOutput || "event/1.0".equals(targetSyntaxId)) {
 
                     Object[] singleResult = new Object[8];
                     singleResult[0] = computeTestName(testResourceName, parserId, targetSyntaxId);
@@ -122,7 +122,7 @@ public class TestDataGenerator
 
                     result.add(singleResult);
 
-                    if (targetSyntaxId.equals("event/1.0")) {
+                    if ("event/1.0".equals(targetSyntaxId)) {
                         hasEventOutput = true;
                     }
                 }

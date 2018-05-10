@@ -54,7 +54,7 @@ public class LinkBlockParser extends DefaultBlockParser
     protected void startElementInternal(String uri, String localName, String qName, Attributes attributes)
         throws SAXException
     {
-        if (qName.equals("reference")) {
+        if ("reference".equals(qName)) {
             setCurrentHandler(this.referenceParser);
         } else {
             super.startElementInternal(uri, localName, qName, attributes);

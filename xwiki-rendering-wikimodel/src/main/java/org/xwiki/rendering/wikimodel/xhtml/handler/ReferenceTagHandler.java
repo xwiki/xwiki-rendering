@@ -78,8 +78,8 @@ public class ReferenceTagHandler extends TagHandler
         // If so it means we have a free standing link.
         WikiParameter classParam = context.getParams().getParameter("class");
 
-        boolean isFreeStanding = ((classParam != null) && classParam.getValue().equalsIgnoreCase(
-            "wikimodel-freestanding"));
+        boolean isFreeStanding = ((classParam != null) && "wikimodel-freestanding".equalsIgnoreCase(
+            classParam.getValue()));
 
         if (isFreeStanding) {
             parameters = removeMeaningfulParameters(parameters);
@@ -93,8 +93,8 @@ public class ReferenceTagHandler extends TagHandler
     protected WikiParameters removeFreestanding(WikiParameters parameters)
     {
         WikiParameter classParam = parameters.getParameter("class");
-        boolean isFreeStanding = ((classParam != null) && classParam.getValue().equalsIgnoreCase(
-            "wikimodel-freestanding"));
+        boolean isFreeStanding = ((classParam != null) && "wikimodel-freestanding".equalsIgnoreCase(
+            classParam.getValue()));
         if (isFreeStanding) {
             parameters = parameters.remove("class");
         }

@@ -129,11 +129,11 @@ public class TestDataParser
     private void saveData(String action, StringBuffer buffer, TestData data, String keyName)
     {
         if (action != null) {
-            if (action.equalsIgnoreCase("input")) {
+            if ("input".equalsIgnoreCase(action)) {
                 saveBuffer(buffer, data.inputs, keyName);
-            } else if (action.equalsIgnoreCase("expect")) {
+            } else if ("expect".equalsIgnoreCase(action)) {
                 saveBuffer(buffer, data.expectations, keyName);
-            } else if (action.equalsIgnoreCase("inputexpect")) {
+            } else if ("inputexpect".equalsIgnoreCase(action)) {
                 saveBuffer(buffer, data.inputs, keyName);
                 saveBuffer(buffer, data.expectations, keyName);
             }
