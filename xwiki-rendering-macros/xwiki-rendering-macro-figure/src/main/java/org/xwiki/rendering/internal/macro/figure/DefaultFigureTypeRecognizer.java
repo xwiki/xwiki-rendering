@@ -46,7 +46,7 @@ public class DefaultFigureTypeRecognizer implements FigureTypeRecognizer
     public boolean isTable(FigureBlock figureBlock)
     {
         List<Block> blocks = getBlocksIgnoringMacroMarkerBlocks(figureBlock.getChildren());
-        return (blocks.size() == 1 && blocks.get(0) instanceof TableBlock);
+        return blocks.size() == 1 && blocks.get(0) instanceof TableBlock;
     }
 
     private List<Block> getBlocksIgnoringMacroMarkerBlocks(List<Block> blocks)
@@ -57,7 +57,7 @@ public class DefaultFigureTypeRecognizer implements FigureTypeRecognizer
         for (Block block : blocks) {
             if (block instanceof MacroMarkerBlock) {
                 MacroMarkerBlock macroMarkerBlock = (MacroMarkerBlock) block;
-                if (macroMarkerBlock.getId().equals("figureCaption")) {
+                if ("figureCaption".equals(macroMarkerBlock.getId())) {
                     continue;
                 } else {
                     results.addAll(getBlocksIgnoringMacroMarkerBlocks(block.getChildren()));
