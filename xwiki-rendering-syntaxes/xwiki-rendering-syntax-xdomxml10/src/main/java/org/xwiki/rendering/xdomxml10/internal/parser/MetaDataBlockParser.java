@@ -60,7 +60,7 @@ public class MetaDataBlockParser extends DefaultBlockParser
     protected void startElementInternal(String uri, String localName, String qName, Attributes attributes)
         throws SAXException
     {
-        if (qName.equals("metaData")) {
+        if ("metaData".equals(qName)) {
             this.metaDataParser = new MetaDataParser(this.converter);
             setCurrentHandler(this.metaDataParser);
         } else {
