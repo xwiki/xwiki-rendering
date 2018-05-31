@@ -53,7 +53,7 @@ public class XWikiSyntaxBlockRendererTest
     }
 
     @Test
-    public void inline() throws Exception
+    public void inline()
     {
         assertEquals("word", render(new WordBlock("word")));
     }
