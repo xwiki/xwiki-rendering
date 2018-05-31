@@ -25,7 +25,7 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.TableDataTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
- * Override the default implementation of hte WikiModel XHTML parser for handling HTML table cells. We need to do this
+ * Override the default implementation of the WikiModel XHTML parser for handling HTML table cells. We need to do this
  * in order to handle clean auto generated scope attributes.
  *
  * @version $Id$

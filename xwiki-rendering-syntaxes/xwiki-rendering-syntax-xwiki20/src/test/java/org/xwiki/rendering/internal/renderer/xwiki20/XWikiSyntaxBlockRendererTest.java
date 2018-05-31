@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AllComponents
 public class XWikiSyntaxBlockRendererTest
 {
-    BlockRenderer renderer;
+    private BlockRenderer renderer;
 
     @BeforeEach
     public void before(ComponentManager componentManager) throws Exception
