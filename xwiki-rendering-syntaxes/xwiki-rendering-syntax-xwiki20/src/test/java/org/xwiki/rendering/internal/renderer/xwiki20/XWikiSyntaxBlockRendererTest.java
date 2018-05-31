@@ -19,31 +19,29 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki20;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.xwiki.component.manager.ComponentLookupException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.test.annotation.AllComponents;
-import org.xwiki.test.mockito.MockitoComponentManagerRule;
+import org.xwiki.test.junit5.mockito.ComponentTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ComponentTest
 @AllComponents
 public class XWikiSyntaxBlockRendererTest
 {
-    @Rule
-    public MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
+    BlockRenderer renderer;
 
-    private BlockRenderer renderer;
-
-    @Before
-    public void before() throws ComponentLookupException
+    @BeforeEach
+    public void before(ComponentManager componentManager) throws Exception
     {
-        this.renderer = this.componentManager.getInstance(BlockRenderer.class, Syntax.XWIKI_2_0.toIdString());
+        this.renderer = componentManager.getInstance(BlockRenderer.class, Syntax.XWIKI_2_0.toIdString());
     }
 
     private String render(Block block)
@@ -54,11 +52,9 @@ public class XWikiSyntaxBlockRendererTest
         return wikiPrinter.toString();
     }
 
-    // Tests
-
     @Test
-    public void testInline()
+    public void inline() throws Exception
     {
-        Assert.assertEquals("word", render(new WordBlock("word")));
+        assertEquals("word", render(new WordBlock("word")));
     }
 }
