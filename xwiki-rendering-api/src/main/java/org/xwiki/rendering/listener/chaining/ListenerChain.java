@@ -42,15 +42,13 @@ public class ListenerChain
      * The full list of chaining listeners. For each of them we have a stack since the ones that implement the
      * {@link StackableChainingListener} interface can be stacked.
      */
-    private Map<Class<? extends ChainingListener>, Deque<ChainingListener>> listeners =
-        new HashMap<Class<? extends ChainingListener>, Deque<ChainingListener>>();
+    private Map<Class<? extends ChainingListener>, Deque<ChainingListener>> listeners = new HashMap<>();
 
     /**
      * The ordered list of listeners. We only allow one instance per listener class name so we just need to store the
      * class object and then the instance can be found in {@link #listeners}.
      */
-    private List<Class<? extends ChainingListener>> nextListeners =
-        new ArrayList<Class<? extends ChainingListener>>();
+    private List<Class<? extends ChainingListener>> nextListeners = new ArrayList<>();
 
     /**
      * @param listener the chaining listener to add to the chain. If an instance of that listener is already present
@@ -64,7 +62,7 @@ public class ListenerChain
         // new instances of listeners which will add themselves in the chain automatically.
         Deque<ChainingListener> stack = this.listeners.get(listener.getClass());
         if (stack == null) {
-            stack = new ArrayDeque<ChainingListener>();
+            stack = new ArrayDeque<>();
             this.listeners.put(listener.getClass(), stack);
             this.nextListeners.add(listener.getClass());
         }
