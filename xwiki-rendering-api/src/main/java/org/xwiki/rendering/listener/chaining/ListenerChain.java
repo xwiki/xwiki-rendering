@@ -56,6 +56,33 @@ public class ListenerChain
      */
     public void addListener(ChainingListener listener)
     {
+        addListener(listener, -1);
+    }
+
+    /**
+     * @param listenerClass the listener to remove from the chain. If more than one instance of that listener exist
+     *                      in the chain then remove the one from the top of the stack
+     */
+    public void removeListener(Class<? extends ChainingListener> listenerClass)
+    {
+        Deque<ChainingListener> stack = this.listeners.get(listenerClass);
+        if (stack.size() > 0) {
+            stack.pop();
+        }
+        if (stack.isEmpty()) {
+            this.listeners.remove(listenerClass);
+            this.nextListeners.remove(listenerClass);
+        }
+    }
+
+    /**
+     * @param listener the chaining listener to add to the chain. If an instance of that listener is already present
+     *            then we stack the new instance instead.
+     * @param index the position in the chain where to insert the listener
+     * @since 10.5RC1
+     */
+    public void addListener(ChainingListener listener, int index)
+    {
         // If there's already an entry for that listener then push it on the existing stack
         // and don't add the listener as an additional listener in the list (since it's already
         // in there). We need to take these steps since the push() methods below will create
@@ -64,18 +91,13 @@ public class ListenerChain
         if (stack == null) {
             stack = new ArrayDeque<>();
             this.listeners.put(listener.getClass(), stack);
-            this.nextListeners.add(listener.getClass());
+            if (index > -1 && index < this.nextListeners.size()) {
+                this.nextListeners.add(index, listener.getClass());
+            } else {
+                this.nextListeners.add(listener.getClass());
+            }
         }
         stack.push(listener);
-    }
-
-    /**
-     * @param listenerClass the listener to remove from the chain
-     */
-    public void removeListener(Class<? extends ChainingListener> listenerClass)
-    {
-        this.listeners.remove(listenerClass);
-        this.nextListeners.remove(listenerClass);
     }
 
     /**
