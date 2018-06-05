@@ -119,6 +119,13 @@ public class XDOM extends MetaDataBlock
     @Override
     public XDOM clone()
     {
-        return (XDOM) super.clone();
+        XDOM clone = (XDOM) super.clone();
+
+        // The cloned XDOM should not increment the current id generator
+        if (this.idGenerator != null) {
+            clone.idGenerator = new IdGenerator(this.idGenerator);
+        }
+
+        return clone;
     }
 }

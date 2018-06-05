@@ -67,7 +67,27 @@ public class IdGenerator
     /**
      * Contains the already generated ids.
      */
-    private Set<String> generatedIds = new HashSet<String>();
+    private final Set<String> generatedIds;
+
+    /**
+     * Create an empty id generator.
+     */
+    public IdGenerator()
+    {
+        this.generatedIds = new HashSet<>();
+    }
+
+    /**
+     * Clone an id generator.
+     * 
+     * @param idGenerator the id generator to copy
+     * @since 10.5RC1
+     * @since 9.11.6
+     */
+    public IdGenerator(IdGenerator idGenerator)
+    {
+        this.generatedIds = new HashSet<>(idGenerator.generatedIds);
+    }
 
     /**
      * Same as {@link #generateUniqueId(String, String)} but with a fixed prefix of "I".
