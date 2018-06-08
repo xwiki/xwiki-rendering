@@ -89,9 +89,9 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
     private boolean isInTableCell;
 
-    private Deque<DefinitionListState> definitionListDepth = new ArrayDeque<DefinitionListState>();
+    private Deque<DefinitionListState> definitionListDepth = new ArrayDeque<>();
 
-    private Deque<ListState> listDepth = new ArrayDeque<ListState>();
+    private Deque<ListState> listDepth = new ArrayDeque<>();
 
     private int quotationDepth;
 

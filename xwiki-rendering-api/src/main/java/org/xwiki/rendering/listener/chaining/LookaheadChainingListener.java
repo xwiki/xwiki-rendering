@@ -46,7 +46,27 @@ public class LookaheadChainingListener extends AbstractChainingListener
     public LookaheadChainingListener(ListenerChain listenerChain, int lookaheadDepth)
     {
         setListenerChain(listenerChain);
+        setLookaheadDepth(lookaheadDepth);
+    }
+
+    /**
+     * Redefine the stacking depth.
+     *
+     * @param lookaheadDepth the new depth to set
+     * @since 10.5RC1
+     */
+    protected void setLookaheadDepth(int lookaheadDepth)
+    {
         this.lookaheadDepth = lookaheadDepth;
+    }
+
+    /**
+     * @return the list of stacked events
+     * @since 10.5RC1
+     */
+    protected QueueListener getPreviousEvents()
+    {
+        return this.previousEvents;
     }
 
     public Event getNextEvent()
@@ -506,8 +526,7 @@ public class LookaheadChainingListener extends AbstractChainingListener
     private void firePreviousEvent()
     {
         if (this.previousEvents.size() > this.lookaheadDepth) {
-            Event event = this.previousEvents.remove();
-            event.eventType.fireEvent(getListenerChain().getNextListener(getClass()), event.eventParameters);
+            fireEvent();
         }
     }
 
@@ -515,8 +534,28 @@ public class LookaheadChainingListener extends AbstractChainingListener
     {
         // Ensure that all remaining events are flushed
         while (!this.previousEvents.isEmpty()) {
-            Event event = this.previousEvents.remove();
-            event.eventType.fireEvent(getListenerChain().getNextListener(getClass()), event.eventParameters);
+            fireEvent();
+        }
+    }
+
+    private void fireEvent()
+    {
+        Event event = this.previousEvents.remove();
+        event.eventType.fireEvent(getListenerChain().getNextListener(getClass()), event.eventParameters);
+    }
+
+    /**
+     * Transfer all passed events by removing the from the passed parameter and moving them to the beginning of the
+     * event stack.
+     *
+     * @param eventsToTransfer the collection of events to move
+     * @since 10.5RC1
+     */
+    public void transferStart(QueueListener eventsToTransfer)
+    {
+        while (!eventsToTransfer.isEmpty()) {
+            Event event = eventsToTransfer.removeLast();
+            this.previousEvents.offerFirst(event);
         }
     }
 }

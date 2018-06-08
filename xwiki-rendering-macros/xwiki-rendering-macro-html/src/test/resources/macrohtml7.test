@@ -24,7 +24,7 @@ beginMacroMarkerStandalone [html] [] [<script type="text/javascript">
 </script>]
 onRawText [<script type="text/javascript">//<![CDATA[
 
-   //
+   
          if (2 > 1)
              alert("Hello, World")
    // 

@@ -42,15 +42,13 @@ public class ListenerChain
      * The full list of chaining listeners. For each of them we have a stack since the ones that implement the
      * {@link StackableChainingListener} interface can be stacked.
      */
-    private Map<Class<? extends ChainingListener>, Deque<ChainingListener>> listeners =
-        new HashMap<Class<? extends ChainingListener>, Deque<ChainingListener>>();
+    private Map<Class<? extends ChainingListener>, Deque<ChainingListener>> listeners = new HashMap<>();
 
     /**
      * The ordered list of listeners. We only allow one instance per listener class name so we just need to store the
      * class object and then the instance can be found in {@link #listeners}.
      */
-    private List<Class<? extends ChainingListener>> nextListeners =
-        new ArrayList<Class<? extends ChainingListener>>();
+    private List<Class<? extends ChainingListener>> nextListeners = new ArrayList<>();
 
     /**
      * @param listener the chaining listener to add to the chain. If an instance of that listener is already present
@@ -58,26 +56,48 @@ public class ListenerChain
      */
     public void addListener(ChainingListener listener)
     {
+        addListener(listener, -1);
+    }
+
+    /**
+     * @param listenerClass the listener to remove from the chain. If more than one instance of that listener exist
+     *                      in the chain then remove the one from the top of the stack
+     */
+    public void removeListener(Class<? extends ChainingListener> listenerClass)
+    {
+        Deque<ChainingListener> stack = this.listeners.get(listenerClass);
+        if (stack.size() > 0) {
+            stack.pop();
+        }
+        if (stack.isEmpty()) {
+            this.listeners.remove(listenerClass);
+            this.nextListeners.remove(listenerClass);
+        }
+    }
+
+    /**
+     * @param listener the chaining listener to add to the chain. If an instance of that listener is already present
+     *            then we stack the new instance instead.
+     * @param index the position in the chain where to insert the listener
+     * @since 10.5RC1
+     */
+    public void addListener(ChainingListener listener, int index)
+    {
         // If there's already an entry for that listener then push it on the existing stack
         // and don't add the listener as an additional listener in the list (since it's already
         // in there). We need to take these steps since the push() methods below will create
         // new instances of listeners which will add themselves in the chain automatically.
         Deque<ChainingListener> stack = this.listeners.get(listener.getClass());
         if (stack == null) {
-            stack = new ArrayDeque<ChainingListener>();
+            stack = new ArrayDeque<>();
             this.listeners.put(listener.getClass(), stack);
-            this.nextListeners.add(listener.getClass());
+            if (index > -1 && index < this.nextListeners.size()) {
+                this.nextListeners.add(index, listener.getClass());
+            } else {
+                this.nextListeners.add(listener.getClass());
+            }
         }
         stack.push(listener);
-    }
-
-    /**
-     * @param listenerClass the listener to remove from the chain
-     */
-    public void removeListener(Class<? extends ChainingListener> listenerClass)
-    {
-        this.listeners.remove(listenerClass);
-        this.nextListeners.remove(listenerClass);
     }
 
     /**

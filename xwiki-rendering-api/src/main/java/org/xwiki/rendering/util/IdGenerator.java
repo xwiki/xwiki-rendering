@@ -62,12 +62,32 @@ public class IdGenerator
      * A table of hex digits.
      */
     private static final char[] HEXDIGIT =
-    { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+        { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
     /**
      * Contains the already generated ids.
      */
-    private Set<String> generatedIds = new HashSet<String>();
+    private final Set<String> generatedIds;
+
+    /**
+     * Create an empty id generator.
+     */
+    public IdGenerator()
+    {
+        this.generatedIds = new HashSet<>();
+    }
+
+    /**
+     * Clone an id generator.
+     * 
+     * @param idGenerator the id generator to copy
+     * @since 10.5RC1
+     * @since 9.11.6
+     */
+    public IdGenerator(IdGenerator idGenerator)
+    {
+        this.generatedIds = new HashSet<>(idGenerator.generatedIds);
+    }
 
     /**
      * Same as {@link #generateUniqueId(String, String)} but with a fixed prefix of "I".
@@ -98,11 +118,11 @@ public class IdGenerator
     {
         // Verify that the passed prefix contains only alpha characters since the generated id must be a valid HTML id.
         if (StringUtils.isEmpty(prefix) || !StringUtils.isAlpha(prefix)) {
-            throw new IllegalArgumentException("The prefix [" + prefix
-                + "] should only contain alphanumerical characters and not be empty.");
+            throw new IllegalArgumentException(
+                "The prefix [" + prefix + "] should only contain alphanumerical characters and not be empty.");
         }
 
-        String idPrefix = (prefix != null ? prefix : "") + normalizeId(text);
+        String idPrefix = prefix + normalizeId(text);
 
         int occurence = 0;
         String id = idPrefix;
@@ -135,7 +155,8 @@ public class IdGenerator
         if (bufLen < 0) {
             bufLen = Integer.MAX_VALUE;
         }
-        StringBuffer outBuffer = new StringBuffer(bufLen);
+
+        StringBuilder outBuffer = new StringBuilder(bufLen);
 
         for (int x = 0; x < len; x++) {
             char c = stringToNormalize.charAt(x);

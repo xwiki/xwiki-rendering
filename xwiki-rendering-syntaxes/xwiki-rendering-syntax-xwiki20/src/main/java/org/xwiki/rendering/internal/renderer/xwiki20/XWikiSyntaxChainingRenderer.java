@@ -29,6 +29,7 @@ import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
+import org.xwiki.rendering.listener.chaining.LookaheadChainingListener;
 import org.xwiki.rendering.listener.chaining.StackableChainingListener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
@@ -182,7 +183,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         // escape open link syntax when before a link
         if (getLinkRenderer().forceFullSyntax(getXWikiPrinter(), freestanding, parameters)
             && getXWikiPrinter().getBuffer().length() > 0
-            && getXWikiPrinter().getBuffer().charAt(getXWikiPrinter().getBuffer().length() - 1) == '[') {
+            && getXWikiPrinter().getBuffer().charAt(getXWikiPrinter().getBuffer().length() - 1) == '[')
+        {
             getXWikiPrinter().setEscapeLastChar(true);
         }
         getXWikiPrinter().flush();
@@ -351,7 +353,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             if (getXWikiSyntaxListenerChain().getConsecutiveNewLineStateChainingListener().getNewLineCount() > 1) {
                 print("\\\\");
             } else if (getXWikiSyntaxListenerChain().getLookaheadChainingListener().getNextEvent().eventType
-                .isInlineEnd()) {
+                .isInlineEnd())
+            {
                 print("\\\\");
             } else {
                 print("\n");
@@ -436,6 +439,14 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             print(".");
         }
         print(" ");
+
+        // Stack all events until we either get a standalone one (that will be wrapped in a GroupBlock by the listener)
+        // or until endListItem() is called.
+        // IMPORTANT: We need to put our listener just after the LookaheadChainingListener one since otherwise some of
+        // the already stacked events in LookaheadChainingListener won't reach our new listener!
+        getXWikiSyntaxListenerChain().addListener(
+            new ListItemStackingInlineContentChainingListener(getListenerChain()),
+            getListenerChain().indexOf(LookaheadChainingListener.class) + 1);
     }
 
     @Override
@@ -459,12 +470,15 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     public void endListItem()
     {
         this.previousFormatParameters = null;
+
+        // Remove our stacking event listener
+        getXWikiSyntaxListenerChain().removeListener(ListItemStackingInlineContentChainingListener.class);
     }
 
     @Override
     public void endListItem(Map<String, String> parameters)
     {
-        this.previousFormatParameters = null;
+        endListItem();
     }
 
     @Override
@@ -658,6 +672,14 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     {
         print("|");
         printParameters(parameters, false);
+
+        // Stack all events until we either get a standalone one (that will be wrapped in a GroupBlock by the listener)
+        // or until endTableCell() is called.
+        // IMPORTANT: We need to put our listener just after the LookaheadChainingListener one since otherwise some of
+        // the already stacked events in LookaheadChainingListener won't reach our new listener!
+        getXWikiSyntaxListenerChain().addListener(
+            new TableCellStackingInlineContentChainingListener(getListenerChain()),
+            getListenerChain().indexOf(LookaheadChainingListener.class) + 1);
     }
 
     @Override
@@ -665,6 +687,14 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     {
         print("|=");
         printParameters(parameters, false);
+
+        // Stack all events until we either get a standalone one (that will be wrapped in a GroupBlock by the listener)
+        // or until endTableHeadCell() is called.
+        // IMPORTANT: We need to put our listener just after the LookaheadChainingListener one since otherwise some of
+        // the already stacked events in LookaheadChainingListener won't reach our new listener!
+        getXWikiSyntaxListenerChain().addListener(
+            new TableHeadCellStackingInlineContentChainingListener(getListenerChain()),
+            getListenerChain().indexOf(LookaheadChainingListener.class) + 1);
     }
 
     @Override
@@ -682,6 +712,9 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     {
         this.previousFormatParameters = null;
 
+        // Remove our stacking event listener
+        getXWikiSyntaxListenerChain().removeListener(TableCellStackingInlineContentChainingListener.class);
+
         // Ensure that any not printed characters are flushed.
         // TODO: Fix this better by introducing a state listener to handle escapes
         getXWikiPrinter().flush();
@@ -691,6 +724,9 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     public void endTableHeadCell(Map<String, String> parameters)
     {
         this.previousFormatParameters = null;
+
+        // Remove our stacking event listener
+        getXWikiSyntaxListenerChain().removeListener(TableHeadCellStackingInlineContentChainingListener.class);
     }
 
     /**
