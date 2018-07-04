@@ -76,7 +76,8 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
         // query string and/or the anchor specified as parameters. This is how the XWiki Syntax 2.1 specifies
         // query string and anchor (ex: [[label>>doc:docReference||queryString="a=b" anchor="anchor"]]).
         ResourceType resourceType = reference.getType();
-        if (ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType)) {
+        if (ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType)
+            || ResourceType.PAGE.equals(resourceType)) {
             String queryString = parameters.remove(QUERY_STRING);
             if (queryString != null) {
                 reference.setParameter(DocumentResourceReference.QUERY_STRING, queryString);

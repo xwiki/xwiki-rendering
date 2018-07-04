@@ -62,6 +62,7 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
     private static final List<ResourceType> WIKI_REFERENCE_TYPES = Arrays.asList(
         ResourceType.DOCUMENT,
         ResourceType.SPACE,
+        ResourceType.PAGE,
         ResourceType.ATTACHMENT,
         ResourceType.ICON
     );
