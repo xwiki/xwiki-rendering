@@ -32,6 +32,7 @@
   <description>XWiki Rendering - Syntax - Event</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.84</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
   </properties>
   <dependencies>
     <!-- Test Dependencies -->

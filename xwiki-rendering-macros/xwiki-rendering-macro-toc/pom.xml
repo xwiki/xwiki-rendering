@@ -32,6 +32,7 @@
   <description>Generates a Table Of Content for titles (headings)</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.98</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>17</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>TOC Macro</xwiki.extension.name>
   </properties>

@@ -32,6 +32,7 @@
   <description>XWiki Rendering - Syntax - XHTML</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.76</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>18</xwiki.pitest.mutationThreshold>
   </properties>
   <dependencies>
     <dependency>

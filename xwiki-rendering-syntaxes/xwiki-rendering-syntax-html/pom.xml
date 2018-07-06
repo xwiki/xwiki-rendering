@@ -32,6 +32,7 @@
   <description>Parser for the HTML 4.01 syntax</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.57</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>HTML 4.01 Syntax</xwiki.extension.name>
     <!-- List it as a rendering syntax related module -->

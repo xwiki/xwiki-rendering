@@ -32,6 +32,7 @@
   <description>Allows entering content in any of the supported Syntaxes</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.65</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Content Macro</xwiki.extension.name>
   </properties>

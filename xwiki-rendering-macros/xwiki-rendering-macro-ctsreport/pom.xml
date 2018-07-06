@@ -33,6 +33,7 @@
   <!-- Note: This macro is used for example on the http://rendering.xwiki.org/xwiki/bin/view/Main/SyntaxReport page -->
   <properties>
     <xwiki.jacoco.instructionRatio>0.71</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>62</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Compatibility Test Suite Report Macro</xwiki.extension.name>
   </properties>

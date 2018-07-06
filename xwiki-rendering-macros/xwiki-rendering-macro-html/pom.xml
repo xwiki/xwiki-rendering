@@ -32,6 +32,7 @@
   <description>Allows inserting HTML or XHTML in wiki pages</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.89</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>24</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>HTML Macro</xwiki.extension.name>
   </properties>
