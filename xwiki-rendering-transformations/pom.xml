@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering</artifactId>
-    <version>10.7.1-SNAPSHOT</version>
+    <version>10.7.1</version>
   </parent>
   <artifactId>xwiki-rendering-transformations</artifactId>
   <name>XWiki Rendering - Transformations - Parent POM</name>
