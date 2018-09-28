@@ -58,6 +58,13 @@ public class MetaData
     public static final String BASE = "base";
 
     /**
+     * Represents an inline editable content.
+     *
+     * @since 10.9RC1
+     */
+    public static final String INLINE_EDITABLE = "wysiwyg-editable-content";
+
+    /**
      * Contains all MetaData for this Block and its children. Note: we preserve the order of metadata elements as they
      * are added as a service for the user so he can count on it.
      */

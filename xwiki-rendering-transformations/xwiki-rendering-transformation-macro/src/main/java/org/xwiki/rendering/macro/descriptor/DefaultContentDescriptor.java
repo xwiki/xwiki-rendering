@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.macro.descriptor;
 
+import java.lang.reflect.Type;
+
 /**
  * The default implementation of {@link ContentDescriptor}.
  *
@@ -36,6 +38,13 @@ public class DefaultContentDescriptor implements ContentDescriptor
      * Indicate if the content is mandatory.
      */
     private boolean mandatory = true;
+
+    /**
+     * Type of the Macro content.
+     *
+     * @since 10.9-rc-1
+     */
+    private Type type;
 
     /**
      * Default constructor.
@@ -66,8 +75,21 @@ public class DefaultContentDescriptor implements ContentDescriptor
      */
     public DefaultContentDescriptor(String description, boolean mandatory)
     {
+        this(description, mandatory, null);
+    }
+
+    /**
+     * @param description the description of the content.
+     * @param mandatory indicate if the content is mandatory.
+     * @param type Specify the type of the content
+     *
+     * @since 10.9-rc-1
+     */
+    public DefaultContentDescriptor(String description, boolean mandatory, Type type)
+    {
         this.description = description;
         this.mandatory = mandatory;
+        this.type = type;
     }
 
     @Override
@@ -80,5 +102,11 @@ public class DefaultContentDescriptor implements ContentDescriptor
     public boolean isMandatory()
     {
         return this.mandatory;
+    }
+
+    @Override
+    public Type getType()
+    {
+        return this.type;
     }
 }

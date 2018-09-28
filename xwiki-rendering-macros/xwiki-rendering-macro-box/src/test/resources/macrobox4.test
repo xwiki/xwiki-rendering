@@ -10,7 +10,9 @@
 beginDocument
 beginMacroMarkerStandalone [testbox] [] []
 beginGroup [[class]=[box]]
+beginMetaData [[wysiwyg-editable-content]=[true]]
 onVerbatim [] [false]
+endMetaData [[wysiwyg-editable-content]=[true]]
 endGroup [[class]=[box]]
 endMacroMarkerStandalone [testbox] [] []
 endDocument

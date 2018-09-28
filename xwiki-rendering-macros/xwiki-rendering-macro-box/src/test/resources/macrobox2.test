@@ -14,9 +14,11 @@ onWord [inline]
 onSpace
 beginMacroMarkerInline [box] [] [**box**]
 beginFormat [NONE] [[class]=[box]]
+beginMetaData [[wysiwyg-editable-content]=[true]]
 beginFormat [BOLD]
 onWord [box]
 endFormat [BOLD]
+endMetaData [[wysiwyg-editable-content]=[true]]
 endFormat [NONE] [[class]=[box]]
 endMacroMarkerInline [box] [] [**box**]
 endParagraph

@@ -10,9 +10,11 @@
 beginDocument
 beginMacroMarkerStandalone [box] [width=100px] [something]
 beginGroup [[class]=[box][style]=[width:100px]]
+beginMetaData [[wysiwyg-editable-content]=[true]]
 beginParagraph
 onWord [something]
 endParagraph
+endMetaData [[wysiwyg-editable-content]=[true]]
 endGroup [[class]=[box][style]=[width:100px]]
 endMacroMarkerStandalone [box] [width=100px] [something]
 endDocument

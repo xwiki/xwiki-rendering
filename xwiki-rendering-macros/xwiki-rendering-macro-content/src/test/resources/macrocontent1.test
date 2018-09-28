@@ -10,11 +10,11 @@
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginMacroMarkerStandalone [content] [syntax=xhtml/1.0] [<p>test</p>]
-beginMetaData [[syntax]=[xhtml/1.0]]
+beginMacroMarkerStandalone [content] [syntax=xhtml/1.0] [<p>test</p>]gi
+beginMetaData [[syntax]=[xhtml/1.0]] [[unchanged-content]=[true]]
 beginParagraph
 onWord [test]
 endParagraph
-endMetaData [[syntax]=[xhtml/1.0]]
+endMetaData [[syntax]=[xhtml/1.0]] [[unchanged-content]=[true]]
 endMacroMarkerStandalone [content] [syntax=xhtml/1.0] [<p>test</p>]
 endDocument

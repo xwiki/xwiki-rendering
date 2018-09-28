@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.macro.descriptor;
 
+import java.lang.reflect.Type;
+import org.xwiki.stability.Unstable;
+
 /**
  * Define a macro content.
  *
@@ -36,4 +39,16 @@ public interface ContentDescriptor
      * @return indicate if the macro content is mandatory.
      */
     boolean isMandatory();
+
+    /**
+     * This method will return the type of the macro content. By default it fallback to String.
+     *
+     * @return the type of the macro content.
+     * @since 10.9RC1
+     */
+    @Unstable
+    default Type getType()
+    {
+        return String.class;
+    }
 }

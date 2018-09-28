@@ -13,6 +13,7 @@ beginDocument
 beginMacroMarkerStandalone [box] [] [* one
 * two]
 beginGroup [[class]=[box]]
+beginMetaData [[wysiwyg-editable-content]=[true]]
 beginList [BULLETED]
 beginListItem
 onWord [one]
@@ -21,6 +22,7 @@ beginListItem
 onWord [two]
 endListItem
 endList [BULLETED]
+endMetaData [[wysiwyg-editable-content]=[true]]
 endGroup [[class]=[box]]
 endMacroMarkerStandalone [box] [] [* one
 * two]

@@ -31,8 +31,12 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
+<<<<<<< HEAD
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.listener.MetaData;
+=======
+import org.xwiki.rendering.block.UnchangedContentBlock;
+>>>>>>> XRENDERING-518: Macro content editable inline
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.content.ContentMacroParameters;
@@ -75,7 +79,8 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
      */
     public ContentMacro()
     {
-        super("Content", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION), ContentMacroParameters.class);
+        super("Content", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, true,
+            Block.LIST_BLOCK_TYPE), ContentMacroParameters.class);
         setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
     }
 
@@ -94,6 +99,7 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
             MetaDataBlock metaDataBlock = new MetaDataBlock(blocks, MetaData.SYNTAX,
                 parameters.getSyntax().toIdString());
 
+            metaDataBlock.getMetaData().addMetaData(MetaData.UNCHANGED_CONTENT, true);
             return Collections.singletonList(metaDataBlock);
         } catch (ParseException e) {
             throw new MacroExecutionException(
