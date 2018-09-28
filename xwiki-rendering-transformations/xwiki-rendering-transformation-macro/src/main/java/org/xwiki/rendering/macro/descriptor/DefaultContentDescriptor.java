@@ -42,7 +42,7 @@ public class DefaultContentDescriptor implements ContentDescriptor
     /**
      * Type of the Macro content.
      *
-     * @since 10.9-rc-1
+     * @since 10.9RC1
      */
     private Type type;
 
@@ -83,7 +83,7 @@ public class DefaultContentDescriptor implements ContentDescriptor
      * @param mandatory indicate if the content is mandatory.
      * @param type Specify the type of the content
      *
-     * @since 10.9-rc-1
+     * @since 10.9RC1
      */
     public DefaultContentDescriptor(String description, boolean mandatory, Type type)
     {
