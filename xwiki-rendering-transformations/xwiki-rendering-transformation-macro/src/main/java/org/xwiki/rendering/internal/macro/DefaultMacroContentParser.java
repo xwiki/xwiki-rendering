@@ -35,6 +35,7 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.UnchangedContentBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.MetadataBlockMatcher;
 import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
@@ -126,6 +127,9 @@ public class DefaultMacroContentParser implements MacroContentParser
             if (inline) {
                 result = convertToInline(result);
             }
+
+
+            result.setChildren(Collections.singletonList(new UnchangedContentBlock(result.getChildren())));
 
             return result;
         } catch (Exception e) {

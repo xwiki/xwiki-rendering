@@ -14,12 +14,12 @@ onWord [An]
 onSpace
 beginMacroMarkerInline [box] [] [Inline box ]
 beginFormat [NONE] [[class]=[box]]
-beginMetaData [[wysiwyg-editable-content]=[true]]
+beginMetaData [[unchanged-content]=[true]]
 onWord [Inline]
 onSpace
 onWord [box]
 onSpace
-endMetaData [[wysiwyg-editable-content]=[true]]
+endMetaData [[unchanged-content]=[true]]
 endFormat [NONE] [[class]=[box]]
 endMacroMarkerInline [box] [] [Inline box ]
 onSpace
@@ -27,7 +27,7 @@ onWord [first]
 endParagraph
 beginMacroMarkerStandalone [box] [] [A box that should not be inline]
 beginGroup [[class]=[box]]
-beginMetaData [[wysiwyg-editable-content]=[true]]
+beginMetaData [[unchanged-content]=[true]]
 beginParagraph
 onWord [A]
 onSpace
@@ -43,7 +43,7 @@ onWord [be]
 onSpace
 onWord [inline]
 endParagraph
-endMetaData [[wysiwyg-editable-content]=[true]]
+endMetaData [[unchanged-content]=[true]]
 endGroup [[class]=[box]]
 endMacroMarkerStandalone [box] [] [A box that should not be inline]
 endDocument

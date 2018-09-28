@@ -44,6 +44,7 @@ beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_
 onWord [^]
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
 onSpace
+beginMetaData [[unchanged-content]=[true]]
 onWord [This]
 onSpace
 onWord [is]
@@ -53,6 +54,7 @@ onSpace
 onWord [footnote]
 onSpace
 onWord [content]
+endMetaData [[unchanged-content]=[true]]
 endListItem
 endList [NUMBERED] [[class]=[footnotes]]
 endMacroMarkerStandalone [putFootnotes] []

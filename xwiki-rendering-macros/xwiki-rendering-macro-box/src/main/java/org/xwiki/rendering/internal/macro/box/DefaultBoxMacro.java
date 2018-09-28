@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.macro.box;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Named;
@@ -27,7 +26,6 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.UnchangedContentBlock;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
@@ -71,8 +69,6 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
         throws MacroExecutionException
     {
         // Don't execute transformations explicitly. They'll be executed on the generated content later on.
-        return Collections.singletonList(new UnchangedContentBlock(
-            getMacroContentParser().parse(content, context, false, context.isInline()).getChildren()
-        ));
+        return getMacroContentParser().parse(content, context, false, context.isInline()).getChildren();
     }
 }

@@ -62,7 +62,7 @@ public class MetaData
      *
      * @since 10.9RC1
      */
-    public static final String INLINE_EDITABLE = "wysiwyg-editable-content";
+    public static final String UNCHANGED_CONTENT = "unchanged-content";
 
     /**
      * Contains all MetaData for this Block and its children. Note: we preserve the order of metadata elements as they

@@ -11,14 +11,16 @@ beginMacroMarkerStandalone [box] [title=[[XWiki>>http://www.xwiki.org]]|cssClass
 beginGroup [[class]=[box myCLASS]]
 onImage [Typed = [false] Type = [url] Reference = [http://l.yimg.com/i/i/fr/tr/usa4.jpg]] [true]
 onNewLine
+beginMetaData [[unchanged-content]=[true]]
 beginLink [Typed = [false] Type = [url] Reference = [http://www.xwiki.org]] [false]
 onWord [XWiki]
 endLink [Typed = [false] Type = [url] Reference = [http://www.xwiki.org]] [false]
-beginMetaData [[wysiwyg-editable-content]=[true]]
+endMetaData [[unchanged-content]=[true]]
+beginMetaData [[unchanged-content]=[true]]
 beginParagraph
 onWord [alabala]
 endParagraph
-endMetaData [[wysiwyg-editable-content]=[true]]
+endMetaData [[unchanged-content]=[true]]
 endGroup [[class]=[box myCLASS]]
 endMacroMarkerStandalone [box] [title=[[XWiki>>http://www.xwiki.org]]|cssClass=myCLASS|image=http://l.yimg.com/i/i/fr/tr/usa4.jpg] [alabala]
 endDocument

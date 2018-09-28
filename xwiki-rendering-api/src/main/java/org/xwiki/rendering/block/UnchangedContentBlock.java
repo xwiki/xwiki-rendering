@@ -40,7 +40,7 @@ public class UnchangedContentBlock extends MetaDataBlock
     public UnchangedContentBlock(List<? extends Block> childBlocks)
     {
         super(childBlocks);
-        this.getMetaData().addMetaData(MetaData.INLINE_EDITABLE, true);
+        this.getMetaData().addMetaData(MetaData.UNCHANGED_CONTENT, true);
     }
 
     /**
@@ -51,7 +51,7 @@ public class UnchangedContentBlock extends MetaDataBlock
     public UnchangedContentBlock(List<? extends Block> childBlocks, MetaData metaData)
     {
         super(childBlocks, metaData);
-        this.getMetaData().addMetaData(MetaData.INLINE_EDITABLE, true);
+        this.getMetaData().addMetaData(MetaData.UNCHANGED_CONTENT, true);
     }
 
     /**
@@ -65,6 +65,6 @@ public class UnchangedContentBlock extends MetaDataBlock
     public UnchangedContentBlock(List<? extends Block> childBlocks, String key, Object value)
     {
         super(childBlocks, key, value);
-        this.getMetaData().addMetaData(MetaData.INLINE_EDITABLE, true);
+        this.getMetaData().addMetaData(MetaData.UNCHANGED_CONTENT, true);
     }
 }
