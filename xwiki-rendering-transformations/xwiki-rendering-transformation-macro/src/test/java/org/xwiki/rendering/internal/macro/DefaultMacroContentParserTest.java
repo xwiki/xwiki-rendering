@@ -82,12 +82,7 @@ public class DefaultMacroContentParserTest
 
         XDOM xdom = this.macroContentParser.parse("content", this.macroContext, false, true);
 
-        Assert.assertEquals(
-            new XDOM(
-                Arrays.<Block>asList(new UnchangedContentBlock(
-                    Arrays.<Block>asList(new WordBlock("word"))
-                ))
-            ), xdom);
+        Assert.assertEquals(new XDOM(Arrays.<Block>asList(new WordBlock("word"))), xdom);
     }
 
     @Test
@@ -97,12 +92,8 @@ public class DefaultMacroContentParserTest
             new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.EMPTY_MAP, null, false))));
 
         Assert.assertEquals(
-            new XDOM(
-                Arrays.<Block>asList(new UnchangedContentBlock(
-                    Arrays.<Block>asList(
-                        new MacroBlock("macro", Collections.EMPTY_MAP, null, true))
-                    )
-                )
-            ), this.macroContentParser.parse("content", this.macroContext, false, true));
+            new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.EMPTY_MAP, null, true))),
+            this.macroContentParser.parse("content", this.macroContext, false, true)
+        );
     }
 }

@@ -17,7 +17,6 @@ beginMacroMarkerStandalone [warning] [] [Failed to do this action. The correct p
 * you don't have right
 * another possibility]
 beginGroup [[class]=[box warningmessage]]
-beginMetaData [[unchanged-content]=[true]]
 beginParagraph
 onWord [Failed]
 onSpace
@@ -64,6 +63,7 @@ onSpace
 onWord [possibility]
 endListItem
 endList [BULLETED]
+beginMetaData [[unchanged-content]=[true]]
 endMetaData [[unchanged-content]=[true]]
 endGroup [[class]=[box warningmessage]]
 endMacroMarkerStandalone [warning] [] [Failed to do this action. The correct possibilities are:
