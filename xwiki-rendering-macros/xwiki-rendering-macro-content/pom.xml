@@ -36,4 +36,13 @@
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Content Macro</xwiki.extension.name>
   </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-html</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
