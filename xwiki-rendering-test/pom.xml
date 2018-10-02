@@ -35,9 +35,6 @@
     <xwiki.pitest.mutationThreshold>12</xwiki.pitest.mutationThreshold>
     <!-- There's a factory class with lots of things to instantiate -->
     <checkstyle.suppressions.location>${basedir}/src/main/checkstyle/checkstyle-suppressions.xml</checkstyle.suppressions.location>
-    <!-- Don't cloverify test since we don't want our global TPC to include test TPC. We want to include only
-         runtime code -->
-    <xwiki.clover.skip>true</xwiki.clover.skip>
   </properties>
   <dependencies>
     <dependency>
