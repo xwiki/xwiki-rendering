@@ -91,18 +91,10 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
     {
         try {
             List<Block> blocks = getSyntaxParser(parameters.getSyntax()).parse(new StringReader(content)).getChildren();
+            MetaDataBlock metaDataBlock = new MetaDataBlock(blocks, MetaData.SYNTAX,
+                parameters.getSyntax().toIdString());
 
-            // if the result is only one metadata block, we put the syntax metadata in it
-            if (blocks.size() == 1 && blocks.get(0) instanceof MetaDataBlock) {
-                ((MetaDataBlock) blocks.get(0)).getMetaData()
-                    .addMetaData(MetaData.SYNTAX, parameters.getSyntax().toIdString());
-                return blocks;
-            // else we create a dedicated MetadataBlock
-            } else {
-                MetaDataBlock metaDataBlock = new MetaDataBlock(blocks, MetaData.SYNTAX,
-                    parameters.getSyntax().toIdString());
-                return Collections.singletonList(metaDataBlock);
-            }
+            return Collections.singletonList(metaDataBlock);
         } catch (ParseException e) {
             throw new MacroExecutionException(
                 String.format("Failed to parse macro content in syntax [%s]", parameters.getSyntax()), e);
