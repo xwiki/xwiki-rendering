@@ -1,0 +1,16 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Test that custom box reusing box, won't put unchanged content metadata
+.#-----------------------------------------------------
+{{custombox}}something{{/custombox}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [custombox] [] [something]
+beginGroup [[class]=[box]]
+onWord [something]
+endGroup [[class]=[box]]
+endMacroMarkerStandalone [custombox] [] [something]
+endDocument
