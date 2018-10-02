@@ -71,8 +71,17 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
         throws MacroExecutionException
     {
         // Don't execute transformations explicitly. They'll be executed on the generated content later on.
-        return Collections.singletonList(new UnchangedContentBlock(
-            getMacroContentParser().parse(content, context, false, context.isInline()).getChildren()
-        ));
+        List<Block> children = getMacroContentParser().parse(content, context, false, context.isInline()).getChildren();
+
+        // if we are really in the context of this macro, it's an unchanged content
+        if (context.getCurrentMacroBlock().getId().equals("box")) {
+            return Collections.singletonList(new UnchangedContentBlock(
+                children
+            ));
+
+        // else we cannot guarantee it
+        } else {
+            return children;
+        }
     }
 }

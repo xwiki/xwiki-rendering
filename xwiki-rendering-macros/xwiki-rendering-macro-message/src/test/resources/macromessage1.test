@@ -63,8 +63,6 @@ onSpace
 onWord [possibility]
 endListItem
 endList [BULLETED]
-beginMetaData [[unchanged-content]=[true]]
-endMetaData [[unchanged-content]=[true]]
 endGroup [[class]=[box infomessage]]
 endMacroMarkerStandalone [info] [] [Failed to do this action. The correct possibilities are:
 * use another value

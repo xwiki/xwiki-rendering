@@ -22,8 +22,6 @@ beginListItem
 onWord [item2]
 endListItem
 endList [BULLETED]
-beginMetaData [[unchanged-content]=[true]]
-endMetaData [[unchanged-content]=[true]]
 endGroup [[class]=[box infomessage]]
 endMacroMarkerStandalone [info] [] [* item1
 * item2]
