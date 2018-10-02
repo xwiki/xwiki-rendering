@@ -31,7 +31,7 @@
   <name>XWiki Rendering - Syntax - XWiki 2.0</name>
   <description>XWiki Rendering - Syntax - XWiki 2.0</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.70</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.69</xwiki.jacoco.instructionRatio>
     <xwiki.pitest.mutationThreshold>28</xwiki.pitest.mutationThreshold>
   </properties>
   <dependencies>
