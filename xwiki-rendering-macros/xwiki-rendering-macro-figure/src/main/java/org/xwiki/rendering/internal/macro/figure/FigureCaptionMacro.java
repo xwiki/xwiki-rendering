@@ -70,7 +70,8 @@ public class FigureCaptionMacro extends AbstractNoParameterMacro
      */
     public FigureCaptionMacro()
     {
-        super("Figure Caption", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION));
+        super("Figure Caption", DESCRIPTION,
+            new DefaultContentDescriptor(CONTENT_DESCRIPTION, true, Block.LIST_BLOCK_TYPE));
         setDefaultCategory(DEFAULT_CATEGORY_DEVELOPMENT);
     }
 

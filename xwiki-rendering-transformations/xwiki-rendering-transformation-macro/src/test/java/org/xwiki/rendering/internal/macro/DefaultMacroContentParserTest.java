@@ -30,7 +30,6 @@ import org.junit.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
-import org.xwiki.rendering.block.UnchangedContentBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.macro.MacroContentParser;
@@ -80,9 +79,8 @@ public class DefaultMacroContentParserTest
         when(this.mockParser.parse(any(Reader.class))).thenReturn(
             new XDOM(Arrays.<Block>asList(new ParagraphBlock(Arrays.<Block>asList(new WordBlock("word"))))));
 
-        XDOM xdom = this.macroContentParser.parse("content", this.macroContext, false, true);
-
-        Assert.assertEquals(new XDOM(Arrays.<Block>asList(new WordBlock("word"))), xdom);
+        Assert.assertEquals(new XDOM(Arrays.<Block>asList(new WordBlock("word"))),
+            this.macroContentParser.parse("content", this.macroContext, false, true));
     }
 
     @Test
@@ -93,7 +91,6 @@ public class DefaultMacroContentParserTest
 
         Assert.assertEquals(
             new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.EMPTY_MAP, null, true))),
-            this.macroContentParser.parse("content", this.macroContext, false, true)
-        );
+            this.macroContentParser.parse("content", this.macroContext, false, true));
     }
 }

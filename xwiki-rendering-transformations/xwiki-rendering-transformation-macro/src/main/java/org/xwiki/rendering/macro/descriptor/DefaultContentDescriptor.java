@@ -44,7 +44,7 @@ public class DefaultContentDescriptor implements ContentDescriptor
      *
      * @since 10.9RC1
      */
-    private Type type;
+    private Type type = String.class;
 
     /**
      * Default constructor.
@@ -75,7 +75,7 @@ public class DefaultContentDescriptor implements ContentDescriptor
      */
     public DefaultContentDescriptor(String description, boolean mandatory)
     {
-        this(description, mandatory, null);
+        this(description, mandatory, String.class);
     }
 
     /**
