@@ -76,14 +76,7 @@ public abstract class AbstractMessageMacro extends AbstractMacro<Object>
 
         boxParameters.setCssClass(context.getCurrentMacroBlock().getId() + "message");
 
-        List<Block> result;
-        if (!context.isInline()) {
-            boxParameters.setTitle(content);
-            result = this.boxMacro.execute(boxParameters, StringUtils.EMPTY, context);
-        } else {
-            result = this.boxMacro.execute(boxParameters, content, context);
-        }
-        return result;
+        return this.boxMacro.execute(boxParameters, content, context);
     }
 
     @Override
