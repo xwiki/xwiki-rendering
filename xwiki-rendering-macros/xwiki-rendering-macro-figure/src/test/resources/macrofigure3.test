@@ -13,13 +13,11 @@ beginDocument
 beginMacroMarkerStandalone [figure] [] [whatever1
 whatever2]
 beginFigure
-beginMetaData [[unchanged-content]=[true]]
 beginParagraph
 onWord [whatever1]
 onNewLine
 onWord [whatever2]
 endParagraph
-endMetaData [[unchanged-content]=[true]]
 endFigure
 endMacroMarkerStandalone [figure] [] [whatever1
 whatever2]

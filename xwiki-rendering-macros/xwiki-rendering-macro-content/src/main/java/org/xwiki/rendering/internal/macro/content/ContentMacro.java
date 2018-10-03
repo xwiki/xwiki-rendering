@@ -31,19 +31,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.listener.MetaData;
-=======
-import org.xwiki.rendering.block.UnchangedContentBlock;
->>>>>>> XRENDERING-518: Macro content editable inline
-=======
->>>>>>> XRENDERING-518: Add metadata in macro content for inline editing
-=======
-import org.xwiki.rendering.block.UnchangedContentBlock;
->>>>>>> XRENDERING-518: Add type information in content descriptor
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.content.ContentMacroParameters;

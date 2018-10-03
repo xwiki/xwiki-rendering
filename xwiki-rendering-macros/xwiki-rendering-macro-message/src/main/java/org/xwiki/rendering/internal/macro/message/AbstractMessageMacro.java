@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.UnchangedContentBlock;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroExecutionException;
@@ -61,7 +63,8 @@ public abstract class AbstractMessageMacro extends AbstractMacro<Object>
      */
     public AbstractMessageMacro(String macroName, String macroDescription)
     {
-        super(macroName, macroDescription, new DefaultContentDescriptor(true));
+        super(macroName, macroDescription,
+            new DefaultContentDescriptor("Content of the message", true, Block.LIST_BLOCK_TYPE));
     }
 
     @Override
@@ -76,7 +79,9 @@ public abstract class AbstractMessageMacro extends AbstractMacro<Object>
 
         boxParameters.setCssClass(context.getCurrentMacroBlock().getId() + "message");
 
-        return this.boxMacro.execute(boxParameters, content, context);
+        return Collections.singletonList(
+            new UnchangedContentBlock(this.boxMacro.execute(boxParameters, content, context))
+        );
     }
 
     @Override

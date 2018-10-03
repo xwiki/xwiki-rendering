@@ -17,7 +17,6 @@ whatever2
 
 {{figureCaption}}caption{{/figureCaption}}]
 beginFigure
-beginMetaData [[unchanged-content]=[true]]
 beginParagraph
 onWord [whatever1]
 onNewLine
@@ -25,12 +24,9 @@ onWord [whatever2]
 endParagraph
 beginMacroMarkerStandalone [figureCaption] [] [caption]
 beginFigureCaption
-beginMetaData [[unchanged-content]=[true]]
 onWord [caption]
-endMetaData [[unchanged-content]=[true]]
 endFigureCaption
 endMacroMarkerStandalone [figureCaption] [] [caption]
-endMetaData [[unchanged-content]=[true]]
 endFigure
 endMacroMarkerStandalone [figure] [] [whatever1
 whatever2

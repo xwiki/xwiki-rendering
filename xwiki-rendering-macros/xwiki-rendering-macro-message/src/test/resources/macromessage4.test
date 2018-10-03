@@ -13,6 +13,7 @@
 beginDocument
 beginMacroMarkerStandalone [info] [] [* item1
 * item2]
+beginMetaData [[unchanged-content]=[true]]
 beginGroup [[class]=[box infomessage]]
 beginList [BULLETED]
 beginListItem
@@ -23,6 +24,7 @@ onWord [item2]
 endListItem
 endList [BULLETED]
 endGroup [[class]=[box infomessage]]
+endMetaData [[unchanged-content]=[true]]
 endMacroMarkerStandalone [info] [] [* item1
 * item2]
 endDocument
