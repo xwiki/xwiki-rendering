@@ -3,18 +3,24 @@
 .input|xwiki/2.1
 .# Add XHTML content in XWiki Syntax 2.1 content
 .#-----------------------------------------------------
-{{content syntax="xhtml/1.0"}}
+{{content syntax="html/4.01"}}
 <p>test</p>
+<p>test2</p>
 {{/content}}
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginMacroMarkerStandalone [content] [syntax=xhtml/1.0] [<p>test</p>]
-beginMetaData [[syntax]=[xhtml/1.0]]
+beginMacroMarkerStandalone [content] [syntax=html/4.01] [<p>test</p>
+<p>test2</p>]
+beginMetaData [[syntax]=[html/4.01]]
 beginParagraph
 onWord [test]
 endParagraph
-endMetaData [[syntax]=[xhtml/1.0]]
-endMacroMarkerStandalone [content] [syntax=xhtml/1.0] [<p>test</p>]
+beginParagraph
+onWord [test2]
+endParagraph
+endMetaData [[syntax]=[html/4.01]]
+endMacroMarkerStandalone [content] [syntax=html/4.01] [<p>test</p>
+<p>test2</p>]
 endDocument
