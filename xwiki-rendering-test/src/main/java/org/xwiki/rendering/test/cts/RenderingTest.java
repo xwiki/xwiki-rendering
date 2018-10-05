@@ -391,19 +391,4 @@ public class RenderingTest
     {
         return this.componentManager;
     }
-
-    /**
-     * Create a Syntax object from a Syntax id string.
-     *
-     * @param syntaxId the id of the Syntax to create
-     * @return the Syntax object
-     */
-    private org.xwiki.rendering.syntax.Syntax parseSyntax(String syntaxId)
-    {
-        try {
-            return org.xwiki.rendering.syntax.Syntax.valueOf(syntaxId);
-        } catch (Exception e) {
-            throw new RuntimeException(String.format("Failed to parse Syntax [%s]", syntaxId), e);
-        }
-    }
 }
