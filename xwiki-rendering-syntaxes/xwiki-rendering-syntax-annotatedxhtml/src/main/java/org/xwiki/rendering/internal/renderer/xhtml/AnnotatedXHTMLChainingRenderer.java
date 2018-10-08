@@ -19,10 +19,12 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 
 /**
@@ -34,6 +36,8 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
  */
 public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
 {
+    private static final String METADATA_BLOCK_ELEMENT = "span";
+
     /**
      * Renders a Macro definition into Annotated XHTML.
      */
@@ -82,5 +86,26 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
             // so that the macro can be reconstructed when moving back from XHTML to XDOM.
             this.macroRenderer.endRender(getXHTMLWikiPrinter());
         }
+    }
+
+    @Override
+    public void beginMetaData(MetaData metadata)
+    {
+
+        Map<String, String> parameters = new HashMap<>();
+
+        for (Map.Entry<String, Object> metadaPair : metadata.getMetaData().entrySet()) {
+            parameters.put(metadaPair.getKey(), metadaPair.getValue().toString());
+        }
+
+        parameters.put("class", "xwiki-metadata-block");
+
+        this.getXHTMLWikiPrinter().printXMLStartElement(METADATA_BLOCK_ELEMENT, parameters);
+    }
+
+    @Override
+    public void endMetaData(MetaData metadata)
+    {
+        getXHTMLWikiPrinter().printXMLEndElement(METADATA_BLOCK_ELEMENT);
     }
 }
