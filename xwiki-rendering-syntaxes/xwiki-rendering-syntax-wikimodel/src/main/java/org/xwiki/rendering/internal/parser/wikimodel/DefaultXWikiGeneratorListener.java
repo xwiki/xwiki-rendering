@@ -364,12 +364,17 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         flushFormat();
 
         if (this.documentDepth > 0) {
-            getListener().beginGroup(convertParameters(params));
+            this.beginGroup(params);
         } else {
             getListener().beginDocument(this.documentMetadata);
         }
 
         ++this.documentDepth;
+    }
+
+    protected void beginGroup(WikiParameters params)
+    {
+        getListener().beginGroup(convertParameters(params));
     }
 
     @Override
@@ -555,10 +560,15 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         --this.documentDepth;
 
         if (this.documentDepth > 0) {
-            getListener().endGroup(convertParameters(params));
+            this.endGroup(params);
         } else {
             getListener().endDocument(this.documentMetadata);
         }
+    }
+
+    protected void endGroup(WikiParameters parameters)
+    {
+        getListener().endGroup(convertParameters(parameters));
     }
 
     @Override

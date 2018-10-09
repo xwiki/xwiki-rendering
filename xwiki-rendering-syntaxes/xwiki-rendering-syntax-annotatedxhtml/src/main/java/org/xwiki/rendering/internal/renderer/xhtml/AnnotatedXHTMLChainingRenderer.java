@@ -19,9 +19,10 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.MetaData;
@@ -36,8 +37,6 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
  */
 public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
 {
-    private static final String METADATA_BLOCK_ELEMENT = "span";
-
     /**
      * Renders a Macro definition into Annotated XHTML.
      */
@@ -88,24 +87,36 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
         }
     }
 
+    /**
+     * @return a span element if we are inside an inline macro. Else a div.
+     */
+    private String getMetadataContainerElement()
+    {
+        if (getBlockState().isInLine()) {
+            return "span";
+        } else {
+            return "div";
+        }
+    }
+
     @Override
     public void beginMetaData(MetaData metadata)
     {
-
-        Map<String, String> parameters = new HashMap<>();
+        Map<String, String> attributes = new LinkedHashMap<>();
 
         for (Map.Entry<String, Object> metadaPair : metadata.getMetaData().entrySet()) {
-            parameters.put(metadaPair.getKey(), metadaPair.getValue().toString());
+            attributes.put(XHTMLXWikiGeneratorListener.METADATA_ATTRIBUTE_PREFIX + metadaPair.getKey(),
+                metadaPair.getValue().toString());
         }
 
-        parameters.put("class", "xwiki-metadata-block");
+        attributes.put("class", XHTMLXWikiGeneratorListener.METADATA_CONTAINER_CLASS);
 
-        this.getXHTMLWikiPrinter().printXMLStartElement(METADATA_BLOCK_ELEMENT, parameters);
+        this.getXHTMLWikiPrinter().printXMLStartElement(getMetadataContainerElement(), attributes);
     }
 
     @Override
     public void endMetaData(MetaData metadata)
     {
-        getXHTMLWikiPrinter().printXMLEndElement(METADATA_BLOCK_ELEMENT);
+        getXHTMLWikiPrinter().printXMLEndElement(getMetadataContainerElement());
     }
 }
