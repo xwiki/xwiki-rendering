@@ -69,7 +69,7 @@ public class XHTMLWriter extends XMLWriter
      * @return {@code true} if the character should be encoded.
      */
     @Override
-    protected boolean shouldEncodeChar(int c)
+    protected boolean shouldEncodeChar(char c)
     {
         return super.shouldEncodeChar(c) || c == '{';
     }
