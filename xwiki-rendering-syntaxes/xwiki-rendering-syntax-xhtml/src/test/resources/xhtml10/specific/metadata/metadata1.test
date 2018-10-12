@@ -1,0 +1,16 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<div class="xwiki-metadata-container" data-xwiki-syntax="xwiki/2.0">
+  <span>Heading</span>
+</div>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMetaData [[syntax]=[xwiki/2.0]]
+beginParagraph
+onWord [Heading]
+endParagraph
+endMetaData [[syntax]=[xwiki/2.0]]
+endDocument

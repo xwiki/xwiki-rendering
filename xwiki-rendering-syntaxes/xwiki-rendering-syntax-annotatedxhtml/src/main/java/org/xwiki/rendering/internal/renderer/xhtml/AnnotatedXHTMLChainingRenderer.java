@@ -19,10 +19,13 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 
 /**
@@ -82,5 +85,38 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
             // so that the macro can be reconstructed when moving back from XHTML to XDOM.
             this.macroRenderer.endRender(getXHTMLWikiPrinter());
         }
+    }
+
+    /**
+     * @return a span element if we are inside an inline macro. Else a div.
+     */
+    private String getMetadataContainerElement()
+    {
+        if (getBlockState().isInLine()) {
+            return "span";
+        } else {
+            return "div";
+        }
+    }
+
+    @Override
+    public void beginMetaData(MetaData metadata)
+    {
+        Map<String, String> attributes = new LinkedHashMap<>();
+
+        for (Map.Entry<String, Object> metadataPair : metadata.getMetaData().entrySet()) {
+            attributes.put(XHTMLXWikiGeneratorListener.METADATA_ATTRIBUTE_PREFIX + metadataPair.getKey(),
+                metadataPair.getValue().toString());
+        }
+
+        attributes.put("class", XHTMLXWikiGeneratorListener.METADATA_CONTAINER_CLASS);
+
+        this.getXHTMLWikiPrinter().printXMLStartElement(getMetadataContainerElement(), attributes);
+    }
+
+    @Override
+    public void endMetaData(MetaData metadata)
+    {
+        getXHTMLWikiPrinter().printXMLEndElement(getMetadataContainerElement());
     }
 }
