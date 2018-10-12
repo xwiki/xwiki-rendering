@@ -168,8 +168,8 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
 
     private boolean isMetaDataElement(WikiParameters parameters)
     {
-        return parameters.getParameter(CLASS_ATTRIBUTE) != null &&
-            METADATA_CONTAINER_CLASS.equals(parameters.getParameter(CLASS_ATTRIBUTE).getValue());
+        return parameters.getParameter(CLASS_ATTRIBUTE) != null
+            && METADATA_CONTAINER_CLASS.equals(parameters.getParameter(CLASS_ATTRIBUTE).getValue());
     }
 
     private MetaData createMetaData(WikiParameters parameters)
