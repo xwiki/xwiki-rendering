@@ -104,9 +104,9 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
     {
         Map<String, String> attributes = new LinkedHashMap<>();
 
-        for (Map.Entry<String, Object> metadaPair : metadata.getMetaData().entrySet()) {
-            attributes.put(XHTMLXWikiGeneratorListener.METADATA_ATTRIBUTE_PREFIX + metadaPair.getKey(),
-                metadaPair.getValue().toString());
+        for (Map.Entry<String, Object> metadataPair : metadata.getMetaData().entrySet()) {
+            attributes.put(XHTMLXWikiGeneratorListener.METADATA_ATTRIBUTE_PREFIX + metadataPair.getKey(),
+                metadataPair.getValue().toString());
         }
 
         attributes.put("class", XHTMLXWikiGeneratorListener.METADATA_CONTAINER_CLASS);
