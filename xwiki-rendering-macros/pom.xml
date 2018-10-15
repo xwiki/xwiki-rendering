@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering</artifactId>
-    <version>10.8.1</version>
+    <version>10.8.2-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-macros</artifactId>
   <name>XWiki Rendering - Macros - Parent POM</name>
