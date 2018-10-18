@@ -30,6 +30,13 @@ import java.lang.reflect.Type;
 public class DefaultContentDescriptor implements ContentDescriptor
 {
     /**
+     * Default content type of all content descriptors.
+     *
+     * @since 10.9RC1
+     */
+    public static final Type DEFAULT_CONTENT_TYPE = String.class;
+
+    /**
      * The description of the content.
      */
     private String description;
@@ -44,7 +51,7 @@ public class DefaultContentDescriptor implements ContentDescriptor
      *
      * @since 10.9RC1
      */
-    private Type type = String.class;
+    private Type type = DEFAULT_CONTENT_TYPE;
 
     /**
      * Default constructor.

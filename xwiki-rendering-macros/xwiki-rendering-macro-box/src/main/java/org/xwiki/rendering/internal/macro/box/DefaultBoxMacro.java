@@ -27,7 +27,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.UnchangedContentBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
@@ -75,9 +75,7 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
 
         // if we are really in the context of this macro, it's an unchanged content
         if (context.getCurrentMacroBlock().getId().equals("box")) {
-            return Collections.singletonList(new UnchangedContentBlock(
-                children
-            ));
+            return Collections.singletonList(new MetaDataBlock(children, this.getUnchangedContentMetaData()));
 
         // else we cannot guarantee it
         } else {
