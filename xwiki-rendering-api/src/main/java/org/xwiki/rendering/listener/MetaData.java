@@ -150,8 +150,6 @@ public class MetaData
 
     @Override public String toString()
     {
-        return "MetaData{" +
-            "metadata=" + metadata +
-            '}';
+        return "MetaData{metadata=" + metadata + '}';
     }
 }

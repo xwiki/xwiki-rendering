@@ -20,12 +20,10 @@
 package org.xwiki.rendering.macro;
 
 import org.junit.jupiter.api.Test;
-import org.xwiki.properties.internal.DefaultConverterManager;
-import org.xwiki.rendering.internal.transformation.macro.TestMacroCustomContentDescriptor;
+import org.xwiki.rendering.internal.transformation.macro.TestInlineEditingMacro;
 import org.xwiki.rendering.internal.transformation.macro.TestSimpleMacro;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.test.annotation.AllComponents;
-import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
 
@@ -47,7 +45,7 @@ public class AbstractMacroTest
     private TestSimpleMacro macro1;
 
     @InjectMockComponents
-    private TestMacroCustomContentDescriptor macro2;
+    private TestInlineEditingMacro macro2;
 
     @Test
     public void getUnchangedMetadataDefault()

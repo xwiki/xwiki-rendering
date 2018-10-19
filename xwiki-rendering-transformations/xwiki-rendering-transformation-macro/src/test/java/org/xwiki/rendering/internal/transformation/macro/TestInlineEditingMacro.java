@@ -19,18 +19,17 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.WordBlock;
-import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
@@ -39,23 +38,35 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 import static org.xwiki.rendering.block.Block.LIST_BLOCK_TYPE;
 
 @Component
-@Named("testmacrocustomcontentdesc")
+@Named("testinlineeditingmacro")
 @Singleton
-public class TestMacroCustomContentDescriptor extends AbstractNoParameterMacro
+public class TestInlineEditingMacro extends AbstractNoParameterMacro
 {
-    public TestMacroCustomContentDescriptor()
+    public TestInlineEditingMacro()
     {
-        super("Simple Macro", "", new DefaultContentDescriptor("content", true, LIST_BLOCK_TYPE));
+        super("Macro Inline Editing", "", new DefaultContentDescriptor("content", true, LIST_BLOCK_TYPE));
     }
 
-    @Override public boolean supportsInlineMode()
+    @Override
+    public boolean supportsInlineMode()
     {
-        return false;
+        return true;
     }
 
-    @Override public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
+    @Override
+    public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
-        return null;
+        Block contentBlock;
+
+        WordBlock wordBlock = new WordBlock(content);
+        if (context.isInline()) {
+            contentBlock = wordBlock;
+        } else {
+            contentBlock = new ParagraphBlock(Collections.singletonList(wordBlock));
+        }
+
+        return Collections.singletonList(new MetaDataBlock(Collections.singletonList(contentBlock),
+            this.getUnchangedContentMetaData()));
     }
 }
