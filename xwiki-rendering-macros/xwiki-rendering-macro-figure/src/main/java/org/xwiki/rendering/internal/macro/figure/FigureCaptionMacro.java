@@ -87,7 +87,7 @@ public class FigureCaptionMacro extends AbstractNoParameterMacro
 
         // If we're not inside a FigureBlock then don't do anything.
         Block parent = context.getCurrentMacroBlock().getParent();
-        if (parent != null && parent instanceof FigureBlock) {
+        if (parent instanceof FigureBlock) {
             XDOM xdom = this.contentParser.parse(content, context, false, false);
             List<Block> figureCaptionChildren = xdom.getChildren();
             this.parserUtils.removeTopLevelParagraph(figureCaptionChildren);
