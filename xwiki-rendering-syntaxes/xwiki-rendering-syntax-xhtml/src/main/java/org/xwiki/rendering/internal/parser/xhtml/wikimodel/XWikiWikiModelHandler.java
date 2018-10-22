@@ -62,4 +62,19 @@ public interface XWikiWikiModelHandler
      * Stack parameter which hold the instance of the WikiModel listener bridge for link being parsed.
      */
     String LINK_LISTENER = "linkListener";
+
+    /**
+     * Stack parameter which hold the instances of the MacroInfo encountered.
+     */
+    String MACRO_INFO = "macroInfo";
+
+    /**
+     * Stack parameters which records the syntax metadata encountered in the document.
+     */
+    String CURRENT_SYNTAX = "currentSyntax";
+
+    /**
+     * Stack parameters which records if the previous div or span was triggered by an unchanged content metadata.
+     */
+    String UNCHANGED_CONTENT_STACK = "unchangedContentStack";
 }

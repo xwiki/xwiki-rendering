@@ -93,6 +93,12 @@ public class TagStack
         fPeek = new TagContext(fPeek, name, params, this);
         name = fPeek.getName();
         TagHandler handler = fMap.get(name);
+
+        // if a macro has an unchanged data content we never want to ignore it.
+        if (params != null && params.getParameter("data-xwiki-unchanged-content") != null) {
+            this.unsetIgnoreElements();
+        }
+
         if (!shouldIgnoreElements()) {
             if (!(handler instanceof AbstractFormatTagHandler)) {
                 fPreviousCharType = null;

@@ -19,13 +19,11 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.xwiki.rendering.wikimodel.WikiParameter;
-import org.xwiki.rendering.wikimodel.WikiParameters;
-import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
+import org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
+
+import static org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo.MACRO_START;
+import static org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo.MACRO_STOP;
 
 /**
  * Handle Macro definitions in comments (we store macro definitions in a comment since it wouldn't be possible at all to
@@ -36,68 +34,29 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
  */
 public class CommentHandler
 {
-    private static final String MACRO_SEPARATOR = "|-|";
-
     public void onComment(String content, TagStack stack)
     {
         // Format of a macro definition in comment:
         // <!--startmacro:velocity|-||-|
         // Some **content**
         // --><p>Some <strong>content</strong></p><!--stopmacro-->
-        if (content.startsWith("startmacro:")) {
+        if (content.startsWith(MACRO_START)) {
             if (!stack.shouldIgnoreElements()) {
-                String macroName;
-                WikiParameters macroParams = WikiParameters.EMPTY;
-                String macroContent = null;
-
-                String macroString = content.substring("startmacro:".length());
-
-                int index = macroString.indexOf(MACRO_SEPARATOR);
-
-                if (index != -1) {
-                    // Extract macro name
-                    macroName = macroString.substring(0, index);
-
-                    // Remove macro name part and continue parsing
-                    macroString = macroString.substring(index + MACRO_SEPARATOR.length());
-
-                    index = macroString.indexOf(MACRO_SEPARATOR);
-                    if (index != -1) {
-                        // Extract macro parameters
-                        List<WikiParameter> parameters = new ArrayList<WikiParameter>();
-                        index = WikiScannerUtil.splitToPairs(macroString, parameters, null, MACRO_SEPARATOR);
-                        macroParams = new WikiParameters(parameters);
-
-                        // Extract macro content
-                        if (macroString.length() > index) {
-                            macroContent = macroString.substring(index + MACRO_SEPARATOR.length());
-                        }
-                    } else {
-                        // There is only parameters remaining in the string, the
-                        // macro does not have content
-                        // Extract macro parameters
-                        macroParams = WikiParameters.newWikiParameters(macroString);
-                    }
-                } else {
-                    // There is only macro name, the macro does not have
-                    // parameters
-                    // or content
-                    macroName = macroString;
-                }
+                MacroInfo macroInfo = new MacroInfo(content);
 
                 // If we're inside a block element then issue an inline macro
                 // event
                 // otherwise issue a block macro event
                 if (stack.isInsideBlockElement()) {
-                    stack.getScannerContext().onMacroInline(macroName, macroParams, macroContent);
+                    stack.getScannerContext().onMacroInline(macroInfo.getName(), macroInfo.getParameters(), macroInfo.getContent());
                 } else {
                     TagHandler.sendEmptyLines(stack);
-                    stack.getScannerContext().onMacroBlock(macroName, macroParams, macroContent);
+                    stack.getScannerContext().onMacroBlock(macroInfo.getName(), macroInfo.getParameters(), macroInfo.getContent());
                 }
             }
 
             stack.setIgnoreElements();
-        } else if (content.startsWith("stopmacro")) {
+        } else if (content.startsWith(MACRO_STOP)) {
             stack.unsetIgnoreElements();
         }
     }

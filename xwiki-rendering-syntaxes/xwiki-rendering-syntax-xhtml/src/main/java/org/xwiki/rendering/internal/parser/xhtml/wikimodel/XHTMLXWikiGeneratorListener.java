@@ -166,13 +166,13 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
         return reference;
     }
 
-    private boolean isMetaDataElement(WikiParameters parameters)
+    static boolean isMetaDataElement(WikiParameters parameters)
     {
         return parameters.getParameter(CLASS_ATTRIBUTE) != null
             && METADATA_CONTAINER_CLASS.equals(parameters.getParameter(CLASS_ATTRIBUTE).getValue());
     }
 
-    private MetaData createMetaData(WikiParameters parameters)
+    static MetaData createMetaData(WikiParameters parameters)
     {
         MetaData metaData = new MetaData();
 
@@ -191,7 +191,8 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
     protected void beginGroup(WikiParameters parameters)
     {
         if (isMetaDataElement(parameters)) {
-            getListener().beginMetaData(createMetaData(parameters));
+            MetaData metaData = createMetaData(parameters);
+            getListener().beginMetaData(metaData);
         } else {
             super.beginGroup(parameters);
         }

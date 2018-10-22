@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
+import java.lang.reflect.Type;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -26,19 +27,29 @@ import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
+import org.xwiki.rendering.renderer.Renderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
+import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
+import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
+import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
+import org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 import org.xwiki.xml.XMLUtils;
+
+import static org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo.MACRO_START;
+import static org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo.MACRO_STOP;
 
 /**
  * Handle Link and Macro definitions in comments (we store links in a comment since otherwise there are situations where
@@ -96,11 +107,32 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
             handleImageCommentStart(XMLUtils.unescapeXMLComment(content), stack);
         } else if (!ignoreElements && content.startsWith("stopimage")) {
             handleImageCommentStop(stack);
-        } else if (!ignoreElements && content.startsWith("startmacro")) {
-            super.onComment(XMLUtils.unescapeXMLComment(content), stack);
+        } else if (!ignoreElements && content.startsWith(MACRO_START)) {
+            this.handleMacroCommentStart(XMLUtils.unescapeXMLComment(content), stack);
+        } else if (content.startsWith(MACRO_STOP)) {
+            this.handleMacroCommentStop(stack);
         } else {
             super.onComment(content, stack);
         }
+    }
+
+    private void handleMacroCommentStart(String content, TagStack stack)
+    {
+        MacroInfo macroInfo = new MacroInfo(content);
+        stack.pushStackParameter("macroInfo", macroInfo);
+        stack.setIgnoreElements();
+    }
+
+    private void handleMacroCommentStop(TagStack stack)
+    {
+        MacroInfo macroInfo = (MacroInfo) stack.popStackParameter("macroInfo");
+        if (stack.isInsideBlockElement()) {
+            stack.getScannerContext().onMacroInline(macroInfo.getName(), macroInfo.getParameters(), macroInfo.getContent());
+        } else {
+            TagHandler.sendEmptyLines(stack);
+            stack.getScannerContext().onMacroBlock(macroInfo.getName(), macroInfo.getParameters(), macroInfo.getContent());
+        }
+        stack.unsetIgnoreElements();
     }
 
     private void handleLinkCommentStart(String content, TagStack stack)
