@@ -1,19 +1,16 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
-.# Test a macro that can be edited inline, in block context.
+.# Test a macro that can be edited inline, in inline context.
 .#-----------------------------------------------------
-<p>First paragraph.</p>
+<p>First
 <!--startmacro:testcontentmacro|-||-|Old content-->
-<div>
-Some data to ignore
-</div>
-<div data-xwiki-unchanged-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
+<span>Some data to ignore</span>
+<span data-xwiki-unchanged-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
 <strong>New content</strong>
-</div>
-<div>
-Some other data to ignore
-</div>
+</span>
+<span>Some other data</span>
 <!--stopmacro-->
+paragraph.</p>
 
 .#-----------------------------------------------------
 .expect|event/1.0
@@ -22,8 +19,9 @@ beginDocument
 beginParagraph
 onWord [First]
 onSpace
+onMacroInline [testcontentmacro] [] [**New content** ]
+onSpace
 onWord [paragraph]
 onSpecialSymbol [.]
 endParagraph
-onMacroStandalone [testcontentmacro] [] [**New content**]
 endDocument

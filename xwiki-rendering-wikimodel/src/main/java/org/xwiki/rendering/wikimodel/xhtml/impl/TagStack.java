@@ -54,6 +54,8 @@ public class TagStack
 
     private static final String DOCUMENT_PARENT = "documentParent";
 
+    private static final Predicate<TagContext> DEFAULT_IGNORE_PREDICATE = f -> false;
+
     private final Map<String, TagHandler> fMap;
 
     private final CommentHandler fCommentHandler;
@@ -64,9 +66,9 @@ public class TagStack
 
     private final Deque<Map<String, Object>> fStackParameters = new ArrayDeque<Map<String, Object>>();
 
-    private boolean fIgnoreElements;
-
     private Predicate<TagContext> fignoreElementsPredicate;
+
+    private boolean isPredicateActive;
 
     private int fEmptyLineCount;
 
@@ -85,6 +87,8 @@ public class TagStack
         fScannerContext.push(context);
         fCommentHandler = commentHandler;
 
+        this.fignoreElementsPredicate = DEFAULT_IGNORE_PREDICATE;
+
         // init stack paramaters
         pushStackParameters();
     }
@@ -97,6 +101,7 @@ public class TagStack
         name = fPeek.getName();
         TagHandler handler = fMap.get(name);
 
+        this.tooglePredicateActivation(fPeek);
         if (!shouldIgnoreElement(fPeek)) {
             if (!(handler instanceof AbstractFormatTagHandler)) {
                 fPreviousCharType = null;
@@ -110,10 +115,11 @@ public class TagStack
     {
         flushCharacters(true);
 
-        boolean ignoreElements = shouldIgnoreElements();
-        if (!ignoreElements) {
+        if (!this.shouldIgnoreElement(fPeek)) {
             fPeek.endElement();
         }
+
+        this.tooglePredicateActivation(fPeek);
         fPeek = fPeek.getParentContext();
     }
 
@@ -425,48 +431,52 @@ public class TagStack
 
     public boolean shouldIgnoreElements()
     {
-        return fIgnoreElements;
+        return this.isPredicateActive;
     }
 
     /**
-     * Check if an element and its children should be ignored and unset the ignore boolean based on a predicate
-     * previously set. See {@link #unsetIgnoreElementsWhen(Predicate)} for more information.
-     * @param tagContext the tag context to check the predicate defined in {@link #unsetIgnoreElementsWhen(Predicate)}.
-     * @return the value of {@link #shouldIgnoreElements()}.
+     * Check if an element and its children should be ignored or not.
+     * This method use the predicate given in {@link #setPredicateToSkipIgnore(Predicate)}.
+     * @param tagContext the tag context to check the predicate defined in {@link #setPredicateToSkipIgnore(Predicate)}.
+     * @return false if the ignore mechanism is deactivated. Else return the complementary value of the result of the
+     * predicate test with the given tagContext.
      *
      * @since 10.9
      */
     public boolean shouldIgnoreElement(TagContext tagContext)
     {
-        if (this.fignoreElementsPredicate != null) {
-            if (this.fignoreElementsPredicate.test(tagContext)) {
-                this.unsetIgnoreElements();
-            }
+        if (!this.isPredicateActive) {
+            return false;
         }
 
-        return this.shouldIgnoreElements();
+        return !this.fignoreElementsPredicate.test(tagContext);
+    }
+
+    public void tooglePredicateActivation(TagContext element)
+    {
+        if (this.fignoreElementsPredicate.test(element)) {
+            this.isPredicateActive = !this.isPredicateActive;
+        }
     }
 
     public void setIgnoreElements()
     {
-        fIgnoreElements = true;
+        this.isPredicateActive = true;
     }
 
     /**
-     * Specify when to unset the ignore element flag based on a predicate on a {@link TagContext}.
-     * This predicate will be called and the unset applied when {@link #shouldIgnoreElement(TagContext)} is called.
-     * @param predicate when this predicate returns true the ignoreElements flag will be unset.
+     * Specify which predicate to use for checking if a {@link TagContext} element should be ignored or not.
+     * @param predicate when this predicate test returns true the element and its children won't be ignored.
      *
      * @since 10.9
      */
-    public void unsetIgnoreElementsWhen(Predicate<TagContext> predicate)
+    public void setPredicateToSkipIgnore(Predicate<TagContext> predicate)
     {
         this.fignoreElementsPredicate = predicate;
     }
 
     public void unsetIgnoreElements()
     {
-        fIgnoreElements = false;
-        this.fignoreElementsPredicate = null;
+        this.isPredicateActive = false;
     }
 }

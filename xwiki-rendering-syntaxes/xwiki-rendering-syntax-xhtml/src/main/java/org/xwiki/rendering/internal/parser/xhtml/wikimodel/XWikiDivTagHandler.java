@@ -19,22 +19,12 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
-import org.xwiki.rendering.listener.MetaData;
-import org.xwiki.rendering.renderer.PrintRenderer;
-import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
-import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 import org.xwiki.stability.Unstable;
-
-import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener.createMetaData;
-import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener.isMetaDataElement;
 
 /**
  * The div might contain an unchanged content metadata which needs a specific processing.
@@ -45,9 +35,7 @@ import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGene
 @Unstable
 public class XWikiDivTagHandler extends DivisionTagHandler implements XWikiWikiModelHandler
 {
-    private ComponentManager componentManager;
-
-    private XHTMLParser parser;
+    private XWikiMacroHandler xWikiMacroHandler;
 
     /**
      * Default constructor of a {@link XWikiDivTagHandler}.
@@ -59,46 +47,17 @@ public class XWikiDivTagHandler extends DivisionTagHandler implements XWikiWikiM
     public XWikiDivTagHandler(String documentClass, ComponentManager componentManager, XHTMLParser parser)
     {
         super(documentClass);
-        this.componentManager = componentManager;
-        this.parser = parser;
+        this.xWikiMacroHandler = new XWikiMacroHandler(componentManager, parser);
     }
 
     @Override
     protected void begin(TagContext context)
     {
         WikiParameters params = context.getParams();
-        MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
-
-        boolean withUnchangedContent = false;
-        if (isMetaDataElement(params)) {
-            MetaData metaData = createMetaData(params);
-
-            if (metaData.contains(MetaData.SYNTAX)) {
-                String currentSyntax = (String) metaData.getMetaData(MetaData.SYNTAX);
-                context.getTagStack().pushStackParameter(CURRENT_SYNTAX, currentSyntax);
-            }
-
-            if (metaData.contains(MetaData.UNCHANGED_CONTENT)) {
-                try {
-                    PrintRenderer renderer = this.componentManager.getInstance(PrintRenderer.class,
-                        (String) context.getTagStack().popStackParameter(CURRENT_SYNTAX));
-                    DefaultWikiPrinter printer = new DefaultWikiPrinter();
-                    renderer.setPrinter(printer);
-                    XWikiGeneratorListener xWikiGeneratorListener = this.parser.createXWikiGeneratorListener(renderer,
-                        null);
-
-                    context.getTagStack().pushScannerContext(new WikiScannerContext(xWikiGeneratorListener));
-                    context.getTagStack().getScannerContext().beginDocument(params);
-
-                    withUnchangedContent = true;
-                } catch (ComponentLookupException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        boolean withUnchangedContent = this.xWikiMacroHandler.handleBegin(context);
 
         // we only go through the element if we're not in a macro, or we are in a potentially new content
-        if (macroInfo == null && !withUnchangedContent) {
+        if (!withUnchangedContent) {
             super.begin(context);
         }
 
@@ -109,18 +68,9 @@ public class XWikiDivTagHandler extends DivisionTagHandler implements XWikiWikiM
     @Override
     protected void end(TagContext context)
     {
-        boolean unchangedContent = (boolean) context.getTagStack().popStackParameter(UNCHANGED_CONTENT_STACK);
-        MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
+        boolean unchangedContent = this.xWikiMacroHandler.handleEnd(context);
 
-        if (unchangedContent) {
-            context.getTagStack().getScannerContext().endDocument();
-            XWikiGeneratorListener xWikiGeneratorListener =
-                (XWikiGeneratorListener) context.getTagStack().popScannerContext().getfListener();
-
-            PrintRenderer renderer = (PrintRenderer) xWikiGeneratorListener.getListener();
-            String content = renderer.getPrinter().toString();
-            macroInfo.setContent(content);
-        } else if (macroInfo == null) {
+        if (!unchangedContent) {
             super.end(context);
         }
     }

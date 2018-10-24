@@ -116,17 +116,25 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         MacroInfo macroInfo = new MacroInfo(content);
         stack.pushStackParameter("macroInfo", macroInfo);
         stack.setIgnoreElements();
-        stack.unsetIgnoreElementsWhen(tagContext -> tagContext.getParams().getParameter(METADATA_ATTRIBUTE_PREFIX + MetaData.UNCHANGED_CONTENT) != null);
+        stack.setPredicateToSkipIgnore(tagContext -> {
+            WikiParameters wikiParameters = tagContext.getParams();
+            if (wikiParameters != null) {
+                return wikiParameters.getParameter(METADATA_ATTRIBUTE_PREFIX + MetaData.UNCHANGED_CONTENT) != null;
+            }
+            return false;
+        });
     }
 
     private void handleMacroCommentStop(TagStack stack)
     {
         MacroInfo macroInfo = (MacroInfo) stack.popStackParameter("macroInfo");
         if (stack.isInsideBlockElement()) {
-            stack.getScannerContext().onMacroInline(macroInfo.getName(), macroInfo.getParameters(), macroInfo.getContent());
+            stack.getScannerContext().onMacroInline(macroInfo.getName(), macroInfo.getParameters(),
+                macroInfo.getContent());
         } else {
             TagHandler.sendEmptyLines(stack);
-            stack.getScannerContext().onMacroBlock(macroInfo.getName(), macroInfo.getParameters(), macroInfo.getContent());
+            stack.getScannerContext().onMacroBlock(macroInfo.getName(), macroInfo.getParameters(),
+                macroInfo.getContent());
         }
         stack.unsetIgnoreElements();
     }
