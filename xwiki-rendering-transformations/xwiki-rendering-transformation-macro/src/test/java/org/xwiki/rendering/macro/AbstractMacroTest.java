@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * Validate the behaviour of {@link AbstractMacro}.
  *
  * @version $Id$
- * @since 10.9RC1
+ * @since 10.9
  */
 @ComponentTest
 @AllComponents

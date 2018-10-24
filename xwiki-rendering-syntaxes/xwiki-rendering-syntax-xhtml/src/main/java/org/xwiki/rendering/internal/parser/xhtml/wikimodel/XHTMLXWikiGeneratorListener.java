@@ -50,14 +50,14 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
     /**
      * Defines the class to use when an element represents a MetaData block.
      *
-     * @since 10.9RC1
+     * @since 10.9
      */
     public static final String METADATA_CONTAINER_CLASS = "xwiki-metadata-container";
 
     /**
      * Defines the prefix to use for attribute which contain a metadata.
      *
-     * @since 10.9RC1
+     * @since 10.9
      */
     public static final String METADATA_ATTRIBUTE_PREFIX = "data-xwiki-";
 

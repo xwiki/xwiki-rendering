@@ -32,7 +32,7 @@ public class DefaultContentDescriptor implements ContentDescriptor
     /**
      * Default content type of all content descriptors.
      *
-     * @since 10.9RC1
+     * @since 10.9
      */
     public static final Type DEFAULT_CONTENT_TYPE = String.class;
 
@@ -49,7 +49,7 @@ public class DefaultContentDescriptor implements ContentDescriptor
     /**
      * Type of the Macro content.
      *
-     * @since 10.9RC1
+     * @since 10.9
      */
     private Type type = DEFAULT_CONTENT_TYPE;
 
@@ -90,7 +90,7 @@ public class DefaultContentDescriptor implements ContentDescriptor
      * @param mandatory indicate if the content is mandatory.
      * @param type Specify the type of the content
      *
-     * @since 10.9RC1
+     * @since 10.9
      */
     public DefaultContentDescriptor(String description, boolean mandatory, Type type)
     {

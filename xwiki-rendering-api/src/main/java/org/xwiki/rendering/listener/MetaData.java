@@ -60,7 +60,7 @@ public class MetaData
     /**
      * Represents an inline editable content.
      *
-     * @since 10.9RC1
+     * @since 10.9
      */
     public static final String UNCHANGED_CONTENT = "unchanged-content";
 
