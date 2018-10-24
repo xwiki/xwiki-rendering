@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.wikimodel.WikiPageUtil;
@@ -65,6 +66,8 @@ public class TagStack
 
     private boolean fIgnoreElements;
 
+    private Predicate<TagContext> fignoreElementsPredicate;
+
     private int fEmptyLineCount;
 
     private XhtmlCharacterType fPreviousCharType = null;
@@ -94,12 +97,7 @@ public class TagStack
         name = fPeek.getName();
         TagHandler handler = fMap.get(name);
 
-        // if a macro has an unchanged data content we never want to ignore it.
-        if (params != null && params.getParameter("data-xwiki-unchanged-content") != null) {
-            this.unsetIgnoreElements();
-        }
-
-        if (!shouldIgnoreElements()) {
+        if (!shouldIgnoreElement(fPeek)) {
             if (!(handler instanceof AbstractFormatTagHandler)) {
                 fPreviousCharType = null;
             }
@@ -430,13 +428,45 @@ public class TagStack
         return fIgnoreElements;
     }
 
+    /**
+     * Check if an element and its children should be ignored and unset the ignore boolean based on a predicate
+     * previously set. See {@link #unsetIgnoreElementsWhen(Predicate)} for more information.
+     * @param tagContext the tag context to check the predicate defined in {@link #unsetIgnoreElementsWhen(Predicate)}.
+     * @return the value of {@link #shouldIgnoreElements()}.
+     *
+     * @since 10.9
+     */
+    public boolean shouldIgnoreElement(TagContext tagContext)
+    {
+        if (this.fignoreElementsPredicate != null) {
+            if (this.fignoreElementsPredicate.test(tagContext)) {
+                this.unsetIgnoreElements();
+            }
+        }
+
+        return this.shouldIgnoreElements();
+    }
+
     public void setIgnoreElements()
     {
         fIgnoreElements = true;
     }
 
+    /**
+     * Specify when to unset the ignore element flag based on a predicate on a {@link TagContext}.
+     * This predicate will be called and the unset applied when {@link #shouldIgnoreElement(TagContext)} is called.
+     * @param predicate when this predicate returns true the ignoreElements flag will be unset.
+     *
+     * @since 10.9
+     */
+    public void unsetIgnoreElementsWhen(Predicate<TagContext> predicate)
+    {
+        this.fignoreElementsPredicate = predicate;
+    }
+
     public void unsetIgnoreElements()
     {
         fIgnoreElements = false;
+        this.fignoreElementsPredicate = null;
     }
 }

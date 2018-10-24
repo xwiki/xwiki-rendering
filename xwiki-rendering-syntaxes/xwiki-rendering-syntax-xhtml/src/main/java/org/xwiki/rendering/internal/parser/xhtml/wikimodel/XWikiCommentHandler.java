@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import java.lang.reflect.Type;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -27,27 +26,23 @@ import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
-import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
-import org.xwiki.rendering.renderer.Renderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
-import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
-import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 import org.xwiki.xml.XMLUtils;
 
+import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener.METADATA_ATTRIBUTE_PREFIX;
 import static org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo.MACRO_START;
 import static org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo.MACRO_STOP;
 
@@ -121,6 +116,7 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         MacroInfo macroInfo = new MacroInfo(content);
         stack.pushStackParameter("macroInfo", macroInfo);
         stack.setIgnoreElements();
+        stack.unsetIgnoreElementsWhen(tagContext -> tagContext.getParams().getParameter(METADATA_ATTRIBUTE_PREFIX + MetaData.UNCHANGED_CONTENT) != null);
     }
 
     private void handleMacroCommentStop(TagStack stack)
