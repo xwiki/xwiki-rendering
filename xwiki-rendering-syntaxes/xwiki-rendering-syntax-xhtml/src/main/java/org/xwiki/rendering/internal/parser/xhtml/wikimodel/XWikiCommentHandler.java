@@ -102,7 +102,7 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
             handleImageCommentStart(XMLUtils.unescapeXMLComment(content), stack);
         } else if (!ignoreElements && content.startsWith("stopimage")) {
             handleImageCommentStop(stack);
-        } else if (!ignoreElements && content.startsWith(MACRO_START)) {
+        } else if (content.startsWith(MACRO_START)) {
             this.handleMacroCommentStart(XMLUtils.unescapeXMLComment(content), stack);
         } else if (content.startsWith(MACRO_STOP)) {
             this.handleMacroCommentStop(stack);

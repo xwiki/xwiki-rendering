@@ -19,7 +19,7 @@ beginDocument
 beginParagraph
 onWord [First]
 onSpace
-onMacroInline [testcontentmacro] [] [**New content** ]
+onMacroInline [testcontentmacro] [] [**New content**]
 onSpace
 onWord [paragraph]
 onSpecialSymbol [.]

@@ -1,0 +1,31 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test nested macro with an unchanged content in the children macro which need to be ignored as its parent doesn't say it's an unchanged content.
+.#-----------------------------------------------------
+<p>First paragraph.</p>
+<!--startmacro:testcontentmacro|-||-|First content-->
+<div>
+Some data to ignore 824
+<!--startmacro:testcontentmacro|-||-|Second content-->
+<div data-xwiki-unchanged-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
+<strong>New content</strong>
+</div>
+<!--stopmacro-->
+</div>
+<div>
+Some other data to ignore
+</div>
+<!--stopmacro-->
+
+.#-----------------------------------------------------
+.expect|event/1.0|skip
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [First]
+onSpace
+onWord [paragraph]
+onSpecialSymbol [.]
+endParagraph
+onMacroStandalone [testcontentmacro] [] []
+endDocument

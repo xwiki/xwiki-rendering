@@ -25,7 +25,7 @@ beginDocument
 beginParagraph
 onWord [First]
 onSpace
-onMacroInline [testcontentmacro] [] [{{testcontentmacro}}<p><strong>New content</strong>&nbsp;</p>{{/testcontentmacro}} ]
+onMacroInline [testcontentmacro] [] [{{testcontentmacro}}<strong>New content</strong>{{/testcontentmacro}}]
 onSpace
 onWord [paragraph]
 onSpecialSymbol [.]

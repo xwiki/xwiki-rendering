@@ -23,7 +23,10 @@ import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
+import org.xwiki.rendering.listener.InlineFilterListener;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
@@ -79,15 +82,37 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
 
             if (metaData.contains(MetaData.UNCHANGED_CONTENT)) {
                 try {
+                    String currentSyntaxParameter;
+                    if (context.getTagStack().getStackParameter(CURRENT_SYNTAX) != null) {
+                        currentSyntaxParameter = (String) context.getTagStack().popStackParameter(CURRENT_SYNTAX);
+
+                    // if the current syntax is not retrieved from the context, it should have been set previously
+                    // so the parser already know the current syntax to use.
+                    } else {
+                        currentSyntaxParameter = this.parser.getSyntax().toIdString();
+                    }
                     PrintRenderer renderer = this.componentManager.getInstance(PrintRenderer.class,
-                        (String) context.getTagStack().popStackParameter(CURRENT_SYNTAX));
+                        currentSyntaxParameter);
                     DefaultWikiPrinter printer = new DefaultWikiPrinter();
                     renderer.setPrinter(printer);
-                    XWikiGeneratorListener xWikiGeneratorListener = this.parser.createXWikiGeneratorListener(renderer,
+                    Listener listener;
+
+                    if (context.getTagStack().isInsideBlockElement()) {
+                        listener = new InlineFilterListener();
+                        ((InlineFilterListener) listener).setWrappedListener(renderer);
+                    } else {
+                        listener = renderer;
+                    }
+                    XWikiGeneratorListener xWikiGeneratorListener = this.parser.createXWikiGeneratorListener(listener,
                         null);
 
                     context.getTagStack().pushScannerContext(new WikiScannerContext(xWikiGeneratorListener));
-                    context.getTagStack().getScannerContext().beginDocument(params);
+
+                    if (context.getTagStack().isInsideBlockElement()) {
+                        context.getTagStack().getScannerContext().beginFormat(params);
+                    } else {
+                        context.getTagStack().getScannerContext().beginDocument(params);
+                    }
                     withUnchangedContent = true;
                 } catch (ComponentLookupException e) {
                     e.printStackTrace();
@@ -109,12 +134,24 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
         if (unchangedContent) {
-            context.getTagStack().getScannerContext().endDocument();
+            if (context.getTagStack().isInsideBlockElement()) {
+                context.getTagStack().getScannerContext().endFormat(context.getParams());
+            } else {
+                context.getTagStack().getScannerContext().endDocument();
+            }
 
             XWikiGeneratorListener xWikiGeneratorListener =
                 (XWikiGeneratorListener) context.getTagStack().popScannerContext().getfListener();
 
-            PrintRenderer renderer = (PrintRenderer) xWikiGeneratorListener.getListener();
+            PrintRenderer renderer;
+
+            if (context.getTagStack().isInsideBlockElement()) {
+                WrappingListener wrappingListener = (WrappingListener) xWikiGeneratorListener.getListener();
+                renderer = (PrintRenderer) wrappingListener.getWrappedListener();
+            } else {
+                renderer = (PrintRenderer) xWikiGeneratorListener.getListener();
+            }
+
             String content = renderer.getPrinter().toString();
             macroInfo.setContent(content);
         }
