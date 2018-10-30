@@ -38,6 +38,7 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
+import org.xwiki.rendering.wikimodel.xhtml.impl.IgnoreElementRule;
 import org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 import org.xwiki.xml.XMLUtils;
@@ -45,6 +46,7 @@ import org.xwiki.xml.XMLUtils;
 import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener.METADATA_ATTRIBUTE_PREFIX;
 import static org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo.MACRO_START;
 import static org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo.MACRO_STOP;
+import static org.xwiki.rendering.wikimodel.xhtml.impl.TagStack.IGNORE_ALL;
 
 /**
  * Handle Link and Macro definitions in comments (we store links in a comment since otherwise there are situations where
@@ -113,30 +115,55 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
     private void handleMacroCommentStart(String content, TagStack stack)
     {
+        boolean shouldIgnoreAll;
+
+        // true if we are already in an unchanged content block
+        boolean inUnchangedContent = stack.getStackParameter(UNCHANGED_CONTENT_STACK) != null
+            && (Boolean) stack.getStackParameter(UNCHANGED_CONTENT_STACK);
+
+        // if we are in a macro but not in an unchanged content, we should ignore all
+        if (stack.getStackParameter(MACRO_INFO) != null && !inUnchangedContent) {
+            shouldIgnoreAll = true;
+        } else {
+            shouldIgnoreAll = false;
+        }
+
         MacroInfo macroInfo = new MacroInfo(content);
-        stack.pushStackParameter("macroInfo", macroInfo);
-        stack.setIgnoreElements();
-        stack.setPredicateToSkipIgnore(tagContext -> {
-            WikiParameters wikiParameters = tagContext.getParams();
-            if (wikiParameters != null) {
-                return wikiParameters.getParameter(METADATA_ATTRIBUTE_PREFIX + MetaData.UNCHANGED_CONTENT) != null;
-            }
-            return false;
-        });
+        stack.pushStackParameter(MACRO_INFO, macroInfo);
+
+        // we ignore all elements
+        if (shouldIgnoreAll) {
+            stack.setIgnoreElements();
+
+        // we ignore elements until we get an unchanged content: then the rule will be deactivated
+        // see IgnoreElementRule
+        } else {
+            stack.pushIgnoreElementRule(new IgnoreElementRule(tagContext -> {
+                WikiParameters wikiParameters = tagContext.getParams();
+                if (wikiParameters != null) {
+                    return wikiParameters.getParameter(METADATA_ATTRIBUTE_PREFIX + MetaData.UNCHANGED_CONTENT) != null;
+                }
+                return false;
+            }, true));
+        }
     }
 
     private void handleMacroCommentStop(TagStack stack)
     {
-        MacroInfo macroInfo = (MacroInfo) stack.popStackParameter("macroInfo");
-        if (stack.isInsideBlockElement()) {
-            stack.getScannerContext().onMacroInline(macroInfo.getName(), macroInfo.getParameters(),
-                macroInfo.getContent());
-        } else {
-            TagHandler.sendEmptyLines(stack);
-            stack.getScannerContext().onMacroBlock(macroInfo.getName(), macroInfo.getParameters(),
-                macroInfo.getContent());
+        MacroInfo macroInfo = (MacroInfo) stack.popStackParameter(MACRO_INFO);
+        IgnoreElementRule ignoreElementRule = stack.popIgnoreElementRule();
+
+        // if we were ignoring all we don't want to output the macro
+        if (!ignoreElementRule.equals(IGNORE_ALL)) {
+            if (stack.isInsideBlockElement()) {
+                stack.getScannerContext().onMacroInline(macroInfo.getName(), macroInfo.getParameters(),
+                    macroInfo.getContent());
+            } else {
+                TagHandler.sendEmptyLines(stack);
+                stack.getScannerContext().onMacroBlock(macroInfo.getName(), macroInfo.getParameters(),
+                    macroInfo.getContent());
+            }
         }
-        stack.unsetIgnoreElements();
     }
 
     private void handleLinkCommentStart(String content, TagStack stack)

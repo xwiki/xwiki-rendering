@@ -78,8 +78,6 @@ public class XWikiSpanTagHandler extends SpanTagHandler implements XWikiWikiMode
                 super.begin(context);
             }
         }
-
-        context.getTagStack().pushStackParameter(UNCHANGED_CONTENT_STACK, withUnchangedContent);
     }
 
     @Override

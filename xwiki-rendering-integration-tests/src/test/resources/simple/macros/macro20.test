@@ -10,7 +10,7 @@ Some data to ignore
 <div data-xwiki-unchanged-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
 <!--startmacro:testcontentmacro|-||-|Old content-->
 <div>
-Some data to ignore
+Some data to ignore 2
 </div>
 <div data-xwiki-unchanged-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" class="xwiki-metadata-container">
 <strong>New content</strong>
@@ -22,7 +22,7 @@ Some other data to ignore
 <blockquote><p>line1<br/>line2</p></blockquote>
 </div>
 <div>
-Some other data to ignore
+Some other data to ignore 2
 </div>
 <!--stopmacro-->
 

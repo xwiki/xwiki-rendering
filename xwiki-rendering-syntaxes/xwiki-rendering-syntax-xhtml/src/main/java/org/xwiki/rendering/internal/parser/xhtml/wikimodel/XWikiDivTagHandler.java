@@ -60,8 +60,6 @@ public class XWikiDivTagHandler extends DivisionTagHandler implements XWikiWikiM
         if (!withUnchangedContent) {
             super.begin(context);
         }
-
-        context.getTagStack().pushStackParameter(UNCHANGED_CONTENT_STACK, withUnchangedContent);
     }
 
 

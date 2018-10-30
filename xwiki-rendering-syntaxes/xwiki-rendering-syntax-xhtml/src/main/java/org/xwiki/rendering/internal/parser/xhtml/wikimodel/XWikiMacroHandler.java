@@ -120,6 +120,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             }
         }
 
+        context.getTagStack().pushStackParameter(UNCHANGED_CONTENT_STACK, withUnchangedContent);
         return withUnchangedContent || macroInfo != null;
     }
 
@@ -130,7 +131,11 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
      */
     public boolean handleEnd(TagContext context)
     {
-        boolean unchangedContent = (boolean) context.getTagStack().popStackParameter(UNCHANGED_CONTENT_STACK);
+        boolean unchangedContent = false;
+
+        if (context.getTagStack().getStackParameter(UNCHANGED_CONTENT_STACK) != null) {
+            unchangedContent = (boolean) context.getTagStack().popStackParameter(UNCHANGED_CONTENT_STACK);
+        }
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
         if (unchangedContent) {

@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.wikimodel.WikiPageUtil;
@@ -54,7 +53,12 @@ public class TagStack
 
     private static final String DOCUMENT_PARENT = "documentParent";
 
-    private static final Predicate<TagContext> DEFAULT_IGNORE_PREDICATE = f -> false;
+    /**
+     * Represents a default {@link IgnoreElementRule} that ignore all elements and cannot be switched off.
+     *
+     * @since 10.10RC1
+     */
+    public static final IgnoreElementRule IGNORE_ALL = new IgnoreElementRule(f -> false, true);
 
     private final Map<String, TagHandler> fMap;
 
@@ -66,9 +70,12 @@ public class TagStack
 
     private final Deque<Map<String, Object>> fStackParameters = new ArrayDeque<Map<String, Object>>();
 
-    private Predicate<TagContext> fignoreElementsPredicate;
-
-    private boolean isPredicateActive;
+    /**
+     * A stack of rules to ignore elements
+     *
+     * @since 10.10RC1
+     */
+    private Deque<IgnoreElementRule> fignoreElementRuleStack = new ArrayDeque<>();
 
     private int fEmptyLineCount;
 
@@ -87,8 +94,6 @@ public class TagStack
         fScannerContext.push(context);
         fCommentHandler = commentHandler;
 
-        this.fignoreElementsPredicate = DEFAULT_IGNORE_PREDICATE;
-
         // init stack paramaters
         pushStackParameters();
     }
@@ -101,8 +106,9 @@ public class TagStack
         name = fPeek.getName();
         TagHandler handler = fMap.get(name);
 
-        this.tooglePredicateActivation(fPeek);
-        if (!shouldIgnoreElement(fPeek)) {
+        // check if the ignore rule should be activated
+        this.switchIgnoreRule(fPeek);
+        if (!this.shouldIgnoreElements()) {
             if (!(handler instanceof AbstractFormatTagHandler)) {
                 fPreviousCharType = null;
             }
@@ -115,11 +121,12 @@ public class TagStack
     {
         flushCharacters(true);
 
-        if (!this.shouldIgnoreElement(fPeek)) {
+        if (!this.shouldIgnoreElements()) {
             fPeek.endElement();
         }
 
-        this.tooglePredicateActivation(fPeek);
+        // check if the ignore rule should be deactivated
+        this.switchIgnoreRule(fPeek);
         fPeek = fPeek.getParentContext();
     }
 
@@ -431,52 +438,56 @@ public class TagStack
 
     public boolean shouldIgnoreElements()
     {
-        return this.isPredicateActive;
-    }
-
-    /**
-     * Check if an element and its children should be ignored or not.
-     * This method use the predicate given in {@link #setPredicateToSkipIgnore(Predicate)}.
-     * @param tagContext the tag context to check the predicate defined in {@link #setPredicateToSkipIgnore(Predicate)}.
-     * @return false if the ignore mechanism is deactivated. Else return the complementary value of the result of the
-     * predicate test with the given tagContext.
-     *
-     * @since 10.9
-     */
-    public boolean shouldIgnoreElement(TagContext tagContext)
-    {
-        if (!this.isPredicateActive) {
-            return false;
-        }
-
-        return !this.fignoreElementsPredicate.test(tagContext);
-    }
-
-    public void tooglePredicateActivation(TagContext element)
-    {
-        if (this.fignoreElementsPredicate.test(element)) {
-            this.isPredicateActive = !this.isPredicateActive;
-        }
+        // we ignore elements if there is at least one ignore rule and it is active
+        return !this.fignoreElementRuleStack.isEmpty() && this.fignoreElementRuleStack.peek().isActive();
     }
 
     public void setIgnoreElements()
     {
-        this.isPredicateActive = true;
-    }
-
-    /**
-     * Specify which predicate to use for checking if a {@link TagContext} element should be ignored or not.
-     * @param predicate when this predicate test returns true the element and its children won't be ignored.
-     *
-     * @since 10.9
-     */
-    public void setPredicateToSkipIgnore(Predicate<TagContext> predicate)
-    {
-        this.fignoreElementsPredicate = predicate;
+        // if we want to ignore all elements, we use an ignore rule that cannot be deactivated
+        this.pushIgnoreElementRule(IGNORE_ALL);
     }
 
     public void unsetIgnoreElements()
     {
-        this.isPredicateActive = false;
+        this.popIgnoreElementRule();
+    }
+
+    /**
+     * Push a new rule to ignore elements.
+     *
+     * @param ignoreElementRule the rule to be used now.
+     *
+     * @since 10.10RC1
+     */
+    public void pushIgnoreElementRule(IgnoreElementRule ignoreElementRule)
+    {
+        this.fignoreElementRuleStack.push(ignoreElementRule);
+    }
+
+    /**
+     * Retrieve the last rule to ignore element.
+     *
+     * @return the last rule that was in the stack.
+     *
+     * @since 10.10RC1
+     */
+    public IgnoreElementRule popIgnoreElementRule()
+    {
+        return this.fignoreElementRuleStack.pop();
+    }
+
+    /**
+     * Check if an ignore rule should be (de)activated based on the given tag context.
+     *
+     * @param fPeek the tag context to match with a rule for activating it.
+     *
+     * @since 10.10RC1
+     */
+    private void switchIgnoreRule(TagContext fPeek)
+    {
+        if (!this.fignoreElementRuleStack.isEmpty()) {
+            this.fignoreElementRuleStack.peek().switchRule(fPeek);
+        }
     }
 }

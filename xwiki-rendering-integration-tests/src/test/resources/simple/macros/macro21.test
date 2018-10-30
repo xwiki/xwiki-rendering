@@ -5,10 +5,10 @@
 <p>First paragraph.</p>
 <!--startmacro:testcontentmacro|-||-|First content-->
 <div>
-Some data to ignore 824
+Some data to ignore
 <!--startmacro:testcontentmacro|-||-|Second content-->
 <div data-xwiki-unchanged-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
-<strong>New content</strong>
+<strong>Content ignored because the top macro doesn't have an unchanged content</strong>
 </div>
 <!--stopmacro-->
 </div>
@@ -18,7 +18,7 @@ Some other data to ignore
 <!--stopmacro-->
 
 .#-----------------------------------------------------
-.expect|event/1.0|skip
+.expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
@@ -27,5 +27,5 @@ onSpace
 onWord [paragraph]
 onSpecialSymbol [.]
 endParagraph
-onMacroStandalone [testcontentmacro] [] []
+onMacroStandalone [testcontentmacro] [] [First content]
 endDocument
