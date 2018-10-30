@@ -33,6 +33,7 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
+import org.xwiki.stability.Unstable;
 
 import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener.createMetaData;
 import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener.isMetaDataElement;
@@ -41,8 +42,9 @@ import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGene
  * This class aims at handling specific macro metadata.
  *
  * @version $Id$
- * @since 10.9
+ * @since 10.10RC1
  */
+@Unstable
 public class XWikiMacroHandler implements XWikiWikiModelHandler
 {
     private ComponentManager componentManager;
@@ -131,11 +133,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
      */
     public boolean handleEnd(TagContext context)
     {
-        boolean unchangedContent = false;
-
-        if (context.getTagStack().getStackParameter(UNCHANGED_CONTENT_STACK) != null) {
-            unchangedContent = (boolean) context.getTagStack().popStackParameter(UNCHANGED_CONTENT_STACK);
-        }
+        boolean unchangedContent = (boolean) context.getTagStack().popStackParameter(UNCHANGED_CONTENT_STACK);
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
         if (unchangedContent) {

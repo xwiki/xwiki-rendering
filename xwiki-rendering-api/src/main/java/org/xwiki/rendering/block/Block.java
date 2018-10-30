@@ -40,7 +40,7 @@ public interface Block extends Cloneable
     /**
      * Helper to represent the Type for each List&lt;Block&gt;.
      *
-     * @since 10.9
+     * @since 10.10RC1
      */
     Type LIST_BLOCK_TYPE = new DefaultParameterizedType(null, List.class, Block.class);
 

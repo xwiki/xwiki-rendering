@@ -44,7 +44,7 @@ public interface ContentDescriptor
      * This method will return the type of the macro content. By default it fallback to String.
      *
      * @return the type of the macro content.
-     * @since 10.9
+     * @since 10.10RC1
      */
     @Unstable
     default Type getType()

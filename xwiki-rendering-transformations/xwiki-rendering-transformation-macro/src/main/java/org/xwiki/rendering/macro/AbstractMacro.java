@@ -258,7 +258,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * Helper to get the proper metadata for unchanged content.
      * @return the new metadata element with proper information.
      *
-     * @since 10.9
+     * @since 10.10RC1
      */
     protected MetaData getUnchangedContentMetaData()
     {

@@ -25,26 +25,40 @@ import java.util.List;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
+import org.xwiki.stability.Unstable;
 
 /**
  * This class represents some generic information related to macro and their parsing / rendering.
  *
  * @version $Id$
- * @since 10.9
+ * @since 10.10RC1
  */
+@Unstable
 public class MacroInfo
 {
-    private static final String MACRO_SEPARATOR = "|-|";
-
+    /**
+     * Define the comment marker for starting a macro.
+     */
     public static final String MACRO_START = "startmacro:";
 
+    /**
+     * Define the comment marker for finishing a macro.
+     */
     public static final String MACRO_STOP = "stopmacro";
+
+    private static final String MACRO_SEPARATOR = "|-|";
 
     private final String name;
     private final WikiParameters parameters;
 
     private String content;
 
+    /**
+     * Build a MacroInfo based on the content of a comment.
+     *
+     * @param content A comment representing a macro.
+     * It must start with a startmacro comment marker {@link #MACRO_START}.
+     */
     public MacroInfo(String content)
     {
         String macroString = content.substring(MACRO_START.length());
@@ -87,21 +101,35 @@ public class MacroInfo
         }
     }
 
+    /**
+     * @return the name of the macro.
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * @return the parameters of the macro.
+     */
     public WikiParameters getParameters()
     {
         return parameters;
     }
 
+    /**
+     * @return the content of the macro.
+     */
     public String getContent()
     {
         return content;
     }
 
+    /**
+     * Allow to specify the content of the macro when changed in an unchanged content block.
+     *
+     * @param content the new content of the macro.
+     */
     public void setContent(String content)
     {
         this.content = content;

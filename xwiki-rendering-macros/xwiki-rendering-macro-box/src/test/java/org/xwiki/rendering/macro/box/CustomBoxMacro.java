@@ -38,6 +38,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * Used in some {@code *.test} files.
  *
  * @version $Id$
+ * @since 10.10RC1
  */
 @Component
 @Named("custombox")

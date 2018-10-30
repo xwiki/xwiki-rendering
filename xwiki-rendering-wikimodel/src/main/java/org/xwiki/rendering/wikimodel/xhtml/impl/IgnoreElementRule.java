@@ -21,6 +21,8 @@ package org.xwiki.rendering.wikimodel.xhtml.impl;
 
 import java.util.function.Predicate;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * Define a rule to know if the elements should be ignored in {@link TagStack}.
  * If the rule is active, then all the elements should be ignored. But if a given element match the given predicate
@@ -29,6 +31,7 @@ import java.util.function.Predicate;
  * @version $Id$
  * @since 10.10RC1
  */
+@Unstable
 public class IgnoreElementRule
 {
     private boolean isActive;
