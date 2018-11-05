@@ -13,14 +13,14 @@
 beginDocument
 beginMacroMarkerStandalone [content] [syntax=html/4.01] [<p>test</p>
 <p>test2</p>]
-beginMetaData [[syntax]=[html/4.01]]
+beginMetaData [[syntax]=[html/4.01][unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 beginParagraph
 onWord [test]
 endParagraph
 beginParagraph
 onWord [test2]
 endParagraph
-endMetaData [[syntax]=[html/4.01]]
+endMetaData [[syntax]=[html/4.01][unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 endMacroMarkerStandalone [content] [syntax=html/4.01] [<p>test</p>
 <p>test2</p>]
 endDocument

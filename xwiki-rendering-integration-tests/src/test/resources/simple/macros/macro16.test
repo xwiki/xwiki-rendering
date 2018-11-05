@@ -1,0 +1,48 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Test a macro which can be edited inline, in block context.
+.#-----------------------------------------------------
+First paragraph.
+
+{{testinlineeditingmacro}}
+Some content
+{{/testinlineeditingmacro}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [First]
+onSpace
+onWord [paragraph]
+onSpecialSymbol [.]
+endParagraph
+beginMacroMarkerStandalone [testinlineeditingmacro] [] [Some content]
+beginMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginParagraph
+onWord [Some content]
+endParagraph
+endMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMacroMarkerStandalone [testinlineeditingmacro] [] [Some content]
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>First paragraph.</p><p>Some content</p>
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<p>First paragraph.</p><!--startmacro:testinlineeditingmacro|-||-|Some content--><div data-xwiki-unchanged-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" class="xwiki-metadata-container"><p>Some content</p></div><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+First paragraph.
+
+{{testinlineeditingmacro}}
+Some content
+{{/testinlineeditingmacro}}
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<p>First paragraph.</p><!--startmacro:testinlineeditingmacro|-||-|Some content--><p>Some content</p><!--stopmacro-->

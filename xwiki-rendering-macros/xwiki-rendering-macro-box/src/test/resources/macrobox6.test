@@ -14,10 +14,12 @@ onWord [An]
 onSpace
 beginMacroMarkerInline [box] [] [Inline box ]
 beginFormat [NONE] [[class]=[box]]
+beginMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 onWord [Inline]
 onSpace
 onWord [box]
 onSpace
+endMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 endFormat [NONE] [[class]=[box]]
 endMacroMarkerInline [box] [] [Inline box ]
 onSpace
@@ -25,6 +27,7 @@ onWord [first]
 endParagraph
 beginMacroMarkerStandalone [box] [] [A box that should not be inline]
 beginGroup [[class]=[box]]
+beginMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 beginParagraph
 onWord [A]
 onSpace
@@ -40,6 +43,7 @@ onWord [be]
 onSpace
 onWord [inline]
 endParagraph
+endMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 endGroup [[class]=[box]]
 endMacroMarkerStandalone [box] [] [A box that should not be inline]
 endDocument

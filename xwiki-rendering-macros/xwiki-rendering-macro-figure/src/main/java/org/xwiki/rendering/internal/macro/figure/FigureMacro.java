@@ -65,7 +65,8 @@ public class FigureMacro extends AbstractNoParameterMacro
      */
     public FigureMacro()
     {
-        super("Figure", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION));
+        super("Figure", DESCRIPTION,
+            new DefaultContentDescriptor(CONTENT_DESCRIPTION, true, Block.LIST_BLOCK_TYPE));
         setDefaultCategory(DEFAULT_CATEGORY_DEVELOPMENT);
     }
 

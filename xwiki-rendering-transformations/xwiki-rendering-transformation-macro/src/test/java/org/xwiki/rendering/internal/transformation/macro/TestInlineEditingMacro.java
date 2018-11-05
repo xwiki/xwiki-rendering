@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.macro.box;
+package org.xwiki.rendering.internal.transformation.macro;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,35 +28,45 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MetaDataBlock;
-import org.xwiki.rendering.block.VerbatimBlock;
+import org.xwiki.rendering.block.ParagraphBlock;
+import org.xwiki.rendering.block.WordBlock;
+import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
-/**
- * Used in some {@code *.test} files.
- *
- * @version $Id$
- */
+import static org.xwiki.rendering.block.Block.LIST_BLOCK_TYPE;
+
 @Component
-@Named("testbox")
+@Named("testinlineeditingmacro")
 @Singleton
-public class TestBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
+public class TestInlineEditingMacro extends AbstractNoParameterMacro
 {
-    public TestBoxMacro()
+    public TestInlineEditingMacro()
     {
-        super("Test Box Macro", "Description",
-            new DefaultContentDescriptor("", true, Block.LIST_BLOCK_TYPE),
-            BoxMacroParameters.class);
+        super("Macro Inline Editing", "", new DefaultContentDescriptor("content", true, LIST_BLOCK_TYPE));
     }
 
     @Override
-    protected List<Block> parseContent(BoxMacroParameters parameters, String content,
-        MacroTransformationContext context) throws MacroExecutionException
+    public boolean supportsInlineMode()
     {
-        return Collections.singletonList(new MetaDataBlock(
-            Collections.<Block>singletonList(new VerbatimBlock(content, context.isInline())),
-            this.getUnchangedContentMetaData()
-        ));
+        return true;
+    }
+
+    @Override
+    public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
+        throws MacroExecutionException
+    {
+        Block contentBlock;
+
+        WordBlock wordBlock = new WordBlock(content);
+        if (context.isInline()) {
+            contentBlock = wordBlock;
+        } else {
+            contentBlock = new ParagraphBlock(Collections.singletonList(wordBlock));
+        }
+
+        return Collections.singletonList(new MetaDataBlock(Collections.singletonList(contentBlock),
+            this.getUnchangedContentMetaData()));
     }
 }

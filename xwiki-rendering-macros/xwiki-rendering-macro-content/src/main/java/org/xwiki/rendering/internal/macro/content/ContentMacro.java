@@ -75,7 +75,8 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
      */
     public ContentMacro()
     {
-        super("Content", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION), ContentMacroParameters.class);
+        super("Content", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, true,
+            Block.LIST_BLOCK_TYPE), ContentMacroParameters.class);
         setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
     }
 
@@ -94,6 +95,7 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
             MetaDataBlock metaDataBlock = new MetaDataBlock(blocks, MetaData.SYNTAX,
                 parameters.getSyntax().toIdString());
 
+            metaDataBlock.getMetaData().addMetaData(this.getUnchangedContentMetaData());
             return Collections.singletonList(metaDataBlock);
         } catch (ParseException e) {
             throw new MacroExecutionException(

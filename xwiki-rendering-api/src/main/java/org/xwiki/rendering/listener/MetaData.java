@@ -58,6 +58,13 @@ public class MetaData
     public static final String BASE = "base";
 
     /**
+     * Represents an inline editable content.
+     *
+     * @since 10.10RC1
+     */
+    public static final String UNCHANGED_CONTENT = "unchanged-content";
+
+    /**
      * Contains all MetaData for this Block and its children. Note: we preserve the order of metadata elements as they
      * are added as a service for the user so he can count on it.
      */
@@ -139,5 +146,11 @@ public class MetaData
     public int hashCode()
     {
         return this.metadata.hashCode();
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MetaData{metadata=" + metadata + '}';
     }
 }

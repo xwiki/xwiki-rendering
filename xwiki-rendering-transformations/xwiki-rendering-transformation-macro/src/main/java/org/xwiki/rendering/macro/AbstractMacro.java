@@ -19,14 +19,19 @@
  */
 package org.xwiki.rendering.macro;
 
+import java.lang.reflect.Type;
+
 import javax.inject.Inject;
 
 import org.xwiki.component.descriptor.ComponentDescriptor;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.properties.BeanManager;
+import org.xwiki.properties.ConverterManager;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.macro.descriptor.AbstractMacroDescriptor;
 import org.xwiki.rendering.macro.descriptor.ContentDescriptor;
+import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.descriptor.DefaultMacroDescriptor;
 import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
 
@@ -77,6 +82,9 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
 
     @Inject
     private ComponentDescriptor<Macro> componentDescriptor;
+
+    @Inject
+    private ConverterManager converterManager;
 
     /**
      * The human-readable macro name (eg "Table of Contents" for the TOC macro).
@@ -244,5 +252,28 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
         if (getDescriptor() instanceof AbstractMacroDescriptor) {
             ((AbstractMacroDescriptor) getDescriptor()).setDefaultCategory(defaultCategory);
         }
+    }
+
+    /**
+     * Helper to get the proper metadata for unchanged content.
+     * @return the new metadata element with proper information.
+     *
+     * @since 10.10RC1
+     */
+    protected MetaData getUnchangedContentMetaData()
+    {
+        MetaData metaData = new MetaData();
+        Type contentType;
+
+        if (this.contentDescriptor != null) {
+            contentType = this.contentDescriptor.getType();
+        } else {
+            contentType = DefaultContentDescriptor.DEFAULT_CONTENT_TYPE;
+        }
+
+        String converted = this.converterManager.convert(String.class, contentType);
+
+        metaData.addMetaData(MetaData.UNCHANGED_CONTENT, converted);
+        return metaData;
     }
 }

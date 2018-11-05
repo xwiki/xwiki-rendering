@@ -19,16 +19,17 @@
  */
 package org.xwiki.rendering.macro.box;
 
-import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.MetaDataBlock;
-import org.xwiki.rendering.block.VerbatimBlock;
+import org.xwiki.rendering.macro.AbstractMacro;
+import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
@@ -37,26 +38,40 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * Used in some {@code *.test} files.
  *
  * @version $Id$
+ * @since 10.10RC1
  */
 @Component
-@Named("testbox")
+@Named("custombox")
 @Singleton
-public class TestBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
+public class CustomBoxMacro extends AbstractMacro<Object>
 {
-    public TestBoxMacro()
+
+    /**
+     * Injected by the component manager.
+     */
+    @Inject
+    @Named("box")
+    private Macro<BoxMacroParameters> boxMacro;
+
+    public CustomBoxMacro()
     {
-        super("Test Box Macro", "Description",
+        super("Custom Box Macro", "Description",
             new DefaultContentDescriptor("", true, Block.LIST_BLOCK_TYPE),
             BoxMacroParameters.class);
     }
 
     @Override
-    protected List<Block> parseContent(BoxMacroParameters parameters, String content,
-        MacroTransformationContext context) throws MacroExecutionException
+    public boolean supportsInlineMode()
     {
-        return Collections.singletonList(new MetaDataBlock(
-            Collections.<Block>singletonList(new VerbatimBlock(content, context.isInline())),
-            this.getUnchangedContentMetaData()
-        ));
+        return true;
+    }
+
+    @Override
+    public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
+        throws MacroExecutionException
+    {
+        BoxMacroParameters boxParameters = new BoxMacroParameters();
+        boxParameters.setTitle(content);
+        return boxMacro.execute(boxParameters, StringUtils.EMPTY, context);
     }
 }

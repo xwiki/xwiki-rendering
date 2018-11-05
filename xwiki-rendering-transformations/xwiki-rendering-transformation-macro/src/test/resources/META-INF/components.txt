@@ -6,3 +6,5 @@ org.xwiki.rendering.internal.transformation.macro.TestRecursiveMacro
 org.xwiki.rendering.internal.transformation.macro.TestPriorityMacro
 org.xwiki.rendering.internal.transformation.macro.TestFailingMacro
 org.xwiki.rendering.internal.transformation.macro.TestFormatMacro
+org.xwiki.rendering.internal.transformation.macro.TestInlineEditingMacro
+org.xwiki.rendering.internal.transformation.macro.TestSyntaxWikiMacro

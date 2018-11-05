@@ -1,18 +1,16 @@
 .runTransformations
 .#-----------------------------------------------------
 .input|xwiki/2.0
-.# Verify empty box works
+.# Test that custom box reusing box, won't put unchanged content metadata
 .#-----------------------------------------------------
-{{testbox}}{{/testbox}}
+{{custombox}}something{{/custombox}}
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginMacroMarkerStandalone [testbox] [] []
+beginMacroMarkerStandalone [custombox] [] [something]
 beginGroup [[class]=[box]]
-beginMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
-onVerbatim [] [false]
-endMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+onWord [something]
 endGroup [[class]=[box]]
-endMacroMarkerStandalone [testbox] [] []
+endMacroMarkerStandalone [custombox] [] [something]
 endDocument
