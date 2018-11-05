@@ -230,6 +230,19 @@
                 },
                 "ignore" : [
                   // Add more ignores below...
+                  {
+                    "code": "java.class.nonFinalClassInheritsFromNewClass",
+                    "old": "class org.xwiki.rendering.transformation.TransformationException",
+                    "new": "class org.xwiki.rendering.transformation.TransformationException",
+                    "superClass": "org.xwiki.rendering.RenderingException",
+                    "justification": "Not a breackage"
+                  },
+                  {
+                    "code": "java.class.nowCheckedException",
+                    "old": "class org.xwiki.rendering.transformation.TransformationException",
+                    "new": "class org.xwiki.rendering.transformation.TransformationException",
+                    "justification": "Not a breackage"
+                  }
                 ]
               }
             }
