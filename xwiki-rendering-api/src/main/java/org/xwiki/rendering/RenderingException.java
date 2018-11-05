@@ -17,22 +17,17 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.transformation;
-
-import org.xwiki.rendering.RenderingException;
+package org.xwiki.rendering;
 
 /**
- * Encapsulate a rendering error.
+ * Base exception for rendering module exceptions.
  *
  * @version $Id$
- * @since 1.5M2
+ * @since 10.10RC1
  */
-public class TransformationException extends RenderingException
+public class RenderingException extends Exception
 {
-    /**
-     * Class ID for serialization.
-     */
-    private static final long serialVersionUID = -3910483835593983284L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constructs a new exception with the specified detail message. The cause is not initialized, and may subsequently
@@ -40,7 +35,7 @@ public class TransformationException extends RenderingException
      *
      * @param message the detail message (which is saved for later retrieval by the {@link #getMessage()} method)
      */
-    public TransformationException(String message)
+    public RenderingException(String message)
     {
         super(message);
     }
@@ -52,7 +47,7 @@ public class TransformationException extends RenderingException
      * @param cause the cause (which is saved for later retrieval by the {@link #getCause()} method). A null value is
      *            permitted, and indicates that the cause is nonexistent or unknown
      */
-    public TransformationException(String message, Throwable cause)
+    public RenderingException(String message, Throwable cause)
     {
         super(message, cause);
     }
