@@ -43,6 +43,7 @@ public class XWikiSpanTagHandler extends SpanTagHandler implements XWikiWikiMode
      *
      * @param componentManager is used to retrieved the proper parser component for serializing an unchanged content
      * @param parser the current parser is actually used to simplify the build of other parsers.
+     * @since 10.10RC1
      */
     public XWikiSpanTagHandler(ComponentManager componentManager, XHTMLParser parser)
     {

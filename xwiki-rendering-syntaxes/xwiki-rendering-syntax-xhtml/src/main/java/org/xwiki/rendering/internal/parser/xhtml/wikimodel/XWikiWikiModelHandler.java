@@ -65,16 +65,19 @@ public interface XWikiWikiModelHandler
 
     /**
      * Stack parameter which hold the instances of the MacroInfo encountered.
+     * @since 10.10RC1
      */
     String MACRO_INFO = "macroInfo";
 
     /**
      * Stack parameters which records the syntax metadata encountered in the document.
+     * @since 10.10RC1
      */
     String CURRENT_SYNTAX = "currentSyntax";
 
     /**
      * Stack parameters which records if the previous div or span was triggered by an unchanged content metadata.
+     * @since 10.10RC1
      */
     String UNCHANGED_CONTENT_STACK = "unchangedContentStack";
 }

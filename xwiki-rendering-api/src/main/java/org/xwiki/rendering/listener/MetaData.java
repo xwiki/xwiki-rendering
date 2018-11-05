@@ -148,7 +148,8 @@ public class MetaData
         return this.metadata.hashCode();
     }
 
-    @Override public String toString()
+    @Override
+    public String toString()
     {
         return "MetaData{metadata=" + metadata + '}';
     }

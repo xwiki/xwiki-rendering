@@ -72,8 +72,6 @@ public class TagStack
 
     /**
      * A stack of rules to ignore elements
-     *
-     * @since 10.10RC1
      */
     private Deque<IgnoreElementRule> fignoreElementRuleStack = new ArrayDeque<>();
 
