@@ -32,7 +32,11 @@
   <description>XWiki Rendering - Syntax - XHTML</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.75</xwiki.jacoco.instructionRatio>
-    <xwiki.pitest.mutationThreshold>18</xwiki.pitest.mutationThreshold>
+    <!-- The mutation threshold was of 18 before adding changes on macro inline editing,
+     however it seems that pitest does not take into account the test provided with the Rendering Test Framework.
+     An issue has been opened in order to take those into account too:
+     https://github.com/STAMP-project/pitest-descartes/issues/83-->
+    <xwiki.pitest.mutationThreshold>16</xwiki.pitest.mutationThreshold>
   </properties>
   <dependencies>
     <dependency>
