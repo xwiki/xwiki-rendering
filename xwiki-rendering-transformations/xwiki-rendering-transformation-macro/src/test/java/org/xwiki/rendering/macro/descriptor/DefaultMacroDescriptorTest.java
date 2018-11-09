@@ -180,7 +180,7 @@ public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
         Assert.assertEquals("defaultparam1", param1Descriptor.getDefaultValue());
 
         ParameterDescriptor deprecatedDescriptor = map.get("deprecatedparameter");
-        Assert.assertEquals(true, deprecatedDescriptor.isDeprecated());
+        Assert.assertTrue(deprecatedDescriptor.isDeprecated());
     }
 
     @Test
