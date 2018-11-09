@@ -88,4 +88,11 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
     {
         return this.propertyDescriptor.isMandatory();
     }
+
+    @Override
+    public boolean isDeprecated()
+    {
+        return this.propertyDescriptor.isDeprecated();
+    }
+
 }

@@ -69,4 +69,10 @@ public interface ParameterDescriptor
      * @since 1.7
      */
     boolean isMandatory();
+
+    /**
+     * @return indicate if the parameter is deprecated.
+     * @since 10.10RC1
+     */
+    boolean isDeprecated();
 }
