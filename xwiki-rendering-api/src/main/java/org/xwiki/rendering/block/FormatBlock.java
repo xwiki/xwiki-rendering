@@ -41,6 +41,14 @@ public class FormatBlock extends AbstractBlock
     private Format format;
 
     /**
+     * Default constructor.
+     */
+    public FormatBlock()
+    {
+
+    }
+
+    /**
      * @param childrenBlocks the nested children blocks
      * @param format the formatting to apply to the children blocks
      */
