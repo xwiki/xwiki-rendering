@@ -74,5 +74,7 @@ public interface ParameterDescriptor
      * @return indicate if the parameter is deprecated.
      * @since 10.10RC1
      */
-    boolean isDeprecated();
+    default boolean isDeprecated() {
+        return false;
+    }
 }

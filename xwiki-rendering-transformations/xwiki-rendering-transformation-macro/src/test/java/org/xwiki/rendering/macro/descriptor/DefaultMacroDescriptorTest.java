@@ -52,6 +52,10 @@ public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
 
         private String hiddenParameter;
 
+        private String deprecatedParameter;
+
+        private String advancedParameter;
+
         public void setLowerparam(String lowerparam)
         {
             this.lowerparam = lowerparam;
@@ -117,6 +121,28 @@ public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
         {
             return this.hiddenParameter;
         }
+
+        @Deprecated
+        public String getDeprecatedParameter()
+        {
+            return deprecatedParameter;
+        }
+
+        @Deprecated
+        public void setDeprecatedParameter(String deprecatedParameter)
+        {
+            this.deprecatedParameter = deprecatedParameter;
+        }
+
+        public String getAdvancedParameter()
+        {
+            return advancedParameter;
+        }
+
+        public void setAdvancedParameter(String advancedParameter)
+        {
+            this.advancedParameter = advancedParameter;
+        }
     }
 
     private DefaultMacroDescriptor macroDescriptor;
@@ -147,10 +173,14 @@ public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
         Assert.assertSame(String.class, lowerParamDescriptor.getParameterType());
         Assert.assertEquals(null, lowerParamDescriptor.getDefaultValue());
         Assert.assertEquals(false, lowerParamDescriptor.isMandatory());
+        Assert.assertEquals(false, lowerParamDescriptor.isDeprecated());
 
         ParameterDescriptor param1Descriptor = map.get("param1");
 
         Assert.assertEquals("defaultparam1", param1Descriptor.getDefaultValue());
+
+        ParameterDescriptor deprecatedDescriptor = map.get("deprecatedparameter");
+        Assert.assertEquals(true, deprecatedDescriptor.isDeprecated());
     }
 
     @Test
