@@ -95,4 +95,9 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
         return this.propertyDescriptor.isDeprecated();
     }
 
+    @Override
+    public boolean isAdvanced()
+    {
+        return this.propertyDescriptor.isAdvanced();
+    }
 }

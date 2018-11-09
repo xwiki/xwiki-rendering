@@ -77,4 +77,12 @@ public interface ParameterDescriptor
     default boolean isDeprecated() {
         return false;
     }
+
+    /**
+     * @return indicate if the parameter is advanced.
+     * @since 10.10RC1
+     */
+    default boolean isAdvanced() {
+        return false;
+    }
 }

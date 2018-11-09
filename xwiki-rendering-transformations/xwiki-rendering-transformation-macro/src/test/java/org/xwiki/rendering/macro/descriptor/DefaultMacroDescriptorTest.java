@@ -25,6 +25,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.properties.BeanManager;
+import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
 import org.xwiki.properties.annotation.PropertyHidden;
 import org.xwiki.properties.annotation.PropertyMandatory;
@@ -134,6 +135,7 @@ public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
             this.deprecatedParameter = deprecatedParameter;
         }
 
+        @PropertyAdvanced
         public String getAdvancedParameter()
         {
             return advancedParameter;
@@ -171,9 +173,10 @@ public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
         Assert.assertEquals("lowerparam", lowerParamDescriptor.getId());
         Assert.assertEquals("lowerparam", lowerParamDescriptor.getDescription());
         Assert.assertSame(String.class, lowerParamDescriptor.getParameterType());
-        Assert.assertEquals(null, lowerParamDescriptor.getDefaultValue());
-        Assert.assertEquals(false, lowerParamDescriptor.isMandatory());
-        Assert.assertEquals(false, lowerParamDescriptor.isDeprecated());
+        Assert.assertNull(lowerParamDescriptor.getDefaultValue());
+        Assert.assertFalse(lowerParamDescriptor.isMandatory());
+        Assert.assertFalse(lowerParamDescriptor.isDeprecated());
+        Assert.assertFalse(lowerParamDescriptor.isAdvanced());
 
         ParameterDescriptor param1Descriptor = map.get("param1");
 
@@ -181,6 +184,9 @@ public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
 
         ParameterDescriptor deprecatedDescriptor = map.get("deprecatedparameter");
         Assert.assertTrue(deprecatedDescriptor.isDeprecated());
+
+        ParameterDescriptor advancedDescriptor = map.get("advancedparameter");
+        Assert.assertTrue(advancedDescriptor.isAdvanced());
     }
 
     @Test
