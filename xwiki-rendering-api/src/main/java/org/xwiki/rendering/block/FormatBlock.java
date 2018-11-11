@@ -41,7 +41,8 @@ public class FormatBlock extends AbstractBlock
     private Format format;
 
     /**
-     * Default constructor.
+     * Create an empty format block with no children. This is useful when the user wants to call {@link #addChild(Block)}
+     * manually for adding children one by one after the block is constructed.
      */
     public FormatBlock()
     {
@@ -54,7 +55,7 @@ public class FormatBlock extends AbstractBlock
      */
     public FormatBlock(List<Block> childrenBlocks, Format format)
     {
-        this(childrenBlocks, format, Collections.<String, String>emptyMap());
+        this(childrenBlocks, format, Collections.emptyMap());
     }
 
     /**
