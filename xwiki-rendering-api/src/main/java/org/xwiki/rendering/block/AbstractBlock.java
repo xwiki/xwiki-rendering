@@ -94,7 +94,7 @@ public abstract class AbstractBlock implements Block
      */
     public AbstractBlock(Block childBlock)
     {
-        this(childBlock, Collections.<String, String>emptyMap());
+        this(childBlock, Collections.emptyMap());
     }
 
     /**
@@ -105,7 +105,7 @@ public abstract class AbstractBlock implements Block
      */
     public AbstractBlock(List<? extends Block> childrenBlocks)
     {
-        this(childrenBlocks, Collections.<String, String>emptyMap());
+        this(childrenBlocks, Collections.emptyMap());
     }
 
     /**
@@ -173,7 +173,7 @@ public abstract class AbstractBlock implements Block
         if (!blocksToAdd.isEmpty()) {
             if (this.childrenBlocks == null) {
                 // Create the list with just the exact required size
-                this.childrenBlocks = new ArrayList<Block>(blocksToAdd.size());
+                this.childrenBlocks = new ArrayList<>(blocksToAdd.size());
             }
 
             for (Block blockToAdd : blocksToAdd) {
@@ -225,7 +225,7 @@ public abstract class AbstractBlock implements Block
                 blockToInsert.setPreviousSiblingBlock(null);
 
                 if (this.childrenBlocks == null) {
-                    this.childrenBlocks = new ArrayList<Block>(1);
+                    this.childrenBlocks = new ArrayList<>(1);
                 }
             }
             blockToInsert.setNextSiblingBlock(null);
@@ -242,7 +242,7 @@ public abstract class AbstractBlock implements Block
             blockToInsert.setNextSiblingBlock(nextBlock);
             nextBlock.setPreviousSiblingBlock(blockToInsert);
             if (this.childrenBlocks == null || this.childrenBlocks.isEmpty()) {
-                this.childrenBlocks = new ArrayList<Block>(1);
+                this.childrenBlocks = new ArrayList<>(1);
                 this.childrenBlocks.add(blockToInsert);
             } else {
                 this.childrenBlocks.add(indexOfChild(nextBlock), blockToInsert);
@@ -267,7 +267,7 @@ public abstract class AbstractBlock implements Block
             blockToInsert.setPreviousSiblingBlock(previousBlock);
             previousBlock.setNextSiblingBlock(blockToInsert);
             if (this.childrenBlocks == null) {
-                this.childrenBlocks = new ArrayList<Block>(1);
+                this.childrenBlocks = new ArrayList<>(1);
             }
             this.childrenBlocks.add(indexOfChild(previousBlock) + 1, blockToInsert);
         }
@@ -358,7 +358,7 @@ public abstract class AbstractBlock implements Block
     @Override
     public List<Block> getChildren()
     {
-        return this.childrenBlocks == null ? Collections.<Block>emptyList() : this.childrenBlocks;
+        return this.childrenBlocks == null ? Collections.emptyList() : this.childrenBlocks;
     }
 
     @Override
@@ -370,7 +370,7 @@ public abstract class AbstractBlock implements Block
     @Override
     public Map<String, String> getParameters()
     {
-        return this.parameters == null ? Collections.<String, String>emptyMap()
+        return this.parameters == null ? Collections.emptyMap()
             : Collections.unmodifiableMap(this.parameters);
     }
 
@@ -514,7 +514,7 @@ public abstract class AbstractBlock implements Block
         }
 
         if (this.childrenBlocks != null) {
-            ((AbstractBlock) block).childrenBlocks = new ArrayList<Block>(this.childrenBlocks.size());
+            ((AbstractBlock) block).childrenBlocks = new ArrayList<>(this.childrenBlocks.size());
             for (Block childBlock : this.childrenBlocks) {
                 if (blockFilter != null) {
                     Block clonedChildBlocks = childBlock.clone(blockFilter);
