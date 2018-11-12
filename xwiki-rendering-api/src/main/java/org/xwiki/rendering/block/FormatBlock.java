@@ -46,7 +46,7 @@ public class FormatBlock extends AbstractBlock
      */
     public FormatBlock()
     {
-
+        this.format = Format.NONE;
     }
 
     /**
