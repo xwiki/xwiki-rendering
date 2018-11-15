@@ -70,21 +70,17 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
     @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
-        if (getBlockState().getMacroDepth() == 1) {
-            // Do not do any rendering but we still need to save the macro definition in some hidden XHTML
-            // so that the macro can be reconstructed when moving back from XHTML to XDOM.
-            this.macroRenderer.beginRender(getXHTMLWikiPrinter(), name, parameters, content);
-        }
+        // Do not do any rendering but we still need to save the macro definition in some hidden XHTML
+        // so that the macro can be reconstructed when moving back from XHTML to XDOM.
+        this.macroRenderer.beginRender(getXHTMLWikiPrinter(), name, parameters, content);
     }
 
     @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
-        if (getBlockState().getMacroDepth() == 1) {
-            // Do not do any rendering but we still need to save the macro definition in some hidden XHTML
-            // so that the macro can be reconstructed when moving back from XHTML to XDOM.
-            this.macroRenderer.endRender(getXHTMLWikiPrinter());
-        }
+        // Do not do any rendering but we still need to save the macro definition in some hidden XHTML
+        // so that the macro can be reconstructed when moving back from XHTML to XDOM.
+        this.macroRenderer.endRender(getXHTMLWikiPrinter());
     }
 
     /**

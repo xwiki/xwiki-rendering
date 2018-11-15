@@ -1,0 +1,35 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Test nested macro which can be edited inline, in block context.
+.#-----------------------------------------------------
+First paragraph.
+
+{{testnestedmacro /}}
+
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [First]
+onSpace
+onWord [paragraph]
+onSpecialSymbol [.]
+endParagraph
+beginMacroMarkerStandalone [testnestedmacro] []
+beginMacroMarkerStandalone [testsimplemacro] []
+beginParagraph
+onWord [simplemacro2]
+endParagraph
+endMacroMarkerStandalone [testsimplemacro] []
+endMacroMarkerStandalone [testnestedmacro] []
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>First paragraph.</p><p>simplemacro2</p>
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<p>First paragraph.</p><!--startmacro:testnestedmacro|-|--><!--startmacro:testsimplemacro|-|--><p>simplemacro2</p><!--stopmacro--><!--stopmacro-->
