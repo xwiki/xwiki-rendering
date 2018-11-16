@@ -30,7 +30,10 @@ import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.configuration.ConfigurationSource;
+import org.xwiki.context.ExecutionContext;
+import org.xwiki.context.ExecutionContextManager;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.parser.Parser;
@@ -40,6 +43,7 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationManager;
@@ -157,7 +161,6 @@ public class RenderingTest
                 metadataMap.remove(MetaData.SYNTAX);
                 xdom = new XDOM(xdom.getChildren(), new MetaData(metadataMap));
             }
-
             renderer.render(xdom, printer);
         } else {
             PrintRendererFactory streamRendererFactory =
@@ -179,6 +182,16 @@ public class RenderingTest
         txContext.setTargetSyntax(getRendererSyntax());
         txContext.setId("test");
 
+        ExecutionContext executionContext = new ExecutionContext();
+        ExecutionContextManager executionContextManager = componentManager.getInstance(ExecutionContextManager.class);
+        executionContextManager.initialize(executionContext);
+
+        // Set TargetSyntax for Macro tests
+        RenderingContext renderingContext = componentManager.getInstance(RenderingContext.class);
+        ((MutableRenderingContext) renderingContext).push(renderingContext.getTransformation(),
+            renderingContext.getXDOM(), renderingContext.getDefaultSyntax(), renderingContext.getTransformationId(),
+            renderingContext.isRestricted(), getRendererSyntax());
+
         if (this.transformations.isEmpty()) {
             TransformationManager transformationManager =
                 getComponentManager().getInstance(TransformationManager.class);
@@ -189,6 +202,7 @@ public class RenderingTest
                 transformation.transform(xdom, txContext);
             }
         }
+        ((MutableRenderingContext) renderingContext).pop();
     }
 
     private Syntax getRendererSyntax() throws Exception

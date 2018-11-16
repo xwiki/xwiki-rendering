@@ -30,7 +30,10 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.context.ExecutionContext;
+import org.xwiki.context.ExecutionContextManager;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.parser.StreamParser;
@@ -39,6 +42,8 @@ import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.velocity.internal.log.SLF4JLogChute;
 import org.xwiki.xml.XMLUtils;
 
@@ -237,6 +242,17 @@ public class RenderingTest
     private String convert(String source, String sourceSyntaxId, String targetSyntaxId) throws Exception
     {
         String result;
+
+        ExecutionContext executionContext = new ExecutionContext();
+        ExecutionContextManager executionContextManager = componentManager.getInstance(ExecutionContextManager.class);
+        executionContextManager.initialize(executionContext);
+
+        // Set TargetSyntax for Macro tests
+        RenderingContext renderingContext = componentManager.getInstance(RenderingContext.class);
+        ((MutableRenderingContext) renderingContext).push(renderingContext.getTransformation(),
+            renderingContext.getXDOM(), renderingContext.getDefaultSyntax(), renderingContext.getTransformationId(),
+            renderingContext.isRestricted(), Syntax.valueOf(targetSyntaxId));
+
         if (isStreamingTest(sourceSyntaxId, targetSyntaxId)) {
             StreamParser parser = getComponentManager().getInstance(StreamParser.class, sourceSyntaxId);
             PrintRendererFactory rendererFactory =
@@ -247,6 +263,8 @@ public class RenderingTest
             BlockRenderer blockRenderer = getComponentManager().getInstance(BlockRenderer.class, targetSyntaxId);
             result = convert(source, parser, blockRenderer);
         }
+
+        ((MutableRenderingContext) renderingContext).pop();
         return result;
     }
 

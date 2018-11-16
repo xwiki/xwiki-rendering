@@ -37,7 +37,7 @@ onWord [paragraph]
 onSpecialSymbol [.]
 endParagraph
 onMacroStandalone [testcontentmacro] [] [{{testcontentmacro}}
-**New content**
+<p><strong>New content</strong></p>
 {{/testcontentmacro}}
 
 >line1

@@ -20,14 +20,8 @@
 package org.xwiki.rendering;
 
 import org.junit.runner.RunWith;
-import org.xwiki.context.ExecutionContext;
-import org.xwiki.context.ExecutionContextManager;
-import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
-import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.test.integration.RenderingTestSuite;
-import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.test.annotation.AllComponents;
-import org.xwiki.test.mockito.MockitoComponentManager;
 
 /**
  * Run all tests found in {@code simple/*.test} files located in the classpath. These {@code *.test} files must follow
@@ -41,17 +35,4 @@ import org.xwiki.test.mockito.MockitoComponentManager;
 @AllComponents
 public class SimpleIntegrationTests
 {
-    @RenderingTestSuite.Initialized
-    public void initialize(MockitoComponentManager componentManager) throws Exception
-    {
-        ExecutionContext executionContext = new ExecutionContext();
-        ExecutionContextManager executionContextManager = componentManager.getInstance(ExecutionContextManager.class);
-        executionContextManager.initialize(executionContext);
-
-        // Set TargetSyntax for Macro tests
-        RenderingContext renderingContext = componentManager.getInstance(RenderingContext.class);
-        ((MutableRenderingContext) renderingContext).push(renderingContext.getTransformation(),
-            renderingContext.getXDOM(), renderingContext.getDefaultSyntax(), renderingContext.getTransformationId(),
-            renderingContext.isRestricted(), Syntax.XWIKI_2_0);
-    }
 }

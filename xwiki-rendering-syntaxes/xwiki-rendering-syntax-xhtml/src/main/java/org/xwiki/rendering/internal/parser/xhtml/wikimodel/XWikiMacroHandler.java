@@ -70,17 +70,21 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         this.parser = parser;
     }
 
-    private String getSyntax(TagContext context) throws ComponentLookupException
+    private String getSyntax(TagContext previousNodes)
     {
-        if (context.getTagStack().getStackParameter(CURRENT_SYNTAX) != null) {
-            return (String) context.getTagStack().popStackParameter(CURRENT_SYNTAX);
+        if (previousNodes.getTagStack().getStackParameter(CURRENT_SYNTAX) != null) {
+            return (String) previousNodes.getTagStack().popStackParameter(CURRENT_SYNTAX);
 
-            // if the current syntax is not retrieved from the context, we get it from the RenderingContext
-            // target syntax. Now if this one is not set, we fallback on the parser own syntax.
+        // if the current syntax is not retrieved from the context, we get it from the RenderingContext
+        // target syntax. Now if this one is not set, we fallback on the parser own syntax.
         } else {
-            RenderingContext renderingContext = this.componentManager.getInstance(RenderingContext.class);
-            Syntax syntax = renderingContext.getTargetSyntax();
-
+            Syntax syntax = null;
+            try {
+                RenderingContext renderingContext = this.componentManager.getInstance(RenderingContext.class);
+                syntax = renderingContext.getTargetSyntax();
+            } catch (ComponentLookupException e) {
+                this.logger.error("Error while retrieving the rendering context", e);
+            }
             if (syntax == null) {
                 syntax = this.parser.getSyntax();
             }
@@ -109,8 +113,8 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             }
 
             if (metaData.contains(MetaData.UNCHANGED_CONTENT)) {
+                String currentSyntaxParameter = this.getSyntax(context);
                 try {
-                    String currentSyntaxParameter = this.getSyntax(context);
                     PrintRenderer renderer = this.componentManager.getInstance(PrintRenderer.class,
                         currentSyntaxParameter);
                     DefaultWikiPrinter printer = new DefaultWikiPrinter();
@@ -135,7 +139,8 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                     }
                     withUnchangedContent = true;
                 } catch (ComponentLookupException e) {
-                    this.logger.error("Error while getting components to parse the unchanged content metadata", e);
+                    this.logger.error("Error while getting the appropriate renderer for syntax [{}]",
+                        currentSyntaxParameter, e);
                 }
             }
         }
