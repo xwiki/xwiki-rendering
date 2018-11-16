@@ -13,8 +13,8 @@
 beginDocument
 beginMacroMarkerStandalone [info] [] [* item1
 * item2]
-beginMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 beginGroup [[class]=[box infomessage]]
+beginMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 beginList [BULLETED]
 beginListItem
 onWord [item1]
@@ -23,8 +23,8 @@ beginListItem
 onWord [item2]
 endListItem
 endList [BULLETED]
-endGroup [[class]=[box infomessage]]
 endMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endGroup [[class]=[box infomessage]]
 endMacroMarkerStandalone [info] [] [* item1
 * item2]
 endDocument
