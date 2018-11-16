@@ -19,16 +19,20 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
-import org.xwiki.rendering.listener.InlineFilterListener;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo;
@@ -51,6 +55,9 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
 
     private XHTMLParser parser;
 
+    @Inject
+    private Logger logger;
+
     /**
      * Default constructor for XWikiMacroHandler.
      * @param componentManager the component manager to retrieve the renderers.
@@ -60,6 +67,28 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
     {
         this.componentManager = componentManager;
         this.parser = parser;
+    }
+
+    private String getSyntax(TagContext previousNodes)
+    {
+        if (previousNodes.getTagStack().getStackParameter(CURRENT_SYNTAX) != null) {
+            return (String) previousNodes.getTagStack().popStackParameter(CURRENT_SYNTAX);
+
+        // if the current syntax is not retrieved from the context, we get it from the RenderingContext
+        // target syntax. Now if this one is not set, we fallback on the parser own syntax.
+        } else {
+            Syntax syntax = null;
+            try {
+                RenderingContext renderingContext = this.componentManager.getInstance(RenderingContext.class);
+                syntax = renderingContext.getTargetSyntax();
+            } catch (ComponentLookupException e) {
+                this.logger.error("Error while retrieving the rendering context", e);
+            }
+            if (syntax == null) {
+                syntax = this.parser.getSyntax();
+            }
+            return syntax.toIdString();
+        }
     }
 
     /**
@@ -83,16 +112,8 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             }
 
             if (metaData.contains(MetaData.UNCHANGED_CONTENT)) {
+                String currentSyntaxParameter = this.getSyntax(context);
                 try {
-                    String currentSyntaxParameter;
-                    if (context.getTagStack().getStackParameter(CURRENT_SYNTAX) != null) {
-                        currentSyntaxParameter = (String) context.getTagStack().popStackParameter(CURRENT_SYNTAX);
-
-                    // if the current syntax is not retrieved from the context, it should have been set previously
-                    // so the parser already know the current syntax to use.
-                    } else {
-                        currentSyntaxParameter = this.parser.getSyntax().toIdString();
-                    }
                     PrintRenderer renderer = this.componentManager.getInstance(PrintRenderer.class,
                         currentSyntaxParameter);
                     DefaultWikiPrinter printer = new DefaultWikiPrinter();
@@ -109,15 +130,11 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                         null);
 
                     context.getTagStack().pushScannerContext(new WikiScannerContext(xWikiGeneratorListener));
-
-                    if (context.getTagStack().isInsideBlockElement()) {
-                        context.getTagStack().getScannerContext().beginFormat(params);
-                    } else {
-                        context.getTagStack().getScannerContext().beginDocument(params);
-                    }
+                    context.getTagStack().getScannerContext().beginDocument();
                     withUnchangedContent = true;
                 } catch (ComponentLookupException e) {
-                    e.printStackTrace();
+                    this.logger.error("Error while getting the appropriate renderer for syntax [{}]",
+                        currentSyntaxParameter, e);
                 }
             }
         }
@@ -137,11 +154,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
         if (unchangedContent) {
-            if (context.getTagStack().isInsideBlockElement()) {
-                context.getTagStack().getScannerContext().endFormat(context.getParams());
-            } else {
-                context.getTagStack().getScannerContext().endDocument();
-            }
+            context.getTagStack().getScannerContext().endDocument();
 
             XWikiGeneratorListener xWikiGeneratorListener =
                 (XWikiGeneratorListener) context.getTagStack().popScannerContext().getfListener();
@@ -154,7 +167,6 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             } else {
                 renderer = (PrintRenderer) xWikiGeneratorListener.getListener();
             }
-
             String content = renderer.getPrinter().toString();
             macroInfo.setContent(content);
         }
