@@ -49,6 +49,7 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
 {
     /**
      * All the macro that needs to display an unchanged content div around the content.
+     * // TODO: this nasty hack will be removed as soon as message macro is refactored to use the AbstractBoxMacro
      */
     private static final List<String> ACCEPTED_MACRO_UNCHANGED_CONTENT = Arrays.asList("box", "info", "error",
         "warning", "success");
@@ -80,7 +81,7 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
         // Don't execute transformations explicitly. They'll be executed on the generated content later on.
         List<Block> children = getMacroContentParser().parse(content, context, false, context.isInline()).getChildren();
 
-        // if we are really in the context of this macro, it's an unchanged content
+        // TODO: this nasty hack will be removed as soon as message macro is refactored to use the AbstractBoxMacro
         if (ACCEPTED_MACRO_UNCHANGED_CONTENT.contains(context.getCurrentMacroBlock().getId())) {
             return Collections.singletonList(new MetaDataBlock(children, this.getUnchangedContentMetaData()));
 

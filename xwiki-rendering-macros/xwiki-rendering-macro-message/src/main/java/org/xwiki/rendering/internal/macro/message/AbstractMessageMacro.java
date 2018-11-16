@@ -77,6 +77,7 @@ public abstract class AbstractMessageMacro extends AbstractMacro<Object>
 
         boxParameters.setCssClass(context.getCurrentMacroBlock().getId() + "message");
 
+        // TODO: we should not rely directly on the concrete macro, but only on the AbstractBoxMacro
         return this.boxMacro.execute(boxParameters, content, context);
     }
 
