@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.internal.macro.box;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,6 +48,12 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMacro<P>
 {
     /**
+     * All the macro that needs to display an unchanged content div around the content.
+     */
+    private static final List<String> ACCEPTED_MACRO_UNCHANGED_CONTENT = Arrays.asList("box", "info", "error",
+        "warning", "success");
+
+    /**
      * The description of the macro.
      */
     private static final String DESCRIPTION = "Draw a box around provided content.";
@@ -74,7 +81,7 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
         List<Block> children = getMacroContentParser().parse(content, context, false, context.isInline()).getChildren();
 
         // if we are really in the context of this macro, it's an unchanged content
-        if (context.getCurrentMacroBlock().getId().equals("box")) {
+        if (ACCEPTED_MACRO_UNCHANGED_CONTENT.contains(context.getCurrentMacroBlock().getId())) {
             return Collections.singletonList(new MetaDataBlock(children, this.getUnchangedContentMetaData()));
 
         // else we cannot guarantee it

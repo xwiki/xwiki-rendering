@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,7 +26,6 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroExecutionException;
@@ -79,10 +77,7 @@ public abstract class AbstractMessageMacro extends AbstractMacro<Object>
 
         boxParameters.setCssClass(context.getCurrentMacroBlock().getId() + "message");
 
-        return Collections.singletonList(
-            new MetaDataBlock(this.boxMacro.execute(boxParameters, content, context),
-                this.getUnchangedContentMetaData())
-        );
+        return this.boxMacro.execute(boxParameters, content, context);
     }
 
     @Override
