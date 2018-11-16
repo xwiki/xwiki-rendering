@@ -1,0 +1,40 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test the rendering output of a macro which can be edited inline.
+.#-----------------------------------------------------
+<p>before</p>
+
+<!--startmacro:info|-||-|whatever-->
+<div class="box infomessage">
+  <div data-xwiki-unchanged-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" class="xwiki-metadata-container">
+    <p>one</p>
+    <!--startmacro:error|-||-|whatever-->
+    <div class="box errormessage">
+      <div data-xwiki-unchanged-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" class="xwiki-metadata-container">
+        <p>two</p>
+      </div>
+    </div>
+    <!--stopmacro-->
+    <p>three</p>
+  </div>
+</div>
+<!--stopmacro-->
+
+<p>after</p>
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+before
+
+{{info}}
+one
+
+{{error}}
+two
+{{/error}}
+
+three
+{{/info}}
+
+after

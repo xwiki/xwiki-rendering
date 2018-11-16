@@ -26,7 +26,6 @@ import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
-import org.xwiki.rendering.listener.InlineFilterListener;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.WrappingListener;
@@ -131,12 +130,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                         null);
 
                     context.getTagStack().pushScannerContext(new WikiScannerContext(xWikiGeneratorListener));
-
-                    if (context.getTagStack().isInsideBlockElement()) {
-                        context.getTagStack().getScannerContext().beginFormat(params);
-                    } else {
-                        context.getTagStack().getScannerContext().beginDocument(params);
-                    }
+                    context.getTagStack().getScannerContext().beginDocument();
                     withUnchangedContent = true;
                 } catch (ComponentLookupException e) {
                     this.logger.error("Error while getting the appropriate renderer for syntax [{}]",
@@ -160,11 +154,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
         if (unchangedContent) {
-            if (context.getTagStack().isInsideBlockElement()) {
-                context.getTagStack().getScannerContext().endFormat(context.getParams());
-            } else {
-                context.getTagStack().getScannerContext().endDocument();
-            }
+            context.getTagStack().getScannerContext().endDocument();
 
             XWikiGeneratorListener xWikiGeneratorListener =
                 (XWikiGeneratorListener) context.getTagStack().popScannerContext().getfListener();
@@ -177,7 +167,6 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             } else {
                 renderer = (PrintRenderer) xWikiGeneratorListener.getListener();
             }
-
             String content = renderer.getPrinter().toString();
             macroInfo.setContent(content);
         }

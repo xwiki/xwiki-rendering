@@ -30,6 +30,7 @@ import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.configuration.ConfigurationSource;
+import org.xwiki.context.Execution;
 import org.xwiki.context.ExecutionContext;
 import org.xwiki.context.ExecutionContextManager;
 import org.xwiki.rendering.block.XDOM;
@@ -145,31 +146,47 @@ public class RenderingTest
 
         StreamParser streamParser = getComponentManager().getInstance(StreamParser.class, this.parserId);
 
-        if (!this.streaming) {
-            Parser parser = getComponentManager().getInstance(Parser.class, this.parserId);
-            XDOM xdom = parser.parse(new StringReader(this.input));
+        ExecutionContext executionContext = new ExecutionContext();
+        ExecutionContextManager executionContextManager = componentManager.getInstance(ExecutionContextManager.class);
+        executionContextManager.initialize(executionContext);
 
-            if (this.transformations != null) {
-                runTransformations(xdom, streamParser);
+        // Set TargetSyntax for Macro tests
+        RenderingContext renderingContext = componentManager.getInstance(RenderingContext.class);
+        ((MutableRenderingContext) renderingContext).push(renderingContext.getTransformation(),
+            renderingContext.getXDOM(), streamParser.getSyntax(), renderingContext.getTransformationId(),
+            renderingContext.isRestricted(), getRendererSyntax());
+
+        try {
+            if (!this.streaming) {
+                Parser parser = getComponentManager().getInstance(Parser.class, this.parserId);
+                XDOM xdom = parser.parse(new StringReader(this.input));
+
+                if (this.transformations != null) {
+                    runTransformations(xdom, streamParser);
+                }
+
+                BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, this.targetSyntaxId);
+
+                // remove source syntax from XDOM metadata
+                if (xdom.getMetaData() != null) {
+                    Map<String, Object> metadataMap = new HashMap<String, Object>(xdom.getMetaData().getMetaData());
+                    metadataMap.remove(MetaData.SYNTAX);
+                    xdom = new XDOM(xdom.getChildren(), new MetaData(metadataMap));
+                }
+                renderer.render(xdom, printer);
+            } else {
+                PrintRendererFactory streamRendererFactory =
+                    getComponentManager().getInstance(PrintRendererFactory.class, this.targetSyntaxId);
+                // remove source syntax from begin/endDocument metadata
+                WrappingListener listener = new SyntaxWrappingListener();
+                listener.setWrappedListener(streamRendererFactory.createRenderer(printer));
+
+                streamParser.parse(new StringReader(this.input), listener);
             }
-
-            BlockRenderer renderer = getComponentManager().getInstance(BlockRenderer.class, this.targetSyntaxId);
-
-            // remove source syntax from XDOM metadata
-            if (xdom.getMetaData() != null) {
-                Map<String, Object> metadataMap = new HashMap<String, Object>(xdom.getMetaData().getMetaData());
-                metadataMap.remove(MetaData.SYNTAX);
-                xdom = new XDOM(xdom.getChildren(), new MetaData(metadataMap));
-            }
-            renderer.render(xdom, printer);
-        } else {
-            PrintRendererFactory streamRendererFactory =
-                getComponentManager().getInstance(PrintRendererFactory.class, this.targetSyntaxId);
-            // remove source syntax from begin/endDocument metadata
-            WrappingListener listener = new SyntaxWrappingListener();
-            listener.setWrappedListener(streamRendererFactory.createRenderer(printer));
-
-            streamParser.parse(new StringReader(this.input), listener);
+        } finally {
+            ((MutableRenderingContext) renderingContext).pop();
+            Execution execution = componentManager.getInstance(Execution.class);
+            execution.removeContext();
         }
 
         // Verify the expected result against the result we got.
@@ -182,16 +199,6 @@ public class RenderingTest
         txContext.setTargetSyntax(getRendererSyntax());
         txContext.setId("test");
 
-        ExecutionContext executionContext = new ExecutionContext();
-        ExecutionContextManager executionContextManager = componentManager.getInstance(ExecutionContextManager.class);
-        executionContextManager.initialize(executionContext);
-
-        // Set TargetSyntax for Macro tests
-        RenderingContext renderingContext = componentManager.getInstance(RenderingContext.class);
-        ((MutableRenderingContext) renderingContext).push(renderingContext.getTransformation(),
-            renderingContext.getXDOM(), renderingContext.getDefaultSyntax(), renderingContext.getTransformationId(),
-            renderingContext.isRestricted(), getRendererSyntax());
-
         if (this.transformations.isEmpty()) {
             TransformationManager transformationManager =
                 getComponentManager().getInstance(TransformationManager.class);
@@ -202,7 +209,6 @@ public class RenderingTest
                 transformation.transform(xdom, txContext);
             }
         }
-        ((MutableRenderingContext) renderingContext).pop();
     }
 
     private Syntax getRendererSyntax() throws Exception

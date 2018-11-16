@@ -37,9 +37,30 @@ onWord [paragraph]
 onSpecialSymbol [.]
 endParagraph
 onMacroStandalone [testcontentmacro] [] [{{testcontentmacro}}
-<p><strong>New content</strong></p>
+beginDocument [[syntax]=[XHTML 1.0]]
+beginParagraph
+beginFormat [BOLD]
+onWord [New]
+onSpace
+onWord [content]
+endFormat [BOLD]
+endParagraph
+endDocument [[syntax]=[XHTML 1.0]]
 {{/testcontentmacro}}
 
 >line1
 >line2]
 endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+First paragraph.
+
+{{testcontentmacro}}
+{{testcontentmacro}}
+**New content**
+{{/testcontentmacro}}
+
+>line1
+>line2
+{{/testcontentmacro}}

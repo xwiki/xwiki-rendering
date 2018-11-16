@@ -30,6 +30,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.context.Execution;
 import org.xwiki.context.ExecutionContext;
 import org.xwiki.context.ExecutionContextManager;
 import org.xwiki.rendering.block.XDOM;
@@ -246,25 +247,28 @@ public class RenderingTest
         ExecutionContext executionContext = new ExecutionContext();
         ExecutionContextManager executionContextManager = componentManager.getInstance(ExecutionContextManager.class);
         executionContextManager.initialize(executionContext);
-
         // Set TargetSyntax for Macro tests
         RenderingContext renderingContext = componentManager.getInstance(RenderingContext.class);
         ((MutableRenderingContext) renderingContext).push(renderingContext.getTransformation(),
             renderingContext.getXDOM(), renderingContext.getDefaultSyntax(), renderingContext.getTransformationId(),
             renderingContext.isRestricted(), Syntax.valueOf(targetSyntaxId));
 
-        if (isStreamingTest(sourceSyntaxId, targetSyntaxId)) {
-            StreamParser parser = getComponentManager().getInstance(StreamParser.class, sourceSyntaxId);
-            PrintRendererFactory rendererFactory =
-                getComponentManager().getInstance(PrintRendererFactory.class, targetSyntaxId);
-            result = convert(source, parser, rendererFactory);
-        } else {
-            Parser parser = getComponentManager().getInstance(Parser.class, sourceSyntaxId);
-            BlockRenderer blockRenderer = getComponentManager().getInstance(BlockRenderer.class, targetSyntaxId);
-            result = convert(source, parser, blockRenderer);
+        try {
+            if (isStreamingTest(sourceSyntaxId, targetSyntaxId)) {
+                StreamParser parser = getComponentManager().getInstance(StreamParser.class, sourceSyntaxId);
+                PrintRendererFactory rendererFactory =
+                    getComponentManager().getInstance(PrintRendererFactory.class, targetSyntaxId);
+                result = convert(source, parser, rendererFactory);
+            } else {
+                Parser parser = getComponentManager().getInstance(Parser.class, sourceSyntaxId);
+                BlockRenderer blockRenderer = getComponentManager().getInstance(BlockRenderer.class, targetSyntaxId);
+                result = convert(source, parser, blockRenderer);
+            }
+        } finally {
+            ((MutableRenderingContext) renderingContext).pop();
+            Execution execution = componentManager.getInstance(Execution.class);
+            execution.removeContext();
         }
-
-        ((MutableRenderingContext) renderingContext).pop();
         return result;
     }
 
