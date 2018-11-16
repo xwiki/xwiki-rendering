@@ -54,4 +54,16 @@ public class InlineFilterListener extends WrappingListener
     {
         // Disable this event
     }
+
+    @Override
+    public void beginGroup(Map<String, String> parameters)
+    {
+        // Disable this event
+    }
+
+    @Override
+    public void endGroup(Map<String, String> parameters)
+    {
+        // Disable this event
+    }
 }
