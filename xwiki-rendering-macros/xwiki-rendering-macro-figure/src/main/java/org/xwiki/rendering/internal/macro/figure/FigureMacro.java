@@ -29,6 +29,7 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FigureBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
@@ -81,6 +82,9 @@ public class FigureMacro extends AbstractNoParameterMacro
         throws MacroExecutionException
     {
         XDOM xdom = this.contentParser.parse(content, context, false, false);
-        return Collections.singletonList(new FigureBlock(xdom.getChildren()));
+        List<Block> contentBlock = Collections.singletonList(new FigureBlock(xdom.getChildren()));
+
+        // mark the figure as editable inline
+        return Collections.singletonList(new MetaDataBlock(contentBlock, this.getUnchangedContentMetaData()));
     }
 }

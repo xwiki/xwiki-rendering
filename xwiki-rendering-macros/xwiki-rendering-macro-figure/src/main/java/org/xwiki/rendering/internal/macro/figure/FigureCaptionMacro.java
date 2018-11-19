@@ -30,6 +30,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FigureBlock;
 import org.xwiki.rendering.block.FigureCaptionBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
@@ -92,7 +93,8 @@ public class FigureCaptionMacro extends AbstractNoParameterMacro
             XDOM xdom = this.contentParser.parse(content, context, false, false);
             List<Block> figureCaptionChildren = xdom.getChildren();
             this.parserUtils.removeTopLevelParagraph(figureCaptionChildren);
-            result = Collections.singletonList(new FigureCaptionBlock(figureCaptionChildren));
+            figureCaptionChildren = Collections.singletonList(new FigureCaptionBlock(figureCaptionChildren));
+            result = Collections.singletonList(new MetaDataBlock(figureCaptionChildren, getUnchangedContentMetaData()));
         }
 
         return result;
