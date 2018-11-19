@@ -17,42 +17,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.macro.message;
+package org.xwiki.rendering.macro.box;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.VerbatimBlock;
 import org.xwiki.rendering.macro.MacroExecutionException;
-import org.xwiki.rendering.macro.box.AbstractBoxMacro;
-import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
- * Common implementation for message macros (e.g. info, error, warning, success, etc).
+ * Used in some {@code *.test} files.
  *
  * @version $Id$
- * @since 2.0M3
  */
-public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroParameters>
+@Component
+@Named("mandatorybox")
+@Singleton
+public class MandatoryContentBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
-    /**
-     * Predefined error message.
-     */
-    public static final String CONTENT_MISSING_ERROR = "The required content is missing.";
-
-    /**
-     * Create and initialize the descriptor of the macro.
-     *
-     * @param macroName the macro name (eg "Error", "Info", etc)
-     * @param macroDescription the macro description
-     */
-    public AbstractMessageMacro(String macroName, String macroDescription)
+    public MandatoryContentBoxMacro()
     {
-        super(macroName, macroDescription,
-            new DefaultContentDescriptor("Content of the message", true, Block.LIST_BLOCK_TYPE),
+        super("Test Box Macro", "Description",
+            new DefaultContentDescriptor("", true, Block.LIST_BLOCK_TYPE),
             BoxMacroParameters.class);
     }
 
@@ -60,14 +55,23 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     protected List<Block> parseContent(BoxMacroParameters parameters, String content,
         MacroTransformationContext context) throws MacroExecutionException
     {
-        List<Block> macroContent = getMacroContentParser().parse(content, context, false, context.isInline())
-            .getChildren();
-        return Collections.singletonList(new MetaDataBlock(macroContent, this.getUnchangedContentMetaData()));
+        return Collections.singletonList(new MetaDataBlock(
+            Collections.<Block>singletonList(new VerbatimBlock(content, context.isInline())),
+            this.getUnchangedContentMetaData()
+        ));
     }
 
     @Override
-    protected String getClassProperty()
+    public List<Block> execute(BoxMacroParameters parameters, String content,
+        MacroTransformationContext context) throws MacroExecutionException
     {
-        return super.getClassProperty() + ' ' + this.getDescriptor().getId().getId() + "message";
+        try {
+            return super.execute(parameters, content, context);
+        } catch (MacroExecutionException e) {
+            if (e.getMessage().equals(CONTENT_MISSING_ERROR)) {
+                return Arrays.asList(new VerbatimBlock(CONTENT_MISSING_ERROR, false));
+            }
+            throw e;
+        }
     }
 }

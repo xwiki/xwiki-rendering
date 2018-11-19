@@ -46,7 +46,7 @@ public class TestBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
     public TestBoxMacro()
     {
         super("Test Box Macro", "Description",
-            new DefaultContentDescriptor("", true, Block.LIST_BLOCK_TYPE),
+            new DefaultContentDescriptor("", false, Block.LIST_BLOCK_TYPE),
             BoxMacroParameters.class);
     }
 
