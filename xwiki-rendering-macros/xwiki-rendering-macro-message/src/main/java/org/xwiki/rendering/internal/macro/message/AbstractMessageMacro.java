@@ -44,8 +44,6 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
      */
     public static final String CONTENT_MISSING_ERROR = "The required content is missing.";
 
-    private MacroTransformationContext currentContext;
-
     /**
      * Create and initialize the descriptor of the macro.
      *
@@ -66,7 +64,6 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
         if (StringUtils.isEmpty(content)) {
             throw new MacroExecutionException(CONTENT_MISSING_ERROR);
         }
-        this.currentContext = context;
         return super.execute(parameters, content, context);
     }
 
@@ -88,6 +85,6 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     @Override
     protected String getClassProperty()
     {
-        return super.getClassProperty() + ' ' + this.currentContext.getCurrentMacroBlock().getId() + "message";
+        return super.getClassProperty() + ' ' + this.getDescriptor().getId() + "message";
     }
 }
