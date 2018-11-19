@@ -85,6 +85,6 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     @Override
     protected String getClassProperty()
     {
-        return super.getClassProperty() + ' ' + this.getDescriptor().getId() + "message";
+        return super.getClassProperty() + ' ' + this.getDescriptor().getId().getId() + "message";
     }
 }
