@@ -39,11 +39,12 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  */
 public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
-
     /**
      * Predefined error message.
      */
     public static final String CONTENT_MISSING_ERROR = "The required content is missing.";
+
+    private MacroTransformationContext currentContext;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -65,8 +66,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
         if (StringUtils.isEmpty(content)) {
             throw new MacroExecutionException(CONTENT_MISSING_ERROR);
         }
-
-        parameters.setCssClass(context.getCurrentMacroBlock().getId() + "message");
+        this.currentContext = context;
         return super.execute(parameters, content, context);
     }
 
@@ -83,5 +83,11 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     public boolean supportsInlineMode()
     {
         return true;
+    }
+
+    @Override
+    protected String getClassProperty()
+    {
+        return super.getClassProperty() + ' ' + this.currentContext.getCurrentMacroBlock().getId() + "message";
     }
 }
