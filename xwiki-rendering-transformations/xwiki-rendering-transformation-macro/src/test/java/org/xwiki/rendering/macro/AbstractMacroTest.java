@@ -28,8 +28,10 @@ import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Validate the behaviour of {@link AbstractMacro}.
@@ -67,5 +69,15 @@ public class AbstractMacroTest
         MetaData expectedMetadata = new MetaData();
         expectedMetadata.addMetaData(MetaData.UNCHANGED_CONTENT, "java.util.List< org.xwiki.rendering.block.Block >");
         assertEquals(expectedMetadata, unchangedContentMetaData);
+    }
+
+    @Test
+    public void supportsInlineMode()
+    {
+        assertFalse(macro1.supportsInlineMode());
+        assertEquals(macro1.supportsInlineMode(), macro1.getDescriptor().supportsInlineMode());
+
+        assertTrue(macro2.supportsInlineMode());
+        assertEquals(macro2.supportsInlineMode(), macro2.getDescriptor().supportsInlineMode());
     }
 }

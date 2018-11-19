@@ -196,6 +196,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
         DefaultMacroDescriptor descriptor = new DefaultMacroDescriptor(macroId, this.name, this.description,
             this.contentDescriptor, this.beanManager.getBeanDescriptor(this.parametersBeanClass));
         descriptor.setDefaultCategory(this.defaultCategory);
+        descriptor.setSupportsInlineMode(this.supportsInlineMode());
         setDescriptor(descriptor);
     }
 

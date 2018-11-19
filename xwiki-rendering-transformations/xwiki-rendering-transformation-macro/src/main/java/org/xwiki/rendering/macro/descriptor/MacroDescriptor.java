@@ -22,6 +22,7 @@ package org.xwiki.rendering.macro.descriptor;
 import java.util.Map;
 
 import org.xwiki.rendering.macro.MacroId;
+import org.xwiki.stability.Unstable;
 
 /**
  * Describe a Macro (macro description and macro parameters description).
@@ -81,4 +82,16 @@ public interface MacroDescriptor
      * @since 2.0M3
      */
     String getDefaultCategory();
+
+    /**
+     * @return true if the macro can be inserted in some existing content such as a paragraph, a list item etc. For
+     *         example if I have <code>== hello {{velocity}}world{{/velocity}}</code> then the Velocity macro must
+     *         support the inline mode and not generate a paragraph.
+     * @since 10.10RC1
+     */
+    @Unstable
+    default boolean supportsInlineMode()
+    {
+        return false;
+    }
 }
