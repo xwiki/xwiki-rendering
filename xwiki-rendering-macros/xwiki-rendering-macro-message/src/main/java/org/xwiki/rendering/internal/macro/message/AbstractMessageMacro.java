@@ -22,7 +22,6 @@ package org.xwiki.rendering.internal.macro.message;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.macro.MacroExecutionException;
@@ -61,9 +60,6 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     public List<Block> execute(BoxMacroParameters parameters, String content,
         MacroTransformationContext context) throws MacroExecutionException
     {
-        if (StringUtils.isEmpty(content)) {
-            throw new MacroExecutionException(CONTENT_MISSING_ERROR);
-        }
         return super.execute(parameters, content, context);
     }
 

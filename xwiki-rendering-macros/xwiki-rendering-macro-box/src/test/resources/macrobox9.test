@@ -1,0 +1,14 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Test that mandatory box cannot be empty
+.#-----------------------------------------------------
+{{mandatorybox /}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [mandatorybox] []
+onVerbatim [The required content is missing.] [false]
+endMacroMarkerStandalone [mandatorybox] []
+endDocument

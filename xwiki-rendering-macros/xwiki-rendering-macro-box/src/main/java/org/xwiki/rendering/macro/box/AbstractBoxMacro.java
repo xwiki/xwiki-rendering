@@ -53,6 +53,11 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends AbstractMacro<P>
 {
     /**
+     * Predefined error message.
+     */
+    public static final String CONTENT_MISSING_ERROR = "The required content is missing.";
+
+    /**
      * Parses untyped image references.
      */
     @Inject
@@ -192,6 +197,14 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
         {
             Block ret = null;
 
+            // if the content is empty but yet mandatory, we throw an exception
+            if (StringUtils.isEmpty(content)
+                && AbstractBoxMacro.this.getDescriptor().getContentDescriptor().isMandatory()) {
+                throw new MacroExecutionException(CONTENT_MISSING_ERROR);
+            }
+
+            // if it's null but not mandatory we return null
+            // if it's only empty we continue the processing
             if (content == null) {
                 return ret;
             }

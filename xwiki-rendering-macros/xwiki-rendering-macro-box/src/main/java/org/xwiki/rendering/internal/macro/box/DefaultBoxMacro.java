@@ -61,7 +61,7 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
      */
     public DefaultBoxMacro()
     {
-        super("Box", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, true,
+        super("Box", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, false,
             Block.LIST_BLOCK_TYPE), BoxMacroParameters.class);
         setDefaultCategory(DEFAULT_CATEGORY_FORMATTING);
     }

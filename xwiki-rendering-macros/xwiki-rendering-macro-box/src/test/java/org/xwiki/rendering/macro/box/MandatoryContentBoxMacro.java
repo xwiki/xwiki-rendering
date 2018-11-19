@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.macro.box;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,14 +40,14 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * @version $Id$
  */
 @Component
-@Named("testbox")
+@Named("mandatorybox")
 @Singleton
-public class TestBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
+public class MandatoryContentBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
-    public TestBoxMacro()
+    public MandatoryContentBoxMacro()
     {
         super("Test Box Macro", "Description",
-            new DefaultContentDescriptor("", false, Block.LIST_BLOCK_TYPE),
+            new DefaultContentDescriptor("", true, Block.LIST_BLOCK_TYPE),
             BoxMacroParameters.class);
     }
 
@@ -58,5 +59,19 @@ public class TestBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
             Collections.<Block>singletonList(new VerbatimBlock(content, context.isInline())),
             this.getUnchangedContentMetaData()
         ));
+    }
+
+    @Override
+    public List<Block> execute(BoxMacroParameters parameters, String content,
+        MacroTransformationContext context) throws MacroExecutionException
+    {
+        try {
+            return super.execute(parameters, content, context);
+        } catch (MacroExecutionException e) {
+            if (e.getMessage().equals(CONTENT_MISSING_ERROR)) {
+                return Arrays.asList(new VerbatimBlock(CONTENT_MISSING_ERROR, false));
+            }
+            throw e;
+        }
     }
 }
