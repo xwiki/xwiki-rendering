@@ -57,25 +57,12 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     }
 
     @Override
-    public List<Block> execute(BoxMacroParameters parameters, String content,
-        MacroTransformationContext context) throws MacroExecutionException
-    {
-        return super.execute(parameters, content, context);
-    }
-
-    @Override
     protected List<Block> parseContent(BoxMacroParameters parameters, String content,
         MacroTransformationContext context) throws MacroExecutionException
     {
         List<Block> macroContent = getMacroContentParser().parse(content, context, false, context.isInline())
             .getChildren();
         return Collections.singletonList(new MetaDataBlock(macroContent, this.getUnchangedContentMetaData()));
-    }
-
-    @Override
-    public boolean supportsInlineMode()
-    {
-        return true;
     }
 
     @Override
