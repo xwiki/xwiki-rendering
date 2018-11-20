@@ -256,9 +256,11 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     }
 
     /**
-     * Helper to get the proper metadata for unchanged content.
-     * @return the new metadata element with proper information.
+     * Helper to get the proper metadata for unchanged content (i.e. content that has not gone through a
+     * Transformation).
      *
+     * @return the new metadata with the content type for the content represented as a string (e.g.
+     *         {@code java.util.List< org.xwiki.rendering.block.Block >} for content of type {@code Listw<Block>}
      * @since 10.10RC1
      */
     protected MetaData getUnchangedContentMetaData()
