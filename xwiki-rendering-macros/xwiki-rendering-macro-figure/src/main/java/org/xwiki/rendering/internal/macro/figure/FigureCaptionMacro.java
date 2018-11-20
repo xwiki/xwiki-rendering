@@ -95,7 +95,7 @@ public class FigureCaptionMacro extends AbstractNoParameterMacro
             this.parserUtils.removeTopLevelParagraph(figureCaptionChildren);
             figureCaptionChildren = Collections.singletonList(new FigureCaptionBlock(figureCaptionChildren));
 
-            // Mark the macro content as being editable inline.
+            // Mark the macro content as being content that has not been transformed (so that it can editable inline)
             result = Collections.singletonList(new MetaDataBlock(figureCaptionChildren, getUnchangedContentMetaData()));
         }
 
