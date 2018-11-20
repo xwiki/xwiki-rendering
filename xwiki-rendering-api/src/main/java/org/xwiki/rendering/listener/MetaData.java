@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * Represents a set of MetaData.
  *
@@ -62,6 +64,7 @@ public class MetaData
      *
      * @since 10.10RC1
      */
+    @Unstable
     public static final String UNCHANGED_CONTENT = "unchanged-content";
 
     /**
