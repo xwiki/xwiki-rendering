@@ -84,7 +84,7 @@ public class FigureMacro extends AbstractNoParameterMacro
         XDOM xdom = this.contentParser.parse(content, context, false, false);
         List<Block> contentBlock = Collections.singletonList(new FigureBlock(xdom.getChildren()));
 
-        // mark the figure as editable inline
-        return Collections.singletonList(new MetaDataBlock(contentBlock, this.getUnchangedContentMetaData()));
+        // Mark the figure as being editable inline.
+        return Collections.singletonList(new MetaDataBlock(contentBlock, getUnchangedContentMetaData()));
     }
 }
