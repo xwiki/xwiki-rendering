@@ -90,6 +90,15 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
         return true;
     }
 
+    /**
+     * @param parameters the parameters where to get the block title (see {@link BoxMacroParameters#getBlockTitle()}).
+     * @return the title represented as a list of Blocks
+     */
+    protected List<? extends Block> getBlockTitle(P parameters)
+    {
+        return parameters.getBlockTitle();
+    }
+
     @Override
     public List<Block> execute(P parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
@@ -103,7 +112,7 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
         }
 
         String titleParameter = parameters.getTitle();
-        List<? extends Block> titleBlockList = parameters.getBlockTitle();
+        List<? extends Block> titleBlockList = this.getBlockTitle(parameters);
 
         // Use a linked hashmap to keep the parameters in the same order as we create them when they are retrieved
         // by renderers. This is useful for example in the Event renderer to control the order in which the params
