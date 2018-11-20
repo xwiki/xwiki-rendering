@@ -42,6 +42,7 @@ import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.ContentDescriptor;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.stability.Unstable;
 
 /**
  * Draw a box around provided content.
@@ -93,8 +94,10 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
     /**
      * @param parameters the parameters where to get the block title (see {@link BoxMacroParameters#getBlockTitle()}).
      * @return the title represented as a list of Blocks
+     * @since 10.10RC1
      */
-    protected List<? extends Block> getBlockTitle(P parameters)
+    @Unstable
+    protected List<? extends Block> getBlockTitle(P parameters, String content, MacroTransformationContext context)
     {
         return parameters.getBlockTitle();
     }
