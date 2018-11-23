@@ -11,10 +11,10 @@
 .#-----------------------------------------------------
 beginDocument
 beginMacroMarkerStandalone [content] [syntax=xhtml/1.0] [<p>test</p>]
-beginMetaData [[syntax]=[xhtml/1.0][unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >][syntax]=[xhtml/1.0]]
 beginParagraph
 onWord [test]
 endParagraph
-endMetaData [[syntax]=[xhtml/1.0][unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >][syntax]=[xhtml/1.0]]
 endMacroMarkerStandalone [content] [syntax=xhtml/1.0] [<p>test</p>]
 endDocument

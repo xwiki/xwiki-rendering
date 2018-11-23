@@ -57,7 +57,7 @@ public class TestSyntaxWikiMacro extends AbstractNoParameterMacro
         throws MacroExecutionException
     {
 
-        MetaData metaData = this.getUnchangedContentMetaData();
+        MetaData metaData = this.getNonGeneratedContentMetaData();
         metaData.addMetaData(MetaData.SYNTAX, "xwiki/2.0");
         return Collections.singletonList(new MetaDataBlock(Arrays.<Block>asList(new WordBlock(content)), metaData));
     }

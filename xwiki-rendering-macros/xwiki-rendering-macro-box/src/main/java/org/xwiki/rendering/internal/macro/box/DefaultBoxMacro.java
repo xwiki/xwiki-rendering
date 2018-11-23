@@ -73,6 +73,6 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
         // Don't execute transformations explicitly. They'll be executed on the generated content later on.
         List<Block> children = getMacroContentParser().parse(content, context, false, context.isInline()).getChildren();
 
-        return Collections.singletonList(new MetaDataBlock(children, this.getUnchangedContentMetaData()));
+        return Collections.singletonList(new MetaDataBlock(children, this.getNonGeneratedContentMetaData()));
     }
 }

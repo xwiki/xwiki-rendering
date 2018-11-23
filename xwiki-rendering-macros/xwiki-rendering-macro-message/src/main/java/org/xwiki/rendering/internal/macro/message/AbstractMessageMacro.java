@@ -62,7 +62,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     {
         List<Block> macroContent = getMacroContentParser().parse(content, context, false, context.isInline())
             .getChildren();
-        return Collections.singletonList(new MetaDataBlock(macroContent, this.getUnchangedContentMetaData()));
+        return Collections.singletonList(new MetaDataBlock(macroContent, this.getNonGeneratedContentMetaData()));
     }
 
     @Override

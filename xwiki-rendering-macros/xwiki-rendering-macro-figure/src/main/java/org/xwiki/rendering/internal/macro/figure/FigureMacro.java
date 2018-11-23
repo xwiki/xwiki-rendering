@@ -85,6 +85,6 @@ public class FigureMacro extends AbstractNoParameterMacro
         List<Block> contentBlock = Collections.singletonList(new FigureBlock(xdom.getChildren()));
 
         // Mark the macro content as being content that has not been transformed (so that it can editable inline)
-        return Collections.singletonList(new MetaDataBlock(contentBlock, getUnchangedContentMetaData()));
+        return Collections.singletonList(new MetaDataBlock(contentBlock, getNonGeneratedContentMetaData()));
     }
 }

@@ -60,12 +60,12 @@ public class MetaData
     public static final String BASE = "base";
 
     /**
-     * Represents an inline editable content.
+     * Represents a non generated content: a content that has not been transformed in any way.
      *
-     * @since 10.10RC1
+     * @since 10.10
      */
     @Unstable
-    public static final String UNCHANGED_CONTENT = "unchanged-content";
+    public static final String NON_GENERATED_CONTENT = "non-generated-content";
 
     /**
      * Contains all MetaData for this Block and its children. Note: we preserve the order of metadata elements as they
