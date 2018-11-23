@@ -67,6 +67,6 @@ public class TestInlineEditingMacro extends AbstractNoParameterMacro
         }
 
         return Collections.singletonList(new MetaDataBlock(Collections.singletonList(contentBlock),
-            this.getUnchangedContentMetaData()));
+            this.getNonGeneratedContentMetaData()));
     }
 }

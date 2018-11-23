@@ -26,7 +26,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 import org.xwiki.stability.Unstable;
 
 /**
- * The div might contain an unchanged content metadata which needs a specific processing.
+ * The div might contain a non generated content metadata which needs a specific processing.
  *
  * @version $Id$
  * @since 10.10RC1
@@ -40,7 +40,7 @@ public class XWikiDivTagHandler extends DivisionTagHandler implements XWikiWikiM
      * Default constructor of a {@link XWikiDivTagHandler}.
      *
      * @param documentClass used by {@link DivisionTagHandler}
-     * @param componentManager is used to retrieved the proper parser component for serializing an unchanged content
+     * @param componentManager is used to retrieved the proper parser component for serializing a non generated content
      * @param parser the current parser is actually used to simplify the build of other parsers.
      */
     public XWikiDivTagHandler(String documentClass, ComponentManager componentManager, XHTMLParser parser)
@@ -52,15 +52,15 @@ public class XWikiDivTagHandler extends DivisionTagHandler implements XWikiWikiM
     @Override
     protected void begin(TagContext context)
     {
-        boolean withUnchangedContent = this.xWikiMacroHandler.handleBegin(context);
+        boolean withNonGeneratedContent = this.xWikiMacroHandler.handleBegin(context);
 
         // we only go through the element if we're not in a macro, or we are in a potentially new content
-        if (!withUnchangedContent) {
+        if (!withNonGeneratedContent) {
             super.begin(context);
 
             // in case of beginDocument we use a new stack of parameter, so we need to put in it the
-            // UNCHANGED_CONTENT_STACK value, as it will be popped in end()
-            context.getTagStack().pushStackParameter(UNCHANGED_CONTENT_STACK, false);
+            // NON_GENERATED_CONTENT_STACK value, as it will be popped in end()
+            context.getTagStack().pushStackParameter(NON_GENERATED_CONTENT_STACK, false);
         }
     }
 
@@ -68,14 +68,14 @@ public class XWikiDivTagHandler extends DivisionTagHandler implements XWikiWikiM
     @Override
     protected void end(TagContext context)
     {
-        boolean unchangedContent = this.xWikiMacroHandler.handleEnd(context);
+        boolean nonGeneratedContent = this.xWikiMacroHandler.handleEnd(context);
 
-        if (!unchangedContent) {
+        if (!nonGeneratedContent) {
             super.end(context);
 
-            // we still have one unchanged content value in the context,
+            // we still have one non generated content value in the context,
             // we remove it to be consistent
-            context.getTagStack().popStackParameter(UNCHANGED_CONTENT_STACK);
+            context.getTagStack().popStackParameter(NON_GENERATED_CONTENT_STACK);
         }
     }
 }

@@ -41,7 +41,7 @@ public class XWikiSpanTagHandler extends SpanTagHandler implements XWikiWikiMode
     /**
      * Default constructor of a {@link XWikiSpanTagHandler}.
      *
-     * @param componentManager is used to retrieved the proper parser component for serializing an unchanged content
+     * @param componentManager is used to retrieved the proper parser component for serializing a non generated content
      * @param parser the current parser is actually used to simplify the build of other parsers.
      * @since 10.10RC1
      */
@@ -54,10 +54,10 @@ public class XWikiSpanTagHandler extends SpanTagHandler implements XWikiWikiMode
     protected void begin(TagContext context)
     {
         WikiParameters params = context.getParams();
-        boolean withUnchangedContent = this.xWikiMacroHandler.handleBegin(context);
+        boolean withNonGeneratedContent = this.xWikiMacroHandler.handleBegin(context);
 
         // we only go through the element if we're not in a macro, or we are in a potentially new content
-        if (!withUnchangedContent) {
+        if (!withNonGeneratedContent) {
             // If we're on a span for unknown links then skip the event for its content.
             // Ex: <a href="..."><span class="wikicreatelinktext">...</span><span class="wikicreatelinkqm">?</span></a>
             WikiParameter classParam = params.getParameter("class");
@@ -84,9 +84,9 @@ public class XWikiSpanTagHandler extends SpanTagHandler implements XWikiWikiMode
     @Override
     protected void end(TagContext context)
     {
-        boolean unchangedContent = this.xWikiMacroHandler.handleEnd(context);
+        boolean nonGeneratedContent = this.xWikiMacroHandler.handleEnd(context);
 
-        if (!unchangedContent) {
+        if (!nonGeneratedContent) {
             WikiParameter classParam = context.getParams().getParameter("class");
             if (classParam != null) {
                 if (classParam.getValue().contains("wikigeneratedlinkcontent"))

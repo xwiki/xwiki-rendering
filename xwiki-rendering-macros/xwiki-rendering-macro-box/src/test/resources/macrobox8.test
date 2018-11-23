@@ -1,7 +1,7 @@
 .runTransformations
 .#-----------------------------------------------------
 .input|xwiki/2.0
-.# Test that custom box reusing box, will also put unchanged content metadata
+.# Test that custom box reusing box, will also put non generated content metadata
 .#-----------------------------------------------------
 {{custombox}}something{{/custombox}}
 .#-----------------------------------------------------
@@ -11,8 +11,8 @@ beginDocument
 beginMacroMarkerStandalone [custombox] [] [something]
 beginGroup [[class]=[box]]
 onWord [something]
-beginMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
-endMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 endGroup [[class]=[box]]
 endMacroMarkerStandalone [custombox] [] [something]
 endDocument

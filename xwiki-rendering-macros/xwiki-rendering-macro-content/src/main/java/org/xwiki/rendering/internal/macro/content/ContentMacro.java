@@ -95,7 +95,7 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
             MetaDataBlock metaDataBlock = new MetaDataBlock(blocks, MetaData.SYNTAX,
                 parameters.getSyntax().toIdString());
 
-            metaDataBlock.getMetaData().addMetaData(this.getUnchangedContentMetaData());
+            metaDataBlock.getMetaData().addMetaData(this.getNonGeneratedContentMetaData());
             return Collections.singletonList(metaDataBlock);
         } catch (ParseException e) {
             throw new MacroExecutionException(

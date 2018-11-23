@@ -57,7 +57,7 @@ public class MandatoryContentBoxMacro extends AbstractBoxMacro<BoxMacroParameter
     {
         return Collections.singletonList(new MetaDataBlock(
             Collections.<Block>singletonList(new VerbatimBlock(content, context.isInline())),
-            this.getUnchangedContentMetaData()
+            this.getNonGeneratedContentMetaData()
         ));
     }
 

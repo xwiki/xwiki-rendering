@@ -14,11 +14,11 @@ onWord [inline]
 onSpace
 beginMacroMarkerInline [box] [] [**box**]
 beginFormat [NONE] [[class]=[box]]
-beginMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 beginFormat [BOLD]
 onWord [box]
 endFormat [BOLD]
-endMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 endFormat [NONE] [[class]=[box]]
 endMacroMarkerInline [box] [] [**box**]
 endParagraph

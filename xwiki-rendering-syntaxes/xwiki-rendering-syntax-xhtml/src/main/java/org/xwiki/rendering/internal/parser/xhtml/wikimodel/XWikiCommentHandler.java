@@ -117,12 +117,12 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
     {
         boolean shouldIgnoreAll;
 
-        // true if we are already in an unchanged content block
-        boolean inUnchangedContent = stack.getStackParameter(UNCHANGED_CONTENT_STACK) != null
-            && (Boolean) stack.getStackParameter(UNCHANGED_CONTENT_STACK);
+        // true if we are already in a non generated content block
+        boolean inNonGeneratedContent = stack.getStackParameter(NON_GENERATED_CONTENT_STACK) != null
+            && (Boolean) stack.getStackParameter(NON_GENERATED_CONTENT_STACK);
 
-        // if we are in a macro but not in an unchanged content, we should ignore all
-        if (stack.getStackParameter(MACRO_INFO) != null && !inUnchangedContent) {
+        // if we are in a macro but not in a non generated content, we should ignore all
+        if (stack.getStackParameter(MACRO_INFO) != null && !inNonGeneratedContent) {
             shouldIgnoreAll = true;
         } else {
             shouldIgnoreAll = false;
@@ -135,13 +135,13 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         if (shouldIgnoreAll) {
             stack.setIgnoreElements();
 
-        // we ignore elements until we get an unchanged content: then the rule will be deactivated
+        // we ignore elements until we get a non generated content: then the rule will be deactivated
         // see IgnoreElementRule
         } else {
             stack.pushIgnoreElementRule(new IgnoreElementRule(tagContext -> {
                 WikiParameters wikiParameters = tagContext.getParams();
                 if (wikiParameters != null) {
-                    return wikiParameters.getParameter(METADATA_ATTRIBUTE_PREFIX + MetaData.UNCHANGED_CONTENT) != null;
+                    return wikiParameters.getParameter(METADATA_ATTRIBUTE_PREFIX + MetaData.NON_GENERATED_CONTENT) != null;
                 }
                 return false;
             }, true));

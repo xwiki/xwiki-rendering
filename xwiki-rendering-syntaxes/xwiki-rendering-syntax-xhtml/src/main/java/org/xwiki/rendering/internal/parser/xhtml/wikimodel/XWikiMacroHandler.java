@@ -92,17 +92,17 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
     }
 
     /**
-     * Handle the begin of a container element (div or span) which could contain a syntax metadata and/or an unchanged
-     * content metadata.
+     * Handle the begin of a container element (div or span) which could contain a syntax metadata and/or a non 
+     * generated content metadata.
      * @param context the current tag context.
-     * @return true if an unchanged content metadata has been found or the macro info is not null.
+     * @return true if a non generated content metadata has been found or the macro info is not null.
      */
     public boolean handleBegin(TagContext context)
     {
         WikiParameters params = context.getParams();
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
-        boolean withUnchangedContent = false;
+        boolean withNonGeneratedContent = false;
         if (isMetaDataElement(params)) {
             MetaData metaData = createMetaData(params);
 
@@ -111,7 +111,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                 context.getTagStack().pushStackParameter(CURRENT_SYNTAX, currentSyntax);
             }
 
-            if (metaData.contains(MetaData.UNCHANGED_CONTENT)) {
+            if (metaData.contains(MetaData.NON_GENERATED_CONTENT)) {
                 String currentSyntaxParameter = this.getSyntax(context);
                 try {
                     PrintRenderer renderer = this.componentManager.getInstance(PrintRenderer.class,
@@ -131,7 +131,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
 
                     context.getTagStack().pushScannerContext(new WikiScannerContext(xWikiGeneratorListener));
                     context.getTagStack().getScannerContext().beginDocument();
-                    withUnchangedContent = true;
+                    withNonGeneratedContent = true;
                 } catch (ComponentLookupException e) {
                     this.logger.error("Error while getting the appropriate renderer for syntax [{}]",
                         currentSyntaxParameter, e);
@@ -139,21 +139,21 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             }
         }
 
-        context.getTagStack().pushStackParameter(UNCHANGED_CONTENT_STACK, withUnchangedContent);
-        return withUnchangedContent || macroInfo != null;
+        context.getTagStack().pushStackParameter(NON_GENERATED_CONTENT_STACK, withNonGeneratedContent);
+        return withNonGeneratedContent || macroInfo != null;
     }
 
     /**
-     * Handle the end of a container (div or span) which can contain unchanged content metadata.
+     * Handle the end of a container (div or span) which can contain a non generated content metadata.
      * @param context the context of the current tag.
-     * @return true if an unchanged content tag has been detected or it's in an macro info.
+     * @return true if a non generated content tag has been detected or it's in an macro info.
      */
     public boolean handleEnd(TagContext context)
     {
-        boolean unchangedContent = (boolean) context.getTagStack().popStackParameter(UNCHANGED_CONTENT_STACK);
+        boolean nonGeneratedContent = (boolean) context.getTagStack().popStackParameter(NON_GENERATED_CONTENT_STACK);
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
-        if (unchangedContent) {
+        if (nonGeneratedContent) {
             context.getTagStack().getScannerContext().endDocument();
 
             XWikiGeneratorListener xWikiGeneratorListener =
@@ -171,6 +171,6 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             macroInfo.setContent(content);
         }
 
-        return unchangedContent || macroInfo != null;
+        return nonGeneratedContent || macroInfo != null;
     }
 }
