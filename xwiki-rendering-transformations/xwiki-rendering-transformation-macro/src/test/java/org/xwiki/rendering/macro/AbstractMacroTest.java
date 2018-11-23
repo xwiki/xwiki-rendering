@@ -50,25 +50,25 @@ public class AbstractMacroTest
     private TestInlineEditingMacro macro2;
 
     @Test
-    public void getUnchangedMetadataDefault()
+    public void getNonGeneratedMetadataDefault()
     {
         assertNull(macro1.getDescriptor().getContentDescriptor());
-        MetaData unchangedContentMetaData = macro1.getUnchangedContentMetaData();
+        MetaData nonGeneratedContentMetaData = macro1.getNonGeneratedContentMetaData();
 
         MetaData expectedMetadata = new MetaData();
-        expectedMetadata.addMetaData(MetaData.UNCHANGED_CONTENT, "java.lang.String");
-        assertEquals(expectedMetadata, unchangedContentMetaData);
+        expectedMetadata.addMetaData(MetaData.NON_GENERATED_CONTENT, "java.lang.String");
+        assertEquals(expectedMetadata, nonGeneratedContentMetaData);
     }
 
     @Test
-    public void getUnchangedMetadataCustomDescriptor()
+    public void getNonGeneratedMetadataCustomDescriptor()
     {
         assertNotNull(macro2.getDescriptor().getContentDescriptor());
-        MetaData unchangedContentMetaData = macro2.getUnchangedContentMetaData();
+        MetaData nonGeneratedContentMetaData = macro2.getNonGeneratedContentMetaData();
 
         MetaData expectedMetadata = new MetaData();
-        expectedMetadata.addMetaData(MetaData.UNCHANGED_CONTENT, "java.util.List< org.xwiki.rendering.block.Block >");
-        assertEquals(expectedMetadata, unchangedContentMetaData);
+        expectedMetadata.addMetaData(MetaData.NON_GENERATED_CONTENT, "java.util.List< org.xwiki.rendering.block.Block >");
+        assertEquals(expectedMetadata, nonGeneratedContentMetaData);
     }
 
     @Test

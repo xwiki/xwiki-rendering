@@ -14,11 +14,11 @@ onNewLine
 beginLink [Typed = [false] Type = [url] Reference = [http://www.xwiki.org]] [false]
 onWord [XWiki]
 endLink [Typed = [false] Type = [url] Reference = [http://www.xwiki.org]] [false]
-beginMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 beginParagraph
 onWord [alabala]
 endParagraph
-endMetaData [[unchanged-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 endGroup [[class]=[box myCLASS]]
 endMacroMarkerStandalone [box] [title=[[XWiki>>http://www.xwiki.org]]|cssClass=myCLASS|image=http://l.yimg.com/i/i/fr/tr/usa4.jpg] [alabala]
 endDocument

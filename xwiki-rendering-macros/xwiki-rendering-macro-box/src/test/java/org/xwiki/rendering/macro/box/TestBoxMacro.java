@@ -56,7 +56,7 @@ public class TestBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
     {
         return Collections.singletonList(new MetaDataBlock(
             Collections.<Block>singletonList(new VerbatimBlock(content, context.isInline())),
-            this.getUnchangedContentMetaData()
+            this.getNonGeneratedContentMetaData()
         ));
     }
 }

@@ -20,6 +20,8 @@
 
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * Common interface to all XWiki Tag Handler.
  *
@@ -67,17 +69,20 @@ public interface XWikiWikiModelHandler
      * Stack parameter which hold the instances of the MacroInfo encountered.
      * @since 10.10RC1
      */
+    @Unstable
     String MACRO_INFO = "macroInfo";
 
     /**
      * Stack parameters which records the syntax metadata encountered in the document.
      * @since 10.10RC1
      */
+    @Unstable
     String CURRENT_SYNTAX = "currentSyntax";
 
     /**
-     * Stack parameters which records if the previous div or span was triggered by an unchanged content metadata.
-     * @since 10.10RC1
+     * Stack parameters which records if the previous div or span was triggered by a non generated content metadata.
+     * @since 10.10
      */
-    String UNCHANGED_CONTENT_STACK = "unchangedContentStack";
+    @Unstable
+    String NON_GENERATED_CONTENT_STACK = "nonGeneratedContentStack";
 }

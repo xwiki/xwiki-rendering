@@ -126,7 +126,7 @@ public class MacroInfo
     }
 
     /**
-     * Allow to specify the content of the macro when changed in an unchanged content block.
+     * Allow to specify the content of the macro when changed in a non generated content block.
      *
      * @param content the new content of the macro.
      */

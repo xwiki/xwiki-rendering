@@ -257,15 +257,15 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     }
 
     /**
-     * Helper to get the proper metadata for unchanged content (i.e. content that has not gone through a
-     * Transformation).
+     * Helper to get the proper metadata for non generated content (i.e. content that has not gone through a
+     * Transformation). This content can be used for inline editing.
      *
      * @return the new metadata with the content type for the content represented as a string (e.g.
-     *         {@code java.util.List< org.xwiki.rendering.block.Block >} for content of type {@code Listw<Block>}
-     * @since 10.10RC1
+     *         {@code java.util.List< org.xwiki.rendering.block.Block >} for content of type {@code List<Block>}
+     * @since 10.10
      */
     @Unstable
-    protected MetaData getUnchangedContentMetaData()
+    protected MetaData getNonGeneratedContentMetaData()
     {
         MetaData metaData = new MetaData();
         Type contentType;
@@ -278,7 +278,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
 
         String converted = this.converterManager.convert(String.class, contentType);
 
-        metaData.addMetaData(MetaData.UNCHANGED_CONTENT, converted);
+        metaData.addMetaData(MetaData.NON_GENERATED_CONTENT, converted);
         return metaData;
     }
 }

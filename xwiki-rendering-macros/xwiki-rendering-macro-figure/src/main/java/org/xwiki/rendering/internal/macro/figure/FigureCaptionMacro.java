@@ -96,7 +96,8 @@ public class FigureCaptionMacro extends AbstractNoParameterMacro
             figureCaptionChildren = Collections.singletonList(new FigureCaptionBlock(figureCaptionChildren));
 
             // Mark the macro content as being content that has not been transformed (so that it can editable inline)
-            result = Collections.singletonList(new MetaDataBlock(figureCaptionChildren, getUnchangedContentMetaData()));
+            result = Collections.singletonList(new MetaDataBlock(figureCaptionChildren,
+                getNonGeneratedContentMetaData()));
         }
 
         return result;
