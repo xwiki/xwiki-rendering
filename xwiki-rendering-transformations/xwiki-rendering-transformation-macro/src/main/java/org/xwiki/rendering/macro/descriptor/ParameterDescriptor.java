@@ -20,6 +20,8 @@
 package org.xwiki.rendering.macro.descriptor;
 
 import java.lang.reflect.Type;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Define a macro parameter.
@@ -74,7 +76,8 @@ public interface ParameterDescriptor
      * @return indicate if the parameter is deprecated.
      * @since 10.10RC1
      */
-    default boolean isDeprecated() {
+    default boolean isDeprecated()
+    {
         return false;
     }
 
@@ -82,7 +85,17 @@ public interface ParameterDescriptor
      * @return indicate if the parameter is advanced.
      * @since 10.10RC1
      */
-    default boolean isAdvanced() {
+    default boolean isAdvanced()
+    {
         return false;
+    }
+
+    /**
+     * @return a hierarchy of groups.
+     * @since 10.11RC1
+     */
+    default List<String> getGroup()
+    {
+        return Collections.emptyList();
     }
 }

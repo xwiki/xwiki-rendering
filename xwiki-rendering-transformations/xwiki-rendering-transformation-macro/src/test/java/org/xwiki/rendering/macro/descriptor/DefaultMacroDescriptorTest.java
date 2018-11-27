@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.macro.descriptor;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -27,6 +29,7 @@ import org.junit.Test;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
+import org.xwiki.properties.annotation.PropertyGroup;
 import org.xwiki.properties.annotation.PropertyHidden;
 import org.xwiki.properties.annotation.PropertyMandatory;
 import org.xwiki.rendering.macro.MacroId;
@@ -136,6 +139,7 @@ public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
         }
 
         @PropertyAdvanced
+        @PropertyGroup({"parentGroup", "childGroup"})
         public String getAdvancedParameter()
         {
             return advancedParameter;
@@ -184,9 +188,11 @@ public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
 
         ParameterDescriptor deprecatedDescriptor = map.get("deprecatedparameter");
         Assert.assertTrue(deprecatedDescriptor.isDeprecated());
+        Assert.assertEquals(Collections.emptyList(), deprecatedDescriptor.getGroup());
 
         ParameterDescriptor advancedDescriptor = map.get("advancedparameter");
         Assert.assertTrue(advancedDescriptor.isAdvanced());
+        Assert.assertEquals(Arrays.asList("parentGroup", "childGroup"), advancedDescriptor.getGroup());
     }
 
     @Test
@@ -243,5 +249,18 @@ public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
         Assert.assertEquals("param3 description", param3Descriptor.getDescription());
         Assert.assertSame(boolean.class, param3Descriptor.getParameterType());
         Assert.assertEquals(true, param3Descriptor.isMandatory());
+    }
+
+    @Test
+    public void testLegacyParameterDescriptor()
+    {
+        Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
+
+        ParameterDescriptor deprecatedDescriptor = new LegacyParameterDescriptor(map.get("deprecatedparameter"));
+        Assert.assertFalse(deprecatedDescriptor.isDeprecated());
+
+        ParameterDescriptor advancedDescriptor = new LegacyParameterDescriptor(map.get("advancedparameter"));
+        Assert.assertFalse(advancedDescriptor.isAdvanced());
+        Assert.assertEquals(Collections.emptyList(), advancedDescriptor.getGroup());
     }
 }
