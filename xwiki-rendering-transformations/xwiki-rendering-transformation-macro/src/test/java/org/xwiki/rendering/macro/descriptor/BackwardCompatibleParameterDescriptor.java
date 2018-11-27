@@ -22,17 +22,17 @@ package org.xwiki.rendering.macro.descriptor;
 import java.lang.reflect.Type;
 
 /**
- * Legacy implementation of {@link ParameterDescriptor}.
+ * Backward compatible implementation of {@link ParameterDescriptor}.
  */
-public class LegacyParameterDescriptor implements ParameterDescriptor
+public class BackwardCompatibleParameterDescriptor implements ParameterDescriptor
 {
     private ParameterDescriptor parameterDescriptor;
     /**
-     * Creates a new {@link LegacyParameterDescriptor} instance using the given {@link ParameterDescriptor}.
+     * Creates a new {@link BackwardCompatibleParameterDescriptor} instance using the given {@link ParameterDescriptor}.
      *
      * @param parameterDescriptor Parameter descriptor on which methods are called
      */
-    public LegacyParameterDescriptor(ParameterDescriptor parameterDescriptor)
+    public BackwardCompatibleParameterDescriptor(ParameterDescriptor parameterDescriptor)
     {
         this.parameterDescriptor = parameterDescriptor;
     }
