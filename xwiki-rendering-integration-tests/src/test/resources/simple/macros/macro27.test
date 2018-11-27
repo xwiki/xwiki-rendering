@@ -1,0 +1,9 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test that we handle when too many stop macro are provided
+.#-----------------------------------------------------
+<!--startmacro:attachmentSelector|-|--><!--stopmacro--><!--stopmacro--><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<!--startmacro:attachmentSelector|-|--><!--stopmacro-->
