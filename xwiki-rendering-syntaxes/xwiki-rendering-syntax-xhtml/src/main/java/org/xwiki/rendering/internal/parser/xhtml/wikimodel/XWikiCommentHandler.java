@@ -150,18 +150,20 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
     private void handleMacroCommentStop(TagStack stack)
     {
-        MacroInfo macroInfo = (MacroInfo) stack.popStackParameter(MACRO_INFO);
-        IgnoreElementRule ignoreElementRule = stack.popIgnoreElementRule();
+        if (stack.getStackParameter(MACRO_INFO) != null) {
+            MacroInfo macroInfo = (MacroInfo) stack.popStackParameter(MACRO_INFO);
+            IgnoreElementRule ignoreElementRule = stack.popIgnoreElementRule();
 
-        // if we were ignoring all we don't want to output the macro
-        if (!ignoreElementRule.equals(IGNORE_ALL)) {
-            if (stack.isInsideBlockElement()) {
-                stack.getScannerContext().onMacroInline(macroInfo.getName(), macroInfo.getParameters(),
-                    macroInfo.getContent());
-            } else {
-                TagHandler.sendEmptyLines(stack);
-                stack.getScannerContext().onMacroBlock(macroInfo.getName(), macroInfo.getParameters(),
-                    macroInfo.getContent());
+            // if we were ignoring all we don't want to output the macro
+            if (!ignoreElementRule.equals(IGNORE_ALL)) {
+                if (stack.isInsideBlockElement()) {
+                    stack.getScannerContext().onMacroInline(macroInfo.getName(), macroInfo.getParameters(),
+                        macroInfo.getContent());
+                } else {
+                    TagHandler.sendEmptyLines(stack);
+                    stack.getScannerContext().onMacroBlock(macroInfo.getName(), macroInfo.getParameters(),
+                        macroInfo.getContent());
+                }
             }
         }
     }
