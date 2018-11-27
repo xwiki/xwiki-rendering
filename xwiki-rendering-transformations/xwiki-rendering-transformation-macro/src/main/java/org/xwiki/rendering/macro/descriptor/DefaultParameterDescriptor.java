@@ -20,8 +20,6 @@
 package org.xwiki.rendering.macro.descriptor;
 
 import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.List;
 
 import org.xwiki.properties.PropertyDescriptor;
 import org.xwiki.properties.PropertyGroupDescriptor;
@@ -105,12 +103,8 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
     }
 
     @Override
-    public List<String> getGroup()
+    public PropertyGroupDescriptor getGroupDescriptor()
     {
-        PropertyGroupDescriptor groupDescriptor = this.propertyDescriptor.getGroupDescriptor();
-        if (groupDescriptor != null) {
-            return groupDescriptor.getGroup();
-        }
-        return Collections.emptyList();
+        return this.propertyDescriptor.getGroupDescriptor();
     }
 }

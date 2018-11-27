@@ -20,7 +20,6 @@
 package org.xwiki.rendering.macro.descriptor;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -82,11 +81,11 @@ public class DefaultMacroDescriptorTest
 
         ParameterDescriptor deprecatedDescriptor = map.get("deprecatedparameter");
         assertTrue(deprecatedDescriptor.isDeprecated());
-        assertEquals(Collections.emptyList(), deprecatedDescriptor.getGroup());
+        assertNull(deprecatedDescriptor.getGroupDescriptor());
 
         ParameterDescriptor advancedDescriptor = map.get("advancedparameter");
         assertTrue(advancedDescriptor.isAdvanced());
-        assertEquals(Arrays.asList("parentGroup", "childGroup"), advancedDescriptor.getGroup());
+        assertEquals(Arrays.asList("parentGroup", "childGroup"), advancedDescriptor.getGroupDescriptor().getGroup());
     }
 
     @Test
@@ -157,6 +156,6 @@ public class DefaultMacroDescriptorTest
         ParameterDescriptor advancedDescriptor =
                 new BackwardCompatibleParameterDescriptor(map.get("advancedparameter"));
         assertFalse(advancedDescriptor.isAdvanced());
-        assertEquals(Collections.emptyList(), advancedDescriptor.getGroup());
+        assertNull(advancedDescriptor.getGroupDescriptor());
     }
 }

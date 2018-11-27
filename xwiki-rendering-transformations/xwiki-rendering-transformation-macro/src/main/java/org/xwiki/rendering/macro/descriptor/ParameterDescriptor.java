@@ -20,8 +20,8 @@
 package org.xwiki.rendering.macro.descriptor;
 
 import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.List;
+
+import org.xwiki.properties.PropertyGroupDescriptor;
 
 /**
  * Define a macro parameter.
@@ -94,8 +94,8 @@ public interface ParameterDescriptor
      * @return a hierarchy of groups.
      * @since 10.11RC1
      */
-    default List<String> getGroup()
+    default PropertyGroupDescriptor getGroupDescriptor()
     {
-        return Collections.emptyList();
+        return null;
     }
 }
