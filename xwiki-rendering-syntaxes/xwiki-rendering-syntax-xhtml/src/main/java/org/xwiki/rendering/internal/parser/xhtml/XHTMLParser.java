@@ -52,7 +52,6 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
-import org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.xml.XMLReaderFactory;
 
