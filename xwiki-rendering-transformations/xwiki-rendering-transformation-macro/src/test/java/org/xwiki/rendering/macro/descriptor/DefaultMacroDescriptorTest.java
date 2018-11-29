@@ -74,6 +74,8 @@ public class DefaultMacroDescriptorTest
         assertFalse(lowerParamDescriptor.isMandatory());
         assertFalse(lowerParamDescriptor.isDeprecated());
         assertFalse(lowerParamDescriptor.isAdvanced());
+        assertNull(lowerParamDescriptor.getGroupDescriptor().getGroup());
+        assertNull(lowerParamDescriptor.getGroupDescriptor().getFeature());
 
         ParameterDescriptor param1Descriptor = map.get("param1");
 
@@ -81,11 +83,13 @@ public class DefaultMacroDescriptorTest
 
         ParameterDescriptor deprecatedDescriptor = map.get("deprecatedparameter");
         assertTrue(deprecatedDescriptor.isDeprecated());
-        assertNull(deprecatedDescriptor.getGroupDescriptor());
+        assertEquals(Arrays.asList("parentGroup", "childGroup"), deprecatedDescriptor.getGroupDescriptor().getGroup());
+        assertEquals("feature", deprecatedDescriptor.getGroupDescriptor().getFeature());
 
         ParameterDescriptor advancedDescriptor = map.get("advancedparameter");
         assertTrue(advancedDescriptor.isAdvanced());
         assertEquals(Arrays.asList("parentGroup", "childGroup"), advancedDescriptor.getGroupDescriptor().getGroup());
+        assertEquals("feature", advancedDescriptor.getGroupDescriptor().getFeature());
     }
 
     @Test

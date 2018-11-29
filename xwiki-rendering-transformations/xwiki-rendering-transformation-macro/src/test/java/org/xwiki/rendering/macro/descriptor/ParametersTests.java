@@ -21,6 +21,7 @@ package org.xwiki.rendering.macro.descriptor;
 
 import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
+import org.xwiki.properties.annotation.PropertyFeature;
 import org.xwiki.properties.annotation.PropertyGroup;
 import org.xwiki.properties.annotation.PropertyHidden;
 import org.xwiki.properties.annotation.PropertyMandatory;
@@ -110,6 +111,7 @@ public class ParametersTests
     }
 
     @Deprecated
+    @PropertyGroup({ "parentGroup", "childGroup" })
     public String getDeprecatedParameter()
     {
         return deprecatedParameter;
@@ -123,6 +125,7 @@ public class ParametersTests
 
     @PropertyAdvanced
     @PropertyGroup({ "parentGroup", "childGroup" })
+    @PropertyFeature("feature")
     public String getAdvancedParameter()
     {
         return advancedParameter;

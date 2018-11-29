@@ -91,7 +91,7 @@ public interface ParameterDescriptor
     }
 
     /**
-     * @return a hierarchy of groups.
+     * @return a hierarchy of groups and its associated feature.
      * @since 10.11RC1
      */
     default PropertyGroupDescriptor getGroupDescriptor()
