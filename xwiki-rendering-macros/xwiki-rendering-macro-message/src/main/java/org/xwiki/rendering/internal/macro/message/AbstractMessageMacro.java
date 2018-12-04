@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
@@ -62,6 +63,11 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     {
         List<Block> macroContent = getMacroContentParser().parse(content, context, false, context.isInline())
             .getChildren();
+
+        // we want to strip the paragraph if the content can be rendered without it.
+        if (macroContent.size() == 1 && macroContent.get(0) instanceof ParagraphBlock) {
+            macroContent = macroContent.get(0).getChildren();
+        }
         return Collections.singletonList(new MetaDataBlock(macroContent, this.getNonGeneratedContentMetaData()));
     }
 

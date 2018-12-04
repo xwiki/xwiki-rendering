@@ -1,0 +1,24 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Validate that the paragraph is stripped when it's not needed
+.#-----------------------------------------------------
+{{info}}Only **simple** message{{/info}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [info] [] [Only **simple** message]
+beginGroup [[class]=[box infomessage]]
+beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+onWord [Only]
+onSpace
+beginFormat [BOLD]
+onWord [simple]
+endFormat [BOLD]
+onSpace
+onWord [message]
+endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endGroup [[class]=[box infomessage]]
+endMacroMarkerStandalone [info] [] [Only **simple** message]
+endDocument
