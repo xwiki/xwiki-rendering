@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FigureBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.TableBlock;
 import org.xwiki.rendering.internal.macro.figure.DefaultFigureTypeRecognizer;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
@@ -99,6 +100,14 @@ public class DefaultFigureTypeRecognizerTest
             createMacroMarkerBlock(blocks(createMacroMarkerBlock(
                 blocks(new TableBlock(Collections.emptyList()))))),
             createMacroMarkerBlock("figureCaption", Collections.emptyList())));
+        assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
+    }
+
+    @Test
+    public void isTableWhenMetaDataBlock() throws Exception
+    {
+        FigureBlock fb = new FigureBlock(blocks(new MetaDataBlock(
+            blocks(new TableBlock(Collections.emptyList())))));
         assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
     }
 
