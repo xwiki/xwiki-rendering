@@ -154,4 +154,8 @@
       </plugin>
     </plugins>
   </build>
+
+  <scm>
+    <tag>stable-10.11.x</tag>
+  </scm>
 </project>
