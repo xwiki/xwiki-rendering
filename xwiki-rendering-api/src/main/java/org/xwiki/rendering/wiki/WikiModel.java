@@ -79,7 +79,6 @@ public interface WikiModel
      * @throws WikiModelException if the XDOM content for the passed resource cannot be retrieved
      * @since 9.6RC1
      */
-    @Unstable
     default XDOM getXDOM(ResourceReference resourceReference) throws WikiModelException
     {
         throw new WikiModelException("Not implemented");
