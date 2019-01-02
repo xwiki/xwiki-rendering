@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.listener.reference;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * The Resource type. It can be one of:
  * <ul>
@@ -48,6 +50,14 @@ public class ResourceType
      * Represents a Document.
      */
     public static final ResourceType DOCUMENT = new ResourceType("doc");
+
+    /**
+     * Represents a Page.
+     * 
+     * @since 10.6RC1
+     */
+    @Unstable
+    public static final ResourceType PAGE = new ResourceType("page");
 
     /**
      * Represents a Space.

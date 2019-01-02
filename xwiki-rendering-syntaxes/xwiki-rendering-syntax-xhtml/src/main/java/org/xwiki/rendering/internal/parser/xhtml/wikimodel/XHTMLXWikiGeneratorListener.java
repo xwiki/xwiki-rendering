@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.tuple.Pair;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
@@ -33,6 +34,9 @@ import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
+import org.xwiki.rendering.wikimodel.WikiFormat;
+import org.xwiki.rendering.wikimodel.WikiParameter;
+import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 
 /**
@@ -44,9 +48,25 @@ import org.xwiki.rendering.wikimodel.WikiReference;
 public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
 {
     /**
+     * Defines the class to use when an element represents a MetaData block.
+     *
+     * @since 10.9
+     */
+    public static final String METADATA_CONTAINER_CLASS = "xwiki-metadata-container";
+
+    /**
+     * Defines the prefix to use for attribute which contain a metadata.
+     *
+     * @since 10.9
+     */
+    public static final String METADATA_ATTRIBUTE_PREFIX = "data-xwiki-";
+
+    /**
      * URL matching pattern.
      */
     private static final Pattern URL_SCHEME_PATTERN = Pattern.compile("[a-zA-Z0-9+.-]*://");
+
+    private static final String CLASS_ATTRIBUTE = "class";
 
     /**
      * @param parser the parser to use to parse link labels
@@ -144,5 +164,118 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
         }
 
         return reference;
+    }
+
+    static boolean isMetaDataElement(WikiParameters parameters)
+    {
+        return parameters.getParameter(CLASS_ATTRIBUTE) != null
+            && METADATA_CONTAINER_CLASS.equals(parameters.getParameter(CLASS_ATTRIBUTE).getValue());
+    }
+
+    static MetaData createMetaData(WikiParameters parameters)
+    {
+        MetaData metaData = new MetaData();
+
+        int prefixSize = METADATA_ATTRIBUTE_PREFIX.length();
+        for (WikiParameter parameter : parameters) {
+            if (parameter.getKey().startsWith(METADATA_ATTRIBUTE_PREFIX)) {
+                String metaDataKey = parameter.getKey().substring(prefixSize).toLowerCase();
+                metaData.addMetaData(metaDataKey, parameter.getValue());
+            }
+        }
+
+        return metaData;
+    }
+
+    private static WikiParameters cleanParametersFromMetadata(WikiParameters parameters)
+    {
+        WikiParameters wikiParameters = new WikiParameters();
+
+        for (WikiParameter parameter : parameters) {
+            boolean acceptParameter = !(parameter.getKey().startsWith(METADATA_ATTRIBUTE_PREFIX)
+                || (
+                    parameter.getKey().equals(CLASS_ATTRIBUTE) && parameter.getValue().equals(METADATA_CONTAINER_CLASS)
+            ));
+            if (acceptParameter) {
+                wikiParameters = wikiParameters.addParameter(parameter.getKey(), parameter.getValue());
+            }
+        }
+
+        return wikiParameters;
+    }
+
+    @Override
+    protected void beginGroup(WikiParameters parameters)
+    {
+        boolean withoutMetadata = true;
+        if (isMetaDataElement(parameters)) {
+            MetaData metaData = createMetaData(parameters);
+            getListener().beginMetaData(metaData);
+            withoutMetadata = false;
+        }
+
+        WikiParameters cleanParameters = cleanParametersFromMetadata(parameters);
+        if (withoutMetadata || cleanParameters.getSize() > 0) {
+            super.beginGroup(cleanParameters);
+        }
+    }
+
+    @Override
+    protected void endGroup(WikiParameters parameters)
+    {
+        boolean withoutMetadata = true;
+        if (isMetaDataElement(parameters)) {
+            getListener().endMetaData(createMetaData(parameters));
+            withoutMetadata = false;
+        }
+
+        WikiParameters cleanParameters = cleanParametersFromMetadata(parameters);
+        if (withoutMetadata || cleanParameters.getSize() > 0) {
+            super.endGroup(cleanParameters);
+        }
+    }
+
+    @Override
+    public void beginFormat(WikiFormat format)
+    {
+        WikiParameters wikiParameters = new WikiParameters(format.getParams());
+
+        boolean withoutMetadata = true;
+        if (isMetaDataElement(wikiParameters)) {
+            getListener().beginMetaData(createMetaData(wikiParameters));
+            withoutMetadata = false;
+        }
+
+        WikiParameters cleanParameters = cleanParametersFromMetadata(wikiParameters);
+        if (withoutMetadata || cleanParameters.getSize() > 0 || !format.getStyles().isEmpty()) {
+            WikiFormat newFormat = format;
+            if (wikiParameters.getSize() != cleanParameters.getSize()) {
+                newFormat = format.setParameters(cleanParameters.toList());
+            }
+
+            super.beginFormat(newFormat);
+        }
+    }
+
+    @Override
+    public void endFormat(WikiFormat format)
+    {
+        WikiParameters wikiParameters = new WikiParameters(format.getParams());
+
+        boolean withoutMetadata = true;
+        if (isMetaDataElement(wikiParameters)) {
+            getListener().endMetaData(createMetaData(wikiParameters));
+            withoutMetadata = false;
+        }
+
+        WikiParameters cleanParameters = cleanParametersFromMetadata(wikiParameters);
+        if (withoutMetadata || cleanParameters.getSize() > 0 || !format.getStyles().isEmpty()) {
+            WikiFormat newFormat = format;
+            if (wikiParameters.getSize() != cleanParameters.getSize()) {
+                newFormat = format.setParameters(cleanParameters.toList());
+            }
+
+            super.endFormat(newFormat);
+        }
     }
 }

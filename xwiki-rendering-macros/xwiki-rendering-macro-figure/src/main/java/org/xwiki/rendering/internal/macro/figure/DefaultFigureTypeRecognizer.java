@@ -28,11 +28,12 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FigureBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.TableBlock;
 import org.xwiki.rendering.macro.figure.FigureTypeRecognizer;
 
 /**
- * Recognize a FigureBlock content and more specifically if contains a single table or not. Should be executed on an
+ * Recognize a FigureBlock content and more specifically if it contains a single table or not. Should be executed on an
  * XDOM that has had the Macro Transformation executed on it (i.e. that contains MacroMarkerBlock blocks).
  *
  * @version $Id$
@@ -62,9 +63,11 @@ public class DefaultFigureTypeRecognizer implements FigureTypeRecognizer
                 } else {
                     results.addAll(getBlocksIgnoringMacroMarkerBlocks(block.getChildren()));
                 }
+            } else if (block instanceof MetaDataBlock) {
+                // Ignore MetaData block since they're not structural
+                results.addAll(block.getChildren());
             } else {
                 results.add(block);
-                continue;
             }
         }
 

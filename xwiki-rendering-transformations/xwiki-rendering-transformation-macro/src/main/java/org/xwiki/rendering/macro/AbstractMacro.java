@@ -19,16 +19,22 @@
  */
 package org.xwiki.rendering.macro;
 
+import java.lang.reflect.Type;
+
 import javax.inject.Inject;
 
 import org.xwiki.component.descriptor.ComponentDescriptor;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.properties.BeanManager;
+import org.xwiki.properties.ConverterManager;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.macro.descriptor.AbstractMacroDescriptor;
 import org.xwiki.rendering.macro.descriptor.ContentDescriptor;
+import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.descriptor.DefaultMacroDescriptor;
 import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
+import org.xwiki.stability.Unstable;
 
 /**
  * Helper to implement Macro, providing some default implementation. We recommend Macro writers to extend this class.
@@ -77,6 +83,9 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
 
     @Inject
     private ComponentDescriptor<Macro> componentDescriptor;
+
+    @Inject
+    private ConverterManager converterManager;
 
     /**
      * The human-readable macro name (eg "Table of Contents" for the TOC macro).
@@ -188,6 +197,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
         DefaultMacroDescriptor descriptor = new DefaultMacroDescriptor(macroId, this.name, this.description,
             this.contentDescriptor, this.beanManager.getBeanDescriptor(this.parametersBeanClass));
         descriptor.setDefaultCategory(this.defaultCategory);
+        descriptor.setSupportsInlineMode(this.supportsInlineMode());
         setDescriptor(descriptor);
     }
 
@@ -244,5 +254,31 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
         if (getDescriptor() instanceof AbstractMacroDescriptor) {
             ((AbstractMacroDescriptor) getDescriptor()).setDefaultCategory(defaultCategory);
         }
+    }
+
+    /**
+     * Helper to get the proper metadata for non generated content (i.e. content that has not gone through a
+     * Transformation). This content can be used for inline editing.
+     *
+     * @return the new metadata with the content type for the content represented as a string (e.g.
+     *         {@code java.util.List< org.xwiki.rendering.block.Block >} for content of type {@code List<Block>}
+     * @since 10.10
+     */
+    @Unstable
+    protected MetaData getNonGeneratedContentMetaData()
+    {
+        MetaData metaData = new MetaData();
+        Type contentType;
+
+        if (this.contentDescriptor != null) {
+            contentType = this.contentDescriptor.getType();
+        } else {
+            contentType = DefaultContentDescriptor.DEFAULT_CONTENT_TYPE;
+        }
+
+        String converted = this.converterManager.convert(String.class, contentType);
+
+        metaData.addMetaData(MetaData.NON_GENERATED_CONTENT, converted);
+        return metaData;
     }
 }

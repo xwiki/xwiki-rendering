@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * Represents a set of MetaData.
  *
@@ -56,6 +58,14 @@ public class MetaData
      * @since 3.4M1
      */
     public static final String BASE = "base";
+
+    /**
+     * Represents a non generated content: a content that has not been transformed in any way.
+     *
+     * @since 10.10
+     */
+    @Unstable
+    public static final String NON_GENERATED_CONTENT = "non-generated-content";
 
     /**
      * Contains all MetaData for this Block and its children. Note: we preserve the order of metadata elements as they
@@ -139,5 +149,11 @@ public class MetaData
     public int hashCode()
     {
         return this.metadata.hashCode();
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MetaData{metadata=" + metadata + '}';
     }
 }

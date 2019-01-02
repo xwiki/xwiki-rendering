@@ -19,193 +19,147 @@
  */
 package org.xwiki.rendering.macro.descriptor;
 
+import java.util.Arrays;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.xwiki.properties.BeanManager;
-import org.xwiki.properties.annotation.PropertyDescription;
-import org.xwiki.properties.annotation.PropertyHidden;
-import org.xwiki.properties.annotation.PropertyMandatory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.xwiki.properties.internal.DefaultBeanManager;
 import org.xwiki.rendering.macro.MacroId;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Validate {@link DefaultMacroDescriptor} and {@link AbstractMacroDescriptor}.
  *
  * @version $Id$
  */
-public class DefaultMacroDescriptorTest extends AbstractComponentTestCase
+@ComponentTest
+public class DefaultMacroDescriptorTest
 {
-    public static class ParametersTests
-    {
-        private String lowerparam;
-
-        private String upperParam;
-
-        private String param1 = "defaultparam1";
-
-        private int param2;
-
-        private boolean param3;
-
-        private String hiddenParameter;
-
-        public void setLowerparam(String lowerparam)
-        {
-            this.lowerparam = lowerparam;
-        }
-
-        public String getLowerparam()
-        {
-            return this.lowerparam;
-        }
-
-        public void setUpperParam(String upperParam)
-        {
-            this.upperParam = upperParam;
-        }
-
-        public String getUpperParam()
-        {
-            return this.upperParam;
-        }
-
-        @PropertyDescription("param1 description")
-        public void setParam1(String param1)
-        {
-            this.param1 = param1;
-        }
-
-        public String getParam1()
-        {
-            return this.param1;
-        }
-
-        @PropertyMandatory
-        @PropertyDescription("param2 description")
-        public void setParam2(int param1)
-        {
-            this.param2 = param1;
-        }
-
-        public int getParam2()
-        {
-            return this.param2;
-        }
-
-        public void setParam3(boolean param1)
-        {
-            this.param3 = param1;
-        }
-
-        @PropertyMandatory
-        @PropertyDescription("param3 description")
-        public boolean getParam3()
-        {
-            return this.param3;
-        }
-
-        @PropertyHidden
-        public void setHiddenParameter(String hiddenParameter)
-        {
-            this.hiddenParameter = hiddenParameter;
-        }
-
-        public String getHiddenParameter()
-        {
-            return this.hiddenParameter;
-        }
-    }
-
     private DefaultMacroDescriptor macroDescriptor;
 
-    @Before
-    @Override
-    public void setUp() throws Exception
+    @InjectMockComponents
+    private DefaultBeanManager propertiesManager;
+
+    @BeforeEach
+    public void setUp()
     {
-        super.setUp();
-        BeanManager propertiesManager = getComponentManager().getInstance(BeanManager.class);
         this.macroDescriptor =
-            new DefaultMacroDescriptor(new MacroId("Id"), "Name", "Description", new DefaultContentDescriptor(),
-                propertiesManager.getBeanDescriptor(ParametersTests.class));
+                new DefaultMacroDescriptor(new MacroId("Id"), "Name", "Description", new DefaultContentDescriptor(),
+                        propertiesManager.getBeanDescriptor(ParametersTests.class));
     }
 
     @Test
-    public void testParameterDescriptor()
+    public void parameterDescriptor()
     {
         Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
 
-        Assert.assertNull(map.get("hiddenParameter".toLowerCase()));
+        assertNull(map.get("hiddenParameter".toLowerCase()));
 
         ParameterDescriptor lowerParamDescriptor = map.get("lowerparam");
 
-        Assert.assertNotNull(lowerParamDescriptor);
-        Assert.assertEquals("lowerparam", lowerParamDescriptor.getId());
-        Assert.assertEquals("lowerparam", lowerParamDescriptor.getDescription());
-        Assert.assertSame(String.class, lowerParamDescriptor.getParameterType());
-        Assert.assertEquals(null, lowerParamDescriptor.getDefaultValue());
-        Assert.assertEquals(false, lowerParamDescriptor.isMandatory());
+        assertNotNull(lowerParamDescriptor);
+        assertEquals("lowerparam", lowerParamDescriptor.getId());
+        assertEquals("lowerparam", lowerParamDescriptor.getDescription());
+        assertSame(String.class, lowerParamDescriptor.getParameterType());
+        assertNull(lowerParamDescriptor.getDefaultValue());
+        assertFalse(lowerParamDescriptor.isMandatory());
+        assertFalse(lowerParamDescriptor.isDeprecated());
+        assertFalse(lowerParamDescriptor.isAdvanced());
+        assertNull(lowerParamDescriptor.getGroupDescriptor().getGroup());
+        assertNull(lowerParamDescriptor.getGroupDescriptor().getFeature());
 
         ParameterDescriptor param1Descriptor = map.get("param1");
 
-        Assert.assertEquals("defaultparam1", param1Descriptor.getDefaultValue());
+        assertEquals("defaultparam1", param1Descriptor.getDefaultValue());
+
+        ParameterDescriptor deprecatedDescriptor = map.get("deprecatedparameter");
+        assertTrue(deprecatedDescriptor.isDeprecated());
+        assertEquals(Arrays.asList("parentGroup", "childGroup"), deprecatedDescriptor.getGroupDescriptor().getGroup());
+        assertEquals("feature", deprecatedDescriptor.getGroupDescriptor().getFeature());
+
+        ParameterDescriptor advancedDescriptor = map.get("advancedparameter");
+        assertTrue(advancedDescriptor.isAdvanced());
+        assertEquals(Arrays.asList("parentGroup", "childGroup"), advancedDescriptor.getGroupDescriptor().getGroup());
+        assertEquals("feature", advancedDescriptor.getGroupDescriptor().getFeature());
     }
 
     @Test
-    public void testParameterDescriptorWithUpperCase()
+    public void parameterDescriptorWithUpperCase()
     {
         Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
 
         ParameterDescriptor upperParamDescriptor = map.get("upperParam".toLowerCase());
 
-        Assert.assertNotNull(upperParamDescriptor);
-        Assert.assertEquals("upperParam", upperParamDescriptor.getId());
-        Assert.assertEquals("upperParam", upperParamDescriptor.getDescription());
-        Assert.assertSame(String.class, upperParamDescriptor.getParameterType());
-        Assert.assertEquals(false, upperParamDescriptor.isMandatory());
+        assertNotNull(upperParamDescriptor);
+        assertEquals("upperParam", upperParamDescriptor.getId());
+        assertEquals("upperParam", upperParamDescriptor.getDescription());
+        assertSame(String.class, upperParamDescriptor.getParameterType());
+        assertFalse(upperParamDescriptor.isMandatory());
     }
 
     @Test
-    public void testParameterDescriptorWithDescription()
+    public void parameterDescriptorWithDescription()
     {
         Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
 
         ParameterDescriptor param1Descriptor = map.get("param1".toLowerCase());
 
-        Assert.assertNotNull(param1Descriptor);
-        Assert.assertEquals("param1", param1Descriptor.getId());
-        Assert.assertEquals("param1 description", param1Descriptor.getDescription());
-        Assert.assertSame(String.class, param1Descriptor.getParameterType());
-        Assert.assertEquals(false, param1Descriptor.isMandatory());
+        assertNotNull(param1Descriptor);
+        assertEquals("param1", param1Descriptor.getId());
+        assertEquals("param1 description", param1Descriptor.getDescription());
+        assertSame(String.class, param1Descriptor.getParameterType());
+        assertFalse(param1Descriptor.isMandatory());
     }
 
     @Test
-    public void testParameterDescriptorWithDescriptionAndMandatory()
+    public void parameterDescriptorWithDescriptionAndMandatory()
     {
         Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
 
         ParameterDescriptor param2Descriptor = map.get("param2".toLowerCase());
 
-        Assert.assertNotNull(param2Descriptor);
-        Assert.assertEquals("param2", param2Descriptor.getId());
-        Assert.assertEquals("param2 description", param2Descriptor.getDescription());
-        Assert.assertSame(int.class, param2Descriptor.getParameterType());
-        Assert.assertEquals(true, param2Descriptor.isMandatory());
+        assertNotNull(param2Descriptor);
+        assertEquals("param2", param2Descriptor.getId());
+        assertEquals("param2 description", param2Descriptor.getDescription());
+        assertSame(int.class, param2Descriptor.getParameterType());
+        assertTrue(param2Descriptor.isMandatory());
     }
 
     @Test
-    public void testParameterDescriptorWithDescriptionAndMandatoryOnSetter()
+    public void parameterDescriptorWithDescriptionAndMandatoryOnSetter()
     {
         Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
 
         ParameterDescriptor param3Descriptor = map.get("param3".toLowerCase());
 
-        Assert.assertNotNull(param3Descriptor);
-        Assert.assertEquals("param3", param3Descriptor.getId());
-        Assert.assertEquals("param3 description", param3Descriptor.getDescription());
-        Assert.assertSame(boolean.class, param3Descriptor.getParameterType());
-        Assert.assertEquals(true, param3Descriptor.isMandatory());
+        assertNotNull(param3Descriptor);
+        assertEquals("param3", param3Descriptor.getId());
+        assertEquals("param3 description", param3Descriptor.getDescription());
+        assertSame(boolean.class, param3Descriptor.getParameterType());
+        assertTrue(param3Descriptor.isMandatory());
+    }
+
+    @Test
+    public void parameterDescriptorWithBackwardCompatible()
+    {
+        Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
+
+        ParameterDescriptor deprecatedDescriptor =
+                new BackwardCompatibleParameterDescriptor(map.get("deprecatedparameter"));
+        assertFalse(deprecatedDescriptor.isDeprecated());
+
+        ParameterDescriptor advancedDescriptor =
+                new BackwardCompatibleParameterDescriptor(map.get("advancedparameter"));
+        assertFalse(advancedDescriptor.isAdvanced());
+        assertNull(advancedDescriptor.getGroupDescriptor());
     }
 }

@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-macros</artifactId>
-    <version>10.6-SNAPSHOT</version>
+    <version>11.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-macro-ctsreport</artifactId>
   <name>XWiki Rendering - Macro - CTS Report</name>
@@ -33,6 +33,7 @@
   <!-- Note: This macro is used for example on the http://rendering.xwiki.org/xwiki/bin/view/Main/SyntaxReport page -->
   <properties>
     <xwiki.jacoco.instructionRatio>0.71</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>62</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Compatibility Test Suite Report Macro</xwiki.extension.name>
   </properties>

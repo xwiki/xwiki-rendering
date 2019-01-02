@@ -19,13 +19,15 @@
  */
 package org.xwiki.rendering.transformation;
 
+import org.xwiki.rendering.RenderingException;
+
 /**
  * Encapsulate a rendering error.
  *
  * @version $Id$
  * @since 1.5M2
  */
-public class TransformationException extends Exception
+public class TransformationException extends RenderingException
 {
     /**
      * Class ID for serialization.

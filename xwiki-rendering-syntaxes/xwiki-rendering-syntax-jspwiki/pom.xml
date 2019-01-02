@@ -25,13 +25,14 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-syntaxes</artifactId>
-    <version>10.6-SNAPSHOT</version>
+    <version>11.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-syntax-jspwiki</artifactId>
   <name>XWiki Rendering - Syntax - JSPWiki</name>
   <description>XWiki Rendering - Syntax - JSPWiki</description>
   <properties>
     <xwiki.jacoco.instructionRatio>1.00</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
   </properties>
   <dependencies>
     <dependency>

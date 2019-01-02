@@ -30,7 +30,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.block.match.BlockNavigator;
+import org.xwiki.rendering.block.match.CounterBlockMatcher;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.stability.Unstable;
 
 /**
  * Implementation for Block operations. All blocks should extend this class. Supports the notion of generic parameters
@@ -92,7 +94,7 @@ public abstract class AbstractBlock implements Block
      */
     public AbstractBlock(Block childBlock)
     {
-        this(childBlock, Collections.<String, String>emptyMap());
+        this(childBlock, Collections.emptyMap());
     }
 
     /**
@@ -103,7 +105,7 @@ public abstract class AbstractBlock implements Block
      */
     public AbstractBlock(List<? extends Block> childrenBlocks)
     {
-        this(childrenBlocks, Collections.<String, String>emptyMap());
+        this(childrenBlocks, Collections.emptyMap());
     }
 
     /**
@@ -134,6 +136,31 @@ public abstract class AbstractBlock implements Block
         addChildren(childrenBlocks);
     }
 
+    /**
+     * Get the position of the provided block in the provided list of blocks.
+     * <p>
+     * Can't use {@link List#indexOf(Object)} since it's using {@link Object#equals(Object)} internally which is not
+     * what we want since two WordBlock with the same text or two spaces are equals for example but we want to be able
+     * to target one specific Block.
+     *
+     * @param block the block for which to find the position
+     * @param blocks the list of blocks in which to look for the passed block
+     * @return the position of the block, -1 if the block can't be found
+     */
+    private static int indexOfBlock(Block block, List<Block> blocks)
+    {
+        int position = 0;
+
+        for (Block child : blocks) {
+            if (child == block) {
+                return position;
+            }
+            ++position;
+        }
+
+        return -1;
+    }
+
     @Override
     public void addChild(Block blockToAdd)
     {
@@ -146,7 +173,7 @@ public abstract class AbstractBlock implements Block
         if (!blocksToAdd.isEmpty()) {
             if (this.childrenBlocks == null) {
                 // Create the list with just the exact required size
-                this.childrenBlocks = new ArrayList<Block>(blocksToAdd.size());
+                this.childrenBlocks = new ArrayList<>(blocksToAdd.size());
             }
 
             for (Block blockToAdd : blocksToAdd) {
@@ -198,7 +225,7 @@ public abstract class AbstractBlock implements Block
                 blockToInsert.setPreviousSiblingBlock(null);
 
                 if (this.childrenBlocks == null) {
-                    this.childrenBlocks = new ArrayList<Block>(1);
+                    this.childrenBlocks = new ArrayList<>(1);
                 }
             }
             blockToInsert.setNextSiblingBlock(null);
@@ -215,7 +242,7 @@ public abstract class AbstractBlock implements Block
             blockToInsert.setNextSiblingBlock(nextBlock);
             nextBlock.setPreviousSiblingBlock(blockToInsert);
             if (this.childrenBlocks == null || this.childrenBlocks.isEmpty()) {
-                this.childrenBlocks = new ArrayList<Block>(1);
+                this.childrenBlocks = new ArrayList<>(1);
                 this.childrenBlocks.add(blockToInsert);
             } else {
                 this.childrenBlocks.add(indexOfChild(nextBlock), blockToInsert);
@@ -240,7 +267,7 @@ public abstract class AbstractBlock implements Block
             blockToInsert.setPreviousSiblingBlock(previousBlock);
             previousBlock.setNextSiblingBlock(blockToInsert);
             if (this.childrenBlocks == null) {
-                this.childrenBlocks = new ArrayList<Block>(1);
+                this.childrenBlocks = new ArrayList<>(1);
             }
             this.childrenBlocks.add(indexOfChild(previousBlock) + 1, blockToInsert);
         }
@@ -312,34 +339,26 @@ public abstract class AbstractBlock implements Block
     }
 
     /**
-     * Get the position of the provided block in the provided list of blocks.
-     * <p>
-     * Can't use {@link List#indexOf(Object)} since it's using {@link Object#equals(Object)} internally which is not
-     * what we want since two WordBlock with the same text or two spaces are equals for example but we want to be able
-     * to target one specific Block.
-     *
-     * @param block the block for which to find the position
-     * @param blocks the list of blocks in which to look for the passed block
-     * @return the position of the block, -1 if the block can't be found
+     * Find the index of the block in the tree.
+     * 
+     * @param child the block for which to find the index
+     * @return the index of the passed block in the tree, 0 is the current block and -1 means that it was not found
+     * @since 10.10RC1
      */
-    private int indexOfBlock(Block block, List<Block> blocks)
+    @Unstable
+    public long indexOf(Block child)
     {
-        int position = 0;
+        CounterBlockMatcher counter = new CounterBlockMatcher(child);
 
-        for (Block child : blocks) {
-            if (child == block) {
-                return position;
-            }
-            ++position;
-        }
+        Block found = getFirstBlock(counter, Axes.ANCESTOR_OR_SELF);
 
-        return -1;
+        return found != null ? counter.getCount() : -1;
     }
 
     @Override
     public List<Block> getChildren()
     {
-        return this.childrenBlocks == null ? Collections.<Block>emptyList() : this.childrenBlocks;
+        return this.childrenBlocks == null ? Collections.emptyList() : this.childrenBlocks;
     }
 
     @Override
@@ -351,8 +370,8 @@ public abstract class AbstractBlock implements Block
     @Override
     public Map<String, String> getParameters()
     {
-        return this.parameters == null ? Collections.<String, String>emptyMap() : Collections
-            .unmodifiableMap(this.parameters);
+        return this.parameters == null ? Collections.emptyMap()
+            : Collections.unmodifiableMap(this.parameters);
     }
 
     @Override
@@ -495,7 +514,7 @@ public abstract class AbstractBlock implements Block
         }
 
         if (this.childrenBlocks != null) {
-            ((AbstractBlock) block).childrenBlocks = new ArrayList<Block>(this.childrenBlocks.size());
+            ((AbstractBlock) block).childrenBlocks = new ArrayList<>(this.childrenBlocks.size());
             for (Block childBlock : this.childrenBlocks) {
                 if (blockFilter != null) {
                     Block clonedChildBlocks = childBlock.clone(blockFilter);

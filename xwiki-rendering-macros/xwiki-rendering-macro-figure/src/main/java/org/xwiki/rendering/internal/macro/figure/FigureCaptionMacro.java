@@ -30,6 +30,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FigureBlock;
 import org.xwiki.rendering.block.FigureCaptionBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
@@ -69,7 +70,8 @@ public class FigureCaptionMacro extends AbstractNoParameterMacro
      */
     public FigureCaptionMacro()
     {
-        super("Figure Caption", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION));
+        super("Figure Caption", DESCRIPTION,
+            new DefaultContentDescriptor(CONTENT_DESCRIPTION, true, Block.LIST_BLOCK_TYPE));
         setDefaultCategory(DEFAULT_CATEGORY_DEVELOPMENT);
     }
 
@@ -87,11 +89,15 @@ public class FigureCaptionMacro extends AbstractNoParameterMacro
 
         // If we're not inside a FigureBlock then don't do anything.
         Block parent = context.getCurrentMacroBlock().getParent();
-        if (parent != null && parent instanceof FigureBlock) {
+        if (parent instanceof FigureBlock) {
             XDOM xdom = this.contentParser.parse(content, context, false, false);
             List<Block> figureCaptionChildren = xdom.getChildren();
             this.parserUtils.removeTopLevelParagraph(figureCaptionChildren);
-            result = Collections.singletonList(new FigureCaptionBlock(figureCaptionChildren));
+            figureCaptionChildren = Collections.singletonList(new FigureCaptionBlock(figureCaptionChildren));
+
+            // Mark the macro content as being content that has not been transformed (so that it can editable inline)
+            result = Collections.singletonList(new MetaDataBlock(figureCaptionChildren,
+                getNonGeneratedContentMetaData()));
         }
 
         return result;

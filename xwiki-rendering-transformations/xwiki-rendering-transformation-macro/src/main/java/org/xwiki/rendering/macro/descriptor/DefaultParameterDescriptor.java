@@ -22,6 +22,7 @@ package org.xwiki.rendering.macro.descriptor;
 import java.lang.reflect.Type;
 
 import org.xwiki.properties.PropertyDescriptor;
+import org.xwiki.properties.PropertyGroupDescriptor;
 
 /**
  * The default implementation of {@link ParameterDescriptor}.
@@ -87,5 +88,23 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
     public boolean isMandatory()
     {
         return this.propertyDescriptor.isMandatory();
+    }
+
+    @Override
+    public boolean isDeprecated()
+    {
+        return this.propertyDescriptor.isDeprecated();
+    }
+
+    @Override
+    public boolean isAdvanced()
+    {
+        return this.propertyDescriptor.isAdvanced();
+    }
+
+    @Override
+    public PropertyGroupDescriptor getGroupDescriptor()
+    {
+        return this.propertyDescriptor.getGroupDescriptor();
     }
 }

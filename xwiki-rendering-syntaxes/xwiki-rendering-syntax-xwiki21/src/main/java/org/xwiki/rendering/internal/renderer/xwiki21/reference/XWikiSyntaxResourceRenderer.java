@@ -60,6 +60,12 @@ public class XWikiSyntaxResourceRenderer
         super(listenerChain, referenceSerializer);
     }
 
+    private boolean isDocument(ResourceType resourceType)
+    {
+        return ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType)
+            || ResourceType.PAGE.equals(resourceType);
+    }
+
     @Override
     protected void printParameters(XWikiSyntaxEscapeWikiPrinter printer, ResourceReference reference,
         Map<String, String> parameters)
@@ -72,7 +78,7 @@ public class XWikiSyntaxResourceRenderer
         // The XWiki Syntax 2.1 supports one special reference parameters for attachment references:
         // - queryString.
         ResourceType resourceType = reference.getType();
-        if (ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType)) {
+        if (isDocument(resourceType)) {
             // Print first the query string
             String queryString = reference.getParameter(DocumentResourceReference.QUERY_STRING);
             if (!StringUtils.isEmpty(queryString)) {

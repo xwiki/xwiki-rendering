@@ -41,12 +41,21 @@ public class FormatBlock extends AbstractBlock
     private Format format;
 
     /**
+     * Create an empty format block with no children. This is useful when the user wants to call {@link #addChild(Block)}
+     * manually for adding children one by one after the block is constructed.
+     */
+    public FormatBlock()
+    {
+        this.format = Format.NONE;
+    }
+
+    /**
      * @param childrenBlocks the nested children blocks
      * @param format the formatting to apply to the children blocks
      */
     public FormatBlock(List<Block> childrenBlocks, Format format)
     {
-        this(childrenBlocks, format, Collections.<String, String>emptyMap());
+        this(childrenBlocks, format, Collections.emptyMap());
     }
 
     /**

@@ -1,1 +1,3 @@
 org.xwiki.rendering.macro.box.TestBoxMacro
+org.xwiki.rendering.macro.box.CustomBoxMacro
+org.xwiki.rendering.macro.box.MandatoryContentBoxMacro

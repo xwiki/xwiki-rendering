@@ -1,0 +1,22 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test that an empty box with empty content gets a non generated content div
+.#-----------------------------------------------------
+<!--startmacro:box|-||-|-->
+<!--stopmacro-->
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<!--startmacro:box|-||-|--><div class="box"><div data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" class="xwiki-metadata-container"></div></div><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [box] [] []
+beginGroup [[class]=[box]]
+beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endGroup [[class]=[box]]
+endMacroMarkerStandalone [box] [] []
+endDocument

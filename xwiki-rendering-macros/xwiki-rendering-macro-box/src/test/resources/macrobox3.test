@@ -12,7 +12,9 @@ content
 beginDocument
 beginMacroMarkerStandalone [testbox] [] [content]
 beginGroup [[class]=[box]]
+beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 onVerbatim [content] [false]
+endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
 endGroup [[class]=[box]]
 endMacroMarkerStandalone [testbox] [] [content]
 endDocument

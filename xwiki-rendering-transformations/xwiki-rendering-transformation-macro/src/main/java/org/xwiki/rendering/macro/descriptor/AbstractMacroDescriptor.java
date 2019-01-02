@@ -26,6 +26,7 @@ import java.util.Map;
 import org.xwiki.properties.BeanDescriptor;
 import org.xwiki.properties.PropertyDescriptor;
 import org.xwiki.rendering.macro.MacroId;
+import org.xwiki.stability.Unstable;
 
 /**
  * Describe a macro.
@@ -64,6 +65,11 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
      * Default macro category.
      */
     private String defaultCategory;
+
+    /**
+     * @see #supportsInlineMode()
+     */
+    private boolean supportsInlineMode;
 
     /**
      * A map containing the {@link ParameterDescriptor} for each parameters supported for this macro.
@@ -186,5 +192,22 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     public void setDefaultCategory(String defaultCategory)
     {
         this.defaultCategory = defaultCategory;
+    }
+
+    @Override
+    public boolean supportsInlineMode()
+    {
+        return this.supportsInlineMode;
+    }
+
+    /**
+     * @param supportsInlineMode {@code true} to support in-line mode, {@code false} otherwise
+     * @see #supportsInlineMode()
+     * @since 10.10RC1
+     */
+    @Unstable
+    public void setSupportsInlineMode(boolean supportsInlineMode)
+    {
+        this.supportsInlineMode = supportsInlineMode;
     }
 }

@@ -19,15 +19,12 @@
  */
 package org.xwiki.rendering.wiki;
 
-import org.xwiki.stability.Unstable;
-
 /**
  * Encapsulate a Wiki Model exception.
  *
  * @version $Id$
  * @since 9.6RC1
  */
-@Unstable
 public class WikiModelException extends Exception
 {
     /**
@@ -50,11 +47,10 @@ public class WikiModelException extends Exception
      *
      * @param message The detailed message. This can later be retrieved by the Throwable.getMessage() method.
      * @param throwable the cause. This can be retrieved later by the Throwable.getCause() method. (A null value is
-     *            permitted, and indicates that the cause is nonexistent or unknown)
+     * permitted, and indicates that the cause is nonexistent or unknown)
      */
     public WikiModelException(String message, Throwable throwable)
     {
         super(message, throwable);
     }
-
 }

@@ -17,36 +17,53 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.renderer.wikimodel;
+package org.xwiki.rendering.block.match;
 
-import org.xwiki.rendering.renderer.printer.WikiPrinter;
-import org.xwiki.rendering.wikimodel.IWikiPrinter;
+import org.xwiki.rendering.block.Block;
 
 /**
- * Bridge so that WikiModel listeners can be used and so that they output their results to a XWiki {@link WikiPrinter}
- * instance.
+ * Implementation of {@link BlockMatcher} which match any {@link Block} with the provided class.
  *
  * @version $Id$
- * @since 1.5M1
+ * @since 10.10RC1
  */
-public class WikiModelPrinterAdapter implements IWikiPrinter
+public class CounterBlockMatcher implements BlockMatcher
 {
-    private WikiPrinter printer;
+    private long count = -1;
 
-    public WikiModelPrinterAdapter(WikiPrinter printer)
+    private Block stopBlock;
+
+    /**
+     * Count all blocks.
+     */
+    public CounterBlockMatcher()
     {
-        this.printer = printer;
+
+    }
+
+    /**
+     * Find the index of the passed block.
+     * 
+     * @param stopBlock the block where to stop counting
+     */
+    public CounterBlockMatcher(Block stopBlock)
+    {
+        this.stopBlock = stopBlock;
     }
 
     @Override
-    public void print(String text)
+    public boolean match(Block block)
     {
-        this.printer.print(text);
+        ++this.count;
+
+        return this.stopBlock == block;
     }
 
-    @Override
-    public void println(String text)
+    /**
+     * @return the count
+     */
+    public long getCount()
     {
-        this.printer.println(text);
+        return count;
     }
 }

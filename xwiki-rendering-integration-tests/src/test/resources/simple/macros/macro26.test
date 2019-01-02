@@ -1,0 +1,18 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test that an empty box with a NULL content does NOT get a non generated content div
+.#-----------------------------------------------------
+<!--startmacro:box|-|-->
+<!--stopmacro-->
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<!--startmacro:box|-|--><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [box] []
+endMacroMarkerStandalone [box] []
+endDocument

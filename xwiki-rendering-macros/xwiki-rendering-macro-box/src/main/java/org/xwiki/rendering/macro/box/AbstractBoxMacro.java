@@ -37,11 +37,13 @@ import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.macro.AbstractMacro;
+import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.ContentDescriptor;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.stability.Unstable;
 
 /**
  * Draw a box around provided content.
@@ -52,6 +54,11 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  */
 public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends AbstractMacro<P>
 {
+    /**
+     * Predefined error message.
+     */
+    public static final String CONTENT_MISSING_ERROR = "The required content is missing.";
+
     /**
      * Parses untyped image references.
      */
@@ -85,9 +92,28 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
         return true;
     }
 
-    @Override
-    public List<Block> execute(P parameters, String content, MacroTransformationContext context)
-        throws MacroExecutionException
+    /**
+     * @param parameters the macro parameters in the form of a bean defined by the {@link Macro} implementation
+     * @param content the content of the macro
+     * @param context the context of the macros transformation process
+     * @return the title represented as a list of Blocks
+     * @since 10.10
+     */
+    @Unstable
+    protected List<? extends Block> getBlockTitle(P parameters, String content, MacroTransformationContext context)
+    {
+        return parameters.getBlockTitle();
+    }
+
+    /**
+     * @param parameters the macro parameters in the form of a bean defined by the {@link Macro} implementation
+     * @param content the content of the macro
+     * @param context the context of the macros transformation process
+     * @return the image reference to be displayed in the box
+     * @since 10.10
+     */
+    @Unstable
+    protected ResourceReference getImageReference(P parameters, String content, MacroTransformationContext context)
     {
         // TODO: Refactor this when it'll possible to have a specific converter associated to a macro parameter.
         ResourceReference imageReference = parameters.getImage();
@@ -96,10 +122,33 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
         if (imageReference != null && imageReference.getType().equals(ResourceType.UNKNOWN)) {
             imageReference = this.untypedImageReferenceParser.parse(imageReference.getReference());
         }
+        return imageReference;
+    }
 
-        String titleParameter = parameters.getTitle();
-        List<? extends Block> titleBlockList = parameters.getBlockTitle();
+    /**
+     * @param parameters the macro parameters in the form of a bean defined by the {@link Macro} implementation
+     * @param content the content of the macro
+     * @param context the context of the macros transformation process
+     * @return the title of the box
+     * @since 10.10
+     */
+    @Unstable
+    protected String getTitle(P parameters, String content, MacroTransformationContext context)
+    {
+        return parameters.getTitle();
+    }
 
+    /**
+     * @param parameters the macro parameters in the form of a bean defined by the {@link Macro} implementation
+     * @param content the content of the macro
+     * @param context the context of the macros transformation process
+     * @return the map of parameters to build the box, in the same order as we create them when they are retrieved
+     * by renderers.
+     * @since 10.10
+     */
+    @Unstable
+    protected Map<String, String> getBoxParameters(P parameters, String content, MacroTransformationContext context)
+    {
         // Use a linked hashmap to keep the parameters in the same order as we create them when they are retrieved
         // by renderers. This is useful for example in the Event renderer to control the order in which the params
         // are displayed.
@@ -113,14 +162,21 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
             boxParameters.put("style", "width:" + parameters.getWidth());
         }
 
+        return boxParameters;
+    }
+
+    @Override
+    public List<Block> execute(P parameters, String content, MacroTransformationContext context)
+        throws MacroExecutionException
+    {
         Block boxBlock = new BoxBlockBuilder()
             .setParameters(parameters)
             .setContent(content)
             .setContext(context)
-            .setBoxParameters(boxParameters)
-            .setImageReference(imageReference)
-            .setTitleParameter(titleParameter)
-            .setTitleBlockList(titleBlockList)
+            .setBoxParameters(this.getBoxParameters(parameters, content, context))
+            .setImageReference(this.getImageReference(parameters, content, context))
+            .setTitleParameter(this.getTitle(parameters, content, context))
+            .setTitleBlockList(this.getBlockTitle(parameters, content, context))
             .build();
 
         if (boxBlock == null) {
@@ -192,6 +248,14 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
         {
             Block ret = null;
 
+            // if the content is empty but yet mandatory, we throw an exception
+            if (StringUtils.isEmpty(content)
+                && AbstractBoxMacro.this.getDescriptor().getContentDescriptor().isMandatory()) {
+                throw new MacroExecutionException(CONTENT_MISSING_ERROR);
+            }
+
+            // if it's null but not mandatory we return null
+            // if it's only empty we continue the processing
             if (content == null) {
                 return ret;
             }

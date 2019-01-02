@@ -24,7 +24,6 @@ import java.util.Map;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.stability.Unstable;
 
 /**
  * Bridge between the Rendering module and a Wiki Model. Contains wiki APIs required by Rendering classes such as
@@ -79,7 +78,6 @@ public interface WikiModel
      * @throws WikiModelException if the XDOM content for the passed resource cannot be retrieved
      * @since 9.6RC1
      */
-    @Unstable
     default XDOM getXDOM(ResourceReference resourceReference) throws WikiModelException
     {
         throw new WikiModelException("Not implemented");

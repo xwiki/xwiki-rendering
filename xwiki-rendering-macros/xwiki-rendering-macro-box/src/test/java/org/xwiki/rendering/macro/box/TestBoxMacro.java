@@ -27,6 +27,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.VerbatimBlock;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
@@ -44,13 +45,18 @@ public class TestBoxMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
     public TestBoxMacro()
     {
-        super("Test Box Macro", "Description", new DefaultContentDescriptor(), BoxMacroParameters.class);
+        super("Test Box Macro", "Description",
+            new DefaultContentDescriptor("", false, Block.LIST_BLOCK_TYPE),
+            BoxMacroParameters.class);
     }
 
     @Override
-    protected List<Block> parseContent(BoxMacroParameters parameters, String content, MacroTransformationContext context)
-        throws MacroExecutionException
+    protected List<Block> parseContent(BoxMacroParameters parameters, String content,
+        MacroTransformationContext context) throws MacroExecutionException
     {
-        return Collections.<Block>singletonList(new VerbatimBlock(content, context.isInline()));
+        return Collections.singletonList(new MetaDataBlock(
+            Collections.<Block>singletonList(new VerbatimBlock(content, context.isInline())),
+            this.getNonGeneratedContentMetaData()
+        ));
     }
 }

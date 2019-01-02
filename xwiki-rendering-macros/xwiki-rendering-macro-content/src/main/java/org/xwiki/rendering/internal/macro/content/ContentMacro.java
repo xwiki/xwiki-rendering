@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.macro.content;
 
 import java.io.StringReader;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,6 +31,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.content.ContentMacroParameters;
@@ -72,7 +75,8 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
      */
     public ContentMacro()
     {
-        super("Content", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION), ContentMacroParameters.class);
+        super("Content", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, true,
+            Block.LIST_BLOCK_TYPE), ContentMacroParameters.class);
         setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
     }
 
@@ -87,7 +91,12 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
         throws MacroExecutionException
     {
         try {
-            return getSyntaxParser(parameters.getSyntax()).parse(new StringReader(content)).getChildren();
+            List<Block> blocks = getSyntaxParser(parameters.getSyntax()).parse(new StringReader(content)).getChildren();
+            MetaDataBlock metaDataBlock = new MetaDataBlock(blocks, MetaData.SYNTAX,
+                parameters.getSyntax().toIdString());
+
+            metaDataBlock.getMetaData().addMetaData(this.getNonGeneratedContentMetaData());
+            return Collections.singletonList(metaDataBlock);
         } catch (ParseException e) {
             throw new MacroExecutionException(
                 String.format("Failed to parse macro content in syntax [%s]", parameters.getSyntax()), e);

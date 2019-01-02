@@ -1,0 +1,66 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test nested macro that can be edited inline, in block context with syntax defined outside the macro.
+.#-----------------------------------------------------
+<p>First paragraph.</p>
+<!--startmacro:testcontentmacro|-||-|Old content-->
+<div>
+Some data to ignore
+</div>
+<div data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
+<!--startmacro:testcontentmacro|-||-|Old content-->
+<div>
+Some data to ignore 2
+</div>
+<div data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" class="xwiki-metadata-container">
+<strong>New content</strong>
+</div>
+<div>
+Some other data to ignore
+</div>
+<!--stopmacro-->
+<blockquote><p>line1<br/>line2</p></blockquote>
+</div>
+<div>
+Some other data to ignore 2
+</div>
+<!--stopmacro-->
+
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [First]
+onSpace
+onWord [paragraph]
+onSpecialSymbol [.]
+endParagraph
+onMacroStandalone [testcontentmacro] [] [{{testcontentmacro}}
+beginDocument [[syntax]=[XHTML 1.0]]
+beginParagraph
+beginFormat [BOLD]
+onWord [New]
+onSpace
+onWord [content]
+endFormat [BOLD]
+endParagraph
+endDocument [[syntax]=[XHTML 1.0]]
+{{/testcontentmacro}}
+
+>line1
+>line2]
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+First paragraph.
+
+{{testcontentmacro}}
+{{testcontentmacro}}
+**New content**
+{{/testcontentmacro}}
+
+>line1
+>line2
+{{/testcontentmacro}}

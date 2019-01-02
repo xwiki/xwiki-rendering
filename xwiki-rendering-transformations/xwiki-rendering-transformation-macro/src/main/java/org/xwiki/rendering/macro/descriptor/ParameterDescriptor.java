@@ -21,6 +21,8 @@ package org.xwiki.rendering.macro.descriptor;
 
 import java.lang.reflect.Type;
 
+import org.xwiki.properties.PropertyGroupDescriptor;
+
 /**
  * Define a macro parameter.
  *
@@ -69,4 +71,31 @@ public interface ParameterDescriptor
      * @since 1.7
      */
     boolean isMandatory();
+
+    /**
+     * @return indicate if the parameter is deprecated.
+     * @since 10.10RC1
+     */
+    default boolean isDeprecated()
+    {
+        return false;
+    }
+
+    /**
+     * @return indicate if the parameter is advanced.
+     * @since 10.10RC1
+     */
+    default boolean isAdvanced()
+    {
+        return false;
+    }
+
+    /**
+     * @return a hierarchy of groups and its associated feature.
+     * @since 10.11RC1
+     */
+    default PropertyGroupDescriptor getGroupDescriptor()
+    {
+        return null;
+    }
 }

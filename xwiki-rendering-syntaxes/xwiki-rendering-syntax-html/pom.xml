@@ -25,13 +25,14 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-syntaxes</artifactId>
-    <version>10.6-SNAPSHOT</version>
+    <version>11.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-syntax-html</artifactId>
   <name>XWiki Rendering - Syntax - HTML</name>
   <description>Parser for the HTML 4.01 syntax</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.57</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>HTML 4.01 Syntax</xwiki.extension.name>
     <!-- List it as a rendering syntax related module -->

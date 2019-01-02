@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering</artifactId>
-    <version>10.6-SNAPSHOT</version>
+    <version>11.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-wikimodel</artifactId>
   <name>XWiki Rendering - WikiModel</name>
@@ -33,6 +33,7 @@
   <description>XWiki Rendering - WikiModel</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.47</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>58</xwiki.pitest.mutationThreshold>
     <!-- Skip checkstyle checks for now since aligning WikiModel code base to the XWiki coding style is going to take
          some time and this module is temporary anyway. -->
     <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
@@ -82,7 +83,7 @@
           <dependency>
             <groupId>net.java.dev.javacc</groupId>
             <artifactId>javacc</artifactId>
-            <version>7.0.3</version>
+            <version>7.0.4</version>
           </dependency>
         </dependencies>
       </plugin>

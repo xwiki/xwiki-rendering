@@ -19,16 +19,13 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
+import java.util.Collections;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.macro.AbstractMacro;
-import org.xwiki.rendering.macro.Macro;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
@@ -39,19 +36,12 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * @version $Id$
  * @since 2.0M3
  */
-public abstract class AbstractMessageMacro extends AbstractMacro<Object>
+public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
     /**
      * Predefined error message.
      */
     public static final String CONTENT_MISSING_ERROR = "The required content is missing.";
-
-    /**
-     * Injected by the component manager.
-     */
-    @Inject
-    @Named("box")
-    private Macro<BoxMacroParameters> boxMacro;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -61,34 +51,23 @@ public abstract class AbstractMessageMacro extends AbstractMacro<Object>
      */
     public AbstractMessageMacro(String macroName, String macroDescription)
     {
-        super(macroName, macroDescription, new DefaultContentDescriptor(true));
+        super(macroName, macroDescription,
+            new DefaultContentDescriptor("Content of the message", true, Block.LIST_BLOCK_TYPE),
+            BoxMacroParameters.class);
     }
 
     @Override
-    public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
-        throws MacroExecutionException
+    protected List<Block> parseContent(BoxMacroParameters parameters, String content,
+        MacroTransformationContext context) throws MacroExecutionException
     {
-        if (StringUtils.isEmpty(content)) {
-            throw new MacroExecutionException(CONTENT_MISSING_ERROR);
-        }
-
-        BoxMacroParameters boxParameters = new BoxMacroParameters();
-
-        boxParameters.setCssClass(context.getCurrentMacroBlock().getId() + "message");
-
-        List<Block> result;
-        if (!context.isInline()) {
-            boxParameters.setTitle(content);
-            result = this.boxMacro.execute(boxParameters, StringUtils.EMPTY, context);
-        } else {
-            result = this.boxMacro.execute(boxParameters, content, context);
-        }
-        return result;
+        List<Block> macroContent = getMacroContentParser().parse(content, context, false, context.isInline())
+            .getChildren();
+        return Collections.singletonList(new MetaDataBlock(macroContent, this.getNonGeneratedContentMetaData()));
     }
 
     @Override
-    public boolean supportsInlineMode()
+    protected String getClassProperty()
     {
-        return true;
+        return super.getClassProperty() + ' ' + this.getDescriptor().getId().getId() + "message";
     }
 }

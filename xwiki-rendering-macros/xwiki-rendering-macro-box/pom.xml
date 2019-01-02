@@ -25,13 +25,14 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-macros</artifactId>
-    <version>10.6-SNAPSHOT</version>
+    <version>11.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-macro-box</artifactId>
   <name>XWiki Rendering - Macro - Box</name>
   <description>Render wiki content in a graphical box which can contain a title and an image</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.96</xwiki.jacoco.instructionRatio>
+    <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Box Macro</xwiki.extension.name>
   </properties>

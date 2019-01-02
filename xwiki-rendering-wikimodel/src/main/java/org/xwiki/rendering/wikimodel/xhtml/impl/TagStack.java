@@ -53,6 +53,13 @@ public class TagStack
 
     private static final String DOCUMENT_PARENT = "documentParent";
 
+    /**
+     * Represents a default {@link IgnoreElementRule} that ignore all elements and cannot be switched off.
+     *
+     * @since 10.10RC1
+     */
+    public static final IgnoreElementRule IGNORE_ALL = new IgnoreElementRule(f -> false, true);
+
     private final Map<String, TagHandler> fMap;
 
     private final CommentHandler fCommentHandler;
@@ -63,7 +70,10 @@ public class TagStack
 
     private final Deque<Map<String, Object>> fStackParameters = new ArrayDeque<Map<String, Object>>();
 
-    private boolean fIgnoreElements;
+    /**
+     * A stack of rules to ignore elements
+     */
+    private Deque<IgnoreElementRule> fignoreElementRuleStack = new ArrayDeque<>();
 
     private int fEmptyLineCount;
 
@@ -93,7 +103,10 @@ public class TagStack
         fPeek = new TagContext(fPeek, name, params, this);
         name = fPeek.getName();
         TagHandler handler = fMap.get(name);
-        if (!shouldIgnoreElements()) {
+
+        // check if the ignore rule should be activated
+        this.switchIgnoreRule(fPeek);
+        if (!this.shouldIgnoreElements()) {
             if (!(handler instanceof AbstractFormatTagHandler)) {
                 fPreviousCharType = null;
             }
@@ -106,10 +119,12 @@ public class TagStack
     {
         flushCharacters(true);
 
-        boolean ignoreElements = shouldIgnoreElements();
-        if (!ignoreElements) {
+        if (!this.shouldIgnoreElements()) {
             fPeek.endElement();
         }
+
+        // check if the ignore rule should be deactivated
+        this.switchIgnoreRule(fPeek);
         fPeek = fPeek.getParentContext();
     }
 
@@ -421,16 +436,56 @@ public class TagStack
 
     public boolean shouldIgnoreElements()
     {
-        return fIgnoreElements;
+        // we ignore elements if there is at least one ignore rule and it is active
+        return !this.fignoreElementRuleStack.isEmpty() && this.fignoreElementRuleStack.peek().isActive();
     }
 
     public void setIgnoreElements()
     {
-        fIgnoreElements = true;
+        // if we want to ignore all elements, we use an ignore rule that cannot be deactivated
+        this.pushIgnoreElementRule(IGNORE_ALL);
     }
 
     public void unsetIgnoreElements()
     {
-        fIgnoreElements = false;
+        this.popIgnoreElementRule();
+    }
+
+    /**
+     * Push a new rule to ignore elements.
+     *
+     * @param ignoreElementRule the rule to be used now.
+     *
+     * @since 10.10RC1
+     */
+    public void pushIgnoreElementRule(IgnoreElementRule ignoreElementRule)
+    {
+        this.fignoreElementRuleStack.push(ignoreElementRule);
+    }
+
+    /**
+     * Retrieve the last rule to ignore element.
+     *
+     * @return the last rule that was in the stack.
+     *
+     * @since 10.10RC1
+     */
+    public IgnoreElementRule popIgnoreElementRule()
+    {
+        return this.fignoreElementRuleStack.pop();
+    }
+
+    /**
+     * Check if an ignore rule should be (de)activated based on the given tag context.
+     *
+     * @param fPeek the tag context to match with a rule for activating it.
+     *
+     * @since 10.10RC1
+     */
+    private void switchIgnoreRule(TagContext fPeek)
+    {
+        if (!this.fignoreElementRuleStack.isEmpty()) {
+            this.fignoreElementRuleStack.peek().switchRule(fPeek);
+        }
     }
 }

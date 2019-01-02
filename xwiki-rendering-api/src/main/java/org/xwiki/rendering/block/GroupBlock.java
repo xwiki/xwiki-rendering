@@ -39,7 +39,7 @@ public class GroupBlock extends AbstractBlock
      */
     public GroupBlock()
     {
-        this(Collections.<Block>emptyList());
+        this(Collections.emptyList());
     }
 
     /**
@@ -50,7 +50,7 @@ public class GroupBlock extends AbstractBlock
      */
     public GroupBlock(Map<String, String> parameters)
     {
-        this(Collections.<Block>emptyList(), parameters);
+        this(Collections.emptyList(), parameters);
     }
 
     /**

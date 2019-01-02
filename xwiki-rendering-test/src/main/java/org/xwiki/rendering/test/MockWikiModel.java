@@ -100,6 +100,8 @@ public class MockWikiModel implements WikiModel
             return "Space.ExistingPage".equals(resourceValue);
         } else if (ResourceType.SPACE.equals(resourceType)) {
             return "ExistingSpace".equals(resourceValue);
+        } else if (ResourceType.PAGE.equals(resourceType)) {
+            return "ExistingPage".equals(resourceValue);
         }
 
         return false;
