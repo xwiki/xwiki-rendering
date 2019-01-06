@@ -19,24 +19,17 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.parser.parameter;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.xml.sax.SAXException;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.xdomxml10.internal.parser.DefaultBlockParser;
 
 public class ResourceReferenceParser extends DefaultBlockParser implements ValueParser<ResourceReference>
 {
-    private static final Set<String> NAMES = new HashSet<String>()
-    {
-        {
-            add("type");
-            add("reference");
-            add("typed");
-        }
-    };
+    private static final Set<String> NAMES = Stream.of("type", "reference", "typed").collect(Collectors.toSet());
 
     public ResourceReference reference;
 
@@ -52,7 +45,7 @@ public class ResourceReferenceParser extends DefaultBlockParser implements Value
     }
 
     @Override
-    protected void endBlock() throws SAXException
+    protected void endBlock()
     {
         this.reference =
             new ResourceReference(getParameterAsString("reference", null), new ResourceType(getParameterAsString(
