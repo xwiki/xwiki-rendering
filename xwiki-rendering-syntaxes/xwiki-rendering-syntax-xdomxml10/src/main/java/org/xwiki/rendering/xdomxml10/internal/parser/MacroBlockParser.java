@@ -19,12 +19,12 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.parser;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Named;
 
-import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -34,14 +34,7 @@ import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class MacroBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = new HashSet<String>()
-    {
-        {
-            add("id");
-            add("content");
-            add("inline");
-        }
-    };
+    private static final Set<String> NAMES = Stream.of("id", "content", "inline").collect(Collectors.toSet());
 
     public MacroBlockParser()
     {
@@ -49,7 +42,7 @@ public class MacroBlockParser extends DefaultBlockParser
     }
 
     @Override
-    protected void endBlock() throws SAXException
+    protected void endBlock()
     {
         getListener().onMacro(getParameterAsString("id", "macro"), getCustomParameters(),
             getParameterAsString("content", null), getParameterAsBoolean("inline", false));

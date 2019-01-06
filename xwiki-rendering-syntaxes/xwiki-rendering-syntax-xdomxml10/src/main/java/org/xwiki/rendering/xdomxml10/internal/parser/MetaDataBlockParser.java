@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.parser;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -39,12 +39,7 @@ import org.xwiki.rendering.xdomxml10.internal.parser.parameter.MetaDataParser;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class MetaDataBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = new HashSet<String>()
-    {
-        {
-            add("metaData");
-        }
-    };
+    private static final Set<String> NAMES = Collections.singleton("metaData");
 
     @Inject
     protected ConverterManager converter;

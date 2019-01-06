@@ -24,7 +24,6 @@ import java.util.Set;
 
 import javax.inject.Named;
 
-import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -42,7 +41,7 @@ public class SpecialSymbolBlockParser extends DefaultBlockParser
     }
 
     @Override
-    protected void endBlock() throws SAXException
+    protected void endBlock()
     {
         getListener().onSpecialSymbol(getParameterAsChar("symbol", (char) 0));
     }

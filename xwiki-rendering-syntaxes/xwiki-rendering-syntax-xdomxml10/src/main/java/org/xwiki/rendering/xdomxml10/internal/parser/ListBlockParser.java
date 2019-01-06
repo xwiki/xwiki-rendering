@@ -19,12 +19,11 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.parser;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 import javax.inject.Named;
 
-import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -37,12 +36,7 @@ public class ListBlockParser extends DefaultBlockParser
 {
     private static final ListTypeConverter LISTTYPECONVERTER = new ListTypeConverter();
 
-    private static final Set<String> NAMES = new HashSet<String>()
-    {
-        {
-            add("type");
-        }
-    };
+    private static final Set<String> NAMES = Collections.singleton("type");
 
     public ListBlockParser()
     {
@@ -50,14 +44,14 @@ public class ListBlockParser extends DefaultBlockParser
     }
 
     @Override
-    protected void beginBlock() throws SAXException
+    protected void beginBlock()
     {
         getListener()
             .beginList(LISTTYPECONVERTER.toFormat(getParameterAsString("type", null)), getCustomParameters());
     }
 
     @Override
-    protected void endBlock() throws SAXException
+    protected void endBlock()
     {
         getListener().endList(LISTTYPECONVERTER.toFormat(getParameterAsString("type", null)), getCustomParameters());
     }

@@ -21,7 +21,6 @@ package org.xwiki.rendering.xdomxml10.internal.parser;
 
 import javax.inject.Named;
 
-import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -33,13 +32,13 @@ import org.xwiki.rendering.listener.MetaData;
 public class DocumentBlockParser extends MetaDataBlockParser
 {
     @Override
-    protected void beginBlock() throws SAXException
+    protected void beginBlock()
     {
         getListener().beginDocument(this.metaDataParser != null ? this.metaDataParser.getValue() : MetaData.EMPTY);
     }
 
     @Override
-    protected void endBlock() throws SAXException
+    protected void endBlock()
     {
         getListener().endDocument(this.metaDataParser != null ? this.metaDataParser.getValue() : MetaData.EMPTY);
     }

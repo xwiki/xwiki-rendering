@@ -19,8 +19,9 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.parser;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Named;
 
@@ -36,13 +37,7 @@ import org.xwiki.rendering.syntax.Syntax;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class RawTextBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = new HashSet<String>()
-    {
-        {
-            add("content");
-            add("syntax");
-        }
-    };
+    private static final Set<String> NAMES = Stream.of("content", "syntax").collect(Collectors.toSet());
 
     public RawTextBlockParser()
     {
