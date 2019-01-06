@@ -19,12 +19,12 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.parser;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Named;
 
-import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -37,13 +37,7 @@ public class HeaderBlockParser extends DefaultBlockParser
 {
     private static final HeaderLevelConverter HEADERLEVELCONVERTER = new HeaderLevelConverter();
 
-    private static final Set<String> NAMES = new HashSet<String>()
-    {
-        {
-            add("level");
-            add("id");
-        }
-    };
+    private static final Set<String> NAMES = Stream.of("level", "id").collect(Collectors.toSet());
 
     public HeaderBlockParser()
     {
@@ -51,14 +45,14 @@ public class HeaderBlockParser extends DefaultBlockParser
     }
 
     @Override
-    protected void beginBlock() throws SAXException
+    protected void beginBlock()
     {
         getListener().beginHeader(HEADERLEVELCONVERTER.toFormat(getParameterAsString("level", null)),
             getParameterAsString("id", null), getCustomParameters());
     }
 
     @Override
-    protected void endBlock() throws SAXException
+    protected void endBlock()
     {
         getListener().endHeader(HEADERLEVELCONVERTER.toFormat(getParameterAsString("level", null)),
             getParameterAsString("id", null), getCustomParameters());
