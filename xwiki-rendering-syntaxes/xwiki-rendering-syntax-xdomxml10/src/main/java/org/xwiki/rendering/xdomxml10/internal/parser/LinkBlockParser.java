@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.parser;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 import javax.inject.Named;
@@ -36,12 +36,7 @@ import org.xwiki.rendering.xdomxml10.internal.parser.parameter.ResourceReference
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class LinkBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = new HashSet<String>()
-    {
-        {
-            add("freestanding");
-        }
-    };
+    private static final Set<String> NAMES = Collections.singleton("freestanding");
 
     private ResourceReferenceParser referenceParser = new ResourceReferenceParser();
 
@@ -62,14 +57,14 @@ public class LinkBlockParser extends DefaultBlockParser
     }
 
     @Override
-    protected void beginBlock() throws SAXException
+    protected void beginBlock()
     {
         getListener().beginLink(this.referenceParser.getValue(),
             getParameterAsBoolean("freestanding", false), getCustomParameters());
     }
 
     @Override
-    protected void endBlock() throws SAXException
+    protected void endBlock()
     {
         getListener().endLink(this.referenceParser.getValue(),
             getParameterAsBoolean("freestanding", false), getCustomParameters());
