@@ -19,40 +19,36 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.renderer.parameter;
 
-import java.util.HashMap;
+import java.util.AbstractMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.xwiki.rendering.listener.Format;
 
 public class FormatConverter
 {
-    private static final Map<String, Format> STRINGTOFORMAT = new HashMap<String, Format>()
-    {
-        {
-            put("bold", Format.BOLD);
-            put("italic", Format.ITALIC);
-            put("underlined", Format.UNDERLINED);
-            put("strikeout", Format.STRIKEDOUT);
-            put("superscript", Format.SUPERSCRIPT);
-            put("subscript", Format.SUBSCRIPT);
-            put("monospace", Format.MONOSPACE);
-            put("none", Format.NONE);
-        }
-    };
+    private static final Map<String, Format> STRINGTOFORMAT = Stream.of(
+        new AbstractMap.SimpleImmutableEntry<>("bold", Format.BOLD),
+        new AbstractMap.SimpleImmutableEntry<>("italic", Format.ITALIC),
+        new AbstractMap.SimpleImmutableEntry<>("underlined", Format.UNDERLINED),
+        new AbstractMap.SimpleImmutableEntry<>("strikeout", Format.STRIKEDOUT),
+        new AbstractMap.SimpleImmutableEntry<>("superscript", Format.SUPERSCRIPT),
+        new AbstractMap.SimpleImmutableEntry<>("subscript", Format.SUBSCRIPT),
+        new AbstractMap.SimpleImmutableEntry<>("monospace", Format.MONOSPACE),
+        new AbstractMap.SimpleImmutableEntry<>("none", Format.NONE))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-    private static final Map<Format, String> FORMATTOSTRING = new HashMap<Format, String>()
-    {
-        {
-            put(Format.BOLD, "bold");
-            put(Format.ITALIC, "italic");
-            put(Format.UNDERLINED, "underlined");
-            put(Format.STRIKEDOUT, "strikeout");
-            put(Format.SUPERSCRIPT, "superscript");
-            put(Format.SUBSCRIPT, "subscript");
-            put(Format.MONOSPACE, "monospace");
-            put(Format.NONE, "none");
-        }
-    };
+    private static final Map<Format, String> FORMATTOSTRING = Stream.of(
+        new AbstractMap.SimpleImmutableEntry<>(Format.BOLD, "bold"),
+        new AbstractMap.SimpleImmutableEntry<>(Format.ITALIC, "italic"),
+        new AbstractMap.SimpleImmutableEntry<>(Format.UNDERLINED, "underlined"),
+        new AbstractMap.SimpleImmutableEntry<>(Format.STRIKEDOUT, "strikeout"),
+        new AbstractMap.SimpleImmutableEntry<>(Format.SUPERSCRIPT, "superscript"),
+        new AbstractMap.SimpleImmutableEntry<>(Format.SUBSCRIPT, "subscript"),
+        new AbstractMap.SimpleImmutableEntry<>(Format.MONOSPACE, "monospace"),
+        new AbstractMap.SimpleImmutableEntry<>(Format.NONE, "none"))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     public Format toFormat(String str)
     {
