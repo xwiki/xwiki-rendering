@@ -19,12 +19,11 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.parser;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 import javax.inject.Named;
 
-import org.xml.sax.SAXException;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -37,12 +36,7 @@ public class FormatBlockParser extends DefaultBlockParser
 {
     private static final FormatConverter FORMATCONVERTER = new FormatConverter();
 
-    private static final Set<String> NAMES = new HashSet<String>()
-    {
-        {
-            add("format");
-        }
-    };
+    private static final Set<String> NAMES = Collections.singleton("format");
 
     public FormatBlockParser()
     {
@@ -50,14 +44,14 @@ public class FormatBlockParser extends DefaultBlockParser
     }
 
     @Override
-    protected void beginBlock() throws SAXException
+    protected void beginBlock()
     {
         getListener()
             .beginFormat(FORMATCONVERTER.toFormat(getParameterAsString("format", null)), getCustomParameters());
     }
 
     @Override
-    protected void endBlock() throws SAXException
+    protected void endBlock()
     {
         getListener().endFormat(FORMATCONVERTER.toFormat(getParameterAsString("format", null)), getCustomParameters());
     }

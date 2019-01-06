@@ -67,7 +67,7 @@ public class DefaultBlockParser extends AbstractBlockParser
     {
         if (parameterNames != null) {
             this.parameterNames = parameterNames;
-            this.parameters = new HashMap<String, String>();
+            this.parameters = new HashMap<>();
         }
     }
 
