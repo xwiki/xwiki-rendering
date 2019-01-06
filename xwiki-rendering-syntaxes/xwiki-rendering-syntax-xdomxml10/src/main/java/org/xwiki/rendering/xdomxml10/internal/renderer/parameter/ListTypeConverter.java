@@ -19,28 +19,24 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.renderer.parameter;
 
-import java.util.HashMap;
+import java.util.AbstractMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.xwiki.rendering.listener.ListType;
 
 public class ListTypeConverter
 {
-    private static final Map<String, ListType> STRINGTOLISTTYPE = new HashMap<String, ListType>()
-    {
-        {
-            put("bulleted", ListType.BULLETED);
-            put("numbered", ListType.NUMBERED);
-        }
-    };
+    private static final Map<String, ListType> STRINGTOLISTTYPE = Stream.of(
+        new AbstractMap.SimpleImmutableEntry<>("bulleted", ListType.BULLETED),
+        new AbstractMap.SimpleImmutableEntry<>("numbered", ListType.NUMBERED))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-    private static final Map<ListType, String> LISTTYPETOSTRING = new HashMap<ListType, String>()
-    {
-        {
-            put(ListType.BULLETED, "bulleted");
-            put(ListType.NUMBERED, "numbered");
-        }
-    };
+    private static final Map<ListType, String> LISTTYPETOSTRING = Stream.of(
+        new AbstractMap.SimpleImmutableEntry<>(ListType.BULLETED, "bulleted"),
+        new AbstractMap.SimpleImmutableEntry<>(ListType.NUMBERED, "numbered"))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     public ListType toFormat(String str)
     {

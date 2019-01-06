@@ -19,36 +19,32 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.renderer.parameter;
 
-import java.util.HashMap;
+import java.util.AbstractMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.xwiki.rendering.listener.HeaderLevel;
 
 public class HeaderLevelConverter
 {
-    private static final Map<String, HeaderLevel> STRINGTOHEADERLEVEL = new HashMap<String, HeaderLevel>()
-    {
-        {
-            put("1", HeaderLevel.LEVEL1);
-            put("2", HeaderLevel.LEVEL2);
-            put("3", HeaderLevel.LEVEL3);
-            put("4", HeaderLevel.LEVEL4);
-            put("5", HeaderLevel.LEVEL5);
-            put("6", HeaderLevel.LEVEL6);
-        }
-    };
+    private static final Map<String, HeaderLevel> STRINGTOHEADERLEVEL = Stream.of(
+        new AbstractMap.SimpleImmutableEntry<>("1", HeaderLevel.LEVEL1),
+        new AbstractMap.SimpleImmutableEntry<>("2", HeaderLevel.LEVEL2),
+        new AbstractMap.SimpleImmutableEntry<>("3", HeaderLevel.LEVEL3),
+        new AbstractMap.SimpleImmutableEntry<>("4", HeaderLevel.LEVEL4),
+        new AbstractMap.SimpleImmutableEntry<>("5", HeaderLevel.LEVEL5),
+        new AbstractMap.SimpleImmutableEntry<>("6", HeaderLevel.LEVEL6))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-    private static final Map<HeaderLevel, String> HEADERLEVELTOSTRING = new HashMap<HeaderLevel, String>()
-    {
-        {
-            put(HeaderLevel.LEVEL1, "1");
-            put(HeaderLevel.LEVEL2, "2");
-            put(HeaderLevel.LEVEL3, "3");
-            put(HeaderLevel.LEVEL4, "4");
-            put(HeaderLevel.LEVEL5, "5");
-            put(HeaderLevel.LEVEL6, "6");
-        }
-    };
+    private static final Map<HeaderLevel, String> HEADERLEVELTOSTRING = Stream.of(
+        new AbstractMap.SimpleImmutableEntry<>(HeaderLevel.LEVEL1, "1"),
+        new AbstractMap.SimpleImmutableEntry<>(HeaderLevel.LEVEL2, "2"),
+        new AbstractMap.SimpleImmutableEntry<>(HeaderLevel.LEVEL3, "3"),
+        new AbstractMap.SimpleImmutableEntry<>(HeaderLevel.LEVEL4, "4"),
+        new AbstractMap.SimpleImmutableEntry<>(HeaderLevel.LEVEL5, "5"),
+        new AbstractMap.SimpleImmutableEntry<>(HeaderLevel.LEVEL6, "6"))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     public HeaderLevel toFormat(String str)
     {
