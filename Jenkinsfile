@@ -73,7 +73,7 @@ stage ('Rendering Builds') {
         xwikiBuild('Checkstyle') {
           xvnc = false
           mavenOpts = globalMavenOpts
-          goals = 'clean test-compile checkstyle:check'
+          goals = 'clean test-compile checkstyle:check@default'
           profiles = 'legacy'
         }
       }
