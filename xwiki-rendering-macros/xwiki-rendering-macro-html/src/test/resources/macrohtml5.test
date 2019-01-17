@@ -35,11 +35,9 @@ onRawText [<pre>
 </pre>
 <p> Some  <span>  text 
 </span> 
-<!--comment-->  another  <script>//<![CDATA[
-
+<!--comment-->  another  <script>/*<![CDATA[*/
 hello  world
-
-//]]></script>
+/*]]>*/</script>
 </p>] [xhtml/1.0]
 endMacroMarkerStandalone [html] [] [<pre>
   newline
