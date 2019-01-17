@@ -26,7 +26,7 @@ onRawText [<script type="text/javascript">/*<![CDATA[*/
    
          if (2 > 1)
              alert("Hello, World")
-   //
+   // 
 /*]]>*/</script>] [xhtml/1.0]
 endMacroMarkerStandalone [html] [] [<script type="text/javascript">
    //<![CDATA[
