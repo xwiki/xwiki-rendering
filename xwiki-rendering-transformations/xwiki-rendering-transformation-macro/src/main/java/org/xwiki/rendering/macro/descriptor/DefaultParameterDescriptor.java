@@ -107,4 +107,10 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
     {
         return this.propertyDescriptor.getGroupDescriptor();
     }
+
+    @Override
+    public Type getDisplayType()
+    {
+        return this.propertyDescriptor.getDisplayType();
+    }
 }
