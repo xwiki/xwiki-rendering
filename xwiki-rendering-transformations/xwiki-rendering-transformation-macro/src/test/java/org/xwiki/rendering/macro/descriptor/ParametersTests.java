@@ -19,8 +19,11 @@
  */
 package org.xwiki.rendering.macro.descriptor;
 
+import java.util.Map;
+
 import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
+import org.xwiki.properties.annotation.PropertyDisplayType;
 import org.xwiki.properties.annotation.PropertyFeature;
 import org.xwiki.properties.annotation.PropertyGroup;
 import org.xwiki.properties.annotation.PropertyHidden;
@@ -112,6 +115,7 @@ public class ParametersTests
 
     @Deprecated
     @PropertyGroup({ "parentGroup", "childGroup" })
+    @PropertyDisplayType(Boolean.class)
     public String getDeprecatedParameter()
     {
         return deprecatedParameter;
@@ -126,6 +130,7 @@ public class ParametersTests
     @PropertyAdvanced
     @PropertyGroup({ "parentGroup", "childGroup" })
     @PropertyFeature("feature")
+    @PropertyDisplayType({Map.class, String.class, Long.class})
     public String getAdvancedParameter()
     {
         return advancedParameter;
