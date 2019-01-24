@@ -98,4 +98,13 @@ public interface ParameterDescriptor
     {
         return null;
     }
+
+    /**
+     * @return the type used to display the property.
+     * @since 11.0
+     */
+    default Type getDisplayType()
+    {
+        return getParameterType();
+    }
 }
