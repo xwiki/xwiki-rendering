@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.properties.internal.DefaultBeanManager;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.test.junit5.mockito.ComponentTest;
@@ -85,11 +86,14 @@ public class DefaultMacroDescriptorTest
         assertTrue(deprecatedDescriptor.isDeprecated());
         assertEquals(Arrays.asList("parentGroup", "childGroup"), deprecatedDescriptor.getGroupDescriptor().getGroup());
         assertEquals("feature", deprecatedDescriptor.getGroupDescriptor().getFeature());
+        assertEquals(Boolean.class, deprecatedDescriptor.getDisplayType());
 
         ParameterDescriptor advancedDescriptor = map.get("advancedparameter");
         assertTrue(advancedDescriptor.isAdvanced());
         assertEquals(Arrays.asList("parentGroup", "childGroup"), advancedDescriptor.getGroupDescriptor().getGroup());
         assertEquals("feature", advancedDescriptor.getGroupDescriptor().getFeature());
+        assertEquals(new DefaultParameterizedType(null, Map.class, String.class, Long.class),
+                advancedDescriptor.getDisplayType());
     }
 
     @Test
