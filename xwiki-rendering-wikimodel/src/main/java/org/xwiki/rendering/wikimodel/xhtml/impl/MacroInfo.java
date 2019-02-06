@@ -49,7 +49,7 @@ public class MacroInfo
     private static final String MACRO_SEPARATOR = "|-|";
 
     private final String name;
-    private final WikiParameters parameters;
+    private WikiParameters parameters;
 
     private String content;
 
@@ -115,6 +115,17 @@ public class MacroInfo
     public WikiParameters getParameters()
     {
         return parameters;
+    }
+
+    /**
+     * Allow to set new parameters for this macro.
+     * @param parameters the parameters to set.
+     * @since 11.1RC1
+     */
+    @Unstable
+    public void setParameters(WikiParameters parameters)
+    {
+        this.parameters = parameters;
     }
 
     /**

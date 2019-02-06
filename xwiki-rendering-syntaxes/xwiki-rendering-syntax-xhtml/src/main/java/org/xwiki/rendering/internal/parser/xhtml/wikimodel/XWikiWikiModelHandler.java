@@ -85,4 +85,11 @@ public interface XWikiWikiModelHandler
      */
     @Unstable
     String NON_GENERATED_CONTENT_STACK = "nonGeneratedContentStack";
+
+    /**
+     * Stack parameter which record the name of the parameter the current content is dedicated to.
+     * @since 11.1RC1
+     */
+    @Unstable
+    String PARAMETER_CONTENT_NAME = "parameterContentName";
 }

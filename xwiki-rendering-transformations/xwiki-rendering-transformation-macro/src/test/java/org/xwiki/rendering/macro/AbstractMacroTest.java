@@ -72,6 +72,18 @@ public class AbstractMacroTest
     }
 
     @Test
+    public void getNonGeneratedMetadataForParameterCustomDescriptor()
+    {
+        assertNotNull(macro2.getDescriptor().getContentDescriptor());
+        MetaData nonGeneratedContentMetaData = macro2.getNonGeneratedContentMetaData("param1");
+
+        MetaData expectedMetadata = new MetaData();
+        expectedMetadata.addMetaData(MetaData.NON_GENERATED_CONTENT, "java.util.List< org.xwiki.rendering.block.Block >");
+        expectedMetadata.addMetaData(MetaData.PARAMETER_NAME, "param1");
+        assertEquals(expectedMetadata, nonGeneratedContentMetaData);
+    }
+
+    @Test
     public void supportsInlineMode()
     {
         assertFalse(macro1.supportsInlineMode());

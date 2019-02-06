@@ -281,4 +281,32 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
         metaData.addMetaData(MetaData.NON_GENERATED_CONTENT, converted);
         return metaData;
     }
+
+    /**
+     * Helper to get the proper metadata for non generated content (i.e. content that has not gone through a
+     * Transformation) for a specific parameter. This content can be used for inline editing.
+     *
+     * @param parameterName the name of the parameter as defined in the macro
+     * @return the new metadata with the content type for the content represented as a string (e.g.
+     *         {@code java.util.List< org.xwiki.rendering.block.Block >} for content of type {@code List<Block>}
+     * @since 11.1RC1
+     */
+    @Unstable
+    protected MetaData getNonGeneratedContentMetaData(String parameterName)
+    {
+        MetaData metaData = new MetaData();
+        Type contentType;
+
+        if (this.contentDescriptor != null) {
+            contentType = this.contentDescriptor.getType();
+        } else {
+            contentType = DefaultContentDescriptor.DEFAULT_CONTENT_TYPE;
+        }
+
+        String converted = this.converterManager.convert(String.class, contentType);
+
+        metaData.addMetaData(MetaData.NON_GENERATED_CONTENT, converted);
+        metaData.addMetaData(MetaData.PARAMETER_NAME, parameterName);
+        return metaData;
+    }
 }
