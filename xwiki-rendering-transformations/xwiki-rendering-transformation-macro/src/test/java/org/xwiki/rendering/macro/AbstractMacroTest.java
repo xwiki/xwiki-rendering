@@ -21,6 +21,7 @@ package org.xwiki.rendering.macro;
 
 import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.internal.transformation.macro.TestInlineEditingMacro;
+import org.xwiki.rendering.internal.transformation.macro.TestInlineEditingMacroParameter;
 import org.xwiki.rendering.internal.transformation.macro.TestSimpleMacro;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.test.annotation.AllComponents;
@@ -49,6 +50,9 @@ public class AbstractMacroTest
     @InjectMockComponents
     private TestInlineEditingMacro macro2;
 
+    @InjectMockComponents
+    private TestInlineEditingMacroParameter macro3;
+
     @Test
     public void getNonGeneratedMetadataDefault()
     {
@@ -74,12 +78,25 @@ public class AbstractMacroTest
     @Test
     public void getNonGeneratedMetadataForParameterCustomDescriptor()
     {
-        assertNotNull(macro2.getDescriptor().getContentDescriptor());
-        MetaData nonGeneratedContentMetaData = macro2.getNonGeneratedContentMetaData("param1");
+        MetaData nonGeneratedContentMetaData = macro3.getNonGeneratedContentMetaData("param1");
 
         MetaData expectedMetadata = new MetaData();
         expectedMetadata.addMetaData(MetaData.NON_GENERATED_CONTENT, "java.util.List< org.xwiki.rendering.block.Block >");
         expectedMetadata.addMetaData(MetaData.PARAMETER_NAME, "param1");
+        assertEquals(expectedMetadata, nonGeneratedContentMetaData);
+
+        nonGeneratedContentMetaData = macro3.getNonGeneratedContentMetaData("param2");
+
+        expectedMetadata = new MetaData();
+        expectedMetadata.addMetaData(MetaData.NON_GENERATED_CONTENT, "java.lang.String");
+        expectedMetadata.addMetaData(MetaData.PARAMETER_NAME, "param2");
+        assertEquals(expectedMetadata, nonGeneratedContentMetaData);
+
+        nonGeneratedContentMetaData = macro3.getNonGeneratedContentMetaData("param3");
+
+        expectedMetadata = new MetaData();
+        expectedMetadata.addMetaData(MetaData.NON_GENERATED_CONTENT, "java.lang.String");
+        expectedMetadata.addMetaData(MetaData.PARAMETER_NAME, "param3");
         assertEquals(expectedMetadata, nonGeneratedContentMetaData);
     }
 

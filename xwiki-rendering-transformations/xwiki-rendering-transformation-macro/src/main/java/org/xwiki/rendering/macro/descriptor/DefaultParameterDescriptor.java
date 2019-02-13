@@ -33,6 +33,13 @@ import org.xwiki.properties.PropertyGroupDescriptor;
 public class DefaultParameterDescriptor implements ParameterDescriptor
 {
     /**
+     * Default content type of all content descriptors.
+     *
+     * @since 11.1RC1
+     */
+    public static final Type DEFAULT_PARAMETER_TYPE = String.class;
+
+    /**
      * The description of the parameter.
      */
     private PropertyDescriptor propertyDescriptor;

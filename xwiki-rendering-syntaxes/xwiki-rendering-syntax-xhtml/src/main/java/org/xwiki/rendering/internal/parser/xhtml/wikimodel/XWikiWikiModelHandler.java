@@ -20,8 +20,6 @@
 
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import org.xwiki.stability.Unstable;
-
 /**
  * Common interface to all XWiki Tag Handler.
  *

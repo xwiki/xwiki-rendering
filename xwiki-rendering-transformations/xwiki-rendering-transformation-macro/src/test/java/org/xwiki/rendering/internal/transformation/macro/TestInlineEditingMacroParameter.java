@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Named;
@@ -27,47 +26,30 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.MetaDataBlock;
-import org.xwiki.rendering.block.ParagraphBlock;
-import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.macro.AbstractMacro;
-import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
-import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
-import static org.xwiki.rendering.block.Block.LIST_BLOCK_TYPE;
-
 @Component
-@Named("testinlineeditingmacro")
+@Named("testinlineeditingmacroparameter")
 @Singleton
-public class TestInlineEditingMacro extends AbstractNoParameterMacro
+public class TestInlineEditingMacroParameter extends AbstractMacro<TestMacroParameter>
 {
-    public TestInlineEditingMacro()
+    public TestInlineEditingMacroParameter()
     {
-        super("Macro Inline Editing", "", new DefaultContentDescriptor("content", true, LIST_BLOCK_TYPE));
+        super("Macro parameter inline editing", "", TestMacroParameter.class);
     }
 
     @Override
     public boolean supportsInlineMode()
     {
-        return true;
+        return false;
     }
 
     @Override
-    public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
+    public List<Block> execute(TestMacroParameter parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
-        Block contentBlock;
-
-        WordBlock wordBlock = new WordBlock(content);
-        if (context.isInline()) {
-            contentBlock = wordBlock;
-        } else {
-            contentBlock = new ParagraphBlock(Collections.singletonList(wordBlock));
-        }
-
-        return Collections.singletonList(new MetaDataBlock(Collections.singletonList(contentBlock),
-            this.getNonGeneratedContentMetaData()));
+        return null;
     }
 }
