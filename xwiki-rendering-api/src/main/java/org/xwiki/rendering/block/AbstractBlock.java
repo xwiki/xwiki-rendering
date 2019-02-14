@@ -296,7 +296,7 @@ public abstract class AbstractBlock implements Block
 
         // Insert new children
         Block previousBlock = oldBlock.getPreviousSibling();
-        if (newBlocks.isEmpty()) {
+        if (newBlocks.isEmpty() && previousBlock != null) {
             previousBlock.setNextSiblingBlock(oldBlock.getNextSibling());
         }
         Block lastBlock = null;
