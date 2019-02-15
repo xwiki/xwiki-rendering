@@ -1,0 +1,13 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Test a macro that have inline editable content and parameter.
+.#-----------------------------------------------------
+{{box title="mytitle"}}
+Some content
+{{/box}}
+
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<!--startmacro:box|-|title="mytitle"|-|Some content--><div class="box"><div data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" data-xwiki-parameter-name="title" class="xwiki-metadata-container">mytitle</div><div data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" class="xwiki-metadata-container"><p>Some content</p></div></div><!--stopmacro-->

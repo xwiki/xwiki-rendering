@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.properties.annotation.PropertyDescription;
+import org.xwiki.properties.annotation.PropertyDisplayType;
 import org.xwiki.properties.annotation.PropertyHidden;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -91,6 +92,7 @@ public class BoxMacroParameters
      * @param title refer to {@link #getTitle()}
      */
     @PropertyDescription("the title which is to be displayed in the message box")
+    @PropertyDisplayType({ List.class, Block.class })
     public void setTitle(String title)
     {
         this.title = title;
