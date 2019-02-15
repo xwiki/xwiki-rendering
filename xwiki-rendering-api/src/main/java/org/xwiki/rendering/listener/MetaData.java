@@ -68,6 +68,14 @@ public class MetaData
     public static final String NON_GENERATED_CONTENT = "non-generated-content";
 
     /**
+     * Represents a metadata attached to a specific parameter identified by the given name.
+     *
+     * @since 11.1RC1
+     */
+    @Unstable
+    public static final String PARAMETER_NAME = "parameter-name";
+
+    /**
      * Contains all MetaData for this Block and its children. Note: we preserve the order of metadata elements as they
      * are added as a service for the user so he can count on it.
      */

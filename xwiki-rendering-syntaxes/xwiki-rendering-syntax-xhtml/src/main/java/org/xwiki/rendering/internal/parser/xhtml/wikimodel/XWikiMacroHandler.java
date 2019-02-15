@@ -132,6 +132,10 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                     context.getTagStack().pushScannerContext(new WikiScannerContext(xWikiGeneratorListener));
                     context.getTagStack().getScannerContext().beginDocument();
                     withNonGeneratedContent = true;
+                    if (metaData.contains(MetaData.PARAMETER_NAME)) {
+                        context.getTagStack().pushStackParameter(PARAMETER_CONTENT_NAME,
+                            metaData.getMetaData(MetaData.PARAMETER_NAME));
+                    }
                 } catch (ComponentLookupException e) {
                     this.logger.error("Error while getting the appropriate renderer for syntax [{}]",
                         currentSyntaxParameter, e);
@@ -168,7 +172,16 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                 renderer = (PrintRenderer) xWikiGeneratorListener.getListener();
             }
             String content = renderer.getPrinter().toString();
-            macroInfo.setContent(content);
+
+            if (context.getTagStack().getStackParameter(PARAMETER_CONTENT_NAME) == null) {
+                macroInfo.setContent(content);
+            } else {
+                String parameterName = (String) context.getTagStack().popStackParameter(PARAMETER_CONTENT_NAME);
+                WikiParameters parameters = macroInfo.getParameters();
+
+                // WikiParameters are immutable
+                macroInfo.setParameters(parameters.setParameter(parameterName, content));
+            }
         }
 
         return nonGeneratedContent || macroInfo != null;
