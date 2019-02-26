@@ -10,11 +10,11 @@
 beginDocument
 beginMacroMarkerStandalone [box] [width=100px] [something]
 beginGroup [[class]=[box][style]=[width:100px]]
-beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
 onWord [something]
 endParagraph
-endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endGroup [[class]=[box][style]=[width:100px]]
 endMacroMarkerStandalone [box] [width=100px] [something]
 endDocument

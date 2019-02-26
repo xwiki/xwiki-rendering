@@ -7,11 +7,11 @@
 
 <!--startmacro:info|-||-|whatever-->
 <div class="box infomessage">
-  <div data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" class="xwiki-metadata-container">
+  <div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container">
     <p>one</p>
     <!--startmacro:error|-||-|whatever-->
     <div class="box errormessage">
-      <div data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" class="xwiki-metadata-container">
+      <div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container">
         <p>two</p>
       </div>
     </div>

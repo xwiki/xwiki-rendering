@@ -17,34 +17,34 @@
 .#-----------------------------------------------------
 beginDocument
 beginMacroMarkerStandalone [figure] [] [{{figureCaption}}{{/figureCaption}}]
-beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginFigure
 beginMacroMarkerStandalone [figureCaption] [] []
-beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginFigureCaption
 endFigureCaption
-endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endMacroMarkerStandalone [figureCaption] [] []
 endFigure
-endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endMacroMarkerStandalone [figure] [] [{{figureCaption}}{{/figureCaption}}]
 beginMacroMarkerStandalone [figure] []
-beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginFigure
 endFigure
-endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endMacroMarkerStandalone [figure] []
 beginMacroMarkerStandalone [figure] [] [{{figureCaption/}}]
-beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginFigure
 beginMacroMarkerStandalone [figureCaption] []
-beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginFigureCaption
 endFigureCaption
-endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endMacroMarkerStandalone [figureCaption] []
 endFigure
-endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endMacroMarkerStandalone [figure] [] [{{figureCaption/}}]
 endDocument
 .#--------------------------------------------------------------------------------------------------

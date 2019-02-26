@@ -7,7 +7,7 @@
 <div>
 Some data to ignore
 <!--startmacro:testcontentmacro|-||-|Second content-->
-<div data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
 <strong>Content ignored because the top macro doesn't have a non generated content</strong>
 </div>
 <!--stopmacro-->

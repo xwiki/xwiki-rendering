@@ -17,7 +17,7 @@ beginMacroMarkerStandalone [info] [] [Failed to do this action. The correct poss
 * you don't have right
 * another possibility]
 beginGroup [[class]=[box infomessage]]
-beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
 onWord [Failed]
 onSpace
@@ -64,7 +64,7 @@ onSpace
 onWord [possibility]
 endListItem
 endList [BULLETED]
-endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endGroup [[class]=[box infomessage]]
 endMacroMarkerStandalone [info] [] [Failed to do this action. The correct possibilities are:
 * use another value

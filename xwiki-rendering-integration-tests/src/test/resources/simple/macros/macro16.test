@@ -19,11 +19,11 @@ onWord [paragraph]
 onSpecialSymbol [.]
 endParagraph
 beginMacroMarkerStandalone [testinlineeditingmacro] [] [Some content]
-beginMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
 onWord [Some content]
 endParagraph
-endMetaData [[non-generated-content]=[java.util.List< org.xwiki.rendering.block.Block >]]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endMacroMarkerStandalone [testinlineeditingmacro] [] [Some content]
 endDocument
 .#-----------------------------------------------------
@@ -33,7 +33,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p>First paragraph.</p><!--startmacro:testinlineeditingmacro|-||-|Some content--><div data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" class="xwiki-metadata-container"><p>Some content</p></div><!--stopmacro-->
+<p>First paragraph.</p><!--startmacro:testinlineeditingmacro|-||-|Some content--><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>Some content</p></div><!--stopmacro-->
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
