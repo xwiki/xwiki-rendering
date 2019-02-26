@@ -6,9 +6,9 @@
 <p>First
 <!--startmacro:testcontentmacro|-||-|Old content-->
 <span>Some data to ignore</span>
-<span data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
+<span data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
 <!--startmacro:testcontentmacro|-||-|Old content-->
-<span>Some data to ignore</span><span data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" data-xwiki-syntax="xhtml/1.0" class="xwiki-metadata-container"><strong>New content</strong></span><span>Some other data</span>
+<span>Some data to ignore</span><span data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-syntax="xhtml/1.0" class="xwiki-metadata-container"><strong>New content</strong></span><span>Some other data</span>
 <!--stopmacro--></span><span>Some other data</span>
 <!--stopmacro-->
 paragraph.</p>

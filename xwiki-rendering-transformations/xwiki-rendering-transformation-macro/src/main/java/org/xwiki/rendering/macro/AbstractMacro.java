@@ -262,7 +262,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * Transformation). This content can be used for inline editing.
      *
      * @return the new metadata with the content type for the content represented as a string (e.g.
-     *         {@code java.util.List< org.xwiki.rendering.block.Block >} for content of type {@code List<Block>}
+     *         {@code java.util.List<org.xwiki.rendering.block.Block>} for content of type {@code List<Block>}
      * @since 10.10
      */
     @Unstable
@@ -289,7 +289,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      *
      * @param parameterName the name of the parameter as defined in the macro
      * @return the new metadata with the content type for the content represented as a string (e.g.
-     *         {@code java.util.List< org.xwiki.rendering.block.Block >} for content of type {@code List<Block>}
+     *         {@code java.util.List<org.xwiki.rendering.block.Block>} for content of type {@code List<Block>}
      * @since 11.1RC1
      */
     @Unstable

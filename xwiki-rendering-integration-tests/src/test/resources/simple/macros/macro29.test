@@ -5,8 +5,8 @@
 .#-----------------------------------------------------
 <!--startmacro:box|-|title="old title"|-|Old content-->
 <div class="box">
-<div data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" data-xwiki-parameter-name="title" class="xwiki-metadata-container">mytitle</div>
-<div data-xwiki-non-generated-content="java.util.List&lt; org.xwiki.rendering.block.Block &gt;" class="xwiki-metadata-container"><p>Some content</p></div>
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-parameter-name="title" class="xwiki-metadata-container">mytitle</div>
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>Some content</p></div>
 </div>
 <!--stopmacro-->
 

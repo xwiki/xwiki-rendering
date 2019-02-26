@@ -71,7 +71,7 @@ public class AbstractMacroTest
         MetaData nonGeneratedContentMetaData = macro2.getNonGeneratedContentMetaData();
 
         MetaData expectedMetadata = new MetaData();
-        expectedMetadata.addMetaData(MetaData.NON_GENERATED_CONTENT, "java.util.List< org.xwiki.rendering.block.Block >");
+        expectedMetadata.addMetaData(MetaData.NON_GENERATED_CONTENT, "java.util.List<org.xwiki.rendering.block.Block>");
         assertEquals(expectedMetadata, nonGeneratedContentMetaData);
     }
 
@@ -81,7 +81,7 @@ public class AbstractMacroTest
         MetaData nonGeneratedContentMetaData = macro3.getNonGeneratedContentMetaData("param1");
 
         MetaData expectedMetadata = new MetaData();
-        expectedMetadata.addMetaData(MetaData.NON_GENERATED_CONTENT, "java.util.List< org.xwiki.rendering.block.Block >");
+        expectedMetadata.addMetaData(MetaData.NON_GENERATED_CONTENT, "java.util.List<org.xwiki.rendering.block.Block>");
         expectedMetadata.addMetaData(MetaData.PARAMETER_NAME, "param1");
         assertEquals(expectedMetadata, nonGeneratedContentMetaData);
 
