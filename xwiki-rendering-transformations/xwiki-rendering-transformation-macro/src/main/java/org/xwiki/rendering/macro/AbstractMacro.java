@@ -26,8 +26,8 @@ import javax.inject.Inject;
 import org.xwiki.component.descriptor.ComponentDescriptor;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
+import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.properties.BeanManager;
-import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.macro.descriptor.AbstractMacroDescriptor;
 import org.xwiki.rendering.macro.descriptor.ContentDescriptor;
@@ -84,9 +84,6 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
 
     @Inject
     private ComponentDescriptor<Macro> componentDescriptor;
-
-    @Inject
-    private ConverterManager converterManager;
 
     /**
      * The human-readable macro name (eg "Table of Contents" for the TOC macro).
@@ -277,7 +274,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
             contentType = DefaultContentDescriptor.DEFAULT_CONTENT_TYPE;
         }
 
-        String converted = this.converterManager.convert(String.class, contentType);
+        String converted = ReflectionUtils.serializeType(contentType);
 
         metaData.addMetaData(MetaData.NON_GENERATED_CONTENT, converted);
         return metaData;
@@ -306,7 +303,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
             contentType = DefaultParameterDescriptor.DEFAULT_PARAMETER_TYPE;
         }
 
-        String converted = this.converterManager.convert(String.class, contentType);
+        String converted = ReflectionUtils.serializeType(contentType);
 
         metaData.addMetaData(MetaData.NON_GENERATED_CONTENT, converted);
         metaData.addMetaData(MetaData.PARAMETER_NAME, parameterName);
