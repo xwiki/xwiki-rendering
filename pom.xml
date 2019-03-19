@@ -39,7 +39,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-rendering.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-rendering.git</developerConnection>
     <url>https://github.com/xwiki/xwiki-rendering/tree/master/</url>
-    <tag>HEAD</tag>
+    <tag>stable-11.2.x</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
