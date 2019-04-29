@@ -157,7 +157,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         boolean nonGeneratedContent = (boolean) context.getTagStack().popStackParameter(NON_GENERATED_CONTENT_STACK);
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
-        if (nonGeneratedContent) {
+        if (nonGeneratedContent && macroInfo != null) {
             context.getTagStack().getScannerContext().endDocument();
 
             XWikiGeneratorListener xWikiGeneratorListener =
