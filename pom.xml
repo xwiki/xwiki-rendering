@@ -229,7 +229,18 @@
                     }
                 },
                 "ignore" : [
-                  // Add more ignores below...
+                  {
+                    "code": "java.method.parameterTypeParameterChanged",
+                    "old": "parameter void org.xwiki.rendering.wikimodel.xhtml.impl.IgnoreElementRule::<init>(===java.util.function.Predicate<org.xwiki.rendering.wikimodel.xhtml.impl.TagContext>===, boolean)",
+                    "new": "parameter void org.xwiki.rendering.wikimodel.xhtml.impl.IgnoreElementRule::<init>(===java.util.function.Predicate<org.xwiki.rendering.wikimodel.xhtml.impl.IgnoreElementRule>===, boolean)",
+                    "justification": "Change the predicate to use directly the current object. The IgnoreElementRule class is still an unstable API"
+                  },
+                  {
+                    "code": "java.method.numberOfParametersChanged",
+                    "old": "method void org.xwiki.rendering.wikimodel.xhtml.impl.IgnoreElementRule::switchRule(org.xwiki.rendering.wikimodel.xhtml.impl.TagContext)",
+                    "new": "method void org.xwiki.rendering.wikimodel.xhtml.impl.IgnoreElementRule::switchRule(org.xwiki.rendering.wikimodel.xhtml.impl.TagContext, boolean)",
+                    "justification": "Call the switch method with the info if it is from a begin or an end element. The IgnoreElementRule class is still an Unstable API."
+                  },
                 ]
               }
             }

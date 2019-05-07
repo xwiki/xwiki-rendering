@@ -20,10 +20,13 @@
 package org.xwiki.rendering.wikimodel.xhtml.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
+import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
 import org.xwiki.stability.Unstable;
 
@@ -52,6 +55,10 @@ public class MacroInfo
     private WikiParameters parameters;
 
     private String content;
+
+    private WikiScannerContext contentScannerContext;
+
+    private Map<String, WikiScannerContext> parameterScannerContextMap;
 
     /**
      * Build a MacroInfo based on the content of a comment.
@@ -99,6 +106,8 @@ public class MacroInfo
             this.content = null;
             parameters = WikiParameters.EMPTY;
         }
+
+        this.parameterScannerContextMap = new HashMap<>();
     }
 
     /**
@@ -144,5 +153,47 @@ public class MacroInfo
     public void setContent(String content)
     {
         this.content = content;
+    }
+
+    /**
+     * @return the scanner context that is used to parse the content of the macro.
+     * @since 11.4RC1
+     */
+    @Unstable
+    public WikiScannerContext getContentScannerContext()
+    {
+        return contentScannerContext;
+    }
+
+    /**
+     * @param contentScannerContext the scanner context that is used to parse the content of the macro.
+     * @since 11.4RC1
+     */
+    @Unstable
+    public void setContentScannerContext(WikiScannerContext contentScannerContext)
+    {
+        this.contentScannerContext = contentScannerContext;
+    }
+
+    /**
+     * @param parameter a parameter name of the macro
+     * @param scannerContext the scanner context that is used to parse the specified parameter of the macro.
+     * @since 11.4RC1
+     */
+    @Unstable
+    public void setParameterScannerContext(String parameter, WikiScannerContext scannerContext)
+    {
+        this.parameterScannerContextMap.put(parameter, scannerContext);
+    }
+
+    /**
+     * @param parameter a parameter name of the macro
+     * @return the scanner context that is used to parse the specified parameter of the macro.
+     * @since 11.4RC1
+     */
+    @Unstable
+    public WikiScannerContext getParameterScannerContext(String parameter)
+    {
+        return this.parameterScannerContextMap.get(parameter);
     }
 }
