@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Map;
 
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -40,6 +41,7 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.IgnoreElementRule;
 import org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo;
+import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 import org.xwiki.xml.XMLUtils;
 
@@ -138,12 +140,50 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         // we ignore elements until we get a non generated content: then the rule will be deactivated
         // see IgnoreElementRule
         } else {
-            stack.pushIgnoreElementRule(new IgnoreElementRule(tagContext -> {
+            stack.pushIgnoreElementRule(new IgnoreElementRule(ignoreElementRule -> {
+                boolean result = false;
+
+                TagContext tagContext = ignoreElementRule.getTagContext();
+                boolean beginElement = ignoreElementRule.isBeginElement();
+                boolean isCurrentlyActive = ignoreElementRule.isActive();
                 WikiParameters wikiParameters = tagContext.getParams();
-                if (wikiParameters != null) {
-                    return wikiParameters.getParameter(METADATA_ATTRIBUTE_PREFIX + MetaData.NON_GENERATED_CONTENT) != null;
+                Map<String, Object> ruleContext = ignoreElementRule.getRuleContext();
+                int divCounter = 0;
+
+                if (ruleContext.containsKey(MetaData.NON_GENERATED_CONTENT)) {
+                    divCounter = (Integer) ruleContext.get(MetaData.NON_GENERATED_CONTENT);
                 }
-                return false;
+
+                if (wikiParameters != null) {
+                    boolean onNotGeneratedContentDiv =
+                        wikiParameters.getParameter(METADATA_ATTRIBUTE_PREFIX + MetaData.NON_GENERATED_CONTENT) != null;
+
+                    // We are handling a non-generated content div, so we should check if we need to de/activate
+                    // the rule.
+                    if (onNotGeneratedContentDiv) {
+
+                        // in case of a beginElement, the rule must be already active to be activated: we don't want
+                        // to switch it off in case of redundant unchanged-content div.
+                        if (beginElement) {
+                            if (isCurrentlyActive && divCounter == 0) {
+                                result = true;
+                            } else {
+
+                                // if the rule was already deactivated, then count the number of redundant div
+                                // to be sure to reactivate it at the right moment.
+                                divCounter++;
+                            }
+                        } else {
+                            if (!isCurrentlyActive && divCounter == 0) {
+                                result = true;
+                            } else {
+                                divCounter--;
+                            }
+                        }
+                    }
+                }
+                ruleContext.put(MetaData.NON_GENERATED_CONTENT, divCounter);
+                return result;
             }, true));
         }
     }

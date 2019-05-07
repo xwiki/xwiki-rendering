@@ -105,7 +105,7 @@ public class TagStack
         TagHandler handler = fMap.get(name);
 
         // check if the ignore rule should be activated
-        this.switchIgnoreRule(fPeek);
+        this.switchIgnoreRule(fPeek, true);
         if (!this.shouldIgnoreElements()) {
             if (!(handler instanceof AbstractFormatTagHandler)) {
                 fPreviousCharType = null;
@@ -124,7 +124,7 @@ public class TagStack
         }
 
         // check if the ignore rule should be deactivated
-        this.switchIgnoreRule(fPeek);
+        this.switchIgnoreRule(fPeek, false);
         fPeek = fPeek.getParentContext();
     }
 
@@ -479,13 +479,14 @@ public class TagStack
      * Check if an ignore rule should be (de)activated based on the given tag context.
      *
      * @param fPeek the tag context to match with a rule for activating it.
+     * @param begin if true, then the method is called with a begin element.
      *
      * @since 10.10RC1
      */
-    private void switchIgnoreRule(TagContext fPeek)
+    private void switchIgnoreRule(TagContext fPeek, boolean begin)
     {
         if (!this.fignoreElementRuleStack.isEmpty()) {
-            this.fignoreElementRuleStack.peek().switchRule(fPeek);
+            this.fignoreElementRuleStack.peek().switchRule(fPeek, begin);
         }
     }
 }
