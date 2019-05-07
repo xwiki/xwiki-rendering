@@ -20,6 +20,7 @@
 package org.xwiki.rendering.macro;
 
 import java.lang.reflect.Type;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -35,6 +36,7 @@ import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.descriptor.DefaultMacroDescriptor;
 import org.xwiki.rendering.macro.descriptor.DefaultParameterDescriptor;
 import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
+import org.xwiki.rendering.macro.descriptor.ParameterDescriptor;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -258,18 +260,19 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * Helper to get the proper metadata for non generated content (i.e. content that has not gone through a
      * Transformation). This content can be used for inline editing.
      *
+     * @param contentDescriptor the {@link ContentDescriptor} from which to get the type for the metadata.
      * @return the new metadata with the content type for the content represented as a string (e.g.
      *         {@code java.util.List<org.xwiki.rendering.block.Block>} for content of type {@code List<Block>}
-     * @since 10.10
+     * @since 11.4RC1
      */
     @Unstable
-    protected MetaData getNonGeneratedContentMetaData()
+    public static MetaData getNonGeneratedContentMetaData(ContentDescriptor contentDescriptor)
     {
         MetaData metaData = new MetaData();
         Type contentType;
 
-        if (this.contentDescriptor != null) {
-            contentType = this.contentDescriptor.getType();
+        if (contentDescriptor != null) {
+            contentType = contentDescriptor.getType();
         } else {
             contentType = DefaultContentDescriptor.DEFAULT_CONTENT_TYPE;
         }
@@ -277,6 +280,50 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
         String converted = ReflectionUtils.serializeType(contentType);
 
         metaData.addMetaData(MetaData.NON_GENERATED_CONTENT, converted);
+        return metaData;
+    }
+
+    /**
+     * Helper to get the proper metadata for non generated content (i.e. content that has not gone through a
+     * Transformation). This content can be used for inline editing.
+     *
+     * @return the new metadata with the content type for the content represented as a string (e.g.
+     *         {@code java.util.List<org.xwiki.rendering.block.Block>} for content of type {@code List<Block>}
+     * @since 10.10
+     */
+    @Unstable
+    protected MetaData getNonGeneratedContentMetaData()
+    {
+        return getNonGeneratedContentMetaData(contentDescriptor);
+    }
+
+    /**
+     * Helper to get the proper metadata for non generated content (i.e. content that has not gone through a
+     * Transformation) for a specific parameter. This content can be used for inline editing.
+     *
+     * @param parameterDescriptorMap the descriptor map of the parameters
+     * @param name the name of the parameter for which to get the metadata
+     * @return the new metadata with the content type for the content represented as a string (e.g.
+     *         {@code java.util.List<org.xwiki.rendering.block.Block>} for content of type {@code List<Block>}
+     * @since 11.4RC1
+     */
+    @Unstable
+    public static MetaData getNonGeneratedContentMetaData(Map<String, ParameterDescriptor> parameterDescriptorMap,
+        String name)
+    {
+        MetaData metaData = new MetaData();
+        Type contentType;
+
+        if (parameterDescriptorMap != null && parameterDescriptorMap.containsKey(name)) {
+            contentType = parameterDescriptorMap.get(name).getDisplayType();
+        } else {
+            contentType = DefaultParameterDescriptor.DEFAULT_PARAMETER_TYPE;
+        }
+
+        String converted = ReflectionUtils.serializeType(contentType);
+
+        metaData.addMetaData(MetaData.NON_GENERATED_CONTENT, converted);
+        metaData.addMetaData(MetaData.PARAMETER_NAME, name);
         return metaData;
     }
 
@@ -292,21 +339,14 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     @Unstable
     protected MetaData getNonGeneratedContentMetaData(String parameterName)
     {
-        MetaData metaData = new MetaData();
-        Type contentType;
-
-        if (this.macroDescriptor != null
-            && this.macroDescriptor.getParameterDescriptorMap() != null
-            && this.macroDescriptor.getParameterDescriptorMap().containsKey(parameterName)) {
-            contentType = this.macroDescriptor.getParameterDescriptorMap().get(parameterName).getDisplayType();
+        MetaData result;
+        if (this.macroDescriptor != null) {
+            result = getNonGeneratedContentMetaData(
+                this.macroDescriptor.getParameterDescriptorMap(), parameterName);
         } else {
-            contentType = DefaultParameterDescriptor.DEFAULT_PARAMETER_TYPE;
+            result = getNonGeneratedContentMetaData(null, parameterName);
         }
 
-        String converted = ReflectionUtils.serializeType(contentType);
-
-        metaData.addMetaData(MetaData.NON_GENERATED_CONTENT, converted);
-        metaData.addMetaData(MetaData.PARAMETER_NAME, parameterName);
-        return metaData;
+        return result;
     }
 }
