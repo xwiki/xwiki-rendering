@@ -19,14 +19,11 @@
  */
 package org.xwiki.rendering.internal.macro.html;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener;
 import org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
-import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 
@@ -35,7 +32,7 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
  * We override the default XHTML renderer since we want special behaviors, for example to not escape special symbols
  * (since we don't want to escape HTML tags for example).
  *
- * @version $Id $
+ * @version $Id$
  * @since 1.8.3
  */
 public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
@@ -156,38 +153,5 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
     protected BlockStateChainingListener getBlockState()
     {
         return (BlockStateChainingListener) getListenerChain().getListener(HTMLMacroBlockStateChainingListener.class);
-    }
-
-    /**
-     * @return a span element if we are inside an inline macro. Else a div.
-     */
-    private String getMetadataContainerElement()
-    {
-        if (getBlockState().isInLine()) {
-            return "span";
-        } else {
-            return "div";
-        }
-    }
-
-    @Override
-    public void beginMetaData(MetaData metadata)
-    {
-        Map<String, String> attributes = new LinkedHashMap<>();
-
-        for (Map.Entry<String, Object> metadataPair : metadata.getMetaData().entrySet()) {
-            attributes.put(XHTMLXWikiGeneratorListener.METADATA_ATTRIBUTE_PREFIX + metadataPair.getKey(),
-                metadataPair.getValue().toString());
-        }
-
-        attributes.put("class", XHTMLXWikiGeneratorListener.METADATA_CONTAINER_CLASS);
-
-        this.getXHTMLWikiPrinter().printXMLStartElement(getMetadataContainerElement(), attributes);
-    }
-
-    @Override
-    public void endMetaData(MetaData metadata)
-    {
-        getXHTMLWikiPrinter().printXMLEndElement(getMetadataContainerElement());
     }
 }

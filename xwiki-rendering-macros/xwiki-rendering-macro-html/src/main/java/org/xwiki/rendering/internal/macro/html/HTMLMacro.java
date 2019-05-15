@@ -35,6 +35,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.MacroBlock;
@@ -102,13 +104,12 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     private HTMLCleaner htmlCleaner;
 
     /**
-     * Factory to create special XHTML renderer for the HTML Macro. We override the default XHTML renderer since we want
-     * special behaviors, for example to not escape special symbols (since we don't want to escape HTML tags for
-     * example).
+     * Default Factory to create special XHTML renderer for the HTML Macro.
+     * It is used as fallback in {@link #getRendererFactory(Syntax)}.
      */
     @Inject
     @Named("xhtmlmacro/1.0")
-    private PrintRendererFactory xhtmlRendererFactory;
+    private PrintRendererFactory defaultXHTMLRendererFactory;
 
     /**
      * The parser used to parse macro content.
@@ -121,6 +122,9 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
      */
     @Inject
     private RenderingContext renderingContext;
+
+    @Inject
+    private ComponentManager componentManager;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -280,7 +284,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
 
             // Render the whole parsed content as a XHTML string
             WikiPrinter printer = new DefaultWikiPrinter();
-            PrintRenderer renderer = this.xhtmlRendererFactory.createRenderer(printer);
+            PrintRenderer renderer = this.getRendererFactory(this.renderingContext.getTargetSyntax()).createRenderer(printer);
             for (Block block : htmlMacroMarker.getChildren()) {
                 block.traverse(renderer);
             }
@@ -292,6 +296,26 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
         }
 
         return xhtml;
+    }
+
+    /**
+     * Retrieve the renderer factory based on the given target syntax.
+     * In practice it's always a {@link HTMLMacroXHTMLRendererFactory} which is returned but the hint is used to build
+     * the right renderer in the factory.
+     *
+     * @param targetSyntax the syntax for which we want a {@link PrintRenderer}.
+     * @return a {@link HTMLMacroXHTMLRendererFactory} with the hint to build the right {@link PrintRenderer}.
+     *              It fallbacks on {@link #defaultXHTMLRendererFactory} in case of ComponentLookupException.
+     * @since 11.4RC1
+     */
+    private PrintRendererFactory getRendererFactory(Syntax targetSyntax)
+    {
+        String hint = HTMLMacroXHTMLRendererFactory.PREFIX_SYNTAX + targetSyntax.toIdString();
+        try {
+            return this.componentManager.getInstance(PrintRendererFactory.class, hint);
+        } catch (ComponentLookupException e) {
+            return this.defaultXHTMLRendererFactory;
+        }
     }
 
     /**

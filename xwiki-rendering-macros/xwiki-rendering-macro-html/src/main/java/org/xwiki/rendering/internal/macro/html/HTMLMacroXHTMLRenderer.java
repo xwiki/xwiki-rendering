@@ -36,10 +36,9 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 
 /**
  * Renderer that generates XHTML from a XDOM resulting from the parsing of text containing HTML mixed with wiki syntax.
- * We override the default XHTML renderer since we want special behaviors, for example to not escape special symbols
- * (since we don't want to escape HTML tags for example).
+ * It uses {@link HTMLMacroXHTMLChainingRenderer} to handle custom behaviours.
  *
- * @version $Id $
+ * @version $Id$
  * @since 1.8.3
  */
 @Component
