@@ -151,8 +151,9 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                         // created a scanner context for it: we create the scanner and push it in the context.
                         context.getTagStack().pushScannerContext(
                             new WikiScannerContext(createMacroListener(context, currentSyntaxParameter)));
+                        macroInfo.setContentScannerContext(context.getTagStack().getScannerContext());
+                        context.getTagStack().resetEmptyLinesCount();
                         context.getTagStack().getScannerContext().beginDocument();
-                        macroInfo.setContentScannerContext(context.getScannerContext());
                     }
                 } catch (ComponentLookupException e) {
                     this.logger.error("Error while getting the appropriate renderer for syntax [{}]",

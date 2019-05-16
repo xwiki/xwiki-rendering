@@ -1,0 +1,22 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Ensure that the empty lines are counted only once. 
+.#-----------------------------------------------------
+<!--startmacro:box|-||-|foo-->
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>foo</p></div>
+<!--stopmacro-->
+<div class="wikimodel-emptyline"></div>
+<!--startmacro:box|-||-|bar-->
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>bar</p></div>
+<!--stopmacro-->
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+{{box}}
+foo
+{{/box}}
+
+{{box}}
+bar
+{{/box}}
