@@ -39,7 +39,8 @@ import org.xwiki.rendering.syntax.SyntaxType;
  * @version $Id$
  * @since 2.0M3
  */
-@Component(hints = {"xhtmlmacro/1.0", "htmlmacro+annotatedxhtml/1.0"})
+@Component(hints = {"xhtmlmacro/1.0", "htmlmacro+annotatedxhtml/1.0", "htmlmacro+annotatedhtml/5.0",
+    "htmlmacro+html/5.0"})
 @Singleton
 public class HTMLMacroXHTMLRendererFactory extends AbstractPrintRendererFactory
 {
@@ -57,7 +58,11 @@ public class HTMLMacroXHTMLRendererFactory extends AbstractPrintRendererFactory
     /**
      * List of supported syntaxes in HTML Macro.
      */
-    private static final List<Syntax> SUPPORTED_SYNTAXES = Arrays.asList(Syntax.ANNOTATED_XHTML_1_0);
+    private static final List<Syntax> SUPPORTED_SYNTAXES = Arrays.asList(
+        Syntax.ANNOTATED_XHTML_1_0,
+        Syntax.ANNOTATED_HTML_5_0,
+        Syntax.HTML_5_0
+    );
 
     /**
      * List of HTML Macro syntaxes based on the {@link #SUPPORTED_SYNTAXES} with the {@link #PREFIX_SYNTAX} to use

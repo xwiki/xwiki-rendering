@@ -58,7 +58,16 @@
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-annotatedxhtml</artifactId>
       <version>${project.version}</version>
-      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-html5</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-annotatedhtml5</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
   <build>

@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.macro.html;
+package org.xwiki.rendering.internal.macro.html.renderers.html5;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,7 +27,9 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer;
+import org.xwiki.rendering.internal.macro.html.HTMLMacroBlockStateChainingListener;
+import org.xwiki.rendering.internal.macro.html.HTMLMacroChainingRenderer;
+import org.xwiki.rendering.internal.renderer.html5.HTML5ChainingRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
@@ -36,15 +38,16 @@ import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 
 /**
- * Renderer that generates XHTML from a XDOM resulting from the parsing of text containing HTML mixed with wiki syntax.
+ * Renderer that generates HTML5 from a XDOM resulting from the parsing of text containing HTML mixed with
+ * wiki syntax.
  *
  * @version $Id$
- * @since 1.8.3
+ * @since 11.4RC1
  */
 @Component
-@Named("xhtmlmacro/1.0")
+@Named("htmlmacro+html/5.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class HTMLMacroXHTMLRenderer extends AbstractChainingPrintRenderer implements Initializable
+public class HTMLMacroHTML5Renderer extends AbstractChainingPrintRenderer implements Initializable
 {
     /**
      * To render link events into XHTML. This is done so that it's pluggable because link rendering depends on how the
@@ -62,11 +65,6 @@ public class HTMLMacroXHTMLRenderer extends AbstractChainingPrintRenderer implem
     @Inject
     private XHTMLImageRenderer imageRenderer;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 2.0M3
-     */
     @Override
     public void initialize() throws InitializationException
     {
@@ -80,7 +78,7 @@ public class HTMLMacroXHTMLRenderer extends AbstractChainingPrintRenderer implem
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
         chain.addListener(new HTMLMacroChainingRenderer(
-            new XHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain))
+            new HTML5ChainingRenderer(this.linkRenderer, this.imageRenderer, chain))
         );
     }
 }
