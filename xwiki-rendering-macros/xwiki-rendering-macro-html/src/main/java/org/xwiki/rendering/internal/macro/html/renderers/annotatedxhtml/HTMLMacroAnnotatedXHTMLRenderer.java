@@ -28,6 +28,8 @@ import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.internal.macro.html.HTMLMacroBlockStateChainingListener;
+import org.xwiki.rendering.internal.macro.html.HTMLMacroChainingRenderer;
+import org.xwiki.rendering.internal.renderer.xhtml.AnnotatedXHTMLChainingRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
@@ -38,7 +40,7 @@ import org.xwiki.stability.Unstable;
 
 /**
  * Renderer that generates Annotated XHTML from a XDOM resulting from the parsing of text containing HTML mixed with
- * wiki syntax. It uses {@link HTMLMacroAnnotatedXHTMLChainingRenderer} to handle custom behaviours.
+ * wiki syntax.
  *
  * @version $Id$
  * @since 11.4RC1
@@ -67,11 +69,6 @@ public class HTMLMacroAnnotatedXHTMLRenderer extends AbstractChainingPrintRender
     @Named("annotated")
     private XHTMLImageRenderer imageRenderer;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 2.0M3
-     */
     @Override
     public void initialize() throws InitializationException
     {
@@ -84,6 +81,8 @@ public class HTMLMacroAnnotatedXHTMLRenderer extends AbstractChainingPrintRender
         chain.addListener(new HTMLMacroBlockStateChainingListener(chain));
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
-        chain.addListener(new HTMLMacroAnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain));
+        chain.addListener(new HTMLMacroChainingRenderer(
+            new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain))
+        );
     }
 }

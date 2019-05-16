@@ -21,36 +21,32 @@ package org.xwiki.rendering.internal.macro.html;
 
 import java.util.Map;
 
-import org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer;
-import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
-import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
+import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
+import org.xwiki.rendering.listener.chaining.ChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
+import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.rendering.renderer.PrintRenderer;
+import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
 /**
- * Renderer that generates XHTML from a XDOM resulting from the parsing of text containing HTML mixed with wiki syntax.
- * We override the default XHTML renderer since we want special behaviors, for example to not escape special symbols
- * (since we don't want to escape HTML tags for example).
+ * Define some custom behaviours for the different HTMLMacro renderers: this wrapper takes as parameter the right syntax
+ * renderer and delegate to it most behaviours. Only some of them are rewritten.
  *
  * @version $Id$
- * @since 1.8.3
+ * @since 11.4RC1
  */
-public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
+public class HTMLMacroChainingRenderer extends WrappingListener implements ChainingListener, PrintRenderer
 {
+    private AbstractChainingPrintRenderer printRenderer;
+
     /**
-     * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
-     *            rendering depends on how the underlying system wants to handle it. For example for XWiki we check if
-     *            the document exists, we get the document URL, etc.
-     * @param imageRenderer the object to render image events into XHTML. This is done so that it's pluggable because
-     *            image rendering depends on how the underlying system wants to handle it. For example for XWiki we
-     *            check if the image exists as a document attachments, we get its URL, etc.
-     * @param listenerChain the chain of listener filters used to compute various states
-     * @since 2.0M3
+     * @param printRenderer the right syntax renderer to be called.
      */
-    public HTMLMacroXHTMLChainingRenderer(XHTMLLinkRenderer linkRenderer, XHTMLImageRenderer imageRenderer,
-        ListenerChain listenerChain)
+    public HTMLMacroChainingRenderer(AbstractChainingPrintRenderer printRenderer)
     {
-        super(linkRenderer, imageRenderer, listenerChain);
+        this.printRenderer = printRenderer;
+        this.setWrappedListener(printRenderer);
     }
 
     /**
@@ -152,6 +148,25 @@ public class HTMLMacroXHTMLChainingRenderer extends XHTMLChainingRenderer
 
     protected BlockStateChainingListener getBlockState()
     {
-        return (BlockStateChainingListener) getListenerChain().getListener(HTMLMacroBlockStateChainingListener.class);
+        return (BlockStateChainingListener) getListenerChain()
+            .getListener(HTMLMacroBlockStateChainingListener.class);
+    }
+
+    @Override
+    public ListenerChain getListenerChain()
+    {
+        return this.printRenderer.getListenerChain();
+    }
+
+    @Override
+    public WikiPrinter getPrinter()
+    {
+        return this.printRenderer.getPrinter();
+    }
+
+    @Override
+    public void setPrinter(WikiPrinter printer)
+    {
+        this.printRenderer.setPrinter(printer);
     }
 }

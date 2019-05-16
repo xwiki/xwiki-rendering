@@ -38,3 +38,13 @@ another html content
 <!--startmacro:html|-|wiki="true"|-|html content
 ((({{testmetadatamacro/}})))
 another html content--><p>html content</p><div><div class="xwiki-metadata-container" data-xwiki-mymetadata="metadatavalue">testmacro</div></div><p>another html content</p><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|html/5.0
+.#-----------------------------------------------------
+<p>html content</p><div>testmacro</div><p>another html content</p>
+.#-----------------------------------------------------
+.expect|annotatedhtml/5.0
+.#-----------------------------------------------------
+<!--startmacro:html|-|wiki="true"|-|html content
+((({{testmetadatamacro/}})))
+another html content--><p>html content</p><div>testmacro</div><p>another html content</p><!--stopmacro-->

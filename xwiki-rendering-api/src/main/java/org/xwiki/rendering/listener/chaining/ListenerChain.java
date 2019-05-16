@@ -121,7 +121,16 @@ public class ListenerChain
      */
     public ChainingListener getListener(Class<? extends ChainingListener> listenerClass)
     {
-        return this.listeners.get(listenerClass).peek();
+        Deque<ChainingListener> result = this.listeners.get(listenerClass);
+        if (result == null) {
+            for (Class<? extends ChainingListener> listenerKey : this.listeners.keySet()) {
+                if (listenerClass.isAssignableFrom(listenerKey)) {
+                    result = this.listeners.get(listenerKey);
+                    break;
+                }
+            }
+        }
+        return result.peek();
     }
 
     /**
