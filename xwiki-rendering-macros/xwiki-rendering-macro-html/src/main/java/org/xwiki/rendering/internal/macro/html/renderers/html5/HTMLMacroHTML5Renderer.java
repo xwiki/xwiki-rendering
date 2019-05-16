@@ -25,17 +25,12 @@ import javax.inject.Named;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
-import org.xwiki.component.phase.Initializable;
-import org.xwiki.component.phase.InitializationException;
-import org.xwiki.rendering.internal.macro.html.HTMLMacroBlockStateChainingListener;
-import org.xwiki.rendering.internal.macro.html.HTMLMacroChainingRenderer;
+import org.xwiki.rendering.internal.macro.html.AbstractHTMLMacroRenderer;
 import org.xwiki.rendering.internal.renderer.html5.HTML5ChainingRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
-import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
-import org.xwiki.rendering.listener.chaining.ListenerChain;
-import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.stability.Unstable;
 
 /**
  * Renderer that generates HTML5 from a XDOM resulting from the parsing of text containing HTML mixed with
@@ -47,7 +42,8 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 @Component
 @Named("htmlmacro+html/5.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-public class HTMLMacroHTML5Renderer extends AbstractChainingPrintRenderer implements Initializable
+@Unstable
+public class HTMLMacroHTML5Renderer extends AbstractHTMLMacroRenderer
 {
     /**
      * To render link events into XHTML. This is done so that it's pluggable because link rendering depends on how the
@@ -66,19 +62,8 @@ public class HTMLMacroHTML5Renderer extends AbstractChainingPrintRenderer implem
     private XHTMLImageRenderer imageRenderer;
 
     @Override
-    public void initialize() throws InitializationException
+    protected AbstractChainingPrintRenderer getSyntaxRenderer()
     {
-        ListenerChain chain = new ListenerChain();
-        setListenerChain(chain);
-
-        // Construct the listener chain in the right order. Listeners early in the chain are called before listeners
-        // placed later in the chain.
-        chain.addListener(this);
-        chain.addListener(new HTMLMacroBlockStateChainingListener(chain));
-        chain.addListener(new EmptyBlockChainingListener(chain));
-        chain.addListener(new MetaDataStateChainingListener(chain));
-        chain.addListener(new HTMLMacroChainingRenderer(
-            new HTML5ChainingRenderer(this.linkRenderer, this.imageRenderer, chain))
-        );
+        return new HTML5ChainingRenderer(this.linkRenderer, this.imageRenderer, getListenerChain());
     }
 }
