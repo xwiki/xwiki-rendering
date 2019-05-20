@@ -1,0 +1,36 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Verify that nested footnotes are handled and do not
+.# generate any additional footnotes.
+.#-----------------------------------------------------
+Nested {{footnote}}footnote{{footnote}} content
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Nested]
+onSpace
+beginMacroMarkerInline [footnote] [] [footnote{{footnote}} content]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+onWord [1]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+endMacroMarkerInline [footnote] [] [footnote{{footnote}} content]
+endParagraph
+beginMacroMarkerStandalone [putFootnotes] []
+beginList [NUMBERED] [[class]=[footnotes]]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
+onWord [^]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
+onSpace
+onWord [footnote]
+beginMacroMarkerInline [footnote] [] [ content]
+endMacroMarkerInline [footnote] [] [ content]
+endListItem
+endList [NUMBERED] [[class]=[footnotes]]
+endMacroMarkerStandalone [putFootnotes] []
+endDocument

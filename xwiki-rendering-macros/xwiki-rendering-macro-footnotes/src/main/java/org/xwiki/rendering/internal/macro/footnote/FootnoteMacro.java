@@ -28,7 +28,10 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
+import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.block.match.MacroBlockMatcher;
+import org.xwiki.rendering.block.match.MacroMarkerBlockMatcher;
+import org.xwiki.rendering.block.match.OrBlockMatcher;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
@@ -47,19 +50,27 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 @Singleton
 public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
 {
-    /** The name of this macro. */
+    /**
+     * The name of this macro.
+     */
     public static final String MACRO_NAME = "footnote";
 
-    /** The description of the macro. */
+    /**
+     * The description of the macro.
+     */
     private static final String DESCRIPTION = "Generates a footnote to display at the end of the page.";
 
-    /** The description of the macro content. */
+    /**
+     * The description of the macro content.
+     */
     private static final String CONTENT_DESCRIPTION = "the text to place in the footnote";
 
     /**
-     * Matches MacroBlocks having a macro id of {@link PutFootnotesMacro#MACRO_NAME}.
+     * Matches MacroBlocks or MacroMarkerBlocks having a macro id of {@link PutFootnotesMacro#MACRO_NAME}.
      */
-    private static final MacroBlockMatcher MACRO_BLOCK_MATCHER = new MacroBlockMatcher(PutFootnotesMacro.MACRO_NAME);
+    private static final BlockMatcher PUTFOOTNOTE_MATCHER = new OrBlockMatcher(
+        new MacroBlockMatcher(PutFootnotesMacro.MACRO_NAME),
+        new MacroMarkerBlockMatcher(PutFootnotesMacro.MACRO_NAME));
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -89,15 +100,13 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
     {
         Block root = context.getXDOM();
 
-        Block matchingBlock = root.getFirstBlock(MACRO_BLOCK_MATCHER, Block.Axes.DESCENDANT);
-        if (matchingBlock != null) {
-            return Collections.emptyList();
+        // Only add a putfootnote macro at the end of the document if there's not already one (either already executed
+        // or not).
+        Block matchingBlock = root.getFirstBlock(PUTFOOTNOTE_MATCHER, Block.Axes.DESCENDANT);
+        if (matchingBlock == null) {
+            Block putFootnotesMacro = new MacroBlock(PutFootnotesMacro.MACRO_NAME, Collections.emptyMap(), false);
+            root.addChild(putFootnotesMacro);
         }
-
-        Block putFootnotesMacro =
-            new MacroBlock(PutFootnotesMacro.MACRO_NAME, Collections.<String, String>emptyMap(), false);
-        root.addChild(putFootnotesMacro);
-
         return Collections.emptyList();
     }
 }
