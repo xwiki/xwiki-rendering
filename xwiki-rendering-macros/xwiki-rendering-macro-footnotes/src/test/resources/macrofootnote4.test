@@ -1,0 +1,41 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Verify that putfootnote can be explicitly added and
+.# doesn't need to be located at the end of the
+.# document.
+.#-----------------------------------------------------
+Footnote{{footnote}}content{{/footnote}}
+
+{{putFootnotes/}}
+
+Something
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Footnote]
+beginMacroMarkerInline [footnote] [] [content]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+onWord [1]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+endMacroMarkerInline [footnote] [] [content]
+endParagraph
+beginMacroMarkerStandalone [putFootnotes] []
+beginList [NUMBERED] [[class]=[footnotes]]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
+onWord [^]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
+onSpace
+onWord [content]
+endListItem
+endList [NUMBERED] [[class]=[footnotes]]
+endMacroMarkerStandalone [putFootnotes] []
+beginParagraph
+onWord [Something]
+endParagraph
+endDocument
