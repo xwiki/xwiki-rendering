@@ -240,7 +240,7 @@
                     "old": "method void org.xwiki.rendering.wikimodel.xhtml.impl.IgnoreElementRule::switchRule(org.xwiki.rendering.wikimodel.xhtml.impl.TagContext)",
                     "new": "method void org.xwiki.rendering.wikimodel.xhtml.impl.IgnoreElementRule::switchRule(org.xwiki.rendering.wikimodel.xhtml.impl.TagContext, boolean)",
                     "justification": "Call the switch method with the info if it is from a begin or an end element. The IgnoreElementRule class is still an Unstable API."
-                  },
+                  }
                 ]
               }
             }
