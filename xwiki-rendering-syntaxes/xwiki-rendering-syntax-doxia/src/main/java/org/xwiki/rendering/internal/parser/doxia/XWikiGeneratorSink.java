@@ -24,7 +24,6 @@ import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
 
-import org.apache.maven.doxia.logging.Log;
 import org.apache.maven.doxia.sink.SinkEventAttributes;
 import org.apache.maven.doxia.sink.impl.SinkAdapter;
 import org.xwiki.rendering.listener.CompositeListener;
