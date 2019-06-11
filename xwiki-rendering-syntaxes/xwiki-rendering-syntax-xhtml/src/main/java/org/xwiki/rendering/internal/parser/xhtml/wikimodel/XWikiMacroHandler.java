@@ -195,11 +195,9 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
 
         if (nonGeneratedContent && macroInfo != null) {
             String parameterName = (String) context.getTagStack().getStackParameter(PARAMETER_CONTENT_NAME);
-            if (parameterName == null
-                && macroInfo.getContentScannerContext() != null) {
-                macroInfo.setContent(getRenderedContentFromMacro(context));
-                macroInfo.setContentScannerContext(null);
-            } else if (parameterName != null
+            // Case 1: there is a parameterName and a scanner context for this parameter in the macro
+            // so we need to handle this as a parameter content.
+            if (parameterName != null
                 && macroInfo.getParameterScannerContext(parameterName) != null) {
                 context.getTagStack().popStackParameter(PARAMETER_CONTENT_NAME);
                 WikiParameters parameters = macroInfo.getParameters();
@@ -207,6 +205,15 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                 // WikiParameters are immutable
                 macroInfo.setParameters(parameters.setParameter(parameterName, getRenderedContentFromMacro(context)));
                 macroInfo.setParameterScannerContext(parameterName, null);
+            // Case 2: there is a content scanner context and no parameterName: this needs to be processed as a
+            // wiki macro content.
+            // Case 3: there is a content scanner context, and a parameter name but this one is not associated to
+            // the current wiki macro info: we are in a case of a macro inside a parameter content, so it must be
+            // processed as a macro content.
+            } else if (macroInfo.getContentScannerContext() != null
+                && (parameterName == null || macroInfo.getParameters().getParameter(parameterName) == null)) {
+                macroInfo.setContent(getRenderedContentFromMacro(context));
+                macroInfo.setContentScannerContext(null);
             }
         }
 

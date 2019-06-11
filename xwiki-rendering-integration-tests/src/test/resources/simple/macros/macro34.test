@@ -1,0 +1,32 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test parsing of a macro parameter that uses an inline editable macro.
+.#-----------------------------------------------------
+<!--startmacro:box|-|title="mytitle
+
+{{box}}inside box{{/box}}"|-|Some content--><div class="box">
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-parameter-name="title" class="xwiki-metadata-container">
+<p>mytitle</p>
+<!--startmacro:box|-||-|inside box-->
+<div class="box">
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container">
+<p>inside box</p>
+</div>
+</div>
+<!--stopmacro-->
+</div>
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container">
+<p>Some content</p></div>
+</div>
+<!--stopmacro-->
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+{{box title="mytitle
+
+{{box~}~}
+inside box
+{{/box~}~}"}}
+Some content
+{{/box}}
