@@ -839,6 +839,8 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     protected void onReference(ResourceReference reference, String label, boolean freestanding,
         Map<String, String> parameters, boolean prefix)
     {
+        // We flush format to ensure we considered a endFormat before starting to parse the reference.
+        flushFormat();
         // Since WikiModel doesn't handle syntax in link labels and thus doesn't have begin/end events for links, we
         // need to call the XWiki events and use an inline parser to parse the syntax in the label.
         getListener().beginLink(reference, freestanding, parameters);
