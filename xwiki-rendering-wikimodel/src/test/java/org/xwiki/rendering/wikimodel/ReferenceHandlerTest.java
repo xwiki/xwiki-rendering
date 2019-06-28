@@ -19,23 +19,29 @@
  */
 package org.xwiki.rendering.wikimodel;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
+ * Unit tests for {@link ReferenceHandler}.
+ *
  * @version $Id$
  * @since 4.0M1
  */
-public class ReferenceHandlerTest extends TestCase
+public class ReferenceHandlerTest
 {
     private TestReferenceHandler clazz;
 
-    protected void setUp() throws Exception
+    @BeforeEach
+    private void setUp()
     {
-        super.setUp();
         this.clazz = new TestReferenceHandler(true, true);
     }
 
-    public void testHandleImageUppercase()
+    @Test
+    public void handleImageUppercase()
     {
         WikiReference ref = new WikiReference("Image:foo.png", "bar");
         clazz.handle(ref);
@@ -43,7 +49,8 @@ public class ReferenceHandlerTest extends TestCase
         assertEquals("bar", clazz.getImgLabel());
     }
 
-    public void testHandleImageLowercase()
+    @Test
+    public void handleImageLowercase()
     {
         WikiReference ref = new WikiReference("image:bar.png", "foo");
         clazz.handle(ref);

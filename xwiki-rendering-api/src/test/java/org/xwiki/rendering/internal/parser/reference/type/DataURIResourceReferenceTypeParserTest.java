@@ -19,11 +19,12 @@
  */
 package org.xwiki.rendering.internal.parser.reference.type;
 
-import org.junit.*;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Unit tests for {@link DataURIResourceReferenceTypeParser}.

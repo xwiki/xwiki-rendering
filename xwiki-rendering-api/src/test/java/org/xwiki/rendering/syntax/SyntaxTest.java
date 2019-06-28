@@ -19,10 +19,13 @@
  */
 package org.xwiki.rendering.syntax;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.parser.ParseException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.syntax.Syntax}.
@@ -97,22 +100,18 @@ public class SyntaxTest
     @Test
     public void valueOfWhenInvalid()
     {
-        try {
+        Throwable exception = assertThrows(ParseException.class, () -> {
             Syntax.valueOf("invalid");
-            fail("Should have thrown an exception");
-        } catch (ParseException expected) {
-            assertEquals("Invalid Syntax format [invalid]", expected.getMessage());
-        }
+        });
+        assertEquals("Invalid Syntax format [invalid]", exception.getMessage());
     }
 
     @Test
     public void valueOfWhenNull()
     {
-        try {
+        Throwable exception = assertThrows(ParseException.class, () -> {
             Syntax.valueOf(null);
-            fail("Should have thrown an exception");
-        } catch (ParseException expected) {
-            assertEquals("The passed Syntax cannot be NULL", expected.getMessage());
-        }
+        });
+        assertEquals("The passed Syntax cannot be NULL", exception.getMessage());
     }
 }

@@ -19,11 +19,11 @@
  */
 package org.xwiki.rendering.util;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Validate {@link IdGenerator}.
@@ -34,52 +34,53 @@ public class IdGeneratorTest
 {
     private IdGenerator idGenerator;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Before
-    public void setUp() throws Exception
+    @BeforeEach
+    public void setUp()
     {
         this.idGenerator = new IdGenerator();
     }
 
     @Test
-    public void testGenerateUniqueId()
+    public void generateUniqueId()
     {
-        Assert.assertEquals("Itext", this.idGenerator.generateUniqueId("text"));
-        Assert.assertEquals("Itext-1", this.idGenerator.generateUniqueId("te xt"));
+        assertEquals("Itext", this.idGenerator.generateUniqueId("text"));
+        assertEquals("Itext-1", this.idGenerator.generateUniqueId("te xt"));
     }
 
     @Test
-    public void testGenerateUniqueIdWithPrefix()
+    public void generateUniqueIdWithPrefix()
     {
-        Assert.assertEquals("prefixtext", this.idGenerator.generateUniqueId("prefix", "text"));
-        Assert.assertEquals("prefixtext-1", this.idGenerator.generateUniqueId("prefix", "te xt"));
+        assertEquals("prefixtext", this.idGenerator.generateUniqueId("prefix", "text"));
+        assertEquals("prefixtext-1", this.idGenerator.generateUniqueId("prefix", "te xt"));
     }
 
     @Test
-    public void testGenerateUniqueIdFromNonAlphaNum()
+    public void generateUniqueIdFromNonAlphaNum()
     {
-        Assert.assertEquals("I:_.-", this.idGenerator.generateUniqueId(":_.-"));
-        Assert.assertEquals("Iwithspace", this.idGenerator.generateUniqueId("with space"));
-        Assert.assertEquals("Iwithtab", this.idGenerator.generateUniqueId("with\ttab"));
-        Assert.assertEquals("I5BC67801", this.idGenerator.generateUniqueId("\u5BC6\u7801"));
-        Assert.assertEquals("I3D", this.idGenerator.generateUniqueId("="));
+        assertEquals("I:_.-", this.idGenerator.generateUniqueId(":_.-"));
+        assertEquals("Iwithspace", this.idGenerator.generateUniqueId("with space"));
+        assertEquals("Iwithtab", this.idGenerator.generateUniqueId("with\ttab"));
+        assertEquals("I5BC67801", this.idGenerator.generateUniqueId("\u5BC6\u7801"));
+        assertEquals("I3D", this.idGenerator.generateUniqueId("="));
     }
 
     @Test
-    public void testGenerateUniqueIdWhenInvalidEmptyPrefix()
+    public void generateUniqueIdWhenInvalidEmptyPrefix()
     {
-        this.thrown.expect(IllegalArgumentException.class);
-        this.thrown.expectMessage("The prefix [] should only contain alphanumerical characters and not be empty.");
-        this.idGenerator.generateUniqueId("", "whatever");
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+            this.idGenerator.generateUniqueId("", "whatever");
+        });
+        assertEquals("The prefix [] should only contain alphanumerical characters and not be empty.",
+            exception.getMessage());
     }
 
     @Test
-    public void testGenerateUniqueIdWhenInvalidNonAlphaPrefix()
+    public void generateUniqueIdWhenInvalidNonAlphaPrefix()
     {
-        this.thrown.expect(IllegalArgumentException.class);
-        this.thrown.expectMessage("The prefix [a-b] should only contain alphanumerical characters and not be empty.");
-        this.idGenerator.generateUniqueId("a-b", "whatever");
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+            this.idGenerator.generateUniqueId("a-b", "whatever");
+        });
+        assertEquals("The prefix [a-b] should only contain alphanumerical characters and not be empty.",
+            exception.getMessage());
     }
 }

@@ -19,13 +19,16 @@
  */
 package org.xwiki.rendering.internal.block;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xwiki.properties.converter.ConversionException;
 import org.xwiki.rendering.block.SpaceBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.internal.block.BlockMatcherConverter}.
@@ -38,21 +41,21 @@ public class BlockMatcherConverterTest
     private BlockMatcherConverter converter = new BlockMatcherConverter();
 
     @Test
-    public void testConvertFromString()
+    public void convertFromString()
     {
         BlockMatcher wordMatcher =
             this.converter.convert(BlockMatcher.class, "class:org.xwiki.rendering.block.WordBlock");
-        Assert.assertTrue(wordMatcher instanceof ClassBlockMatcher);
+        assertTrue(wordMatcher instanceof ClassBlockMatcher);
         // any better check that this matcher
-        Assert.assertTrue(wordMatcher.match(new WordBlock("test")));
-        Assert.assertFalse(wordMatcher.match(new SpaceBlock()));
+        assertTrue(wordMatcher.match(new WordBlock("test")));
+        assertFalse(wordMatcher.match(new SpaceBlock()));
 
         BlockMatcher wordMatcher2 = this.converter.convert(BlockMatcher.class, "class:WordBlock");
-        Assert.assertTrue(wordMatcher2 instanceof ClassBlockMatcher);
+        assertTrue(wordMatcher2 instanceof ClassBlockMatcher);
     }
 
     @Test
-    public void testConvertFromStringFailures()
+    public void convertFromStringFailures()
     {
         assertConversionException("class:does.not.exist.FantasyBlock");
         assertConversionException("class:java.lang.String");
@@ -62,11 +65,8 @@ public class BlockMatcherConverterTest
 
     private void assertConversionException(String input)
     {
-        try {
+        assertThrows(ConversionException.class, () -> {
             this.converter.convert(BlockMatcher.class, input);
-            Assert.fail("should not parse " + input);
-        } catch (ConversionException e) {
-            // expected
-        }
+        });
     }
 }

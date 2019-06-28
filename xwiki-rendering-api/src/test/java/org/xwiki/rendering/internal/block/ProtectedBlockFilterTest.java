@@ -22,12 +22,13 @@ package org.xwiki.rendering.internal.block;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.XDOM;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.internal.block.ProtectedBlockFilter}.
@@ -41,11 +42,11 @@ public class ProtectedBlockFilterTest
     public void testGetNextSibling()
     {
         ProtectedBlockFilter pbf = new ProtectedBlockFilter();
-        Block b1 = new ParagraphBlock(Collections.<Block>emptyList());
-        Block b2 = new MacroMarkerBlock("code", Collections.<String, String>emptyMap(), Collections.<Block>emptyList(),
+        Block b1 = new ParagraphBlock(Collections.emptyList());
+        Block b2 = new MacroMarkerBlock("code", Collections.emptyMap(), Collections.emptyList(),
             false);
-        Block b3 = new ParagraphBlock(Collections.<Block>emptyList());
+        Block b3 = new ParagraphBlock(Collections.emptyList());
         new XDOM(Arrays.asList(b1, b2, b3));
-        Assert.assertEquals(b3, pbf.getNextSibling(b1));
+        assertEquals(b3, pbf.getNextSibling(b1));
     }
 }

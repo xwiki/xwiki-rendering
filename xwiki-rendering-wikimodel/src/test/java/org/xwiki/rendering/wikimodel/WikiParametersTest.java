@@ -19,9 +19,9 @@
  */
 package org.xwiki.rendering.wikimodel;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Validate {@link WikiParameters}.
@@ -35,7 +35,7 @@ public class WikiParametersTest
     {
         WikiParameters wikiParameters = WikiParameters.newWikiParameters("key=\"value");
 
-        Assert.assertEquals(1, wikiParameters.getSize());
-        Assert.assertEquals("value", wikiParameters.getParameter("key").getValue());
+        assertEquals(1, wikiParameters.getSize());
+        assertEquals("value", wikiParameters.getParameter("key").getValue());
     }
 }

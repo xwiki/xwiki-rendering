@@ -21,12 +21,14 @@ package org.xwiki.rendering.transformation;
 
 import java.util.Arrays;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 /**
  * Unit tests for {@link TransformationContext}.
@@ -46,9 +48,9 @@ public class TransformationContextTest
         context.setXDOM(xdom);
 
         TransformationContext newContext = context.clone();
-        Assert.assertNotSame(context, newContext);
-        Assert.assertEquals("id", newContext.getId());
-        Assert.assertEquals(Syntax.XWIKI_2_0, newContext.getSyntax());
-        Assert.assertEquals(xdom, newContext.getXDOM());
+        assertNotSame(context, newContext);
+        assertEquals("id", newContext.getId());
+        assertEquals(Syntax.XWIKI_2_0, newContext.getSyntax());
+        assertEquals(xdom, newContext.getXDOM());
     }
 }

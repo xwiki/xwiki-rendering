@@ -19,13 +19,20 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.wiki.WikiModel;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectComponentManager;
+import org.xwiki.test.mockito.MockitoComponentManager;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link DefaultImageReferenceParser}.
@@ -33,61 +40,66 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
  * @version $Id$
  * @since 2.6M1
  */
-public class DefaultImageReferenceParserTest extends AbstractComponentTestCase
+@ComponentTest
+@AllComponents
+public class DefaultImageReferenceParserTest
 {
     private ResourceReferenceParser parser;
 
-    @Override
+    @InjectComponentManager
+    private MockitoComponentManager componentManager;
+    
+    @BeforeEach
     protected void registerComponents() throws Exception
     {
         // Create a Mock WikiModel implementation so that the link parser works in wiki mode
-        registerMockComponent(WikiModel.class);
+        this.componentManager.registerMockComponent(WikiModel.class);
 
-        this.parser = getComponentManager().getInstance(ResourceReferenceParser.class, "image");
+        this.parser = this.componentManager.getInstance(ResourceReferenceParser.class, "image");
     }
 
     @Test
-    public void testParseImagesCommon() throws Exception
+    public void parseImagesCommon()
     {
         // Verify that non-typed image referencing an attachment works.
         ResourceReference reference = this.parser.parse("wiki:space.page@filename");
-        Assert.assertEquals(ResourceType.ATTACHMENT, reference.getType());
-        Assert.assertEquals("wiki:space.page@filename", reference.getReference());
-        Assert.assertEquals("Typed = [false] Type = [attach] Reference = [wiki:space.page@filename]",
+        assertEquals(ResourceType.ATTACHMENT, reference.getType());
+        assertEquals("wiki:space.page@filename", reference.getReference());
+        assertEquals("Typed = [false] Type = [attach] Reference = [wiki:space.page@filename]",
             reference.toString());
-        Assert.assertFalse(reference.isTyped());
+        assertFalse(reference.isTyped());
 
         // Verify that non-typed image referencing a URL works.
         reference = this.parser.parse("scheme://server/path/to/image");
-        Assert.assertEquals(ResourceType.URL, reference.getType());
-        Assert.assertEquals("scheme://server/path/to/image", reference.getReference());
-        Assert.assertEquals("Typed = [false] Type = [url] Reference = [scheme://server/path/to/image]",
+        assertEquals(ResourceType.URL, reference.getType());
+        assertEquals("scheme://server/path/to/image", reference.getReference());
+        assertEquals("Typed = [false] Type = [url] Reference = [scheme://server/path/to/image]",
             reference.toString());
-        Assert.assertFalse(reference.isTyped());
+        assertFalse(reference.isTyped());
     }
 
     @Test
-    public void testParseImages() throws Exception
+    public void parseImages()
     {
         ResourceReference reference = this.parser.parse("attach:wiki:space.page@filename");
-        Assert.assertEquals(ResourceType.ATTACHMENT, reference.getType());
-        Assert.assertEquals("wiki:space.page@filename", reference.getReference());
-        Assert.assertTrue(reference.isTyped());
-        Assert.assertEquals("Typed = [true] Type = [attach] Reference = [wiki:space.page@filename]",
+        assertEquals(ResourceType.ATTACHMENT, reference.getType());
+        assertEquals("wiki:space.page@filename", reference.getReference());
+        assertTrue(reference.isTyped());
+        assertEquals("Typed = [true] Type = [attach] Reference = [wiki:space.page@filename]",
             reference.toString());
 
         // Verify path: support
         reference = this.parser.parse("path:/some/image");
-        Assert.assertEquals(ResourceType.PATH, reference.getType());
-        Assert.assertEquals("/some/image", reference.getReference());
-        Assert.assertTrue(reference.isTyped());
-        Assert.assertEquals("Typed = [true] Type = [path] Reference = [/some/image]", reference.toString());
+        assertEquals(ResourceType.PATH, reference.getType());
+        assertEquals("/some/image", reference.getReference());
+        assertTrue(reference.isTyped());
+        assertEquals("Typed = [true] Type = [path] Reference = [/some/image]", reference.toString());
 
         // Verify icon: support
         reference = this.parser.parse("icon:name");
-        Assert.assertEquals(ResourceType.ICON, reference.getType());
-        Assert.assertEquals("name", reference.getReference());
-        Assert.assertTrue(reference.isTyped());
-        Assert.assertEquals("Typed = [true] Type = [icon] Reference = [name]", reference.toString());
+        assertEquals(ResourceType.ICON, reference.getType());
+        assertEquals("name", reference.getReference());
+        assertTrue(reference.isTyped());
+        assertEquals("Typed = [true] Type = [icon] Reference = [name]", reference.toString());
     }
 }
