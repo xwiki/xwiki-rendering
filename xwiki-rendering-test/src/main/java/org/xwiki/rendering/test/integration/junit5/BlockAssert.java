@@ -17,11 +17,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.test;
+package org.xwiki.rendering.test.integration.junit5;
 
 import java.util.List;
 
-import org.junit.Assert;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.renderer.PrintRenderer;
@@ -29,15 +28,16 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
- * Class to be imported in unit tests as a static import and which contains helper methods to assert Rendering Blocks.
+ * Class to be imported in JUnit5 unit tests as a static import and which contains helper methods to assert Rendering
+ * Blocks.
  *
  * @version $Id$
- * @since 2.4M2
- * @deprecated starting with 11.6RC1 use {@link org.xwiki.rendering.test.integration.junit5.BlockAssert} instead
+ * @since 11.6RC1
  */
-// TODO: Remove class once all tests have moved to using the JUnit5 version
-@Deprecated
 public class BlockAssert
 {
     /**
@@ -52,12 +52,10 @@ public class BlockAssert
      * @param blocks the Blocks to assert
      * @param factory the Renderer Factory to use to serialize the passed Block
      * @return The serialized block.
-     * @since 4.2M1
      */
     private static String render(List<Block> blocks, PrintRendererFactory factory)
     {
-        // Assert the result by parsing it through the EventsRenderer to generate easily
-        // assertable events.
+        // Assert the result by parsing it through the Events Renderer to generate easily assertable events.
         XDOM dom = new XDOM(blocks);
         WikiPrinter printer = new DefaultWikiPrinter();
 
@@ -76,7 +74,7 @@ public class BlockAssert
      */
     public static void assertBlocks(String expected, List<Block> blocks, PrintRendererFactory factory)
     {
-        Assert.assertEquals(expected, render(blocks, factory));
+        assertEquals(expected, render(blocks, factory));
     }
 
     /**
@@ -84,10 +82,9 @@ public class BlockAssert
      * @param blocks the Blocks to assert
      * @param factory the Renderer Factory to use to serialize the passed Block and to compare them with the passed
      *            String
-     * @since 4.2M1
      */
     public static void assertBlocksStartsWith(String expectedPrefix, List<Block> blocks, PrintRendererFactory factory)
     {
-        Assert.assertTrue(render(blocks, factory).startsWith(expectedPrefix));
+        assertTrue(render(blocks, factory).startsWith(expectedPrefix));
     }
 }
