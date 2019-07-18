@@ -24,6 +24,8 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.component.util.ReflectionUtils;
+import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.listener.Listener;
@@ -51,6 +53,8 @@ import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGene
 @Unstable
 public class XWikiMacroHandler implements XWikiWikiModelHandler
 {
+    private static final String WIKI_CONTENT_TYPE = ReflectionUtils.serializeType(Block.LIST_BLOCK_TYPE);
+
     private ComponentManager componentManager;
 
     private XHTMLParser parser;
@@ -69,9 +73,12 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         this.parser = parser;
     }
 
-    private String getSyntax(TagContext previousNodes)
+    private String getSyntax(TagContext previousNodes, String macroType)
     {
-        if (previousNodes.getTagStack().getStackParameter(CURRENT_SYNTAX) != null) {
+        // if the type is not wiki content type, then we should parse the content as plain text.
+        if (!macroType.equals(WIKI_CONTENT_TYPE)) {
+            return Syntax.PLAIN_1_0.toIdString();
+        } else if (previousNodes.getTagStack().getStackParameter(CURRENT_SYNTAX) != null) {
             return (String) previousNodes.getTagStack().popStackParameter(CURRENT_SYNTAX);
 
         // if the current syntax is not retrieved from the context, we get it from the RenderingContext
@@ -131,7 +138,8 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             }
 
             if (metaData.contains(MetaData.NON_GENERATED_CONTENT)) {
-                String currentSyntaxParameter = this.getSyntax(context);
+                String currentSyntaxParameter =
+                    this.getSyntax(context, (String) metaData.getMetaData(MetaData.NON_GENERATED_CONTENT));
                 try {
                     String parameterName = (String) metaData.getMetaData(MetaData.PARAMETER_NAME);
                     withNonGeneratedContent = true;
