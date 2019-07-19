@@ -27,18 +27,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.xwiki.rendering.block.AbstractMacroBlock;
-import org.xwiki.rendering.block.MacroBlock;
-import org.xwiki.rendering.block.MacroMarkerBlock;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.match.AnyBlockMatcher;
 import org.xwiki.rendering.block.match.BlockNavigatorTest;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for Block manipulation, testing {@link AbstractBlock}.
@@ -48,11 +50,8 @@ import org.xwiki.rendering.listener.reference.ResourceType;
  */
 public class BlockTest
 {
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Test
-    public void testInsertChildAfter()
+    public void insertChildAfter()
     {
         Block wb1 = new WordBlock("block1");
         Block wb2 = new WordBlock("block2");
@@ -61,21 +60,21 @@ public class BlockTest
         Block wb = new WordBlock("block");
 
         pb.insertChildAfter(wb, wb1);
-        Assert.assertSame(wb, pb.getChildren().get(1));
-        Assert.assertSame(wb1, wb.getPreviousSibling());
-        Assert.assertSame(wb2, wb.getNextSibling());
-        Assert.assertSame(wb, wb1.getNextSibling());
-        Assert.assertSame(wb, wb2.getPreviousSibling());
+        assertSame(wb, pb.getChildren().get(1));
+        assertSame(wb1, wb.getPreviousSibling());
+        assertSame(wb2, wb.getNextSibling());
+        assertSame(wb, wb1.getNextSibling());
+        assertSame(wb, wb2.getPreviousSibling());
 
         pb.insertChildAfter(wb, wb2);
-        Assert.assertSame(wb, pb.getChildren().get(3));
-        Assert.assertSame(wb2, wb.getPreviousSibling());
-        Assert.assertSame(wb, wb2.getNextSibling());
-        Assert.assertNull(wb.getNextSibling());
+        assertSame(wb, pb.getChildren().get(3));
+        assertSame(wb2, wb.getPreviousSibling());
+        assertSame(wb, wb2.getNextSibling());
+        assertNull(wb.getNextSibling());
     }
 
     @Test
-    public void testInsertChildBefore()
+    public void insertChildBefore()
     {
         Block wb1 = new WordBlock("block1");
         Block wb2 = new WordBlock("block2");
@@ -89,14 +88,14 @@ public class BlockTest
         Block wb = new WordBlock("block");
 
         pb.insertChildBefore(wb, wb1);
-        Assert.assertSame(wb, pb.getChildren().get(0));
+        assertSame(wb, pb.getChildren().get(0));
 
         pb.insertChildBefore(wb, wb2);
-        Assert.assertSame(wb, pb.getChildren().get(2));
+        assertSame(wb, pb.getChildren().get(2));
     }
 
     @Test
-    public void testReplaceBlock()
+    public void replaceBlock()
     {
         // It's important all blocks have same content to make sure replacement api don't find the position of the
         // old block using Object#equals
@@ -109,39 +108,39 @@ public class BlockTest
         // replace by one
         parentBlock.replaceChild(word3, word1);
 
-        Assert.assertEquals(2, parentBlock.getChildren().size());
-        Assert.assertSame(word3, parentBlock.getChildren().get(0));
-        Assert.assertSame(word2, parentBlock.getChildren().get(1));
-        Assert.assertSame(word2, word3.getNextSibling());
-        Assert.assertSame(word3, word2.getPreviousSibling());
+        assertEquals(2, parentBlock.getChildren().size());
+        assertSame(word3, parentBlock.getChildren().get(0));
+        assertSame(word2, parentBlock.getChildren().get(1));
+        assertSame(word2, word3.getNextSibling());
+        assertSame(word3, word2.getPreviousSibling());
 
         // replace by nothing
         parentBlock.replaceChild(Collections.<Block>emptyList(), word2);
 
-        Assert.assertEquals(1, parentBlock.getChildren().size());
-        Assert.assertSame(word3, parentBlock.getChildren().get(0));
-        Assert.assertNull(word3.getNextSibling());
-        Assert.assertNull(word3.getPreviousSibling());
+        assertEquals(1, parentBlock.getChildren().size());
+        assertSame(word3, parentBlock.getChildren().get(0));
+        assertNull(word3.getNextSibling());
+        assertNull(word3.getPreviousSibling());
 
         // replace by several
         parentBlock.replaceChild(Arrays.asList(word1, word2), word3);
 
-        Assert.assertEquals(2, parentBlock.getChildren().size());
-        Assert.assertSame(word1, parentBlock.getChildren().get(0));
-        Assert.assertSame(word2, parentBlock.getChildren().get(1));
-        Assert.assertSame(word2, word1.getNextSibling());
-        Assert.assertSame(word1, word2.getPreviousSibling());
+        assertEquals(2, parentBlock.getChildren().size());
+        assertSame(word1, parentBlock.getChildren().get(0));
+        assertSame(word2, parentBlock.getChildren().get(1));
+        assertSame(word2, word1.getNextSibling());
+        assertSame(word1, word2.getPreviousSibling());
 
         // replace by empty block the top level one
         parentBlock.replaceChild(Collections.<Block>emptyList(), word1);
-        Assert.assertEquals(1, parentBlock.getChildren().size());
-        Assert.assertSame(word2, parentBlock.getChildren().get(0));
-        Assert.assertNull(word2.getNextSibling());
-        Assert.assertNull(word2.getPreviousSibling());
+        assertEquals(1, parentBlock.getChildren().size());
+        assertSame(word2, parentBlock.getChildren().get(0));
+        assertNull(word2.getNextSibling());
+        assertNull(word2.getPreviousSibling());
 
         // Provide not existing block to replace
-        this.thrown.expect(InvalidParameterException.class);
-        parentBlock.replaceChild(word3, new WordBlock("not existing"));
+        assertThrows(InvalidParameterException.class,
+            () -> parentBlock.replaceChild(word3, new WordBlock("not existing")));
     }
 
     @Test
@@ -156,37 +155,37 @@ public class BlockTest
 
         XDOM newRootBlock = rootBlock.clone();
 
-        Assert.assertNotSame(rootBlock, newRootBlock);
-        Assert.assertNotSame(rootBlock.getMetaData(), newRootBlock.getMetaData());
+        assertNotSame(rootBlock, newRootBlock);
+        assertNotSame(rootBlock.getMetaData(), newRootBlock.getMetaData());
 
         Block newPB = newRootBlock.getChildren().get(0);
 
-        Assert.assertNotSame(pb, newPB);
+        assertNotSame(pb, newPB);
 
-        Assert.assertNotSame(wb, newPB.getChildren().get(0));
-        Assert.assertNotSame(ib, newPB.getChildren().get(1));
-        Assert.assertNotSame(lb, newPB.getChildren().get(2));
+        assertNotSame(wb, newPB.getChildren().get(0));
+        assertNotSame(ib, newPB.getChildren().get(1));
+        assertNotSame(lb, newPB.getChildren().get(2));
 
-        Assert.assertEquals(wb.getWord(), ((WordBlock) newPB.getChildren().get(0)).getWord());
-        Assert.assertNotSame(ib.getReference(), ((ImageBlock) newPB.getChildren().get(1)).getReference());
-        Assert.assertNotSame(lb.getReference(), ((LinkBlock) newPB.getChildren().get(2)).getReference());
+        assertEquals(wb.getWord(), ((WordBlock) newPB.getChildren().get(0)).getWord());
+        assertNotSame(ib.getReference(), ((ImageBlock) newPB.getChildren().get(1)).getReference());
+        assertNotSame(lb.getReference(), ((LinkBlock) newPB.getChildren().get(2)).getReference());
     }
 
     @Test
-    public void testGetNextSibling()
+    public void getNextSibling()
     {
         WordBlock b1 = new WordBlock("b1");
         WordBlock b2 = new WordBlock("b2");
         ParagraphBlock p = new ParagraphBlock(Arrays.<Block>asList(b1, b2));
 
-        Assert.assertSame(b2, b1.getNextSibling());
-        Assert.assertNull(b2.getNextSibling());
-        Assert.assertNull(p.getNextSibling());
-        Assert.assertNull(new ParagraphBlock(Collections.<Block>emptyList()).getNextSibling());
+        assertSame(b2, b1.getNextSibling());
+        assertNull(b2.getNextSibling());
+        assertNull(p.getNextSibling());
+        assertNull(new ParagraphBlock(Collections.<Block>emptyList()).getNextSibling());
     }
 
     @Test
-    public void testRemoveBlock()
+    public void removeBlock()
     {
         WordBlock b1 = new WordBlock("b1");
         WordBlock b1bis = new WordBlock("b1");
@@ -194,74 +193,74 @@ public class BlockTest
         ParagraphBlock p1 = new ParagraphBlock(Arrays.<Block>asList(b1, b1bis, b2));
 
         p1.removeBlock(b1bis);
-        Assert.assertEquals(2, p1.getChildren().size());
-        Assert.assertSame(b1, p1.getChildren().get(0));
-        Assert.assertSame(b2, p1.getChildren().get(1));
+        assertEquals(2, p1.getChildren().size());
+        assertSame(b1, p1.getChildren().get(0));
+        assertSame(b2, p1.getChildren().get(1));
 
         p1.removeBlock(b1);
-        Assert.assertEquals(1, p1.getChildren().size());
-        Assert.assertSame(b2, p1.getChildren().get(0));
-        Assert.assertNull(b1.getPreviousSibling());
-        Assert.assertNull(b1.getNextSibling());
-        Assert.assertNull(b2.getPreviousSibling());
+        assertEquals(1, p1.getChildren().size());
+        assertSame(b2, p1.getChildren().get(0));
+        assertNull(b1.getPreviousSibling());
+        assertNull(b1.getNextSibling());
+        assertNull(b2.getPreviousSibling());
 
         p1.removeBlock(b2);
-        Assert.assertEquals(0, p1.getChildren().size());
-        Assert.assertNull(b2.getPreviousSibling());
-        Assert.assertNull(b2.getNextSibling());
+        assertEquals(0, p1.getChildren().size());
+        assertNull(b2.getPreviousSibling());
+        assertNull(b2.getNextSibling());
     }
 
     @Test
-    public void testGetBlocks()
+    public void getBlocks()
     {
-        Assert.assertEquals(Arrays.asList(BlockNavigatorTest.parentBlock, BlockNavigatorTest.rootBlock),
+        assertEquals(Arrays.asList(BlockNavigatorTest.parentBlock, BlockNavigatorTest.rootBlock),
             BlockNavigatorTest.contextBlock.getBlocks(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
     }
 
     @Test
-    public void testGetFirstBlock()
+    public void getFirstBlock()
     {
-        Assert.assertSame(BlockNavigatorTest.parentBlock,
+        assertSame(BlockNavigatorTest.parentBlock,
             BlockNavigatorTest.contextBlock.getFirstBlock(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
     }
 
     @Test
-    public void testSetChildren()
+    public void setChildren()
     {
         ParagraphBlock paragraphBlock = new ParagraphBlock(Collections.EMPTY_LIST);
 
         List<Block> blocks = Arrays.<Block>asList(new WordBlock("1"), new WordBlock("2"));
         paragraphBlock.setChildren(blocks);
 
-        Assert.assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
+        assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
 
         blocks = Arrays.<Block>asList(new WordBlock("3"), new WordBlock("4"));
         paragraphBlock.setChildren(blocks);
 
-        Assert.assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
+        assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
 
         blocks = Arrays.<Block>asList();
         paragraphBlock.setChildren(blocks);
 
-        Assert.assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
+        assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
     }
 
     @Test
-    public void testSetGetParameter()
+    public void setAndGetParameter()
     {
         WordBlock wordBlock = new WordBlock("word");
 
         wordBlock.setParameter("param", "value");
 
-        Assert.assertEquals("value", wordBlock.getParameter("param"));
+        assertEquals("value", wordBlock.getParameter("param"));
 
         wordBlock.setParameter("param", "value2");
 
-        Assert.assertEquals("value2", wordBlock.getParameter("param"));
+        assertEquals("value2", wordBlock.getParameter("param"));
     }
 
     @Test
-    public void testSetGetParameters()
+    public void setAndGetParameters()
     {
         WordBlock wordBlock = new WordBlock("word");
 
@@ -271,7 +270,7 @@ public class BlockTest
 
         wordBlock.setParameters(parameters);
 
-        Assert.assertEquals(parameters, wordBlock.getParameters());
+        assertEquals(parameters, wordBlock.getParameters());
 
         Map<String, String> parameters2 = new HashMap<String, String>();
         parameters.put("param21", "value21");
@@ -279,16 +278,16 @@ public class BlockTest
 
         wordBlock.setParameters(parameters2);
 
-        Assert.assertEquals(parameters2, wordBlock.getParameters());
+        assertEquals(parameters2, wordBlock.getParameters());
     }
 
     @Test
-    public void testGetRoot()
+    public void getRoot()
     {
-        Assert.assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.rootBlock.getRoot());
-        Assert.assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlock.getRoot());
-        Assert.assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlockChild1.getRoot());
-        Assert.assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlockChild11.getRoot());
+        assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.rootBlock.getRoot());
+        assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlock.getRoot());
+        assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlockChild1.getRoot());
+        assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlockChild11.getRoot());
     }
 
     @Test
@@ -300,62 +299,74 @@ public class BlockTest
         final Map<String, String> PARAMETERS = new HashMap<>();
 
         PARAMETERS.put("TestKey", "TestValue");
-        
+
         AbstractMacroBlock macroBlock1, macroBlock2, macroBlock3;
 
         macroBlock1 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
         macroBlock2 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
         macroBlock3 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
 
-        //must be reflexive.
-        Assert.assertEquals(macroBlock1, macroBlock1);
+        // must be reflexive.
+        assertEquals(macroBlock1, macroBlock1);
 
-        //must be symmetric.
-        Assert.assertEquals(macroBlock1, macroBlock2);
-        Assert.assertEquals(macroBlock2, macroBlock1);
+        // must be symmetric.
+        assertEquals(macroBlock1, macroBlock2);
+        assertEquals(macroBlock2, macroBlock1);
 
-        //must be transitive.
-        Assert.assertEquals(macroBlock1, macroBlock2);
-        Assert.assertEquals(macroBlock2, macroBlock3);
-        Assert.assertEquals(macroBlock1, macroBlock3);
+        // must be transitive.
+        assertEquals(macroBlock1, macroBlock2);
+        assertEquals(macroBlock2, macroBlock3);
+        assertEquals(macroBlock1, macroBlock3);
 
-        //must be consistent (already checked).
+        // must be consistent (already checked).
 
-        //equals(null) == false.
-        Assert.assertFalse(macroBlock1.equals(null));
-        Assert.assertFalse(macroBlock2.equals(null));
-        Assert.assertFalse(macroBlock3.equals(null));
+        // equals(null) == false.
+        assertFalse(macroBlock1.equals(null));
+        assertFalse(macroBlock2.equals(null));
+        assertFalse(macroBlock3.equals(null));
 
-        //hashCode must be equal.
-        Assert.assertEquals(macroBlock1.hashCode(), macroBlock2.hashCode());
+        // hashCode must be equal.
+        assertEquals(macroBlock1.hashCode(), macroBlock2.hashCode());
 
-        List<Block> childBlocks = new ArrayList<>();
         AbstractMacroBlock macroMarkerBlock1, macroMarkerBlock2, macroMarkerBlock3;
 
         macroMarkerBlock1 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
         macroMarkerBlock2 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
         macroMarkerBlock3 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
 
-        //must be reflexive.
-        Assert.assertEquals(macroMarkerBlock1, macroMarkerBlock1);
+        // must be reflexive.
+        assertEquals(macroMarkerBlock1, macroMarkerBlock1);
 
-        //must be symmetric.
-        Assert.assertEquals(macroMarkerBlock1, macroMarkerBlock2);
-        Assert.assertEquals(macroMarkerBlock2, macroMarkerBlock1);
+        // must be symmetric.
+        assertEquals(macroMarkerBlock1, macroMarkerBlock2);
+        assertEquals(macroMarkerBlock2, macroMarkerBlock1);
 
-        //must be transitive.
-        Assert.assertEquals(macroMarkerBlock1, macroMarkerBlock2);
-        Assert.assertEquals(macroMarkerBlock2, macroMarkerBlock3);
-        Assert.assertEquals(macroMarkerBlock1, macroMarkerBlock3);
+        // must be transitive.
+        assertEquals(macroMarkerBlock1, macroMarkerBlock2);
+        assertEquals(macroMarkerBlock2, macroMarkerBlock3);
+        assertEquals(macroMarkerBlock1, macroMarkerBlock3);
 
-        //must be consistent (already checked).
+        // must be consistent (already checked).
 
-        //equals(null) == false.
-        Assert.assertFalse(macroMarkerBlock1.equals(null));
-        Assert.assertFalse(macroMarkerBlock2.equals(null));
-        Assert.assertFalse(macroMarkerBlock3.equals(null));
+        // equals(null) == false.
+        assertFalse(macroMarkerBlock1.equals(null));
+        assertFalse(macroMarkerBlock2.equals(null));
+        assertFalse(macroMarkerBlock3.equals(null));
 
-        //hashCode must be equal.
-        Assert.assertEquals(macroMarkerBlock1.hashCode(), macroMarkerBlock2.hashCode());
+        // hashCode must be equal.
+        assertEquals(macroMarkerBlock1.hashCode(), macroMarkerBlock2.hashCode());
+    }
+
+    @Test
+    public void indexOf()
+    {
+        Block wb1 = new WordBlock("block1");
+        Block wb2 = new WordBlock("block2");
+        ParagraphBlock pb = new ParagraphBlock(Arrays.asList(wb1, wb2));
+
+        assertEquals(0, pb.indexOf(pb));
+        assertEquals(1, pb.indexOf(wb1));
+        assertEquals(2, pb.indexOf(wb2));
+        assertEquals(-1, pb.indexOf(new WordBlock("block1")));
     }
 }

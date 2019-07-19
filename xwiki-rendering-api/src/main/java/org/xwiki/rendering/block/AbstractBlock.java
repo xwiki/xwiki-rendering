@@ -350,7 +350,7 @@ public abstract class AbstractBlock implements Block
     {
         CounterBlockMatcher counter = new CounterBlockMatcher(child);
 
-        Block found = getFirstBlock(counter, Axes.ANCESTOR_OR_SELF);
+        Block found = getFirstBlock(counter, Axes.DESCENDANT_OR_SELF);
 
         return found != null ? counter.getCount() : -1;
     }
