@@ -3,7 +3,9 @@
 .# Test escaping of table syntax in a table cell
 .#-----------------------------------------------------
 |not table~|
+|not table~|=
 |not table~!!
+|not table~!=
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -22,8 +24,26 @@ beginTableCell
 onWord [not]
 onSpace
 onWord [table]
+onSpecialSymbol [|]
+onSpecialSymbol [=]
+endTableCell
+endTableRow
+beginTableRow
+beginTableCell
+onWord [not]
+onSpace
+onWord [table]
 onSpecialSymbol [!]
 onSpecialSymbol [!]
+endTableCell
+endTableRow
+beginTableRow
+beginTableCell
+onWord [not]
+onSpace
+onWord [table]
+onSpecialSymbol [!]
+onSpecialSymbol [=]
 endTableCell
 endTableRow
 endTable
