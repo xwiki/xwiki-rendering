@@ -1,0 +1,30 @@
+.#-----------------------------------------------------
+.inputexpect|xwiki/2.0
+.# Test escaping of table syntax in a table cell
+.#-----------------------------------------------------
+|not table~|
+|not table~!!
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginTable
+beginTableRow
+beginTableCell
+onWord [not]
+onSpace
+onWord [table]
+onSpecialSymbol [|]
+endTableCell
+endTableRow
+beginTableRow
+beginTableCell
+onWord [not]
+onSpace
+onWord [table]
+onSpecialSymbol [!]
+onSpecialSymbol [!]
+endTableCell
+endTableRow
+endTable
+endDocument
