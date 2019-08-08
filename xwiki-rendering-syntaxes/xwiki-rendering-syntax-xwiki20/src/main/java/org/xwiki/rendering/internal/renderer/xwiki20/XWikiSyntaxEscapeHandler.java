@@ -42,7 +42,7 @@ public class XWikiSyntaxEscapeHandler
 
     private static final Pattern HEADER_PATTERN = Pattern.compile("\\p{Blank}*(=+)");
 
-    private static final Pattern TABLE_PATTERN = Pattern.compile("\\p{Blank}*(\\||!!)");
+    private static final Pattern TABLE_PATTERN = Pattern.compile("\\p{Blank}*(\\||!!|!=)");
 
     /**
      * Note that we take care to not match if the first character is preceded by an escape (i.e. '~).
@@ -99,6 +99,7 @@ public class XWikiSyntaxEscapeHandler
         if (blockStateListener.isInTable()) {
             replaceAll(accumulatedBuffer, "|", ESCAPE_CHAR + "|");
             replaceAll(accumulatedBuffer, "!!", ESCAPE_CHAR + "!!");
+            replaceAll(accumulatedBuffer, "!=", ESCAPE_CHAR + "!=");
         }
 
         if (escapeFirstIfMatching != null) {
