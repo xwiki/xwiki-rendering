@@ -34,7 +34,10 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
  *
  * @version $Id$
  * @since 2.4M2
+ * @deprecated starting with 11.6RC1 use {@link org.xwiki.rendering.test.integration.junit5.BlockAssert} instead
  */
+// TODO: Remove class once all tests have moved to using the JUnit5 version
+@Deprecated
 public class BlockAssert
 {
     /**

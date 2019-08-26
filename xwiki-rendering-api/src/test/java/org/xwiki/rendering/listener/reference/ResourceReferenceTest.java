@@ -19,8 +19,10 @@
  */
 package org.xwiki.rendering.listener.reference;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Unit tests for {@link ResourceReference}.
@@ -34,16 +36,16 @@ public class ResourceReferenceTest
     public void testToString()
     {
         ResourceReference reference = new ResourceReference("reference", ResourceType.DOCUMENT);
-        Assert.assertEquals("Typed = [true] Type = [doc] Reference = [reference]", reference.toString());
+        assertEquals("Typed = [true] Type = [doc] Reference = [reference]", reference.toString());
 
         reference.addBaseReference("baseref1");
         reference.addBaseReference("baseref2");
-        Assert.assertEquals("Typed = [true] Type = [doc] Reference = [reference] "
+        assertEquals("Typed = [true] Type = [doc] Reference = [reference] "
             + "Base References = [[baseref1], [baseref2]]", reference.toString());
 
         reference.setParameter("name1", "value1");
         reference.setParameter("name2", "value2");
-        Assert.assertEquals("Typed = [true] Type = [doc] Reference = [reference] "
+        assertEquals("Typed = [true] Type = [doc] Reference = [reference] "
             + "Base References = [[baseref1], [baseref2]] "
             + "Parameters = [[name1] = [value1], [name2] = [value2]]", reference.toString());
     }
@@ -53,16 +55,16 @@ public class ResourceReferenceTest
     {
         ResourceReference reference1 = new ResourceReference("reference", ResourceType.DOCUMENT);
         ResourceReference reference2 = new ResourceReference("reference", ResourceType.DOCUMENT);
-        Assert.assertEquals(reference1, reference2);
+        assertEquals(reference1, reference2);
 
         reference2.addBaseReference("base");
-        Assert.assertFalse(reference1.equals(reference2));
-        Assert.assertFalse(reference1.equals(null));
-        Assert.assertFalse(reference1.equals("different object class"));
+        assertFalse(reference1.equals(reference2));
+        assertFalse(reference1.equals(null));
+        assertFalse(reference1.equals("different object class"));
 
         reference1.addBaseReference("base");
-        Assert.assertEquals(reference1, reference2);
-        Assert.assertEquals(reference1, reference1);
+        assertEquals(reference1, reference2);
+        assertEquals(reference1, reference1);
     }
 
     @Test
@@ -70,10 +72,10 @@ public class ResourceReferenceTest
     {
         ResourceReference reference1 = new ResourceReference("reference", ResourceType.DOCUMENT);
         ResourceReference reference2 = new ResourceReference("reference", ResourceType.DOCUMENT);
-        Assert.assertEquals(reference1.hashCode(), reference2.hashCode());
+        assertEquals(reference1.hashCode(), reference2.hashCode());
 
         reference1.addBaseReference("base");
         reference2.addBaseReference("base");
-        Assert.assertEquals(reference1.hashCode(), reference2.hashCode());
+        assertEquals(reference1.hashCode(), reference2.hashCode());
     }
 }

@@ -1,0 +1,30 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test span and link
+.#-----------------------------------------------------
+<span class="label label-success noticeid">TEST</span><span class="wikiexternallink"><a href="http://www.google.fr/">LINK</a></span>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginFormat [NONE] [[class]=[label label-success noticeid]]
+onWord [TEST]
+endFormat [NONE] [[class]=[label label-success noticeid]]
+beginLink [Typed = [true] Type = [url] Reference = [http://www.google.fr/]] [false]
+onWord [LINK]
+endLink [Typed = [true] Type = [url] Reference = [http://www.google.fr/]] [false]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p><span class="label label-success noticeid">TEST</span><span class="wikiexternallink"><a href="http://www.google.fr/">LINK</a></span></p>
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<p><span class="label label-success noticeid">TEST</span><!--startwikilink:true|-|url|-|http://www.google.fr/--><span class="wikiexternallink"><a href="http://www.google.fr/">LINK</a></span><!--stopwikilink--></p>
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% class="label label-success noticeid" %)TEST(%%)[[LINK>>url:http://www.google.fr/]]

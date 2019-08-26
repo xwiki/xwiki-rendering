@@ -55,7 +55,8 @@ public class XWikiHeaderTagHandler extends HeaderTagHandler implements XWikiWiki
                 params = params.remove(ID);
                 // Also remove the generated id class value since we're removing the id too.
                 String newClassParameterValue =
-                    classParameter.getValue().replace(XHTMLChainingRenderer.GENERATEDIDCLASS, "");
+                    classParameter.getValue().replace(XHTMLChainingRenderer.GENERATEDIDCLASS, "")
+                        .replace(XHTMLChainingRenderer.GENERATEDHEADERCLASS, "");
                 if (StringUtils.isBlank(newClassParameterValue)) {
                     params = params.remove(CLASS);
                 } else {

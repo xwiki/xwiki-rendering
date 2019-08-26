@@ -24,9 +24,8 @@ import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
 
-import org.apache.maven.doxia.logging.Log;
-import org.apache.maven.doxia.sink.Sink;
 import org.apache.maven.doxia.sink.SinkEventAttributes;
+import org.apache.maven.doxia.sink.impl.SinkAdapter;
 import org.xwiki.rendering.listener.CompositeListener;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
@@ -54,11 +53,11 @@ import org.xwiki.rendering.util.IdGenerator;
  * @version $Id$
  * @since 2.1RC1
  */
-public class XWikiGeneratorSink implements Sink
+public class XWikiGeneratorSink extends SinkAdapter
 {
-    private Deque<Listener> listener = new ArrayDeque<Listener>();
+    private Deque<Listener> listener = new ArrayDeque<>();
 
-    private Deque<Object> parameters = new ArrayDeque<Object>();
+    private Deque<Object> parameters = new ArrayDeque<>();
 
     private ResourceReferenceParser linkReferenceParser;
 
@@ -139,12 +138,6 @@ public class XWikiGeneratorSink implements Sink
     public void flush()
     {
         flushEmptyLines();
-    }
-
-    @Override
-    public void enableLogging(Log arg0)
-    {
-        // Not used.
     }
 
     @Override
@@ -337,24 +330,6 @@ public class XWikiGeneratorSink implements Sink
     public void definitionListItem_()
     {
         // Nothing to do since for XWiki the definition list items are the definition term/descriptions.
-    }
-
-    @Override
-    public void figure(SinkEventAttributes attributes)
-    {
-        // Nothing to do
-    }
-
-    @Override
-    public void figure()
-    {
-        // Nothing to do
-    }
-
-    @Override
-    public void figure_()
-    {
-        // Nothing to do
     }
 
     @Override

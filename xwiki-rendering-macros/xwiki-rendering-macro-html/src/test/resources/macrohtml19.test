@@ -1,0 +1,50 @@
+.runTransformations
+.#---------------------------------------------------------------
+.input|xwiki/2.0
+.# Verify metadata blocks are taken into account.
+.#---------------------------------------------------------------
+{{html wiki=true}}
+html content
+((({{testmetadatamacro/}})))
+another html content
+{{/html}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [html] [wiki=true] [html content
+((({{testmetadatamacro/}})))
+another html content]
+onRawText [<p>html content</p><div>testmacro</div><p>another html content</p>] [xhtml/1.0]
+endMacroMarkerStandalone [html] [wiki=true] [html content
+((({{testmetadatamacro/}})))
+another html content]
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+{{html wiki="true"}}
+html content
+((({{testmetadatamacro/}})))
+another html content
+{{/html}}
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>html content</p><div>testmacro</div><p>another html content</p>
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<!--startmacro:html|-|wiki="true"|-|html content
+((({{testmetadatamacro/}})))
+another html content--><p>html content</p><div><div class="xwiki-metadata-container" data-xwiki-mymetadata="metadatavalue">testmacro</div></div><p>another html content</p><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|html/5.0
+.#-----------------------------------------------------
+<p>html content</p><div>testmacro</div><p>another html content</p>
+.#-----------------------------------------------------
+.expect|annotatedhtml/5.0
+.#-----------------------------------------------------
+<!--startmacro:html|-|wiki="true"|-|html content
+((({{testmetadatamacro/}})))
+another html content--><p>html content</p><div>testmacro</div><p>another html content</p><!--stopmacro-->

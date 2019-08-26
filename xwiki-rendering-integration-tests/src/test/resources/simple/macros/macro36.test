@@ -1,0 +1,30 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test parsing of a macro parameter and some content with types List<Block> and type String.
+.#-----------------------------------------------------
+<!--startmacro:box|-|title="old title"|-|Old content-->
+<div class="box">
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-parameter-name="title" class="xwiki-metadata-container"><b>my</b> **title**</div>
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p><b>Some</b> **content**</p></div>
+</div>
+<!--stopmacro-->
+<!--startmacro:box|-|title="old title"|-|Old content-->
+<div class="box">
+<div data-xwiki-non-generated-content="java.lang.String" data-xwiki-parameter-name="title" class="xwiki-metadata-container"><b>my</b> **title**</div>
+<div data-xwiki-non-generated-content="java.lang.String" class="xwiki-metadata-container"><p><b>Some</b> **content**</p></div>
+</div>
+<!--stopmacro-->
+
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+{{box title="**my** ~~*~~*title~~*~~*"}}
+**Some** ~*~*content~*~*
+{{/box}}
+
+ 
+
+{{box title="my **title**"}}
+Some **content**
+{{/box}}

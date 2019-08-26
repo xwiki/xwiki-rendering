@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import org.xwiki.stability.Unstable;
@@ -36,17 +38,24 @@ public class IgnoreElementRule
 {
     private boolean isActive;
 
-    private Predicate<TagContext> activateWhen;
+    private TagContext tagContext;
+
+    private boolean isBeginElement;
+
+    private Map<String, Object> ruleContext;
+
+    private Predicate<IgnoreElementRule> switchWhen;
 
     /**
      * Default constructor for an IgnoreElementRule.
      * @param tagContextPredicate the predicate used to switch the active flag.
      * @param isActive the default flag to set the rule as active or not.
      */
-    public IgnoreElementRule(Predicate<TagContext> tagContextPredicate, boolean isActive)
+    public IgnoreElementRule(Predicate<IgnoreElementRule> tagContextPredicate, boolean isActive)
     {
-        this.activateWhen = tagContextPredicate;
+        this.switchWhen = tagContextPredicate;
         this.isActive = isActive;
+        this.ruleContext = new HashMap<>();
     }
 
     /**
@@ -58,12 +67,46 @@ public class IgnoreElementRule
     }
 
     /**
+     * @return the tag context that is used for switching rule.
+     * @since 11.4RC1
+     */
+    @Unstable
+    public TagContext getTagContext()
+    {
+        return tagContext;
+    }
+
+    /**
+     * @return true if we are in a begin element. This can be used inside the predicate to activate the rule.
+     * @since 11.4RC1
+     */
+    @Unstable
+    public boolean isBeginElement()
+    {
+        return isBeginElement;
+    }
+
+    /**
+     * @return a mutable rule context to allow get/set information that could be used for the predicate.
+     * @since 11.4RC1
+     */
+    @Unstable
+    public Map<String, Object> getRuleContext()
+    {
+        return ruleContext;
+    }
+
+    /**
      * Switch the active value (see {@link #isActive()} if the predicate of the rule match the given tagContext.
      * @param tagContext The tag context which can match the predicate.
+     * @param begin true indicates that it's the begin tag which called the predicate
      */
-    public void switchRule(TagContext tagContext)
+    public void switchRule(TagContext tagContext, boolean begin)
     {
-        if (this.activateWhen.test(tagContext)) {
+        this.tagContext = tagContext;
+        this.isBeginElement = begin;
+
+        if (this.switchWhen.test(this)) {
             this.isActive = !this.isActive;
         }
     }

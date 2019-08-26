@@ -24,6 +24,8 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.component.util.ReflectionUtils;
+import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.listener.Listener;
@@ -51,6 +53,8 @@ import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGene
 @Unstable
 public class XWikiMacroHandler implements XWikiWikiModelHandler
 {
+    private static final String WIKI_CONTENT_TYPE = ReflectionUtils.serializeType(Block.LIST_BLOCK_TYPE);
+
     private ComponentManager componentManager;
 
     private XHTMLParser parser;
@@ -69,9 +73,12 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         this.parser = parser;
     }
 
-    private String getSyntax(TagContext previousNodes)
+    private String getSyntax(TagContext previousNodes, String macroType)
     {
-        if (previousNodes.getTagStack().getStackParameter(CURRENT_SYNTAX) != null) {
+        // if the type is not wiki content type, then we should parse the content as plain text.
+        if (!macroType.equals(WIKI_CONTENT_TYPE)) {
+            return Syntax.PLAIN_1_0.toIdString();
+        } else if (previousNodes.getTagStack().getStackParameter(CURRENT_SYNTAX) != null) {
             return (String) previousNodes.getTagStack().popStackParameter(CURRENT_SYNTAX);
 
         // if the current syntax is not retrieved from the context, we get it from the RenderingContext
@@ -89,6 +96,25 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             }
             return syntax.toIdString();
         }
+    }
+
+    private XWikiGeneratorListener createMacroListener(TagContext context, String currentSyntaxParameter)
+        throws ComponentLookupException
+    {
+        PrintRenderer renderer = this.componentManager.getInstance(PrintRenderer.class,
+            currentSyntaxParameter);
+        DefaultWikiPrinter printer = new DefaultWikiPrinter();
+        renderer.setPrinter(printer);
+        Listener listener;
+
+        if (context.getTagStack().isInsideBlockElement()) {
+            listener = new InlineFilterListener();
+            ((InlineFilterListener) listener).setWrappedListener(renderer);
+        } else {
+            listener = renderer;
+        }
+        return this.parser.createXWikiGeneratorListener(listener,
+            null);
     }
 
     /**
@@ -112,29 +138,30 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             }
 
             if (metaData.contains(MetaData.NON_GENERATED_CONTENT)) {
-                String currentSyntaxParameter = this.getSyntax(context);
+                String currentSyntaxParameter =
+                    this.getSyntax(context, (String) metaData.getMetaData(MetaData.NON_GENERATED_CONTENT));
                 try {
-                    PrintRenderer renderer = this.componentManager.getInstance(PrintRenderer.class,
-                        currentSyntaxParameter);
-                    DefaultWikiPrinter printer = new DefaultWikiPrinter();
-                    renderer.setPrinter(printer);
-                    Listener listener;
-
-                    if (context.getTagStack().isInsideBlockElement()) {
-                        listener = new InlineFilterListener();
-                        ((InlineFilterListener) listener).setWrappedListener(renderer);
-                    } else {
-                        listener = renderer;
-                    }
-                    XWikiGeneratorListener xWikiGeneratorListener = this.parser.createXWikiGeneratorListener(listener,
-                        null);
-
-                    context.getTagStack().pushScannerContext(new WikiScannerContext(xWikiGeneratorListener));
-                    context.getTagStack().getScannerContext().beginDocument();
+                    String parameterName = (String) metaData.getMetaData(MetaData.PARAMETER_NAME);
                     withNonGeneratedContent = true;
-                    if (metaData.contains(MetaData.PARAMETER_NAME)) {
-                        context.getTagStack().pushStackParameter(PARAMETER_CONTENT_NAME,
-                            metaData.getMetaData(MetaData.PARAMETER_NAME));
+
+                    // we check macroInfo to avoid creating a supplementary scanner in case they are multiple content
+                    // div.
+                    if (parameterName != null && macroInfo.getParameterScannerContext(parameterName) == null) {
+                        // It is a non-generated div for a specific parameter and we did not already
+                        // created a scanner context for it: we create the scanner and push it in the context.
+                        context.getTagStack().pushStackParameter(PARAMETER_CONTENT_NAME, parameterName);
+                        context.getTagStack().pushScannerContext(
+                            new WikiScannerContext(createMacroListener(context, currentSyntaxParameter)));
+                        context.getTagStack().getScannerContext().beginDocument();
+                        macroInfo.setParameterScannerContext(parameterName, context.getScannerContext());
+                    } else if (parameterName == null && macroInfo.getContentScannerContext() == null) {
+                        // It is a non-generated content div and we did not already
+                        // created a scanner context for it: we create the scanner and push it in the context.
+                        context.getTagStack().pushScannerContext(
+                            new WikiScannerContext(createMacroListener(context, currentSyntaxParameter)));
+                        macroInfo.setContentScannerContext(context.getTagStack().getScannerContext());
+                        context.getTagStack().resetEmptyLinesCount();
+                        context.getTagStack().getScannerContext().beginDocument();
                     }
                 } catch (ComponentLookupException e) {
                     this.logger.error("Error while getting the appropriate renderer for syntax [{}]",
@@ -147,6 +174,23 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         return withNonGeneratedContent || macroInfo != null;
     }
 
+    private String getRenderedContentFromMacro(TagContext context)
+    {
+        context.getTagStack().getScannerContext().endDocument();
+
+        XWikiGeneratorListener xWikiGeneratorListener =
+            (XWikiGeneratorListener) context.getTagStack().popScannerContext().getfListener();
+
+        PrintRenderer renderer;
+        if (context.getTagStack().isInsideBlockElement()) {
+            WrappingListener wrappingListener = (WrappingListener) xWikiGeneratorListener.getListener();
+            renderer = (PrintRenderer) wrappingListener.getWrappedListener();
+        } else {
+            renderer = (PrintRenderer) xWikiGeneratorListener.getListener();
+        }
+        return renderer.getPrinter().toString();
+    }
+
     /**
      * Handle the end of a container (div or span) which can contain a non generated content metadata.
      * @param context the context of the current tag.
@@ -157,20 +201,29 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         boolean nonGeneratedContent = (boolean) context.getTagStack().popStackParameter(NON_GENERATED_CONTENT_STACK);
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
-        if (nonGeneratedContent) {
-            context.getTagStack().getScannerContext().endDocument();
+        if (nonGeneratedContent && macroInfo != null) {
+            String parameterName = (String) context.getTagStack().getStackParameter(PARAMETER_CONTENT_NAME);
+            // Case 1: there is a parameterName and a scanner context for this parameter in the macro
+            // so we need to handle this as a parameter content.
+            if (parameterName != null
+                && macroInfo.getParameterScannerContext(parameterName) != null) {
+                context.getTagStack().popStackParameter(PARAMETER_CONTENT_NAME);
+                WikiParameters parameters = macroInfo.getParameters();
 
-            XWikiGeneratorListener xWikiGeneratorListener =
-                (XWikiGeneratorListener) context.getTagStack().popScannerContext().getfListener();
-
-            PrintRenderer renderer;
-
-            if (context.getTagStack().isInsideBlockElement()) {
-                WrappingListener wrappingListener = (WrappingListener) xWikiGeneratorListener.getListener();
-                renderer = (PrintRenderer) wrappingListener.getWrappedListener();
-            } else {
-                renderer = (PrintRenderer) xWikiGeneratorListener.getListener();
+                // WikiParameters are immutable
+                macroInfo.setParameters(parameters.setParameter(parameterName, getRenderedContentFromMacro(context)));
+                macroInfo.setParameterScannerContext(parameterName, null);
+            // Case 2: there is a content scanner context and no parameterName: this needs to be processed as a
+            // wiki macro content.
+            // Case 3: there is a content scanner context, and a parameter name but this one is not associated to
+            // the current wiki macro info: we are in a case of a macro inside a parameter content, so it must be
+            // processed as a macro content.
+            } else if (macroInfo.getContentScannerContext() != null
+                && (parameterName == null || macroInfo.getParameters().getParameter(parameterName) == null)) {
+                macroInfo.setContent(getRenderedContentFromMacro(context));
+                macroInfo.setContentScannerContext(null);
             }
+<<<<<<< HEAD
             String content = renderer.getPrinter().toString();
 
             if (context.getTagStack().getStackParameter(PARAMETER_CONTENT_NAME) == null) {
@@ -182,6 +235,8 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                 // WikiParameters are immutable
                 macroInfo.setParameters(parameters.setParameter(parameterName, content));
             }
+=======
+>>>>>>> master
         }
 
         return nonGeneratedContent || macroInfo != null;

@@ -31,7 +31,7 @@ import org.xwiki.test.annotation.AllComponents;
  * @since 3.0RC1
  */
 @RunWith(RenderingTestSuite.class)
-@RenderingTestSuite.Scope("simple")
+@RenderingTestSuite.Scope(value = "simple")
 @AllComponents
 public class SimpleIntegrationTests
 {

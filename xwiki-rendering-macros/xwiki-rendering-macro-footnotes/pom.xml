@@ -25,13 +25,13 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-macros</artifactId>
-    <version>11.2-SNAPSHOT</version>
+    <version>11.8-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-macro-footnotes</artifactId>
   <name>XWiki Rendering - Macro - Footnotes</name>
   <description>Adds a note of text placed (by default) at the bottom of the page</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.88</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.92</xwiki.jacoco.instructionRatio>
     <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Footnote Macro</xwiki.extension.name>

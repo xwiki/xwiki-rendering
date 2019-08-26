@@ -76,6 +76,9 @@ public class DefaultMacroDescriptor extends AbstractMacroDescriptor
     {
         super(id, name, description, contentDescriptor, parametersBeanDescriptor);
 
-        extractParameterDescriptorMap();
+        if (parametersBeanDescriptor != null)
+        {
+            extractParameterDescriptorMap();
+        }
     }
 }

@@ -33,3 +33,15 @@ some {{html}}html content{{/html}} and non html content
 .expect|xhtml/1.0
 .#-----------------------------------------------------
 <p>some html content and non html content</p>
+.#-----------------------------------------------------
+.expect|html/5.0
+.#-----------------------------------------------------
+<p>some html content and non html content</p>
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<p>some <!--startmacro:html|-||-|html content-->html content<!--stopmacro--> and non html content</p>
+.#-----------------------------------------------------
+.expect|annotatedhtml/5.0
+.#-----------------------------------------------------
+<p>some <!--startmacro:html|-||-|html content-->html content<!--stopmacro--> and non html content</p>

@@ -25,14 +25,14 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-macros</artifactId>
-    <version>11.2-SNAPSHOT</version>
+    <version>11.8-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-macro-html</artifactId>
   <name>XWiki Rendering - Macro - HTML</name>
   <description>Allows inserting HTML or XHTML in wiki pages</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.89</xwiki.jacoco.instructionRatio>
-    <xwiki.pitest.mutationThreshold>24</xwiki.pitest.mutationThreshold>
+    <xwiki.pitest.mutationThreshold>19</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>HTML Macro</xwiki.extension.name>
   </properties>
@@ -53,6 +53,21 @@
       <artifactId>xwiki-rendering-macro-toc</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-annotatedxhtml</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-html5</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-annotatedhtml5</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
   <build>

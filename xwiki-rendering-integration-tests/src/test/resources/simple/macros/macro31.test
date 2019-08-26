@@ -1,0 +1,21 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test parsing of a macro with multiple content and parameter div only take into account the last ones.
+.#-----------------------------------------------------
+<!--startmacro:box|-|title="old title"|-|Old content-->
+<div class="box">
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-parameter-name="title" class="xwiki-metadata-container">title1</div>
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>Some content1</p></div>
+
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-parameter-name="title" class="xwiki-metadata-container">title2</div>
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>Some content2</p></div>
+</div>
+<!--stopmacro-->
+
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+{{box title="title2"}}
+Some content2
+{{/box}}

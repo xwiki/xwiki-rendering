@@ -22,9 +22,11 @@ package org.xwiki.rendering.listener.chaining;
 import java.util.Collections;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.listener.MetaData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Unit tests for {@link LookaheadChainingListener}.
@@ -79,31 +81,31 @@ public class LookaheadChainingListenerTest
 
         // The begin document flushes
         listener.beginDocument(MetaData.EMPTY);
-        Assert.assertEquals(1, testListener.calls);
+        assertEquals(1, testListener.calls);
 
         // 1st lookahead, nothing is sent to the test listener
         listener.beginParagraph(Collections.<String, String>emptyMap());
-        Assert.assertEquals(1, testListener.calls);
-        Assert.assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
-        Assert.assertNull(listener.getNextEvent(2));
+        assertEquals(1, testListener.calls);
+        assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
+        assertNull(listener.getNextEvent(2));
 
         // 2nd lookahead, nothing is sent to the test listener
         listener.beginParagraph(Collections.<String, String>emptyMap());
-        Assert.assertEquals(1, testListener.calls);
-        Assert.assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
-        Assert.assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent(2).eventType);
-        Assert.assertNull(listener.getNextEvent(3));
+        assertEquals(1, testListener.calls);
+        assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
+        assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent(2).eventType);
+        assertNull(listener.getNextEvent(3));
 
         // 3rd events, the first begin paragraph is sent
         listener.endParagraph(Collections.<String, String>emptyMap());
-        Assert.assertEquals(2, testListener.calls);
-        Assert.assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
-        Assert.assertEquals(EventType.END_PARAGRAPH, listener.getNextEvent(2).eventType);
-        Assert.assertNull(listener.getNextEvent(3));
+        assertEquals(2, testListener.calls);
+        assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
+        assertEquals(EventType.END_PARAGRAPH, listener.getNextEvent(2).eventType);
+        assertNull(listener.getNextEvent(3));
 
         // The end document flushes
         listener.endDocument(MetaData.EMPTY);
-        Assert.assertEquals(5, testListener.calls);
-        Assert.assertNull(listener.getNextEvent());
+        assertEquals(5, testListener.calls);
+        assertNull(listener.getNextEvent());
     }
 }

@@ -22,9 +22,11 @@ package org.xwiki.rendering.listener.chaining;
 import java.util.Collections;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link LookaheadChainingListener}.
@@ -38,7 +40,7 @@ public class EmptyBlockChainingListenerTest
 
     private EmptyBlockChainingListener listener;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         this.chain = new ListenerChain();
@@ -63,7 +65,7 @@ public class EmptyBlockChainingListenerTest
             {
                 EmptyBlockChainingListener blockState =
                     (EmptyBlockChainingListener) getListenerChain().getListener(EmptyBlockChainingListener.class);
-                Assert.assertTrue(blockState.isCurrentContainerBlockEmpty());
+                assertTrue(blockState.isCurrentContainerBlockEmpty());
             }
         });
 
@@ -88,7 +90,7 @@ public class EmptyBlockChainingListenerTest
             {
                 EmptyBlockChainingListener blockState =
                     (EmptyBlockChainingListener) getListenerChain().getListener(EmptyBlockChainingListener.class);
-                Assert.assertFalse(blockState.isCurrentContainerBlockEmpty());
+                assertFalse(blockState.isCurrentContainerBlockEmpty());
             }
         });
 

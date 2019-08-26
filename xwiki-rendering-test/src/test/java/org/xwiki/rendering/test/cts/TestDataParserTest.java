@@ -24,11 +24,11 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Assert;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for {@link TestDataParser}.
@@ -43,8 +43,8 @@ public class TestDataParserTest
     {
         TestDataParser parser = new TestDataParser();
         Set<String> prefixes = parser.findRelativeTestDirectoryNames("ctstest", "type", ".*\\.xml");
-        Assert.assertEquals(1, prefixes.size());
-        Assert.assertEquals("type/test/test1", prefixes.iterator().next());
+        assertEquals(1, prefixes.size());
+        assertEquals("type/test/test1", prefixes.iterator().next());
     }
 
     @Test
@@ -52,7 +52,7 @@ public class TestDataParserTest
     {
         TestDataParser parser = new TestDataParser();
         List<TestData> data = parser.parseTestData("syntax/1.0", "ctstest", "type", ".*\\.xml");
-        Assert.assertEquals(4, data.size());
+        assertEquals(4, data.size());
 
         TestDataConfiguration configuration = new TestDataConfiguration();
         Properties properties = new Properties();
