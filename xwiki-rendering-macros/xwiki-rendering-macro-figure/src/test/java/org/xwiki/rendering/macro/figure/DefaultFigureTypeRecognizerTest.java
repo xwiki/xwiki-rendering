@@ -25,11 +25,7 @@ import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.FigureBlock;
-import org.xwiki.rendering.block.MacroMarkerBlock;
-import org.xwiki.rendering.block.MetaDataBlock;
-import org.xwiki.rendering.block.TableBlock;
+import org.xwiki.rendering.block.*;
 import org.xwiki.rendering.internal.macro.figure.DefaultFigureTypeRecognizer;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
@@ -107,6 +103,15 @@ public class DefaultFigureTypeRecognizerTest
     public void isTableWhenMetaDataBlock() throws Exception
     {
         FigureBlock fb = new FigureBlock(blocks(new MetaDataBlock(
+            blocks(new TableBlock(Collections.emptyList())))));
+        assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
+    }
+
+    @Test
+    public void isTableWhenNoMacroMarkerBlockAroundCaption() throws Exception
+    {
+        // Note: This is what happens for wikimacros because of https://jira.xwiki.org/browse/XWIKI-16708
+        FigureBlock fb = new FigureBlock(blocks(new FigureCaptionBlock(
             blocks(new TableBlock(Collections.emptyList())))));
         assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
     }

@@ -30,5 +30,6 @@ org.xwiki.rendering.internal.renderer.reference.DefaultResourceReferenceTypeSeri
 org.xwiki.rendering.internal.syntax.SyntaxConverter
 org.xwiki.rendering.internal.transformation.DefaultRenderingContext
 org.xwiki.rendering.internal.transformation.DefaultTransformationManager
+org.xwiki.rendering.internal.transformation.RenderingContextStore
 org.xwiki.rendering.internal.util.DefaultErrorBlockGenerator
 org.xwiki.rendering.internal.wiki.WikiModelProvider
