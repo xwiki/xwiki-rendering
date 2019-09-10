@@ -223,20 +223,6 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                 macroInfo.setContent(getRenderedContentFromMacro(context));
                 macroInfo.setContentScannerContext(null);
             }
-<<<<<<< HEAD
-            String content = renderer.getPrinter().toString();
-
-            if (context.getTagStack().getStackParameter(PARAMETER_CONTENT_NAME) == null) {
-                macroInfo.setContent(content);
-            } else {
-                String parameterName = (String) context.getTagStack().popStackParameter(PARAMETER_CONTENT_NAME);
-                WikiParameters parameters = macroInfo.getParameters();
-
-                // WikiParameters are immutable
-                macroInfo.setParameters(parameters.setParameter(parameterName, content));
-            }
-=======
->>>>>>> master
         }
 
         return nonGeneratedContent || macroInfo != null;

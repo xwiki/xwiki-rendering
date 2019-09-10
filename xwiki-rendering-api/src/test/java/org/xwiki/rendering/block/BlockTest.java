@@ -138,13 +138,6 @@ public class BlockTest
         assertNull(word2.getNextSibling());
         assertNull(word2.getPreviousSibling());
 
-        // replace by empty block the top level one
-        parentBlock.replaceChild(Collections.<Block>emptyList(), word1);
-        Assert.assertEquals(1, parentBlock.getChildren().size());
-        Assert.assertSame(word2, parentBlock.getChildren().get(0));
-        Assert.assertNull(word2.getNextSibling());
-        Assert.assertNull(word2.getPreviousSibling());
-
         // Provide not existing block to replace
         assertThrows(InvalidParameterException.class,
             () -> parentBlock.replaceChild(word3, new WordBlock("not existing")));
