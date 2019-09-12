@@ -61,9 +61,8 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     public static final String MACRO_NAME = "putFootnotes";
 
     /** The description of the macro. */
-    private static final String DESCRIPTION =
-        "Displays the footnotes defined so far."
-            + " If missing, all footnotes are displayed by default at the end of the page.";
+    private static final String DESCRIPTION = "Displays the footnotes defined so far."
+        + " If missing, all footnotes are displayed by default at the end of the page.";
 
     /** ID attribute name. */
     private static final String ID_ATTRIBUTE_NAME = "id";
@@ -90,6 +89,9 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     {
         super("Put Footnote", DESCRIPTION, FootnoteMacroParameters.class);
         setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
+
+        // Must be executed after footnote macro because it's injecting links in it
+        setPriority(FootnoteMacro.PRIORITY + 1);
     }
 
     @Override

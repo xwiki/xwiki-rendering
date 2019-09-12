@@ -1,0 +1,42 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Verify that existing putfootnote is found even when located in another macro
+.#-----------------------------------------------------
+Footnote{{footnote}}content{{/footnote}}
+
+{{info}}
+{{putFootnotes/}}
+{{/info}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Footnote]
+beginMacroMarkerInline [footnote] [] [content]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+onWord [1]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+endMacroMarkerInline [footnote] [] [content]
+endParagraph
+beginMacroMarkerStandalone [info] [] [{{putFootnotes/}}]
+beginGroup [[class]=[box infomessage]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+beginMacroMarkerStandalone [putFootnotes] []
+beginList [NUMBERED] [[class]=[footnotes]]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
+onWord [^]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
+onSpace
+onWord [content]
+endListItem
+endList [NUMBERED] [[class]=[footnotes]]
+endMacroMarkerStandalone [putFootnotes] []
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+endGroup [[class]=[box infomessage]]
+endMacroMarkerStandalone [info] [] [{{putFootnotes/}}]
+endDocument

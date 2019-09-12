@@ -31,7 +31,6 @@ import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.block.match.MacroBlockMatcher;
 import org.xwiki.rendering.block.match.MacroMarkerBlockMatcher;
-import org.xwiki.rendering.block.match.OrBlockMatcher;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
@@ -56,6 +55,11 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
     public static final String MACRO_NAME = "footnote";
 
     /**
+     * The priority of the macro.
+     */
+    public static final int PRIORITY = 2000;
+
+    /**
      * The description of the macro.
      */
     private static final String DESCRIPTION = "Generates a footnote to display at the end of the page.";
@@ -66,11 +70,15 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
     private static final String CONTENT_DESCRIPTION = "the text to place in the footnote";
 
     /**
-     * Matches MacroBlocks or MacroMarkerBlocks having a macro id of {@link PutFootnotesMacro#MACRO_NAME}.
+     * Matches MacroBlocks having a macro id of {@link PutFootnotesMacro#MACRO_NAME}.
      */
-    private static final BlockMatcher PUTFOOTNOTE_MATCHER = new OrBlockMatcher(
-        new MacroBlockMatcher(PutFootnotesMacro.MACRO_NAME),
-        new MacroMarkerBlockMatcher(PutFootnotesMacro.MACRO_NAME));
+    private static final BlockMatcher PUTFOOTNOTE_MATCHER = new MacroBlockMatcher(PutFootnotesMacro.MACRO_NAME);
+
+    /**
+     * Matches MacroMarkerBlocks having a macro id of {@link PutFootnotesMacro#MACRO_NAME}.
+     */
+    private static final BlockMatcher PUTFOOTNOTE_MARKER_MATCHER =
+        new MacroMarkerBlockMatcher(PutFootnotesMacro.MACRO_NAME);
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -80,18 +88,16 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
         super("Footnote", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION),
             FootnoteMacroParameters.class);
         setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
+
+        // The putfootnote macro might already exist in some other macro but to find it the footnote macro need to be
+        // executed later
+        setPriority(PRIORITY);
     }
 
     @Override
     public boolean supportsInlineMode()
     {
         return true;
-    }
-
-    @Override
-    public int getPriority()
-    {
-        return 500;
     }
 
     @Override
@@ -102,10 +108,12 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
 
         // Only add a putfootnote macro at the end of the document if there's not already one (either already executed
         // or not).
-        Block matchingBlock = root.getFirstBlock(PUTFOOTNOTE_MATCHER, Block.Axes.DESCENDANT);
-        if (matchingBlock == null) {
-            Block putFootnotesMacro = new MacroBlock(PutFootnotesMacro.MACRO_NAME, Collections.emptyMap(), false);
-            root.addChild(putFootnotesMacro);
+        if (root.getFirstBlock(PUTFOOTNOTE_MATCHER, Block.Axes.DESCENDANT) == null) {
+            // Make sure putfootnote is not itself the content of a putfootnote (to avoid an infinite loop)
+            if (context.getCurrentMacroBlock().getFirstBlock(PUTFOOTNOTE_MARKER_MATCHER, Block.Axes.ANCESTOR) == null) {
+                Block putFootnotesMacro = new MacroBlock(PutFootnotesMacro.MACRO_NAME, Collections.emptyMap(), false);
+                root.addChild(putFootnotesMacro);
+            }
         }
         return Collections.emptyList();
     }

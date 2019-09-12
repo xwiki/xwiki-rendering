@@ -30,6 +30,7 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  * @since 3.0RC1
  */
 @RunWith(RenderingTestSuite.class)
+//@RenderingTestSuite.Scope(pattern = "macrofootnote3.test")
 public class IntegrationTests
 {
 }
