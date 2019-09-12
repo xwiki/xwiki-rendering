@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -68,7 +69,8 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
      * Used to find the Parser corresponding to the user-specified syntax for the Macro.
      */
     @Inject
-    private ComponentManager componentManager;
+    @Named("context")
+    private Provider<ComponentManager> componentManagerProvider;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -112,9 +114,10 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
      */
     protected Parser getSyntaxParser(Syntax syntax) throws MacroExecutionException
     {
-        if (this.componentManager.hasComponent(Parser.class, syntax.toIdString())) {
+        ComponentManager componentManager = this.componentManagerProvider.get();
+        if (componentManager.hasComponent(Parser.class, syntax.toIdString())) {
             try {
-                return this.componentManager.getInstance(Parser.class, syntax.toIdString());
+                return componentManager.getInstance(Parser.class, syntax.toIdString());
             } catch (ComponentLookupException e) {
                 throw new MacroExecutionException(
                     String.format("Failed to lookup Parser for syntax [%s]", syntax.toIdString()), e);
