@@ -38,6 +38,7 @@ stage ('Rendering Builds') {
           mavenOpts = globalMavenOpts
           profiles = 'legacy,integration-tests,standalone'
           properties = '-Dxwiki.checkstyle.skip=true -Dxwiki.surefire.captureconsole.skip=true -Dxwiki.revapi.skip=true'
+          javadoc = false
         }
       }
     },
@@ -50,6 +51,7 @@ stage ('Rendering Builds') {
           goals = 'clean install'
           profiles = 'legacy,integration-tests,standalone'
           properties = '-DskipTests -DperformRelease=true -Dgpg.skip=true -Dxwiki.checkstyle.skip=true -Ddoclint=all'
+          javadoc = false
         }
       }
     },
@@ -62,6 +64,7 @@ stage ('Rendering Builds') {
           goals = 'clean install jacoco:report sonar:sonar'
           profiles = 'quality,legacy'
           sonar = true
+          javadoc = false
         }
       }
     },
@@ -75,6 +78,7 @@ stage ('Rendering Builds') {
           mavenOpts = globalMavenOpts
           goals = 'clean test-compile checkstyle:check@default'
           profiles = 'legacy'
+          javadoc = false
         }
       }
     }
