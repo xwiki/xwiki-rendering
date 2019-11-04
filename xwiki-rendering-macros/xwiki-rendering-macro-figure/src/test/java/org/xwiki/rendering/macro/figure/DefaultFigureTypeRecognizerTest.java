@@ -111,8 +111,8 @@ public class DefaultFigureTypeRecognizerTest
     public void isTableWhenNoMacroMarkerBlockAroundCaption() throws Exception
     {
         // Note: This is what happens for wikimacros because of https://jira.xwiki.org/browse/XWIKI-16708
-        FigureBlock fb = new FigureBlock(blocks(new FigureCaptionBlock(
-            blocks(new TableBlock(Collections.emptyList())))));
+        FigureBlock fb = new FigureBlock(blocks(new FigureCaptionBlock(blocks(new WordBlock("whatever"))),
+            new TableBlock(Collections.emptyList())));
         assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
     }
 
