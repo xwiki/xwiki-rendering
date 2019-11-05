@@ -36,29 +36,4 @@
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Box Macro</xwiki.extension.name>
   </properties>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.revapi</groupId>
-        <artifactId>revapi-maven-plugin</artifactId>
-        <configuration>
-          <analysisConfiguration><![CDATA[
-            {
-              "revapi": {
-                "ignore" : [
-                  {
-                    "code": "java.annotation.added",
-                    "old": "method void org.xwiki.rendering.macro.box.BoxMacroParameters::setTitle(java.lang.String)",
-                    "new": "method void org.xwiki.rendering.macro.box.BoxMacroParameters::setTitle(java.lang.String)",
-                    "annotation": "@org.xwiki.properties.annotation.PropertyDisplayType({java.util.List.class, org.xwiki.rendering.block.Block.class})",
-                    "justification": "This allows inline editing on box macro title."
-                  },
-                ]
-              }
-            }
-        ]]></analysisConfiguration>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
