@@ -22,7 +22,6 @@ package org.xwiki.rendering.macro.descriptor;
 import java.util.Map;
 
 import org.xwiki.rendering.macro.MacroId;
-import org.xwiki.stability.Unstable;
 
 /**
  * Describe a Macro (macro description and macro parameters description).
@@ -89,7 +88,6 @@ public interface MacroDescriptor
      *         support the inline mode and not generate a paragraph.
      * @since 10.10RC1
      */
-    @Unstable
     default boolean supportsInlineMode()
     {
         return false;

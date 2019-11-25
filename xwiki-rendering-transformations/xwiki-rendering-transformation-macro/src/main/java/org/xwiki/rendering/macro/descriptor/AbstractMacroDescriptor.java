@@ -26,7 +26,6 @@ import java.util.Map;
 import org.xwiki.properties.BeanDescriptor;
 import org.xwiki.properties.PropertyDescriptor;
 import org.xwiki.rendering.macro.MacroId;
-import org.xwiki.stability.Unstable;
 
 /**
  * Describe a macro.
@@ -205,7 +204,6 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
      * @see #supportsInlineMode()
      * @since 10.10RC1
      */
-    @Unstable
     public void setSupportsInlineMode(boolean supportsInlineMode)
     {
         this.supportsInlineMode = supportsInlineMode;
