@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
@@ -45,7 +44,6 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.RenderingContext;
-import org.xwiki.velocity.internal.log.SLF4JLogChute;
 import org.xwiki.xml.XMLUtils;
 
 /**
@@ -66,11 +64,6 @@ public class RenderingTest
      * data.
      */
     private static final VelocityEngine VELOCITY_ENGINE = new VelocityEngine();
-
-    static {
-        // Make velocity use SLF4J as logger
-        VELOCITY_ENGINE.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, new SLF4JLogChute());
-    }
 
     /**
      * Symbols to start a special syntax block. For example: <code>${{{regex:...}}}</code> or
