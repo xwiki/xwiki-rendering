@@ -20,7 +20,6 @@
 package org.xwiki.rendering.listener.reference;
 
 import org.apache.commons.lang3.StringUtils;
-import org.xwiki.stability.Unstable;
 
 /**
  * Represents a reference to a Page.
@@ -28,7 +27,6 @@ import org.xwiki.stability.Unstable;
  * @version $Id$
  * @since 10.6RC1
  */
-@Unstable
 public class PageResourceReference extends ResourceReference
 {
     /**

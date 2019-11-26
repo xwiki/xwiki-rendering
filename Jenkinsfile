@@ -38,6 +38,7 @@ stage ('Rendering Builds') {
           mavenOpts = globalMavenOpts
           profiles = 'legacy,integration-tests,standalone'
           properties = '-Dxwiki.checkstyle.skip=true -Dxwiki.surefire.captureconsole.skip=true -Dxwiki.revapi.skip=true'
+          javadoc = false
         }
       }
     },
@@ -49,19 +50,29 @@ stage ('Rendering Builds') {
           mavenOpts = globalMavenOpts
           goals = 'clean install'
           profiles = 'legacy,integration-tests,standalone'
-          properties = '-DskipTests -DperformRelease=true -Dgpg.skip=true -Dxwiki.checkstyle.skip=true'
+          properties = '-DskipTests -DperformRelease=true -Dgpg.skip=true -Dxwiki.checkstyle.skip=true -Ddoclint=all'
+          javadoc = false
         }
       }
     },
     'quality': {
       node {
-        // Run the quality checks
+        // Run the quality checks.
+        // Sonar notes:
+        // - we need sonar:sonar to perform the analysis
+        // - we need sonar = true to push the analysis to Sonarcloud
+        // - we need jacoco:report to execute jacoco and compute test coverage
+        // - we need -Pcoverage and -Dxwiki.jacoco.itDestFile to tell Jacoco to compute a single global Jacoco
+        //   coverage for the full reactor (so that the coverage percentage computed takes into account module tests
+        //   which cover code in other modules)
         xwikiBuild('Quality') {
           xvnc = false
           mavenOpts = globalMavenOpts
           goals = 'clean install jacoco:report sonar:sonar'
-          profiles = 'quality,legacy'
+          profiles = 'quality,legacy,coverage'
+          properties = '-Dxwiki.jacoco.itDestFile=`pwd`/target/jacoco-it.exec'
           sonar = true
+          javadoc = false
         }
       }
     },
@@ -75,6 +86,7 @@ stage ('Rendering Builds') {
           mavenOpts = globalMavenOpts
           goals = 'clean test-compile checkstyle:check@default'
           profiles = 'legacy'
+          javadoc = false
         }
       }
     }

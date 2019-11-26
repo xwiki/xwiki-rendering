@@ -20,7 +20,6 @@
 package org.xwiki.rendering.macro.descriptor;
 
 import java.lang.reflect.Type;
-import org.xwiki.stability.Unstable;
 
 /**
  * Define a macro content.
@@ -46,7 +45,6 @@ public interface ContentDescriptor
      * @return the type of the macro content.
      * @since 10.10RC1
      */
-    @Unstable
     default Type getType()
     {
         return String.class;

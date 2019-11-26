@@ -31,7 +31,7 @@ import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
 
 /**
- * Construct a BlockFilter from a String to a Syntax object and the other way around.
+ * Construct a BlockMatcher from a String to a Syntax object and the other way around.
  *
  * @version $Id$
  * @since 6.1RC1

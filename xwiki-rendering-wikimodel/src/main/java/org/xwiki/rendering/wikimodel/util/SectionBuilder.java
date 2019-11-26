@@ -138,13 +138,6 @@ public class SectionBuilder<T>
         return fBuilder.pop();
     }
 
-    /**
-     * @param docLevel
-     * @param level
-     * @param data
-     * @param b
-     * @return
-     */
     private TocEntry align(int docLevel, int level, T data, boolean doc)
     {
         TocEntry entry = null;

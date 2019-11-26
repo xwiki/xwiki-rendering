@@ -64,9 +64,13 @@ public class DefaultFigureTypeRecognizer implements FigureTypeRecognizer
                 } else {
                     results.addAll(getBlocksIgnoringMacroMarkerBlocks(block.getChildren()));
                 }
-            } else if (block instanceof MetaDataBlock || block instanceof FigureCaptionBlock) {
+            } else if (block instanceof MetaDataBlock) {
                 // Ignore MetaData block since they're not structural
                 results.addAll(block.getChildren());
+            } else if (block instanceof FigureCaptionBlock) {
+                // Ignore figure caption blocks since they're special and do not affect whether the content contains
+                // a table or not.
+                continue;
             } else {
                 results.add(block);
             }

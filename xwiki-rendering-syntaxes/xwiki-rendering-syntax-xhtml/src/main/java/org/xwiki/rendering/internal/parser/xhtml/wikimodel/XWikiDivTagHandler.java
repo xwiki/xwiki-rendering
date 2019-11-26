@@ -23,7 +23,6 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.wikimodel.xhtml.handler.DivisionTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
-import org.xwiki.stability.Unstable;
 
 /**
  * The div might contain a non generated content metadata which needs a specific processing.
@@ -31,7 +30,6 @@ import org.xwiki.stability.Unstable;
  * @version $Id$
  * @since 10.10RC1
  */
-@Unstable
 public class XWikiDivTagHandler extends DivisionTagHandler implements XWikiWikiModelHandler
 {
     private XWikiMacroHandler xWikiMacroHandler;

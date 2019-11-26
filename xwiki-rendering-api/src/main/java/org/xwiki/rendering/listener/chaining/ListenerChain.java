@@ -130,7 +130,8 @@ public class ListenerChain
                 }
             }
         }
-        return result.peek();
+
+        return result != null ? result.peek() : null;
     }
 
     /**

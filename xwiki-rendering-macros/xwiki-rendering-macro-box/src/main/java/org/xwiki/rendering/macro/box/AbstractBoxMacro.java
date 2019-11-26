@@ -44,7 +44,6 @@ import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.ContentDescriptor;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.xwiki.stability.Unstable;
 
 /**
  * Draw a box around provided content.
@@ -100,7 +99,6 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      * @return the title represented as a list of Blocks
      * @since 10.10
      */
-    @Unstable
     protected List<? extends Block> getBlockTitle(P parameters, String content, MacroTransformationContext context)
     {
         return parameters.getBlockTitle();
@@ -113,7 +111,6 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      * @return the image reference to be displayed in the box
      * @since 10.10
      */
-    @Unstable
     protected ResourceReference getImageReference(P parameters, String content, MacroTransformationContext context)
     {
         // TODO: Refactor this when it'll possible to have a specific converter associated to a macro parameter.
@@ -133,7 +130,6 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      * @return the title of the box
      * @since 10.10
      */
-    @Unstable
     protected String getTitle(P parameters, String content, MacroTransformationContext context)
     {
         return parameters.getTitle();
@@ -147,7 +143,6 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      * by renderers.
      * @since 10.10
      */
-    @Unstable
     protected Map<String, String> getBoxParameters(P parameters, String content, MacroTransformationContext context)
     {
         // Use a linked hashmap to keep the parameters in the same order as we create them when they are retrieved

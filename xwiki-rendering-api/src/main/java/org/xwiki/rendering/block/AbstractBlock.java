@@ -32,7 +32,6 @@ import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.block.match.BlockNavigator;
 import org.xwiki.rendering.block.match.CounterBlockMatcher;
 import org.xwiki.rendering.listener.Listener;
-import org.xwiki.stability.Unstable;
 
 /**
  * Implementation for Block operations. All blocks should extend this class. Supports the notion of generic parameters
@@ -345,7 +344,6 @@ public abstract class AbstractBlock implements Block
      * @return the index of the passed block in the tree, 0 is the current block and -1 means that it was not found
      * @since 10.10RC1
      */
-    @Unstable
     public long indexOf(Block child)
     {
         CounterBlockMatcher counter = new CounterBlockMatcher(child);

@@ -39,7 +39,6 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
-import org.xwiki.stability.Unstable;
 
 import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener.createMetaData;
 import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener.isMetaDataElement;
@@ -50,7 +49,6 @@ import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGene
  * @version $Id$
  * @since 10.10RC1
  */
-@Unstable
 public class XWikiMacroHandler implements XWikiWikiModelHandler
 {
     private static final String WIKI_CONTENT_TYPE = ReflectionUtils.serializeType(Block.LIST_BLOCK_TYPE);

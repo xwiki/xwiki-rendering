@@ -21,7 +21,6 @@ package org.xwiki.rendering.macro.figure;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.FigureBlock;
-import org.xwiki.stability.Unstable;
 
 /**
  * Recognize the content of a figure (is it representing a table?).
@@ -30,7 +29,6 @@ import org.xwiki.stability.Unstable;
  * @since 10.2
  */
 @Role
-@Unstable
 public interface FigureTypeRecognizer
 {
     /**

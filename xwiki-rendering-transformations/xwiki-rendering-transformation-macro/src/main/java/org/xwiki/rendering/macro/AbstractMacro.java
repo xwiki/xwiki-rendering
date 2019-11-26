@@ -291,7 +291,6 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      *         {@code java.util.List<org.xwiki.rendering.block.Block>} for content of type {@code List<Block>}
      * @since 10.10
      */
-    @Unstable
     protected MetaData getNonGeneratedContentMetaData()
     {
         return getNonGeneratedContentMetaData(contentDescriptor);

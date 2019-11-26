@@ -17,10 +17,9 @@
 # Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 # ---------------------------------------------------------------------------
-
-### Macro Content
-rendering.macro.content.name=Contenu
-rendering.macro.content.description=Autorise tous les types de langages wiki dans le contenu
-rendering.macro.content.parameter.syntax.name=Syntaxe
-rendering.macro.content.parameter.syntax.description=la version de la syntaxe wiki dans laquelle le contenu est r\u00E9dig\u00E9 (par exemple : "xwiki/2.1", "confluence/1.0", ...)
-rendering.macro.content.content.description=Le contenu \u00E0 ex\u00E9cuter
+extraction:
+  java:
+    index:
+      # Use the snapshot profile so that the XWiki Maven Remote repository is specified for locating snapshot
+      # artifacts.
+      build_command: "mvn clean install -Psnapshot"

@@ -17,20 +17,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.macro.footnote;
+package org.xwiki.rendering.block;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
- * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
- * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
+ * Validate {@link SpaceBlock}.
  *
  * @version $Id$
- * @since 3.0RC1
  */
-@RunWith(RenderingTestSuite.class)
-//@RenderingTestSuite.Scope(pattern = "macrofootnote3.test")
-public class IntegrationTests
+public class SpaceBlockTest
 {
+    @Test
+    public void testEquals()
+    {
+        assertEquals(new SpaceBlock(), new SpaceBlock());
+        assertNotEquals(new SpaceBlock(), new WordBlock("toto"));
+        assertNotEquals(new WordBlock("toto"), new SpaceBlock());
+    }
 }
