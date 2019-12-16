@@ -81,6 +81,8 @@ public abstract class AbstractChainingListener implements ChainingListener
             // Enable the retro compatibility flag if #beginListItem() is overwritten but not #beginListItem(Map)
             if (!withParameter && withoutParameter) {
                 this.beginListItemRetroCompatibility = true;
+
+                break;
             }
         }
     }
