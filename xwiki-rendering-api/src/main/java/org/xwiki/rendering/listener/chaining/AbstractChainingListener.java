@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.listener.chaining;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.xwiki.rendering.listener.Format;
@@ -41,6 +42,48 @@ public abstract class AbstractChainingListener implements ChainingListener
      * The chain to use to know the next listener to call on events.
      */
     private ListenerChain listenerChain;
+
+    /**
+     * True if {@link #beginListItem(Map)} should redirect to {@link #beginListItem()} for retro compatibility.
+     * <p>
+     * {@link #beginListItem(Map)} was added long after {@link #beginListItem()} and various renderers/listeners
+     * override {@link #beginListItem()} only and won't be called in post 10.0 versions of XWiki without this retro
+     * compatibility trick.
+     * 
+     * @since 10.11.10
+     * @since 11.3.7
+     * @since 11.10.2
+     * @since 12.0RC1
+     */
+    private boolean beginListItemRetroCompatibility;
+
+    /**
+     * 
+     */
+    public AbstractChainingListener()
+    {
+        for (Class<?> current = getClass(); current != AbstractChainingListener.class; current =
+            current.getSuperclass()) {
+            boolean withParameter = false;
+            boolean withoutParameter = false;
+
+            // Search for beginListItem methods
+            for (Method method : current.getDeclaredMethods()) {
+                if (method.getName().equals("beginListItem")) {
+                    if (method.getParameterCount() == 0) {
+                        withoutParameter = true;
+                    } else {
+                        withParameter = true;
+                    }
+                }
+            }
+
+            // Enable the retro compatibility flag if #beginListItem() is overwritten but not #beginListItem(Map)
+            if (!withParameter && withoutParameter) {
+                this.beginListItemRetroCompatibility = true;
+            }
+        }
+    }
 
     /**
      * @param listenerChain see {@link #getListenerChain()}
@@ -150,9 +193,15 @@ public abstract class AbstractChainingListener implements ChainingListener
     @Override
     public void beginListItem(Map<String, String> parameters)
     {
-        ChainingListener next = getListenerChain().getNextListener(getClass());
-        if (next != null) {
-            next.beginListItem(parameters);
+        // Make sure to call the old beginListItem() if it's the only thing implemented by the extending class since
+        // this new one existed only after 10.10
+        if (this.beginListItemRetroCompatibility) {
+            beginListItem();
+        } else {
+            ChainingListener next = getListenerChain().getNextListener(getClass());
+            if (next != null) {
+                next.beginListItem(parameters);
+            }
         }
     }
 
