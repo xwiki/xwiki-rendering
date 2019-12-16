@@ -58,7 +58,9 @@ public abstract class AbstractChainingListener implements ChainingListener
     private boolean beginListItemRetroCompatibility;
 
     /**
-     * 
+     * The default constructor.
+     * <p>
+     * Initialize {@link #beginListItemRetroCompatibility} field.
      */
     public AbstractChainingListener()
     {
