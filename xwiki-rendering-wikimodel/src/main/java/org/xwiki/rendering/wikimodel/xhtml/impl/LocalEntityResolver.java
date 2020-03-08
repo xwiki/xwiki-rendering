@@ -19,12 +19,19 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.impl;
 
+import org.xwiki.component.annotation.Component;
+
 /**
  * @version $Id$
  * @since 4.0M1
  * @deprecated use org.xwiki.xml.internal.LocalEntityResolver instead
  */
 @Deprecated
+// TODO: Work around the fact that LocalEntityResolver is a Component while org.xwiki.xml.internal.LocalEntityResolver
+//  is not supposed to be one. This is a bad design since a non-component should not extend a component (it's dangerous
+//  - @Inject-ed component will not be injected, and the extending class will inherit the @Component annotation, which
+//  is bad - imagine for example that in the future we auto-generate components.txt based on the @Component annotation).
+@Component(staticRegistration = false)
 public class LocalEntityResolver extends org.xwiki.xml.internal.LocalEntityResolver
 {
 
