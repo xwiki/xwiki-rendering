@@ -23,10 +23,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.xdomxml10.internal.parser.DefaultBlockParser;
 
+// TODO: Work around the fact that DefaultBlockParser is a Component while ResourceReferenceParser is not supposed to
+// be one. This is a bad design since a non-component should not extend a component (it's dangerous - @Inject-ed
+// component will not be injected, and the extending class will inherit the @Component annotation, which is bad -
+// imagine for example that in the future we auto-generate components.txt based on the @Component annotation).
+@Component(staticRegistration = false)
 public class ResourceReferenceParser extends DefaultBlockParser implements ValueParser<ResourceReference>
 {
     private static final Set<String> NAMES = Stream.of("type", "reference", "typed").collect(Collectors.toSet());
