@@ -1,0 +1,10 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test that elements with a non-empty content model are not transformed to a minimized form (for instance <p></p> must
+.# not be transformed to <p/>). See https://www.w3.org/TR/xhtml1/#C_3.  
+.#-----------------------------------------------------
+<p></p>
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p></p>
