@@ -1,0 +1,31 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test behaviour of nbsp and spaces in list
+.#-----------------------------------------------------
+<ul><li>Foo bar </li><li>&nbsp;Foo&nbsp;Bar</li><li>Foo bar&nbsp;</li></ul>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginList [BULLETED]
+beginListItem
+onWord [Foo]
+onSpace
+onWord [bar]
+endListItem
+beginListItem
+onSpace
+onWord [Foo(((160)))Bar]
+endListItem
+beginListItem
+onWord [Foo]
+onSpace
+onWord [bar]
+onSpace
+endListItem
+endList [BULLETED]
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<ul><li>Foo bar</li><li>&nbsp;Foo${{{regex:\u00A0}}}Bar</li><li>Foo bar&nbsp;</li></ul>

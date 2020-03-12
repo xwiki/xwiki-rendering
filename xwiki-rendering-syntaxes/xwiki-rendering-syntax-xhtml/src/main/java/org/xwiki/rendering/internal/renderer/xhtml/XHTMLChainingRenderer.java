@@ -318,7 +318,6 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginList(ListType type, Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().setStandalone();
         if (type == ListType.BULLETED) {
             getXHTMLWikiPrinter().printXMLStartElement("ul", parameters);
         } else {
@@ -329,6 +328,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginListItem()
     {
+        getXHTMLWikiPrinter().setStandalone();
         getXHTMLWikiPrinter().printXMLStartElement("li");
     }
 
