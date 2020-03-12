@@ -132,6 +132,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     {
         Map<String, String> clonedParameters = new LinkedHashMap<String, String>();
         clonedParameters.putAll(parameters);
+        getXHTMLWikiPrinter().setStandalone();
         getXHTMLWikiPrinter().printXMLStartElement("div", clonedParameters);
     }
 
@@ -216,6 +217,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginParagraph(Map<String, String> parameters)
     {
+        getXHTMLWikiPrinter().setStandalone();
         getXHTMLWikiPrinter().printXMLStartElement("p", parameters);
     }
 
@@ -280,6 +282,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
             addClassValue("class", GENERATEDHEADERCLASS, attributes);
         }
 
+        getXHTMLWikiPrinter().setStandalone();
         getXHTMLWikiPrinter().printXMLStartElement("h" + level.getAsInt(), attributes);
         // We generate a span so that CSS rules have a hook to perform some magic that wouldn't work on just a H
         // element. Like some IE6 magic and others.
@@ -315,6 +318,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginList(ListType type, Map<String, String> parameters)
     {
+        getXHTMLWikiPrinter().setStandalone();
         if (type == ListType.BULLETED) {
             getXHTMLWikiPrinter().printXMLStartElement("ul", parameters);
         } else {
@@ -465,7 +469,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         }
 
         getXHTMLWikiPrinter().printXMLStartElement("blockquote", parameters);
-
+        getXHTMLWikiPrinter().setStandalone();
         getXHTMLWikiPrinter().printXMLStartElement("p");
     }
 
@@ -506,12 +510,14 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginTableCell(Map<String, String> parameters)
     {
+        getXHTMLWikiPrinter().setStandalone();
         getXHTMLWikiPrinter().printXMLStartElement("td", parameters);
     }
 
     @Override
     public void beginTableHeadCell(Map<String, String> parameters)
     {
+        getXHTMLWikiPrinter().setStandalone();
         // Find proper scope attribute value
         Map<String, String> parametersWithScope;
         if (!parameters.containsKey("scope")) {
