@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
+import org.xwiki.stability.Unstable;
 
 /**
  * Base toolkit class for all XHTML-based renderers. This printer handles whitespaces so that it prints "&nbsp;" when
@@ -59,7 +60,9 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
      * This value will be used to know if the first space should be printed with a simple space or a {@code &nbsp;}
      * entity. Note that the standalone value is automatically reset after first printing of a space, or when a text
      * is printed.
+     * @since 12.2RC1
      */
+    @Unstable
     public void setStandalone()
     {
         this.isStandalone = true;
