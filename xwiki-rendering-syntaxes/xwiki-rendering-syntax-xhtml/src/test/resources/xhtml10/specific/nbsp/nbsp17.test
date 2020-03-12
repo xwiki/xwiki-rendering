@@ -1,0 +1,31 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test behaviour of nbsp and spaces in inline context
+.#-----------------------------------------------------
+<div>&nbsp;Some text <em>text</em> <em>foo</em>&nbsp;</div>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginGroup
+beginParagraph
+onSpace
+onWord [Some]
+onSpace
+onWord [text]
+onSpace
+beginFormat [ITALIC]
+onWord [text]
+endFormat [ITALIC]
+onSpace
+beginFormat [ITALIC]
+onWord [foo]
+endFormat [ITALIC]
+onSpace
+endParagraph
+endGroup
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<div><p>&nbsp;Some text <em>text</em> <em>foo</em>&nbsp;</p></div>

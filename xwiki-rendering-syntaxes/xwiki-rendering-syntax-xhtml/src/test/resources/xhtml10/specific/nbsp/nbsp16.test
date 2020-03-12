@@ -1,0 +1,35 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test behaviour of nbsp in table cells: start, end, alone in table cell. - failing case
+.#-----------------------------------------------------
+<table><tr><td>&nbsp;<i>Before i</i></td></tr></table>
+<p>&nbsp;<i>Before i</i></p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginTable
+beginTableRow
+beginTableCell
+onSpace
+beginFormat [ITALIC]
+onWord [Before]
+onSpace
+onWord [i]
+endFormat [ITALIC]
+endTableCell
+endTableRow
+endTable
+beginParagraph
+onSpace
+beginFormat [ITALIC]
+onWord [Before]
+onSpace
+onWord [i]
+endFormat [ITALIC]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<table><tr><td>&nbsp;<em>Before i</em></td></tr></table><p>&nbsp;<em>Before i</em></p>

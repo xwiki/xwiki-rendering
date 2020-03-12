@@ -44,6 +44,8 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
 
     private boolean hasTextBeenPrinted;
 
+    private boolean isStandalone;
+
     /**
      * @param printer the object to which to write the XHTML output to
      */
@@ -52,12 +54,24 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         super(printer);
     }
 
+    /**
+     * Use it to specify that the current element to print is standalone.
+     * This value will be used to know if the first space should be printed with a simple space or a {@code &nbsp;}
+     * entity. Note that the standalone value is automatically reset after first printing of a space, or when a text
+     * is printed.
+     */
+    public void setStandalone()
+    {
+        this.isStandalone = true;
+    }
+
     @Override
     public void printXML(String str)
     {
         handleSpaceWhenInText();
         super.printXML(str);
         this.hasTextBeenPrinted = true;
+        this.isStandalone = false;
     }
 
     @Override
@@ -176,14 +190,19 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         // Use case: <tag1>something <!--...
         if (this.spaceCount > 0) {
             if (!this.isInCData && !this.isInPreserveElement) {
-                // The first space is a normal space
-                super.printXML(" ");
+                // We print a first normal space, only if we're not in a standalone element with no printed text.
+                if (this.isStandalone && !this.hasTextBeenPrinted) {
+                    printEntity("&nbsp;");
+                } else {
+                    super.printXML(" ");
+                }
                 for (int i = 0; i < this.spaceCount - 1; i++) {
                     printEntity("&nbsp;");
                 }
             } else {
                 super.printXML(StringUtils.repeat(' ', this.spaceCount));
             }
+            this.isStandalone = false;
         }
         this.spaceCount = 0;
         this.elementEnded = false;
