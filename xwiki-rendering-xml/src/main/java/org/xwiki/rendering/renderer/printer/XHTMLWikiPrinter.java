@@ -57,7 +57,7 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
 
     /**
      * Use it to specify that the current element to print is standalone.
-     * This value will be used to know if the first space should be printed with a simple space or a {@code &nbsp;}
+     * This value might be used to know if the first space should be printed with a simple space or a {@code &nbsp;}
      * entity. Note that the standalone value is automatically reset after first printing of a space, or when a text
      * is printed.
      * @since 12.2RC1
@@ -193,7 +193,9 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         // Use case: <tag1>something <!--...
         if (this.spaceCount > 0) {
             if (!this.isInCData && !this.isInPreserveElement) {
-                // We print a first normal space, only if we're not in a standalone element with no printed text.
+                // We print a single space as a normal space, except if we are at the beginning of a standalone element
+                // in that case we want a non-breaking space so it won't be stripped.
+                // Any supplementary space will be printed as non-breaking spaces so we keep them too.
                 if (this.isStandalone && !this.hasTextBeenPrinted) {
                     printEntity("&nbsp;");
                 } else {

@@ -2,7 +2,7 @@
 .input|xhtml/1.0
 .# Test behaviour of nbsp in table cells: start, end, alone in table cell. - failing case
 .#-----------------------------------------------------
-<table><tr><td>Foo</td><td>&nbsp;Bar</td><td> Baz&nbsp;</td></tr></table>
+<table><tr><td>Foo</td><td>&nbsp;Bar</td><td> Baz&nbsp;</td></tr><tr><td>&nbsp;Foo</td><td>&nbsp;Bar</td></tr></table>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -21,9 +21,19 @@ onWord [Baz]
 onSpace
 endTableCell
 endTableRow
+beginTableRow
+beginTableCell
+onSpace
+onWord [Foo]
+endTableCell
+beginTableCell
+onSpace
+onWord [Bar]
+endTableCell
+endTableRow
 endTable
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<table><tr><td>Foo</td><td>&nbsp;Bar</td><td>Baz&nbsp;</td></tr></table>
+<table><tr><td>Foo</td><td>&nbsp;Bar</td><td>Baz&nbsp;</td></tr><tr><td>&nbsp;Foo</td><td>&nbsp;Bar</td></tr></table>
