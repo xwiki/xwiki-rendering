@@ -60,7 +60,7 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
      * This value might be used to know if the first space should be printed with a simple space or a {@code &nbsp;}
      * entity. Note that the standalone value is automatically reset after first printing of a space, or when a text
      * is printed.
-     * @since 12.2RC1
+     * @since 12.2
      */
     @Unstable
     public void setStandalone()
