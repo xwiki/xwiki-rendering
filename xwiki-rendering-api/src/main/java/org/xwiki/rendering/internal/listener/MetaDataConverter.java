@@ -22,7 +22,10 @@ package org.xwiki.rendering.internal.listener;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import javax.inject.Singleton;
+
 import org.apache.commons.lang3.StringUtils;
+import org.xwiki.component.annotation.Component;
 import org.xwiki.properties.converter.AbstractConverter;
 import org.xwiki.properties.converter.ConversionException;
 import org.xwiki.rendering.listener.MetaData;
@@ -34,6 +37,8 @@ import org.xwiki.rendering.listener.MetaData;
  * @since 7.0M2
  */
 // TODO: add real syntax support (only convert from empty String to empty Map right now)
+@Component
+@Singleton
 public class MetaDataConverter extends AbstractConverter<MetaData>
 {
     private static final String UNSUPPORTED_EXCEPTION = "Conversion from [" + MetaData.class.getName() + "] to ["
