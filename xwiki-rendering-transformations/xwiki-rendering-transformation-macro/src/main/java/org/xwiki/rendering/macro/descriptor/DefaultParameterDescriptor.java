@@ -120,4 +120,10 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
     {
         return this.propertyDescriptor.getDisplayType();
     }
+
+    @Override
+    public boolean isDisplayHidden()
+    {
+        return this.propertyDescriptor.isDisplayHidden();
+    }
 }

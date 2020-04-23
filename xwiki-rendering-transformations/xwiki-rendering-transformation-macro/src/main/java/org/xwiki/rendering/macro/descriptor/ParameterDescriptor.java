@@ -22,6 +22,7 @@ package org.xwiki.rendering.macro.descriptor;
 import java.lang.reflect.Type;
 
 import org.xwiki.properties.PropertyGroupDescriptor;
+import org.xwiki.stability.Unstable;
 
 /**
  * Define a macro parameter.
@@ -106,5 +107,16 @@ public interface ParameterDescriptor
     default Type getDisplayType()
     {
         return getParameterType();
+    }
+
+    /**
+     * @return whether the parameter should be displayed in UIs or not. For example the WYSIWYG editor
+     *         uses it to decide whether to display it or not in the Macro editor UI.
+     * @since 12.4RC1
+     */
+    @Unstable
+    default boolean isDisplayHidden()
+    {
+        return false;
     }
 }

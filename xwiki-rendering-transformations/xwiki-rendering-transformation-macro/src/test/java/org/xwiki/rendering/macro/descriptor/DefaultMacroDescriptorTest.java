@@ -54,8 +54,8 @@ public class DefaultMacroDescriptorTest
     public void setUp()
     {
         this.macroDescriptor =
-                new DefaultMacroDescriptor(new MacroId("Id"), "Name", "Description", new DefaultContentDescriptor(),
-                        propertiesManager.getBeanDescriptor(ParametersTests.class));
+            new DefaultMacroDescriptor(new MacroId("Id"), "Name", "Description", new DefaultContentDescriptor(),
+                this.propertiesManager.getBeanDescriptor(ParametersTests.class));
     }
 
     @Test
@@ -94,6 +94,9 @@ public class DefaultMacroDescriptorTest
         assertEquals("feature", advancedDescriptor.getGroupDescriptor().getFeature());
         assertEquals(new DefaultParameterizedType(null, Map.class, String.class, Long.class),
                 advancedDescriptor.getDisplayType());
+
+        ParameterDescriptor displayHiddenDescriptor = map.get("displayhiddenparameter");
+        assertTrue(displayHiddenDescriptor.isDisplayHidden());
     }
 
     @Test

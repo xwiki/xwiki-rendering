@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
+import org.xwiki.properties.annotation.PropertyDisplayHidden;
 import org.xwiki.properties.annotation.PropertyDisplayType;
 import org.xwiki.properties.annotation.PropertyFeature;
 import org.xwiki.properties.annotation.PropertyGroup;
@@ -46,6 +47,8 @@ public class ParametersTests
     private String deprecatedParameter;
 
     private String advancedParameter;
+
+    private boolean displayHiddenParameter;
 
     public void setLowerparam(String lowerparam)
     {
@@ -139,6 +142,17 @@ public class ParametersTests
     public void setAdvancedParameter(String advancedParameter)
     {
         this.advancedParameter = advancedParameter;
+    }
+
+    @PropertyDisplayHidden
+    public boolean getDisplayHiddenParameter()
+    {
+        return this.displayHiddenParameter;
+    }
+
+    public void setDisplayHiddenParameter(boolean isDisplayHidden)
+    {
+        this.displayHiddenParameter = isDisplayHidden;
     }
 }
 
