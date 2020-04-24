@@ -29,10 +29,12 @@
   </parent>
   <artifactId>xwiki-rendering-transformation-macro</artifactId>
   <name>XWiki Rendering - Transformation - Macro</name>
-  <description>XWiki Rendering - Transformation - Macro</description>
+  <description>Transform Macro blocks by executing Macros</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.77</xwiki.jacoco.instructionRatio>
     <xwiki.pitest.mutationThreshold>91</xwiki.pitest.mutationThreshold>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>Rendering Macro Transformation</xwiki.extension.name>
   </properties>
   <dependencies>
     <dependency>
@@ -40,7 +42,6 @@
       <artifactId>xwiki-commons-properties</artifactId>
       <version>${commons.version}</version>
     </dependency>
-
     <!-- Testing Dependencies -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>
