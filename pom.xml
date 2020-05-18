@@ -218,29 +218,27 @@
         <groupId>org.revapi</groupId>
         <artifactId>revapi-maven-plugin</artifactId>
         <configuration>
-          <analysisConfiguration><![CDATA[
-            {
-              "revapi": {
-                "filter": {
-                  // We're ignoring all API incompatibilities from XWiki dependencies (i.e. commons)
-                  // since they're already covered by their own builds and we release all of them together.
-                  "archives": {
-                      "exclude": ["org\\.xwiki\\.commons:.*:.*"]
-                    }
-                },
-                "ignore" : [
-                  // Add more ignores below...
-                  {
-                    "code": "java.annotation.added",
-                    "old": "class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver",
-                    "new": "class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver",
-                    "annotation": "@org.xwiki.component.annotation.Component(staticRegistration = false)",
-                    "justification": "Not a breakage. Work around a bad code design and tell our Component checker that this is not a component"
-                   }
-                ]
-              }
-            }
-        ]]></analysisConfiguration>
+          <analysisConfiguration>
+            <revapi.filter>
+              <archives>
+                <!-- We're ignoring all API incompatibilities from XWiki dependencies (i.e. commons)
+                     since they're already covered by their own builds and we release all of them together. -->
+                <exclude>
+                  <item>org\.xwiki\.commons:.*:.*</item>
+                </exclude>
+              </archives>
+            </revapi.filter>
+            <!-- Add ignores here using the following syntax. You can use a single <revapi.ignore> entry but it
+                 cannot be empty
+            <revapi.ignore>
+              <item>
+                <code>java.class.removed</code>
+                <old>class org.xwiki.velocity.tools.CollectionsTool</old>
+                <justification>Not a Breakage. Moved to Legacy</justification>
+              </item>
+            </revapi.ignore>
+            -->
+          </analysisConfiguration>
         </configuration>
       </plugin>
     </plugins>
