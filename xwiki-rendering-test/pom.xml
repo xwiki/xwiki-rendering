@@ -32,7 +32,6 @@
   <packaging>jar</packaging>
   <description>XWiki Rendering - Test Framework</description>
   <properties>
-    <xwiki.pitest.mutationThreshold>12</xwiki.pitest.mutationThreshold>
     <!-- There's a factory class with lots of things to instantiate -->
     <checkstyle.suppressions.location>${basedir}/src/main/checkstyle/checkstyle-suppressions.xml</checkstyle.suppressions.location>
   </properties>
@@ -107,30 +106,6 @@
         </executions>
       </plugin>
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <!-- Exclude tests breaking pitest, see https://github.com/STAMP-project/pitest-descartes/issues/117
-             TODO: remove when fixed -->
-        <plugin>
-          <groupId>org.pitest</groupId>
-          <artifactId>pitest-maven</artifactId>
-          <executions>
-            <execution>
-              <id>pitest-check</id>
-              <goals>
-                <goal>mutationCoverage</goal>
-              </goals>
-              <configuration>
-                <excludedTestClasses>
-                  <param>org.xwiki.rendering.test.cts.RenderingTest</param>
-                  <param>org.xwiki.rendering.test.integration.RenderingTest</param>
-                </excludedTestClasses>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
   </build>
   <profiles>
     <profile>

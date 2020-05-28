@@ -32,7 +32,6 @@
   <description>Displays information, warning, error and success messages in a styled box format, using different icons</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.84</xwiki.jacoco.instructionRatio>
-    <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Message Macros</xwiki.extension.name>
   </properties>

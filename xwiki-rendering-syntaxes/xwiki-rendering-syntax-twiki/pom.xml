@@ -32,7 +32,6 @@
   <description>XWiki Rendering - Syntax - TWiki</description>
   <properties>
     <xwiki.jacoco.instructionRatio>1.00</xwiki.jacoco.instructionRatio>
-    <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
     <xwiki.extension.name>TWiki Syntax 1.0</xwiki.extension.name>
     <xwiki.extension.category>syntax</xwiki.extension.category>
   </properties>

@@ -32,8 +32,7 @@
   <description>XWiki Rendering - Syntax - APT</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.86</xwiki.jacoco.instructionRatio>
-    <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
-  </properties>
+    </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

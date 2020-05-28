@@ -32,7 +32,6 @@
   <description>Allows putting a reference/location in a page</description>
   <properties>
     <xwiki.jacoco.instructionRatio>1.00</xwiki.jacoco.instructionRatio>
-    <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Id Macro</xwiki.extension.name>
   </properties>

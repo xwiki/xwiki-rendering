@@ -32,7 +32,6 @@
   <description>Render wiki content in a graphical box which can contain a title and an image</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.96</xwiki.jacoco.instructionRatio>
-    <xwiki.pitest.mutationThreshold>0</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Box Macro</xwiki.extension.name>
   </properties>

@@ -32,7 +32,6 @@
   <description>Transform Macro blocks by executing Macros</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.77</xwiki.jacoco.instructionRatio>
-    <xwiki.pitest.mutationThreshold>91</xwiki.pitest.mutationThreshold>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Rendering Macro Transformation</xwiki.extension.name>
   </properties>
