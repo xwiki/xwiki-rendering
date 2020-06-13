@@ -52,14 +52,15 @@ public class PlainTextBlockFilterTest
         Parser plainTextParser = new Parser()
         {
             /**
-             * dummy implementation that returns the value if the local variable {@link #linkContents}.
+             * simplistic implementation that returns an empty XDOM for empty input
+             * or an XDOM with a single WordBlock otherwise
              * 
-             * @throws IOException
+             * @throws ParseException not really
              */
             @Override
             public XDOM parse(Reader source) throws ParseException
             {
-                String content = "";
+                String content;
                 try {
                     content = IOUtils.toString(source);
                 } catch (IOException ioe) {
