@@ -2,7 +2,7 @@
 
 [XWiki Rendering](http://rendering.xwiki.org/xwiki/bin/view/Main/) is a generic Rendering system that converts textual input in a given syntax (wiki syntax, HTML, etc) into another syntax (XHTML, etc).
 
-XWiki Platform, XWiki Enterprise, XWiki Commons and XWiki Rendering are part of the [XWiki.org](http://www.xwiki.org/) software forge. They are released together and share the same version.
+XWiki Platform, XWiki Commons and XWiki Rendering are part of the [XWiki.org](http://www.xwiki.org/) software forge. They are released together and share the same version.
 
 ## Documentation
 * [Documentation](http://rendering.xwiki.org/xwiki/bin/view/Main/)
@@ -24,5 +24,5 @@ Read our [Release Notes](http://www.xwiki.org/xwiki/bin/view/ReleaseNotes/).
 We're always looking for contributors! 
 You should read our [Get Involved Guide](http://dev.xwiki.org/xwiki/bin/view/Community/Contributing) or get in touch:
 * [Blog](http://www.xwiki.org/xwiki/bin/view/Blog/)
-* [Mailing Lists](http://dev.xwiki.org/xwiki/bin/view/Community/MailingLists)
-* [IRC](http://dev.xwiki.org/xwiki/bin/view/Community/IRC)
+* [Forum](https://dev.xwiki.org/xwiki/bin/view/Community/Discuss)
+* [Chat](https://dev.xwiki.org/xwiki/bin/view/Community/Chat)
