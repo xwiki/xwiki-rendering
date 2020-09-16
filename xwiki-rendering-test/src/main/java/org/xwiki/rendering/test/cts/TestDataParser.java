@@ -77,7 +77,7 @@ public class TestDataParser
     {
         ClassLoader classLoader = getClass().getClassLoader();
 
-        List<TestData> data = new ArrayList<TestData>();
+        List<TestData> data = new ArrayList<>();
         String syntaxDirectory = computeSyntaxDirectory(syntaxId);
 
         // Read the suite-level Configuration data.
@@ -153,7 +153,7 @@ public class TestDataParser
             }
         }
 
-        List<TestData> result = new ArrayList<TestData>();
+        List<TestData> result = new ArrayList<>();
         result.add(testDataIN);
         result.addAll(testDataINAliases);
         result.add(testDataOUT);
@@ -176,7 +176,7 @@ public class TestDataParser
         Pair<Pair<String, String>, Pair<String, String>> ctsData, TestDataConfiguration configuration,
         ClassLoader classLoader) throws IOException
     {
-        List<TestData> testDataINAliases = new ArrayList<TestData>();
+        List<TestData> testDataINAliases = new ArrayList<>();
         Pair<Pair<String, String>, Pair<String, String>> syntaxDataAlias;
         int i = 1;
         do {
@@ -270,8 +270,7 @@ public class TestDataParser
             out = inOut;
         }
 
-        return new ImmutablePair<Pair<String, String>, Pair<String, String>>(
-            new ImmutablePair<String, String>(in, inExtension), new ImmutablePair<String, String>(out, outExtension));
+        return new ImmutablePair<>(new ImmutablePair<>(in, inExtension), new ImmutablePair<>(out, outExtension));
     }
 
     /**
@@ -308,7 +307,7 @@ public class TestDataParser
             .setUrls(ClasspathHelper.forPackage(ctsRootPackageName))
             .filterInputsBy(new FilterBuilder.Include(FilterBuilder.prefix(ctsRootPackageName + DOT + packageFilter))));
 
-        Set<String> prefixes = new TreeSet<String>();
+        Set<String> prefixes = new TreeSet<>();
         for (String fullTestDirectoryName : reflections.getResources(Pattern.compile(pattern))) {
             // Remove the prefix and trailing extension
             String testDirectoryName = StringUtils.substringAfter(fullTestDirectoryName, ctsRootPackageName + SLASH);
