@@ -164,8 +164,8 @@ public class SyntaxType implements Comparable<SyntaxType>
     /**
      * Register a Syntax Type.
      *
-     * @param id see {@link SyntaxType#SyntaxType(String, String)}
-     * @param name see {@link SyntaxType#SyntaxType(String, String)}
+     * @param id see {@link SyntaxType#getId()}
+     * @param name see {@link SyntaxType#getName()}
      * @return the created Syntax Type object
      */
     private static SyntaxType register(String id, String name)
