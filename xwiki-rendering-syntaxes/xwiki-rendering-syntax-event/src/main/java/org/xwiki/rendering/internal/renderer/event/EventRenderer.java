@@ -25,7 +25,6 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
-import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 
@@ -42,7 +41,7 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 public class EventRenderer extends AbstractChainingPrintRenderer implements Initializable
 {
     @Override
-    public void initialize() throws InitializationException
+    public void initialize()
     {
         ListenerChain chain = new ListenerChain();
         setListenerChain(chain);
