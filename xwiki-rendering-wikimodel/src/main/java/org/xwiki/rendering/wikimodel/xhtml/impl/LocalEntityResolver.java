@@ -32,7 +32,7 @@ import org.xwiki.component.annotation.Component;
 //  - @Inject-ed component will not be injected, and the extending class will inherit the @Component annotation, which
 //  is bad - imagine for example that in the future we auto-generate components.txt based on the @Component annotation).
 @Component(staticRegistration = false)
-public class LocalEntityResolver extends org.xwiki.xml.internal.LocalEntityResolver
+public class LocalEntityResolver extends org.xwiki.xml.internal.Css4jEntityResolver
 {
 
 }
