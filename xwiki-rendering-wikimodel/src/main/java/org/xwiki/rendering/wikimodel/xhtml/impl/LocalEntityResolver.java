@@ -25,7 +25,7 @@ package org.xwiki.rendering.wikimodel.xhtml.impl;
  * @deprecated use org.xwiki.xml.internal.LocalEntityResolver instead
  */
 @Deprecated
-public class LocalEntityResolver extends org.xwiki.xml.internal.LocalEntityResolver
+public class LocalEntityResolver extends org.xwiki.xml.internal.Css4jEntityResolver
 {
 
 }
