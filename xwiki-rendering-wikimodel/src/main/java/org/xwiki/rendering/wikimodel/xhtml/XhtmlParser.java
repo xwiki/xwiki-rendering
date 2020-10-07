@@ -39,7 +39,7 @@ import org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter;
 import org.xwiki.rendering.wikimodel.xhtml.handler.CommentHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.XhtmlHandler;
-import org.xwiki.xml.internal.Css4jEntityResolver;
+import org.xwiki.xml.internal.LocalEntityResolver;
 
 /**
  * @version $Id$
@@ -122,7 +122,7 @@ public class XhtmlParser implements IWikiParser
 
             xmlReader
                 .setFeature("http://xml.org/sax/features/namespaces", isNamespacesEnabled());
-            xmlReader.setEntityResolver(new Css4jEntityResolver());
+            xmlReader.setEntityResolver(new LocalEntityResolver());
             xmlReader.setContentHandler(handler);
             xmlReader.setProperty(
                 "http://xml.org/sax/properties/lexical-handler",
