@@ -230,27 +230,7 @@
             </revapi.filter>
             <!-- Add ignores here using the following syntax. You can use a single <revapi.ignore> entry but it
                  cannot be empty -->
-            <revapi.ignore>
-              <item>
-                <code>java.class.noLongerInheritsFromClass</code>
-                <old>class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver</old>
-                <new>class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver</new>
-                <justification>Source breakage but not a backward compatible one. We consider it's
-                  acceptable</justification>
-              </item><item>
-              <code>java.class.nonFinalClassInheritsFromNewClass</code>
-              <old>class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver</old>
-              <new>class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver</new>
-              <justification>Source breakage but not a backward compatible one. We consider it's
-                acceptable</justification>
-            </item><item>
-              <code>java.class.nonFinalClassInheritsFromNewClass</code>
-              <old>class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver</old>
-              <new>class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver</new>
-              <justification>Source breakage but not a backward compatible one. We consider it's
-                acceptable</justification>
-            </item>
-            </revapi.ignore>
+            
           </analysisConfiguration>
         </configuration>
       </plugin>
