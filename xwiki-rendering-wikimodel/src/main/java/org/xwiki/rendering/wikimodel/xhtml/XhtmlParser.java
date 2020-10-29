@@ -27,6 +27,8 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xwiki.rendering.wikimodel.IWemListener;
@@ -143,6 +145,11 @@ public class XhtmlParser implements IWikiParser
             reader = fXmlReader;
         } else {
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+            try {
+                parserFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            } catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+                // On ParserConfigurationException, we throw it.
+            }
             SAXParser parser = parserFactory.newSAXParser();
             XMLReader xmlReader = parser.getXMLReader();
 
