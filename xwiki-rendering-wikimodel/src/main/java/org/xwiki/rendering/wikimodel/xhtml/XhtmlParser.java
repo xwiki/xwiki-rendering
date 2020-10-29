@@ -145,11 +145,14 @@ public class XhtmlParser implements IWikiParser
             reader = fXmlReader;
         } else {
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+
+            // Instructs the implementation to process XML securely.
             try {
                 parserFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
             } catch (SAXNotRecognizedException | SAXNotSupportedException e) {
-                // On ParserConfigurationException, we throw it.
+                // A really old parser is being used? Ignore the problem and continue.
             }
+
             SAXParser parser = parserFactory.newSAXParser();
             XMLReader xmlReader = parser.getXMLReader();
 

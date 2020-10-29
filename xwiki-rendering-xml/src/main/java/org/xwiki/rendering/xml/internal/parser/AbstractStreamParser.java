@@ -66,10 +66,12 @@ public abstract class AbstractStreamParser implements ContentHandlerStreamParser
     public void initialize() throws InitializationException
     {
         this.parserFactory = SAXParserFactory.newInstance();
+
+        // Instructs the implementation to process XML securely.
         try {
             this.parserFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
         } catch (SAXNotRecognizedException | SAXNotSupportedException e) {
-            // A really old parser is being used?
+            // A really old parser is being used? Ignore the problem and continue.
         } catch (ParserConfigurationException e) {
             // Not good, better throw it.
             throw new InitializationException("Error configuring SAXParserFactory.", e);
