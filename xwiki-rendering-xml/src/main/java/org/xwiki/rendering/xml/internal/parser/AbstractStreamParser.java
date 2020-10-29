@@ -29,6 +29,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -39,6 +41,7 @@ import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParserFactory;
+import org.xwiki.xml.internal.LocalEntityResolver;
 
 /**
  * Base class for XML based syntax stream parsers.
@@ -63,6 +66,16 @@ public abstract class AbstractStreamParser implements ContentHandlerStreamParser
     public void initialize() throws InitializationException
     {
         this.parserFactory = SAXParserFactory.newInstance();
+
+        // Instructs the implementation to process XML securely.
+        try {
+            this.parserFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        } catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+            // A really old parser is being used? Ignore the problem and continue.
+        } catch (ParserConfigurationException e) {
+            // Not good, better throw it.
+            throw new InitializationException("Error configuring SAXParserFactory.", e);
+        }
     }
 
     @Override
@@ -103,6 +116,9 @@ public abstract class AbstractStreamParser implements ContentHandlerStreamParser
     {
         SAXParser saxParser = this.parserFactory.newSAXParser();
         XMLReader xmlReader = saxParser.getXMLReader();
+
+        // Set an EntityResolver so DTDs can be found.
+        xmlReader.setEntityResolver(new LocalEntityResolver());
 
         ContentHandlerStreamParser parser = createParser(listener);
         xmlReader.setContentHandler(parser);
