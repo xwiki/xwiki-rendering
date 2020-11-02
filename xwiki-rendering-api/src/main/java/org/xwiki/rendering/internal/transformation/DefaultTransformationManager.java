@@ -21,7 +21,9 @@ package org.xwiki.rendering.internal.transformation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -95,19 +97,27 @@ public class DefaultTransformationManager implements TransformationManager
     @Override
     public void performTransformations(Block block, TransformationContext context) throws TransformationException
     {
-        boolean error = false;
+        Map<String, String> transformationsInError = null;
         for (Transformation transformation : getTransformations()) {
             try {
                 ((MutableRenderingContext) this.renderingContext).transformInContext(transformation, context, block);
             } catch (Exception e) {
                 // Continue running the other transformations
-                this.logger.error("Failed to execute transformation", e);
-                error = true;
+                if (transformationsInError == null) {
+                    transformationsInError = new HashMap<>();
+                }
+                transformationsInError.put(transformation.getClass().getName(),
+                    ExceptionUtils.getStackTrace(e));
             }
         }
-        if (error) {
-            throw new TransformationException("One or several transformations failed to execute properly. "
-                + "See the logs for details.");
+        if (transformationsInError != null) {
+            StringBuilder builder = new StringBuilder();
+            for (Map.Entry<String, String> entry : transformationsInError.entrySet()) {
+                builder.append(String.format("- Transformation: [%s]\n", entry.getKey()));
+                builder.append(entry.getValue());
+            }
+            throw new TransformationException(String.format("The following transformations failed to execute "
+                + "properly:\n%s", builder.toString()));
         }
     }
 
@@ -116,11 +126,10 @@ public class DefaultTransformationManager implements TransformationManager
      */
     public List<Transformation> getTransformations()
     {
-        List<Transformation> transformations = new ArrayList<Transformation>();
+        List<Transformation> transformations = new ArrayList<>();
         for (String hint : this.configuration.getTransformationNames()) {
             try {
-                transformations.add(this.componentManagerProvider.get().<Transformation>getInstance(
-                    Transformation.class, hint));
+                transformations.add(this.componentManagerProvider.get().getInstance(Transformation.class, hint));
             } catch (ComponentLookupException e) {
                 this.logger.warn("Failed to locate transformation with hint [{}], ignoring it. "
                     + "Root reason [{}]", hint, ExceptionUtils.getRootCauseMessage(e));
