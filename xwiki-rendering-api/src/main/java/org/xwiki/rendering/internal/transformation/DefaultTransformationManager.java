@@ -117,7 +117,7 @@ public class DefaultTransformationManager implements TransformationManager
                 builder.append(entry.getValue());
             }
             throw new TransformationException(String.format("The following transformations failed to execute "
-                + "properly:\n%s", builder.toString()));
+                + "properly: [\n%s]", builder.toString()));
         }
     }
 
