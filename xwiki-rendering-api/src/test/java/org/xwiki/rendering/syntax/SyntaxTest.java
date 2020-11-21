@@ -33,10 +33,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version $Id$
  * @since 1.5M2
  */
-public class SyntaxTest
+class SyntaxTest
 {
     @Test
-    public void equality()
+    void equality()
     {
         Syntax syntax1 = new Syntax(new SyntaxType("mytype", "My Type"), "1.0");
         Syntax syntax2 = new Syntax(new SyntaxType("mytype", "My Type"), "1.0");
@@ -51,7 +51,7 @@ public class SyntaxTest
     }
 
     @Test
-    public void nonEquality()
+    void nonEquality()
     {
         Syntax syntax1 = new Syntax(SyntaxType.XWIKI, "1.0");
         Syntax syntax2 = new Syntax(SyntaxType.XWIKI, "2.0");
@@ -62,7 +62,7 @@ public class SyntaxTest
     }
 
     @Test
-    public void toStringValidation()
+    void toStringValidation()
     {
         Syntax syntax = new Syntax(SyntaxType.XWIKI, "1.0");
         assertEquals("XWiki 1.0", syntax.toString());
@@ -70,14 +70,14 @@ public class SyntaxTest
     }
 
     @Test
-    public void getSyntaxTypes()
+    void getSyntaxTypes()
     {
         assertEquals(18, SyntaxType.getSyntaxTypes().size());
         assertEquals(new SyntaxType("xwiki", "XWiki"), SyntaxType.getSyntaxTypes().get("xwiki"));
     }
 
     @Test
-    public void compareToValidation()
+    void compareToValidation()
     {
         Syntax syntax1 = new Syntax(new SyntaxType("mytype1", "BBB"), "1.0");
         Syntax syntax2 = new Syntax(new SyntaxType("mytype2", "AAA"), "1.0");
@@ -89,7 +89,7 @@ public class SyntaxTest
     }
 
     @Test
-    public void valueOfOk() throws Exception
+    void valueOfOk() throws Exception
     {
         Syntax syntax = Syntax.valueOf("type/version");
         assertEquals("type", syntax.getType().getId());
@@ -98,7 +98,7 @@ public class SyntaxTest
     }
 
     @Test
-    public void valueOfWhenInvalid()
+    void valueOfWhenInvalid()
     {
         Throwable exception = assertThrows(ParseException.class, () -> {
             Syntax.valueOf("invalid");
@@ -107,7 +107,7 @@ public class SyntaxTest
     }
 
     @Test
-    public void valueOfWhenNull()
+    void valueOfWhenNull()
     {
         Throwable exception = assertThrows(ParseException.class, () -> {
             Syntax.valueOf(null);
