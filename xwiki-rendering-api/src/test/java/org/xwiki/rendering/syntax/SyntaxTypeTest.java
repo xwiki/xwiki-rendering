@@ -30,10 +30,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version $Id$
  * @since 8.2M1
  */
-public class SyntaxTypeTest
+class SyntaxTypeTest
 {
     @Test
-    public void comparisons()
+    void comparisons()
     {
         SyntaxType syntaxType1 = new SyntaxType("mytype1", "BBB");
         SyntaxType syntaxType2 = new SyntaxType("mytype1", "AAA");
