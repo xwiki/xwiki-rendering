@@ -107,7 +107,7 @@ public class CompatibilityTestSuite extends Suite
      * We have one Test Runner per Syntax Test to execute, so that each test is reported individually and also to
      * provide test isolation.
      */
-    private final List<Runner> runners = new ArrayList<Runner>();
+    private final List<Runner> runners = new ArrayList<>();
 
     /**
      * Only called reflectively. Do not use programmatically.
@@ -118,7 +118,7 @@ public class CompatibilityTestSuite extends Suite
      */
     public CompatibilityTestSuite(Class<?> klass) throws Exception
     {
-        super(RenderingTest.class, Collections.<Runner>emptyList());
+        super(RenderingTest.class, Collections.emptyList());
 
         try {
             this.testInstance = klass.newInstance();
