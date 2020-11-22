@@ -308,7 +308,7 @@ public class RenderingTest
         String fullSpecialSyntaxStart = String.format("%svelocity:", SPECIAL_SYNTAX_START);
         int pos = content.indexOf(fullSpecialSyntaxStart);
         if (pos > -1) {
-            builder.append(content.substring(0, pos));
+            builder.append(content, 0, pos);
             // Find end of velocity definition
             int pos2 = content.indexOf(SPECIAL_SYNTAX_END, pos + fullSpecialSyntaxStart.length());
             if (pos2 == -1) {
@@ -381,7 +381,7 @@ public class RenderingTest
             if (pos2 == -1) {
                 throw new RuntimeException("Invalid regex declaration: missing closing part " + SPECIAL_SYNTAX_END);
             }
-            builder.append(content.substring(pos + fullSpecialSyntaxStart.length(), pos2));
+            builder.append(content, pos + fullSpecialSyntaxStart.length(), pos2);
             builder.append(escapeRegexContent(content.substring(pos2 + SPECIAL_SYNTAX_END.length())));
         } else {
             builder.append(Pattern.quote(content));
