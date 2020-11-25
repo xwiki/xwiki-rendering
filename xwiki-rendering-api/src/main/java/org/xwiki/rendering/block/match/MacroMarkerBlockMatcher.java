@@ -25,7 +25,6 @@ import java.util.List;
 
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroMarkerBlock;
-import org.xwiki.stability.Unstable;
 
 /**
  * Implementation of {@link BlockMatcher} which matches {@link MacroMarkerBlock}s for a list of provided macro names.
@@ -33,7 +32,6 @@ import org.xwiki.stability.Unstable;
  * @version $Id$
  * @since 11.4
  */
-@Unstable
 public class MacroMarkerBlockMatcher extends ClassBlockMatcher
 {
     /**

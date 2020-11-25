@@ -19,8 +19,6 @@
  */
 package org.xwiki.rendering.listener.reference;
 
-import org.xwiki.stability.Unstable;
-
 /**
  * The Resource type. It can be one of:
  * <ul>
@@ -56,7 +54,6 @@ public class ResourceType
      * 
      * @since 10.6RC1
      */
-    @Unstable
     public static final ResourceType PAGE = new ResourceType("page");
 
     /**

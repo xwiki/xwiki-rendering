@@ -30,7 +30,6 @@ import org.xwiki.rendering.internal.renderer.xhtml.AnnotatedXHTMLChainingRendere
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
-import org.xwiki.stability.Unstable;
 
 /**
  * Renderer that generates Annotated XHTML from a XDOM resulting from the parsing of text containing HTML mixed with
@@ -42,7 +41,6 @@ import org.xwiki.stability.Unstable;
 @Component
 @Named("htmlmacro+annotatedxhtml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
-@Unstable
 public class HTMLMacroAnnotatedXHTMLRenderer extends AbstractHTMLMacroRenderer
 {
     /**

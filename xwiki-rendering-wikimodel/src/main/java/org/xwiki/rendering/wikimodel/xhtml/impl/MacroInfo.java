@@ -28,7 +28,6 @@ import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
-import org.xwiki.stability.Unstable;
 
 /**
  * This class represents some generic information related to macro and their parsing / rendering.
@@ -36,7 +35,6 @@ import org.xwiki.stability.Unstable;
  * @version $Id$
  * @since 10.10RC1
  */
-@Unstable
 public class MacroInfo
 {
     /**
@@ -131,7 +129,6 @@ public class MacroInfo
      * @param parameters the parameters to set.
      * @since 11.1RC1
      */
-    @Unstable
     public void setParameters(WikiParameters parameters)
     {
         this.parameters = parameters;
@@ -159,7 +156,6 @@ public class MacroInfo
      * @return the scanner context that is used to parse the content of the macro.
      * @since 11.4RC1
      */
-    @Unstable
     public WikiScannerContext getContentScannerContext()
     {
         return contentScannerContext;
@@ -169,7 +165,6 @@ public class MacroInfo
      * @param contentScannerContext the scanner context that is used to parse the content of the macro.
      * @since 11.4RC1
      */
-    @Unstable
     public void setContentScannerContext(WikiScannerContext contentScannerContext)
     {
         this.contentScannerContext = contentScannerContext;
@@ -180,7 +175,6 @@ public class MacroInfo
      * @param scannerContext the scanner context that is used to parse the specified parameter of the macro.
      * @since 11.4RC1
      */
-    @Unstable
     public void setParameterScannerContext(String parameter, WikiScannerContext scannerContext)
     {
         this.parameterScannerContextMap.put(parameter, scannerContext);
@@ -191,7 +185,6 @@ public class MacroInfo
      * @return the scanner context that is used to parse the specified parameter of the macro.
      * @since 11.4RC1
      */
-    @Unstable
     public WikiScannerContext getParameterScannerContext(String parameter)
     {
         return this.parameterScannerContextMap.get(parameter);

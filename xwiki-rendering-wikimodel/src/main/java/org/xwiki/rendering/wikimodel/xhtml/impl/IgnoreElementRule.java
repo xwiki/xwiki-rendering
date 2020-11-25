@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import org.xwiki.stability.Unstable;
-
 /**
  * Define a rule to know if the elements should be ignored in {@link TagStack}.
  * If the rule is active, then all the elements should be ignored. But if a given element match the given predicate
@@ -33,7 +31,6 @@ import org.xwiki.stability.Unstable;
  * @version $Id$
  * @since 10.10RC1
  */
-@Unstable
 public class IgnoreElementRule
 {
     private boolean isActive;
@@ -70,7 +67,6 @@ public class IgnoreElementRule
      * @return the tag context that is used for switching rule.
      * @since 11.4RC1
      */
-    @Unstable
     public TagContext getTagContext()
     {
         return tagContext;
@@ -80,7 +76,6 @@ public class IgnoreElementRule
      * @return true if we are in a begin element. This can be used inside the predicate to activate the rule.
      * @since 11.4RC1
      */
-    @Unstable
     public boolean isBeginElement()
     {
         return isBeginElement;
@@ -90,7 +85,6 @@ public class IgnoreElementRule
      * @return a mutable rule context to allow get/set information that could be used for the predicate.
      * @since 11.4RC1
      */
-    @Unstable
     public Map<String, Object> getRuleContext()
     {
         return ruleContext;

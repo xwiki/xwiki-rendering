@@ -23,8 +23,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.xwiki.stability.Unstable;
-
 /**
  * Represents a set of MetaData.
  *
@@ -64,7 +62,6 @@ public class MetaData
      *
      * @since 10.10
      */
-    @Unstable
     public static final String NON_GENERATED_CONTENT = "non-generated-content";
 
     /**
@@ -72,7 +69,6 @@ public class MetaData
      *
      * @since 11.1RC1
      */
-    @Unstable
     public static final String PARAMETER_NAME = "parameter-name";
 
     /**

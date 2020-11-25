@@ -25,7 +25,6 @@ import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
-import org.xwiki.stability.Unstable;
 
 /**
  * Define a generic HTMLMacroRenderer with the right {@link ListenerChain}.
@@ -33,7 +32,6 @@ import org.xwiki.stability.Unstable;
  * @version $Id$
  * @since 11.4RC1
  */
-@Unstable
 public abstract class AbstractHTMLMacroRenderer extends AbstractChainingPrintRenderer implements Initializable
 {
     /**

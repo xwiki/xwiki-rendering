@@ -37,7 +37,6 @@ import org.xwiki.rendering.macro.descriptor.DefaultMacroDescriptor;
 import org.xwiki.rendering.macro.descriptor.DefaultParameterDescriptor;
 import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
 import org.xwiki.rendering.macro.descriptor.ParameterDescriptor;
-import org.xwiki.stability.Unstable;
 
 /**
  * Helper to implement Macro, providing some default implementation. We recommend Macro writers to extend this class.
@@ -265,7 +264,6 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      *         {@code java.util.List<org.xwiki.rendering.block.Block>} for content of type {@code List<Block>}
      * @since 11.4RC1
      */
-    @Unstable
     public static MetaData getNonGeneratedContentMetaData(ContentDescriptor contentDescriptor)
     {
         MetaData metaData = new MetaData();
@@ -306,7 +304,6 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      *         {@code java.util.List<org.xwiki.rendering.block.Block>} for content of type {@code List<Block>}
      * @since 11.4RC1
      */
-    @Unstable
     public static MetaData getNonGeneratedContentMetaData(Map<String, ParameterDescriptor> parameterDescriptorMap,
         String name)
     {
@@ -335,7 +332,6 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      *         {@code java.util.List<org.xwiki.rendering.block.Block>} for content of type {@code List<Block>}
      * @since 11.1RC1
      */
-    @Unstable
     protected MetaData getNonGeneratedContentMetaData(String parameterName)
     {
         MetaData result;
