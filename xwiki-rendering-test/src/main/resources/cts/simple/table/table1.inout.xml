@@ -20,22 +20,6 @@
 -->
 
 <document>
-  <p>
-    <metadata>
-      <metadata class="linked-hash-map">
-        <entry>
-          <string>syntax</string>
-          <org.xwiki.rendering.syntax.Syntax>
-            <type>
-              <name>${{{velocity:$syntax.type.name}}}</name>
-              <id>${{{velocity:$syntax.type.id}}}</id>
-            </type>
-            <version>${{{velocity:$syntax.version}}}</version>
-          </org.xwiki.rendering.syntax.Syntax>
-        </entry>
-      </metadata>
-    </metadata>
-  </p>
   <table>
     <tableRow>
       <tableHeadCell>

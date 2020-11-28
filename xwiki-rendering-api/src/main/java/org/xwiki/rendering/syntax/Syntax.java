@@ -28,9 +28,20 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.parser.ParseException;
 
 /**
- * Represents a wiki syntax that the user can use to enter wiki content. A syntax is made of two parts: a type (eg
- * XWiki, Confluence, MediaWiki, etc) and a version (1.0, 2.0, etc). For example the XWiki 1.0 syntax, the XWiki 2.0
- * syntax, the Confluence 1.0 syntax, etc.
+ * Represents a wiki syntax that the user can use to enter wiki content. A syntax is made of three parts:
+ * <ul>
+ *   <li>a syntax type (e.g. {@ode xwiki}, {@code confluence}, {@code confluence+xhtml}, etc).</li>
+ *   <li>a version ({@code 1.0}, {@code 2.0}, etc.</li>
+ *   <li>an optional qualifier which is a free form string adding some additional information about the Syntax when
+ *       serialized as a String). Can be used for example to mark a Syntax as experimental.</li>
+ * </ul>
+ * The syntax id string format is: {@code <type>/<version>}.
+ * Examples:
+ * <ul>
+ *   <li>{@code xwiki/2.1}</li>
+ *   <li>{@code markdown+commonmark/1.2}</li>
+ *   <li>{@code sometype+variant1+...+variantN/1.0}</li>
+ * </ul>
  *
  * @version $Id$
  * @since 2.0RC1
@@ -199,8 +210,7 @@ public class Syntax implements Comparable<Syntax>
      */
     public Syntax(SyntaxType type, String version)
     {
-        this.type = type;
-        this.version = version;
+        this(type, version, null);
     }
 
     /**
@@ -210,7 +220,8 @@ public class Syntax implements Comparable<Syntax>
      */
     public Syntax(SyntaxType type, String version, String qualifier)
     {
-        this(type, version);
+        this.type = type;
+        this.version = version;
         this.qualifier = qualifier;
     }
 
@@ -231,16 +242,8 @@ public class Syntax implements Comparable<Syntax>
             throw new ParseException(String.format("Invalid Syntax format [%s]", syntaxIdAsString));
         }
 
-        String syntaxId = matcher.group(1);
+        SyntaxType syntaxType = SyntaxType.valueOf(matcher.group(1));
         String version = matcher.group(2);
-
-        // For well-known syntaxes, get the Syntax Name from the registered SyntaxType, otherwise use the id as both
-        // the human readable name and the technical id (since the syntax string doesn't contain any information about
-        // the pretty name of a syntax type).
-        SyntaxType syntaxType = SyntaxType.getSyntaxTypes().get(syntaxId);
-        if (syntaxType == null) {
-            syntaxType = new SyntaxType(syntaxId, syntaxId);
-        }
 
         return new Syntax(syntaxType, version);
     }
@@ -276,7 +279,10 @@ public class Syntax implements Comparable<Syntax>
     public String toIdString()
     {
         if (this.idStringCache == null) {
-            this.idStringCache = getType().getId() + "/" + getVersion().toLowerCase();
+            StringBuilder idString = new StringBuilder();
+            idString.append(getType().toIdString());
+            idString.append('/').append(getVersion().toLowerCase());
+            this.idStringCache = idString.toString();
         }
 
         return this.idStringCache;
@@ -285,13 +291,18 @@ public class Syntax implements Comparable<Syntax>
     @Override
     public String toString()
     {
-        return getType().toString() + " " + getVersion() + (getQualifier() != null ? " (" + getQualifier() + ")" : "");
+        return String.format("%s %s%s", getType().toString(), getVersion(),
+            getQualifier() != null ? " (" + getQualifier() + ")" : "");
     }
 
     @Override
     public int hashCode()
     {
-        return new HashCodeBuilder(5, 7).append(getType()).append(getVersion()).append(getQualifier()).toHashCode();
+        return new HashCodeBuilder(5, 7)
+            .append(getType())
+            .append(getVersion())
+            .append(getQualifier())
+            .toHashCode();
     }
 
     @Override
@@ -304,15 +315,20 @@ public class Syntax implements Comparable<Syntax>
             return false;
         }
         Syntax rhs = (Syntax) object;
-        return new EqualsBuilder().append(getType(), rhs.getType()).append(getVersion(), rhs.getVersion())
-            .append(getQualifier(), rhs.getQualifier()).isEquals();
+        return new EqualsBuilder()
+            .append(getType(), rhs.getType())
+            .append(getVersion(), rhs.getVersion())
+            .append(getQualifier(), rhs.getQualifier())
+            .isEquals();
     }
 
     @Override
     public int compareTo(Syntax syntax)
     {
-        return new CompareToBuilder().append(getType(), syntax.getType())
+        return new CompareToBuilder()
+            .append(getType(), syntax.getType())
             // TODO: Add a real version parser to compare the versions
-            .append(getVersion(), syntax.getVersion()).toComparison();
+            .append(getVersion(), syntax.getVersion())
+            .toComparison();
     }
 }

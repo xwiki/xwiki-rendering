@@ -24,6 +24,7 @@ import java.io.StringWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.junit.ComparisonFailure;
@@ -173,8 +174,16 @@ public class RenderingTest
             validatedSyntax = expectedSyntax;
         }
 
-        String evaluatedInputData = evaluateContent(inputData, validatedSyntax);
-        String evaluatedOutputData = evaluateContent(expectedOutputData, validatedSyntax);
+        String fullExpectedOutputData = expectedOutputData;
+        String fullInputData = inputData;
+        if (isXDOMXMLSyntax(inputSyntaxId)) {
+            fullInputData = insertXMLMetadata(inputData, validatedSyntax);
+        }
+        if (isXDOMXMLSyntax(outputSyntaxId)) {
+            fullExpectedOutputData = insertXMLMetadata(expectedOutputData, validatedSyntax);
+        }
+        String evaluatedInputData = evaluateContent(fullInputData, validatedSyntax);
+        String evaluatedOutputData = evaluateContent(fullExpectedOutputData, validatedSyntax);
 
         String result = convert(evaluatedInputData, inputSyntax.toIdString(), expectedSyntax.toIdString());
         try {
@@ -230,7 +239,12 @@ public class RenderingTest
      */
     private boolean isXMLSyntax(String syntaxId)
     {
-        return syntaxId.startsWith("xdom+xml") || syntaxId.startsWith("docbook");
+        return isXDOMXMLSyntax(syntaxId) || syntaxId.startsWith("docbook");
+    }
+
+    private boolean isXDOMXMLSyntax(String syntaxId)
+    {
+        return syntaxId.startsWith("xdom+xml");
     }
 
     private String convert(String source, String sourceSyntaxId, String targetSyntaxId) throws Exception
@@ -293,6 +307,44 @@ public class RenderingTest
     private String normalizeXMLContent(String content, String syntaxId) throws Exception
     {
         return convert(content, syntaxId, syntaxId);
+    }
+
+    private String insertXMLMetadata(String content, org.xwiki.rendering.syntax.Syntax validatedSyntax)
+    {
+        // We insert the metadata after the <document> part
+        String variantsText;
+        if (validatedSyntax.getType().getVariants().isEmpty()) {
+            variantsText = "<variants class=\"empty-list\"/>";
+        } else {
+            StringBuilder builder = new StringBuilder();
+            builder.append("<variants>");
+            for (String variant : validatedSyntax.getType().getVariants()) {
+                builder.append("<variant>").append(variant).append("</variant");
+            }
+            builder.append("</variants>");
+            variantsText = builder.toString();
+        }
+
+        String metadataXML = "<p>"
+            + "  <metadata>"
+            + "    <metadata class=\"linked-hash-map\">"
+            + "      <entry>"
+            + "        <string>syntax</string>"
+            + "        <org.xwiki.rendering.syntax.Syntax>"
+            + "          <type>"
+            + "          <name>" + validatedSyntax.getType().getName() + "</name>"
+            + "          " + variantsText
+            + "          <id>" + validatedSyntax.getType().getId() + "</id>"
+            + "          </type>"
+            + "          <version>" + validatedSyntax.getVersion() + "</version>"
+            + "        </org.xwiki.rendering.syntax.Syntax>"
+            + "      </entry>"
+            + "    </metadata>"
+            + "  </metadata>"
+            + "</p>";
+        StringBuilder builder = new StringBuilder(content);
+        builder.insert(StringUtils.indexOf(content, "<document>") + 10, metadataXML);
+        return builder.toString();
     }
 
     /**
