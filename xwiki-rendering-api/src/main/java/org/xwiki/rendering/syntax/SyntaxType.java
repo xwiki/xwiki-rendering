@@ -19,12 +19,35 @@
  */
 package org.xwiki.rendering.syntax;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.xwiki.rendering.parser.ParseException;
+import org.xwiki.text.StringUtils;
 
 /**
+ * A syntax type is made of three parts:
+ * <ul>
+ *   <li>a base syntax type (e.g. {@ode xwiki}, {@code confluence}, {@code mediawiki}, etc).</li>
+ *   <li>zero or more variants, which represent Syntax type variations. For example the {@code markdown} syntax has
+ *       the {@code commonmark} variant and the {@code github} variant.</li>
+ *   <li>a human-readable name (e.g. {@code XWiki}, {@code Confluence}, {@code MediaWiki}).</li>
+ * </ul>
+ * The syntax type string format is: {@code <base type>[+<variant>]*}.
+ * Examples:
+ * <ul>
+ *   <li>{@code xwiki}</li>
+ *   <li>{@code markdown+commonmark}</li>
+ *   <li>{@code sometype+variant1+...+variantN}</li>
+ * </ul>
+ *
  * @version $Id$
  * @since 2.0RC1
  */
@@ -50,7 +73,8 @@ public class SyntaxType implements Comparable<SyntaxType>
      *
      * @since 5.3M1
      */
-    public static final SyntaxType CONFLUENCEXHTML = register("confluence+xhtml", CONFLUENCE.getName());
+    public static final SyntaxType CONFLUENCEXHTML = register("confluence", Arrays.asList("xhtml"),
+        "Confluence (XHTML)");
 
     /**
      * MediaWiki wiki syntax.
@@ -124,7 +148,7 @@ public class SyntaxType implements Comparable<SyntaxType>
      * 
      * @since 3.3M1
      */
-    public static final SyntaxType XDOMXML = register("xdom+xml", "XML based XDOM");
+    public static final SyntaxType XDOMXML = register("xdom", Arrays.asList("xml"), "XDOM (XML)");
 
     /**
      * MarkDown wiki syntax.
@@ -151,14 +175,33 @@ public class SyntaxType implements Comparable<SyntaxType>
     private String id;
 
     /**
+     * @see #getVariants()
+     */
+    private List<String> variants;
+
+    private transient volatile String idStringCache;
+
+    /**
      * @param id the technical id of the Syntax type (ex "annotatedxhtml")
      * @param name the human readable name of the Syntax type (ex "Annotated XHTML")
      * @since 2.0M3
      */
     public SyntaxType(String id, String name)
     {
-        this.name = name;
+        this(id, Collections.emptyList(), name);
+    }
+
+    /**
+     * @param id the technical id of the Syntax type (ex "annotatedxhtml")
+     * @param name the human readable name of the Syntax type (ex "Annotated XHTML")
+     * @param variants the variants (can be empty)
+     * @since 12.11RC1
+     */
+    public SyntaxType(String id, List<String> variants, String name)
+    {
         this.id = id;
+        this.variants = variants == null ? Collections.emptyList() : variants;
+        this.name = name;
     }
 
     /**
@@ -170,8 +213,21 @@ public class SyntaxType implements Comparable<SyntaxType>
      */
     private static SyntaxType register(String id, String name)
     {
-        SyntaxType syntaxType = new SyntaxType(id, name);
-        KNOWN_SYNTAX_TYPES.put(id, syntaxType);
+        return register(id, Collections.emptyList(), name);
+    }
+
+    /**
+     * Register a Syntax Type.
+     *
+     * @param id see {@link SyntaxType#getId()}
+     * @param variants the variants (can be empty)
+     * @param name see {@link SyntaxType#getName()}
+     * @return the created Syntax Type object
+     */
+    private static SyntaxType register(String id, List<String> variants, String name)
+    {
+        SyntaxType syntaxType = new SyntaxType(id, variants, name);
+        KNOWN_SYNTAX_TYPES.put(computeIdString(id, variants), syntaxType);
         return syntaxType;
     }
 
@@ -193,12 +249,34 @@ public class SyntaxType implements Comparable<SyntaxType>
     }
 
     /**
+     * @return the variants (can never be null but can be empty)
+     * @since 12.11RC1
+     */
+    public List<String> getVariants()
+    {
+        return this.variants;
+    }
+
+    /**
      * @return the human readable name of the Syntax type (ex "Annotated XHTML")
      * @since 2.0M3
      */
     public String getName()
     {
         return this.name;
+    }
+
+    /**
+     * @return a unique String identifier, does not contain the display name. Usable when searching for parsers and
+     *         renderers components for example.
+     * @since 12.11RC1
+     */
+    public String toIdString()
+    {
+        if (this.idStringCache == null) {
+            this.idStringCache = computeIdString(getId(), getVariants());
+        }
+        return this.idStringCache;
     }
 
     /**
@@ -212,46 +290,79 @@ public class SyntaxType implements Comparable<SyntaxType>
     @Override
     public String toString()
     {
-        return this.name;
+        return getName();
     }
 
     @Override
     public int hashCode()
     {
-        // Random number. See http://www.technofundo.com/tech/java/equalhash.html for the detail of this
-        // algorithm.
-        // Note that the name isn't part of the hashCode computation since it's not part of the Syntax type's identity
-        int hash = 7;
-        hash = 31 * hash + (null == getId() ? 0 : getId().hashCode());
-        return hash;
+        return new HashCodeBuilder(7, 7)
+            .append(getId())
+            .append(getVariants())
+            .toHashCode();
     }
 
     @Override
     public boolean equals(Object object)
     {
-        boolean result;
-
-        // See http://www.technofundo.com/tech/java/equalhash.html for the detail of this algorithm.
-        if (this == object) {
-            result = true;
-        } else {
-            if ((object == null) || (object.getClass() != this.getClass())) {
-                result = false;
-            } else {
-                // Object must be Syntax at this point.
-                SyntaxType syntaxType = (SyntaxType) object;
-                // Note that the name isn't part of the hashCode computation since it's not part of the Syntax type's
-                // identity.
-                result = getId() == syntaxType.getId() || (getId() != null && getId().equals(syntaxType.getId()));
-            }
+        if (object == this) {
+            return true;
         }
-
-        return result;
+        if (!(object instanceof SyntaxType)) {
+            return false;
+        }
+        SyntaxType rhs = (SyntaxType) object;
+        return new EqualsBuilder()
+            .append(getId(), rhs.getId())
+            .append(getVariants(), rhs.getVariants())
+            .isEquals();
     }
 
     @Override
     public int compareTo(SyntaxType syntaxType)
     {
-        return new CompareToBuilder().append(getName(), syntaxType.getName()).toComparison();
+        return new CompareToBuilder()
+            .append(getName(), syntaxType.getName())
+            .toComparison();
+    }
+
+    /**
+     * @param syntaxTypesString the syntax type as a string (eg {@code xwiki}, {@code confluence+xhtml})
+     * @return the parsed syntax type  as a SyntaxType object
+     * @throws ParseException in case the string doesn't represent a valid syntax type
+     * @since 12.11RC1
+     */
+    public static SyntaxType valueOf(String syntaxTypesString) throws ParseException
+    {
+        if (syntaxTypesString == null) {
+            throw new ParseException("The passed Syntax type cannot be NULL");
+        }
+
+        String[] tokens = StringUtils.split(syntaxTypesString, '+');
+        String id = tokens[0];
+        List<String> variants = new ArrayList<>();
+        for (int i = 1; i < tokens.length; i++) {
+            variants.add(tokens[i]);
+        }
+
+        // For well-known syntax types, get the Syntax name from the registered Syntax types, otherwise use the id as
+        // both the human readable name and the technical id (since the syntax type string doesn't contain any
+        // information about the pretty name of a syntax type).
+        SyntaxType syntaxType = SyntaxType.getSyntaxTypes().get(id);
+        if (syntaxType == null) {
+            syntaxType = new SyntaxType(id, variants, id);
+        }
+
+        return syntaxType;
+    }
+
+    private static String computeIdString(String id, List<String> variants)
+    {
+        StringBuilder idString = new StringBuilder();
+        idString.append(id);
+        for (String variant : variants) {
+            idString.append('+').append(variant);
+        }
+        return idString.toString();
     }
 }

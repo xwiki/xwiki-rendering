@@ -19,9 +19,15 @@
  */
 package org.xwiki.rendering.syntax;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.parser.ParseException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -46,6 +52,7 @@ class SyntaxTest
         assertEquals("My Type", syntax1.getType().getName());
 
         assertEquals(syntax2, syntax1);
+
         // The syntax type name is not part of the equality test.
         assertEquals(syntax3, syntax1);
     }
@@ -64,9 +71,9 @@ class SyntaxTest
     @Test
     void toStringValidation()
     {
-        Syntax syntax = new Syntax(SyntaxType.XWIKI, "1.0");
-        assertEquals("XWiki 1.0", syntax.toString());
-        assertEquals("xwiki/1.0", syntax.toIdString());
+        Syntax syntax1 = new Syntax(SyntaxType.XWIKI, "1.0");
+        assertEquals("XWiki 1.0", syntax1.toString());
+        assertEquals("xwiki/1.0", syntax1.toIdString());
     }
 
     @Test
@@ -86,15 +93,23 @@ class SyntaxTest
         assertEquals(0, syntax1.compareTo(syntax1));
         assertTrue(syntax1.compareTo(syntax2) > 0);
         assertTrue(syntax3.compareTo(syntax1) > 0);
+
+        List<Syntax> syntaxes = new ArrayList<>();
+        syntaxes.add(syntax3);
+        syntaxes.add(syntax2);
+        syntaxes.add(syntax1);
+        assertThat(syntaxes, contains(syntax3, syntax2, syntax1));
+        Collections.sort(syntaxes);
+        assertThat(syntaxes, contains(syntax2, syntax1, syntax3));
     }
 
     @Test
     void valueOfOk() throws Exception
     {
-        Syntax syntax = Syntax.valueOf("type/version");
-        assertEquals("type", syntax.getType().getId());
-        assertEquals("type", syntax.getType().getName());
-        assertEquals("version", syntax.getVersion());
+        Syntax syntax1 = Syntax.valueOf("type/version");
+        assertEquals("type", syntax1.getType().getId());
+        assertEquals("type", syntax1.getType().getName());
+        assertEquals("version", syntax1.getVersion());
     }
 
     @Test
