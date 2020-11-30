@@ -35,7 +35,7 @@ import org.xwiki.text.StringUtils;
 /**
  * A syntax type is made of three parts:
  * <ul>
- *   <li>a base syntax type (e.g. {@ode xwiki}, {@code confluence}, {@code mediawiki}, etc).</li>
+ *   <li>a base syntax type (e.g. {@code xwiki}, {@code confluence}, {@code mediawiki}, etc).</li>
  *   <li>zero or more variants, which represent Syntax type variations. For example the {@code markdown} syntax has
  *       the {@code commonmark} variant and the {@code github} variant.</li>
  *   <li>a human-readable name (e.g. {@code XWiki}, {@code Confluence}, {@code MediaWiki}).</li>
