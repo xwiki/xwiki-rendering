@@ -30,7 +30,7 @@ import org.xwiki.rendering.parser.ParseException;
 /**
  * Represents a wiki syntax that the user can use to enter wiki content. A syntax is made of three parts:
  * <ul>
- *   <li>a syntax type (e.g. {@ode xwiki}, {@code confluence}, {@code confluence+xhtml}, etc).</li>
+ *   <li>a syntax type (e.g. {@code xwiki}, {@code confluence}, {@code confluence+xhtml}, etc).</li>
  *   <li>a version ({@code 1.0}, {@code 2.0}, etc.</li>
  *   <li>an optional qualifier which is a free form string adding some additional information about the Syntax when
  *       serialized as a String). Can be used for example to mark a Syntax as experimental.</li>
