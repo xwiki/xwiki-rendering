@@ -43,6 +43,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SyntaxTypeTest
 {
     @Test
+    void constructorWithNullVariants()
+    {
+        SyntaxType syntaxType = new SyntaxType("id", null, "name");
+        assertEquals("id", syntaxType.getId());
+        assertEquals("name", syntaxType.getName());
+        assertTrue(syntaxType.getVariants().isEmpty());
+    }
+
+    @Test
     void getters()
     {
         SyntaxType syntaxType1 = new SyntaxType("id", "name");
