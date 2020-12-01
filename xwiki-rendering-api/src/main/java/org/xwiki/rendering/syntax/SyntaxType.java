@@ -261,7 +261,9 @@ public class SyntaxType implements Comparable<SyntaxType>
      */
     public List<String> getVariants()
     {
-        return this.variants;
+        // Handle backward-compatibility for serialization (i.e. it's possible that the variants field is null when
+        // unserialized).
+        return this.variants == null ? Collections.emptyList() : this.variants;
     }
 
     /**
