@@ -231,11 +231,10 @@
                 "ignore" : [
                   // Add more ignores below...
                   {
-                  "code": "java.class.nonFinalClassInheritsFromNewClass",
-                  "old": "class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver",
-                  "new": "class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver",
-                  "superClass": "io.sf.carte.doc.xml.dtd.DefaultEntityResolver",
-                  "justification": "Source breakage but not a backward compatible one. We consider it's acceptable"
+                    "code": "java.class.noLongerInheritsFromClass",
+                    "old": "class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver",
+                    "new": "class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver",
+                    "justification": "Revert a refactoring done by mistake"
                   }
                 ]
               }
