@@ -241,14 +241,7 @@
               </item>
             </revapi.ignore>
             -->
-            <revapi.ignore>
-              <item>
-                <code>java.class.noLongerInheritsFromClass</code>
-                <old>class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver</old>
-                <new>class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver</new>
-                <justification>Revert a refactoring done by mistake</justification>
-              </item>
-            </revapi.ignore>
+            
           </analysisConfiguration>
         </configuration>
       </plugin>
