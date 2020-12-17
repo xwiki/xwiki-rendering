@@ -25,15 +25,14 @@ import java.util.Map;
 import org.opentest4j.AssertionFailedError;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.test.integration.AbstractRenderingTest;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
 import org.xwiki.rendering.test.integration.TestDataParser;
 
 /**
- * A generic JUnit Test used by {@link RenderingTestSuite} to parse some passed content and verify it matches some
+ * A generic JUnit Test used by {@link RenderingTestExecutor} to parse some passed content and verify it matches some
  * passed expectation. The format of the input/expectation is specified in {@link TestDataParser}.
  *
  * @version $Id$
- * @since 3.0RC1
+ * @since 13.0RC1
  */
 public class RenderingTest extends AbstractRenderingTest
 {

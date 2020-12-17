@@ -19,14 +19,12 @@
  */
 package ${package};
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.rendering.test.integration.junit5.RenderingTests;
 
 /**
  * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
  * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
  */
-@RunWith(RenderingTestSuite.class)
-public class IntegrationTests
+public class IntegrationTests implements RenderingTests
 {
 }

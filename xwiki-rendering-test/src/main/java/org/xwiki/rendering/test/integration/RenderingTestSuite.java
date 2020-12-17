@@ -85,13 +85,13 @@ public class RenderingTestSuite extends Suite
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public static @interface Initialized
+    public @interface Initialized
     {
     }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
-    public static @interface Scope
+    public @interface Scope
     {
         /**
          * @return the classpath prefix to search in

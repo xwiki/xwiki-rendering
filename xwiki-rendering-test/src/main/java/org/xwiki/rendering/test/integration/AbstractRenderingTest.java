@@ -49,11 +49,11 @@ import org.xwiki.rendering.transformation.TransformationManager;
 import org.xwiki.test.internal.MockConfigurationSource;
 
 /**
- * A generic JUnit Test used by {@link RenderingTestSuite} to parse some passed content and verify it matches some
+ * A generic base JUnit Test to parse some passed content and verify it matches some
  * passed expectation. The format of the input/expectation is specified in {@link TestDataParser}.
  *
  * @version $Id$
- * @since 3.0RC1
+ * @since 13.0RC1
  */
 public abstract class AbstractRenderingTest
 {

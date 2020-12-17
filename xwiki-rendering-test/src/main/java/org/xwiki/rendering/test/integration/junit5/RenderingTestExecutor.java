@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.opentest4j.IncompleteExecutionException;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
 import org.xwiki.rendering.test.integration.TestDataGenerator;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.annotation.ComponentList;
@@ -131,8 +130,8 @@ public class RenderingTestExecutor
     {
         boolean isLegacyMode = true;
         for (Method klassMethod : testInstance.getClass().getMethods()) {
-            RenderingTestSuite.Initialized
-                componentManagerAnnotation = klassMethod.getAnnotation(RenderingTestSuite.Initialized.class);
+            RenderingTests.Initialized
+                componentManagerAnnotation = klassMethod.getAnnotation(RenderingTests.Initialized.class);
             if (componentManagerAnnotation != null) {
                 if (MockitoComponentManager.class.isAssignableFrom(klassMethod.getParameterTypes()[0])) {
                     isLegacyMode = false;
