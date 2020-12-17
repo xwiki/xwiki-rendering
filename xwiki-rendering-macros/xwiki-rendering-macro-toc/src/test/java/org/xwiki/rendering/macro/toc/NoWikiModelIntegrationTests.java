@@ -19,8 +19,7 @@
  */
 package org.xwiki.rendering.macro.toc;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.rendering.test.integration.junit5.RenderingTests;
 
 /**
  * Run some tests when there's no WikiModel implementation available.
@@ -28,8 +27,7 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  * @version $Id$
  * @since 9.6RC1
  */
-@RunWith(RenderingTestSuite.class)
-@RenderingTestSuite.Scope("nowikimodel")
-public class NoWikiModelIntegrationTests
+@RenderingTests.Scope("nowikimodel")
+public class NoWikiModelIntegrationTests implements RenderingTests
 {
 }

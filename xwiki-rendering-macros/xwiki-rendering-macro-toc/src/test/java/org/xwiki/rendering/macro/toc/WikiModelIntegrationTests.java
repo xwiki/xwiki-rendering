@@ -22,13 +22,12 @@ package org.xwiki.rendering.macro.toc;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.runner.RunWith;
 import org.xwiki.rendering.block.HeaderBlock;
 import org.xwiki.rendering.block.SectionBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.rendering.test.integration.junit5.RenderingTests;
 import org.xwiki.rendering.wiki.WikiModel;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.mockito.MockitoComponentManager;
@@ -42,12 +41,11 @@ import static org.mockito.Mockito.when;
  * @version $Id$
  * @since 9.6RC1
  */
-@RunWith(RenderingTestSuite.class)
 @AllComponents
-@RenderingTestSuite.Scope("wikimodel")
-public class WikiModelIntegrationTests
+@RenderingTests.Scope("wikimodel")
+public class WikiModelIntegrationTests implements RenderingTests
 {
-    @RenderingTestSuite.Initialized
+    @RenderingTests.Initialized
     public void initialize(MockitoComponentManager componentManager) throws Exception
     {
         WikiModel wikiModel = componentManager.registerMockComponent(WikiModel.class);

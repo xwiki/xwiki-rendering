@@ -17,14 +17,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.test.integration;
+package org.xwiki.rendering.test.integration.junit5;
 
 import java.util.List;
 import java.util.Map;
 
-import org.junit.ComparisonFailure;
-import org.junit.Test;
+import org.opentest4j.AssertionFailedError;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.test.integration.AbstractRenderingTest;
+import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.rendering.test.integration.TestDataParser;
 
 /**
  * A generic JUnit Test used by {@link RenderingTestSuite} to parse some passed content and verify it matches some
@@ -42,15 +44,9 @@ public class RenderingTest extends AbstractRenderingTest
         super(input, expected, parserId, targetSyntaxId, streaming, transformations, configuration, componentManager);
     }
 
-    @Test
-    public void execute() throws Exception
-    {
-        super.execute();
-    }
-
     @Override
     protected void throwAssertionException(String message, String expected, String result)
     {
-        throw new ComparisonFailure(message, expected, result);
+        throw new AssertionFailedError(message, expected, result);
     }
 }

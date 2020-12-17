@@ -19,8 +19,7 @@
  */
 package org.xwiki.rendering;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.rendering.test.integration.junit5.RenderingTests;
 import org.xwiki.test.annotation.AllComponents;
 
 /**
@@ -30,9 +29,8 @@ import org.xwiki.test.annotation.AllComponents;
  * @version $Id$
  * @since 3.0RC1
  */
-@RunWith(RenderingTestSuite.class)
-@RenderingTestSuite.Scope(value = "simple")
+@RenderingTests.Scope(value = "simple")
 @AllComponents
-public class SimpleIntegrationTests
+public class SimpleIntegrationTests implements RenderingTests
 {
 }

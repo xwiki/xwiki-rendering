@@ -19,11 +19,10 @@
  */
 package org.xwiki.rendering;
 
-import org.junit.runner.RunWith;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.internal.configuration.DefaultRenderingConfiguration;
 import org.xwiki.rendering.test.MockWikiModel;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.rendering.test.integration.junit5.RenderingTests;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.mockito.MockitoComponentManager;
 
@@ -34,19 +33,18 @@ import org.xwiki.test.mockito.MockitoComponentManager;
  * @version $Id$
  * @since 3.0RC1
  */
-@RunWith(RenderingTestSuite.class)
-@RenderingTestSuite.Scope("wiki")
+@RenderingTests.Scope(value = "wiki")
 @AllComponents
-public class WikiIntegrationTests
+public class WikiIntegrationTests implements RenderingTests
 {
-    @RenderingTestSuite.Initialized
+    @RenderingTests.Initialized
     public void initialize(MockitoComponentManager componentManager) throws Exception
     {
         componentManager.registerComponent(MockWikiModel.getComponentDescriptor());
 
         // Add InterWiki Definition for links28 test
         DefaultRenderingConfiguration renderingConfiguration =
-            (DefaultRenderingConfiguration) componentManager.getInstance(RenderingConfiguration.class);
+            componentManager.getInstance(RenderingConfiguration.class);
         renderingConfiguration.addInterWikiDefinition("knownalias", "http://server/common/url/");
     }
 }

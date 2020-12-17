@@ -48,7 +48,7 @@ public class TestDataGenerator
                 .setUrls(ClasspathHelper.forPackage(""))
                 .filterInputsBy(new FilterBuilder.Include(Pattern.quote(testPackage) + ".*")));
 
-        Collection<Object[]> data = new ArrayList<Object[]>();
+        Collection<Object[]> data = new ArrayList<>();
         for (String testResourceName : reflections.getResources(Pattern.compile(pattern))) {
             data.addAll(parseSingleResource(testResourceName));
         }
@@ -79,7 +79,7 @@ public class TestDataGenerator
         boolean hasEventOutput = false;
         int inputCounter = 0;
 
-        Collection<Object[]> result = new ArrayList<Object[]>();
+        Collection<Object[]> result = new ArrayList<>();
         for (Map.Entry<String, String> entry : data.inputs.entrySet()) {
             inputCounter++;
             for (String targetSyntaxId : data.expectations.keySet()) {

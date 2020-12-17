@@ -17,40 +17,35 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.test.integration;
+package org.xwiki.rendering.test.cts.junit5;
 
-import java.util.List;
-import java.util.Map;
-
-import org.junit.ComparisonFailure;
-import org.junit.Test;
+import org.opentest4j.AssertionFailedError;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.test.cts.AbstractRenderingTest;
+import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
+import org.xwiki.rendering.test.cts.TestData;
 
 /**
- * A generic JUnit Test used by {@link RenderingTestSuite} to parse some passed content and verify it matches some
- * passed expectation. The format of the input/expectation is specified in {@link TestDataParser}.
+ * A generic JUnit Test used by {@link CompatibilityTestSuite} to run a single CTS test.
  *
  * @version $Id$
- * @since 3.0RC1
+ * @since 4.1M1
  */
 public class RenderingTest extends AbstractRenderingTest
 {
-    public RenderingTest(String input, String expected, String parserId, String targetSyntaxId,
-        boolean streaming, List<String> transformations, Map<String, ?> configuration,
-        ComponentManager componentManager)
+    /**
+     * @param testData the data for a single test
+     * @param metadataSyntaxId the Syntax id of the syntax used as Metadata in the generated XDOM for parsers
+     * @param componentManager the component manager used to find Parser and Renderers
+     */
+    public RenderingTest(TestData testData, String metadataSyntaxId, ComponentManager componentManager)
     {
-        super(input, expected, parserId, targetSyntaxId, streaming, transformations, configuration, componentManager);
-    }
-
-    @Test
-    public void execute() throws Exception
-    {
-        super.execute();
+        super(testData, metadataSyntaxId, componentManager);
     }
 
     @Override
     protected void throwAssertionException(String message, String expected, String result)
     {
-        throw new ComparisonFailure(message, expected, result);
+        throw new AssertionFailedError(message, expected, result);
     }
 }
