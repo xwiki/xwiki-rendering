@@ -19,8 +19,7 @@
  */
 package org.xwiki.rendering.internal.html5;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.rendering.test.integration.junit5.RenderingTests;
 
 /**
  * Run all specific tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow
@@ -29,8 +28,7 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  * @version $Id$
  * @since 10.1
  */
-@RunWith(RenderingTestSuite.class)
-@RenderingTestSuite.Scope(value = "html50.specific")
-public class HTML5SpecificTest
+@RenderingTests.Scope(value = "html50.specific")
+public class HTML5SpecificTest implements RenderingTests
 {
 }

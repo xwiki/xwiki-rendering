@@ -19,8 +19,7 @@
  */
 package org.xwiki.rendering.macro.figure;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.rendering.test.integration.junit5.RenderingTests;
 
 /**
  * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
@@ -29,7 +28,6 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  * @version $Id$
  * @since 10.2
  */
-@RunWith(RenderingTestSuite.class)
-public class IntegrationTests
+public class IntegrationTests implements RenderingTests
 {
 }

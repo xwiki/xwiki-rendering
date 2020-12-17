@@ -19,8 +19,7 @@
  */
 package org.xwiki.rendering.internal.xwiki20;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.rendering.test.integration.junit5.RenderingTests;
 
 /**
  * Run all specific tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow
@@ -29,8 +28,7 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  * @version $Id$
  * @since 4.5M1
  */
-@RunWith(RenderingTestSuite.class)
-@RenderingTestSuite.Scope(value = "xwiki20.specific"/*, pattern = "misc.test"*/)
-public class XWiki20SpecificTest
+@RenderingTests.Scope(value = "xwiki20.specific"/*, pattern = "misc.test"*/)
+public class XWiki20SpecificTest implements RenderingTests
 {
 }

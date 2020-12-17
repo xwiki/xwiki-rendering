@@ -19,8 +19,7 @@
  */
 package org.xwiki.rendering.internal.plain;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.integration.RenderingTestSuite;
+import org.xwiki.rendering.test.integration.junit5.RenderingTests;
 
 /**
  * Run all specific tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow
@@ -28,8 +27,7 @@ import org.xwiki.rendering.test.integration.RenderingTestSuite;
  *
  * @version $Id$
  */
-@RunWith(RenderingTestSuite.class)
-@RenderingTestSuite.Scope("plain10.specific")
-public class PlainSpecificTest
+@RenderingTests.Scope("plain10.specific")
+public class PlainSpecificTest implements RenderingTests
 {
 }
