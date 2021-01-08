@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Unit tests for {@link ResourceReference}.
@@ -30,28 +31,29 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
  * @version $Id$
  * @since 3.0M2
  */
-public class ResourceReferenceTest
+class ResourceReferenceTest
 {
     @Test
-    public void testToString()
+    void testToString()
     {
         ResourceReference reference = new ResourceReference("reference", ResourceType.DOCUMENT);
         assertEquals("Typed = [true] Type = [doc] Reference = [reference]", reference.toString());
 
         reference.addBaseReference("baseref1");
         reference.addBaseReference("baseref2");
-        assertEquals("Typed = [true] Type = [doc] Reference = [reference] "
-            + "Base References = [[baseref1], [baseref2]]", reference.toString());
+        assertEquals(
+            "Typed = [true] Type = [doc] Reference = [reference] " + "Base References = [[baseref1], [baseref2]]",
+            reference.toString());
 
         reference.setParameter("name1", "value1");
         reference.setParameter("name2", "value2");
         assertEquals("Typed = [true] Type = [doc] Reference = [reference] "
-            + "Base References = [[baseref1], [baseref2]] "
-            + "Parameters = [[name1] = [value1], [name2] = [value2]]", reference.toString());
+            + "Base References = [[baseref1], [baseref2]] " + "Parameters = [[name1] = [value1], [name2] = [value2]]",
+            reference.toString());
     }
 
     @Test
-    public void testEquals()
+    void testEquals()
     {
         ResourceReference reference1 = new ResourceReference("reference", ResourceType.DOCUMENT);
         ResourceReference reference2 = new ResourceReference("reference", ResourceType.DOCUMENT);
@@ -68,7 +70,7 @@ public class ResourceReferenceTest
     }
 
     @Test
-    public void testHashCode()
+    void testHashCode()
     {
         ResourceReference reference1 = new ResourceReference("reference", ResourceType.DOCUMENT);
         ResourceReference reference2 = new ResourceReference("reference", ResourceType.DOCUMENT);
@@ -77,5 +79,23 @@ public class ResourceReferenceTest
         reference1.addBaseReference("base");
         reference2.addBaseReference("base");
         assertEquals(reference1.hashCode(), reference2.hashCode());
+    }
+
+    @Test
+    void cloneResource()
+    {
+        ResourceReference reference = new ResourceReference("reference", ResourceType.DOCUMENT);
+
+        reference.addBaseReference("base1");
+        reference.setParameter("parameter1", "value1");
+
+        ResourceReference clonedReference = reference.clone();
+
+        assertEquals(reference, clonedReference);
+
+        clonedReference.addBaseReference("base2");
+        clonedReference.setParameter("parameter2", "value2");
+
+        assertNotEquals(reference, clonedReference);
     }
 }
