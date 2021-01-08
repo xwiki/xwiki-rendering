@@ -265,6 +265,13 @@ public class ResourceReference implements Cloneable
             // Should never happen
             throw new RuntimeException("Failed to clone object", e);
         }
+
+        // Really clone the mutable fields
+        if (this.baseReferences != null) {
+            this.baseReferences = new ArrayList<>(this.baseReferences);
+        }
+        this.parameters = new LinkedHashMap<>(this.parameters);
+
         return clone;
     }
 
