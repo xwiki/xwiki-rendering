@@ -195,7 +195,7 @@ public class SyntaxType implements Comparable<SyntaxType>
      * @param id the technical id of the Syntax type (ex "annotatedxhtml")
      * @param name the human readable name of the Syntax type (ex "Annotated XHTML")
      * @param variants the variants (can be empty or null)
-     * @since 13.0RC1
+     * @since 13.0
      * @since 12.10.1
      */
     public SyntaxType(String id, List<String> variants, String name)
@@ -256,7 +256,7 @@ public class SyntaxType implements Comparable<SyntaxType>
 
     /**
      * @return the variants (can never be null but can be empty)
-     * @since 13.0RC1
+     * @since 13.0
      * @since 12.10.1
      */
     public List<String> getVariants()
@@ -278,7 +278,7 @@ public class SyntaxType implements Comparable<SyntaxType>
     /**
      * @return a unique String identifier, does not contain the display name. Usable when searching for parsers and
      *         renderers components for example.
-     * @since 13.0RC1
+     * @since 13.0
      * @since 12.10.1
      */
     public String toIdString()
@@ -340,7 +340,7 @@ public class SyntaxType implements Comparable<SyntaxType>
      * @param syntaxTypesString the syntax type as a string (eg {@code xwiki}, {@code confluence+xhtml})
      * @return the parsed syntax type  as a SyntaxType object
      * @throws ParseException in case the string doesn't represent a valid syntax type
-     * @since 13.0RC1
+     * @since 13.0
      * @since 12.10.1
      */
     public static SyntaxType valueOf(String syntaxTypesString) throws ParseException

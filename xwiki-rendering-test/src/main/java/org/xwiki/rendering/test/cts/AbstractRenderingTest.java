@@ -50,7 +50,7 @@ import org.xwiki.xml.XMLUtils;
  * A generic JUnit Test used by {@link CompatibilityTestSuite} to run a single CTS test.
  *
  * @version $Id$
- * @since 13.0RC1
+ * @since 13.0
  */
 public abstract class AbstractRenderingTest
 {

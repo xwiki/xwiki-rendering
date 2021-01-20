@@ -37,7 +37,7 @@ import org.xwiki.test.mockito.MockitoComponentManager;
  * down the Component Manager.
  *
  * @version $Id$
- * @since 13.0RC1
+ * @since 13.0
  */
 public class RenderingTestExecutor
 {

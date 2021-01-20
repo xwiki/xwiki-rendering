@@ -53,7 +53,7 @@ import org.xwiki.test.internal.MockConfigurationSource;
  * passed expectation. The format of the input/expectation is specified in {@link TestDataParser}.
  *
  * @version $Id$
- * @since 13.0RC1
+ * @since 13.0
  */
 public abstract class AbstractRenderingTest
 {
