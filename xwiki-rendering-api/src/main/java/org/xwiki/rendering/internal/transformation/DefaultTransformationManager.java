@@ -57,16 +57,16 @@ import org.xwiki.rendering.transformation.TransformationManager;
 public class DefaultTransformationManager implements TransformationManager
 {
     /**
+     * Used to get the ordered list of transformations to execute.
+     */
+    @Inject
+    protected RenderingConfiguration configuration;
+
+    /**
      * Used to updated the rendering context.
      */
     @Inject
     private RenderingContext renderingContext;
-
-    /**
-     * Used to get the ordered list of transformations to execute.
-     */
-    @Inject
-    private RenderingConfiguration configuration;
 
     /**
      * The logger to log.
@@ -126,8 +126,16 @@ public class DefaultTransformationManager implements TransformationManager
      */
     public List<Transformation> getTransformations()
     {
+        return getTransformations(this.configuration.getTransformationNames());
+    }
+
+    /**
+     * @return the ordered list of Transformations to execute
+     */
+    protected List<Transformation> getTransformations(List<String> transformationNames)
+    {
         List<Transformation> transformations = new ArrayList<>();
-        for (String hint : this.configuration.getTransformationNames()) {
+        for (String hint : transformationNames) {
             try {
                 transformations.add(this.componentManagerProvider.get().getInstance(Transformation.class, hint));
             } catch (ComponentLookupException e) {
