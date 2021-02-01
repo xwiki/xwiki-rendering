@@ -118,6 +118,7 @@ Thus it is forbidden to depend on the HTML Macro.
     <module>xwiki-rendering-macro-id</module>
     <module>xwiki-rendering-macro-message</module>
     <module>xwiki-rendering-macro-quote</module>
+    <module>xwiki-rendering-macro-raw</module>
     <module>xwiki-rendering-macro-toc</module>
   </modules>
 </project>
