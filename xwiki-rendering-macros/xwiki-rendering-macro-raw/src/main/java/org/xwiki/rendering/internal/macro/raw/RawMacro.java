@@ -54,7 +54,7 @@ public class RawMacro extends AbstractMacro<RawMacroParameters>
     /**
      * The description of the macro content.
      */
-    private static final String CONTENT_DESCRIPTION = "the content written in the target syntax";
+    private static final String CONTENT_DESCRIPTION = "The content written in the target syntax";
 
     /**
      * Create and initialize the descriptor of the macro.
