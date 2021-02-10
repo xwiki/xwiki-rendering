@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering</artifactId>
-    <version>12.10.4</version>
+    <version>12.10.5-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-wikimodel</artifactId>
   <name>XWiki Rendering - WikiModel</name>
