@@ -68,18 +68,14 @@ stage ('Rendering Builds') {
         xwikiBuild('Quality') {
           xvnc = false
           mavenOpts = globalMavenOpts
-          // TODO: 4/2/2021: Removed the sonar:sonar goal because sonar now requires that XWiki be built with Java 11
-          // to work. See https://jira.xwiki.org/browse/XCOMMONS-2120
-          // When fixed, put back:
-          //   goals = 'clean install jacoco:report sonar:sonar'
-          goals = 'clean install jacoco:report'
+          goals = 'clean install jacoco:report sonar:sonar'
           profiles = 'quality,legacy,coverage'
           properties = '-Dxwiki.jacoco.itDestFile=`pwd`/target/jacoco-it.exec'
-          // TODO: 1/2/2021: Disabled upload to sonarcloud.io since also requires that XWiki be built with Java 11
-          // When fixed, put back:
-          //  sonar = true
-          sonar = false
+          sonar = true
           javadoc = false
+          // Build with Java 14 since Sonar requires Java 11+ and we want at the same time to verify that XWiki builds
+          // with the latest Java version.
+          javaTool = 'java14'
         }
       }
     },
