@@ -36,7 +36,7 @@ stage ('Rendering Builds') {
         xwikiBuild('Main') {
           xvnc = false
           mavenOpts = globalMavenOpts
-          profiles = 'legacy,integration-tests,standalone'
+          profiles = '-repository-all,repository-snapshots,legacy,integration-tests,standalone'
           properties = '-Dxwiki.checkstyle.skip=true -Dxwiki.surefire.captureconsole.skip=true -Dxwiki.revapi.skip=true'
           javadoc = false
         }
@@ -49,7 +49,7 @@ stage ('Rendering Builds') {
           xvnc = false
           mavenOpts = globalMavenOpts
           goals = 'clean install'
-          profiles = 'legacy,integration-tests,standalone'
+          profiles = '-repository-all,repository-snapshots,legacy,integration-tests,standalone'
           properties = '-DskipTests -DperformRelease=true -Dgpg.skip=true -Dxwiki.checkstyle.skip=true -Ddoclint=all'
           javadoc = false
         }
@@ -69,7 +69,7 @@ stage ('Rendering Builds') {
           xvnc = false
           mavenOpts = globalMavenOpts
           goals = 'clean install jacoco:report sonar:sonar'
-          profiles = 'quality,legacy,coverage'
+          profiles = '-repository-all,repository-snapshots,quality,legacy,coverage'
           properties = '-Dxwiki.jacoco.itDestFile=`pwd`/target/jacoco-it.exec'
           sonar = true
           javadoc = false
@@ -88,7 +88,7 @@ stage ('Rendering Builds') {
           xvnc = false
           mavenOpts = globalMavenOpts
           goals = 'clean test-compile checkstyle:check@default'
-          profiles = 'legacy'
+          profiles = '-repository-all,repository-snapshots,legacy'
           javadoc = false
         }
       }
