@@ -19,32 +19,33 @@
  */
 package org.xwiki.rendering.internal.syntax;
 
-import java.util.Arrays;
-
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.properties.converter.ConversionException;
 import org.xwiki.properties.converter.Converter;
-import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.test.annotation.BeforeComponent;
 import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 /**
  * Unit tests for {@link DeprecatedSyntaxConverter}.
  * 
  * @version $Id$
  */
-@ComponentList(SyntaxConverter.class)
+@ComponentList({
+    SyntaxConverter.class,
+    DefaultSyntaxRegistry.class
+})
 public class DeprecatedSyntaxConverterTest
 {
     @Rule
     public MockitoComponentMockingRule<Converter> mocker =
-        new MockitoComponentMockingRule<Converter>(DeprecatedSyntaxConverter.class, Arrays.asList(Converter.class));
+        new MockitoComponentMockingRule<>(DeprecatedSyntaxConverter.class);
 
     @BeforeComponent
     public void beforeComponent() throws Exception
@@ -57,7 +58,7 @@ public class DeprecatedSyntaxConverterTest
     public void convertToSyntaxObject() throws Exception
     {
         Syntax syntax = (Syntax) this.mocker.getComponentUnderTest().convert(Syntax.class, "xwiki/2.1");
-        Assert.assertEquals(Syntax.XWIKI_2_1, syntax);
+        assertEquals(Syntax.XWIKI_2_1, syntax);
     }
 
     @Test
@@ -65,9 +66,9 @@ public class DeprecatedSyntaxConverterTest
     {
         try {
             this.mocker.getComponentUnderTest().convert(Syntax.class, "invalid");
-            Assert.fail("Should have thrown ConversionException");
+            fail("Should have thrown ConversionException");
         } catch (ConversionException expected) {
-            Assert.assertEquals("Unknown syntax [invalid]", expected.getMessage());
+            assertEquals("Unknown syntax [invalid]", expected.getMessage());
         }
     }
 
@@ -75,20 +76,20 @@ public class DeprecatedSyntaxConverterTest
     public void convertToSyntaxObjectWhenNull() throws Exception
     {
         Syntax syntax = (Syntax) this.mocker.getComponentUnderTest().convert(Syntax.class, null);
-        Assert.assertNull(syntax);
+        assertNull(syntax);
     }
 
     @Test
     public void convertToString() throws Exception
     {
         String syntaxId = (String) this.mocker.getComponentUnderTest().convert(String.class, Syntax.XWIKI_2_1);
-        Assert.assertEquals(Syntax.XWIKI_2_1.toIdString(), syntaxId);
+        assertEquals(Syntax.XWIKI_2_1.toIdString(), syntaxId);
     }
 
     @Test
     public void convertToStringWhenNull() throws Exception
     {
         String syntaxId = (String) this.mocker.getComponentUnderTest().convert(String.class, null);
-        Assert.assertNull(syntaxId);
+        assertNull(syntaxId);
     }
 }
