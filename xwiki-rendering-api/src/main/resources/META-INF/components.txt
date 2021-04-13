@@ -28,6 +28,8 @@ org.xwiki.rendering.internal.renderer.MailtoURILabelGenerator
 org.xwiki.rendering.internal.renderer.DataURILabelGenerator
 org.xwiki.rendering.internal.renderer.reference.DefaultResourceReferenceTypeSerializer
 org.xwiki.rendering.internal.syntax.SyntaxConverter
+org.xwiki.rendering.internal.syntax.DefaultSyntaxRegistry
+org.xwiki.rendering.internal.syntax.SyntaxRegistryListener
 org.xwiki.rendering.internal.transformation.DefaultRenderingContext
 org.xwiki.rendering.internal.transformation.DefaultTransformationManager
 org.xwiki.rendering.internal.transformation.RenderingContextStore

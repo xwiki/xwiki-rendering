@@ -17,48 +17,43 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.syntax;
+package org.xwiki.rendering.internal.xwiki20;
 
-import java.lang.reflect.Type;
+import java.util.Collections;
+import java.util.List;
 
-import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.properties.converter.AbstractConverter;
-import org.xwiki.properties.converter.ConversionException;
-import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.syntax.SyntaxRegistry;
+import org.xwiki.rendering.syntax.SyntaxType;
 
 /**
- * Convert a Syntax from a String to a Syntax object and the other way around.
+ * Register the {@code xwiki/2.0} Syntax supported by this module.
  *
  * @version $Id$
- * @since 4.2M3
+ * @since 13.3RC1
  */
 @Component
+@Named("xwiki/2.0")
 @Singleton
-public class SyntaxConverter extends AbstractConverter<Syntax>
+public class XWiki20SyntaxProvider implements Provider<List<Syntax>>
 {
-    @Inject
-    private SyntaxRegistry syntaxRegistry;
+    /**
+     * XWiki wiki syntax.
+     */
+    public static final SyntaxType XWIKI = new SyntaxType("xwiki", "XWiki");
+
+    /**
+     * XWiki 2.0 syntax.
+     */
+    public static final Syntax XWIKI_2_0 = new Syntax(XWIKI, "2.0");
 
     @Override
-    protected Syntax convertToType(Type targetType, Object value)
+    public List<Syntax> get()
     {
-        try {
-            return value == null || value.toString().isEmpty() ? null
-                : this.syntaxRegistry.resolveSyntax(value.toString());
-        } catch (ParseException e) {
-            // The specified syntax is not recognized, return an error
-            throw new ConversionException(String.format("Unknown syntax [%s]", value), e);
-        }
-    }
-
-    @Override
-    protected String convertToString(Syntax value)
-    {
-        return value == null ? null : value.toIdString();
+        return Collections.singletonList(XWIKI_2_0);
     }
 }

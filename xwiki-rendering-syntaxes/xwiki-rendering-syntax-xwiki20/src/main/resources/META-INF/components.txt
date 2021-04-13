@@ -10,3 +10,4 @@ org.xwiki.rendering.internal.renderer.xwiki20.reference.SpaceReferenceTypeSerial
 org.xwiki.rendering.internal.renderer.xwiki20.reference.XWiki20ResourceReferenceTypeSerializer
 org.xwiki.rendering.internal.renderer.xwiki20.reference.XWikiSyntaxImageReferenceSerializer
 org.xwiki.rendering.internal.renderer.xwiki20.reference.XWikiSyntaxLinkReferenceSerializer
+org.xwiki.rendering.internal.xwiki20.XWiki20SyntaxProvider

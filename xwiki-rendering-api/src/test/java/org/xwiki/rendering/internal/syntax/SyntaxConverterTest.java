@@ -19,15 +19,20 @@
  */
 package org.xwiki.rendering.internal.syntax;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.junit.jupiter.api.Test;
 import org.xwiki.properties.converter.ConversionException;
-import org.xwiki.properties.converter.Converter;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.test.mockito.MockitoComponentMockingRule;
+import org.xwiki.rendering.syntax.SyntaxRegistry;
+import org.xwiki.rendering.syntax.SyntaxType;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
+import org.xwiki.test.junit5.mockito.MockComponent;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 /**
@@ -35,48 +40,55 @@ import static org.mockito.Mockito.when;
  *
  * @version $Id$
  */
-public class SyntaxConverterTest
+@ComponentTest
+class SyntaxConverterTest
 {
-    @Rule
-    public MockitoComponentMockingRule<Converter<Syntax>> mocker =
-        new MockitoComponentMockingRule<Converter<Syntax>>(SyntaxConverter.class);
+    @InjectMockComponents
+    private SyntaxConverter syntaxConverter;
+
+    @MockComponent
+    private SyntaxRegistry syntaxRegistry;
 
     @Test
-    public void convertToSyntaxObject() throws Exception
+    void convertToSyntaxObject() throws Exception
     {
-        Syntax syntax = this.mocker.getComponentUnderTest().convert(Syntax.class, "xwiki/2.1");
-        Assert.assertEquals(Syntax.XWIKI_2_1, syntax);
+        Syntax expectedSyntax = new Syntax(new SyntaxType("mysyntax", "My Syntax"), "1.0");
+        when(this.syntaxRegistry.resolveSyntax("mysyntax/1.0")).thenReturn(expectedSyntax);
+
+        Syntax syntax = this.syntaxConverter.convert(Syntax.class, "mysyntax/1.0");
+        assertEquals(expectedSyntax, syntax);
     }
 
     @Test
-    public void convertToSyntaxObjectWhenUnknownSyntax() throws Exception
+    void convertToSyntaxObjectWhenUnknownSyntax() throws Exception
     {
-        try {
-            this.mocker.getComponentUnderTest().convert(Syntax.class, "invalid");
-            Assert.fail("Should have thrown ConversionException");
-        } catch (ConversionException expected) {
-            Assert.assertEquals("Unknown syntax [invalid]", expected.getMessage());
-        }
+        when(this.syntaxRegistry.resolveSyntax("invalid")).thenThrow(new ParseException("error"));
+
+        Throwable exception = assertThrows(ConversionException.class,
+            () -> this.syntaxConverter.convert(Syntax.class, "invalid"));
+        assertEquals("Unknown syntax [invalid]", exception.getMessage());
+        assertEquals("ParseException: error", ExceptionUtils.getRootCauseMessage(exception));
     }
 
     @Test
-    public void convertToSyntaxObjectWhenNull() throws Exception
+    void convertToSyntaxObjectWhenNull()
     {
-        Syntax syntax = this.mocker.getComponentUnderTest().convert(Syntax.class, null);
-        Assert.assertNull(syntax);
+        Syntax syntax = this.syntaxConverter.convert(Syntax.class, null);
+        assertNull(syntax);
     }
 
     @Test
-    public void convertToString() throws Exception
+    void convertToString()
     {
-        String syntaxId = this.mocker.getComponentUnderTest().convert(String.class, Syntax.XWIKI_2_1);
-        Assert.assertEquals(Syntax.XWIKI_2_1.toIdString(), syntaxId);
+        Syntax syntax = new Syntax(new SyntaxType("mysyntax", "My Syntax"), "1.0");
+        String syntaxId = this.syntaxConverter.convert(String.class, syntax);
+        assertEquals("mysyntax/1.0", syntaxId);
     }
 
     @Test
-    public void convertToStringWhenNull() throws Exception
+    void convertToStringWhenNull()
     {
-        String syntaxId = this.mocker.getComponentUnderTest().convert(String.class, null);
-        Assert.assertNull(syntaxId);
+        String syntaxId = this.syntaxConverter.convert(String.class, null);
+        assertNull(syntaxId);
     }
 }

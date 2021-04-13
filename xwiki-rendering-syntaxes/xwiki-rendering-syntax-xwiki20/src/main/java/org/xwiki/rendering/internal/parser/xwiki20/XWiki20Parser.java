@@ -25,6 +25,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
+import org.xwiki.rendering.internal.xwiki20.XWiki20SyntaxProvider;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.wikimodel.IWikiParser;
@@ -56,7 +57,7 @@ public class XWiki20Parser extends AbstractWikiModelParser
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.XWIKI_2_0;
+        return XWiki20SyntaxProvider.XWIKI_2_0;
     }
 
     @Override

@@ -6,3 +6,4 @@ org.xwiki.rendering.internal.renderer.xwiki21.reference.InterWikiReferenceTypeSe
 org.xwiki.rendering.internal.renderer.xwiki21.reference.XWiki21ResourceReferenceTypeSerializer
 org.xwiki.rendering.internal.renderer.xwiki21.reference.XWikiSyntaxImageReferenceSerializer
 org.xwiki.rendering.internal.renderer.xwiki21.reference.XWikiSyntaxLinkReferenceSerializer
+org.xwiki.rendering.internal.xwiki21.XWiki21SyntaxProvider
