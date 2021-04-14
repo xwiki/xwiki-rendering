@@ -42,6 +42,7 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxRegistry;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
@@ -217,7 +218,8 @@ public abstract class AbstractRenderingTest
                 getComponentManager().getInstance(PrintRendererFactory.class, this.targetSyntaxId);
             syntax = streamRendererFactory.getSyntax();
         } else {
-            syntax = Syntax.valueOf(this.targetSyntaxId);
+            SyntaxRegistry syntaxRegistry = getComponentManager().getInstance(SyntaxRegistry.class);
+            syntax = syntaxRegistry.resolveSyntax(this.targetSyntaxId);
         }
         return syntax;
     }

@@ -42,6 +42,7 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxRegistry;
 import org.xwiki.rendering.test.cts.junit5.RenderingTest;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.xml.XMLUtils;
@@ -178,8 +179,8 @@ public abstract class AbstractRenderingTest
     private void executeTest(String inputData, String inputSyntaxId, String expectedOutputData, String outputSyntaxId)
         throws Exception
     {
-        // Get the syntax from the parser/renderer to be sure to get the right display name (Syntax#valueOf() may not
-        // know it)
+        // Get the syntax from the parser/renderer to be sure to get the right display name
+        // (SyntaxRegistry#resolveSyntax() may not know it if the syntax was registered to the Syntax Registry).
         Syntax inputSyntax = getInputSyntax(inputSyntaxId, outputSyntaxId);
         Syntax expectedSyntax = getOutputSyntax(inputSyntaxId, outputSyntaxId);
 
@@ -244,7 +245,8 @@ public abstract class AbstractRenderingTest
                 getComponentManager().getInstance(PrintRendererFactory.class, outputSyntaxId);
             syntax = rendererFactory.getSyntax();
         } else {
-            syntax = Syntax.valueOf(outputSyntaxId);
+            SyntaxRegistry syntaxRegistry = getComponentManager().getInstance(SyntaxRegistry.class);
+            syntax = syntaxRegistry.resolveSyntax(outputSyntaxId);
         }
         return syntax;
     }
@@ -272,10 +274,11 @@ public abstract class AbstractRenderingTest
             getComponentManager().getInstance(ExecutionContextManager.class);
         executionContextManager.initialize(executionContext);
         // Set TargetSyntax for Macro tests
+        SyntaxRegistry syntaxRegistry = getComponentManager().getInstance(SyntaxRegistry.class);
         RenderingContext renderingContext = getComponentManager().getInstance(RenderingContext.class);
         ((MutableRenderingContext) renderingContext).push(renderingContext.getTransformation(),
             renderingContext.getXDOM(), renderingContext.getDefaultSyntax(), renderingContext.getTransformationId(),
-            renderingContext.isRestricted(), Syntax.valueOf(targetSyntaxId));
+            renderingContext.isRestricted(), syntaxRegistry.resolveSyntax(targetSyntaxId));
 
         try {
             if (isStreamingTest(sourceSyntaxId, targetSyntaxId)) {
