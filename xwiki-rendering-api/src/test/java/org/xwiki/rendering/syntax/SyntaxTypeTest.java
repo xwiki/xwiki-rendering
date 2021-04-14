@@ -138,7 +138,7 @@ class SyntaxTypeTest
 
         SyntaxType syntaxType2 = SyntaxType.valueOf("id+variant1+variant2");
         assertEquals("id", syntaxType2.getId());
-        assertEquals("id", syntaxType2.getName());
+        assertEquals("id+variant1+variant2", syntaxType2.getName());
         assertThat(syntaxType2.getVariants(), contains("variant1", "variant2"));
 
         // Verify that if the syntax id exists in the registry but the variant doesn't exist, then it's not the existing
@@ -146,7 +146,7 @@ class SyntaxTypeTest
         // We test with "xwiki" as the main syntax id since it's a known syntax
         SyntaxType syntaxType3 = SyntaxType.valueOf("xwiki+testvariant");
         assertEquals("xwiki", syntaxType3.getId());
-        assertEquals("xwiki", syntaxType3.getName());
+        assertEquals("xwiki+testvariant", syntaxType3.getName());
         assertThat(syntaxType3.getVariants(), contains("testvariant"));
     }
 
