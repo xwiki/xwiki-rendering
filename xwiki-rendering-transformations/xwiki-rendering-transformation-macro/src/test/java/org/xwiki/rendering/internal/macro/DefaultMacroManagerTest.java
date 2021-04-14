@@ -201,7 +201,7 @@ class DefaultMacroManagerTest
         descriptor.setRoleHint("macro/invalidsyntax");
         this.componentManager.registerComponent(descriptor, macro);
 
-        this.macroManager.getMacroIds(Syntax.valueOf("macro/xwiki/2.0"));
+        this.macroManager.getMacroIds(new Syntax(new SyntaxType("syntax", "Syntax"), "whatever"));
 
         assertEquals(1, logCapture.size());
         assertEquals("Invalid Macro descriptor format for hint [macro/invalidsyntax]. The hint should contain either "
