@@ -32,6 +32,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.context.internal.concurrent.AbstractContextStore;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxRegistry;
 import org.xwiki.rendering.transformation.RenderingContext;
 
 /**
@@ -73,6 +74,9 @@ public class RenderingContextStore extends AbstractContextStore
     @Inject
     private Logger logger;
 
+    @Inject
+    private SyntaxRegistry syntaxRegistry;
+
     /**
      * Default constructor.
      */
@@ -112,7 +116,7 @@ public class RenderingContextStore extends AbstractContextStore
 
             if (value != null) {
                 try {
-                    return Syntax.valueOf(value.toString());
+                    return this.syntaxRegistry.resolveSyntax(value.toString());
                 } catch (ParseException e) {
                     this.logger.warn("Failed to restore the Syntax for key [{}]", key, e);
                 }

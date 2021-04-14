@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.xml.sax.SAXException;
@@ -30,7 +31,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxRegistry;
 
 @Component
 @Named("rawtext")
@@ -38,6 +39,9 @@ import org.xwiki.rendering.syntax.Syntax;
 public class RawTextBlockParser extends DefaultBlockParser
 {
     private static final Set<String> NAMES = Stream.of("content", "syntax").collect(Collectors.toSet());
+
+    @Inject
+    private SyntaxRegistry syntaxRegistry;
 
     public RawTextBlockParser()
     {
@@ -49,7 +53,7 @@ public class RawTextBlockParser extends DefaultBlockParser
     {
         try {
             getListener().onRawText(getParameterAsString("content", ""),
-                Syntax.valueOf(getParameterAsString("syntax", null)));
+                this.syntaxRegistry.resolveSyntax(getParameterAsString("syntax", null)));
         } catch (ParseException e) {
             throw new SAXException("Failed to parse [syntax] parameter in rw block", e);
         }

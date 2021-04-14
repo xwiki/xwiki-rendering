@@ -26,7 +26,6 @@ import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxFactory;
 
-
 /**
  * @version $Id$
  * @since 1.5M2

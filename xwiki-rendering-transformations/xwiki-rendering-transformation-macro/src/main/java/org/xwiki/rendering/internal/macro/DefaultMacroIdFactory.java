@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.internal.macro;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -26,6 +27,7 @@ import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroIdFactory;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxRegistry;
 
 /**
  * Default implementation for {@link org.xwiki.rendering.macro.MacroIdFactory}.
@@ -42,6 +44,9 @@ public class DefaultMacroIdFactory implements MacroIdFactory
      */
     private static final String INVALID_MACRO_ID_FORMAT = "Invalid macro id format [%s]";
 
+    @Inject
+    private SyntaxRegistry syntaxRegistry;
+
     @Override
     public MacroId createMacroId(String macroIdAsString) throws ParseException
     {
@@ -53,7 +58,7 @@ public class DefaultMacroIdFactory implements MacroIdFactory
             // We've found a macro id for a macro that should be available only for a given syntax
             Syntax syntax;
             try {
-                syntax = Syntax.valueOf(String.format("%s/%s", hintParts[1], hintParts[2]));
+                syntax = this.syntaxRegistry.resolveSyntax(String.format("%s/%s", hintParts[1], hintParts[2]));
             } catch (ParseException e) {
                 throw new ParseException(String.format(INVALID_MACRO_ID_FORMAT, macroIdAsString), e);
             }

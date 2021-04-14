@@ -89,7 +89,7 @@ public class DefaultMacroManager implements MacroManager
             throw new MacroLookupException("Failed to lookup Macros", e);
         }
 
-        Set<MacroId> result = new HashSet<MacroId>();
+        Set<MacroId> result = new HashSet<>();
 
         // Loop through all the macros and filter those macros that will work with the given syntax.
         for (Map.Entry<String, Macro> entry : allMacros.entrySet()) {
@@ -131,11 +131,10 @@ public class DefaultMacroManager implements MacroManager
                     return cm.getInstance(Macro.class, macroId.getId());
                 }
 
-                throw new MacroNotFoundException(String.format("No macro [%s] could be found.", macroId.toString()));
+                throw new MacroNotFoundException(String.format("No macro [%s] could be found.", macroId));
             }
         } catch (ComponentLookupException e) {
-            throw new MacroLookupException(String.format("Macro [%s] failed to be instantiated.", macroId.toString()),
-                e);
+            throw new MacroLookupException(String.format("Macro [%s] failed to be instantiated.", macroId), e);
         }
     }
 
