@@ -359,9 +359,12 @@ public class SyntaxType implements Comparable<SyntaxType>
         // For well-known syntax types, get the Syntax name from the registered Syntax types, otherwise use the id as
         // both the human readable name and the technical id (since the syntax type string doesn't contain any
         // information about the pretty name of a syntax type).
-        SyntaxType syntaxType = SyntaxType.getSyntaxTypes().get(computeIdString(id, variants));
+        String idString = computeIdString(id, variants);
+        SyntaxType syntaxType = SyntaxType.getSyntaxTypes().get(idString);
         if (syntaxType == null) {
-            syntaxType = new SyntaxType(id, variants, id);
+            // Use the full id string (id + variant) for the name. We cannot do better since the information is not in
+            // the String representation of a syntax.
+            syntaxType = new SyntaxType(id, variants, idString);
         }
 
         return syntaxType;
