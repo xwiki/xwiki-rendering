@@ -17,30 +17,43 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.renderer.html5;
+package org.xwiki.rendering.internal.html5;
+
+import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.html5.AnnotatedHTML5SyntaxProvider;
-import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxType;
 
 /**
- * Create Annotated HTML5 Renderers.
+ * Register the {@code annotatedhtml/5.0} Syntax supported by this module.
  *
  * @version $Id$
- * @since 6.4M3
+ * @since 13.3RC1
  */
 @Component
 @Named("annotatedhtml/5.0")
 @Singleton
-public class AnnotatedHTML5RendererFactory extends AbstractPrintRendererFactory
+public class AnnotatedHTML5SyntaxProvider implements Provider<List<Syntax>>
 {
+    /**
+     * Annotated HTML syntax type.
+     */
+    public static final SyntaxType ANNOTATED_HTML = new SyntaxType("annotatedhtml", "Annotated HTML");
+
+    /**
+     * Annotated HTML 5.0 syntax.
+     */
+    public static final Syntax ANNOTATED_HTML_5_0 = new Syntax(ANNOTATED_HTML, "5.0");
+
     @Override
-    public Syntax getSyntax()
+    public List<Syntax> get()
     {
-        return AnnotatedHTML5SyntaxProvider.ANNOTATED_HTML_5_0;
+        return Collections.singletonList(ANNOTATED_HTML_5_0);
     }
 }

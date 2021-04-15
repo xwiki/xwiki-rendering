@@ -28,6 +28,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.internal.html.HTML401SyntaxProvider;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
@@ -55,7 +56,7 @@ public class HTMLParser extends XHTMLParser
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.HTML_4_01;
+        return HTML401SyntaxProvider.HTML_4_01;
     }
 
     @Override

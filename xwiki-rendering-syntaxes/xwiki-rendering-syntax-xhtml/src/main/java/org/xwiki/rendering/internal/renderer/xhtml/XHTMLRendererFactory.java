@@ -24,6 +24,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
+import org.xwiki.rendering.internal.xhtml.XHTML10SyntaxProvider;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -40,6 +41,6 @@ public class XHTMLRendererFactory extends AbstractPrintRendererFactory
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.XHTML_1_0;
+        return XHTML10SyntaxProvider.XHTML_1_0;
     }
 }

@@ -54,8 +54,8 @@ import org.xwiki.rendering.syntax.SyntaxRegistry;
 @Named("syntaxregistry")
 public class SyntaxRegistryListener implements EventListener
 {
-    private static final Type SYNTAX_PROVIDER_TYPE = new DefaultParameterizedType(null, Provider.class, List.class,
-        Syntax.class);
+    private static final Type SYNTAX_PROVIDER_TYPE = new DefaultParameterizedType(null, Provider.class,
+        new DefaultParameterizedType(null, List.class, Syntax.class));
 
     @Inject
     private SyntaxRegistry syntaxRegistry;

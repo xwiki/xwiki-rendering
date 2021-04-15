@@ -17,30 +17,44 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.renderer.html5;
+package org.xwiki.rendering.internal.syntax;
+
+import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.html5.AnnotatedHTML5SyntaxProvider;
-import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxType;
 
 /**
- * Create Annotated HTML5 Renderers.
+ * Register the {@code my/1.0} Syntax used by the {@link SyntaxRegistryListenerTest} test. It's used to simulate a
+ * real registration of a new syntax.
  *
  * @version $Id$
- * @since 6.4M3
+ * @since 13.3RC1
  */
 @Component
-@Named("annotatedhtml/5.0")
+@Named("my/1.0")
 @Singleton
-public class AnnotatedHTML5RendererFactory extends AbstractPrintRendererFactory
+public class MySyntaxProvider implements Provider<List<Syntax>>
 {
+    /**
+     * "My" syntax type.
+     */
+    public static final SyntaxType MY = new SyntaxType("my", "My");
+
+    /**
+     * "My" 1.0 syntax.
+     */
+    public static final Syntax MY_1_0 = new Syntax(MY, "1.0");
+
     @Override
-    public Syntax getSyntax()
+    public List<Syntax> get()
     {
-        return AnnotatedHTML5SyntaxProvider.ANNOTATED_HTML_5_0;
+        return Collections.singletonList(MY_1_0);
     }
 }

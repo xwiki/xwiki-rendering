@@ -19,3 +19,4 @@ org.xwiki.rendering.internal.renderer.xhtml.link.MailtoXHTMLLinkTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.PathXHTMLLinkTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.SpaceXHTMLLinkTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.UNCXHTMLLinkTypeRenderer
+org.xwiki.rendering.internal.xhtml.XHTML10SyntaxProvider

@@ -1,1 +1,2 @@
 org.xwiki.rendering.internal.parser.html.HTMLParser
+org.xwiki.rendering.internal.html.HTML401SyntaxProvider

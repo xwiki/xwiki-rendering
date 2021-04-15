@@ -1,3 +1,4 @@
 org.xwiki.rendering.internal.renderer.html5.AnnotatedHTML5BlockRenderer
 org.xwiki.rendering.internal.renderer.html5.AnnotatedHTML5Renderer
 org.xwiki.rendering.internal.renderer.html5.AnnotatedHTML5RendererFactory
+org.xwiki.rendering.internal.html5.AnnotatedHTML5SyntaxProvider
