@@ -38,6 +38,7 @@ import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.observation.EventListener;
+import org.xwiki.observation.event.ApplicationStartedEvent;
 import org.xwiki.observation.event.Event;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxRegistry;
@@ -60,6 +61,10 @@ public class SyntaxRegistryListener implements EventListener
     @Inject
     private SyntaxRegistry syntaxRegistry;
 
+    @Inject
+    @Named("context")
+    private Provider<ComponentManager> componentManagerProvider;
+
     /**
      * Used to remember which components have registered which syntaxes. Used when removing
      */
@@ -74,7 +79,9 @@ public class SyntaxRegistryListener implements EventListener
     @Override
     public List<Event> getEvents()
     {
-        return Arrays.asList(new ComponentDescriptorAddedEvent(SYNTAX_PROVIDER_TYPE),
+        return Arrays.asList(
+            new ApplicationStartedEvent(),
+            new ComponentDescriptorAddedEvent(SYNTAX_PROVIDER_TYPE),
             new ComponentDescriptorRemovedEvent(SYNTAX_PROVIDER_TYPE));
     }
 
@@ -84,7 +91,15 @@ public class SyntaxRegistryListener implements EventListener
         ComponentManager componentManager = (ComponentManager) source;
         ComponentDescriptor<?> descriptor = (ComponentDescriptor<?>) data;
 
-        if (event instanceof ComponentDescriptorAddedEvent) {
+        if (event instanceof ApplicationStartedEvent) {
+            // Listeners are initialized after components located in the current classloader and thus we need to look
+            // for any syntax provides already registered in the component manager since no
+            // ComponentDescriptorAddedEvent will be sent for them.
+            // TODO: In the future we'll probably want to fix XWiki's initialization,
+            //  see https://jira.xwiki.org/browse/XWIKI-18563. When this is fixed, we won't need anymore to listen to
+            // ApplicationStartedEvent.
+            registerSyntaxesProviders();
+        } else if (event instanceof ComponentDescriptorAddedEvent) {
             Provider<List<Syntax>> syntaxesProvider = getSyntaxesProvider(componentManager, descriptor);
             List<Syntax> syntaxes = syntaxesProvider.get();
             Syntax[] syntaxArray = new Syntax[syntaxes.size()];
@@ -97,6 +112,34 @@ public class SyntaxRegistryListener implements EventListener
                 this.syntaxRegistry.unregisterSyntaxes(this.componentSyntaxes.get(descriptor));
             }
         }
+    }
+
+    private void registerSyntaxesProviders()
+    {
+        ComponentManager cm = this.componentManagerProvider.get();
+        List<ComponentDescriptor<Provider<List<Syntax>>>> componentDescriptors =
+            cm.getComponentDescriptorList(SYNTAX_PROVIDER_TYPE);
+        for (ComponentDescriptor<Provider<List<Syntax>>> cd : componentDescriptors) {
+            Provider<List<Syntax>> syntaxesProvider;
+            try {
+                syntaxesProvider = cm.getInstance(cd.getRoleType(), cd.getRoleHint());
+            } catch (ComponentLookupException e) {
+                // Some Syntax Provider failed to instantiate properly. Since these are core Syntax Providers in the
+                // current ClassLoader they're supposed to work fine. Thus if it fails we consider it's a fatal error
+                // and we raise an exception. This should normally not happen.
+                throw new RuntimeException(String.format("Failed to instantiate Syntax Provider component [{}]",
+                    cd), e);
+            }
+            registerSyntaxesProvider(syntaxesProvider, cd);
+        }
+    }
+
+    private void registerSyntaxesProvider(Provider<List<Syntax>> syntaxesProvider, ComponentDescriptor<?> descriptor)
+    {
+        List<Syntax> syntaxes = syntaxesProvider.get();
+        Syntax[] syntaxArray = new Syntax[syntaxes.size()];
+        this.syntaxRegistry.registerSyntaxes(syntaxes.toArray(syntaxArray));
+        this.componentSyntaxes.put(descriptor, syntaxArray);
     }
 
     private Provider<List<Syntax>> getSyntaxesProvider(ComponentManager componentManager,
