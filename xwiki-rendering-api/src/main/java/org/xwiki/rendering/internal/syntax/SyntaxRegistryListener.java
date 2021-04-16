@@ -88,9 +88,6 @@ public class SyntaxRegistryListener implements EventListener
     @Override
     public void onEvent(Event event, Object source, Object data)
     {
-        ComponentManager componentManager = (ComponentManager) source;
-        ComponentDescriptor<?> descriptor = (ComponentDescriptor<?>) data;
-
         if (event instanceof ApplicationStartedEvent) {
             // Listeners are initialized after components located in the current classloader and thus we need to look
             // for any syntax provides already registered in the component manager since no
@@ -99,17 +96,22 @@ public class SyntaxRegistryListener implements EventListener
             //  see https://jira.xwiki.org/browse/XWIKI-18563. When this is fixed, we won't need anymore to listen to
             // ApplicationStartedEvent.
             registerSyntaxesProviders();
-        } else if (event instanceof ComponentDescriptorAddedEvent) {
-            Provider<List<Syntax>> syntaxesProvider = getSyntaxesProvider(componentManager, descriptor);
-            List<Syntax> syntaxes = syntaxesProvider.get();
-            Syntax[] syntaxArray = new Syntax[syntaxes.size()];
-            this.syntaxRegistry.registerSyntaxes(syntaxes.toArray(syntaxArray));
-            this.componentSyntaxes.put(descriptor, syntaxArray);
         } else {
-            // If the descriptor is not found then this means that the syntaxes were registered manually against the
-            // Syntax Registry. Thus they'll also need to be unregistered manually.
-            if (this.componentSyntaxes.containsKey(descriptor)) {
-                this.syntaxRegistry.unregisterSyntaxes(this.componentSyntaxes.get(descriptor));
+            ComponentManager componentManager = (ComponentManager) source;
+            ComponentDescriptor<?> descriptor = (ComponentDescriptor<?>) data;
+
+            if (event instanceof ComponentDescriptorAddedEvent) {
+                Provider<List<Syntax>> syntaxesProvider = getSyntaxesProvider(componentManager, descriptor);
+                List<Syntax> syntaxes = syntaxesProvider.get();
+                Syntax[] syntaxArray = new Syntax[syntaxes.size()];
+                this.syntaxRegistry.registerSyntaxes(syntaxes.toArray(syntaxArray));
+                this.componentSyntaxes.put(descriptor, syntaxArray);
+            } else {
+                // If the descriptor is not found then this means that the syntaxes were registered manually against the
+                // Syntax Registry. Thus they'll also need to be unregistered manually.
+                if (this.componentSyntaxes.containsKey(descriptor)) {
+                    this.syntaxRegistry.unregisterSyntaxes(this.componentSyntaxes.get(descriptor));
+                }
             }
         }
     }
