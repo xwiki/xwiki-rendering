@@ -119,7 +119,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
      * Handle the begin of a container element (div or span) which could contain a syntax metadata and/or a non 
      * generated content metadata.
      * @param context the current tag context.
-     * @return true if a non generated content metadata has been found or the macro info is not null.
+     * @return true if a non generated content metadata has been found.
      */
     public boolean handleBegin(TagContext context)
     {
@@ -169,7 +169,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         }
 
         context.getTagStack().pushStackParameter(NON_GENERATED_CONTENT_STACK, withNonGeneratedContent);
-        return withNonGeneratedContent || macroInfo != null;
+        return withNonGeneratedContent;
     }
 
     private String getRenderedContentFromMacro(TagContext context)
@@ -193,7 +193,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
     /**
      * Handle the end of a container (div or span) which can contain a non generated content metadata.
      * @param context the context of the current tag.
-     * @return true if a non generated content tag has been detected or it's in an macro info.
+     * @return true if a non generated content tag has been detected.
      */
     public boolean handleEnd(TagContext context)
     {
@@ -224,6 +224,6 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             }
         }
 
-        return nonGeneratedContent || macroInfo != null;
+        return nonGeneratedContent;
     }
 }
