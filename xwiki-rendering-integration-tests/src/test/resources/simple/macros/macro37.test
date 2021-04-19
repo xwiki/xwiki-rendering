@@ -1,0 +1,17 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<!--startmacro:box|-||-|((({{box}}
+a nested info macro
+{{/box}})))--><div class="box"><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><div><!--startmacro:box|-||-|a nested info macro--><div class="box"><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>a nested info macro</p></div></div><!--stopmacro--></div></div></div><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+{{box}}
+(((
+{{box}}
+a nested info macro
+{{/box}}
+)))
+{{/box}}
