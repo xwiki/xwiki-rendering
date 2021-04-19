@@ -4,11 +4,11 @@
 .# Test the rendering output of a macro which can be edited inline.
 .#-----------------------------------------------------
 <p>before</p>
-<!--startmacro:info|-||-|test-->
+<!--startmacro:info|-||-|one **two** three-->
+<div class="box infomessage">
 <div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container">
-  <div class="box infomessage">
-    <p>one <strong>two</strong> three</p>
-  </div>
+<p>one <strong>two</strong> three</p>
+</div>
 </div>
 <!--stopmacro-->
 <p>after</p>
