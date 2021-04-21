@@ -1,1 +1,2 @@
 org.xwiki.rendering.internal.parser.creole.CreoleParser
+org.xwiki.rendering.internal.creole.Creole10SyntaxProvider

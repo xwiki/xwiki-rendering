@@ -26,6 +26,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 
+import static org.xwiki.rendering.internal.apt.APT10SyntaxProvider.APT_1_0;
+
 /**
  * Create APT Renderers.
  *
@@ -40,6 +42,6 @@ public class APTRendererFactory extends AbstractPrintRendererFactory
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.APT_1_0;
+        return APT_1_0;
     }
 }

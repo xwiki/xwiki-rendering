@@ -30,6 +30,8 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.creole.CreoleWikiParser;
 
+import static org.xwiki.rendering.internal.creole.Creole10SyntaxProvider.CREOLE_1_0;
+
 /**
  * @version $Id$
  * @since 1.5M2
@@ -56,7 +58,7 @@ public class CreoleParser extends AbstractWikiModelParser
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.CREOLE_1_0;
+        return CREOLE_1_0;
     }
 
     @Override

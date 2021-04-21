@@ -38,6 +38,8 @@ import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.ListTypeConvert
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.ResourceReferenceSerializer;
 import org.xwiki.rendering.xml.internal.renderer.AbstractChainingContentHandlerStreamRenderer;
 
+import static org.xwiki.rendering.xdomxml10.internal.XDOMXML10SyntaxProvider.XDOMXML_1_0;
+
 /**
  * Current version of the XDOM+XML stream based renderer.
  * 
@@ -67,7 +69,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.XDOMXML_1_0;
+        return XDOMXML_1_0;
     }
 
     // Events

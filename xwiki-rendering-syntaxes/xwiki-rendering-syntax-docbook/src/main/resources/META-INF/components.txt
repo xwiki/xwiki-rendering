@@ -2,3 +2,4 @@ org.xwiki.rendering.internal.parser.docbook.DocBookParser
 org.xwiki.rendering.internal.renderer.docbook.DocBookRendererFactory
 org.xwiki.rendering.internal.renderer.docbook.DocBookRenderer
 org.xwiki.rendering.internal.renderer.docbook.DocBookBlockRenderer
+org.xwiki.rendering.internal.docbook.Docbook44SyntaxProvider

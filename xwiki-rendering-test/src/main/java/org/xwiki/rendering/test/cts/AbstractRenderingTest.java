@@ -47,6 +47,8 @@ import org.xwiki.rendering.test.cts.junit5.RenderingTest;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.xml.XMLUtils;
 
+import static org.xwiki.rendering.syntax.Syntax.XDOMXML_CURRENT;
+
 /**
  * A generic JUnit Test used by {@link CompatibilityTestSuite} to run a single CTS test.
  *
@@ -58,7 +60,7 @@ public abstract class AbstractRenderingTest
     /**
      * The Syntax id corresponding to the syntax in which the CTS tests are written in.
      */
-    private static final String CTS_SYNTAX_ID = Syntax.XDOMXML_CURRENT.toIdString();
+    private static final String CTS_SYNTAX_ID = XDOMXML_CURRENT.toIdString();
 
     /**
      * The Velocity Engine we use to evaluate the test data. We do this to allow Velocity scripts to be added to test

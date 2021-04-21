@@ -26,6 +26,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xml.internal.parser.AbstractParser;
 
+import static org.xwiki.rendering.xdomxmlcurrent.internal.XDOMXMLCurrentSyntaxProvider.XDOMXML_CURRENT;
+
 /**
  * XDOM+XML stream based parser.
  *
@@ -40,6 +42,6 @@ public class XDOMXMLParser extends AbstractParser
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.XDOMXML_CURRENT;
+        return XDOMXML_CURRENT;
     }
 }

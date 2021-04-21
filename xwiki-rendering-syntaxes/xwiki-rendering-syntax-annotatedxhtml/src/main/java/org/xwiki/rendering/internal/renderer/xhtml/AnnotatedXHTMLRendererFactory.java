@@ -26,6 +26,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 
+import static org.xwiki.rendering.internal.xhtml.AnnotatedXHTML10SyntaxProvider.ANNOTATED_XHTML_1_0;
+
 /**
  * Create Annotated XHTML Renderers.
  *
@@ -40,6 +42,6 @@ public class AnnotatedXHTMLRendererFactory extends AbstractPrintRendererFactory
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.ANNOTATED_XHTML_1_0;
+        return ANNOTATED_XHTML_1_0;
     }
 }

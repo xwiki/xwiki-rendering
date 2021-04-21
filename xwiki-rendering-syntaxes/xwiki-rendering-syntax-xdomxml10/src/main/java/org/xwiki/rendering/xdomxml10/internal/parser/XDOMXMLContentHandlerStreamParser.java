@@ -36,6 +36,8 @@ import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xdomxml10.internal.XDOMXMLConstants;
 
+import static org.xwiki.rendering.xdomxml10.internal.XDOMXML10SyntaxProvider.XDOMXML_1_0;
+
 @Component
 @Named("xdom+xml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
@@ -56,7 +58,7 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.XDOMXML_1_0;
+        return XDOMXML_1_0;
     }
 
     @Override
@@ -75,7 +77,7 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
                 this.documentParser = getDocumentBlockParser();
 
                 this.documentParser.setListener(this.listener);
-                this.documentParser.setVersion(Syntax.XDOMXML_1_0.getVersion());
+                this.documentParser.setVersion(XDOMXML_1_0.getVersion());
 
                 this.documentParser.startElement(uri, localName, qName, attributes);
             } catch (ComponentLookupException e) {
@@ -105,7 +107,7 @@ public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements
         BlockParser blockParser;
         try {
             blockParser =
-                this.componentManager.getInstance(BlockParser.class, "document/" + Syntax.XDOMXML_1_0.getVersion());
+                this.componentManager.getInstance(BlockParser.class, "document/" + XDOMXML_1_0.getVersion());
         } catch (ComponentLookupException e1) {
             try {
                 blockParser = this.componentManager.getInstance(BlockParser.class, "document");

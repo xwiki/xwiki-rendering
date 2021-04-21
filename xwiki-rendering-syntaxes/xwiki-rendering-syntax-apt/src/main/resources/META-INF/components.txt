@@ -2,3 +2,4 @@ org.xwiki.rendering.internal.parser.apt.APTParser
 org.xwiki.rendering.internal.renderer.apt.APTRendererFactory
 org.xwiki.rendering.internal.renderer.apt.APTRenderer
 org.xwiki.rendering.internal.renderer.apt.APTBlockRenderer
+org.xwiki.rendering.internal.apt.APT10SyntaxProvider

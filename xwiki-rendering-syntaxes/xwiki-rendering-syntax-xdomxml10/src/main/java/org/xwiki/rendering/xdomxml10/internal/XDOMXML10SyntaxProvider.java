@@ -17,31 +17,44 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.renderer.xhtml;
+package org.xwiki.rendering.xdomxml10.internal;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
-
-import static org.xwiki.rendering.internal.xhtml.XHTML10SyntaxProvider.XHTML_1_0;
+import org.xwiki.rendering.syntax.SyntaxType;
 
 /**
- * Create XHTML Renderers.
+ * Register the {@code xdom+xml/1.0} Syntax supported by this module.
  *
  * @version $Id$
- * @since 2.0M3
+ * @since 13.4RC1
  */
 @Component
-@Named("xhtml/1.0")
+@Named("xdom+xml/1.0")
 @Singleton
-public class XHTMLRendererFactory extends AbstractPrintRendererFactory
+public class XDOMXML10SyntaxProvider implements Provider<List<Syntax>>
 {
+    /**
+     * XDOM+XML syntax type.
+     */
+    public static final SyntaxType XDOMXML = new SyntaxType("xdom", Arrays.asList("xml"), "XDOM (XML)");
+
+    /**
+     * XDOM+XML 1.0 syntax.
+     */
+    public static final Syntax XDOMXML_1_0 = new Syntax(XDOMXML, "1.0");
+
     @Override
-    public Syntax getSyntax()
+    public List<Syntax> get()
     {
-        return XHTML_1_0;
+        return Collections.singletonList(XDOMXML_1_0);
     }
 }

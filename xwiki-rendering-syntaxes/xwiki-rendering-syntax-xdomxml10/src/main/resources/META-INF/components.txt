@@ -1,5 +1,4 @@
 org.xwiki.rendering.xdomxml10.internal.parser.DefaultBlockParser
-
 org.xwiki.rendering.xdomxml10.internal.parser.EmptyLinesBlockParser
 org.xwiki.rendering.xdomxml10.internal.parser.DocumentBlockParser
 org.xwiki.rendering.xdomxml10.internal.parser.FormatBlockParser
@@ -15,9 +14,8 @@ org.xwiki.rendering.xdomxml10.internal.parser.RawTextBlockParser
 org.xwiki.rendering.xdomxml10.internal.parser.SpecialSymbolBlockParser
 org.xwiki.rendering.xdomxml10.internal.parser.VerbatimBlockParser
 org.xwiki.rendering.xdomxml10.internal.parser.WordBlockParser
-
 org.xwiki.rendering.xdomxml10.internal.parser.XDOMXMLContentHandlerStreamParser
 org.xwiki.rendering.xdomxml10.internal.parser.XDOMXMLParser
-
 org.xwiki.rendering.xdomxml10.internal.renderer.XDOMXMLContentHandlerStreamRenderer
 org.xwiki.rendering.xdomxml10.internal.renderer.XDOMXMLRenderer
+org.xwiki.rendering.xdomxml10.internal.XDOMXML10SyntaxProvider

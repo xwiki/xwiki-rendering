@@ -17,31 +17,29 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.renderer.xhtml;
+package org.xwiki.rendering.internal.docbook;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+import org.junit.jupiter.api.Test;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
 
-import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
-import org.xwiki.rendering.syntax.Syntax;
-
-import static org.xwiki.rendering.internal.xhtml.XHTML10SyntaxProvider.XHTML_1_0;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Create XHTML Renderers.
+ * Unit tests for {@link Docbook44SyntaxProvider}.
  *
  * @version $Id$
- * @since 2.0M3
+ * @since 13.4RC1
  */
-@Component
-@Named("xhtml/1.0")
-@Singleton
-public class XHTMLRendererFactory extends AbstractPrintRendererFactory
+@ComponentTest
+class Docbook44SyntaxProviderTest
 {
-    @Override
-    public Syntax getSyntax()
+    @InjectMockComponents
+    private Docbook44SyntaxProvider provider;
+
+    @Test
+    void get()
     {
-        return XHTML_1_0;
+        assertEquals("docbook/4.4", this.provider.get().get(0).toIdString());
     }
 }

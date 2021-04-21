@@ -1,1 +1,2 @@
 org.xwiki.rendering.internal.parser.jspwiki.JSPWikiParser
+org.xwiki.rendering.internal.jspwiki.JSPWiki10SyntaxProvider

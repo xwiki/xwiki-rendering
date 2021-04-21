@@ -19,10 +19,14 @@
  */
 package org.xwiki.rendering.internal.macro;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxType;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link MacroId}.
@@ -30,41 +34,43 @@ import org.xwiki.rendering.syntax.Syntax;
  * @version $Id$
  * @since 2.0M3
  */
-public class MacroIdTest
+ class MacroIdTest
 {
     @Test
-    public void testEquality()
+    void testEquality()
     {
-        MacroId id1 = new MacroId("id", Syntax.XWIKI_2_0);
-        MacroId id2 = new MacroId("id", Syntax.XWIKI_2_0);
-        MacroId id3 = new MacroId("otherid", Syntax.XWIKI_2_0);
-        MacroId id4 = new MacroId("id", Syntax.XHTML_1_0);
-        MacroId id5 = new MacroId("otherid", Syntax.XHTML_1_0);
+        Syntax syntax1 = new Syntax(new SyntaxType("syntax1", "Syntax 1"), "1.0");
+        Syntax syntax2 = new Syntax(new SyntaxType("syntax2", "Syntax 2"), "1.0");
+        MacroId id1 = new MacroId("id", syntax1);
+        MacroId id2 = new MacroId("id", syntax1);
+        MacroId id3 = new MacroId("otherid", syntax1);
+        MacroId id4 = new MacroId("id", syntax2);
+        MacroId id5 = new MacroId("otherid", syntax2);
         MacroId id6 = new MacroId("id");
         MacroId id7 = new MacroId("id");
 
-        Assert.assertEquals(id2, id1);
+        assertEquals(id2, id1);
         // Equal objects must have equal hashcode
-        Assert.assertTrue(id1.hashCode() == id2.hashCode());
+        assertTrue(id1.hashCode() == id2.hashCode());
 
-        Assert.assertFalse(id3 == id1);
-        Assert.assertFalse(id3.equals(id1));
-        Assert.assertFalse(id1.equals(id3));
+        assertFalse(id3 == id1);
+        assertFalse(id3.equals(id1));
+        assertFalse(id1.equals(id3));
 
-        Assert.assertFalse(id4 == id1);
-        Assert.assertFalse(id4.equals(id1));
-        Assert.assertFalse(id1.equals(id4));
+        assertFalse(id4 == id1);
+        assertFalse(id4.equals(id1));
+        assertFalse(id1.equals(id4));
 
-        Assert.assertFalse(id5 == id3);
-        Assert.assertFalse(id5.equals(id1));
-        Assert.assertFalse(id1.equals(id5));
+        assertFalse(id5 == id3);
+        assertFalse(id5.equals(id1));
+        assertFalse(id1.equals(id5));
 
-        Assert.assertFalse(id6 == id1);
-        Assert.assertFalse(id6.equals(id1));
-        Assert.assertFalse(id1.equals(id6));
+        assertFalse(id6 == id1);
+        assertFalse(id6.equals(id1));
+        assertFalse(id1.equals(id6));
 
-        Assert.assertEquals(id7, id6);
+        assertEquals(id7, id6);
         // Equal objects must have equal hashcode
-        Assert.assertTrue(id6.hashCode() == id7.hashCode());
+        assertTrue(id6.hashCode() == id7.hashCode());
     }
 }

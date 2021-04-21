@@ -27,6 +27,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.doxia.AbstractDoxiaParser;
 import org.xwiki.rendering.syntax.Syntax;
 
+import static org.xwiki.rendering.internal.apt.APT10SyntaxProvider.APT_1_0;
+
 /**
  * <a href="http://maven.apache.org/doxia/format.html">APT</a> Parser.
  *
@@ -41,7 +43,7 @@ public class APTParser extends AbstractDoxiaParser
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.APT_1_0;
+        return APT_1_0;
     }
 
     @Override

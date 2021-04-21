@@ -26,6 +26,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 
+import static org.xwiki.rendering.internal.event.Event10SyntaxProvider.EVENT_1_0;
+
 /**
  * Create XHTML Renderers.
  *
@@ -40,6 +42,6 @@ public class EventRendererFactory extends AbstractPrintRendererFactory
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.EVENT_1_0;
+        return EVENT_1_0;
     }
 }

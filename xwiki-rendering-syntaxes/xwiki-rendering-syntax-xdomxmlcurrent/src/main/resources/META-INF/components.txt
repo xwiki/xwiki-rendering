@@ -1,3 +1,4 @@
 org.xwiki.rendering.xdomxmlcurrent.internal.parser.XDOMXMLContentHandlerStreamParser
 org.xwiki.rendering.xdomxmlcurrent.internal.parser.XDOMXMLParser
 org.xwiki.rendering.xdomxmlcurrent.internal.renderer.XDOMXMLRenderer
+org.xwiki.rendering.xdomxmlcurrent.internal.XDOMXMLCurrentSyntaxProvider

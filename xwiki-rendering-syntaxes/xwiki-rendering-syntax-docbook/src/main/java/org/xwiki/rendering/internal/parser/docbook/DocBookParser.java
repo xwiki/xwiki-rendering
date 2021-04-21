@@ -26,6 +26,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.doxia.AbstractDoxiaParser;
 import org.xwiki.rendering.syntax.Syntax;
 
+import static org.xwiki.rendering.internal.docbook.Docbook44SyntaxProvider.DOCBOOK_4_4;
+
 /**
  * DocBook Parser.
  *
@@ -40,7 +42,7 @@ public class DocBookParser extends AbstractDoxiaParser
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.DOCBOOK_4_4;
+        return DOCBOOK_4_4;
     }
 
     @Override

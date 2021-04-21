@@ -26,6 +26,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.doxia.AbstractDoxiaParser;
 import org.xwiki.rendering.syntax.Syntax;
 
+import static org.xwiki.rendering.internal.twiki.TWiki10SyntaxProvider.TWIKI_1_0;
+
 /**
  * TWiki Parser.
  *
@@ -40,7 +42,7 @@ public class TWikiParser extends AbstractDoxiaParser
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.TWIKI_1_0;
+        return TWIKI_1_0;
     }
 
     @Override

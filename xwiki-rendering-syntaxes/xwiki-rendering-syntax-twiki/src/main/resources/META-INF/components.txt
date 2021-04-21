@@ -1,1 +1,2 @@
 org.xwiki.rendering.internal.parser.twiki.TWikiParser
+org.xwiki.rendering.internal.twiki.TWiki10SyntaxProvider

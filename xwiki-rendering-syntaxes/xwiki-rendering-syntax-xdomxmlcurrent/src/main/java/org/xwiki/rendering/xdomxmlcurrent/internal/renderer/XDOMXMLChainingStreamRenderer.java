@@ -29,6 +29,8 @@ import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRenderer;
 import org.xwiki.rendering.syntax.Syntax;
 
+import static org.xwiki.rendering.xdomxmlcurrent.internal.XDOMXMLCurrentSyntaxProvider.XDOMXML_CURRENT;
+
 /**
  * Current version of the XDOM+XML stream based renderer.
  *
@@ -58,7 +60,7 @@ public class XDOMXMLChainingStreamRenderer extends WrappingListener implements C
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.XDOMXML_CURRENT;
+        return XDOMXML_CURRENT;
     }
 
     @Override

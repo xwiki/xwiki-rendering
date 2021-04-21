@@ -29,6 +29,8 @@ import org.xwiki.rendering.renderer.xml.ContentHandlerStreamRenderer;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xml.internal.renderer.AbstractRenderer;
 
+import static org.xwiki.rendering.xdomxmlcurrent.internal.XDOMXMLCurrentSyntaxProvider.XDOMXML_CURRENT;
+
 /**
  * Current version of the XDOM+XML renderer.
  *
@@ -49,7 +51,7 @@ public class XDOMXMLRenderer extends AbstractRenderer
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.XDOMXML_CURRENT;
+        return XDOMXML_CURRENT;
     }
 
     @Override

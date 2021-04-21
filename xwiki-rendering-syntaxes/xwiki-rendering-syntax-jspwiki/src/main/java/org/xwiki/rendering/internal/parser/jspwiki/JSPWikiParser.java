@@ -30,6 +30,8 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.jspwiki.JspWikiParser;
 
+import static org.xwiki.rendering.internal.jspwiki.JSPWiki10SyntaxProvider.JSPWIKI_1_0;
+
 /**
  * @version $Id$
  * @since 4.1M1
@@ -56,7 +58,7 @@ public class JSPWikiParser extends AbstractWikiModelParser
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.JSPWIKI_1_0;
+        return JSPWIKI_1_0;
     }
 
     @Override

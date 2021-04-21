@@ -26,6 +26,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 
+import static org.xwiki.rendering.internal.plain.Plain10SyntaxProvider.PLAIN_1_0;
+
 /**
  * Create Plain Text Renderers.
  *
@@ -40,6 +42,6 @@ public class PlainTextRendererFactory extends AbstractPrintRendererFactory
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.PLAIN_1_0;
+        return PLAIN_1_0;
     }
 }

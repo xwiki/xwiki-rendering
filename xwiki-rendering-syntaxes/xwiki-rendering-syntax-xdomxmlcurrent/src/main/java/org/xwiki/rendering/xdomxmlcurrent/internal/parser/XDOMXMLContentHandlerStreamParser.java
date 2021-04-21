@@ -34,6 +34,8 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.xml.ContentHandlerStreamParser;
 import org.xwiki.rendering.syntax.Syntax;
 
+import static org.xwiki.rendering.xdomxmlcurrent.internal.XDOMXMLCurrentSyntaxProvider.XDOMXML_CURRENT;
+
 /**
  * Generic XML based events parser.
  *
@@ -59,7 +61,7 @@ public class XDOMXMLContentHandlerStreamParser implements ContentHandlerStreamPa
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.XDOMXML_CURRENT;
+        return XDOMXML_CURRENT;
     }
 
     @Override

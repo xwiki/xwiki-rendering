@@ -17,31 +17,44 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.renderer.xhtml;
+package org.xwiki.rendering.internal.xhtml;
+
+import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
-
-import static org.xwiki.rendering.internal.xhtml.XHTML10SyntaxProvider.XHTML_1_0;
+import org.xwiki.rendering.syntax.SyntaxType;
 
 /**
- * Create XHTML Renderers.
+ * Register the {@code annotatedxhtml/1.0} Syntax supported by this module.
  *
  * @version $Id$
- * @since 2.0M3
+ * @since 13.4RC1
  */
 @Component
-@Named("xhtml/1.0")
+@Named("annotatedxhtml/1.0")
 @Singleton
-public class XHTMLRendererFactory extends AbstractPrintRendererFactory
+public class AnnotatedXHTML10SyntaxProvider implements Provider<List<Syntax>>
 {
+    /**
+     * Annotated XHTML syntax type.
+     */
+    public static final SyntaxType ANNOTATED_XHTML = new SyntaxType("annotatedxhtml", "Annotated XHTML");
+
+    /**
+     * Annotated XHTML 1.0 syntax.
+     */
+    public static final Syntax ANNOTATED_XHTML_1_0 =
+        new Syntax(ANNOTATED_XHTML, XHTML10SyntaxProvider.XHTML_1_0.getVersion());
+
     @Override
-    public Syntax getSyntax()
+    public List<Syntax> get()
     {
-        return XHTML_1_0;
+        return Collections.singletonList(ANNOTATED_XHTML_1_0);
     }
 }

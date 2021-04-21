@@ -1,3 +1,4 @@
 org.xwiki.rendering.internal.renderer.event.EventRendererFactory
 org.xwiki.rendering.internal.renderer.event.EventRenderer
 org.xwiki.rendering.internal.renderer.event.EventBlockRenderer
+org.xwiki.rendering.internal.event.Event10SyntaxProvider

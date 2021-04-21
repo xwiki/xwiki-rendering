@@ -26,6 +26,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 
+import static org.xwiki.rendering.internal.docbook.Docbook44SyntaxProvider.DOCBOOK_4_4;
+
 /**
  * Create DocBook Renderers.
  *
@@ -40,6 +42,6 @@ public class DocBookRendererFactory extends AbstractPrintRendererFactory
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.DOCBOOK_4_4;
+        return DOCBOOK_4_4;
     }
 }

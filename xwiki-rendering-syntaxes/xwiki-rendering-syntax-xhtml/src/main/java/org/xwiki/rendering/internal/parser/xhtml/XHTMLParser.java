@@ -43,7 +43,6 @@ import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiImageTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiReferenceTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiSpanTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiTableDataTagHandler;
-import org.xwiki.rendering.internal.xhtml.XHTML10SyntaxProvider;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
@@ -56,6 +55,8 @@ import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 import org.xwiki.xml.XMLReaderFactory;
+
+import static org.xwiki.rendering.internal.xhtml.XHTML10SyntaxProvider.XHTML_1_0;
 
 /**
  * Parses XHTML and generate a {@link org.xwiki.rendering.block.XDOM} object.
@@ -120,7 +121,7 @@ public class XHTMLParser extends AbstractWikiModelParser
     @Override
     public Syntax getSyntax()
     {
-        return XHTML10SyntaxProvider.XHTML_1_0;
+        return XHTML_1_0;
     }
 
     @Override

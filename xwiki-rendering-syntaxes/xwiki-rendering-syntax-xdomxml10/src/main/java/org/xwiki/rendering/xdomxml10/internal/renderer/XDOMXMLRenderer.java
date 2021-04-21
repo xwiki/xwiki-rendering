@@ -26,6 +26,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xml.internal.renderer.AbstractRenderer;
 
+import static org.xwiki.rendering.xdomxml10.internal.XDOMXML10SyntaxProvider.XDOMXML_1_0;
+
 /**
  * @version $Id$
  */
@@ -37,6 +39,6 @@ public class XDOMXMLRenderer extends AbstractRenderer
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.XDOMXML_1_0;
+        return XDOMXML_1_0;
     }
 }

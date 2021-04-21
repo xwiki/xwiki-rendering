@@ -26,6 +26,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.AbstractBlockParser;
 import org.xwiki.rendering.syntax.Syntax;
 
+import static org.xwiki.rendering.internal.plain.Plain10SyntaxProvider.PLAIN_1_0;
+
 /**
  * Plain Text Parser to convert a text source into a XDOM object.
  *
@@ -40,6 +42,6 @@ public class PlainTextBlockParser extends AbstractBlockParser
     @Override
     public Syntax getSyntax()
     {
-        return Syntax.PLAIN_1_0;
+        return PLAIN_1_0;
     }
 }
