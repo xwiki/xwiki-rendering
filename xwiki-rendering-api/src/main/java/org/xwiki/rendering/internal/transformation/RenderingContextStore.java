@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.transformation;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -84,14 +85,19 @@ public class RenderingContextStore extends AbstractContextStore
     @Override
     public void save(Map<String, Serializable> contextStore, Collection<String> entries)
     {
-        save(contextStore, PROP_DEFAULTSYNTAX, this.context.getDefaultSyntax(), entries);
-        save(contextStore, PROP_TARGETSYNTAX, this.context.getTargetSyntax(), entries);
+        save(contextStore, PROP_DEFAULTSYNTAX, this.context::getDefaultSyntax, entries);
+        save(contextStore, PROP_TARGETSYNTAX, this.context::getTargetSyntax, entries);
     }
 
-    private void save(Map<String, Serializable> contextStore, String key, Syntax value, Collection<String> entries)
+    private void save(Map<String, Serializable> contextStore, String key, Supplier<Syntax> supplier,
+        Collection<String> entries)
     {
-        if (entries.contains(key) && value != null) {
-            contextStore.put(key, value.toIdString());
+        if (entries.contains(key)) {
+            Syntax value = supplier.get();
+
+            if (value != null) {
+                contextStore.put(key, value.toIdString());
+            }
         }
     }
 
