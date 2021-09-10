@@ -21,28 +21,28 @@ package org.xwiki.rendering.internal.renderer.xhtml;
 
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
+import org.xwiki.rendering.syntax.Syntax;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for {@link XHTMLChainingRenderer} for methods that cannot be easily tested using the Rendering Test
  * framework.
  *
  * @version $Id$
- * @since 10.3RC1
  */
-public class XHTMLChainingRendererTest
+class XHTMLChainingRendererTest
 {
     /**
      * Those events are hard to test since there's no easy syntax to input them (requires XWiki 2.0+ Syntax with a
      * Macro transformation applied).
      */
     @Test
-    public void outputFigureCaptionEvents()
+    void outputFigureCaptionEvents()
     {
         XHTMLChainingRenderer renderer = new XHTMLChainingRenderer(null, null, new ListenerChain());
         WikiPrinter wikiPrinter = new DefaultWikiPrinter();
@@ -52,5 +52,21 @@ public class XHTMLChainingRendererTest
         renderer.endFigureCaption(Collections.emptyMap());
 
         assertEquals("<p>caption</p>", wikiPrinter.toString());
+    }
+
+    @Test
+    void onRawText()
+    {
+        XHTMLChainingRenderer renderer = new XHTMLChainingRenderer(null, null, new ListenerChain());
+        WikiPrinter wikiPrinter = new DefaultWikiPrinter();
+        renderer.setPrinter(wikiPrinter);
+        renderer.onRawText("xhtml/1.0", Syntax.XHTML_1_0);
+        renderer.onRawText("html/4.01", Syntax.HTML_4_01);
+        renderer.onRawText("html/5.0", Syntax.HTML_5_0);
+        renderer.onRawText("annotatedxhtml/1.0", Syntax.ANNOTATED_XHTML_1_0);
+        renderer.onRawText("annotatedhtml/5.0", Syntax.ANNOTATED_HTML_5_0);
+        renderer.onRawText("plain/1.0", Syntax.PLAIN_1_0);
+
+        assertEquals("xhtml/1.0html/4.01html/5.0annotatedxhtml/1.0annotatedhtml/5.0", wikiPrinter.toString());
     }
 }
