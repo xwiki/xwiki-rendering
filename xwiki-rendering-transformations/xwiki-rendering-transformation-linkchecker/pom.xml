@@ -29,10 +29,13 @@
   </parent>
   <artifactId>xwiki-rendering-transformation-linkchecker</artifactId>
   <name>XWiki Rendering - Transformation - Link Checker</name>
-  <description>Verifies if external URLs are valid and decorate with parameters if not</description>
+  <description>Verifies if external URLs are valid and decorates them with parameters if not</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.90</xwiki.jacoco.instructionRatio>
-    </properties>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>Link Checker Transformation</xwiki.extension.name>
+    <xwiki.extension.category>transformation</xwiki.extension.category>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
@@ -52,7 +55,6 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
     </dependency>
-
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>

@@ -29,10 +29,13 @@
   </parent>
   <artifactId>xwiki-rendering-transformation-icon</artifactId>
   <name>XWiki Rendering - Transformation - Icon</name>
-  <description>XWiki Rendering - Transformation - Icon</description>
+  <description>Converts icons represented as text into images</description>
   <properties>
     <xwiki.jacoco.instructionRatio>0.93</xwiki.jacoco.instructionRatio>
-    </properties>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>Icon Transformation</xwiki.extension.name>
+    <xwiki.extension.category>transformation</xwiki.extension.category>
+  </properties>
   <dependencies>
     <!-- Testing Dependencies -->
     <dependency>

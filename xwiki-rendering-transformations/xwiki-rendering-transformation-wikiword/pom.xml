@@ -34,6 +34,7 @@
     <xwiki.jacoco.instructionRatio>1.00</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>WikiWord Transformation</xwiki.extension.name>
+    <xwiki.extension.category>transformation</xwiki.extension.category>
   </properties>
   <dependencies>
     <!-- Testing Dependencies -->
