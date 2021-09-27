@@ -30,7 +30,6 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.WordBlock;
-import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;

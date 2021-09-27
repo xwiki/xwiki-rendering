@@ -33,7 +33,6 @@ import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
-import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 @Component

@@ -24,11 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.htmlcleaner.BelongsTo;
-import org.htmlcleaner.CloseTag;
-import org.htmlcleaner.ContentType;
-import org.htmlcleaner.Display;
-import org.htmlcleaner.TagInfo;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.Attributes2;
@@ -90,7 +85,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
         Map<String, TagHandler> extraHandlers,
         CommentHandler commentHandler)
     {
-        Map<String, TagHandler> handlers = new HashMap<String, TagHandler>();
+        Map<String, TagHandler> handlers = new HashMap<>();
 
         // Prepare default handlers
         handlers.put("p", new ParagraphTagHandler());
@@ -278,7 +273,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
     private WikiParameters getParameters(Attributes attributes)
     {
-        List<WikiParameter> params = new ArrayList<WikiParameter>();
+        List<WikiParameter> params = new ArrayList<>();
         for (int i = 0; i < attributes.getLength(); i++) {
             String key = getLocalName(attributes.getQName(i), attributes.getLocalName(i), false);
             String value = attributes.getValue(i);
