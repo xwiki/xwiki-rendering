@@ -50,7 +50,7 @@ stage ('Rendering Builds') {
           mavenOpts = globalMavenOpts
           goals = 'clean install'
           profiles = 'legacy,integration-tests,standalone'
-          properties = '-DskipTests -DperformRelease=true -Dgpg.skip=true -Dxwiki.checkstyle.skip=true -Ddoclint=all'
+          properties = '-DskipTests -DperformRelease=true -Dgpg.skip=true -Dxwiki.checkstyle.skip=true -Dxwiki.revapi.skip=true -Dxwiki.enforcer.skip=true -Dxwiki.spoon.skip=true -Ddoclint=all'
           javadoc = false
         }
       }
