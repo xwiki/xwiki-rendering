@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
@@ -44,9 +44,9 @@ public class TestDataGenerator
     public Collection<Object[]> generateData(String testPackage, String pattern)
     {
         Reflections reflections =
-            new Reflections(new ConfigurationBuilder().setScanners(new ResourcesScanner())
+            new Reflections(new ConfigurationBuilder().setScanners(Scanners.Resources)
                 .setUrls(ClasspathHelper.forPackage(""))
-                .filterInputsBy(new FilterBuilder.Include(Pattern.quote(testPackage) + ".*")));
+                .filterInputsBy(new FilterBuilder().includePattern(Pattern.quote(testPackage) + ".*")));
 
         Collection<Object[]> data = new ArrayList<>();
         for (String testResourceName : reflections.getResources(Pattern.compile(pattern))) {

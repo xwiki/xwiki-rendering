@@ -36,7 +36,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
@@ -303,9 +303,9 @@ public class TestDataParser
      */
     public Set<String> findRelativeTestDirectoryNames(String ctsRootPackageName, String packageFilter, String pattern)
     {
-        Reflections reflections = new Reflections(new ConfigurationBuilder().setScanners(new ResourcesScanner())
+        Reflections reflections = new Reflections(new ConfigurationBuilder().setScanners(Scanners.Resources)
             .setUrls(ClasspathHelper.forPackage(ctsRootPackageName))
-            .filterInputsBy(new FilterBuilder.Include(FilterBuilder.prefix(ctsRootPackageName + DOT + packageFilter))));
+            .filterInputsBy(new FilterBuilder().includePackage(ctsRootPackageName + DOT + packageFilter)));
 
         Set<String> prefixes = new TreeSet<>();
         for (String fullTestDirectoryName : reflections.getResources(Pattern.compile(pattern))) {
