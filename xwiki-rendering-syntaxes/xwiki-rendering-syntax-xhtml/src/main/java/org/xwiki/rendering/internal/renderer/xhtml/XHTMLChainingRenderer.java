@@ -22,9 +22,7 @@ package org.xwiki.rendering.internal.renderer.xhtml;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.collections4.SetUtils;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.Format;
@@ -61,9 +59,6 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
      * who specified an id.
      */
     public static final String GENERATEDIDCLASS = "wikigeneratedid";
-
-    private static final Set<SyntaxType> HTML_TYPES =
-        SetUtils.hashSet(SyntaxType.XHTML, SyntaxType.HTML, SyntaxType.ANNOTATED_XHTML, SyntaxType.ANNOTATED_HTML);
 
     private XHTMLLinkRenderer linkRenderer;
 
@@ -591,7 +586,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     public void onRawText(String text, Syntax syntax)
     {
         // Directly inject the HTML content in the wiki printer (bypassing the XHTML printer)
-        if (HTML_TYPES.contains(syntax.getType())) {
+        if (SyntaxType.HTML_TYPES.contains(syntax.getType())) {
             getXHTMLWikiPrinter().printRaw(text);
         }
     }
