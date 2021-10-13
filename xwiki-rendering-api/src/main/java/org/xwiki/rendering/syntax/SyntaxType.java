@@ -126,9 +126,11 @@ public class SyntaxType implements Comparable<SyntaxType>
     public static final SyntaxType HTML = register("html", "HTML");
 
     /**
-     * All HTML types.
+     * Browser specific syntaxes.
+     *
+     * @since 13.9RC1
      */
-    public static final Set<SyntaxType> HTML_TYPES = SetUtils.hashSet(XHTML, HTML, ANNOTATED_XHTML, ANNOTATED_HTML);
+    public static final Set<SyntaxType> BROWSER_TYPES = SetUtils.hashSet(XHTML, HTML, ANNOTATED_XHTML, ANNOTATED_HTML);
 
     /**
      * Plain text syntax.
