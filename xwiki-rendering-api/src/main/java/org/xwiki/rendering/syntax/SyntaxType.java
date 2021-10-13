@@ -126,7 +126,7 @@ public class SyntaxType implements Comparable<SyntaxType>
     public static final SyntaxType HTML = register("html", "HTML");
 
     /**
-     * Browser specific syntaxes.
+     * Syntaxes that can be rendered directly by Browsers.
      *
      * @since 13.9RC1
      */
