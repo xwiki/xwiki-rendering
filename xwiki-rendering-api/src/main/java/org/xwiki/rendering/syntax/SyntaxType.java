@@ -25,7 +25,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections4.SetUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -122,6 +124,14 @@ public class SyntaxType implements Comparable<SyntaxType>
      * HTML syntaxes.
      */
     public static final SyntaxType HTML = register("html", "HTML");
+
+    /**
+     * Syntaxes that are from the HTML family.
+     *
+     * @since 13.9RC1
+     */
+    public static final Set<SyntaxType> HTML_FAMILY_TYPES = SetUtils.hashSet(XHTML, HTML, ANNOTATED_XHTML,
+			ANNOTATED_HTML);
 
     /**
      * Plain text syntax.
