@@ -586,7 +586,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     public void onRawText(String text, Syntax syntax)
     {
         // Directly inject the HTML content in the wiki printer (bypassing the XHTML printer)
-        if (SyntaxType.BROWSER_TYPES.contains(syntax.getType())) {
+        if (SyntaxType.HTML_FAMILY_TYPES.contains(syntax.getType())) {
             getXHTMLWikiPrinter().printRaw(text);
         }
     }
