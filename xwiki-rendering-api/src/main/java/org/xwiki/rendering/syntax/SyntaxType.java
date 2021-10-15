@@ -32,6 +32,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.parser.ParseException;
+import org.xwiki.stability.Unstable;
 import org.xwiki.text.StringUtils;
 
 /**
@@ -130,6 +131,7 @@ public class SyntaxType implements Comparable<SyntaxType>
      *
      * @since 13.9RC1
      */
+    @Unstable
     public static final Set<SyntaxType> HTML_FAMILY_TYPES = SetUtils.hashSet(XHTML, HTML, ANNOTATED_XHTML,
 			ANNOTATED_HTML);
 
