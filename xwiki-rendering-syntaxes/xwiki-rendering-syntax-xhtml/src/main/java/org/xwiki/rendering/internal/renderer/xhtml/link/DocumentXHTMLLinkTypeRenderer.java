@@ -23,7 +23,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
@@ -43,8 +42,7 @@ import org.xwiki.rendering.wiki.WikiModel;
  * @version $Id$
  * @since 2.5M2
  */
-@Component
-@Named("doc")
+@Component(hints = {"doc", "page"})
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer implements Initializable
 {
