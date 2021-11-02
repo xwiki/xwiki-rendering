@@ -73,8 +73,7 @@ stage ('Rendering Builds') {
           properties = '-Dxwiki.jacoco.itDestFile=`pwd`/target/jacoco-it.exec'
           sonar = true
           javadoc = false
-          // Build with Java 16 since Sonar requires Java 11+ and we want at the same time to verify that XWiki builds
-          // with the latest Java version.
+          // Build with Java 16 since Sonar requires Java 11+.
           javaTool = 'java16'
         }
       }
