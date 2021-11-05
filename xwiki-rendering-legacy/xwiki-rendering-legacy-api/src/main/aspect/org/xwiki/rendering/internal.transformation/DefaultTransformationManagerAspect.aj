@@ -17,25 +17,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.transformation;
+package org.xwiki.rendering.internal.transformation;
 
-import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.transformation.TransformationException;
+import org.xwiki.rendering.transformation.TransformationContext;
 
 /**
- * Executes a set of transformations, in the correct order.
+ * Add a backward compatibility layer to the {@link DefaultTransformationManager} class.
  *
  * @version $Id$
- * @since 1.5M2
+ * @since 13.10RC1
  */
-@Role
-public interface TransformationManager
+public privileged aspect DefaultTransformationManagerAspect
 {
     /**
-     * @param block the block to transform
-     * @param context the context of the transformation process.
-     * @throws TransformationException error when applying transformations
-     * @since 2.4M1
+     * {@inheritDoc}
+     *
+     * @deprecated Replaced by {@link #performTransformations(Block, TransformationContext)}
+     *
      */
-    void performTransformations(Block block, TransformationContext context) throws TransformationException;
+    @Deprecated
+    public void DefaultTransformationManager.performTransformations(XDOM dom, Syntax syntax)
+      throws TransformationException
+    {
+        performTransformations(dom, new TransformationContext(dom, syntax));
+    }
 }

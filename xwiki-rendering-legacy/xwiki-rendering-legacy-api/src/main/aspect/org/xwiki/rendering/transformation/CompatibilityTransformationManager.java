@@ -19,23 +19,23 @@
  */
 package org.xwiki.rendering.transformation;
 
-import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * Executes a set of transformations, in the correct order.
+ * Indirect way of adding a new method to an interface.
  *
  * @version $Id$
- * @since 1.5M2
+ * @since 13.10RC1
  */
-@Role
-public interface TransformationManager
+public interface CompatibilityTransformationManager
 {
     /**
-     * @param block the block to transform
-     * @param context the context of the transformation process.
+     * @param dom the XDOM on which apply transformations
+     * @param syntax the syntax of the source from where this XDOM as been generated
      * @throws TransformationException error when applying transformations
-     * @since 2.4M1
+     * @deprecated since 2.4M1 use {@link #performTransformations(Block, TransformationContext)} instead
      */
-    void performTransformations(Block block, TransformationContext context) throws TransformationException;
+    @Deprecated
+    void performTransformations(XDOM dom, Syntax syntax) throws TransformationException;
 }

@@ -19,23 +19,13 @@
  */
 package org.xwiki.rendering.transformation;
 
-import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.block.Block;
-
 /**
- * Executes a set of transformations, in the correct order.
+ * Add a backward compatibility layer to the {@link TransformationManager} class.
  *
  * @version $Id$
- * @since 1.5M2
+ * @since 13.10RC1
  */
-@Role
-public interface TransformationManager
+public privileged aspect TransformationManagerAspect
 {
-    /**
-     * @param block the block to transform
-     * @param context the context of the transformation process.
-     * @throws TransformationException error when applying transformations
-     * @since 2.4M1
-     */
-    void performTransformations(Block block, TransformationContext context) throws TransformationException;
+    declare parents : TransformationManager implements CompatibilityTransformationManager;
 }

@@ -36,9 +36,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
-import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
@@ -80,19 +78,6 @@ public class DefaultTransformationManager implements TransformationManager
     @Inject
     @Named("context")
     private Provider<ComponentManager> componentManagerProvider;
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @deprecated Replaced by {@link #performTransformations(Block, TransformationContext)}
-     *
-     */
-    @Override
-    @Deprecated
-    public void performTransformations(XDOM dom, Syntax syntax) throws TransformationException
-    {
-        performTransformations(dom, new TransformationContext(dom, syntax));
-    }
 
     @Override
     public void performTransformations(Block block, TransformationContext context) throws TransformationException
