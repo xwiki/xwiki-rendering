@@ -34,7 +34,8 @@ public interface CompatibilityTransformationManager
      * @param dom the XDOM on which apply transformations
      * @param syntax the syntax of the source from where this XDOM as been generated
      * @throws TransformationException error when applying transformations
-     * @deprecated since 2.4M1 use {@link #performTransformations(Block, TransformationContext)} instead
+     * @deprecated since 2.4M1 use {@link TransformationManager#performTransformations(Block, TransformationContext)}
+     * instead
      */
     @Deprecated
     void performTransformations(XDOM dom, Syntax syntax) throws TransformationException;
