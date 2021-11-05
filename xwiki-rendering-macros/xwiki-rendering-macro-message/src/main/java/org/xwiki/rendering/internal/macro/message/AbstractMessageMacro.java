@@ -39,11 +39,6 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
     /**
-     * Predefined error message.
-     */
-    public static final String CONTENT_MISSING_ERROR = "The required content is missing.";
-
-    /**
      * Create and initialize the descriptor of the macro.
      *
      * @param macroName the macro name (eg "Error", "Info", etc)
