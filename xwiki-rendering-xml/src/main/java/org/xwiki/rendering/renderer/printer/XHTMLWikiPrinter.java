@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
-import org.xwiki.stability.Unstable;
 
 /**
  * Base toolkit class for all XHTML-based renderers. This printer handles whitespaces so that it prints "&nbsp;" when
@@ -62,7 +61,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
      * is printed.
      * @since 12.2
      */
-    @Unstable
     public void setStandalone()
     {
         this.isStandalone = true;
