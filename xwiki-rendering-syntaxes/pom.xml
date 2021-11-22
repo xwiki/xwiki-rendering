@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering</artifactId>
-    <version>13.10.1-SNAPSHOT</version>
+    <version>14.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-syntaxes</artifactId>
   <name>XWiki Rendering - Syntaxes - Parent POM</name>
