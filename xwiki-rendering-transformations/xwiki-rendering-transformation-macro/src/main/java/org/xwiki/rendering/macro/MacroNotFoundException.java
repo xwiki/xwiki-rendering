@@ -42,8 +42,8 @@ public class MacroNotFoundException extends MacroLookupException
 
     /**
      * @param message the detail message.
-     * @param cause the cause (which is saved for later retrieval by the {@link #getCause()} method). (A <tt>null</tt>
-     *            value is permitted, and indicates that the cause is nonexistent or unknown.)
+     * @param cause the cause (which is saved for later retrieval by the {@link #getCause()} method). A {@code null}
+     *            value is permitted, and indicates that the cause is nonexistent or unknown
      */
     public MacroNotFoundException(String message, Throwable cause)
     {
