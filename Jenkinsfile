@@ -73,9 +73,6 @@ stage ('Rendering Builds') {
           properties = '-Dxwiki.jacoco.itDestFile=`pwd`/target/jacoco-it.exec'
           sonar = true
           javadoc = false
-          // Build with Java 14 since Sonar requires Java 11+ (and currently we can't use Java 16 or 17 because of
-          // Spoon).
-          javaTool = 'java14'
         }
       }
     },
