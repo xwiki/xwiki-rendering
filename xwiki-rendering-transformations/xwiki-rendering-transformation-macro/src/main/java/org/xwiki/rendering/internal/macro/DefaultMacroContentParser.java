@@ -99,8 +99,7 @@ public class DefaultMacroContentParser implements MacroContentParser
             throw new MacroExecutionException("Invalid Transformation: missing Syntax");
         }
 
-        return createXDOM(content, macroContext, transform,
-            metadata, inline, syntax);
+        return createXDOM(content, macroContext, transform, metadata, inline, syntax);
     }
 
     /**
@@ -119,8 +118,8 @@ public class DefaultMacroContentParser implements MacroContentParser
             if (transform && macroContext.getTransformation() != null) {
                 TransformationContext txContext = new TransformationContext(result, syntax);
                 txContext.setId(macroContext.getId());
-                performTransformation((MutableRenderingContext) this.renderingContext,
-                    macroContext.getTransformation(), txContext, result);
+                performTransformation((MutableRenderingContext) this.renderingContext, macroContext.getTransformation(),
+                    txContext, result);
             }
 
             if (inline) {
@@ -152,18 +151,21 @@ public class DefaultMacroContentParser implements MacroContentParser
      */
     private XDOM convertToInline(XDOM xdom)
     {
-        List<Block> blocks = new ArrayList<Block>(xdom.getChildren());
+        List<Block> blocks = new ArrayList<>(xdom.getChildren());
 
         // TODO: use inline parser instead
         if (!blocks.isEmpty()) {
             this.parserUtils.removeTopLevelParagraph(blocks);
 
             // Make sure included macro is inline when script macro itself is inline
-            Block block = blocks.get(0);
-            if (block instanceof MacroBlock) {
-                MacroBlock macro = (MacroBlock) block;
-                if (!macro.isInline()) {
-                    blocks.set(0, new MacroBlock(macro.getId(), macro.getParameters(), macro.getContent(), true));
+            for (int i = 0; i < blocks.size(); ++i) {
+                Block block = blocks.get(i);
+
+                if (block instanceof MacroBlock) {
+                    MacroBlock macro = (MacroBlock) block;
+                    if (!macro.isInline()) {
+                        blocks.set(i, new MacroBlock(macro.getId(), macro.getParameters(), macro.getContent(), true));
+                    }
                 }
             }
 

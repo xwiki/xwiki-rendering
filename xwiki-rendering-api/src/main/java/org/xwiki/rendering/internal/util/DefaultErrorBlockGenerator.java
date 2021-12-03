@@ -36,6 +36,8 @@ import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.VerbatimBlock;
 import org.xwiki.rendering.block.WordBlock;
+import org.xwiki.rendering.block.match.ClassBlockMatcher;
+import org.xwiki.rendering.block.match.OrBlockMatcher;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.util.ErrorBlockGenerator;
 
@@ -50,7 +52,7 @@ import org.xwiki.rendering.util.ErrorBlockGenerator;
 public class DefaultErrorBlockGenerator implements ErrorBlockGenerator
 {
     @Inject
-    private Logger logger;
+    protected Logger logger;
 
     @Override
     public List<Block> generateErrorBlocks(String message, String description, boolean isInline)
@@ -79,8 +81,8 @@ public class DefaultErrorBlockGenerator implements ErrorBlockGenerator
     public List<Block> generateErrorBlocks(String messagePrefix, Throwable throwable, boolean isInline)
     {
         // Note: We're using ExceptionUtils.getRootCause(e).getMessage() instead of getRootCauseMessage()
-        //       below because getRootCauseMessage() adds a technical prefix (the name of the exception), that
-        //       we don't want to display to our users.
+        // below because getRootCauseMessage() adds a technical prefix (the name of the exception), that
+        // we don't want to display to our users.
         Throwable rootCause = ExceptionUtils.getRootCause(throwable);
         if (rootCause == null) {
             // If there's no nested exception, fall back to the throwable itself for getting the cause
@@ -95,5 +97,22 @@ public class DefaultErrorBlockGenerator implements ErrorBlockGenerator
         this.logger.debug(augmentedMessage);
 
         return generateErrorBlocks(augmentedMessage, ExceptionUtils.getStackTrace(throwable), isInline);
+    }
+
+    @Override
+    public boolean containsError(Block parent)
+    {
+        boolean foundError = false;
+        List<Block> groupAndFormatBlocks = parent.getBlocks(
+            new OrBlockMatcher(new ClassBlockMatcher(GroupBlock.class), new ClassBlockMatcher(FormatBlock.class)),
+            Block.Axes.DESCENDANT);
+        for (Block block : groupAndFormatBlocks) {
+            String classParameter = block.getParameters().get(ErrorBlockGenerator.CLASS_ATTRIBUTE_NAME);
+            if (classParameter != null && classParameter.contains(ErrorBlockGenerator.CLASS_ATTRIBUTE_MESSAGE_VALUE)) {
+                foundError = true;
+                break;
+            }
+        }
+        return foundError;
     }
 }

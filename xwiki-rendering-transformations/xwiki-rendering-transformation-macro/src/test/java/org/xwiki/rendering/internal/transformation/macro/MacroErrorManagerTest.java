@@ -77,7 +77,7 @@ public class MacroErrorManagerTest
             new MacroErrorManager(this.componentManager.getInstance(ErrorBlockGenerator.class));
         MacroBlock macroBlock = new MacroBlock("testmacro", Collections.emptyMap(), true);
         XDOM xdom = new XDOM(Arrays.asList(macroBlock));
-        errorManager.generateError(macroBlock, "test message", "test description");
+        errorManager.generateError(macroBlock, null, "test message", "test description");
         Assert.assertTrue(errorManager.containsError(xdom));
     }
 }

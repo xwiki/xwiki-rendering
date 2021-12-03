@@ -21,14 +21,13 @@ package org.xwiki.rendering.internal.transformation.macro;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.xwiki.logging.marker.TranslationMarker;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.FormatBlock;
-import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.block.match.ClassBlockMatcher;
-import org.xwiki.rendering.block.match.OrBlockMatcher;
 import org.xwiki.rendering.util.ErrorBlockGenerator;
 
 /**
@@ -50,55 +49,12 @@ public class MacroErrorManager
     }
 
     /**
-     * Generates Blocks to signify that the passed Macro Block has failed to execute.
-     *
-     * @param macroToReplace the block for the macro that failed to execute and that we'll replace with Block
-     *        showing to the user that macro has failed
-     * @param message the message to display to the user in place of the macro result
-     * @param description the long description of the error to display to the user in place of the macro result
-     */
-    public void generateError(MacroBlock macroToReplace, String message, String description)
-    {
-        List<Block> errorBlocks =
-            this.errorBlockGenerator.generateErrorBlocks(message, description, macroToReplace.isInline());
-        macroToReplace.getParent().replaceChild(wrapInMacroMarker(macroToReplace, errorBlocks), macroToReplace);
-    }
-
-    /**
-     * Generates Blocks to signify that the passed Macro Block has failed to execute.
-     *
-     * @param macroToReplace the block for the macro that failed to execute and that we'll replace with Block
-     *        showing to the user that macro has failed
-     * @param message the message to display to the user in place of the macro result
-     * @param throwable the exception for the failed macro execution to display to the user in place of the macro result
-     */
-    public void generateError(MacroBlock macroToReplace, String message, Throwable throwable)
-    {
-        List<Block> errorBlocks =
-            this.errorBlockGenerator.generateErrorBlocks(message, throwable, macroToReplace.isInline());
-        macroToReplace.getParent().replaceChild(wrapInMacroMarker(macroToReplace, errorBlocks), macroToReplace);
-    }
-
-    /**
      * @param xdom the XDOM on which to check if there's a macro error
      * @return true if the passed XDOM contains a macro error or false otherwise
      */
     public boolean containsError(XDOM xdom)
     {
-        boolean foundError = false;
-        List<Block> groupAndFormatBlocks = xdom.getBlocks(
-            new OrBlockMatcher(
-                new ClassBlockMatcher(GroupBlock.class),
-                new ClassBlockMatcher(FormatBlock.class)),
-            Block.Axes.DESCENDANT);
-        for (Block block : groupAndFormatBlocks) {
-            String classParameter = block.getParameters().get(ErrorBlockGenerator.CLASS_ATTRIBUTE_NAME);
-            if (classParameter != null && classParameter.contains(ErrorBlockGenerator.CLASS_ATTRIBUTE_MESSAGE_VALUE)) {
-                foundError = true;
-                break;
-            }
-        }
-        return foundError;
+        return this.errorBlockGenerator.containsError(xdom);
     }
 
     /**
@@ -112,5 +68,24 @@ public class MacroErrorManager
     {
         return new MacroMarkerBlock(macroBlockToWrap.getId(), macroBlockToWrap.getParameters(),
             macroBlockToWrap.getContent(), newBlocks, macroBlockToWrap.isInline());
+    }
+
+    /**
+     * Generates Blocks to signify that the passed Macro Block has failed to execute.
+     * 
+     * @param macroToReplace
+     * @param marker a marker associated to the message. It's recommended to at least pass a {@link TranslationMarker}
+     *            to indicate how to translate the message.
+     * @param defaultMessage the default message following SLF4J's {@link Logger} syntax
+     * @param defaultDescription the default description following SLF4J's {@link Logger} syntax
+     * @param arguments a list arguments to insert in the message and the description and/or a {@link Throwable}
+     * @since 14.0RC1
+     */
+    public void generateError(MacroBlock macroToReplace, Marker marker, String defaultMessage,
+        String defaultDescription, Object... arguments)
+    {
+        List<Block> errorBlocks = this.errorBlockGenerator.generateErrorBlocks(macroToReplace.isInline(), marker,
+            defaultMessage, defaultDescription, arguments);
+        macroToReplace.getParent().replaceChild(wrapInMacroMarker(macroToReplace, errorBlocks), macroToReplace);
     }
 }
