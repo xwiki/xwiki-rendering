@@ -28,9 +28,15 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.logging.LogLevel;
+import org.xwiki.logging.LogUtils;
+import org.xwiki.logging.event.LogEvent;
+import org.xwiki.logging.marker.TranslationMarker;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
@@ -55,7 +61,21 @@ public class DefaultErrorBlockGenerator implements ErrorBlockGenerator
     protected Logger logger;
 
     @Override
-    public List<Block> generateErrorBlocks(String message, String description, boolean isInline)
+    public List<Block> generateErrorBlocks(boolean inline, String messageId, String defaultMessage,
+        String defaultDescription, Object... arguments)
+    {
+        LogEvent message = LogUtils.newLogEvent(messageId != null ? new TranslationMarker(messageId) : null,
+            LogLevel.ERROR,
+            defaultMessage != null && !defaultMessage.endsWith(".") ? defaultMessage + '.' : defaultMessage, arguments);
+        LogEvent description = defaultDescription != null
+            ? LogUtils.newLogEvent(messageId != null ? new TranslationMarker(messageId + ".description") : null,
+                LogLevel.ERROR, defaultDescription, arguments)
+            : null;
+
+        return generateErrorBlocks(inline, message, description);
+    }
+
+    protected List<Block> generateErrorBlocks(boolean inline, LogEvent message, LogEvent description)
     {
         List<Block> errorBlocks = new ArrayList<>();
 
@@ -64,39 +84,80 @@ public class DefaultErrorBlockGenerator implements ErrorBlockGenerator
         Map<String, String> errorDescriptionBlockParams =
             Collections.singletonMap(CLASS_ATTRIBUTE_NAME, CLASS_ATTRIBUTE_DESCRIPTION_VALUE);
 
-        Block descriptionBlock = new VerbatimBlock(description, isInline);
+        StringBuilder messageBuilder = new StringBuilder();
 
-        if (isInline) {
-            errorBlocks.add(new FormatBlock(Arrays.asList(new WordBlock(message)), Format.NONE, errorBlockParams));
-            errorBlocks.add(new FormatBlock(Arrays.asList(descriptionBlock), Format.NONE, errorDescriptionBlockParams));
+        if (StringUtils.isNotEmpty(message.getMessage())) {
+            messageBuilder.append(message.getFormattedMessage());
+        }
+
+        List<Block> descriptionChildren = new ArrayList<>();
+
+        // Description
+        addDescriptionBlock(inline, description, descriptionChildren);
+
+        // Stack trace
+        addStackTraceBlock(inline, message, messageBuilder, descriptionChildren);
+
+        if (!descriptionChildren.isEmpty()) {
+            messageBuilder.append(" Click on this message for details.");
+        }
+
+        if (inline) {
+            errorBlocks.add(new FormatBlock(Arrays.asList(new WordBlock(messageBuilder.toString())), Format.NONE,
+                errorBlockParams));
+            if (!descriptionChildren.isEmpty()) {
+                errorBlocks.add(new FormatBlock(descriptionChildren, Format.NONE, errorDescriptionBlockParams));
+            }
         } else {
-            errorBlocks.add(new GroupBlock(Arrays.asList(new WordBlock(message)), errorBlockParams));
-            errorBlocks.add(new GroupBlock(Arrays.asList(descriptionBlock), errorDescriptionBlockParams));
+            errorBlocks
+                .add(new GroupBlock(Arrays.asList(new WordBlock(message.getFormattedMessage())), errorBlockParams));
+            if (!descriptionChildren.isEmpty()) {
+                errorBlocks.add(new GroupBlock(descriptionChildren, errorDescriptionBlockParams));
+            }
         }
 
         return errorBlocks;
     }
 
+    private void addDescriptionBlock(boolean inline, LogEvent description, List<Block> descriptionChildren)
+    {
+        if (description != null) {
+            descriptionChildren.add(new VerbatimBlock(description.getFormattedMessage(), inline));
+        }
+    }
+
+    private void addStackTraceBlock(boolean inline, LogEvent message, StringBuilder messageBuilder,
+        List<Block> descriptionChildren)
+    {
+        if (message.getThrowable() != null) {
+            // Note: We're using ExceptionUtils.getRootCause(e).getMessage() instead of getRootCauseMessage()
+            // below because getRootCauseMessage() adds a technical prefix (the name of the exception), that
+            // we don't want to display to our users.
+            Throwable rootCause = ExceptionUtils.getRootCause(message.getThrowable());
+            if (rootCause == null) {
+                // If there's no nested exception, fall back to the throwable itself for getting the cause
+                rootCause = message.getThrowable();
+            }
+
+            descriptionChildren.add(new VerbatimBlock(ExceptionUtils.getStackTrace(message.getThrowable()), inline));
+
+            // Also add more details to the message
+            messageBuilder.append(" Cause: [");
+            messageBuilder.append(rootCause.getMessage());
+            messageBuilder.append("].");
+        }
+    }
+
+    @Override
+    public List<Block> generateErrorBlocks(String message, String description, boolean isInline)
+    {
+        return generateErrorBlocks(isInline, null, message, description, ArrayUtils.EMPTY_OBJECT_ARRAY);
+    }
+
     @Override
     public List<Block> generateErrorBlocks(String messagePrefix, Throwable throwable, boolean isInline)
     {
-        // Note: We're using ExceptionUtils.getRootCause(e).getMessage() instead of getRootCauseMessage()
-        // below because getRootCauseMessage() adds a technical prefix (the name of the exception), that
-        // we don't want to display to our users.
-        Throwable rootCause = ExceptionUtils.getRootCause(throwable);
-        if (rootCause == null) {
-            // If there's no nested exception, fall back to the throwable itself for getting the cause
-            rootCause = throwable;
-        }
-
-        String augmentedMessage = String.format("%s%s", messagePrefix,
-            rootCause == null ? "" : String.format(". Cause: [%s]", rootCause.getMessage()));
-        augmentedMessage = String.format("%s%sClick on this message for details.", augmentedMessage,
-            augmentedMessage.trim().endsWith(".") ? " " : ". ");
-
-        this.logger.debug(augmentedMessage);
-
-        return generateErrorBlocks(augmentedMessage, ExceptionUtils.getStackTrace(throwable), isInline);
+        return generateErrorBlocks(isInline, null, messagePrefix, null, throwable);
     }
 
     @Override

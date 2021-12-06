@@ -22,8 +22,6 @@ package org.xwiki.rendering.internal.transformation.macro;
 import java.util.List;
 
 import org.slf4j.Logger;
-import org.slf4j.Marker;
-import org.xwiki.logging.marker.TranslationMarker;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
@@ -74,17 +72,17 @@ public class MacroErrorManager
      * Generates Blocks to signify that the passed Macro Block has failed to execute.
      * 
      * @param macroToReplace
-     * @param marker a marker associated to the message. It's recommended to at least pass a {@link TranslationMarker}
-     *            to indicate how to translate the message.
+     * @param messageId an identifier associated to the message. It's generally used, among other things, to find a
+     *            translation for the message and the description in implementation which supports it.
      * @param defaultMessage the default message following SLF4J's {@link Logger} syntax
      * @param defaultDescription the default description following SLF4J's {@link Logger} syntax
      * @param arguments a list arguments to insert in the message and the description and/or a {@link Throwable}
      * @since 14.0RC1
      */
-    public void generateError(MacroBlock macroToReplace, Marker marker, String defaultMessage,
+    public void generateError(MacroBlock macroToReplace, String messageId, String defaultMessage,
         String defaultDescription, Object... arguments)
     {
-        List<Block> errorBlocks = this.errorBlockGenerator.generateErrorBlocks(macroToReplace.isInline(), marker,
+        List<Block> errorBlocks = this.errorBlockGenerator.generateErrorBlocks(macroToReplace.isInline(), messageId,
             defaultMessage, defaultDescription, arguments);
         macroToReplace.getParent().replaceChild(wrapInMacroMarker(macroToReplace, errorBlocks), macroToReplace);
     }

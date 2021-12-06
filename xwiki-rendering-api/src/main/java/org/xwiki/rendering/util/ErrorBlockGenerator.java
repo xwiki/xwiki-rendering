@@ -102,8 +102,8 @@ public interface ErrorBlockGenerator
      * context depending on the implementation of this component.
      * 
      * @param inline whether the generated blocks should be inline or not
-     * @param marker a marker associated to the message. It's recommended to at least pass a {@link TranslationMarker}
-     *            to indicate how to translate the message.
+     * @param messageId an identifier associated to the message. It's generally used, among other things, to find a
+     *            translation for the message and the description in implementation which supports it.
      * @param defaultMessage the default message following SLF4J's {@link Logger} syntax
      * @param defaultDescription the default description following SLF4J's {@link Logger} syntax
      * @param arguments a list arguments to insert in the message and the description and/or a {@link Throwable}
@@ -111,9 +111,10 @@ public interface ErrorBlockGenerator
      * @since 14.0RC1
      */
     @Unstable
-    default List<Block> generateErrorBlocks(boolean inline, Marker marker, String defaultMessage,
+    default List<Block> generateErrorBlocks(boolean inline, String messageId, String defaultMessage,
         String defaultDescription, Object... arguments)
     {
+        Marker marker = new TranslationMarker(messageId);
         LogEvent message = LogUtils.newLogEvent(marker, LogLevel.ERROR, defaultMessage, arguments);
 
         if (message.getThrowable() != null) {

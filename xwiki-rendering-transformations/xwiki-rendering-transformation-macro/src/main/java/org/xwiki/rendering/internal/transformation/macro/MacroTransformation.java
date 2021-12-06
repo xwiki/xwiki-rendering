@@ -32,7 +32,6 @@ import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
-import org.xwiki.logging.marker.TranslationMarker;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
@@ -68,15 +67,15 @@ import org.xwiki.rendering.util.ErrorBlockGenerator;
 @Singleton
 public class MacroTransformation extends AbstractTransformation implements Initializable
 {
-    private static final TranslationMarker TM_UNKNOWNMACRO = new TranslationMarker("rendering.macro.error.unknown");
+    private static final String TM_UNKNOWNMACRO = "rendering.macro.error.unknown";
 
-    private static final TranslationMarker TM_FAILEDMACRO = new TranslationMarker("rendering.macro.error.failed");
+    private static final String TM_FAILEDMACRO = "rendering.macro.error.failed";
 
-    private static final TranslationMarker TM_INVALIDMACRO = new TranslationMarker("rendering.macro.error.invalid");
+    private static final String TM_INVALIDMACRO = "rendering.macro.error.invalid";
 
-    private static final TranslationMarker TM_STANDALONEMACRO = new TranslationMarker("rendering.macro.error.standalone");
+    private static final String TM_STANDALONEMACRO = "rendering.macro.error.standalone";
 
-    private static final TranslationMarker TM_INVALIDMACROPARAMETER = new TranslationMarker("rendering.macro.error.invalidParameter");
+    private static final String TM_INVALIDMACROPARAMETER = "rendering.macro.error.invalidParameter";
 
     private static class MacroLookupExceptionElement
     {
