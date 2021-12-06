@@ -62,7 +62,10 @@ public interface ErrorBlockGenerator
      * @since 14.0RC1
      */
     @Unstable
-    boolean containsError(Block block);
+    default boolean containsError(Block block)
+    {
+        return false;
+    }
 
     /**
      * Generates error blocks to render an error in a wiki page.
