@@ -109,8 +109,7 @@ public class DefaultErrorBlockGenerator implements ErrorBlockGenerator
                 errorBlocks.add(new FormatBlock(descriptionChildren, Format.NONE, errorDescriptionBlockParams));
             }
         } else {
-            errorBlocks
-                .add(new GroupBlock(Arrays.asList(new WordBlock(message.getFormattedMessage())), errorBlockParams));
+            errorBlocks.add(new GroupBlock(Arrays.asList(new WordBlock(messageBuilder.toString())), errorBlockParams));
             if (!descriptionChildren.isEmpty()) {
                 errorBlocks.add(new GroupBlock(descriptionChildren, errorDescriptionBlockParams));
             }
