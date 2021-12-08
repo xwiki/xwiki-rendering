@@ -73,12 +73,8 @@ public class ParserUtils
     {
         List<Block> blocks;
         if (rootBlock instanceof XDOM || rootBlock instanceof CompositeBlock) {
-            blocks = rootBlock.getChildren();
-
-            // Make sure to the list is modifiable List
-            if (!(blocks instanceof ArrayList)) {
-                blocks = new ArrayList<>(blocks);
-            }
+            // We can't modify directly the block's children list
+            blocks = new ArrayList<>(rootBlock.getChildren());
         } else {
             blocks = Arrays.asList(rootBlock);
         }
