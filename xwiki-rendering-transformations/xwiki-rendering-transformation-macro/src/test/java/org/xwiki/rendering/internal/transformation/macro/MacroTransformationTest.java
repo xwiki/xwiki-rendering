@@ -276,7 +276,7 @@ public class MacroTransformationTest
         String expected = "beginDocument\n"
             + "beginMacroMarkerStandalone [notexisting] []\n"
             + "beginGroup [[class]=[xwikirenderingerror]]\n"
-            + "onWord [Unknown macro: notexisting.]\n"
+            + "onWord [Unknown macro: notexisting. Click on this message for details.]\n"
             + "endGroup [[class]=[xwikirenderingerror]]\n"
             + "beginGroup [[class]=[xwikirenderingerrordescription hidden]]\n"
             + "onVerbatim [The [notexisting] macro is not in the list of registered macros. "
