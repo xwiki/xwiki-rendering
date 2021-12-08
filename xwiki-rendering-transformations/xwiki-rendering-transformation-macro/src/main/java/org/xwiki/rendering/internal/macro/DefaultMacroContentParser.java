@@ -20,7 +20,6 @@
 package org.xwiki.rendering.internal.macro;
 
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,6 +32,7 @@ import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.Block.Axes;
+import org.xwiki.rendering.block.CompositeBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.XDOM;
@@ -151,22 +151,14 @@ public class DefaultMacroContentParser implements MacroContentParser
      */
     private XDOM convertToInline(XDOM xdom)
     {
-        List<Block> blocks = new ArrayList<>(xdom.getChildren());
+        if (!xdom.getChildren().isEmpty()) {
+            Block inlineBlock = this.parserUtils.convertToInline(xdom);
 
-        // TODO: use inline parser instead
-        if (!blocks.isEmpty()) {
-            this.parserUtils.removeTopLevelParagraph(blocks);
-
-            // Make sure included macro is inline when script macro itself is inline
-            for (int i = 0; i < blocks.size(); ++i) {
-                Block block = blocks.get(i);
-
-                if (block instanceof MacroBlock) {
-                    MacroBlock macro = (MacroBlock) block;
-                    if (!macro.isInline()) {
-                        blocks.set(i, new MacroBlock(macro.getId(), macro.getParameters(), macro.getContent(), true));
-                    }
-                }
+            List<Block> blocks;
+            if (inlineBlock instanceof CompositeBlock) {
+                blocks = inlineBlock.getChildren();
+            } else {
+                blocks = Collections.singletonList(inlineBlock);
             }
 
             xdom.setChildren(blocks);

@@ -19,10 +19,18 @@
  */
 package org.xwiki.rendering.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.CompositeBlock;
+import org.xwiki.rendering.block.MacroBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
+import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.stability.Unstable;
 
 /**
  * Methods for helping in parsing.
@@ -49,6 +57,71 @@ public class ParserUtils
             // Remove parent block
             for (Block block : blocks) {
                 block.setParent(null);
+            }
+        }
+    }
+
+    /**
+     * Make its best to convert a passed block to its inline version. Sometime it's simply impossible to convert an
+     * inline block, in which case it will just be returned as is.
+     * 
+     * @param rootBlock the block to convert
+     * @return the inline version of the passed block
+     * @since 14.0RC1
+     */
+    @Unstable
+    public Block convertToInline(Block rootBlock)
+    {
+        List<Block> blocks;
+        if (rootBlock instanceof XDOM || rootBlock instanceof CompositeBlock) {
+            blocks = rootBlock.getChildren();
+
+            // Make sure to the list is modifiable List
+            if (!(blocks instanceof ArrayList)) {
+                blocks = new ArrayList<>(blocks);
+            }
+        } else {
+            blocks = Arrays.asList(rootBlock);
+        }
+
+        convertToInline(blocks);
+
+        // Preserve source metadata if any
+        if (rootBlock instanceof XDOM) {
+            MetaData metadata = ((XDOM) rootBlock).getMetaData();
+
+            if (!metadata.getMetaData().isEmpty()) {
+                return new MetaDataBlock(blocks, metadata);
+            }
+        }
+
+        return blocks.size() == 1 ? blocks.get(0) : new CompositeBlock(blocks);
+    }
+
+    /**
+     * Make its best to convert a passed blocks to their inline version. Sometime it's simply impossible to convert an
+     * inline block, in which case it will just be returned as is.
+     * 
+     * @param blocks the blocks to convert
+     * @since 14.0RC1
+     */
+    @Unstable
+    public void convertToInline(List<Block> blocks)
+    {
+        if (!blocks.isEmpty()) {
+            // Clean top level paragraph
+            removeTopLevelParagraph(blocks);
+
+            // Make sure all macros are inline
+            for (int i = 0; i < blocks.size(); ++i) {
+                Block block = blocks.get(i);
+
+                if (block instanceof MacroBlock) {
+                    MacroBlock macro = (MacroBlock) block;
+                    if (!macro.isInline()) {
+                        blocks.set(i, new MacroBlock(macro.getId(), macro.getParameters(), macro.getContent(), true));
+                    }
+                }
             }
         }
     }
