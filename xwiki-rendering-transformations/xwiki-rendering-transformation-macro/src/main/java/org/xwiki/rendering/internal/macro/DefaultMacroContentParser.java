@@ -21,7 +21,6 @@ package org.xwiki.rendering.internal.macro;
 
 import java.io.StringReader;
 import java.util.Collections;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -32,7 +31,6 @@ import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.Block.Axes;
-import org.xwiki.rendering.block.CompositeBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.XDOM;
@@ -152,16 +150,7 @@ public class DefaultMacroContentParser implements MacroContentParser
     private XDOM convertToInline(XDOM xdom)
     {
         if (!xdom.getChildren().isEmpty()) {
-            Block inlineBlock = this.parserUtils.convertToInline(xdom);
-
-            List<Block> blocks;
-            if (inlineBlock instanceof CompositeBlock) {
-                blocks = inlineBlock.getChildren();
-            } else {
-                blocks = Collections.singletonList(inlineBlock);
-            }
-
-            xdom.setChildren(blocks);
+            return (XDOM) this.parserUtils.convertToInline(xdom, true);
         }
 
         return xdom;

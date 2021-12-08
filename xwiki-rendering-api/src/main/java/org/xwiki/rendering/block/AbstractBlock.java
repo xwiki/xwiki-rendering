@@ -184,16 +184,18 @@ public abstract class AbstractBlock implements Block
     @Override
     public void setChildren(List<? extends Block> children)
     {
-        if (children.isEmpty()) {
-            if (this.childrenBlocks != null) {
-                this.childrenBlocks.clear();
-            }
-        } else {
-            if (this.childrenBlocks != null) {
-                this.childrenBlocks.clear();
-            }
+        if (children != this.childrenBlocks) {
+            if (children.isEmpty()) {
+                if (this.childrenBlocks != null) {
+                    this.childrenBlocks.clear();
+                }
+            } else {
+                if (this.childrenBlocks != null) {
+                    this.childrenBlocks.clear();
+                }
 
-            addChildren(children);
+                addChildren(children);
+            }
         }
     }
 

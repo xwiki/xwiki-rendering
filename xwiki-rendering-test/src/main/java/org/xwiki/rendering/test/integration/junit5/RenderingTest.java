@@ -22,10 +22,11 @@ package org.xwiki.rendering.test.integration.junit5;
 import java.util.List;
 import java.util.Map;
 
-import org.opentest4j.AssertionFailedError;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.test.integration.AbstractRenderingTest;
 import org.xwiki.rendering.test.integration.TestDataParser;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * A generic JUnit Test used by {@link RenderingTestExecutor} to parse some passed content and verify it matches some
@@ -46,6 +47,6 @@ public class RenderingTest extends AbstractRenderingTest
     @Override
     protected void throwAssertionException(String message, String expected, String result)
     {
-        throw new AssertionFailedError(message, expected, result);
+        assertEquals(expected, result, message);
     }
 }

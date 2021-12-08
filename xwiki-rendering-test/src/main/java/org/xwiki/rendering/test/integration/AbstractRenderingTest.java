@@ -250,7 +250,7 @@ public abstract class AbstractRenderingTest
         Pattern pattern = Pattern.compile(builder.toString(), Pattern.DOTALL);
         Matcher matcher = pattern.matcher(result);
         if (!matcher.matches()) {
-            throwAssertionException("", expected, result);
+            throwAssertionException("Result does not match the expected value", expected, result);
         }
     }
 

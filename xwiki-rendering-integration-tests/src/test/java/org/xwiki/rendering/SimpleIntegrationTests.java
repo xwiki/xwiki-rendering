@@ -29,7 +29,7 @@ import org.xwiki.test.annotation.AllComponents;
  * @version $Id$
  * @since 3.0RC1
  */
-@RenderingTests.Scope(value = "simple")
+@RenderingTests.Scope(value = "simple"/*, pattern = "macro35.test"*/)
 @AllComponents
 public class SimpleIntegrationTests implements RenderingTests
 {

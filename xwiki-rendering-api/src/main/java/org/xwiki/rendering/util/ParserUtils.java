@@ -26,10 +26,8 @@ import java.util.List;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.CompositeBlock;
 import org.xwiki.rendering.block.MacroBlock;
-import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -66,11 +64,12 @@ public class ParserUtils
      * inline block, in which case it will just be returned as is.
      * 
      * @param rootBlock the block to convert
+     * @param preserveXDOM true of the XDOM should be returned
      * @return the inline version of the passed block
      * @since 14.0RC1
      */
     @Unstable
-    public Block convertToInline(Block rootBlock)
+    public Block convertToInline(Block rootBlock, boolean preserveXDOM)
     {
         List<Block> blocks;
         if (rootBlock instanceof XDOM || rootBlock instanceof CompositeBlock) {
@@ -87,12 +86,10 @@ public class ParserUtils
         convertToInline(blocks);
 
         // Preserve source metadata if any
-        if (rootBlock instanceof XDOM) {
-            MetaData metadata = ((XDOM) rootBlock).getMetaData();
+        if (preserveXDOM && rootBlock instanceof XDOM) {
+            rootBlock.setChildren(blocks);
 
-            if (!metadata.getMetaData().isEmpty()) {
-                return new MetaDataBlock(blocks, metadata);
-            }
+            return rootBlock;
         }
 
         return blocks.size() == 1 ? blocks.get(0) : new CompositeBlock(blocks);
@@ -106,21 +103,19 @@ public class ParserUtils
      * @since 14.0RC1
      */
     @Unstable
+    // TODO: improve the implementation to really convert to inline everything that can be converted
     public void convertToInline(List<Block> blocks)
     {
         if (!blocks.isEmpty()) {
             // Clean top level paragraph
             removeTopLevelParagraph(blocks);
 
-            // Make sure all macros are inline
-            for (int i = 0; i < blocks.size(); ++i) {
-                Block block = blocks.get(i);
-
-                if (block instanceof MacroBlock) {
-                    MacroBlock macro = (MacroBlock) block;
-                    if (!macro.isInline()) {
-                        blocks.set(i, new MacroBlock(macro.getId(), macro.getParameters(), macro.getContent(), true));
-                    }
+            // Make sure included macro is inline when script macro itself is inline
+            Block block = blocks.get(0);
+            if (block instanceof MacroBlock) {
+                MacroBlock macro = (MacroBlock) block;
+                if (!macro.isInline()) {
+                    blocks.set(0, new MacroBlock(macro.getId(), macro.getParameters(), macro.getContent(), true));
                 }
             }
         }
