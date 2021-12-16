@@ -335,6 +335,38 @@ public class CompositeListener implements Listener
     }
 
     @Override
+    public void beginFigure(Map<String, String> parameters)
+    {
+        for (Listener listener : this.listeners) {
+            listener.beginFigure(parameters);
+        }
+    }
+
+    @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        for (Listener listener : this.listeners) {
+            listener.endFigure(parameters);
+        }
+    }
+
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        for (Listener listener : this.listeners) {
+            listener.beginFigureCaption(parameters);
+        }
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        for (Listener listener : this.listeners) {
+            listener.endFigureCaption(parameters);
+        }
+    }
+
+    @Override
     public void endSection(Map<String, String> parameters)
     {
         for (Listener listener : this.listeners) {
