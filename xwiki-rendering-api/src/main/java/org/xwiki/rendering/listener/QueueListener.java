@@ -360,6 +360,30 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
     }
 
     @Override
+    public void beginFigure(Map<String, String> parameters)
+    {
+        saveEvent(EventType.BEGIN_FIGURE, parameters);
+    }
+
+    @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        saveEvent(EventType.END_FIGURE, parameters);
+    }
+
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        saveEvent(EventType.BEGIN_FIGURE_CAPTION, parameters);
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        saveEvent(EventType.END_FIGURE_CAPTION, parameters);
+    }
+
+    @Override
     public void endSection(Map<String, String> parameters)
     {
         saveEvent(EventType.END_SECTION, parameters);
