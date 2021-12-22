@@ -1,0 +1,26 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|xwiki/2.0
+.# Test the new figure caption syntax
+.#-------------------------------------------------------------------------------------------------------
+[[This **is some** caption>>image:image.png]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginFigure [[class]=[image]]
+onImage [Typed = [false] Type = [url] Reference = [image.png]] [false]
+beginFigureCaption
+beginParagraph
+onWord [This]
+onSpace
+beginFormat [BOLD]
+onWord [is]
+onSpace
+onWord [some]
+endFormat [BOLD]
+onSpace
+onWord [caption]
+endParagraph
+endFigureCaption
+endFigure [[class]=[image]]
+endDocument

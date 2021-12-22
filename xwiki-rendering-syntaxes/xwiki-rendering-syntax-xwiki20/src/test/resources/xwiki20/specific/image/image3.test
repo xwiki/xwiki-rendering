@@ -1,0 +1,55 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|xwiki/2.0
+.# Test the new figure caption syntax with block content inside it.
+.#-------------------------------------------------------------------------------------------------------
+[[This **is some** caption [[Example>>https://www.example.com]]
+
+* With a list
+* And a [[link>>https://www.xwiki.org]] inside it>>image:image.png]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginFigure [[class]=[image]]
+onImage [Typed = [false] Type = [url] Reference = [image.png]] [false]
+beginFigureCaption
+beginParagraph
+onWord [This]
+onSpace
+beginFormat [BOLD]
+onWord [is]
+onSpace
+onWord [some]
+endFormat [BOLD]
+onSpace
+onWord [caption]
+onSpace
+beginLink [Typed = [false] Type = [url] Reference = [https://www.example.com]] [false]
+onWord [Example]
+endLink [Typed = [false] Type = [url] Reference = [https://www.example.com]] [false]
+endParagraph
+beginList [BULLETED]
+beginListItem
+onWord [With]
+onSpace
+onWord [a]
+onSpace
+onWord [list]
+endListItem
+beginListItem
+onWord [And]
+onSpace
+onWord [a]
+onSpace
+beginLink [Typed = [false] Type = [url] Reference = [https://www.xwiki.org]] [false]
+onWord [link]
+endLink [Typed = [false] Type = [url] Reference = [https://www.xwiki.org]] [false]
+onSpace
+onWord [inside]
+onSpace
+onWord [it]
+endListItem
+endList [BULLETED]
+endFigureCaption
+endFigure [[class]=[image]]
+endDocument
