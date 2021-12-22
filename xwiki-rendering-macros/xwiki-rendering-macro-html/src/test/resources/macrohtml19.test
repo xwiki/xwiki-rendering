@@ -47,4 +47,4 @@ another html content--><p>html content</p><div><div class="xwiki-metadata-contai
 .#-----------------------------------------------------
 <!--startmacro:html|-|wiki="true"|-|html content
 ((({{testmetadatamacro/}})))
-another html content--><p>html content</p><div>testmacro</div><p>another html content</p><!--stopmacro-->
+another html content--><p>html content</p><div><div class="xwiki-metadata-container" data-xwiki-mymetadata="metadatavalue">testmacro</div></div><p>another html content</p><!--stopmacro-->
