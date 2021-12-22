@@ -82,9 +82,10 @@ public class FigureMacro extends AbstractNoParameterMacro
         throws MacroExecutionException
     {
         XDOM xdom = this.contentParser.parse(content, context, false, false);
-        List<Block> contentBlock = Collections.singletonList(new FigureBlock(xdom.getChildren()));
-
         // Mark the macro content as being content that has not been transformed (so that it can editable inline)
-        return Collections.singletonList(new MetaDataBlock(contentBlock, getNonGeneratedContentMetaData()));
+        List<Block> contentBlock = Collections.singletonList(new MetaDataBlock(xdom.getChildren(),
+            getNonGeneratedContentMetaData()));
+
+        return Collections.singletonList(new FigureBlock(contentBlock));
     }
 }

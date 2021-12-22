@@ -603,8 +603,6 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void beginFigureCaption(Map<String, String> parameters)
     {
-        ++this.inlineDepth;
-
         super.beginFigureCaption(parameters);
     }
 
@@ -613,7 +611,6 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     {
         super.endFigureCaption(parameters);
 
-        --this.inlineDepth;
         this.previousEvent = Event.FIGURE_CAPTION;
     }
 

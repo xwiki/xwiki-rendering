@@ -3,21 +3,22 @@
 .input|xwiki/2.0
 .#-----------------------------------------------------
 {{figure}}
-{{figureCaption}}caption{{/figureCaption}}
+[[image:Space.ExistingPage@my.png]]
 
-whatever1
-whatever2
+{{figureCaption}}caption{{/figureCaption}}
 {{/figure}}
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginMacroMarkerStandalone [figure] [] [{{figureCaption}}caption{{/figureCaption}}
+beginMacroMarkerStandalone [figure] [] [[[image:Space.ExistingPage@my.png]]
 
-whatever1
-whatever2]
+{{figureCaption}}caption{{/figureCaption}}]
 beginFigure
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+beginParagraph
+onImage [Typed = [false] Type = [url] Reference = [Space.ExistingPage@my.png]] [false]
+endParagraph
 beginMacroMarkerStandalone [figureCaption] [] [caption]
 beginFigureCaption
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
@@ -25,22 +26,24 @@ onWord [caption]
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endFigureCaption
 endMacroMarkerStandalone [figureCaption] [] [caption]
-beginParagraph
-onWord [whatever1]
-onNewLine
-onWord [whatever2]
-endParagraph
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endFigure
-endMacroMarkerStandalone [figure] [] [{{figureCaption}}caption{{/figureCaption}}
+endMacroMarkerStandalone [figure] [] [[[image:Space.ExistingPage@my.png]]
 
-whatever1
-whatever2]
+{{figureCaption}}caption{{/figureCaption}}]
 endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+{{figure}}
+[[image:Space.ExistingPage@my.png]]
+
+{{figureCaption}}caption{{/figureCaption}}
+{{/figure}}
 .#--------------------------------------------------------------------------------------------------
 .expect|xhtml/1.0
 .# This test should be in the Syntax - XHTML modules but that would cause a cyclic dependency issue.
 .# The main problem is that ATM we don't have a way to input FigureBlock/FigureCaptionBlock without
 .# resorting to the XWiki 2.0+ syntax and Transformations.
 .#--------------------------------------------------------------------------------------------------
-<p>caption</p><p>whatever1<br/>whatever2</p>
+<p><img src="Space.ExistingPage@my.png" alt="Space.ExistingPage@my.png"/></p><p>caption</p>

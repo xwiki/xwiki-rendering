@@ -16,22 +16,22 @@ beginMacroMarkerStandalone [figure] [] [whatever1
 whatever2
 
 {{figureCaption}}caption{{/figureCaption}}]
-beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginFigure
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
 onWord [whatever1]
 onNewLine
 onWord [whatever2]
 endParagraph
 beginMacroMarkerStandalone [figureCaption] [] [caption]
-beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginFigureCaption
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 onWord [caption]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endFigureCaption
-endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endMacroMarkerStandalone [figureCaption] [] [caption]
-endFigure
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+endFigure
 endMacroMarkerStandalone [figure] [] [whatever1
 whatever2
 
