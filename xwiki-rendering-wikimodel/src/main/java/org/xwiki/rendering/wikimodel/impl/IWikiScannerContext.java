@@ -135,6 +135,44 @@ public interface IWikiScannerContext extends IWemConstants
 
     void endTableRow();
 
+    /**
+     * Starts a new figure.
+     *
+     * @param params Parameters of the figure.
+     */
+    default void beginFigure(WikiParameters params)
+    {
+        // do nothing by default
+    }
+
+    /**
+     * Ends a figure.
+     */
+    default void endFigure()
+    {
+        // do nothing by default
+    }
+
+    /**
+     * Starts a figure caption.
+     *
+     * This must only be used inside a figure.
+     *
+     * @param params The parameters of the caption.
+     */
+    default void beginFigureCaption(WikiParameters params)
+    {
+        // do nothing by default
+    }
+
+    /**
+     * Ends a figure caption.
+     */
+    default void endFigureCaption()
+    {
+        // do nothing by default
+    }
+
     InlineState getInlineState();
 
     int getTableCellCounter();

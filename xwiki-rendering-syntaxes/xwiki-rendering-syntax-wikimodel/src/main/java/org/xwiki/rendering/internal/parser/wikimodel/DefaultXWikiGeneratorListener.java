@@ -147,6 +147,50 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void beginFigure(WikiParameters params)
+    {
+        this.getListener().beginFigure(convertParameters(params));
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void endFigure(WikiParameters params)
+    {
+        this.getListener().endFigure(convertParameters(params));
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void beginFigureCaption(WikiParameters params)
+    {
+        this.getListener().beginFigureCaption(convertParameters(params));
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void endFigureCaption(WikiParameters params)
+    {
+        this.getListener().endFigureCaption(convertParameters(params));
+    }
+
+    /**
      * @since 2.5RC1
      */
     protected ResourceReferenceParser getLinkReferenceParser()

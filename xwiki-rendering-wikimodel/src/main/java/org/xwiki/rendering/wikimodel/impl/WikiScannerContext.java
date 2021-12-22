@@ -41,74 +41,75 @@ public class WikiScannerContext implements IWikiScannerContext
 
     protected final Deque<IWikiScannerContext> fStack = new ArrayDeque<IWikiScannerContext>();
 
+    private class DefaultSectionListener extends SectionListener<WikiParameters>
+    {
+        @Override
+        public void beginDocument(IPos<WikiParameters> pos)
+        {
+            org.xwiki.rendering.wikimodel.WikiParameters params = pos.getData();
+            fListener.beginDocument(params);
+            beginSection(pos);
+            beginSectionContent(pos);
+        }
+
+        @Override
+        public void beginSection(IPos<WikiParameters > pos)
+        {
+            org.xwiki.rendering.wikimodel.WikiParameters params = pos.getData();
+            int docLevel = pos.getDocumentLevel();
+            int headerLevel = pos.getHeaderLevel();
+            fListener.beginSection(docLevel, headerLevel, params);
+        }
+
+        @Override
+        public void beginSectionContent(IPos<WikiParameters> pos)
+        {
+            fListener.beginSectionContent(pos.getDocumentLevel(), pos
+                .getHeaderLevel(), pos.getData());
+        }
+
+        @Override
+        public void beginSectionHeader(IPos<WikiParameters> pos)
+        {
+            fListener.beginHeader(pos.getHeaderLevel(), pos.getData());
+        }
+
+        @Override
+        public void endDocument(IPos<WikiParameters> pos)
+        {
+            endSectionContent(pos);
+            endSection(pos);
+            org.xwiki.rendering.wikimodel.WikiParameters params = pos.getData();
+            fListener.endDocument(params);
+        }
+
+        @Override
+        public void endSection(IPos<WikiParameters> pos)
+        {
+            org.xwiki.rendering.wikimodel.WikiParameters params = pos.getData();
+            int docLevel = pos.getDocumentLevel();
+            int headerLevel = pos.getHeaderLevel();
+            fListener.endSection(docLevel, headerLevel, params);
+        }
+
+        @Override
+        public void endSectionContent(IPos<WikiParameters> pos)
+        {
+            fListener.endSectionContent(pos.getDocumentLevel(), pos
+                .getHeaderLevel(), pos.getData());
+        }
+
+        @Override
+        public void endSectionHeader(IPos<WikiParameters> pos)
+        {
+            fListener.endHeader(pos.getHeaderLevel(), pos.getData());
+        }
+    }
+
     public WikiScannerContext(IWemListener listener)
     {
         fListener = listener;
-        fSectionBuilder = new SectionBuilder<WikiParameters>(
-            new SectionListener<WikiParameters>()
-            {
-                @Override
-                public void beginDocument(IPos<WikiParameters> pos)
-                {
-                    WikiParameters params = pos.getData();
-                    fListener.beginDocument(params);
-                    beginSection(pos);
-                    beginSectionContent(pos);
-                }
-
-                @Override
-                public void beginSection(IPos<WikiParameters> pos)
-                {
-                    WikiParameters params = pos.getData();
-                    int docLevel = pos.getDocumentLevel();
-                    int headerLevel = pos.getHeaderLevel();
-                    fListener.beginSection(docLevel, headerLevel, params);
-                }
-
-                @Override
-                public void beginSectionContent(IPos<WikiParameters> pos)
-                {
-                    fListener.beginSectionContent(pos.getDocumentLevel(), pos
-                        .getHeaderLevel(), pos.getData());
-                }
-
-                @Override
-                public void beginSectionHeader(IPos<WikiParameters> pos)
-                {
-                    fListener.beginHeader(pos.getHeaderLevel(), pos.getData());
-                }
-
-                @Override
-                public void endDocument(IPos<WikiParameters> pos)
-                {
-                    endSectionContent(pos);
-                    endSection(pos);
-                    WikiParameters params = pos.getData();
-                    fListener.endDocument(params);
-                }
-
-                @Override
-                public void endSection(IPos<WikiParameters> pos)
-                {
-                    WikiParameters params = pos.getData();
-                    int docLevel = pos.getDocumentLevel();
-                    int headerLevel = pos.getHeaderLevel();
-                    fListener.endSection(docLevel, headerLevel, params);
-                }
-
-                @Override
-                public void endSectionContent(IPos<WikiParameters> pos)
-                {
-                    fListener.endSectionContent(pos.getDocumentLevel(), pos
-                        .getHeaderLevel(), pos.getData());
-                }
-
-                @Override
-                public void endSectionHeader(IPos<WikiParameters> pos)
-                {
-                    fListener.endHeader(pos.getHeaderLevel(), pos.getData());
-                }
-            });
+        fSectionBuilder = new SectionBuilder<>(new DefaultSectionListener());
     }
 
     public IWemListener getfListener()
@@ -126,6 +127,88 @@ public class WikiScannerContext implements IWikiScannerContext
     {
         InternalWikiScannerContext context = pushContext();
         context.beginDocument(params);
+    }
+
+    @Override
+    public void beginFigure(WikiParameters params)
+    {
+        InternalWikiScannerContext context = (InternalWikiScannerContext) getContext();
+        if (context != null) {
+            context.checkBlockContainer();
+            context.closeFormat();
+        }
+
+        context = new InternalWikiScannerContext(
+            new SectionBuilder<>(new DefaultSectionListener() {
+                @Override
+                public void beginDocument(IPos<WikiParameters> pos)
+                {
+                    WikiParameters params = pos.getData();
+                    WikiScannerContext.this.fListener.beginFigure(params);
+                    beginSection(pos);
+                    beginSectionContent(pos);
+                }
+
+                @Override
+                public void endDocument(IPos<WikiParameters> pos)
+                {
+                    endSectionContent(pos);
+                    endSection(pos);
+                    WikiParameters params = pos.getData();
+                    WikiScannerContext.this.fListener.endFigure(params);
+                }
+            }),
+            this.fListener);
+        this.fStack.push(context);
+        context.beginFigure(params);
+    }
+
+    @Override
+    public void endFigure()
+    {
+        getContext().endFigure();
+        this.fStack.pop();
+    }
+
+    @Override
+    public void beginFigureCaption(WikiParameters params)
+    {
+        InternalWikiScannerContext context = (InternalWikiScannerContext) getContext();
+        if (context != null) {
+            context.checkBlockContainer();
+            context.closeFormat();
+        }
+
+        context = new InternalWikiScannerContext(
+            new SectionBuilder<>(new DefaultSectionListener() {
+                @Override
+                public void beginDocument(IPos<WikiParameters> pos)
+                {
+                    WikiParameters params = pos.getData();
+                    WikiScannerContext.this.fListener.beginFigureCaption(params);
+                    beginSection(pos);
+                    beginSectionContent(pos);
+                }
+
+                @Override
+                public void endDocument(IPos<WikiParameters> pos)
+                {
+                    endSectionContent(pos);
+                    endSection(pos);
+                    WikiParameters params = pos.getData();
+                    WikiScannerContext.this.fListener.endFigureCaption(params);
+                }
+            }),
+            this.fListener);
+        this.fStack.push(context);
+        getContext().beginFigureCaption(params);
+    }
+
+    @Override
+    public void endFigureCaption()
+    {
+        getContext().endFigureCaption();
+        this.fStack.pop();
     }
 
     public void beginFormat(WikiParameters params)

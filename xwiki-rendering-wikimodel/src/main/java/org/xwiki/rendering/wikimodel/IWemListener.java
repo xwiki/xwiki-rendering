@@ -51,7 +51,8 @@ public interface IWemListener
     IWemListenerTable,
     IWemListenerList,
     IWemListenerSemantic,
-    IWemListenerProgramming
+    IWemListenerProgramming,
+    IWemListenerFigure
 {
     //
 }
