@@ -37,6 +37,8 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -65,8 +67,9 @@ public class BlockStateChainingListenerTest
     }
 
     /**
-     * Tests for all "begin/end"-methods if the previous event is correctly set, but only after the end event has been
-     * forwarded in the chain.
+     * Tests for all "begin/end"-methods if they do not modify the parent event (for the next in the chain) in the
+     * begin-method, correctly set it afterwards and if the previous event is correctly set, but only after the end
+     * event has been forwarded in the chain.
      */
     @TestFactory
     Stream<DynamicTest> beginEndMethods()
@@ -79,8 +82,8 @@ public class BlockStateChainingListenerTest
     }
 
     /**
-     * Tests for all "on..." methods if the previous event is correctly set, but only after the event has been forwarded
-     * in the chain.
+     * Tests for all "on..." methods if they do not modify the parent event (for the next in the chain) and if the
+     * previous event is correctly set, but only after the event has been forwarded in the chain.
      */
     @TestFactory
     Stream<DynamicTest> onMethods()
@@ -111,10 +114,16 @@ public class BlockStateChainingListenerTest
                 beginMethod.getName().equals("beginDefinitionTerm") || beginMethod.getName().equals(
                     "beginDefinitionDescription");
 
+            BlockStateChainingListener.Event expectedParentEvent;
+
             if (isListItem) {
                 this.listener.beginList(ListType.NUMBERED, Listener.EMPTY_PARAMETERS);
+                expectedParentEvent = BlockStateChainingListener.Event.LIST;
             } else if (isDefinitionItem) {
                 this.listener.beginDefinitionList(Listener.EMPTY_PARAMETERS);
+                expectedParentEvent = BlockStateChainingListener.Event.DEFINITION_LIST;
+            } else {
+                expectedParentEvent = null;
             }
 
             Object[] parameters = Arrays.stream(parameterClasses).map(this::mockParameter).toArray();
@@ -123,10 +132,11 @@ public class BlockStateChainingListenerTest
 
             Stubber verifyPreviousAndParentEventStubber = doAnswer(invocation -> {
                 assertEquals(BlockStateChainingListener.Event.ID, this.listener.getPreviousEvent());
+                assertEquals(expectedParentEvent, this.listener.getParentEvent());
                 return null;
             }).doNothing();
 
-            // Assert that in the begin method, the previous event are unchanged
+            // Assert that in the begin method, the parent and the previous event are unchanged.
             beginMethod.invoke(verifyPreviousAndParentEventStubber.when(this.mockListener), parameters);
 
             // Actually call the begin method.
@@ -135,7 +145,14 @@ public class BlockStateChainingListenerTest
             // Verify the mock listener in the chain has been called.
             beginMethod.invoke(verify(this.mockListener), parameters);
 
-            // Assert that in the end method, the previous event is unchanged
+            BlockStateChainingListener.Event parentEvent = this.listener.getParentEvent();
+            assertNotNull(parentEvent, "No parent set after calling " + beginMethod.getName());
+            String parentEventName = parentEvent.name();
+            String eventNameCamelCase = CaseUtils.toCamelCase(parentEventName, true, '_');
+            assertEquals(beginMethod.getName(), "begin" + eventNameCamelCase,
+                "Wrong event " + parentEventName + " generated for " + beginMethod.getName());
+
+            // Assert that in the end method, the parent has been restored and the previous event is unchanged.
             endMethod.invoke(verifyPreviousAndParentEventStubber.when(this.mockListener), parameters);
 
             // Actually call the end method.
@@ -145,16 +162,15 @@ public class BlockStateChainingListenerTest
             endMethod.invoke(verify(this.mockListener), parameters);
 
             // Verify that the previous event has been set to the event corresponding to the current methods.
-            String previousEventName = this.listener.getPreviousEvent().name();
-            String previousEventCamelCase = CaseUtils.toCamelCase(previousEventName, true, '_');
-            assertEquals(beginMethod.getName(), "begin" + previousEventCamelCase,
-                "Wrong event " + previousEventName + " generated for " + beginMethod.getName());
+            assertEquals(parentEvent, this.listener.getPreviousEvent());
 
             if (isDefinitionItem) {
                 this.listener.endDefinitionList(Listener.EMPTY_PARAMETERS);
             } else if (isListItem) {
                 this.listener.endList(ListType.NUMBERED, Listener.EMPTY_PARAMETERS);
             }
+
+            assertNull(this.listener.getParentEvent());
         } catch (NoSuchMethodException e) {
             fail("Expected end method " + endMethodName + " for " + beginMethod.getName() + " not found: "
                 + e.getMessage());
@@ -176,9 +192,11 @@ public class BlockStateChainingListenerTest
         Object[] parameters = Arrays.stream(method.getParameterTypes()).map(this::mockParameter).toArray();
 
         try {
-            // Verify that the next in the chain still gets the old previous event.
+            // Verify that the next in the chain still gets the old previous event and that the parent is not
+            // changed.
             method.invoke(
                 doAnswer(invocationOnMock -> {
+                    assertEquals(BlockStateChainingListener.Event.DOCUMENT, this.listener.getParentEvent());
                     assertEquals(BlockStateChainingListener.Event.PARAGRAPH, this.listener.getPreviousEvent());
                     return null;
                 })

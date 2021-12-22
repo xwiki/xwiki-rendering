@@ -29,6 +29,7 @@ import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.stability.Unstable;
 
 /**
  * Indicates block element for which we are inside and previous blocks.
@@ -78,6 +79,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     }
 
     private Event previousEvent = Event.NONE;
+
+    private final Deque<Event> eventStack = new ArrayDeque<>();
 
     private int inlineDepth;
 
@@ -248,7 +251,30 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         return getMacroDepth() > 0;
     }
 
+    /**
+     * @return The event that encloses the current event.
+     * @since 14.0RC1
+     */
+    @Unstable
+    public Event getParentEvent()
+    {
+        return this.eventStack.peek();
+    }
+
     // Events
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void beginDocument(MetaData metadata)
+    {
+        super.beginDocument(metadata);
+
+        this.eventStack.push(Event.DOCUMENT);
+    }
 
     @Override
     public void beginDefinitionDescription()
@@ -257,6 +283,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.definitionListDepth.peek().definitionListItemIndex;
 
         super.beginDefinitionDescription();
+
+        this.eventStack.push(Event.DEFINITION_DESCRIPTION);
     }
 
     /**
@@ -270,6 +298,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         this.definitionListDepth.push(new DefinitionListState());
 
         super.beginDefinitionList(parameters);
+
+        this.eventStack.push(Event.DEFINITION_LIST);
     }
 
     @Override
@@ -279,6 +309,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.definitionListDepth.peek().definitionListItemIndex;
 
         super.beginDefinitionTerm();
+
+        this.eventStack.push(Event.DEFINITION_TERM);
     }
 
     /**
@@ -292,6 +324,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.linkDepth;
 
         super.beginLink(reference, freestanding, parameters);
+
+        this.eventStack.push(Event.LINK);
     }
 
     @Override
@@ -300,6 +334,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         this.listDepth.push(new ListState());
 
         super.beginList(type, parameters);
+
+        this.eventStack.push(Event.LIST);
     }
 
     @Override
@@ -309,6 +345,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.listDepth.peek().listItemIndex;
 
         super.beginListItem();
+
+        this.eventStack.push(Event.LIST_ITEM);
     }
 
     @Override
@@ -318,6 +356,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.listDepth.peek().listItemIndex;
 
         super.beginListItem(parameters);
+
+        this.eventStack.push(Event.LIST_ITEM);
     }
 
     @Override
@@ -326,6 +366,34 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.macroDepth;
 
         super.beginMacroMarker(name, parameters, content, isInline);
+
+        this.eventStack.push(Event.MACRO_MARKER);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void beginMetaData(MetaData metadata)
+    {
+        super.beginMetaData(metadata);
+
+        this.eventStack.push(Event.META_DATA);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void beginGroup(Map<String, String> parameters)
+    {
+        super.beginGroup(parameters);
+
+        this.eventStack.push(Event.GROUP);
     }
 
     @Override
@@ -335,6 +403,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.inlineDepth;
 
         super.beginParagraph(parameters);
+
+        this.eventStack.push(Event.PARAGRAPH);
     }
 
     @Override
@@ -343,6 +413,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.quotationDepth;
 
         super.beginQuotation(parameters);
+
+        this.eventStack.push(Event.QUOTATION);
     }
 
     @Override
@@ -353,6 +425,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.quotationLineIndex;
 
         super.beginQuotationLine();
+
+        this.eventStack.push(Event.QUOTATION_LINE);
     }
 
     @Override
@@ -362,6 +436,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.inlineDepth;
 
         super.beginHeader(level, id, parameters);
+
+        this.eventStack.push(Event.HEADER);
     }
 
     @Override
@@ -370,6 +446,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         this.isInTable = true;
 
         super.beginTable(parameters);
+
+        this.eventStack.push(Event.TABLE);
     }
 
     @Override
@@ -378,6 +456,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.cellRow;
 
         super.beginTableRow(parameters);
+
+        this.eventStack.push(Event.TABLE_ROW);
     }
 
     @Override
@@ -388,6 +468,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.cellCol;
 
         super.beginTableCell(parameters);
+
+        this.eventStack.push(Event.TABLE_CELL);
     }
 
     @Override
@@ -398,11 +480,28 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.cellCol;
 
         super.beginTableHeadCell(parameters);
+
+        this.eventStack.push(Event.TABLE_HEAD_CELL);
+    }
+
+    /**
+     * Removes an event from the stack if it matches the passed event.
+     *
+     * @param event The event to remove.
+     * @since 14.0RC1
+     */
+    private void removeEventFromStack(Event event)
+    {
+        if (this.eventStack.peek() == event) {
+            this.eventStack.pop();
+        }
     }
 
     @Override
     public void endDefinitionDescription()
     {
+        removeEventFromStack(Event.DEFINITION_DESCRIPTION);
+
         super.endDefinitionDescription();
 
         --this.inlineDepth;
@@ -417,6 +516,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.DEFINITION_LIST);
+
         super.endDefinitionList(parameters);
 
         this.definitionListDepth.pop();
@@ -427,6 +528,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endDefinitionTerm()
     {
+        removeEventFromStack(Event.DEFINITION_TERM);
+
         super.endDefinitionTerm();
 
         --this.inlineDepth;
@@ -441,14 +544,31 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endDocument(MetaData metadata)
     {
+        removeEventFromStack(Event.DOCUMENT);
+
         super.endDocument(metadata);
 
         this.previousEvent = Event.DOCUMENT;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void beginFormat(Format format, Map<String, String> parameters)
+    {
+        super.beginFormat(format, parameters);
+
+        this.eventStack.push(Event.FORMAT);
+    }
+
     @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
+        removeEventFromStack(Event.FORMAT);
+
         super.endFormat(format, parameters);
 
         this.previousEvent = Event.FORMAT;
@@ -462,6 +582,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
+        removeEventFromStack(Event.LINK);
+
         super.endLink(reference, freestanding, parameters);
 
         --this.linkDepth;
@@ -471,6 +593,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endList(ListType type, Map<String, String> parameters)
     {
+        removeEventFromStack(Event.LIST);
+
         super.endList(type, parameters);
 
         this.listDepth.pop();
@@ -481,6 +605,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endListItem()
     {
+        removeEventFromStack(Event.LIST_ITEM);
+
         super.endListItem();
 
         --this.inlineDepth;
@@ -490,6 +616,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endListItem(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.LIST_ITEM);
+
         super.endListItem(parameters);
 
         --this.inlineDepth;
@@ -499,6 +627,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
+        removeEventFromStack(Event.MACRO_MARKER);
+
         super.endMacroMarker(name, parameters, content, isInline);
 
         this.previousEvent = Event.MACRO_MARKER;
@@ -513,6 +643,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endMetaData(MetaData metadata)
     {
+        removeEventFromStack(Event.META_DATA);
+
         super.endMetaData(metadata);
 
         this.previousEvent = Event.META_DATA;
@@ -526,6 +658,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endGroup(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.GROUP);
+
         super.endGroup(parameters);
 
         this.previousEvent = Event.GROUP;
@@ -534,6 +668,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.PARAGRAPH);
+
         super.endParagraph(parameters);
 
         this.isInParagraph = false;
@@ -544,6 +680,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endQuotation(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.QUOTATION);
+
         super.endQuotation(parameters);
 
         --this.quotationDepth;
@@ -556,6 +694,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endQuotationLine()
     {
+        removeEventFromStack(Event.QUOTATION_LINE);
+
         super.endQuotationLine();
 
         --this.quotationLineDepth;
@@ -563,9 +703,24 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         this.previousEvent = Event.QUOTATION_LINE;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void beginSection(Map<String, String> parameters)
+    {
+        super.beginSection(parameters);
+
+        this.eventStack.push(Event.SECTION);
+    }
+
     @Override
     public void endSection(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.SECTION);
+
         super.endSection(parameters);
 
         this.previousEvent = Event.SECTION;
@@ -574,6 +729,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
+        removeEventFromStack(Event.HEADER);
+
         super.endHeader(level, id, parameters);
 
         this.isInHeader = false;
@@ -584,6 +741,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endTable(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.TABLE);
+
         super.endTable(parameters);
 
         this.isInTable = false;
@@ -594,6 +753,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endTableCell(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.TABLE_CELL);
+
         super.endTableCell(parameters);
 
         this.isInTableCell = false;
@@ -604,6 +765,8 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.TABLE_HEAD_CELL);
+
         super.endTableHeadCell(parameters);
 
         this.isInTableCell = false;
@@ -614,15 +777,32 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endTableRow(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.TABLE_ROW);
+
         super.endTableRow(parameters);
 
         this.previousEvent = Event.TABLE_ROW;
         this.cellCol = -1;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void beginFigure(Map<String, String> parameters)
+    {
+        super.beginFigure(parameters);
+
+        this.eventStack.push(Event.FIGURE);
+    }
+
     @Override
     public void endFigure(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.FIGURE);
+
         super.endFigure(parameters);
 
         this.previousEvent = Event.FIGURE;
@@ -634,11 +814,15 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         ++this.inlineDepth;
 
         super.beginFigureCaption(parameters);
+
+        this.eventStack.push(Event.FIGURE_CAPTION);
     }
 
     @Override
     public void endFigureCaption(Map<String, String> parameters)
     {
+        removeEventFromStack(Event.FIGURE_CAPTION);
+
         super.endFigureCaption(parameters);
 
         --this.inlineDepth;

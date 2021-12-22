@@ -24,6 +24,7 @@ import java.util.Map;
 import org.xwiki.rendering.internal.renderer.xhtml.XHTMLMacroRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
+import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 
 /**
@@ -82,6 +83,38 @@ public class AnnotatedHTML5ChainingRenderer extends HTML5ChainingRenderer
             // Do not do any rendering but we still need to save the macro definition in some hidden XHTML
             // so that the macro can be reconstructed when moving back from XHTML to XDOM.
             this.macroRenderer.endRender(getXHTMLWikiPrinter());
+        }
+    }
+
+    /**
+     * Start of a figure caption.
+     *
+     * Only rendered as &lt;figcaption&gt; tag when the parent event is a figure event.
+     *
+     * @param parameters a generic list of parameters for the figure
+     * @since 14.0RC1
+     */
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        if (this.getBlockState().getParentEvent() == BlockStateChainingListener.Event.FIGURE) {
+            super.beginFigureCaption(parameters);
+        }
+    }
+
+    /**
+     * End of a figure caption.
+     *
+     * Only rendered as &lt;/figcaption&gt;-tag when the parent event is a figure event.
+     *
+     * @param parameters a generic list of parameters for the figure
+     * @since 14.0RC1
+     */
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        if (this.getBlockState().getParentEvent() == BlockStateChainingListener.Event.FIGURE) {
+            super.endFigureCaption(parameters);
         }
     }
 }
