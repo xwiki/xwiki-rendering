@@ -112,19 +112,23 @@ public class DefaultMacroContentParser implements MacroContentParser
         try {
             XDOM result = getSyntaxParser(syntax).parse(new StringReader(content));
 
+            // Inject metadata
             if (metadata != null) {
                 result.getMetaData().addMetaData(metadata);
             }
 
+            // Try to convert the content to inline content
+            // TODO: ideally we would use a real inline parser
+            if (inline) {
+                result = convertToInline(result);
+            }
+
+            // Execute the content
             if (transform && macroContext.getTransformation() != null) {
                 TransformationContext txContext = new TransformationContext(result, syntax);
                 txContext.setId(macroContext.getId());
                 performTransformation((MutableRenderingContext) this.renderingContext,
                     macroContext.getTransformation(), txContext, result);
-            }
-
-            if (inline) {
-                result = convertToInline(result);
             }
 
             return result;
