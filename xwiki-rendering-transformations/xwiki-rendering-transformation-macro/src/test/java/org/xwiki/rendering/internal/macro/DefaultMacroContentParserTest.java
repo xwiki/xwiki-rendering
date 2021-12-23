@@ -23,74 +23,92 @@ import java.io.Reader;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import javax.inject.Named;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.macro.MacroContentParser;
+import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.RenderingContext;
+import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.test.annotation.ComponentList;
-import org.xwiki.test.mockito.MockitoComponentManagerRule;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
+import org.xwiki.test.junit5.mockito.MockComponent;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ComponentList({ DefaultMacroContentParser.class })
-public class DefaultMacroContentParserTest
+@ComponentTest
+@ComponentList({DefaultMacroContentParser.class})
+class DefaultMacroContentParserTest
 {
-    @Rule
-    public final MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
+    @MockComponent(classToMock = MutableRenderingContext.class)
+    private RenderingContext renderingContext;
+
+    @MockComponent
+    @Named("test/1.0")
+    private Parser mockParser;
+
+    @InjectMockComponents
+    private DefaultMacroContentParser macroContentParser;
 
     private MacroTransformationContext macroContext = new MacroTransformationContext();
 
-    private Parser mockParser;
-
-    private MacroContentParser macroContentParser;
-
-    @Before
-    public void setUp() throws Exception
+    @BeforeEach
+    public void beforeEach() throws Exception
     {
-        this.componentManager.registerMockComponent(RenderingContext.class);
-
         Syntax testSyntax = new Syntax(new SyntaxType("test", "test"), "1.0");
 
         this.macroContext = new MacroTransformationContext();
         this.macroContext.setSyntax(testSyntax);
-
-        this.mockParser = this.componentManager.registerMockComponent(Parser.class, testSyntax.toIdString());
-
-        this.macroContentParser = this.componentManager.getInstance(MacroContentParser.class);
     }
 
     // Tests
 
     @Test
-    public void testParseInline() throws Exception
+    void parseInline() throws Exception
     {
         when(this.mockParser.parse(any(Reader.class))).thenReturn(
             new XDOM(Arrays.<Block>asList(new ParagraphBlock(Arrays.<Block>asList(new WordBlock("word"))))));
 
-        Assert.assertEquals(new XDOM(Arrays.<Block>asList(new WordBlock("word"))),
+        assertEquals(new XDOM(Arrays.<Block>asList(new WordBlock("word"))),
             this.macroContentParser.parse("content", this.macroContext, false, true));
     }
 
     @Test
-    public void testParseInlineWithStandaloneMacro() throws Exception
+    void parseInlineWithStandaloneMacro() throws Exception
     {
-        when(this.mockParser.parse(any(Reader.class))).thenReturn(
-            new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.EMPTY_MAP, null, false))));
+        when(this.mockParser.parse(any(Reader.class)))
+            .thenReturn(new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.emptyMap(), null, false))));
 
-        Assert.assertEquals(
-            new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.EMPTY_MAP, null, true))),
+        assertEquals(new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.emptyMap(), null, true))),
             this.macroContentParser.parse("content", this.macroContext, false, true));
+    }
+
+    @Test
+    void parseInlineWithStandaloneMacroWithTransformations() throws Exception
+    {
+        when(this.mockParser.parse(any(Reader.class)))
+            .thenReturn(new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.emptyMap(), null, false))));
+
+        this.macroContext.setTransformation(mock(Transformation.class));
+
+        this.macroContentParser.parse("content", this.macroContext, true, true);
+
+        verify((MutableRenderingContext) this.renderingContext).transformInContext(any(), any(),
+            eq(new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.emptyMap(), null, true)))));
     }
 }
