@@ -1,7 +1,9 @@
 .runTransformations:macro
-.#-----------------------------------------------------
+.#--------------------------------------------------------------------------------------------------
 .input|xwiki/2.0
-.#-----------------------------------------------------
+.# Test with image content to ensure later changes to rendering/parsing figures with images do not
+.# break the figure macro.
+.#--------------------------------------------------------------------------------------------------
 {{figure}}
 [[image:Space.ExistingPage@my.png]]
 
