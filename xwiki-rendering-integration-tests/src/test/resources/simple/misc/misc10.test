@@ -1,0 +1,22 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<p><!--startwikilink:true|-|attach|-|file.pdf--><span class="wikiattachmentlink"><a href="/xwiki/bin/download/Path/To/file.pdf">t<em>itl</em>e</a></span><!--stopwikilink--></p>
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+[[t//itl//e>>attach:file.pdf]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [true] Type = [attach] Reference = [file.pdf]] [false]
+onWord [t]
+beginFormat [ITALIC]
+onWord [itl]
+endFormat [ITALIC]
+onWord [e]
+endLink [Typed = [true] Type = [attach] Reference = [file.pdf]] [false]
+endParagraph
+endDocument
