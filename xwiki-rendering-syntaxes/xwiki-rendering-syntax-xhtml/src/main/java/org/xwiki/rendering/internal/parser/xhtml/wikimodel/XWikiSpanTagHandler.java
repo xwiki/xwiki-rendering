@@ -62,15 +62,17 @@ public class XWikiSpanTagHandler extends SpanTagHandler implements XWikiWikiMode
             // Ex: <a href="..."><span class="wikicreatelinktext">...</span><span class="wikicreatelinkqm">?</span></a>
             WikiParameter classParam = params.getParameter("class");
             if (classParam != null) {
-                if (classParam.getValue().contains("wikigeneratedlinkcontent"))
+                String classParamValue = classParam.getValue();
+                if (classParamValue.contains("wikigeneratedlinkcontent"))
                 {
                     setAccumulateContent(true);
-                } else if ("wikilink".equals(classParam.getValue())
-                    || "wikicreatelink".equals(classParam.getValue())
-                    || "wikiexternallink".equals(classParam.getValue()))
+                } else if ("wikilink".equals(classParamValue)
+                    || "wikicreatelink".equals(classParamValue)
+                    || "wikiexternallink".equals(classParamValue)
+                    || "wikiattachmentlink".equals(classParamValue))
                 {
                     // Nothing to do
-                } else if ("xwikirenderingerror".equals(classParam.getValue())) {
+                } else if ("xwikirenderingerror".equals(classParamValue)) {
                     setAccumulateContent(true);
                 } else {
                     super.begin(context);
@@ -89,15 +91,17 @@ public class XWikiSpanTagHandler extends SpanTagHandler implements XWikiWikiMode
         if (!nonGeneratedContent) {
             WikiParameter classParam = context.getParams().getParameter("class");
             if (classParam != null) {
-                if (classParam.getValue().contains("wikigeneratedlinkcontent"))
+                String classParamValue = classParam.getValue();
+                if (classParamValue.contains("wikigeneratedlinkcontent"))
                 {
                     setAccumulateContent(false);
-                } else if ("wikilink".equals(classParam.getValue())
-                    || "wikicreatelink".equals(classParam.getValue())
-                    || "wikiexternallink".equals(classParam.getValue()))
+                } else if ("wikilink".equals(classParamValue)
+                    || "wikicreatelink".equals(classParamValue)
+                    || "wikiexternallink".equals(classParamValue)
+                    || "wikiattachmentlink".equals(classParamValue))
                 {
                     // Nothing to do
-                } else if ("xwikirenderingerror".equals(classParam.getValue())) {
+                } else if ("xwikirenderingerror".equals(classParamValue)) {
                     setAccumulateContent(false);
                 } else {
                     super.end(context);
