@@ -10,4 +10,4 @@ whatever
 .#-----------------------------------------------------
 .expect|html/5.0
 .#-----------------------------------------------------
-<figure><p>whatever</p><figcaption>caption</figcaption></figure>
+<figure><p>whatever</p><figcaption><p>caption</p></figcaption></figure>

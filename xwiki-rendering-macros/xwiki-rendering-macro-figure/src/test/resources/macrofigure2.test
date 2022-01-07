@@ -26,7 +26,9 @@ endParagraph
 beginMacroMarkerStandalone [figureCaption] [] [caption]
 beginFigureCaption
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+beginParagraph
 onWord [caption]
+endParagraph
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endFigureCaption
 endMacroMarkerStandalone [figureCaption] [] [caption]
@@ -43,4 +45,4 @@ endDocument
 .# The main problem is that ATM we don't have a way to input FigureBlock/FigureCaptionBlock without
 .# resorting to the XWiki 2.0+ syntax and Transformations.
 .#--------------------------------------------------------------------------------------------------
-<p>whatever1<br/>whatever2</p><p>caption</p>
+<p>whatever1<br/>whatever2</p><div class="figcaption"><p>caption</p></div>

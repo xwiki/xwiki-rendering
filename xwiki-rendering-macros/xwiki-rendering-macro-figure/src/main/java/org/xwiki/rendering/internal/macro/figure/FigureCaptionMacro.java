@@ -94,7 +94,6 @@ public class FigureCaptionMacro extends AbstractNoParameterMacro
         {
             XDOM xdom = this.contentParser.parse(content, context, false, false);
             List<Block> figureCaptionChildren = xdom.getChildren();
-            this.parserUtils.removeTopLevelParagraph(figureCaptionChildren);
 
             // Mark the macro content as being content that has not been transformed (so that it can editable inline)
             figureCaptionChildren = Collections.singletonList(new MetaDataBlock(figureCaptionChildren,

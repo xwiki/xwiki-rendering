@@ -40,6 +40,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxType;
+import org.xwiki.xml.html.HTMLConstants;
 
 /**
  * Convert listener events to XHTML.
@@ -594,16 +595,17 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginFigureCaption(Map<String, String> parameters)
     {
-        // FigureCaptionBlock contain inline elements and must be converted to standalone. We add a paragraph around
-        // them to have some nice fallback (since <figure>/<figcaption> tags are not supported in XHTML 1.0).
-        getXHTMLWikiPrinter().printXMLStartElement("p", parameters);
+        // We add a div to have some nice fallback (since <figure>/<figcaption> tags are not supported in XHTML 1.0).
+        Map<String, String> extendedParameters = new LinkedHashMap<>(parameters);
+        addClassValue(HTMLConstants.ATTRIBUTE_CLASS, "figcaption", extendedParameters);
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_DIV, extendedParameters);
     }
 
     @Override
     public void endFigureCaption(Map<String, String> parameters)
     {
         // See beginFigureCaption()
-        getXHTMLWikiPrinter().printXMLEndElement("p");
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_DIV);
     }
 
     private void addClassValue(String classAttributeName, String newClassValue, Map<String, String> attributes)

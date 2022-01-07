@@ -51,7 +51,7 @@ class XHTMLChainingRendererTest
         renderer.onWord("caption");
         renderer.endFigureCaption(Collections.emptyMap());
 
-        assertEquals("<p>caption</p>", wikiPrinter.toString());
+        assertEquals("<div class=\"figcaption\">caption</div>", wikiPrinter.toString());
     }
 
     @Test
