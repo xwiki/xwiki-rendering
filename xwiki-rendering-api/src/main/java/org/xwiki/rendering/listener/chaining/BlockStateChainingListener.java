@@ -72,7 +72,9 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         VERBATIM_STANDALONE,
         WORD,
         FIGURE,
-        FIGURE_CAPTION
+        FIGURE_CAPTION,
+        META_DATA,
+        GROUP
     }
 
     private Event previousEvent = Event.NONE;
@@ -439,9 +441,9 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void endDocument(MetaData metadata)
     {
-        this.previousEvent = Event.DOCUMENT;
-
         super.endDocument(metadata);
+
+        this.previousEvent = Event.DOCUMENT;
     }
 
     @Override
@@ -491,7 +493,7 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         super.endListItem(parameters);
 
         --this.inlineDepth;
-        this.previousEvent = Event.LIST_ITEM;        
+        this.previousEvent = Event.LIST_ITEM;
     }
 
     @Override
@@ -501,6 +503,32 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
         this.previousEvent = Event.MACRO_MARKER;
         --this.macroDepth;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void endMetaData(MetaData metadata)
+    {
+        super.endMetaData(metadata);
+
+        this.previousEvent = Event.META_DATA;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since 14.0RC1
+     */
+    @Override
+    public void endGroup(Map<String, String> parameters)
+    {
+        super.endGroup(parameters);
+
+        this.previousEvent = Event.GROUP;
     }
 
     @Override
@@ -628,25 +656,25 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void onEmptyLines(int count)
     {
-        this.previousEvent = Event.EMPTY_LINES;
-
         super.onEmptyLines(count);
+
+        this.previousEvent = Event.EMPTY_LINES;
     }
 
     @Override
     public void onHorizontalLine(Map<String, String> parameters)
     {
-        this.previousEvent = Event.HORIZONTAL_LINE;
-
         super.onHorizontalLine(parameters);
+
+        this.previousEvent = Event.HORIZONTAL_LINE;
     }
 
     @Override
     public void onId(String name)
     {
-        this.previousEvent = Event.ID;
-
         super.onId(name);
+
+        this.previousEvent = Event.ID;
     }
 
     /**
@@ -657,57 +685,61 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        this.previousEvent = Event.IMAGE;
-
         super.onImage(reference, freestanding, parameters);
+
+        this.previousEvent = Event.IMAGE;
     }
 
     @Override
     public void onNewLine()
     {
-        this.previousEvent = Event.NEW_LINE;
-
         super.onNewLine();
+
+        this.previousEvent = Event.NEW_LINE;
     }
 
     @Override
     public void onSpace()
     {
-        this.previousEvent = Event.SPACE;
-
         super.onSpace();
+
+        this.previousEvent = Event.SPACE;
     }
 
     @Override
     public void onSpecialSymbol(char symbol)
     {
-        this.previousEvent = Event.SPECIAL_SYMBOL;
-
         super.onSpecialSymbol(symbol);
+
+        this.previousEvent = Event.SPECIAL_SYMBOL;
     }
 
     @Override
     public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        this.previousEvent = Event.VERBATIM_STANDALONE;
-
         super.onVerbatim(content, inline, parameters);
+
+        if (inline) {
+            this.previousEvent = Event.VERBATIM_INLINE;
+        } else {
+            this.previousEvent = Event.VERBATIM_STANDALONE;
+        }
     }
 
     @Override
     public void onWord(String word)
     {
-        this.previousEvent = Event.WORD;
-
         super.onWord(word);
+
+        this.previousEvent = Event.WORD;
     }
 
     @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
-        this.previousEvent = Event.MACRO;
-
         super.onMacro(id, parameters, content, inline);
+
+        this.previousEvent = Event.MACRO;
     }
 
     private static class ListState
