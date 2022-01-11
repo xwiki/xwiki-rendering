@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+/*
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  *
@@ -17,24 +16,18 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
--->
+ */
+package org.xwiki.rendering.internal.xhtml;
 
-<document>
-  <metadata>
-    <p>
-      <metadata>
-        <metadata class="linked-hash-map">
-          <entry>
-            <string>syntax</string>
-            <string>xwiki/2.0</string>
-          </entry>
-        </metadata>
-      </metadata>
-    </p>
-    <group>
-      <paragraph>
-        <word>Heading</word>
-      </paragraph>
-    </group>
-  </metadata>
-</document>
+import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+
+/**
+ * Run all specific tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow
+ * the conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
+ *
+ * @version $Id$
+ */
+@RenderingTests.Scope(value = "annotatedxhtml10.specific")
+public class AnnotatedXHTMLSpecificTest implements RenderingTests
+{
+}

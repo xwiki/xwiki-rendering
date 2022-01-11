@@ -1,16 +1,9 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
+.# Verify that metadata is kept in the output.
 .#-----------------------------------------------------
 <div data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container"><div><p>Heading</p></div></div>
 .#-----------------------------------------------------
-.expect|event/1.0
+.expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-beginDocument
-beginMetaData [[syntax]=[xwiki/2.0]]
-beginGroup
-beginParagraph
-onWord [Heading]
-endParagraph
-endGroup
-endMetaData [[syntax]=[xwiki/2.0]]
-endDocument
+<div data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container"><div><p>Heading</p></div></div>
