@@ -68,8 +68,6 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
 
     /**
      * Prefix for mailto-links.
-     *
-     * @since 14.0RC1
      */
     private static final String MAILTO_PREFIX = "mailto:";
 
