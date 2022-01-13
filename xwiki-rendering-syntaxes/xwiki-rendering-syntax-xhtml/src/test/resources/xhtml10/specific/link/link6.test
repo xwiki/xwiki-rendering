@@ -1,0 +1,18 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<p>one <a href="mailto:john@doe.com">two</a> three</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [one]
+onSpace
+beginLink [Typed = [true] Type = [mailto] Reference = [john@doe.com]] [false]
+onWord [two]
+endLink [Typed = [true] Type = [mailto] Reference = [john@doe.com]] [false]
+onSpace
+onWord [three]
+endParagraph
+endDocument
