@@ -66,6 +66,13 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
      */
     private static final Pattern URL_SCHEME_PATTERN = Pattern.compile("[a-zA-Z0-9+.-]*://");
 
+    /**
+     * Prefix for mailto-links.
+     *
+     * @since 14.0RC1
+     */
+    private static final String MAILTO_PREFIX = "mailto:";
+
     private static final String CLASS_ATTRIBUTE = "class";
 
     /**
@@ -142,7 +149,9 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
      * <ul>
      *   <li>UC1: the reference points to a valid URL, we return a reference of type "url",
      *       e.g. {@code http://server/path/reference#anchor}</li>
-     *   <li>UC2: the reference is not a valid URL, we return a reference of type "path",
+     *   <li>UC2: the reference is a mailto: link, we return a reference of type "mailto",
+     *       e.g., {@code mailto:user@example.com}</li>
+     *   <li>UC3: the reference is not a valid URL, we return a reference of type "path",
      *       e.g. {@code path/reference#anchor}</li>
      * </ul>
      *
@@ -158,8 +167,11 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
         if (matcher.lookingAt()) {
             // We have UC1
             reference = new ResourceReference(rawReference, ResourceType.URL);
-        } else {
+        } else if (rawReference.startsWith(MAILTO_PREFIX)) {
             // We have UC2
+            reference = new ResourceReference(rawReference.substring(MAILTO_PREFIX.length()), ResourceType.MAILTO);
+        } else {
+            // We have UC3
             reference = new ResourceReference(rawReference, ResourceType.PATH);
         }
 
