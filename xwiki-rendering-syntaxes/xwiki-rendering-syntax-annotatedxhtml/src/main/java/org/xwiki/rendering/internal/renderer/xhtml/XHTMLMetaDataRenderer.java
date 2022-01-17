@@ -25,7 +25,6 @@ import java.util.Map;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
-import org.xwiki.stability.Unstable;
 
 /**
  * Renders metadata into Annotated XHTML, i.e., a div or span with the metadata as attributes.
@@ -33,7 +32,6 @@ import org.xwiki.stability.Unstable;
  * @version $Id$
  * @since 14.0RC1
  */
-@Unstable
 public class XHTMLMetaDataRenderer
 {
     /**
