@@ -52,7 +52,7 @@ public class DefaultSyntaxRegistry implements SyntaxRegistry
     private Map<String, Syntax> syntaxes = new HashMap<>();
 
     @Override
-    public void registerSyntaxes(Syntax...syntaxes)
+    public void registerSyntaxes(Syntax... syntaxes)
     {
         for (Syntax syntax : syntaxes) {
             registerSyntax(syntax);
