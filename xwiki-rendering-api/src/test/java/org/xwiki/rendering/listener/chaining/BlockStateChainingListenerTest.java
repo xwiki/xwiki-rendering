@@ -27,8 +27,10 @@ import java.util.stream.Stream;
 
 import org.apache.commons.text.CaseUtils;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.api.Named;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.stubbing.Stubber;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
@@ -37,7 +39,10 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -48,7 +53,7 @@ import static org.mockito.Mockito.verify;
  * @version $Id$
  * @since 14.0RC1
  */
-public class BlockStateChainingListenerTest
+class BlockStateChainingListenerTest
 {
     private BlockStateChainingListener listener;
 
@@ -65,107 +70,129 @@ public class BlockStateChainingListenerTest
     }
 
     /**
-     * Tests for all "begin/end"-methods if the previous event is correctly set, but only after the end event has been
-     * forwarded in the chain.
+     * @return A stream of {@link Arguments} consisting each all begin-methods of the {@link Listener} interface,
+     * each with the matching end method and suitable parameters.
      */
-    @TestFactory
-    Stream<DynamicTest> beginEndMethods()
+    static Stream<Arguments> beginEndMethodProvider()
     {
-        return Arrays.stream(Listener.class.getMethods())
-            .filter(m -> m.getName().startsWith("begin"))
-            .map(beginMethod ->
-                DynamicTest.dynamicTest(getTestName(beginMethod),
-                    () -> testBeginEndMethod(beginMethod)));
+        return Arrays.stream(Listener.class.getMethods()).filter(m -> m.getName().startsWith("begin")).map(m -> {
+            String endMethodName = m.getName().replace("begin", "end");
+            Method endMethod = null;
+            try {
+                endMethod = Listener.class.getMethod(endMethodName, m.getParameterTypes());
+            } catch (NoSuchMethodException e) {
+                fail("Expected end method " + endMethodName + " for " + m.getName() + " not found: " + e.getMessage());
+            }
+            return arguments(
+                Named.of(getTestName(m), m),
+                Named.of(getTestName(endMethod), endMethod),
+                getMockParameters(m)
+            );
+        });
     }
 
     /**
-     * Tests for all "on..." methods if the previous event is correctly set, but only after the event has been forwarded
-     * in the chain.
+     * Test all begin/end-methods.
+     *
+     * Tests for all "begin/end"-methods if they do not modify the parent event (for the next in the chain) in the
+     * begin-method, correctly set it afterwards and if the previous event is correctly set, but only after the end
+     * event has been forwarded in the chain.
+     *
+     * @param beginMethod The method to begin the container.
+     * @param endMethod The corresponding end method.
+     * @param parameters Suitable parameters for both methods.
      */
-    @TestFactory
-    Stream<DynamicTest> onMethods()
+    @ParameterizedTest(name = "{0} and {1} with {2}")
+    @MethodSource("beginEndMethodProvider")
+    void testBeginEndMethod(Method beginMethod, Method endMethod, Object[] parameters)
+        throws InvocationTargetException, IllegalAccessException
+    {
+        boolean isListItem = beginMethod.getName().equals("beginListItem");
+        boolean isDefinitionItem = beginMethod.getName().equals("beginDefinitionTerm") || beginMethod.getName()
+            .equals("beginDefinitionDescription");
+
+        BlockStateChainingListener.Event expectedParentEvent;
+
+        if (isListItem) {
+            this.listener.beginList(ListType.NUMBERED, Listener.EMPTY_PARAMETERS);
+            expectedParentEvent = BlockStateChainingListener.Event.LIST;
+        } else if (isDefinitionItem) {
+            this.listener.beginDefinitionList(Listener.EMPTY_PARAMETERS);
+            expectedParentEvent = BlockStateChainingListener.Event.DEFINITION_LIST;
+        } else {
+            expectedParentEvent = null;
+        }
+
+        this.listener.onId("MockID");
+
+        Stubber verifyPreviousAndParentEventStubber = doAnswer(invocation -> {
+            assertEquals(BlockStateChainingListener.Event.ID, this.listener.getPreviousEvent());
+            assertEquals(expectedParentEvent, this.listener.getParentEvent());
+            return null;
+        }).doNothing();
+
+        // Assert that in the begin method, the parent and the previous event are unchanged.
+        beginMethod.invoke(verifyPreviousAndParentEventStubber.when(this.mockListener), parameters);
+
+        // Actually call the begin method.
+        beginMethod.invoke(this.listener, parameters);
+
+        // Verify the mock listener in the chain has been called.
+        beginMethod.invoke(verify(this.mockListener), parameters);
+
+        BlockStateChainingListener.Event parentEvent = this.listener.getParentEvent();
+        assertNotNull(parentEvent, "No parent set after calling " + beginMethod.getName());
+        String parentEventName = parentEvent.name();
+        String eventNameCamelCase = CaseUtils.toCamelCase(parentEventName, true, '_');
+        assertEquals(beginMethod.getName(), "begin" + eventNameCamelCase,
+            "Wrong event " + parentEventName + " generated for " + beginMethod.getName());
+
+        // Assert that in the end method, the parent has been restored and the previous event is unchanged.
+        endMethod.invoke(verifyPreviousAndParentEventStubber.when(this.mockListener), parameters);
+
+        // Actually call the end method.
+        endMethod.invoke(this.listener, parameters);
+
+        // Verify the mock listener in the chain has been called.
+        endMethod.invoke(verify(this.mockListener), parameters);
+
+        // Verify that the previous event has been set to the event corresponding to the current methods.
+        assertEquals(parentEvent, this.listener.getPreviousEvent());
+
+        if (isDefinitionItem) {
+            this.listener.endDefinitionList(Listener.EMPTY_PARAMETERS);
+        } else if (isListItem) {
+            this.listener.endList(ListType.NUMBERED, Listener.EMPTY_PARAMETERS);
+        }
+
+        assertNull(this.listener.getParentEvent());
+    }
+
+    /**
+     * @return A stream of {@link Arguments} consisting each of all "on"-method of the {@link Listener} interface and
+     * suitable parameters.
+     */
+    static Stream<Arguments> onMethodsProvider()
     {
         return Arrays.stream(Listener.class.getMethods())
-            .filter(m -> m.getName().startsWith("on"))
-            .map(beginMethod ->
-                DynamicTest.dynamicTest(getTestName(beginMethod),
-                    () -> testOnMethod(beginMethod)));
+            .filter(m -> m.getName().startsWith("on")).map(m -> arguments(
+                Named.of(getTestName(m), m),
+                getMockParameters(m)
+                ));
     }
 
-    private String getTestName(Method method)
-    {
-        return method.getName() + "(" + Arrays.stream(method.getParameterTypes()).map(Class::getName)
-            .collect(Collectors.joining(", ")) + ")";
-    }
-
-    private void testBeginEndMethod(Method beginMethod)
-    {
-        String endMethodName = beginMethod.getName().replace("begin", "end");
-        Class<?>[] parameterClasses = beginMethod.getParameterTypes();
-
-        try {
-            Method endMethod = Listener.class.getMethod(endMethodName, parameterClasses);
-
-            boolean isListItem = beginMethod.getName().equals("beginListItem");
-            boolean isDefinitionItem =
-                beginMethod.getName().equals("beginDefinitionTerm") || beginMethod.getName().equals(
-                    "beginDefinitionDescription");
-
-            if (isListItem) {
-                this.listener.beginList(ListType.NUMBERED, Listener.EMPTY_PARAMETERS);
-            } else if (isDefinitionItem) {
-                this.listener.beginDefinitionList(Listener.EMPTY_PARAMETERS);
-            }
-
-            Object[] parameters = Arrays.stream(parameterClasses).map(this::mockParameter).toArray();
-
-            this.listener.onId("MockID");
-
-            Stubber verifyPreviousAndParentEventStubber = doAnswer(invocation -> {
-                assertEquals(BlockStateChainingListener.Event.ID, this.listener.getPreviousEvent());
-                return null;
-            }).doNothing();
-
-            // Assert that in the begin method, the previous event are unchanged
-            beginMethod.invoke(verifyPreviousAndParentEventStubber.when(this.mockListener), parameters);
-
-            // Actually call the begin method.
-            beginMethod.invoke(this.listener, parameters);
-
-            // Verify the mock listener in the chain has been called.
-            beginMethod.invoke(verify(this.mockListener), parameters);
-
-            // Assert that in the end method, the previous event is unchanged
-            endMethod.invoke(verifyPreviousAndParentEventStubber.when(this.mockListener), parameters);
-
-            // Actually call the end method.
-            endMethod.invoke(this.listener, parameters);
-
-            // Verify the mock listener in the chain has been called.
-            endMethod.invoke(verify(this.mockListener), parameters);
-
-            // Verify that the previous event has been set to the event corresponding to the current methods.
-            String previousEventName = this.listener.getPreviousEvent().name();
-            String previousEventCamelCase = CaseUtils.toCamelCase(previousEventName, true, '_');
-            assertEquals(beginMethod.getName(), "begin" + previousEventCamelCase,
-                "Wrong event " + previousEventName + " generated for " + beginMethod.getName());
-
-            if (isDefinitionItem) {
-                this.listener.endDefinitionList(Listener.EMPTY_PARAMETERS);
-            } else if (isListItem) {
-                this.listener.endList(ListType.NUMBERED, Listener.EMPTY_PARAMETERS);
-            }
-        } catch (NoSuchMethodException e) {
-            fail("Expected end method " + endMethodName + " for " + beginMethod.getName() + " not found: "
-                + e.getMessage());
-        } catch (InvocationTargetException e) {
-            fail("Listener method has thrown exception: " + e.getMessage());
-        } catch (IllegalAccessException e) {
-            fail("Listener method not callable: " + e.getMessage());
-        }
-    }
-
-    private void testOnMethod(Method method)
+    /**
+     * Test the "on"-methods of the {@link Listener} interface.
+     *
+     * Tests for all "on..." methods if they do not modify the parent event (for the next in the chain) and if the
+     * previous event is correctly set, but only after the event has been forwarded in the chain.
+     *
+     * @param method The "on"-method.
+     * @param parameters Suitable parameters for the method.
+     */
+    @ParameterizedTest(name = "{0} with {1}")
+    @MethodSource("onMethodsProvider")
+    void testOnMethod(Method method, Object[] parameters) throws InvocationTargetException, IllegalAccessException
     {
         this.listener.beginDocument(MetaData.EMPTY);
 
@@ -173,29 +200,23 @@ public class BlockStateChainingListenerTest
         this.listener.beginParagraph(Listener.EMPTY_PARAMETERS);
         this.listener.endParagraph(Listener.EMPTY_PARAMETERS);
 
-        Object[] parameters = Arrays.stream(method.getParameterTypes()).map(this::mockParameter).toArray();
+        // Verify that the next in the chain still gets the old previous event and that the parent is not
+        // changed.
+        method.invoke(
+            doAnswer(invocationOnMock -> {
+                assertEquals(BlockStateChainingListener.Event.DOCUMENT, this.listener.getParentEvent());
+                assertEquals(BlockStateChainingListener.Event.PARAGRAPH, this.listener.getPreviousEvent());
+                return null;
+            })
+                .doThrow(new AssertionError("Listener must only be called once"))
+                .when(this.mockListener),
+            parameters);
 
-        try {
-            // Verify that the next in the chain still gets the old previous event.
-            method.invoke(
-                doAnswer(invocationOnMock -> {
-                    assertEquals(BlockStateChainingListener.Event.PARAGRAPH, this.listener.getPreviousEvent());
-                    return null;
-                })
-                    .doThrow(new AssertionError("Listener must only be called once"))
-                    .when(this.mockListener),
-                parameters);
+        // Actually call the listener method.
+        method.invoke(this.listener, parameters);
 
-            // Actually call the listener method.
-            method.invoke(this.listener, parameters);
-
-            // Verify that the call has been correctly forwarded.
-            method.invoke(verify(this.mockListener), parameters);
-        } catch (InvocationTargetException e) {
-            fail("Listener method has thrown exception: " + e.getMessage());
-        } catch (IllegalAccessException e) {
-            fail("Listener method not callable: " + e.getMessage());
-        }
+        // Verify that the call has been correctly forwarded.
+        method.invoke(verify(this.mockListener), parameters);
 
         // Check if the previous event is the expected event.
         String previousEventName = this.listener.getPreviousEvent().name();
@@ -213,10 +234,29 @@ public class BlockStateChainingListenerTest
     }
 
     /**
+     * @param method The method to get a name for.
+     * @return The name of the method without class but with all parameter types.
+     */
+    static private String getTestName(Method method)
+    {
+        return method.getName() + "(" + Arrays.stream(method.getParameterTypes()).map(Class::getName)
+            .collect(Collectors.joining(", ")) + ")";
+    }
+
+    /**
+     * @param method The method to get parameters for.
+     * @return A mock object or value for each expected parameter.
+     */
+    static private Object getMockParameters(Method method)
+    {
+        return Arrays.stream(method.getParameterTypes()).map(BlockStateChainingListenerTest::mockParameter).toArray();
+    }
+
+    /**
      * @param classToMock The class to return a mock object for.
      * @return Either a mock object or in the case of an enum or primitive type a concrete value.
      */
-    private Object mockParameter(Class<?> classToMock)
+    static private Object mockParameter(Class<?> classToMock)
     {
         if (classToMock.equals(Format.class)) {
             return Format.BOLD;
