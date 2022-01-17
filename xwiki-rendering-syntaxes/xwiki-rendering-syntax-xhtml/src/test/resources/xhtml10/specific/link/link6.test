@@ -1,5 +1,6 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
+.# Testing mailto link recognition without metadata.
 .#-----------------------------------------------------
 <p>one <a href="mailto:john@doe.com">two</a> three</p>
 .#-----------------------------------------------------
