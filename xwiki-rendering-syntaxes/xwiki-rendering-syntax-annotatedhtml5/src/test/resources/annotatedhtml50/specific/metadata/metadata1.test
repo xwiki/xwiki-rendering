@@ -1,0 +1,9 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Verify that metadata is kept in the output.
+.#-----------------------------------------------------
+<div data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container"><div><p>Heading</p></div></div>
+.#-----------------------------------------------------
+.expect|annotatedhtml/5.0
+.#-----------------------------------------------------
+<div data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container"><div><p>Heading</p></div></div>

@@ -19,10 +19,8 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.MetaData;
@@ -40,7 +38,12 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
     /**
      * Renders a Macro definition into Annotated XHTML.
      */
-    private XHTMLMacroRenderer macroRenderer;
+    private final XHTMLMacroRenderer macroRenderer;
+
+    /**
+     * Renders metadata into Annotated XHTML.
+     */
+    private final XHTMLMetaDataRenderer metaDataRenderer;
 
     /**
      * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
@@ -57,6 +60,8 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
         super(linkRenderer, imageRenderer, listenerChain);
 
         this.macroRenderer = new XHTMLMacroRenderer();
+
+        this.metaDataRenderer = new XHTMLMetaDataRenderer();
     }
 
     @Override
@@ -83,36 +88,15 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
         this.macroRenderer.endRender(getXHTMLWikiPrinter());
     }
 
-    /**
-     * @return a span element if we are inside an inline macro. Else a div.
-     */
-    private String getMetadataContainerElement()
-    {
-        if (getBlockState().isInLine()) {
-            return "span";
-        } else {
-            return "div";
-        }
-    }
-
     @Override
     public void beginMetaData(MetaData metadata)
     {
-        Map<String, String> attributes = new LinkedHashMap<>();
-
-        for (Map.Entry<String, Object> metadataPair : metadata.getMetaData().entrySet()) {
-            attributes.put(XHTMLXWikiGeneratorListener.METADATA_ATTRIBUTE_PREFIX + metadataPair.getKey(),
-                metadataPair.getValue().toString());
-        }
-
-        attributes.put("class", XHTMLXWikiGeneratorListener.METADATA_CONTAINER_CLASS);
-
-        this.getXHTMLWikiPrinter().printXMLStartElement(getMetadataContainerElement(), attributes);
+        this.metaDataRenderer.beginRender(getXHTMLWikiPrinter(), getBlockState().isInLine(), metadata);
     }
 
     @Override
     public void endMetaData(MetaData metadata)
     {
-        getXHTMLWikiPrinter().printXMLEndElement(getMetadataContainerElement());
+        this.metaDataRenderer.endRender(getXHTMLWikiPrinter(), getBlockState().isInLine());
     }
 }

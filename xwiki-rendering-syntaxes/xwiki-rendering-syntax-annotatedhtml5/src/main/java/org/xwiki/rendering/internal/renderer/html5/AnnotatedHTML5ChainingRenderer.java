@@ -22,8 +22,10 @@ package org.xwiki.rendering.internal.renderer.html5;
 import java.util.Map;
 
 import org.xwiki.rendering.internal.renderer.xhtml.XHTMLMacroRenderer;
+import org.xwiki.rendering.internal.renderer.xhtml.XHTMLMetaDataRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 
@@ -39,7 +41,12 @@ public class AnnotatedHTML5ChainingRenderer extends HTML5ChainingRenderer
     /**
      * Renders a Macro definition into Annotated XHTML.
      */
-    private XHTMLMacroRenderer macroRenderer;
+    private final XHTMLMacroRenderer macroRenderer;
+
+    /**
+     * Renders metadata into Annotated XHTML.
+     */
+    private final XHTMLMetaDataRenderer metaDataRenderer;
 
     /**
      * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
@@ -56,6 +63,8 @@ public class AnnotatedHTML5ChainingRenderer extends HTML5ChainingRenderer
         super(linkRenderer, imageRenderer, listenerChain);
 
         this.macroRenderer = new XHTMLMacroRenderer();
+
+        this.metaDataRenderer = new XHTMLMetaDataRenderer();
     }
 
     @Override
@@ -69,21 +78,37 @@ public class AnnotatedHTML5ChainingRenderer extends HTML5ChainingRenderer
     @Override
     public void beginMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
-        if (getBlockState().getMacroDepth() == 1) {
-            // Do not do any rendering but we still need to save the macro definition in some hidden XHTML
-            // so that the macro can be reconstructed when moving back from XHTML to XDOM.
-            this.macroRenderer.beginRender(getXHTMLWikiPrinter(), name, parameters, content);
-        }
+        // Do not do any rendering but we still need to save the macro definition in some hidden XHTML
+        // so that the macro can be reconstructed when moving back from XHTML to XDOM.
+        this.macroRenderer.beginRender(getXHTMLWikiPrinter(), name, parameters, content);
     }
 
     @Override
     public void endMacroMarker(String name, Map<String, String> parameters, String content, boolean isInline)
     {
-        if (getBlockState().getMacroDepth() == 1) {
-            // Do not do any rendering but we still need to save the macro definition in some hidden XHTML
-            // so that the macro can be reconstructed when moving back from XHTML to XDOM.
-            this.macroRenderer.endRender(getXHTMLWikiPrinter());
-        }
+        // Do not do any rendering but we still need to save the macro definition in some hidden XHTML
+        // so that the macro can be reconstructed when moving back from XHTML to XDOM.
+        this.macroRenderer.endRender(getXHTMLWikiPrinter());
+    }
+
+    /**
+     * {@inheritDoc}
+     * @since 14.0RC1
+     */
+    @Override
+    public void beginMetaData(MetaData metadata)
+    {
+        this.metaDataRenderer.beginRender(getXHTMLWikiPrinter(), getBlockState().isInLine(), metadata);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @since 14.0RC1
+     */
+    @Override
+    public void endMetaData(MetaData metadata)
+    {
+        this.metaDataRenderer.endRender(getXHTMLWikiPrinter(), getBlockState().isInLine());
     }
 
     /**
