@@ -29,6 +29,7 @@ import javax.inject.Named;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.internal.parser.xhtml5.XHTML5Parser;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
@@ -80,7 +81,7 @@ public class HTML5Parser extends XHTML5Parser
     {
         HTMLCleanerConfiguration configuration = this.htmlCleaner.getDefaultConfiguration();
         Map<String, String> parameters = new HashMap<>(configuration.getParameters());
-        parameters.put("htmlVersion", "5");
+        parameters.put(HTMLCleanerConfiguration.HTML_VERSION, "5");
         configuration.setParameters(parameters);
         return configuration;
     }

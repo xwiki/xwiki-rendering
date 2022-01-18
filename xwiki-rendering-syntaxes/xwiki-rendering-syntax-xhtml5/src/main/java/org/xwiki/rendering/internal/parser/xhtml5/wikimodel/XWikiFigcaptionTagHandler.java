@@ -17,51 +17,54 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.html5.wikimodel;
+package org.xwiki.rendering.internal.parser.xhtml5.wikimodel;
 
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiWikiModelHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
- * Handle the HTML figure tag similar to a div-tag.
+ * Handle the HTML5 &lt;figcaption&gt; tag.
  *
  * @since 14.0RC1
  * @version $Id$
  */
-public class XWikiFigureTagHandler extends TagHandler implements XWikiWikiModelHandler
+public class XWikiFigcaptionTagHandler extends TagHandler implements XWikiWikiModelHandler
 {
     /**
-     * Create a new HTML figure tag handler.
+     * Create a new figcaption-tag handler.
      */
-    public XWikiFigureTagHandler()
+    public XWikiFigcaptionTagHandler()
     {
         super(true);
     }
 
-    @Override public boolean isBlockHandler(TagContext context)
+    @Override
+    public boolean isBlockHandler(TagContext context)
     {
         return true;
     }
 
-    @Override protected void begin(TagContext context)
+    @Override
+    protected void begin(TagContext context)
     {
         sendEmptyLines(context);
 
-        context.getScannerContext().beginFigure(context.getParams());
+        context.getScannerContext().beginFigureCaption(context.getParams());
 
-        // Simulate entering in a new document
+        // Stack context parameters since we enter in a new document
         context.getTagStack().pushStackParameters();
 
         context.getTagStack().unsetInsideBlockElement();
     }
 
-    @Override protected void end(TagContext context)
+    @Override
+    protected void end(TagContext context)
     {
+        context.getTagStack().popStackParameters();
+
         sendEmptyLines(context);
 
-        context.getScannerContext().endFigure();
-
-        context.getTagStack().popStackParameters();
+        context.getScannerContext().endFigureCaption();
     }
 }

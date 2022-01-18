@@ -17,24 +17,24 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.html5.wikimodel;
+package org.xwiki.rendering.internal.parser.xhtml5.wikimodel;
 
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiWikiModelHandler;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
- * Handle the HTML5 &lt;figcaption&gt; tag.
+ * Handle the HTML figure tag similar to a div-tag.
  *
- * @since 14.0RC1
  * @version $Id$
+ * @since 14.0RC1
  */
-public class XWikiFigcaptionTagHandler extends TagHandler implements XWikiWikiModelHandler
+public class XWikiFigureTagHandler extends TagHandler implements XWikiWikiModelHandler
 {
     /**
-     * Create a new figcaption-tag handler.
+     * Create a new HTML figure tag handler.
      */
-    public XWikiFigcaptionTagHandler()
+    public XWikiFigureTagHandler()
     {
         super(true);
     }
@@ -50,20 +50,21 @@ public class XWikiFigcaptionTagHandler extends TagHandler implements XWikiWikiMo
     {
         sendEmptyLines(context);
 
-        context.getScannerContext().beginFigureCaption(context.getParams());
+        context.getScannerContext().beginFigure(context.getParams());
 
-        // Stack context parameters since we enter in a new document
+        // Simulate entering in a new document
         context.getTagStack().pushStackParameters();
 
         context.getTagStack().unsetInsideBlockElement();
     }
 
-    @Override protected void end(TagContext context)
+    @Override
+    protected void end(TagContext context)
     {
-        context.getTagStack().popStackParameters();
-
         sendEmptyLines(context);
 
-        context.getScannerContext().endFigureCaption();
+        context.getScannerContext().endFigure();
+
+        context.getTagStack().popStackParameters();
     }
 }

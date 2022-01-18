@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.parser.html5;
+package org.xwiki.rendering.internal.parser.xhtml5;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,9 +27,9 @@ import javax.inject.Named;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.internal.parser.html5.wikimodel.XWikiFigcaptionTagHandler;
-import org.xwiki.rendering.internal.parser.html5.wikimodel.XWikiFigureTagHandler;
-import org.xwiki.rendering.internal.parser.html5.wikimodel.XWikiSpanTagHandler;
+import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XWikiFigcaptionTagHandler;
+import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XWikiFigureTagHandler;
+import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XWikiSpanTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiCommentHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiDivTagHandler;
@@ -47,7 +47,7 @@ import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.stability.Unstable;
 import org.xwiki.xml.XMLReaderFactory;
 
-import static org.xwiki.rendering.internal.html5.HTML5SyntaxProvider.HTML_5_0;
+import static org.xwiki.rendering.internal.xhtml5.XHTML5SyntaxProvider.XHTML_5;
 
 /**
  * This is an HTML5 parser that expects valid XML as input, i.e., doesn't run HTMLCleaner.
@@ -56,7 +56,7 @@ import static org.xwiki.rendering.internal.html5.HTML5SyntaxProvider.HTML_5_0;
  * @since 14.0RC1
  */
 @Component
-@Named("xhtml/5.0")
+@Named("xhtml/5")
 @Unstable
 public class XHTML5Parser extends XHTMLParser
 {
@@ -88,7 +88,7 @@ public class XHTML5Parser extends XHTMLParser
     @Override
     public Syntax getSyntax()
     {
-        return HTML_5_0;
+        return XHTML_5;
     }
 
     @Override
