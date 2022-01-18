@@ -26,18 +26,19 @@ import java.util.stream.Collectors;
 
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
+import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiSpanTagHandler;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TeletypeTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 /**
- * XWiki HTML5 span tag handler. Also handles monospace text.
+ * XWiki XHTML5 span tag handler. Also handles monospace text.
  *
  * @version $Id$
  * @since 14.0RC1
  */
-public class XWikiSpanTagHandler extends org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiSpanTagHandler
+public class XHTML5SpanTagHandler extends XWikiSpanTagHandler
 {
 
     private static final String CLASS = "class";
@@ -47,13 +48,13 @@ public class XWikiSpanTagHandler extends org.xwiki.rendering.internal.parser.xht
     private final TeletypeTagHandler ttHandler;
 
     /**
-     * Default constructor of a {@link org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiSpanTagHandler}.
+     * Default constructor of a {@link XWikiSpanTagHandler}.
      *
      * @param componentManager is used to retrieved the proper parser component for serializing a non generated content
      * @param parser the current parser is actually used to simplify the build of other parsers.
      * @since 10.10RC1
      */
-    public XWikiSpanTagHandler(ComponentManager componentManager, XHTMLParser parser)
+    public XHTML5SpanTagHandler(ComponentManager componentManager, XHTMLParser parser)
     {
         super(componentManager, parser);
         this.ttHandler = new TeletypeTagHandler();

@@ -29,7 +29,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XWikiFigcaptionTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XWikiFigureTagHandler;
-import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XWikiSpanTagHandler;
+import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XHTML5SpanTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiCommentHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiDivTagHandler;
@@ -105,7 +105,7 @@ public class XHTML5Parser extends XHTMLParser
         handlers.put("h6", handler);
         handlers.put("a", new XWikiReferenceTagHandler(this, this.xmlRenderer));
         handlers.put("img", new XWikiImageTagHandler());
-        handlers.put("span", new XWikiSpanTagHandler(this.componentManager, this));
+        handlers.put("span", new XHTML5SpanTagHandler(this.componentManager, this));
         // Change the class value indicating that the division is an embedded document. We do this in order to be
         // independent of WikiModel in what we expose to the outside world. Thus if one day we need to change to
         // another implementation we won't be tied to WikiModel.
