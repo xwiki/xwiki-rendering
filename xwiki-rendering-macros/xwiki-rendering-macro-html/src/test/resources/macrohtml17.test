@@ -13,7 +13,7 @@
 .#-----------------------------------------------------
 beginDocument
 beginMacroMarkerStandalone [html] [wiki=true] [{{toc/}}]
-onRawText [<ul><li><span class="wikilink"><a href="#Hheader">header</a></span></li></ul>] [xhtml/1.0]
+onRawText [<ul><li><span class="wikilink"><a href="#Hheader">header</a></span></li></ul>] [html/5.0]
 endMacroMarkerStandalone [html] [wiki=true] [{{toc/}}]
 beginSection
 beginHeader [1, Hheader]

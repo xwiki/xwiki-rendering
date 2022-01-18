@@ -20,7 +20,6 @@
 package org.xwiki.rendering.internal.macro.html;
 
 import java.io.StringReader;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +54,6 @@ import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
@@ -88,11 +86,6 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     private static final String CONTENT_DESCRIPTION = "The HTML content to insert in the page.";
 
     /**
-     * The syntax representing the output of this macro (used for the RawBlock).
-     */
-    private static final Syntax XHTML_SYNTAX = new Syntax(SyntaxType.XHTML, "1.0");
-
-    /**
      * Used to search for inner macros.
      */
     private static final ClassBlockMatcher MACROBLOCKMATCHER = new ClassBlockMatcher(MacroBlock.class);
@@ -104,12 +97,12 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     private HTMLCleaner htmlCleaner;
 
     /**
-     * Default Factory to create special XHTML renderer for the HTML Macro.
-     * It is used as fallback in {@link #getRendererFactory(Syntax)}.
+     * Default Factory to create special HTML renderer for the HTML Macro. It is used as fallback in
+     * {@link #getRendererFactory(Syntax)}.
      */
     @Inject
-    @Named("xhtmlmacro/1.0")
-    private PrintRendererFactory defaultXHTMLRendererFactory;
+    @Named("htmlmacro+html/5.0")
+    private PrintRendererFactory defaultHTMLRendererFactory;
 
     /**
      * The parser used to parse macro content.
@@ -166,7 +159,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
                     "The HTML macro may not be used with clean=\"false\" in this context.");
             }
 
-            blocks = Arrays.asList((Block) new RawBlock(normalizedContent, XHTML_SYNTAX));
+            blocks = List.of(new RawBlock(normalizedContent, getHTMLTargetSyntax()));
         } else {
             blocks = Collections.emptyList();
         }
@@ -211,7 +204,8 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             // TODO: Improve this since when're inside a table cell or a list item we can allow non inline items too
             Element root = document.getDocumentElement();
             if (root.getChildNodes().getLength() == 1 && root.getFirstChild().getNodeType() == Node.ELEMENT_NODE
-                && root.getFirstChild().getNodeName().equalsIgnoreCase("p")) {
+                && root.getFirstChild().getNodeName().equalsIgnoreCase("p"))
+            {
                 HTMLUtils.stripFirstElementInside(document, HTMLConstants.TAG_HTML, HTMLConstants.TAG_P);
             } else {
                 throw new MacroExecutionException(
@@ -284,13 +278,13 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
 
             // Render the whole parsed content as a XHTML string
             WikiPrinter printer = new DefaultWikiPrinter();
-            PrintRenderer renderer = this.getRendererFactory(this.renderingContext.getTargetSyntax()).createRenderer(printer);
+            PrintRenderer renderer =
+                this.getRendererFactory(this.renderingContext.getTargetSyntax()).createRenderer(printer);
             for (Block block : htmlMacroMarker.getChildren()) {
                 block.traverse(renderer);
             }
 
             xhtml = printer.toString();
-
         } catch (Exception e) {
             throw new MacroExecutionException("Failed to parse content [" + content + "].", e);
         }
@@ -299,23 +293,29 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     }
 
     /**
-     * Retrieve the renderer factory based on the given target syntax.
-     * In practice it's always a {@link HTMLMacroXHTMLRendererFactory} which is returned but the hint is used to build
-     * the right renderer in the factory.
+     * Retrieve the renderer factory based on the given target syntax. In practice it's always a
+     * {@link HTMLMacroXHTMLRendererFactory} which is returned but the hint is used to build the right renderer in the
+     * factory.
      *
      * @param targetSyntax the syntax for which we want a {@link PrintRenderer}.
-     * @return a {@link HTMLMacroXHTMLRendererFactory} with the hint to build the right {@link PrintRenderer}.
-     *              It fallbacks on {@link #defaultXHTMLRendererFactory} in case of ComponentLookupException.
+     * @return a {@link HTMLMacroXHTMLRendererFactory} with the hint to build the right {@link PrintRenderer}. It
+     *     fallbacks on {@link #defaultHTMLRendererFactory} in case of ComponentLookupException.
      * @since 11.4RC1
      */
     private PrintRendererFactory getRendererFactory(Syntax targetSyntax)
     {
-        String hint = HTMLMacroXHTMLRendererFactory.PREFIX_SYNTAX + targetSyntax.toIdString();
-        try {
-            return this.componentManager.getInstance(PrintRendererFactory.class, hint);
-        } catch (ComponentLookupException e) {
-            return this.defaultXHTMLRendererFactory;
+        PrintRendererFactory result = this.defaultHTMLRendererFactory;
+
+        if (targetSyntax != null) {
+            String hint = HTMLMacroXHTMLRendererFactory.PREFIX_SYNTAX + targetSyntax.toIdString();
+            try {
+                result = this.componentManager.getInstance(PrintRendererFactory.class, hint);
+            } catch (ComponentLookupException ignored) {
+                // Unsupported syntax - keep default.
+            }
         }
+
+        return result;
     }
 
     /**
@@ -325,14 +325,35 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     private HTMLCleanerConfiguration getCleanerConfiguration(MacroTransformationContext context)
     {
         HTMLCleanerConfiguration cleanerConfiguration = this.htmlCleaner.getDefaultConfiguration();
+        Map<String, String> parameters = new HashMap<>(cleanerConfiguration.getParameters());
 
-        if (context.getTransformationContext().isRestricted()) {
-            Map<String, String> parameters = new HashMap<String, String>();
-            parameters.putAll(cleanerConfiguration.getParameters());
-            parameters.put(HTMLCleanerConfiguration.RESTRICTED, "true");
-            cleanerConfiguration.setParameters(parameters);
+        Syntax targetSyntax = this.getHTMLTargetSyntax();
+
+        if (Syntax.HTML_5_0.equals(targetSyntax) || Syntax.ANNOTATED_HTML_5_0.equals(targetSyntax)) {
+            parameters.put(HTMLCleanerConfiguration.HTML_VERSION, "5");
         }
 
+        if (context.getTransformationContext().isRestricted()) {
+            parameters.put(HTMLCleanerConfiguration.RESTRICTED, "true");
+        }
+
+        cleanerConfiguration.setParameters(parameters);
+
         return cleanerConfiguration;
+    }
+
+    /**
+     * @return The target syntax if it is a supported HTML syntax or {@link Syntax#HTML_5_0} otherwise.
+     * @since 14.1RC1
+     */
+    private Syntax getHTMLTargetSyntax()
+    {
+        Syntax targetSyntax = this.renderingContext.getTargetSyntax();
+        if (getRendererFactory(targetSyntax) == this.defaultHTMLRendererFactory) {
+            // If the renderer is the default renderer, it is either indeed HTML 5.0 or an unsupported syntax - in
+            // both cases returning HTML 5.0 is the right consequence.
+            return Syntax.HTML_5_0;
+        }
+        return targetSyntax;
     }
 }
