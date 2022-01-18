@@ -139,9 +139,13 @@ public class TestDataParser
 
         // If the inherit configuration property is set and if the returned syntax is empty load from the inherit
         // syntax.
-        if (configuration.inheritSyntax != null) {
+        TestDataConfiguration currentConfiguration = configuration;
+        while ((testDataIN.syntaxData == null || testDataOUT.syntaxData == null)
+            && currentConfiguration.inheritSyntax != null) {
+            final String inheritedSyntaxDirectory = computeSyntaxDirectory(currentConfiguration.inheritSyntax);
+
             Pair<Pair<String, String>, Pair<String, String>> inheritedSyntaxData =
-                readDataForPrefix(computeSyntaxDirectory(configuration.inheritSyntax) + SLASH + relativeDirectoryName,
+                readDataForPrefix(inheritedSyntaxDirectory + SLASH + relativeDirectoryName,
                     configuration.fileExtension, classLoader);
             if (testDataIN.syntaxData == null) {
                 testDataIN.syntaxData = inheritedSyntaxData.getLeft().getLeft();
@@ -150,6 +154,13 @@ public class TestDataParser
             if (testDataOUT.syntaxData == null) {
                 testDataOUT.syntaxData = inheritedSyntaxData.getRight().getLeft();
                 testDataOUT.syntaxExtension = inheritedSyntaxData.getRight().getRight();
+            }
+
+            try {
+                currentConfiguration = parseTestConfiguration(inheritedSyntaxDirectory, ctsRootPackageName,
+                    classLoader);
+            } catch (Exception ignored) {
+                break;
             }
         }
 
