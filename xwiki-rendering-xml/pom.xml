@@ -48,14 +48,6 @@
       <groupId>org.dom4j</groupId>
       <artifactId>dom4j</artifactId>
     </dependency>
-    <!-- We need the Xerces dependency at runtime since we have an optimization for the Xerces
-         parser (to tell it to cache DTD grammars). If it's not there then there's no DTD
-         caching. -->
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-      <scope>runtime</scope>
-    </dependency>
   </dependencies>
   <build>
     <plugins>
