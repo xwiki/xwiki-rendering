@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-macros</artifactId>
-    <version>14.0-SNAPSHOT</version>
+    <version>14.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-macro-figure</artifactId>
   <name>XWiki Rendering - Macro - Figure</name>
