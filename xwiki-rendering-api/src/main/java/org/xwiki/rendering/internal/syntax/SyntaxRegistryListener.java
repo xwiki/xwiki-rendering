@@ -129,7 +129,7 @@ public class SyntaxRegistryListener implements EventListener
                 // Some Syntax Provider failed to instantiate properly. Since these are core Syntax Providers in the
                 // current ClassLoader they're supposed to work fine. Thus if it fails we consider it's a fatal error
                 // and we raise an exception. This should normally not happen.
-                throw new RuntimeException(String.format("Failed to instantiate Syntax Provider component [{}]",
+                throw new RuntimeException(String.format("Failed to instantiate Syntax Provider component [%s]",
                     cd), e);
             }
             registerSyntaxesProvider(syntaxesProvider, cd);
