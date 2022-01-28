@@ -107,10 +107,10 @@ public class TestDataParser
      * @param configuration the test configuration
      * @param classLoader the class loader from which the test data is read from
      * @return the TestData instances for both input and output tests, including possible input alias tests
-     * @throws IOException in case of error while reading test data
+     * @throws Exception in case of error while reading test data or inherited configurations
      */
     public List<TestData> parseSingleTestData(String syntaxDirectory, String ctsRootPackageName,
-        String relativeDirectoryName, TestDataConfiguration configuration, ClassLoader classLoader) throws IOException
+        String relativeDirectoryName, TestDataConfiguration configuration, ClassLoader classLoader) throws Exception
     {
         // Look for syntax-specific input/output file and read their content
         TestData testDataIN = new TestData();
@@ -156,12 +156,7 @@ public class TestDataParser
                 testDataOUT.syntaxExtension = inheritedSyntaxData.getRight().getRight();
             }
 
-            try {
-                currentConfiguration = parseTestConfiguration(inheritedSyntaxDirectory, ctsRootPackageName,
-                    classLoader);
-            } catch (Exception ignored) {
-                break;
-            }
+            currentConfiguration = parseTestConfiguration(inheritedSyntaxDirectory, ctsRootPackageName, classLoader);
         }
 
         List<TestData> result = new ArrayList<>();
