@@ -332,7 +332,7 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
     @Override
     public void endListItem(Map<String, String> parameters)
     {
-        saveEvent(EventType.END_LIST_ITEM);
+        saveEvent(EventType.END_LIST_ITEM, parameters);
     }
 
     @Override
