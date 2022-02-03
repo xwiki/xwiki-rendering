@@ -19,14 +19,27 @@
  */
 package org.xwiki.rendering.listener.chaining;
 
-import java.util.Collections;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 
+import org.apache.commons.text.CaseUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.rendering.listener.QueueListener;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 /**
  * Unit tests for {@link LookaheadChainingListener}.
@@ -34,9 +47,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @version $Id$
  * @since 1.8RC1
  */
-public class LookaheadChainingListenerTest
+class LookaheadChainingListenerTest
 {
-    public class TestChainingListener extends AbstractChainingListener
+    public static class TestChainingListener extends AbstractChainingListener
     {
         public int calls = 0;
 
@@ -71,7 +84,7 @@ public class LookaheadChainingListenerTest
     }
 
     @Test
-    public void testLookahead()
+    void testLookahead()
     {
         ListenerChain chain = new ListenerChain();
         LookaheadChainingListener listener = new LookaheadChainingListener(chain, 2);
@@ -84,20 +97,20 @@ public class LookaheadChainingListenerTest
         assertEquals(1, testListener.calls);
 
         // 1st lookahead, nothing is sent to the test listener
-        listener.beginParagraph(Collections.<String, String>emptyMap());
+        listener.beginParagraph(Listener.EMPTY_PARAMETERS);
         assertEquals(1, testListener.calls);
         assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
         assertNull(listener.getNextEvent(2));
 
         // 2nd lookahead, nothing is sent to the test listener
-        listener.beginParagraph(Collections.<String, String>emptyMap());
+        listener.beginParagraph(Listener.EMPTY_PARAMETERS);
         assertEquals(1, testListener.calls);
         assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
         assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent(2).eventType);
         assertNull(listener.getNextEvent(3));
 
         // 3rd events, the first begin paragraph is sent
-        listener.endParagraph(Collections.<String, String>emptyMap());
+        listener.endParagraph(Listener.EMPTY_PARAMETERS);
         assertEquals(2, testListener.calls);
         assertEquals(EventType.BEGIN_PARAGRAPH, listener.getNextEvent().eventType);
         assertEquals(EventType.END_PARAGRAPH, listener.getNextEvent(2).eventType);
@@ -107,5 +120,62 @@ public class LookaheadChainingListenerTest
         listener.endDocument(MetaData.EMPTY);
         assertEquals(5, testListener.calls);
         assertNull(listener.getNextEvent());
+    }
+
+    /**
+     * Test all methods of the {@link Listener} interface.
+     * <p>
+     * Tests for all methods if they are properly forwarded.
+     *
+     * @param method The method to test.
+     * @param parameters Suitable parameters for the method.
+     */
+    @ParameterizedTest(name = "{0} with {1}")
+    @MethodSource("org.xwiki.rendering.test.ListenerMethodProvider#allMethodsProvider")
+    void testAllMethods(Method method, Object[] parameters) throws InvocationTargetException, IllegalAccessException
+    {
+        ListenerChain chain = new ListenerChain();
+        LookaheadChainingListener listener = new LookaheadChainingListener(chain, 1);
+        chain.addListener(listener);
+
+        ChainingListener mockListener = mock(ChainingListener.class);
+        chain.addListener(mockListener);
+
+        listener.onId("Before");
+
+        verifyNoInteractions(mockListener);
+
+        // Check that the event is available when the next listener in the chain is called.
+        doAnswer(invocation -> {
+            QueueListener.Event event = listener.getNextEvent();
+            assertNotNull(event);
+
+            // MetaData events unfortunately do not follow the naming scheme...
+            if (method.getName().equals("beginMetaData")) {
+                assertEquals("BEGIN_METADATA", event.eventType.name());
+            } else if (method.getName().equals("endMetaData")) {
+                assertEquals("END_METADATA", event.eventType.name());
+            } else {
+                assertEquals(method.getName(), CaseUtils.toCamelCase(event.eventType.name(), false, '_'));
+            }
+            assertArrayEquals(parameters, event.eventParameters);
+
+            // Check that fireEvent calls the correct listener method with the correct parameter.
+            Listener nextEventListener = mock(Listener.class);
+            event.eventType.fireEvent(nextEventListener, event.eventParameters);
+            method.invoke(verify(nextEventListener), parameters);
+            verifyNoMoreInteractions(nextEventListener);
+            return null;
+        }).when(mockListener).onId("Before");
+
+        method.invoke(listener, parameters);
+
+        verify(mockListener).onId("Before");
+
+        // Call another method to trigger forwarding.
+        listener.onId("After");
+
+        method.invoke(verify(mockListener), parameters);
+        verifyNoMoreInteractions(mockListener);
     }
 }
