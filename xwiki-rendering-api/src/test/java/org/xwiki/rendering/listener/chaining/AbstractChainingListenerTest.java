@@ -140,7 +140,7 @@ class AbstractChainingListenerTest
      * @param method The method to test.
      * @param parameters Suitable parameters for the method.
      */
-    @ParameterizedTest(name = "{0} and {1} with {2}")
+    @ParameterizedTest(name = "{0} with {1}")
     @MethodSource("org.xwiki.rendering.test.ListenerMethodProvider#allMethodsProvider")
     void allMethodsForward(Method method, Object[] parameters) throws InvocationTargetException,
         IllegalAccessException
