@@ -19,23 +19,31 @@
  */
 package org.xwiki.rendering.listener.chaining;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 /**
  * Validate {@link AbstractChainingListener}.
  * 
  * @version $Id$
  */
-public class AbstractChainingListenerTest
+class AbstractChainingListenerTest
 {
-    private class AsbtractChild extends AbstractChainingPrintRenderer
+    private static class AbstractChild extends AbstractChainingPrintRenderer
     {
         boolean called;
 
@@ -46,7 +54,7 @@ public class AbstractChainingListenerTest
         }
     }
 
-    private class Child extends AbstractChainingListener
+    private static class Child extends AbstractChainingListener
     {
         boolean called;
 
@@ -57,12 +65,12 @@ public class AbstractChainingListenerTest
         }
     }
 
-    private class Child2 extends AsbtractChild
+    private static class Child2 extends AbstractChild
     {
 
     }
 
-    private class Child3 extends AbstractChainingListener
+    private static class Child3 extends AbstractChainingListener
     {
         boolean called;
 
@@ -73,10 +81,25 @@ public class AbstractChainingListenerTest
         }
     }
 
+    private static class DummyListener extends AbstractChainingListener
+    {
+    }
+
+    private static class EndListItemChild extends AbstractChainingListener
+    {
+        boolean called;
+
+        @Override
+        public void endListItem()
+        {
+            this.called = true;
+        }
+    }
+
     // Tests
 
     @Test
-    public void beginListItemRetroCompatibility()
+    void beginListItemRetroCompatibility()
     {
         // Old, First level
 
@@ -107,5 +130,42 @@ public class AbstractChainingListenerTest
         child3.beginListItem(Collections.emptyMap());
 
         assertTrue(child3.called);
+    }
+
+    /**
+     * Test all methods of the {@link Listener} interface.
+     * <p>
+     * Tests for all methods if they properly forward the call to the next listener.
+     *
+     * @param method The method to test.
+     * @param parameters Suitable parameters for the method.
+     */
+    @ParameterizedTest(name = "{0} and {1} with {2}")
+    @MethodSource("org.xwiki.rendering.test.ListenerMethodProvider#allMethodsProvider")
+    void allMethodsForward(Method method, Object[] parameters) throws InvocationTargetException,
+        IllegalAccessException
+    {
+        ListenerChain chain = new ListenerChain();
+
+        DummyListener listener = new DummyListener();
+        listener.setListenerChain(chain);
+        chain.addListener(listener);
+
+        ChainingListener mockListener = mock(ChainingListener.class);
+        chain.addListener(mockListener);
+
+        method.invoke(listener, parameters);
+        method.invoke(verify(mockListener), parameters);
+        verifyNoMoreInteractions(mockListener);
+    }
+
+    @Test
+    void endListItemRetroCompatibility()
+    {
+        EndListItemChild listener = new EndListItemChild();
+
+        assertFalse(listener.called);
+        listener.endListItem(Listener.EMPTY_PARAMETERS);
+        assertTrue(listener.called);
     }
 }
