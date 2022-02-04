@@ -1,0 +1,32 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|xwiki/2.0
+.# XRENDERING-468 - Test that the empty table cell parameters aren't omitted when they can be confused
+.# with inline format parameters.
+.#-------------------------------------------------------------------------------------------------------
+|(%%)(% style="background-color:red" %)Some(%%) text|first line
+second line
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginTable
+beginTableRow
+beginTableCell
+beginFormat [NONE] [[style]=[background-color:red]]
+onWord [Some]
+endFormat [NONE] [[style]=[background-color:red]]
+onSpace
+onWord [text]
+endTableCell
+beginTableCell
+onWord [first]
+onSpace
+onWord [line]
+onNewLine
+onWord [second]
+onSpace
+onWord [line]
+endTableCell
+endTableRow
+endTable
+endDocument

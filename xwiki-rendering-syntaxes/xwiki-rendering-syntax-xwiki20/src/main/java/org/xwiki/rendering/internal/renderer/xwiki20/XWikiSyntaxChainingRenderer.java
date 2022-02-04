@@ -27,7 +27,9 @@ import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.rendering.listener.QueueListener;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
+import org.xwiki.rendering.listener.chaining.EventType;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.LookaheadChainingListener;
 import org.xwiki.rendering.listener.chaining.StackableChainingListener;
@@ -46,6 +48,8 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
  */
 public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer implements StackableChainingListener
 {
+    private static final String EMPTY_PARAMETERS = "(%%)";
+
     private XWikiSyntaxResourceRenderer linkResourceRenderer;
 
     private XWikiSyntaxResourceRenderer imageResourceRenderer;
@@ -316,7 +320,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     private void handleEmptyParameters()
     {
         if (this.previousFormatParameters != null) {
-            getPrinter().print("(%%)");
+            getPrinter().print(EMPTY_PARAMETERS);
             this.previousFormatParameters = null;
         }
     }
@@ -668,7 +672,21 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     public void beginTableCell(Map<String, String> parameters)
     {
         print("|");
-        printParameters(parameters, false);
+        if (!parameters.isEmpty()) {
+            printParameters(parameters, false);
+        } else {
+            // XRENDERING-468 - if we are at the start of a table cell, the first parameters are used by the table cell.
+            // For this, we make sure to print empty parameters when the next event is a format event that will print
+            // parameters.
+            QueueListener.Event nextEvent = getXWikiSyntaxListenerChain().getLookaheadChainingListener().getNextEvent();
+            if (nextEvent != null
+                && EventType.BEGIN_FORMAT.equals(nextEvent.eventType)
+                && nextEvent.eventParameters.length > 1
+                && nextEvent.eventParameters[1] instanceof Map<?, ?>
+                && !((Map<?, ?>)nextEvent.eventParameters[1]).isEmpty()) {
+                print(EMPTY_PARAMETERS);
+            }
+        }
 
         // Stack all events until we either get a standalone one (that will be wrapped in a GroupBlock by the listener)
         // or until endTableCell() is called.
