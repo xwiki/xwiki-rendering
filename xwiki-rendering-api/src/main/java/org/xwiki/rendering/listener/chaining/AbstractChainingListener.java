@@ -20,7 +20,10 @@
 package org.xwiki.rendering.listener.chaining;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
@@ -55,62 +58,32 @@ public abstract class AbstractChainingListener implements ChainingListener
      * @since 11.10.2
      * @since 12.0RC1
      */
-    private final boolean beginListItemRetroCompatibility;
-
-    /**
-     * True if {@link #endListItem(Map)} should redirect to {@link #endListItem()} for retro compatibility.
-     * <p>
-     * {@link #endListItem(Map)} was added long after {@link #endListItem()} and various renderers/listeners
-     * override {@link #endListItem()} only and won't be called in post 10.0 versions of XWiki without this retro
-     * compatibility trick.
-     *
-     * @since 13.10.3
-     * @since 14.1RC1
-     */
-    private final boolean endListItemRetroCompatibility;
+    private boolean listItemRetroCompatibility;
 
     /**
      * The default constructor.
      * <p>
-     * Initialize {@link #beginListItemRetroCompatibility} field.
+     * Initialize {@link #listItemRetroCompatibility} field.
      */
     public AbstractChainingListener()
     {
-        this.beginListItemRetroCompatibility = needsRetroCompatibilityWithoutParameters("beginListItem");
-        this.endListItemRetroCompatibility = needsRetroCompatibilityWithoutParameters("endListItem");
-    }
-
-    /**
-     * @param methodName The method name to check for retro compatibility without parameters.
-     * @return If the method is only implemented without parameters and not with parameters in a descendant class.
-     * @since 13.10.3
-     * @since 14.1RC1
-     */
-    private boolean needsRetroCompatibilityWithoutParameters(String methodName)
-    {
         for (Class<?> current = getClass(); current != AbstractChainingListener.class; current =
             current.getSuperclass()) {
-            boolean withParameter = false;
-            boolean withoutParameter = false;
+            Set<Integer> parameterCounts = Arrays.stream(current.getDeclaredMethods())
+                .filter(method -> method.getName().endsWith("ListItem"))
+                .map(Method::getParameterCount)
+                .collect(Collectors.toSet());
 
-            // Search for beginListItem methods
-            for (Method method : current.getDeclaredMethods()) {
-                if (method.getName().equals(methodName)) {
-                    if (method.getParameterCount() == 0) {
-                        withoutParameter = true;
-                    } else {
-                        withParameter = true;
-                    }
-                }
+            // If there is only the variant without parameter, we need the compatibility wrapper.
+            if (parameterCounts.size() == 1 && parameterCounts.contains(0)) {
+                this.listItemRetroCompatibility = true;
             }
 
-            // Enable the retro compatibility flag if #beginListItem() is overwritten but not #beginListItem(Map)
-            if (!withParameter && withoutParameter) {
-                return true;
+            // Do not continue looking once we found a class implementing one of the methods.
+            if (!parameterCounts.isEmpty()) {
+                break;
             }
         }
-
-        return false;
     }
 
     /**
@@ -223,7 +196,7 @@ public abstract class AbstractChainingListener implements ChainingListener
     {
         // Make sure to call the old beginListItem() if it's the only thing implemented by the extending class since
         // this new one existed only after 10.10
-        if (this.beginListItemRetroCompatibility) {
+        if (this.listItemRetroCompatibility) {
             beginListItem();
         } else {
             ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -436,7 +409,7 @@ public abstract class AbstractChainingListener implements ChainingListener
     {
         // Make sure to call the old endListItem() if it's the only thing implemented by the extending class since
         // this new one existed only after 10.10.
-        if (this.endListItemRetroCompatibility) {
+        if (this.listItemRetroCompatibility) {
             endListItem();
         } else {
             ChainingListener next = getListenerChain().getNextListener(getClass());
