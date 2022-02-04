@@ -30,6 +30,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -68,6 +69,28 @@ class AbstractChainingListenerTest
     private static class Child2 extends AbstractChild
     {
 
+    }
+
+    private static class ChildWithBothBeginMethods extends AbstractChild
+    {
+        boolean calledWithoutParameter;
+        boolean calledWithParameter;
+
+        @Override
+        public void beginListItem()
+        {
+            super.beginListItem();
+
+            this.calledWithoutParameter = true;
+        }
+
+        @Override
+        public void beginListItem(Map<String, String> parameters)
+        {
+            super.beginListItem(parameters);
+
+            this.calledWithParameter = true;
+        }
     }
 
     private static class Child3 extends AbstractChainingListener
@@ -130,6 +153,29 @@ class AbstractChainingListenerTest
         child3.beginListItem(Collections.emptyMap());
 
         assertTrue(child3.called);
+    }
+
+    @Test
+    void beginListItemRetroCompatibilityWithBothImplemented()
+    {
+        ListenerChain chain = new ListenerChain();
+        ChildWithBothBeginMethods child = new ChildWithBothBeginMethods();
+        child.setListenerChain(chain);
+        chain.addListener(child);
+
+
+        assertFalse(child.calledWithoutParameter);
+        assertFalse(child.calledWithParameter);
+        assertFalse(child.called);
+
+        child.beginListItem(Listener.EMPTY_PARAMETERS);
+
+        assertAll(
+            () -> assertTrue(child.calledWithParameter, "Child hasn't been called with parameters."),
+            () -> assertFalse(child.calledWithoutParameter, "Child has been called without parameters but shouldn't "
+                + "have been called."),
+            () -> assertFalse(child.called, "Parent has been called without parameters but shouldn't have been called.")
+        );
     }
 
     /**
