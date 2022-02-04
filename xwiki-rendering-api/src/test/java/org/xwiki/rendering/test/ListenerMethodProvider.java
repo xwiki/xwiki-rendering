@@ -38,6 +38,7 @@ import static org.mockito.Mockito.mock;
 /**
  * Provider for methods of the listener interface.
  *
+ * @version $Id$
  * @since 14.1RC1
  * @since 13.10.3
  */
