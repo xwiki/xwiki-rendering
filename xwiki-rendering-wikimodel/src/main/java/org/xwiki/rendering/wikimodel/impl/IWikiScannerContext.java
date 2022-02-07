@@ -23,6 +23,7 @@ import org.xwiki.rendering.wikimodel.IWemConstants;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.WikiStyle;
+import org.xwiki.stability.Unstable;
 
 /**
  * @version $Id$
@@ -134,6 +135,53 @@ public interface IWikiScannerContext extends IWemConstants
     void endTableExplicit();
 
     void endTableRow();
+
+    /**
+     * Starts a new figure.
+     *
+     * @param params Parameters of the figure.
+     * @since 14.1RC1
+     */
+    @Unstable
+    default void beginFigure(WikiParameters params)
+    {
+        // do nothing by default
+    }
+
+    /**
+     * Ends a figure.
+     *
+     * @since 14.1RC1
+     */
+    @Unstable
+    default void endFigure()
+    {
+        // do nothing by default
+    }
+
+    /**
+     * Starts a figure caption.
+     *
+     * This must only be used inside a figure.
+     *
+     * @param params The parameters of the caption.
+     * @since 14.1RC1
+     */
+    @Unstable
+    default void beginFigureCaption(WikiParameters params)
+    {
+        // do nothing by default
+    }
+
+    /**
+     * Ends a figure caption.
+     * @since 14.1RC1
+     */
+    @Unstable
+    default void endFigureCaption()
+    {
+        // do nothing by default
+    }
 
     InlineState getInlineState();
 

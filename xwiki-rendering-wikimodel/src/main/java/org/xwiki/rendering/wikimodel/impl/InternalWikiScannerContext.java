@@ -131,6 +131,8 @@ public class InternalWikiScannerContext implements IWikiScannerContext
 
     protected WikiParameters fVerbatimParameters = WikiParameters.EMPTY;
 
+    protected WikiParameters fFigureCaptionParameters;
+
     public InternalWikiScannerContext(SectionBuilder<WikiParameters> sectionBuilder, IWemListener listener)
     {
         fListener = listener;
@@ -193,6 +195,18 @@ public class InternalWikiScannerContext implements IWikiScannerContext
             fBlockType = IBlockTypes.INFO;
         }
         beginStyleContainer();
+    }
+
+    @Override
+    public void beginFigure(WikiParameters params)
+    {
+        beginDocument(params);
+    }
+
+    @Override
+    public void beginFigureCaption(WikiParameters params)
+    {
+        beginDocument(params);
     }
 
     public void beginList()
@@ -804,6 +818,18 @@ public class InternalWikiScannerContext implements IWikiScannerContext
             fTableCellCounter = -1;
             fTableRowCounter++;
         }
+    }
+
+    @Override
+    public void endFigure()
+    {
+        endDocument();
+    }
+
+    @Override
+    public void endFigureCaption()
+    {
+        endDocument();
     }
 
     public InlineState getInlineState()

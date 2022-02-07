@@ -647,4 +647,36 @@ public class CompositeListener implements IWemListener
             listener.onWord(str);
         }
     }
+
+    @Override
+    public void beginFigure(WikiParameters params)
+    {
+        for (IWemListener listener : fListeners) {
+            listener.beginFigure(params);
+        }
+    }
+
+    @Override
+    public void endFigure(WikiParameters params)
+    {
+        for (IWemListener listener : fListeners) {
+            listener.endFigure(params);
+        }
+    }
+
+    @Override
+    public void beginFigureCaption(WikiParameters params)
+    {
+        for (IWemListener listener : fListeners) {
+            listener.beginFigureCaption(params);
+        }
+    }
+
+    @Override
+    public void endFigureCaption(WikiParameters params)
+    {
+        for (IWemListener listener : fListeners) {
+            listener.endFigureCaption(params);
+        }
+    }
 }

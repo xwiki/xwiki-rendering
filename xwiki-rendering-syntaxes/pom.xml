@@ -63,5 +63,6 @@
     <module>xwiki-rendering-syntax-xhtml</module>
     <module>xwiki-rendering-syntax-xwiki20</module>
     <module>xwiki-rendering-syntax-xwiki21</module>
+    <module>xwiki-rendering-syntax-xhtml5</module>
   </modules>
 </project>

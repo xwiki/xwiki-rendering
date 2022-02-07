@@ -1,0 +1,2 @@
+org.xwiki.rendering.internal.parser.xhtml5.XHTML5Parser
+org.xwiki.rendering.internal.xhtml5.XHTML5SyntaxProvider
