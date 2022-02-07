@@ -12,15 +12,15 @@ whatever2
 beginDocument
 beginMacroMarkerStandalone [figure] [] [whatever1
 whatever2]
-beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginFigure
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
 onWord [whatever1]
 onNewLine
 onWord [whatever2]
 endParagraph
-endFigure
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+endFigure
 endMacroMarkerStandalone [figure] [] [whatever1
 whatever2]
 endDocument

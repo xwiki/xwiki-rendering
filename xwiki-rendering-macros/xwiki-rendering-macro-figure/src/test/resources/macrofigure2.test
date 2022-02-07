@@ -16,22 +16,24 @@ beginMacroMarkerStandalone [figure] [] [whatever1
 whatever2
 
 {{figureCaption}}caption{{/figureCaption}}]
-beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginFigure
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
 onWord [whatever1]
 onNewLine
 onWord [whatever2]
 endParagraph
 beginMacroMarkerStandalone [figureCaption] [] [caption]
-beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginFigureCaption
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+beginParagraph
 onWord [caption]
+endParagraph
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endFigureCaption
-endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endMacroMarkerStandalone [figureCaption] [] [caption]
-endFigure
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+endFigure
 endMacroMarkerStandalone [figure] [] [whatever1
 whatever2
 
@@ -43,4 +45,4 @@ endDocument
 .# The main problem is that ATM we don't have a way to input FigureBlock/FigureCaptionBlock without
 .# resorting to the XWiki 2.0+ syntax and Transformations.
 .#--------------------------------------------------------------------------------------------------
-<p>whatever1<br/>whatever2</p><p>caption</p>
+<p>whatever1<br/>whatever2</p><div class="figcaption"><p>caption</p></div>

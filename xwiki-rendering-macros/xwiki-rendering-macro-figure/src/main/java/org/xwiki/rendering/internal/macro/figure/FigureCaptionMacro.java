@@ -89,15 +89,16 @@ public class FigureCaptionMacro extends AbstractNoParameterMacro
 
         // If we're not inside a FigureBlock then don't do anything.
         Block parent = context.getCurrentMacroBlock().getParent();
-        if (parent instanceof FigureBlock) {
+        if (parent instanceof FigureBlock
+            || (parent instanceof MetaDataBlock && parent.getParent() instanceof FigureBlock))
+        {
             XDOM xdom = this.contentParser.parse(content, context, false, false);
             List<Block> figureCaptionChildren = xdom.getChildren();
-            this.parserUtils.removeTopLevelParagraph(figureCaptionChildren);
-            figureCaptionChildren = Collections.singletonList(new FigureCaptionBlock(figureCaptionChildren));
 
             // Mark the macro content as being content that has not been transformed (so that it can editable inline)
-            result = Collections.singletonList(new MetaDataBlock(figureCaptionChildren,
+            figureCaptionChildren = Collections.singletonList(new MetaDataBlock(figureCaptionChildren,
                 getNonGeneratedContentMetaData()));
+            result = Collections.singletonList(new FigureCaptionBlock(figureCaptionChildren));
         }
 
         return result;

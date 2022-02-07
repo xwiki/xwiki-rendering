@@ -104,6 +104,13 @@ public abstract class AbstractStackingInlineContentChainingListener extends Look
     }
 
     @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        startStandaloneElement();
+        super.beginFigureCaption(parameters);
+    }
+
+    @Override
     public void endGroup(Map<String, String> parameters)
     {
         super.endGroup(parameters);
@@ -142,6 +149,13 @@ public abstract class AbstractStackingInlineContentChainingListener extends Look
     public void endFigure(Map<String, String> parameters)
     {
         super.endFigure(parameters);
+        endStandaloneElement();
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        super.endFigureCaption(parameters);
         endStandaloneElement();
     }
 
