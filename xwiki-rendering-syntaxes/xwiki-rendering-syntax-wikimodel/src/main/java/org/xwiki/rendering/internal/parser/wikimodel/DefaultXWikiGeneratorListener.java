@@ -149,7 +149,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      *
-     * @since 14.0RC1
+     * @since 14.1RC1
      */
     @Override
     public void beginFigure(WikiParameters params)
@@ -160,7 +160,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      *
-     * @since 14.0RC1
+     * @since 14.1RC1
      */
     @Override
     public void endFigure(WikiParameters params)
@@ -171,7 +171,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      *
-     * @since 14.0RC1
+     * @since 14.1RC1
      */
     @Override
     public void beginFigureCaption(WikiParameters params)
@@ -182,7 +182,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     /**
      * {@inheritDoc}
      *
-     * @since 14.0RC1
+     * @since 14.1RC1
      */
     @Override
     public void endFigureCaption(WikiParameters params)

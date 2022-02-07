@@ -44,7 +44,7 @@ import static org.xwiki.rendering.internal.html5.HTML5SyntaxProvider.HTML_5_0;
  * Parses a subset of HTML5 and generates a {@code XDOM} object.
  *
  * @version $Id$
- * @since 14.0RC1
+ * @since 14.1RC1
  */
 @Component
 @Named("html/5.0")

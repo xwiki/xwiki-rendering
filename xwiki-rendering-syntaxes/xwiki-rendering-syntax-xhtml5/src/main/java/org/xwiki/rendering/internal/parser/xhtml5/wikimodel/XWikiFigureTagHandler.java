@@ -27,7 +27,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * Handle the XHTML figure tag similar to a div-tag.
  *
  * @version $Id$
- * @since 14.0RC1
+ * @since 14.1RC1
  */
 public class XWikiFigureTagHandler extends TagHandler implements XWikiWikiModelHandler
 {

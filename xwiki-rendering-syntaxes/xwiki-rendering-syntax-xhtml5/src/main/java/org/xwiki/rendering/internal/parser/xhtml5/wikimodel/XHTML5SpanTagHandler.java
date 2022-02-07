@@ -36,7 +36,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
  * XWiki XHTML5 span tag handler. Also handles monospace text.
  *
  * @version $Id$
- * @since 14.0RC1
+ * @since 14.1RC1
  */
 public class XHTML5SpanTagHandler extends XWikiSpanTagHandler
 {

@@ -53,7 +53,7 @@ import static org.xwiki.rendering.internal.xhtml5.XHTML5SyntaxProvider.XHTML_5;
  * This is an HTML5 parser that expects valid XML as input, i.e., doesn't run HTMLCleaner.
  *
  * @version $Id$
- * @since 14.0RC1
+ * @since 14.1RC1
  */
 @Component
 @Named("xhtml/5")

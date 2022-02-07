@@ -26,7 +26,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 /**
  * Handle the XHTML5 &lt;figcaption&gt; tag.
  *
- * @since 14.0RC1
+ * @since 14.1RC1
  * @version $Id$
  */
 public class XWikiFigcaptionTagHandler extends TagHandler implements XWikiWikiModelHandler

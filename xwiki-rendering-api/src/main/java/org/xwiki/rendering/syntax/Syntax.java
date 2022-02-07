@@ -52,7 +52,7 @@ public class Syntax implements Comparable<Syntax>
     /**
      * XHTML5 syntax.
      *
-     * @since 14.0RC1
+     * @since 14.1RC1
      */
     @Unstable
     public static final Syntax XHTML_5 = new Syntax(SyntaxType.XHTML, "5");

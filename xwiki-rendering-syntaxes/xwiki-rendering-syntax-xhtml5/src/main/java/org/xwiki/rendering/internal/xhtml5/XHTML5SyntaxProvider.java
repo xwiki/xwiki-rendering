@@ -35,7 +35,7 @@ import org.xwiki.stability.Unstable;
  * Register the {@code xhtml/5} Syntax supported by this module.
  *
  * @version $Id$
- * @since 14.0RC1
+ * @since 14.1RC1
  */
 @Component
 @Named("xhtml/5")

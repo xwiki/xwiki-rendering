@@ -27,7 +27,7 @@ import org.xwiki.rendering.test.cts.Syntax;
  * Run all CTS tests for the XHTML 5 syntax.
  *
  * @version $Id$
- * @since 14.0RC1
+ * @since 14.1RC1
  */
 @RunWith(CompatibilityTestSuite.class)
 @Syntax("xhtml/5")

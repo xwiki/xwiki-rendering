@@ -140,7 +140,7 @@ public interface IWikiScannerContext extends IWemConstants
      * Starts a new figure.
      *
      * @param params Parameters of the figure.
-     * @since 14.0RC1
+     * @since 14.1RC1
      */
     @Unstable
     default void beginFigure(WikiParameters params)
@@ -151,7 +151,7 @@ public interface IWikiScannerContext extends IWemConstants
     /**
      * Ends a figure.
      *
-     * @since 14.0RC1
+     * @since 14.1RC1
      */
     @Unstable
     default void endFigure()
@@ -165,7 +165,7 @@ public interface IWikiScannerContext extends IWemConstants
      * This must only be used inside a figure.
      *
      * @param params The parameters of the caption.
-     * @since 14.0RC1
+     * @since 14.1RC1
      */
     @Unstable
     default void beginFigureCaption(WikiParameters params)
@@ -175,7 +175,7 @@ public interface IWikiScannerContext extends IWemConstants
 
     /**
      * Ends a figure caption.
-     * @since 14.0RC1
+     * @since 14.1RC1
      */
     @Unstable
     default void endFigureCaption()
