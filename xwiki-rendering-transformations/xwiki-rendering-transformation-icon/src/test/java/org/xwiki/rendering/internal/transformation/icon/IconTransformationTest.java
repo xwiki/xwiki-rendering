@@ -23,8 +23,8 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.SpecialSymbolBlock;
@@ -33,12 +33,13 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
-import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
-import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 import org.xwiki.test.annotation.AllComponents;
-import org.xwiki.test.jmock.AbstractMockingComponentTestCase;
-import org.xwiki.test.jmock.annotation.MockingRequirement;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectComponentManager;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.internal.transformation.icon.IconTransformation}.
@@ -46,13 +47,18 @@ import org.xwiki.test.jmock.annotation.MockingRequirement;
  * @version $Id$
  * @since 2.6RC1
  */
+@ComponentTest
 @AllComponents
-@MockingRequirement(value = IconTransformation.class,
-    exceptions = { Parser.class, IconTransformationConfiguration.class })
-public class IconTransformationTest extends AbstractMockingComponentTestCase<Transformation>
+class IconTransformationTest
 {
+    @InjectMockComponents
+    private IconTransformation transformation;
+
+    @InjectComponentManager
+    private ComponentManager componentManager;
+
     @Test
-    public void testTransform() throws Exception
+    void transform() throws Exception
     {
         String expected = "beginDocument [[syntax]=[XWiki 2.1]]\n"
             + "beginParagraph\n"
@@ -80,18 +86,18 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase<Tra
             + "endParagraph\n"
             + "endDocument [[syntax]=[XWiki 2.1]]";
 
-        Parser parser = getComponentManager().getInstance(Parser.class, "xwiki/2.1");
+        Parser parser = this.componentManager.getInstance(Parser.class, "xwiki/2.1");
         XDOM xdom = parser.parse(new StringReader("Some :) smileys:(:P:D;)(y)(n)(i)(/)(x)(!)(+)(-)(?)(on)(off)(*)"));
-        this.getMockedComponent().transform(xdom, new TransformationContext());
+        this.transformation.transform(xdom, new TransformationContext());
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        BlockRenderer eventBlockRenderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");
+        BlockRenderer eventBlockRenderer = this.componentManager.getInstance(BlockRenderer.class, "event/1.0");
         eventBlockRenderer.render(xdom, printer);
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 
     @Test
-    public void testTransformIgnoresProtectedContent() throws Exception
+    void transformIgnoresProtectedContent() throws Exception
     {
         String expected = "beginDocument\n"
             + "beginMacroMarkerStandalone [code] []\n"
@@ -100,21 +106,21 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase<Tra
             + "endMacroMarkerStandalone [code] []\n"
             + "endDocument";
 
-        XDOM xdom = new XDOM(Arrays.asList((Block) new MacroMarkerBlock("code", Collections.<String, String>emptyMap(),
-            Arrays.asList((Block) new SpecialSymbolBlock(':'), new SpecialSymbolBlock(')')), false)));
-        getMockedComponent().transform(xdom, new TransformationContext());
+        XDOM xdom = new XDOM(Arrays.asList((Block) new MacroMarkerBlock("code", Collections.emptyMap(),
+            Arrays.asList(new SpecialSymbolBlock(':'), new SpecialSymbolBlock(')')), false)));
+        this.transformation.transform(xdom, new TransformationContext());
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        BlockRenderer eventBlockRenderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");
+        BlockRenderer eventBlockRenderer = this.componentManager.getInstance(BlockRenderer.class, "event/1.0");
         eventBlockRenderer.render(xdom, printer);
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 
     /**
      * Fixes XWIKI-5729.
      */
     @Test
-    public void testTransformWhenIncompleteMatchExistsFollowedByMatch() throws Exception
+    void transformWhenIncompleteMatchExistsFollowedByMatch() throws Exception
     {
         String expected = "beginDocument [[syntax]=[XWiki 2.1]]\n"
             + "beginParagraph\n"
@@ -124,13 +130,13 @@ public class IconTransformationTest extends AbstractMockingComponentTestCase<Tra
             + "endParagraph\n"
             + "endDocument [[syntax]=[XWiki 2.1]]";
 
-        Parser parser = getComponentManager().getInstance(Parser.class, "xwiki/2.1");
+        Parser parser = this.componentManager.getInstance(Parser.class, "xwiki/2.1");
         XDOM xdom = parser.parse(new StringReader("( (i)"));
-        getMockedComponent().transform(xdom, new TransformationContext());
+        this.transformation.transform(xdom, new TransformationContext());
 
         WikiPrinter printer = new DefaultWikiPrinter();
-        BlockRenderer eventBlockRenderer = getComponentManager().getInstance(BlockRenderer.class, "event/1.0");
+        BlockRenderer eventBlockRenderer = this.componentManager.getInstance(BlockRenderer.class, "event/1.0");
         eventBlockRenderer.render(xdom, printer);
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 }
