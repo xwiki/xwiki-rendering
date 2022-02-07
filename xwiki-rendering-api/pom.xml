@@ -32,7 +32,7 @@
   <packaging>jar</packaging>
   <description>XWiki Rendering - Api</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.4</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.5</xwiki.jacoco.instructionRatio>
     <!-- Skipping revapi since xwiki-rendering-legacy-api wraps this module and runs checks on it -->
     <xwiki.revapi.skip>true</xwiki.revapi.skip>
   </properties>
