@@ -20,7 +20,10 @@
 package org.xwiki.rendering.listener.chaining;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
@@ -55,35 +58,29 @@ public abstract class AbstractChainingListener implements ChainingListener
      * @since 11.10.2
      * @since 12.0RC1
      */
-    private boolean beginListItemRetroCompatibility;
+    private boolean listItemRetroCompatibility;
 
     /**
      * The default constructor.
      * <p>
-     * Initialize {@link #beginListItemRetroCompatibility} field.
+     * Initialize {@link #listItemRetroCompatibility} field.
      */
     public AbstractChainingListener()
     {
         for (Class<?> current = getClass(); current != AbstractChainingListener.class; current =
             current.getSuperclass()) {
-            boolean withParameter = false;
-            boolean withoutParameter = false;
+            Set<Integer> parameterCounts = Arrays.stream(current.getDeclaredMethods())
+                .filter(method -> method.getName().endsWith("ListItem"))
+                .map(Method::getParameterCount)
+                .collect(Collectors.toSet());
 
-            // Search for beginListItem methods
-            for (Method method : current.getDeclaredMethods()) {
-                if (method.getName().equals("beginListItem")) {
-                    if (method.getParameterCount() == 0) {
-                        withoutParameter = true;
-                    } else {
-                        withParameter = true;
-                    }
-                }
+            // If there is only the variant without parameter, we need the compatibility wrapper.
+            if (parameterCounts.size() == 1 && parameterCounts.contains(0)) {
+                this.listItemRetroCompatibility = true;
             }
 
-            // Enable the retro compatibility flag if #beginListItem() is overwritten but not #beginListItem(Map)
-            if (!withParameter && withoutParameter) {
-                this.beginListItemRetroCompatibility = true;
-
+            // Do not continue looking once we found a class implementing one of the methods.
+            if (!parameterCounts.isEmpty()) {
                 break;
             }
         }
@@ -199,7 +196,7 @@ public abstract class AbstractChainingListener implements ChainingListener
     {
         // Make sure to call the old beginListItem() if it's the only thing implemented by the extending class since
         // this new one existed only after 10.10
-        if (this.beginListItemRetroCompatibility) {
+        if (this.listItemRetroCompatibility) {
             beginListItem();
         } else {
             ChainingListener next = getListenerChain().getNextListener(getClass());
@@ -410,9 +407,15 @@ public abstract class AbstractChainingListener implements ChainingListener
     @Override
     public void endListItem(Map<String, String> parameters)
     {
-        ChainingListener next = getListenerChain().getNextListener(getClass());
-        if (next != null) {
-            next.endListItem(parameters);
+        // Make sure to call the old endListItem() if it's the only thing implemented by the extending class since
+        // this new one existed only after 10.10.
+        if (this.listItemRetroCompatibility) {
+            endListItem();
+        } else {
+            ChainingListener next = getListenerChain().getNextListener(getClass());
+            if (next != null) {
+                next.endListItem(parameters);
+            }
         }
     }
 
