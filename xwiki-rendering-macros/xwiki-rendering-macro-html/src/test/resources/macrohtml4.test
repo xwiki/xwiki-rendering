@@ -44,7 +44,7 @@ onRawText [<p>a <strong>b</strong> c
 <!--comment-->  another  <script>/*<![CDATA[*/
 hello  world
 /*]]>*/</script>
-</p>] [xhtml/1.0]
+</p>] [html/5.0]
 endMacroMarkerStandalone [html] [wiki=true] [a <strong>b</strong> c 
 <pre>
   newline

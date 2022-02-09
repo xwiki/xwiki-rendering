@@ -19,93 +19,109 @@
  */
 package org.xwiki.rendering.internal.macro.html;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.descriptor.ComponentDescriptor;
+import org.xwiki.component.phase.Initializable;
+import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.internal.renderer.AbstractPrintRendererFactory;
+import org.xwiki.rendering.parser.ParseException;
+import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxRegistry;
 import org.xwiki.rendering.syntax.SyntaxType;
 
 /**
- * Create Renderers for the HTML Macro.
- * It computes the renderer to creates based on the given hint. By default it creates a {@link HTMLMacroXHTMLRenderer}.
+ * Create Renderers for the HTML Macro. It computes the renderer to create based on the given hint. By default, it
+ * creates a {@link org.xwiki.rendering.internal.macro.html.renderers.html5.HTMLMacroHTML5Renderer}.
  *
  * @version $Id$
  * @since 2.0M3
  */
-@Component(hints = {"xhtmlmacro/1.0", "htmlmacro+annotatedxhtml/1.0", "htmlmacro+annotatedhtml/5.0",
-    "htmlmacro+html/5.0"})
+@Component(hints = { "xhtmlmacro/1.0", "htmlmacro+annotatedxhtml/1.0", "htmlmacro+annotatedhtml/5.0",
+    "htmlmacro+html/5.0", "htmlmacro+xhtml/1.0" })
 @Singleton
-public class HTMLMacroXHTMLRendererFactory extends AbstractPrintRendererFactory
+public class HTMLMacroXHTMLRendererFactory extends AbstractPrintRendererFactory implements Initializable
 {
     /**
      * Prefix for supported syntaxes in HTML Macro.
+     *
      * @since 11.4RC1
      */
     public static final String PREFIX_SYNTAX = "htmlmacro+";
 
     /**
-     * The special syntax to recognize the HTML Macro XHTML Renderer.
+     * HTML Macro syntax based on the component's role with the {@link #PREFIX_SYNTAX} to use the dedicated renderers.
      */
-    private static final Syntax XHTML_SYNTAX = new Syntax(new SyntaxType("xhtmlmacro", "XHTML Macro"), "1.0");
-
-    /**
-     * List of supported syntaxes in HTML Macro.
-     */
-    private static final List<Syntax> SUPPORTED_SYNTAXES = Arrays.asList(
-        Syntax.ANNOTATED_XHTML_1_0,
-        Syntax.ANNOTATED_HTML_5_0,
-        Syntax.HTML_5_0
-    );
-
-    /**
-     * List of HTML Macro syntaxes based on the {@link #SUPPORTED_SYNTAXES} with the {@link #PREFIX_SYNTAX} to use
-     * the dedicated renderers.
-     */
-    private final List<Syntax> htmlMacroSyntaxes;
+    private Syntax htmlMacroSyntax;
 
     /**
      * Used to retrieve the hint of the component.
      */
     @Inject
-    private ComponentDescriptor componentDescriptor;
+    private ComponentDescriptor<PrintRendererFactory> componentDescriptor;
 
     /**
-     * Constructor that builds the list of {@link #htmlMacroSyntaxes}.
-     *
-     * @since 11.4RC1
+     * Used to resolve the syntax.
      */
-    public HTMLMacroXHTMLRendererFactory()
+    @Inject
+    private SyntaxRegistry syntaxRegistry;
+
+    /**
+     * Initialize the syntax of this rendering factory.
+     */
+    @Override
+    public void initialize() throws InitializationException
     {
-        this.htmlMacroSyntaxes = new ArrayList<>();
-        for (Syntax existedAcceptedSyntax : SUPPORTED_SYNTAXES) {
-            SyntaxType type = existedAcceptedSyntax.getType();
-            this.htmlMacroSyntaxes.add(new Syntax(
-                new SyntaxType(PREFIX_SYNTAX + type.getId(), "HTML Macro " + type.getName()),
-                existedAcceptedSyntax.getVersion()));
+        String roleHint = this.componentDescriptor.getRoleHint();
+        String originalRole;
+        if (roleHint.startsWith(PREFIX_SYNTAX)) {
+            originalRole = roleHint.substring(PREFIX_SYNTAX.length());
+        } else {
+            originalRole = "xhtml/1.0";
+        }
+
+        try {
+            Syntax originalSyntax = this.syntaxRegistry.resolveSyntax(originalRole);
+            this.htmlMacroSyntax = toMacroSyntax(originalSyntax);
+        } catch (ParseException parseException) {
+            throw new InitializationException("Couldn't resolve the original syntax " + originalRole, parseException);
         }
     }
 
     /**
      * {@inheritDoc}
-     * @return the syntax based on the component hint. Fallback on {@link #XHTML_SYNTAX}.
+     *
+     * @return the syntax based on the component hint.
      */
     @Override
     public Syntax getSyntax()
     {
-        Syntax result = XHTML_SYNTAX;
-        String roleHint = this.componentDescriptor.getRoleHint();
+        return this.htmlMacroSyntax;
+    }
 
-        for (Syntax acceptedSyntax : this.htmlMacroSyntaxes) {
-            if (roleHint.equals(acceptedSyntax.toIdString())) {
-                result = acceptedSyntax;
-            }
+    /**
+     * Transforms the given Syntax into a corresponding HTML macro syntax.
+     * <p>
+     * For the xhtml/1.0 syntax the special "xhtmlmacro" syntax is returned for compatibility reasons, all other
+     * syntaxes have the "htmlmacro+" prefix added to their id.
+     *
+     * @param originalSyntax The syntax to transform.
+     * @return The corresponding HTML macro syntax.
+     * @since 14.1RC1
+     */
+    private Syntax toMacroSyntax(Syntax originalSyntax)
+    {
+        Syntax result;
+
+        if (Syntax.XHTML_1_0.equals(originalSyntax)) {
+            result = new Syntax(new SyntaxType("xhtmlmacro", "XHTML Macro"), "1.0");
+        } else {
+            SyntaxType type = originalSyntax.getType();
+            result = new Syntax(new SyntaxType(PREFIX_SYNTAX + type.getId(), "HTML Macro " + type.getName()),
+                originalSyntax.getVersion());
         }
 
         return result;

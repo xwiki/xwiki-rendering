@@ -15,7 +15,7 @@ beginDocument
 beginMacroMarkerStandalone [html] [wiki=true] [html content
 ((({{testmetadatamacro/}})))
 another html content]
-onRawText [<p>html content</p><div>testmacro</div><p>another html content</p>] [xhtml/1.0]
+onRawText [<p>html content</p><div>testmacro</div><p>another html content</p>] [html/5.0]
 endMacroMarkerStandalone [html] [wiki=true] [html content
 ((({{testmetadatamacro/}})))
 another html content]

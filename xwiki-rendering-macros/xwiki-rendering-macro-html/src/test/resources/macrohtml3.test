@@ -12,6 +12,6 @@
 .#-----------------------------------------------------
 beginDocument
 beginMacroMarkerStandalone [html] [] [**some escaped text**]
-onRawText [<p>**some escaped text**</p>] [xhtml/1.0]
+onRawText [<p>**some escaped text**</p>] [html/5.0]
 endMacroMarkerStandalone [html] [] [**some escaped text**]
 endDocument

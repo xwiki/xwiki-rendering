@@ -11,6 +11,6 @@
 .#-----------------------------------------------------
 beginDocument
 beginMacroMarkerStandalone [html] [wiki=true] [&nbsp;]
-onRawText [<p> </p>] [xhtml/1.0]
+onRawText [<p> </p>] [html/5.0]
 endMacroMarkerStandalone [html] [wiki=true] [&nbsp;]
 endDocument
