@@ -2,7 +2,7 @@
 .inputexpect|xwiki/2.0
 .# Test the new figure caption syntax with a link inside the caption.
 .#-------------------------------------------------------------------------------------------------------
-[[This **is some** caption [[Example>>https://www.example.com]]>>image:image.png]]
+[[This **is some** caption ~[~[Example~>~>https://www.example.com~]~]>>image:image.png]]
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------

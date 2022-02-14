@@ -116,11 +116,6 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
         this.escapeLastChar = escapeLastChar;
     }
 
-    public void setBeforeLink(boolean beforeLink)
-    {
-        this.escapeHandler.setBeforeLink(beforeLink);
-    }
-
     public void setOnNewLine(boolean onNewLine)
     {
         this.escapeHandler.setOnNewLine(onNewLine);

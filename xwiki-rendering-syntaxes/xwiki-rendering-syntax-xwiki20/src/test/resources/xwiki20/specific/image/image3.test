@@ -2,10 +2,10 @@
 .inputexpect|xwiki/2.0
 .# Test the new figure caption syntax with block content inside it.
 .#-------------------------------------------------------------------------------------------------------
-[[This **is some** caption [[Example>>https://www.example.com]]
+[[This **is some** caption ~[~[Example~>~>https://www.example.com~]~]
 
 * With a list
-* And a [[link>>https://www.xwiki.org]] inside it>>image:image.png]]
+* And a ~[~[link~>~>https://www.xwiki.org~]~] inside it>>image:image.png]]
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------

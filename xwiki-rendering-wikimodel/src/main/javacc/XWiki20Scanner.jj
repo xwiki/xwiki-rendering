@@ -422,13 +422,8 @@ TOKEN_MGR_DECLS: {
     | <#MACRO_NAME: (<CHAR>)+ (["-", "_", ".", ":"] (<CHAR>)+)* >
     | <#MACRO_PARAMS: ( <DOUBLE_QUOTED> | <SINGLE_QUOTED> | "~" ~[] | ~["}", "\"", "'", "~"] | "}" ~["}", "~"] | "}~" ~[] )* >
     | <#HEADER_BEGIN_PATTERN: (<SPACE>)* ("=")+ (<SPACE>)* >
-    | <#REFERENCE_INNER: "~" ~[] | ~["]", "~"] | "]" ~["]", "~"] | "]~" ~[] >
-    | <#REFERENCE_IMAGE_INNER: "image:" (<REFERENCE_INNER>)* >
-    | <#REFERENCE_IMAGE: "[[" <REFERENCE_IMAGE_INNER> "]]" >
-    | <#REFERENCE_SINGLE:  ( "[[" ( <REFERENCE_IMAGE> | <REFERENCE_INNER> )* "]]" ) >
-    // Allow nested references, but only if the reference ends with an image reference
-    | <#REFERENCE:  ( "[[" ( <REFERENCE_IMAGE> | <REFERENCE_INNER> )* (( <REFERENCE_SINGLE> | <REFERENCE_IMAGE> |
-    <REFERENCE_INNER> )* ">>" <REFERENCE_IMAGE_INNER>)? "]]" ) >
+    | <#REFERENCE_IMAGE: "[[image:" ("~" ~[] | ~["]", "~"] | "]" ~["]", "~"]  | "]~" ~[] )* "]]" >
+    | <#REFERENCE:  ( "[[" ( <REFERENCE_IMAGE> | "~" ~[] | ~["]", "~"] | "]" ~["]", "~"] | "]~" ~[] )* "]]" ) >
 	| <#IMAGE: "image:" ("~" ~[] | <XWIKI_CHAR> | <XWIKI_SPECIAL_SYMBOL> )* >
 	| <#ATTACH: "attach:" ("~" ~[] | <XWIKI_CHAR> | <XWIKI_SPECIAL_SYMBOL> )* > 
 

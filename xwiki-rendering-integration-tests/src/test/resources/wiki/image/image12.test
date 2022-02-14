@@ -8,7 +8,7 @@
 
 * With
 * nested
-* list [[and link>>https://xwiki.com]].>>image:Space.ExistingPage@my.png]]
+* list ~[~[and link~>~>https://xwiki.org~]~] and ~~~[~~~[fake link~]~].>>image:Space.ExistingPage@my.png]]
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -41,11 +41,21 @@ endListItem
 beginListItem
 onWord [list]
 onSpace
-beginLink [Typed = [false] Type = [url] Reference = [https://xwiki.com]] [false]
+beginLink [Typed = [false] Type = [url] Reference = [https://xwiki.org]] [false]
 onWord [and]
 onSpace
 onWord [link]
-endLink [Typed = [false] Type = [url] Reference = [https://xwiki.com]] [false]
+endLink [Typed = [false] Type = [url] Reference = [https://xwiki.org]] [false]
+onSpace
+onWord [and]
+onSpace
+onSpecialSymbol [[]
+onSpecialSymbol [[]
+onWord [fake]
+onSpace
+onWord [link]
+onSpecialSymbol []]
+onSpecialSymbol []]
 onSpecialSymbol [.]
 endListItem
 endList [BULLETED]
@@ -55,8 +65,8 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<img src="imageurl" param1="value1" param2="value2" alt="my.png"/><div class="figcaption"><p>Image <strong>Caption</strong></p></div><img src="imageurl" alt="Space.ExistingPage@my.png"/><div class="figcaption"><p>Caption</p><ul><li>With</li><li>nested</li><li>list <span class="wikiexternallink"><a href="https://xwiki.com">and link</a></span>.</li></ul></div>
+<img src="imageurl" param1="value1" param2="value2" alt="my.png"/><div class="figcaption"><p>Image <strong>Caption</strong></p></div><img src="imageurl" alt="Space.ExistingPage@my.png"/><div class="figcaption"><p>Caption</p><ul><li>With</li><li>nested</li><li>list <span class="wikiexternallink"><a href="https://xwiki.org">and link</a></span> and [[fake link]].</li></ul></div>
 .#-----------------------------------------------------
 .expect|html/5.0
 .#-----------------------------------------------------
-<figure class="image"><img src="imageurl" param1="value1" param2="value2" alt="my.png"/><figcaption><p>Image <strong>Caption</strong></p></figcaption></figure><figure class="image"><img src="imageurl" alt="Space.ExistingPage@my.png"/><figcaption><p>Caption</p><ul><li>With</li><li>nested</li><li>list <span class="wikiexternallink"><a href="https://xwiki.com">and link</a></span>.</li></ul></figcaption></figure>
+<figure class="image"><img src="imageurl" param1="value1" param2="value2" alt="my.png"/><figcaption><p>Image <strong>Caption</strong></p></figcaption></figure><figure class="image"><img src="imageurl" alt="Space.ExistingPage@my.png"/><figcaption><p>Caption</p><ul><li>With</li><li>nested</li><li>list <span class="wikiexternallink"><a href="https://xwiki.org">and link</a></span> and [[fake link]].</li></ul></figcaption></figure>

@@ -24,6 +24,8 @@ import java.util.Deque;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.translate.CharSequenceTranslator;
+import org.apache.commons.text.translate.LookupTranslator;
 import org.xwiki.rendering.internal.parser.plain.PlainTextStreamParser;
 import org.xwiki.rendering.internal.renderer.ParametersPrinter;
 import org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxEscapeWikiPrinter;
@@ -47,6 +49,14 @@ public class XWikiSyntaxResourceRenderer
     protected static final String PARAMETER_SEPARATOR = "||";
 
     protected static final ParametersPrinter PARAMETERS_PRINTER = new ParametersPrinter('~', "||", "]]", ">>");
+
+    protected static final CharSequenceTranslator ESCAPE_LABEL = new LookupTranslator(Map.of(
+        "~", "~~",
+        "|", "~|",
+        "[", "~[",
+        "]", "~]",
+        ">", "~>"
+    ));
 
     private Deque<Boolean> forceFullSyntaxDeque = new ArrayDeque<Boolean>();
 
@@ -138,7 +148,7 @@ public class XWikiSyntaxResourceRenderer
     {
         // If there was some link content specified then output the character separator ">>".
         if (!StringUtils.isEmpty(label)) {
-            printer.print(label);
+            printer.print(ESCAPE_LABEL.translate(label));
             printer.print(">>");
         }
     }

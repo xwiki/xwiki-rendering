@@ -182,11 +182,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     @Override
     public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        // Flush test content before the link.
-        // TODO: improve the block state renderer to be able to make the difference between what is bufferized
-        // before the link and what in the label link
-        getXWikiPrinter().setBeforeLink(true);
-        // escape open link syntax when before a link
+        // Flush text content before the link.
+        // Escape open link syntax when before a link.
         if (getLinkRenderer().forceFullSyntax(getXWikiPrinter(), freestanding, parameters)
             && getXWikiPrinter().getBuffer().length() > 0
             && getXWikiPrinter().getBuffer().charAt(getXWikiPrinter().getBuffer().length() - 1) == '[')
@@ -195,7 +192,6 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         }
         handleEmptyParameters();
         getXWikiPrinter().flush();
-        getXWikiPrinter().setBeforeLink(false);
 
         int linkDepth = getBlockState().getLinkDepth();
 
@@ -751,6 +747,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                     .collect(Collectors.collectingAndThen(Collectors.joining(" "), s -> s.isEmpty() ? null : s)));
 
                 this.beginParagraph(adaptedParameters);
+                getImageRenderer().beginRenderLink(getXWikiPrinter(), false, figureContent.getImageParameters());
+
                 // Ignore output from, e.g., a nested paragraph or anything else that might wrap the image/caption.
                 this.pushPrinter(
                     new XWikiSyntaxEscapeWikiPrinter(VoidWikiPrinter.VOIDWIKIPRINTER, getXWikiSyntaxListenerChain()));
@@ -816,7 +814,6 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 // ensure we are resetting the status to true regardless if something has been rendered or not.
                 this.isFirstElementRendered = true;
 
-                getImageRenderer().beginRenderLink(getXWikiPrinter(), false, figureContent.getImageParameters());
                 if (this.figureCaption != null) {
                     getImageRenderer().renderLinkContent(getXWikiPrinter(), this.figureCaption);
                 }
