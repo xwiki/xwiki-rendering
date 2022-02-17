@@ -19,7 +19,11 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki20;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.internal.renderer.xwiki20.reference.XWikiSyntaxResourceRenderer;
@@ -67,6 +71,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     private StringBuilder listStyle = new StringBuilder();
 
     private Map<String, String> previousFormatParameters;
+
+    private String figureCaption;
 
     /**
      * @since 2.5RC1
@@ -180,11 +186,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     @Override
     public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        // Flush test content before the link.
-        // TODO: improve the block state renderer to be able to make the difference between what is bufferized
-        // before the link and what in the label link
-        getXWikiPrinter().setBeforeLink(true);
-        // escape open link syntax when before a link
+        // Flush text content before the link.
+        // Escape open link syntax when before a link.
         if (getLinkRenderer().forceFullSyntax(getXWikiPrinter(), freestanding, parameters)
             && getXWikiPrinter().getBuffer().length() > 0
             && getXWikiPrinter().getBuffer().charAt(getXWikiPrinter().getBuffer().length() - 1) == '[')
@@ -193,7 +196,6 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         }
         handleEmptyParameters();
         getXWikiPrinter().flush();
-        getXWikiPrinter().setBeforeLink(false);
 
         int linkDepth = getBlockState().getLinkDepth();
 
@@ -742,6 +744,102 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
         // Remove our stacking event listener
         getXWikiSyntaxListenerChain().removeListener(TableHeadCellStackingInlineContentChainingListener.class);
+    }
+
+    @Override
+    public void beginFigure(Map<String, String> parameters)
+    {
+        StackingFigureContentChainingListener figureContent =
+            (StackingFigureContentChainingListener) getXWikiSyntaxListenerChain().getListener(
+                StackingFigureContentChainingListener.class);
+        if (figureContent != null) {
+            // The events are replayed, we can now use the lookahead information from the listener.
+            if (figureContent.isCleanImageFigure()) {
+                this.figureCaption = null;
+
+                // Remove the image class
+                Map<String, String> adaptedParameters = new LinkedHashMap<>(parameters);
+                adaptedParameters.computeIfPresent("class", (k, v) -> Arrays.stream(StringUtils.split(v))
+                    .filter(Predicate.isEqual("image").negate())
+                    // Map empty string to null to remove the class parameter when empty.
+                    .collect(Collectors.collectingAndThen(Collectors.joining(" "), s -> s.isEmpty() ? null : s)));
+
+                this.beginParagraph(adaptedParameters);
+                getImageRenderer().beginRenderLink(getXWikiPrinter(), false, figureContent.getImageParameters());
+
+                // Ignore output from, e.g., a nested paragraph or anything else that might wrap the image/caption.
+                this.pushPrinter(
+                    new XWikiSyntaxEscapeWikiPrinter(VoidWikiPrinter.VOIDWIKIPRINTER, getXWikiSyntaxListenerChain()));
+            }
+        } else {
+            // Stack all events until we either get a standalone one (that will be wrapped in a GroupBlock by the
+            // listener) or until endListItem() is called.
+            // IMPORTANT: We need to put our listener just after the LookaheadChainingListener one since otherwise some
+            // already stacked events in LookaheadChainingListener won't reach our new listener!
+            figureContent = new StackingFigureContentChainingListener(getListenerChain());
+            getXWikiSyntaxListenerChain().addListener(figureContent,
+                getListenerChain().indexOf(LookaheadChainingListener.class) + 1);
+            // Relay the event to the queue such that this method is called again after the stacking stopped.
+            figureContent.beginFigure(parameters);
+        }
+    }
+
+    @Override
+    public void beginFigureCaption(Map<String, String> parameters)
+    {
+        StackingFigureContentChainingListener figureContent =
+            (StackingFigureContentChainingListener) getXWikiSyntaxListenerChain().getListener(
+                StackingFigureContentChainingListener.class);
+        if (figureContent != null && figureContent.isCleanImageFigure()) {
+            // Do not print an empty line before the first element in the wrapped printer.
+            this.isFirstElementRendered = false;
+            this.pushPrinter(new XWikiSyntaxEscapeWikiPrinter(new DefaultWikiPrinter(), getXWikiSyntaxListenerChain()));
+        }
+    }
+
+    @Override
+    public void endFigureCaption(Map<String, String> parameters)
+    {
+        StackingFigureContentChainingListener figureContent =
+            (StackingFigureContentChainingListener) getXWikiSyntaxListenerChain().getListener(
+                StackingFigureContentChainingListener.class);
+
+        if (figureContent != null && figureContent.isCleanImageFigure()) {
+            XWikiSyntaxEscapeWikiPrinter figureCaptionPrinter = getXWikiPrinter();
+            figureCaptionPrinter.flush();
+            String content = figureCaptionPrinter.toString();
+            popPrinter();
+
+            this.figureCaption = content;
+        }
+    }
+
+    @Override
+    public void endFigure(Map<String, String> parameters)
+    {
+        StackingFigureContentChainingListener figureContent =
+            (StackingFigureContentChainingListener) getXWikiSyntaxListenerChain().getListener(
+                StackingFigureContentChainingListener.class);
+
+        if (figureContent != null) {
+            getListenerChain().removeListener(StackingFigureContentChainingListener.class);
+
+            if (figureContent.isCleanImageFigure()) {
+                XWikiSyntaxEscapeWikiPrinter figurePrinter = getXWikiPrinter();
+                figurePrinter.flush();
+                popPrinter();
+
+                // ensure we are resetting the status to true regardless if something has been rendered or not.
+                this.isFirstElementRendered = true;
+
+                if (this.figureCaption != null) {
+                    getImageRenderer().renderLinkContent(getXWikiPrinter(), this.figureCaption);
+                }
+                getImageRenderer().endRenderLink(getXWikiPrinter(), figureContent.getImageReference(), false,
+                    figureContent.getImageParameters());
+                endParagraph(parameters);
+            }
+        }
     }
 
     /**

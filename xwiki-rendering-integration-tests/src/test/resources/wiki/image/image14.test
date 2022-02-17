@@ -1,0 +1,60 @@
+.#-----------------------------------------------------
+.inputexpect|html/5.0
+.# Verify that a figure that contains non-image-content is preserved in events and HTML 5 but lost in XWiki syntax.
+.#-----------------------------------------------------
+<figure class="image"><table><tr><td>Table</td><td>Cells</td></tr></table><figcaption><p>This is not an image</p><ul><li>But contains</li><li>a list</li></ul></figcaption></figure>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginFigure [[class]=[image]]
+beginTable
+beginTableRow
+beginTableCell
+onWord [Table]
+endTableCell
+beginTableCell
+onWord [Cells]
+endTableCell
+endTableRow
+endTable
+beginFigureCaption
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+onWord [not]
+onSpace
+onWord [an]
+onSpace
+onWord [image]
+endParagraph
+beginList [BULLETED]
+beginListItem
+onWord [But]
+onSpace
+onWord [contains]
+endListItem
+beginListItem
+onWord [a]
+onSpace
+onWord [list]
+endListItem
+endList [BULLETED]
+endFigureCaption
+endFigure [[class]=[image]]
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<table><tr><td>Table</td><td>Cells</td></tr></table><div class="figcaption"><p>This is not an image</p><ul><li>But contains</li><li>a list</li></ul></div>
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+|Table|Cells
+
+This is not an image
+
+* But contains
+* a list

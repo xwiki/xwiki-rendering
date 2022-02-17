@@ -19,7 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.wikimodel;
 
+import java.io.StringReader;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.xwiki.rendering.listener.CompositeListener;
@@ -38,6 +41,8 @@ import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.QueueListener;
+import org.xwiki.rendering.listener.WrappingListener;
+import org.xwiki.rendering.listener.chaining.EventType;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ParseException;
@@ -69,6 +74,10 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     public static final String EXT_ID = "xwiki_id";
 
     private static final Map<WikiStyle, Format> STYLES_CONVERTER = new HashMap<WikiStyle, Format>();
+
+    private static final String CLASS_PARAMETER = "class";
+
+    private static final String IMAGE_CLASS = "image";
 
     static {
         STYLES_CONVERTER.put(IWemConstants.CODE, Format.MONOSPACE);
@@ -114,6 +123,8 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     private Syntax syntax;
 
     private MetaData documentMetadata;
+
+    private String imageLabel;
 
     /**
      * @see <a href="http://code.google.com/p/wikimodel/issues/detail?id=87">wikimodel issue 87</a>
@@ -525,7 +536,11 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     @Override
     public void beginParagraph(WikiParameters params)
     {
-        getListener().beginParagraph(convertParameters(params));
+        // Reset image label - used to store the label of a standalone image.
+        this.imageLabel = null;
+
+        // Collect events to see if we have a standalone image.
+        pushListener(new QueueListener());
     }
 
     @Override
@@ -707,7 +722,55 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     {
         flushFormat();
 
-        getListener().endParagraph(convertParameters(params));
+        QueueListener queue = (QueueListener) getListener();
+        popListener();
+
+        Map<String, String> paragraphParameters = convertParameters(params);
+
+        // If the only content of the paragraph is an image with a label, convert to a figure with the parsed label
+        // as caption.
+        if (this.imageLabel != null && queue.size() == 1 && queue.getFirst().eventType == EventType.ON_IMAGE) {
+            Map<String, String> figureParameters = new LinkedHashMap<>(paragraphParameters);
+            figureParameters.merge(CLASS_PARAMETER, IMAGE_CLASS,
+                (oldValue, newValue) -> {
+                    if (Arrays.asList(StringUtils.split(oldValue)).contains(newValue)) {
+                        return oldValue;
+                    } else {
+                        return oldValue + " " + newValue;
+                    }
+                });
+
+            getListener().beginFigure(figureParameters);
+            queue.consumeEvents(getListener());
+            getListener().beginFigureCaption(Listener.EMPTY_PARAMETERS);
+            try {
+                // Render the caption ignoring begin/endDocument events.
+                WrappingListener wrapper = new WrappingListener()
+                {
+                    @Override
+                    public void beginDocument(MetaData metadata)
+                    {
+                        // ignore.
+                    }
+
+                    @Override
+                    public void endDocument(MetaData metadata)
+                    {
+                        // ignore.
+                    }
+                };
+                wrapper.setWrappedListener(getListener());
+                this.parser.parse(new StringReader(this.imageLabel), wrapper);
+            } catch (ParseException e) {
+                // TODO what should we do here ?
+            }
+            getListener().endFigureCaption(Listener.EMPTY_PARAMETERS);
+            getListener().endFigure(figureParameters);
+        } else {
+            getListener().beginParagraph(paragraphParameters);
+            queue.consumeEvents(getListener());
+            getListener().endParagraph(paragraphParameters);
+        }
     }
 
     @Override
@@ -909,6 +972,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
     @Override
     public void onImage(WikiReference reference)
     {
+        this.imageLabel = reference.getLabel();
         onImage(reference.getLink(), false, convertParameters(reference.getParameters()));
     }
 

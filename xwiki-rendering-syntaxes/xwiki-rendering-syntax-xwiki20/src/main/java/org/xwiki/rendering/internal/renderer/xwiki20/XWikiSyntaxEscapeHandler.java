@@ -22,7 +22,6 @@ package org.xwiki.rendering.internal.renderer.xwiki20;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 
 /**
@@ -51,8 +50,6 @@ public class XWikiSyntaxEscapeHandler
         "(?<!~)\\/\\/|(?<!~)\\*\\*|(?<!~)__|(?<!~)--|(?<!~)\\^\\^|(?<!~),,|(?<!~)##|(?<!~)\\\\\\\\");
 
     public static final String ESCAPE_CHAR = "~";
-
-    private boolean beforeLink;
 
     private boolean onNewLine = true;
 
@@ -146,35 +143,6 @@ public class XWikiSyntaxEscapeHandler
 
         // Escape begin link
         replaceAll(accumulatedBuffer, "[[", ESCAPE_CHAR + "[" + ESCAPE_CHAR + "[");
-
-        // Escape link label
-        int linkLevel = getLinkLevel(listenerChain);
-
-        if (linkLevel > 0) {
-            // This need to be done after anything else because link label add another level of escaping (escaped as
-            // link label and then escaped as wiki content).
-            String escape = StringUtils.repeat(ESCAPE_CHAR, linkLevel);
-            replaceAll(accumulatedBuffer, ESCAPE_CHAR, escape + ESCAPE_CHAR);
-            replaceAll(accumulatedBuffer, "]]", escape + "]" + escape + "]");
-            replaceAll(accumulatedBuffer, ">>", escape + ">" + escape + ">");
-            replaceAll(accumulatedBuffer, "||", escape + "|" + escape + "|");
-        }
-    }
-
-    private int getLinkLevel(XWikiSyntaxListenerChain listenerChain)
-    {
-        int linkDepth = listenerChain.getBlockStateChainingListener().getLinkDepth();
-
-        if (this.beforeLink) {
-            --linkDepth;
-        }
-
-        return linkDepth;
-    }
-
-    public void setBeforeLink(boolean beforeLink)
-    {
-        this.beforeLink = beforeLink;
     }
 
     private void escapeURI(StringBuffer accumulatedBuffer, String match)
