@@ -37,7 +37,6 @@ import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.xwiki.rendering.util.ParserUtils;
 
 /**
  * Provides a caption inside the Figure Macro content. Needs to be used as the first or last block.
@@ -62,8 +61,6 @@ public class FigureCaptionMacro extends AbstractNoParameterMacro
 
     @Inject
     private MacroContentParser contentParser;
-
-    private ParserUtils parserUtils = new ParserUtils();
 
     /**
      * Create and initialize the descriptor of the macro.
