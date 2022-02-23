@@ -19,101 +19,146 @@
  */
 package org.xwiki.rendering.macro.figure;
 
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.xwiki.rendering.block.*;
-import org.xwiki.rendering.internal.macro.figure.DefaultFigureTypeRecognizer;
-import org.xwiki.test.mockito.MockitoComponentMockingRule;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.FigureBlock;
+import org.xwiki.rendering.block.FigureCaptionBlock;
+import org.xwiki.rendering.block.MacroMarkerBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.TableBlock;
+import org.xwiki.rendering.block.WordBlock;
+import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.block.match.ClassBlockMatcher;
+import org.xwiki.rendering.internal.macro.figure.DefaultFigureTypeRecognizer;
+import org.xwiki.rendering.parser.ParseException;
+import org.xwiki.rendering.parser.Parser;
+import org.xwiki.rendering.transformation.Transformation;
+import org.xwiki.rendering.transformation.TransformationContext;
+import org.xwiki.rendering.transformation.TransformationException;
+import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Unit tests for {@link DefaultFigureTypeRecognizer}.
+ * Unit and integration tests for {@link DefaultFigureTypeRecognizer}.
  *
  * @version $Id$
  * @since 10.2
  */
-public class DefaultFigureTypeRecognizerTest
+@ComponentTest
+@AllComponents
+class DefaultFigureTypeRecognizerTest
 {
-    @Rule
-    public MockitoComponentMockingRule<FigureTypeRecognizer> mocker =
-        new MockitoComponentMockingRule<>(DefaultFigureTypeRecognizer.class);
+    private static final String FIGURE_CAPTION = "figureCaption";
+
+    @InjectMockComponents
+    private DefaultFigureTypeRecognizer figureTypeRecognizer;
+
+    @Inject
+    @Named("macro")
+    private Transformation macroTransformation;
+
+    @Inject
+    @Named("xwiki/2.0")
+    private Parser xwikiParser;
 
     @Test
-    public void isTableWhenNoCaption() throws Exception
+    void isTableWithRealParser() throws ParseException, TransformationException
+    {
+        String testInput = "{{figure}}\n"
+            + "| Some | Table\n"
+            + "| With two | rows\n"
+            + "\n"
+            + "{{figureCaption}}caption{{/figureCaption}}\n"
+            + "{{/figure}}\n";
+
+        XDOM xdom = this.xwikiParser.parse(new StringReader(testInput));
+        this.macroTransformation.transform(xdom, new TransformationContext());
+        FigureBlock figureBlock = xdom.getFirstBlock(new ClassBlockMatcher(FigureBlock.class), Block.Axes.DESCENDANT);
+        assertTrue(this.figureTypeRecognizer.isTable(figureBlock));
+    }
+
+    @Test
+    void isTableWhenNoCaption()
     {
         FigureBlock fb = new FigureBlock(blocks(
             new TableBlock(Collections.emptyList())));
-        assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
+        assertTrue(this.figureTypeRecognizer.isTable(fb));
     }
 
     @Test
-    public void isTableWhenCaptionLast() throws Exception
+    void isTableWhenCaptionLast()
     {
         FigureBlock fb = new FigureBlock(blocks(
             new TableBlock(Collections.emptyList()),
-            createMacroMarkerBlock("figureCaption", Collections.emptyList())));
-        assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
+            createMacroMarkerBlock(FIGURE_CAPTION, Collections.emptyList())));
+        assertTrue(this.figureTypeRecognizer.isTable(fb));
     }
 
     @Test
-    public void isTableWhenCaptionFirst() throws Exception
+    void isTableWhenCaptionFirst()
     {
         FigureBlock fb = new FigureBlock(blocks(
-            createMacroMarkerBlock("figureCaption", Collections.emptyList()),
+            createMacroMarkerBlock(FIGURE_CAPTION, Collections.emptyList()),
             new TableBlock(Collections.emptyList())));
-        assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
+        assertTrue(this.figureTypeRecognizer.isTable(fb));
     }
 
     @Test
-    public void isTableWhenTwoTableBlocks() throws Exception
+    void isTableWhenTwoTableBlocks()
     {
         FigureBlock fb = new FigureBlock(blocks(
             new TableBlock(Collections.emptyList()),
             new TableBlock(Collections.emptyList()),
-            createMacroMarkerBlock("figureCaption", Collections.emptyList())));
-        assertFalse(this.mocker.getComponentUnderTest().isTable(fb));
+            createMacroMarkerBlock(FIGURE_CAPTION, Collections.emptyList())));
+        assertFalse(this.figureTypeRecognizer.isTable(fb));
     }
 
     @Test
-    public void isTableWhenFigureCaptionBlockInMacroMarkerBlock() throws Exception
+    void isTableWhenFigureCaptionBlockInMacroMarkerBlock()
     {
         FigureBlock fb = new FigureBlock(blocks(
             new TableBlock(Collections.emptyList()),
-            createMacroMarkerBlock(blocks(createMacroMarkerBlock("figureCaption", Collections.emptyList())))));
-        assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
+            createMacroMarkerBlock(blocks(createMacroMarkerBlock(FIGURE_CAPTION, Collections.emptyList())))));
+        assertTrue(this.figureTypeRecognizer.isTable(fb));
     }
 
     @Test
-    public void isTableWithTableInsideNestedMacroMarkerBlocks() throws Exception
+    void isTableWithTableInsideNestedMacroMarkerBlocks()
     {
         FigureBlock fb = new FigureBlock(blocks(
             createMacroMarkerBlock(blocks(createMacroMarkerBlock(
                 blocks(new TableBlock(Collections.emptyList()))))),
-            createMacroMarkerBlock("figureCaption", Collections.emptyList())));
-        assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
+            createMacroMarkerBlock(FIGURE_CAPTION, Collections.emptyList())));
+        assertTrue(this.figureTypeRecognizer.isTable(fb));
     }
 
     @Test
-    public void isTableWhenMetaDataBlock() throws Exception
+    void isTableWhenMetaDataBlock()
     {
         FigureBlock fb = new FigureBlock(blocks(new MetaDataBlock(
             blocks(new TableBlock(Collections.emptyList())))));
-        assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
+        assertTrue(this.figureTypeRecognizer.isTable(fb));
     }
 
     @Test
-    public void isTableWhenNoMacroMarkerBlockAroundCaption() throws Exception
+    void isTableWhenNoMacroMarkerBlockAroundCaption()
     {
         // Note: This is what happens for wikimacros because of https://jira.xwiki.org/browse/XWIKI-16708
-        FigureBlock fb = new FigureBlock(blocks(new FigureCaptionBlock(blocks(new WordBlock("whatever"))),
+        FigureBlock fb = new FigureBlock(blocks(new FigureCaptionBlock(blocks(new WordBlock("wordblock"))),
             new TableBlock(Collections.emptyList())));
-        assertTrue(this.mocker.getComponentUnderTest().isTable(fb));
+        assertTrue(this.figureTypeRecognizer.isTable(fb));
     }
 
     private List<Block> blocks(Block... blocks)

@@ -27,10 +27,10 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FigureBlock;
-import org.xwiki.rendering.block.MacroMarkerBlock;
-import org.xwiki.rendering.block.TableBlock;
 import org.xwiki.rendering.block.FigureCaptionBlock;
+import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.TableBlock;
 import org.xwiki.rendering.macro.figure.FigureTypeRecognizer;
 
 /**
@@ -59,19 +59,15 @@ public class DefaultFigureTypeRecognizer implements FigureTypeRecognizer
         for (Block block : blocks) {
             if (block instanceof MacroMarkerBlock) {
                 MacroMarkerBlock macroMarkerBlock = (MacroMarkerBlock) block;
-                if ("figureCaption".equals(macroMarkerBlock.getId())) {
-                    continue;
-                } else {
+                if (!"figureCaption".equals(macroMarkerBlock.getId())) {
                     results.addAll(getBlocksIgnoringMacroMarkerBlocks(block.getChildren()));
                 }
             } else if (block instanceof MetaDataBlock) {
                 // Ignore MetaData block since they're not structural
-                results.addAll(block.getChildren());
-            } else if (block instanceof FigureCaptionBlock) {
+                results.addAll(getBlocksIgnoringMacroMarkerBlocks(block.getChildren()));
+            } else if (!(block instanceof FigureCaptionBlock)) {
                 // Ignore figure caption blocks since they're special and do not affect whether the content contains
                 // a table or not.
-                continue;
-            } else {
                 results.add(block);
             }
         }
