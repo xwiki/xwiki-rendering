@@ -26,6 +26,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.stability.Unstable;
 
 /**
  * Represents an image.
@@ -47,6 +48,13 @@ public class ImageBlock extends AbstractBlock
     private boolean freestanding;
 
     /**
+     * The (automatically generated) id. Optional.
+     *
+     * @since 14.2RC1
+     */
+    private String id;
+
+    /**
      * @param reference the image reference
      * @param freestanding indicate if the image syntax is simple a full descriptive syntax (detail depending of the
      *            syntax)
@@ -54,7 +62,7 @@ public class ImageBlock extends AbstractBlock
      */
     public ImageBlock(ResourceReference reference, boolean freestanding)
     {
-        this(reference, freestanding, Collections.<String, String>emptyMap());
+        this(reference, freestanding, null, Collections.emptyMap());
     }
 
     /**
@@ -66,10 +74,25 @@ public class ImageBlock extends AbstractBlock
      */
     public ImageBlock(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
+        this(reference, freestanding, null, parameters);
+    }
+
+    /**
+     * @param reference the image reference
+     * @param freestanding indicate if the image syntax is simple a full descriptive syntax (detail depending of the
+     *            syntax)
+     * @param id the (automatically generated) id of the image.
+     * @param parameters the custom parameters
+     * @since 14.2RC1
+     */
+    @Unstable
+    public ImageBlock(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
         super(parameters);
 
         this.reference = reference;
         this.freestanding = freestanding;
+        this.id = id;
     }
 
     /**
@@ -90,10 +113,25 @@ public class ImageBlock extends AbstractBlock
         return this.freestanding;
     }
 
+    /**
+     * @return the id of the image.
+     * @since 14.2RC1
+     */
+    @Unstable
+    public String getId()
+    {
+        return this.id;
+    }
+
     @Override
     public void traverse(Listener listener)
     {
-        listener.onImage(getReference(), isFreeStandingURI(), getParameters());
+        String idParameter = getId();
+        if (idParameter == null) {
+            listener.onImage(getReference(), isFreeStandingURI(), getParameters());
+        } else {
+            listener.onImage(getReference(), isFreeStandingURI(), idParameter, getParameters());
+        }
     }
 
     /**
@@ -106,6 +144,8 @@ public class ImageBlock extends AbstractBlock
     {
         ImageBlock clone = (ImageBlock) super.clone(blockFilter);
         clone.reference = getReference().clone();
+        clone.freestanding = isFreeStandingURI();
+        clone.id = getId();
         return clone;
     }
 
@@ -121,6 +161,7 @@ public class ImageBlock extends AbstractBlock
 
             builder.append(getReference(), ((ImageBlock) obj).getReference());
             builder.append(isFreeStandingURI(), ((ImageBlock) obj).isFreeStandingURI());
+            builder.append(getId(), ((ImageBlock) obj).getId());
 
             return builder.isEquals();
         }
@@ -136,6 +177,7 @@ public class ImageBlock extends AbstractBlock
         builder.appendSuper(super.hashCode());
         builder.append(getReference());
         builder.append(isFreeStandingURI());
+        builder.append(getId());
 
         return builder.toHashCode();
     }

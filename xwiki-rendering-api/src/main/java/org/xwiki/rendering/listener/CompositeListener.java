@@ -525,6 +525,14 @@ public class CompositeListener implements Listener
         }
     }
 
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        for (Listener listener : this.listeners) {
+            listener.onImage(reference, freestanding, id, parameters);
+        }
+    }
+
     /**
      * {@inheritDoc}
      *

@@ -9,17 +9,17 @@
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-onImage [Typed = [false] Type = [attach] Reference = [Space.ExistingPage@my.png] Parameters = [[queryString] = [param1=value1]]] [false] [[param2]=[value2]]
+onImage [Typed = [false] Type = [attach] Reference = [Space.ExistingPage@my.png] Parameters = [[queryString] = [param1=value1]]] [false] [ISpace.ExistingPage40my.png] [[param2]=[value2]]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><img src="imageurl?param1=value1" param2="value2" alt="Space.ExistingPage@my.png"/></p>
+<p><img src="imageurl?param1=value1" param2="value2" id="ISpace.ExistingPage40my.png" class="wikigeneratedid" alt="Space.ExistingPage@my.png"/></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:false|-|attach|-|Space.ExistingPage@my.png|-|queryString="param1=value1"--><img src="imageurl?param1=value1" param2="value2" alt="Space.ExistingPage@my.png"/><!--stopimage--></p>
+<p><!--startimage:false|-|attach|-|Space.ExistingPage@my.png|-|queryString="param1=value1"--><img src="imageurl?param1=value1" param2="value2" id="ISpace.ExistingPage40my.png" class="wikigeneratedid" alt="Space.ExistingPage@my.png"/><!--stopimage--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
@@ -27,4 +27,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:false|-|attach|-|Space.ExistingPage@my.png|-|queryString="param1=value1"--><img src="imageurl?param1=value1" param2="value2" alt="Space.ExistingPage@my.png"/><!--stopimage--></p>
+<p><!--startimage:false|-|attach|-|Space.ExistingPage@my.png|-|queryString="param1=value1"--><img src="imageurl?param1=value1" param2="value2" id="ISpace.ExistingPage40my.png" class="wikigeneratedid" alt="Space.ExistingPage@my.png"/><!--stopimage--></p>

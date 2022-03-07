@@ -569,6 +569,12 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
+        onImage(reference, freestanding, null, parameters);
+    }
+
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
         // Ensure the image renderer is using the latest printer since the original printer used could have been
         // superseded by another one in the printer stack.
         this.imageRenderer.setXHTMLWikiPrinter(getXHTMLWikiPrinter());
@@ -577,10 +583,10 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         // events (it's sent in begin/endMetaData events).
         List<String> baseReferences = reference.getBaseReferences();
         if (baseReferences.isEmpty()) {
-            reference.addBaseReferences(getMetaDataState().<String>getAllMetaData(MetaData.BASE));
+            reference.addBaseReferences(getMetaDataState().getAllMetaData(MetaData.BASE));
         }
 
-        this.imageRenderer.onImage(reference, freestanding, parameters);
+        this.imageRenderer.onImage(reference, freestanding, id, parameters);
     }
 
     @Override

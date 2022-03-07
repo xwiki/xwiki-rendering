@@ -8,4 +8,4 @@
 .#-----------------------------------------------------
 .expect|html/5.0
 .#-----------------------------------------------------
-<figure><p><img src="/media/cc0-images/elephant-660-480.jpg" alt="Elephant at sunset"/></p><figcaption><p>An elephant at sunset</p></figcaption></figure>
+<figure><p><img src="/media/cc0-images/elephant-660-480.jpg" alt="Elephant at sunset" id="I2Fmedia2Fcc0-images2Felephant-660-480.jpg" class="wikigeneratedid"/></p><figcaption><p>An elephant at sunset</p></figcaption></figure>

@@ -91,6 +91,19 @@ public class StackingFigureContentChainingListener extends LookaheadChainingList
     {
         super.onImage(reference, freestanding, parameters);
 
+        internalOnImage(reference, freestanding, parameters);
+    }
+
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        super.onImage(reference, freestanding, id, parameters);
+
+        internalOnImage(reference, freestanding, parameters);
+    }
+
+    private void internalOnImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
+    {
         // ignore images in captions
         if (this.captionDepth == 0) {
             ++this.numImages;

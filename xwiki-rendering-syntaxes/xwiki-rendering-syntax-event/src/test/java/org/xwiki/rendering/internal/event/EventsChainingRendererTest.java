@@ -21,13 +21,17 @@ package org.xwiki.rendering.internal.event;
 
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.internal.renderer.event.EventsChainingRenderer;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for {@link EventsChainingRenderer} for methods that cannot be easily tested using the Rendering Test
@@ -36,28 +40,49 @@ import static org.junit.Assert.assertEquals;
  * @version $Id$
  * @since 10.3RC1
  */
-public class EventsChainingRendererTest
+class EventsChainingRendererTest
 {
+    private EventsChainingRenderer renderer;
+    private WikiPrinter wikiPrinter;
+
+    @BeforeEach
+    void setUp()
+    {
+        this.renderer = new EventsChainingRenderer(new ListenerChain());
+        this.wikiPrinter = new DefaultWikiPrinter();
+        this.renderer.setPrinter(this.wikiPrinter);
+    }
+
     /**
      * Those events are hard to test since there's no easy syntax to input them (requires XWiki 2.0+ Syntax with a
      * Macro transformation applied).
      */
     @Test
-    public void outputFigureEvents()
+    void outputFigureEvents()
     {
-        EventsChainingRenderer renderer = new EventsChainingRenderer(new ListenerChain());
-        WikiPrinter wikiPrinter = new DefaultWikiPrinter();
-        renderer.setPrinter(wikiPrinter);
-        renderer.beginFigure(Collections.emptyMap());
-        renderer.beginFigureCaption(Collections.emptyMap());
-        renderer.endFigureCaption(Collections.emptyMap());
-        renderer.endFigure(Collections.emptyMap());
+        this.renderer.beginFigure(Collections.emptyMap());
+        this.renderer.beginFigureCaption(Collections.emptyMap());
+        this.renderer.endFigureCaption(Collections.emptyMap());
+        this.renderer.endFigure(Collections.emptyMap());
 
         String expected = "beginFigure\n"
             + "beginFigureCaption\n"
             + "endFigureCaption\n"
             + "endFigure\n";
 
-        assertEquals(expected, wikiPrinter.toString());
+        assertEquals(expected, this.wikiPrinter.toString());
+    }
+
+    /**
+     * Test the old image method without id that is no longer triggered by the CTS.
+     */
+    @Test
+    void oldOnImage()
+    {
+        this.renderer.onImage(new ResourceReference("image.png", ResourceType.URL), true, Listener.EMPTY_PARAMETERS);
+
+        String expected = "onImage [Typed = [true] Type = [url] Reference = [image.png]] [true]\n";
+
+        assertEquals(expected, this.wikiPrinter.toString());
     }
 }

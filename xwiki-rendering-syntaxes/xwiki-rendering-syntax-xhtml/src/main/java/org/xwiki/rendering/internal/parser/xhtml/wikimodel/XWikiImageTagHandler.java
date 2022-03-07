@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
+import org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
@@ -90,12 +91,22 @@ public class XWikiImageTagHandler extends ImgTagHandler implements XWikiWikiMode
     @Override
     protected WikiParameters removeMeaningfulParameters(WikiParameters parameters)
     {
-        WikiParameter classParam = parameters.getParameter("class");
-        boolean isFreeStanding = classParam != null && "wikimodel-freestanding".equalsIgnoreCase(classParam.getValue());
-        if (isFreeStanding) {
-            return removeFreestanding(parameters).remove("alt").remove("src");
-        } else {
-            return removeFreestanding(parameters).remove("src");
+        WikiParameters result = parameters;
+
+        // Remove the generated id.
+        if (containsClass(parameters, XHTMLChainingRenderer.GENERATEDIDCLASS)) {
+            result = removeClass(parameters, XHTMLChainingRenderer.GENERATEDIDCLASS);
+            result = result.remove("id");
         }
+
+        boolean isFreeStanding = containsFreeStandingClass(result);
+        result = removeFreestanding(result);
+        result = result.remove("src");
+
+        if (isFreeStanding) {
+            result = result.remove("alt");
+        }
+
+        return result;
     }
 }

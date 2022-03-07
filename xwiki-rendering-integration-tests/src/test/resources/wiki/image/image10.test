@@ -8,17 +8,17 @@ image:icon:iconname
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-onImage [Typed = [true] Type = [icon] Reference = [iconname]] [true]
+onImage [Typed = [true] Type = [icon] Reference = [iconname]] [true] [Iiconname]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><img src="imageurl" class="wikimodel-freestanding" alt="iconname"/></p>
+<p><img src="imageurl" class="wikimodel-freestanding wikigeneratedid" id="Iiconname" alt="iconname"/></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:true|-|icon|-|iconname--><img src="imageurl" class="wikimodel-freestanding" alt="iconname"/><!--stopimage--></p>
+<p><!--startimage:true|-|icon|-|iconname--><img src="imageurl" class="wikimodel-freestanding wikigeneratedid" id="Iiconname" alt="iconname"/><!--stopimage--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
@@ -26,4 +26,4 @@ image:icon:iconname
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:true|-|icon|-|iconname--><img src="imageurl" class="wikimodel-freestanding" alt="iconname"/><!--stopimage--></p>
+<p><!--startimage:true|-|icon|-|iconname--><img src="imageurl" class="wikimodel-freestanding wikigeneratedid" id="Iiconname" alt="iconname"/><!--stopimage--></p>

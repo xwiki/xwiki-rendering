@@ -568,8 +568,13 @@ public enum EventType
         @Override
         public void fireEvent(Listener listener, Object... eventParameters)
         {
-            listener.onImage((ResourceReference) eventParameters[0], (Boolean) eventParameters[1],
-                (Map<String, String>) eventParameters[2]);
+            if (eventParameters.length == 4) {
+                listener.onImage((ResourceReference) eventParameters[0], (Boolean) eventParameters[1],
+                    (String) eventParameters[2], (Map<String, String>) eventParameters[3]);
+            } else {
+                listener.onImage((ResourceReference) eventParameters[0], (Boolean) eventParameters[1],
+                    (Map<String, String>) eventParameters[2]);
+            }
         }
     },
     /**

@@ -7,13 +7,13 @@
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-onImage [Typed = [true] Type = [path] Reference = [/some/path]] [false]
+onImage [Typed = [true] Type = [path] Reference = [/some/path]] [false] [I2Fsome2Fpath]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:true|-|path|-|/some/path--><img src="/some/path" alt="/some/path"/><!--stopimage--></p>
+<p><!--startimage:true|-|path|-|/some/path--><img src="/some/path" id="I2Fsome2Fpath" class="wikigeneratedid" alt="/some/path"/><!--stopimage--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -21,4 +21,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:true|-|path|-|/some/path--><img src="/some/path" alt="/some/path"/><!--stopimage--></p>
+<p><!--startimage:true|-|path|-|/some/path--><img src="/some/path" id="I2Fsome2Fpath" class="wikigeneratedid" alt="/some/path"/><!--stopimage--></p>

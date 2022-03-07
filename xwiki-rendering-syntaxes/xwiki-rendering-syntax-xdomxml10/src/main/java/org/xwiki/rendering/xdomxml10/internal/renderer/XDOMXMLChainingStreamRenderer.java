@@ -465,6 +465,18 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         endBlock();
     }
 
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        startBlock("image", parameters);
+
+        serializeParameter("freestanding", freestanding, false);
+        serializeParameter("id", id, false);
+        this.linkSerializer.serialize(reference, getContentHandler());
+
+        endBlock();
+    }
+
     // Tools
 
     private void startBlock(String blockName)

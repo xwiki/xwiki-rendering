@@ -19,7 +19,7 @@ beginMacroMarkerStandalone [figure] [] [[[image:Space.ExistingPage@my.png]]
 beginFigure
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
-onImage [Typed = [false] Type = [url] Reference = [Space.ExistingPage@my.png]] [false]
+onImage [Typed = [false] Type = [url] Reference = [Space.ExistingPage@my.png]] [false] [ISpace.ExistingPage40my.png]
 endParagraph
 beginMacroMarkerStandalone [figureCaption] [] [caption]
 beginFigureCaption
@@ -50,4 +50,4 @@ endDocument
 .# The main problem is that ATM we don't have a way to input FigureBlock/FigureCaptionBlock without
 .# resorting to the XWiki 2.0+ syntax and Transformations.
 .#--------------------------------------------------------------------------------------------------
-<p><img src="Space.ExistingPage@my.png" alt="Space.ExistingPage@my.png"/></p><div class="figcaption"><p>caption</p></div>
+<p><img src="Space.ExistingPage@my.png" id="ISpace.ExistingPage40my.png" class="wikigeneratedid" alt="Space.ExistingPage@my.png"/></p><div class="figcaption"><p>caption</p></div>

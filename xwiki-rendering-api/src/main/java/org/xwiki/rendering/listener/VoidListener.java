@@ -333,6 +333,12 @@ public class VoidListener implements Listener
     }
 
     @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        // Do nothing.
+    }
+
+    @Override
     public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // Do nothing.

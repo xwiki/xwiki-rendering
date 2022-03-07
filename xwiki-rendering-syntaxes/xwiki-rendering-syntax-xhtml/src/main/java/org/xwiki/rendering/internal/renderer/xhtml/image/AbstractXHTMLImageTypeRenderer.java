@@ -24,9 +24,11 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
@@ -43,6 +45,13 @@ public abstract class AbstractXHTMLImageTypeRenderer implements XHTMLImageTypeRe
      * The XHTML element <code>class</code> attribute.
      */
     protected static final String CLASS = "class";
+
+    /**
+     * The XHTML element <code>id</code> attribute.
+     *
+     * @since 14.2RC1
+     */
+    protected static final String ID = "id";
 
     /**
      * The name of the XHTML format element.
@@ -84,7 +93,19 @@ public abstract class AbstractXHTMLImageTypeRenderer implements XHTMLImageTypeRe
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        Map<String, String> attributes = new LinkedHashMap<String, String>();
+        onImage(reference, freestanding, null, parameters);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see XHTMLImageRenderer#onImage(org.xwiki.rendering.listener.reference.ResourceReference , boolean, String,
+     *      java.util.Map)
+     */
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        Map<String, String> attributes = new LinkedHashMap<>();
 
         try {
             // First we need to compute the image SRC attribute value.
@@ -100,6 +121,13 @@ public abstract class AbstractXHTMLImageTypeRenderer implements XHTMLImageTypeRe
 
             // Add the other parameters as attributes
             attributes.putAll(parameters);
+
+            if (StringUtils.isNotBlank(id) && !attributes.containsKey(ID)) {
+                attributes.put(ID, id);
+                attributes.computeIfPresent(CLASS,
+                    (key, value) -> value.trim() + " " + XHTMLChainingRenderer.GENERATEDIDCLASS);
+                attributes.putIfAbsent(CLASS, XHTMLChainingRenderer.GENERATEDIDCLASS);
+            }
 
             // If no ALT attribute has been specified, add it since the XHTML specifications makes it mandatory.
             if (!parameters.containsKey(XHTMLImageRenderer.ALTERNATE)) {

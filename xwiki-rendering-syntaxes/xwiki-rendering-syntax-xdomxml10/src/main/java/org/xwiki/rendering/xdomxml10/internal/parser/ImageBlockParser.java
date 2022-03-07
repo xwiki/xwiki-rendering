@@ -59,7 +59,7 @@ public class ImageBlockParser extends DefaultBlockParser
     @Override
     protected void beginBlock()
     {
-        getListener().onImage(this.referenceParser.getValue(),
-            getParameterAsBoolean("freestanding", false), getCustomParameters());
+        getListener().onImage(this.referenceParser.getValue(), getParameterAsBoolean("freestanding", false),
+            getParameterAsString("id", null), getCustomParameters());
     }
 }

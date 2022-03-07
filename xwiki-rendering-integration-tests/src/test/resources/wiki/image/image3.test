@@ -7,17 +7,17 @@ image:http://some/image.png
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-onImage [Typed = [false] Type = [url] Reference = [http://some/image.png]] [true]
+onImage [Typed = [false] Type = [url] Reference = [http://some/image.png]] [true] [Ihttp:2F2Fsome2Fimage.png]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><img src="http://some/image.png" class="wikimodel-freestanding" alt="http://some/image.png"/></p>
+<p><img src="http://some/image.png" class="wikimodel-freestanding wikigeneratedid" id="Ihttp:2F2Fsome2Fimage.png" alt="http://some/image.png"/></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:false|-|url|-|http://some/image.png--><img src="http://some/image.png" class="wikimodel-freestanding" alt="http://some/image.png"/><!--stopimage--></p>
+<p><!--startimage:false|-|url|-|http://some/image.png--><img src="http://some/image.png" class="wikimodel-freestanding wikigeneratedid" id="Ihttp:2F2Fsome2Fimage.png" alt="http://some/image.png"/><!--stopimage--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -25,4 +25,4 @@ image:http://some/image.png
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:false|-|url|-|http://some/image.png--><img src="http://some/image.png" class="wikimodel-freestanding" alt="http://some/image.png"/><!--stopimage--></p>
+<p><!--startimage:false|-|url|-|http://some/image.png--><img src="http://some/image.png" class="wikimodel-freestanding wikigeneratedid" id="Ihttp:2F2Fsome2Fimage.png" alt="http://some/image.png"/><!--stopimage--></p>

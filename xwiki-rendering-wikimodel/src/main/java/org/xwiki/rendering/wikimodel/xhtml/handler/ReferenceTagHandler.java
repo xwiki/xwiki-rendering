@@ -19,10 +19,16 @@
  */
 package org.xwiki.rendering.wikimodel.xhtml.handler;
 
+import java.util.Arrays;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
+import org.xwiki.stability.Unstable;
 
 /**
  * Handles references.
@@ -76,30 +82,75 @@ public class ReferenceTagHandler extends TagHandler
         // Check if there's a class attribute with a "wikimodel-freestanding"
         // value.
         // If so it means we have a free standing link.
-        WikiParameter classParam = context.getParams().getParameter("class");
-
-        boolean isFreeStanding = ((classParam != null) && "wikimodel-freestanding".equalsIgnoreCase(
-            classParam.getValue()));
+        boolean isFreeStanding = containsFreeStandingClass(parameters);
 
         if (isFreeStanding) {
-            parameters = removeMeaningfulParameters(parameters);
-
-            return parameters.getSize() == 0;
+            return removeMeaningfulParameters(parameters).getSize() == 0;
         } else {
             return false;
         }
     }
 
-    protected WikiParameters removeFreestanding(WikiParameters parameters)
+    /**
+     * @param parameters The parameters to check.
+     * @return If the class parameter contains the class "wikimodel-freestanding".
+     * @since 14.2RC1
+     */
+    @Unstable
+    protected boolean containsFreeStandingClass(WikiParameters parameters)
+    {
+        return containsClass(parameters, "wikimodel-freestanding");
+    }
+
+    /**
+     * @param parameters The parameters to test.
+     * @param className The class name to look for.
+     * @return If the parameters contain the given class name.
+     * @since 14.2RC1
+     */
+    @Unstable
+    protected boolean containsClass(WikiParameters parameters, String className)
     {
         WikiParameter classParam = parameters.getParameter("class");
-        boolean isFreeStanding = ((classParam != null) && "wikimodel-freestanding".equalsIgnoreCase(
-            classParam.getValue()));
-        if (isFreeStanding) {
-            parameters = parameters.remove("class");
+
+        return (classParam != null) && classParam.getValue() != null && Arrays.stream(classParam.getValue().split(" "))
+            .anyMatch(className::equalsIgnoreCase);
+    }
+
+    /**
+     * @param parameters The parameters to modify.
+     * @param className The class name to remove.
+     * @return The parameters with the given class name removed.
+     * @since 14.2RC1
+     */
+    @Unstable
+    protected WikiParameters removeClass(WikiParameters parameters, String className)
+    {
+        WikiParameter classParam = parameters.getParameter("class");
+        WikiParameters result = parameters;
+
+        if (classParam != null) {
+            String classes = classParam.getValue();
+
+            if (StringUtils.isNotBlank(classes)) {
+                classes = Arrays.stream(classes.split(" "))
+                    .filter(Predicate.not(value -> StringUtils.equalsIgnoreCase(className, value)))
+                    .collect(Collectors.joining(" "));
+            }
+
+            if (StringUtils.isBlank(classes)) {
+                result = parameters.remove("class");
+            } else {
+                result = parameters.setParameter("class", classes);
+            }
         }
 
-        return parameters;
+        return result;
+    }
+
+    protected WikiParameters removeFreestanding(WikiParameters parameters)
+    {
+        return removeClass(parameters, "wikimodel-freestanding");
     }
 
     protected WikiParameters removeMeaningfulParameters(WikiParameters parameters)

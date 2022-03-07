@@ -19,7 +19,7 @@ beginParagraph
 beginLink [Typed = [true] Type = [mailto] Reference = [mailto]] [false]
 endLink [Typed = [true] Type = [mailto] Reference = [mailto]] [false]
 onNewLine
-onImage [Typed = [false] Type = [attach] Reference = [image]] [false]
+onImage [Typed = [false] Type = [attach] Reference = [image]] [false] [Iimage]
 onNewLine
 beginLink [Typed = [true] Type = [attach] Reference = [attach]] [false]
 endLink [Typed = [true] Type = [attach] Reference = [attach]] [false]

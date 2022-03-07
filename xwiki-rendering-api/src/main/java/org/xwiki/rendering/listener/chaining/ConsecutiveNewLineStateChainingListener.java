@@ -267,6 +267,13 @@ public class ConsecutiveNewLineStateChainingListener extends AbstractChainingLis
     }
 
     @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        this.newLineCount = 0;
+        super.onImage(reference, freestanding, id, parameters);
+    }
+
+    @Override
     public void onNewLine()
     {
         this.newLineCount++;

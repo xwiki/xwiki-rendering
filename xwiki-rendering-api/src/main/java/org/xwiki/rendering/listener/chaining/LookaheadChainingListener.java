@@ -482,6 +482,13 @@ public class LookaheadChainingListener extends AbstractChainingListener
     }
 
     @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        this.previousEvents.onImage(reference, freestanding, id, parameters);
+        firePreviousEvent();
+    }
+
+    @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
         this.previousEvents.onMacro(id, parameters, content, inline);

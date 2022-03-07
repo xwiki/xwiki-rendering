@@ -460,6 +460,12 @@ public class QueueListener extends LinkedList<QueueListener.Event> implements Li
     }
 
     @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        saveEvent(EventType.ON_IMAGE, reference, freestanding, id, parameters);
+    }
+
+    @Override
     public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
     {
         saveEvent(EventType.ON_MACRO, id, parameters, content, inline);

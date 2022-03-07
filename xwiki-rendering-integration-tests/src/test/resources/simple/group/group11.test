@@ -12,7 +12,7 @@
 beginDocument
 beginGroup
 beginParagraph
-onImage [Typed = [false] Type = [url] Reference = [http://host.com/image.jpg]] [false]
+onImage [Typed = [false] Type = [url] Reference = [http://host.com/image.jpg]] [false] [Ihttp:2F2Fhost.com2Fimage.jpg]
 endParagraph
 endGroup
 endDocument
