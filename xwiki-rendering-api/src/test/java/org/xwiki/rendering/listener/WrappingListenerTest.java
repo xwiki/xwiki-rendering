@@ -42,8 +42,8 @@ class WrappingListenerTest
      * <p>
      * Tests for all methods if they properly call the wrapped listener.
      *
-     * @param method The method to test.
-     * @param parameters Suitable parameters for the method.
+     * @param method the method to test
+     * @param parameters the parameters for the method
      */
     @ParameterizedTest(name = "{0} with {1}")
     @MethodSource("org.xwiki.rendering.test.ListenerMethodProvider#allMethodsProvider")

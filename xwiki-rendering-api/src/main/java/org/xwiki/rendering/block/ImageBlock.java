@@ -81,7 +81,7 @@ public class ImageBlock extends AbstractBlock
      * @param reference the image reference
      * @param freestanding indicate if the image syntax is simple a full descriptive syntax (detail depending of the
      *            syntax)
-     * @param id the (automatically generated) id of the image.
+     * @param id the (automatically generated) id of the image
      * @param parameters the custom parameters
      * @since 14.2RC1
      */

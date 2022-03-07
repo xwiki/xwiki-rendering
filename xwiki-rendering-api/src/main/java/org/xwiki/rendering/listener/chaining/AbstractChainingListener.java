@@ -85,9 +85,11 @@ public abstract class AbstractChainingListener implements ChainingListener
     }
 
     /**
-     * @param methodFilter A predicate to filter the methods.
-     * @param oldParameterCount The number of parameters the old version of the method has.
-     * @return True if there is a child class that implements the matched method(s) only with the old parameter count.
+     * Checks if a method needs retro compatibility.
+     *
+     * @param methodFilter a predicate to filter the methods
+     * @param oldParameterCount the number of parameters the old version of the method has
+     * @return true if there is a child class that implements the matched method(s) only with the old parameter count
      * @since 14.2RC1
      */
     private boolean needsRetroCompatibility(Predicate<Method> methodFilter, int oldParameterCount)
@@ -592,11 +594,6 @@ public abstract class AbstractChainingListener implements ChainingListener
         }
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 14.2RC1
-     */
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
     {

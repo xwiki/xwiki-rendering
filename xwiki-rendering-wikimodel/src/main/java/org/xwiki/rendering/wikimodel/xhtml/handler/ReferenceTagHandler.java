@@ -92,8 +92,10 @@ public class ReferenceTagHandler extends TagHandler
     }
 
     /**
-     * @param parameters The parameters to check.
-     * @return If the class parameter contains the class "wikimodel-freestanding".
+     * Checks if the parameters contain the free standing class.
+     *
+     * @param parameters the parameters to check
+     * @return if the class parameter contains the class "wikimodel-freestanding"
      * @since 14.2RC1
      */
     @Unstable
@@ -103,9 +105,11 @@ public class ReferenceTagHandler extends TagHandler
     }
 
     /**
-     * @param parameters The parameters to test.
-     * @param className The class name to look for.
-     * @return If the parameters contain the given class name.
+     * Checks if the parameters contain a class name.
+     *
+     * @param parameters the parameters to test
+     * @param className the class name to look for
+     * @return true if the parameters contain the given class name, false otherwise
      * @since 14.2RC1
      */
     @Unstable
@@ -118,9 +122,11 @@ public class ReferenceTagHandler extends TagHandler
     }
 
     /**
-     * @param parameters The parameters to modify.
-     * @param className The class name to remove.
-     * @return The parameters with the given class name removed.
+     * Removes a class name from wiki parameters.
+     *
+     * @param parameters the parameters to modify
+     * @param className the class name to remove
+     * @return the parameters with the given class name removed
      * @since 14.2RC1
      */
     @Unstable
