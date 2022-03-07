@@ -152,21 +152,22 @@ public class ImageBlock extends AbstractBlock
     @Override
     public boolean equals(Object obj)
     {
-        if (obj == this) {
+        if (this == obj) {
             return true;
         }
 
-        if (obj instanceof ImageBlock && super.equals(obj)) {
-            EqualsBuilder builder = new EqualsBuilder();
-
-            builder.append(getReference(), ((ImageBlock) obj).getReference());
-            builder.append(isFreeStandingURI(), ((ImageBlock) obj).isFreeStandingURI());
-            builder.append(getId(), ((ImageBlock) obj).getId());
-
-            return builder.isEquals();
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
         }
 
-        return false;
+        ImageBlock that = (ImageBlock) obj;
+
+        return new EqualsBuilder()
+            .appendSuper(super.equals(obj))
+            .append(getReference(), that.getReference())
+            .append(isFreeStandingURI(), that.isFreeStandingURI())
+            .append(getId(), that.getId())
+            .isEquals();
     }
 
     @Override
