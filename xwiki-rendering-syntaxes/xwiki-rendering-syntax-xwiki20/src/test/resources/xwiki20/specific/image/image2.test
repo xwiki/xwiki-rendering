@@ -8,7 +8,7 @@
 .#-----------------------------------------------------
 beginDocument
 beginFigure [[class]=[image]]
-onImage [Typed = [false] Type = [url] Reference = [image.png]] [false]
+onImage [Typed = [false] Type = [url] Reference = [image.png]] [false] [Iimage.png]
 beginFigureCaption
 beginParagraph
 onWord [This]

@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.xwiki.filter.annotation.Default;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.stability.Unstable;
 
 /**
  * Contains callback events for Images,called when a document has been parsed and when it needs to be modified or
@@ -42,4 +43,20 @@ public interface ImageListener
      * @param parameters a generic list of parameters. Example: style="background-color: blue"
      */
     void onImage(ResourceReference reference, boolean freestanding, @Default("") Map<String, String> parameters);
+
+    /**
+     * An image.
+     *
+     * @param reference the image reference
+     * @param freestanding if true then the image is defined directly as a URI in the text
+     * @param id the (generated) id of the image
+     * @param parameters a generic list of parameters. Example: style="background-color: blue"
+     * @since 14.2RC1
+     */
+    @Unstable
+    default void onImage(ResourceReference reference, boolean freestanding, String id, @Default("") Map<String,
+        String> parameters)
+    {
+        onImage(reference, freestanding, parameters);
+    }
 }

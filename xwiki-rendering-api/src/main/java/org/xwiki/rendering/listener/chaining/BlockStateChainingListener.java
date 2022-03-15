@@ -872,6 +872,14 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     }
 
     @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        super.onImage(reference, freestanding, id, parameters);
+
+        this.previousEvent = Event.IMAGE;
+    }
+
+    @Override
     public void onNewLine()
     {
         super.onNewLine();

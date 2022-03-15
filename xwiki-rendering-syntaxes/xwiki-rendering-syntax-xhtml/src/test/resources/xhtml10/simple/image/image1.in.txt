@@ -1,1 +1,1 @@
-<p><!--startimage:false|-|url|-|image.png--><img src="image.png" alt="image.png"/><!--stopimage--></p>
+<p><!--startimage:false|-|url|-|image.png--><img src="image.png" class="wikigeneratedid" id="Iimage.png" alt="image.png"/><!--stopimage--></p>

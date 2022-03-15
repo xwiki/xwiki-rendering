@@ -17,6 +17,6 @@ beginParagraph
 beginLink [Typed = [false] Type = [url] Reference = [reference]] [false] [[parameter]=[v~al]]u"e]]
 endLink [Typed = [false] Type = [url] Reference = [reference]] [false] [[parameter]=[v~al]]u"e]]
 onNewLine
-onImage [Typed = [false] Type = [url] Reference = [reference]] [false] [[parameter]=[v~al]]u"e]]
+onImage [Typed = [false] Type = [url] Reference = [reference]] [false] [Ireference] [[parameter]=[v~al]]u"e]]
 endParagraph
 endDocument

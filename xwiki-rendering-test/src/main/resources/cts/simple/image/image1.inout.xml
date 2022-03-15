@@ -21,7 +21,7 @@
 
 <document>
   <paragraph>
-    <image>
+    <image id="Iimage.png">
       <p>
         <reference>
           <typed>false</typed>

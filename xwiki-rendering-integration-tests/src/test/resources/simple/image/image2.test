@@ -9,19 +9,19 @@ image:icon:whatever
 .#-----------------------------------------------------
 beginDocument
 beginParagraph
-onImage [Typed = [false] Type = [url] Reference = [attach:whatever]] [true]
+onImage [Typed = [false] Type = [url] Reference = [attach:whatever]] [true] [Iattach:whatever]
 onNewLine
-onImage [Typed = [false] Type = [url] Reference = [icon:whatever]] [true]
+onImage [Typed = [false] Type = [url] Reference = [icon:whatever]] [true] [Iicon:whatever]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><img src="attach:whatever" class="wikimodel-freestanding" alt="attach:whatever"/><br/><img src="icon:whatever" class="wikimodel-freestanding" alt="icon:whatever"/></p>
+<p><img src="attach:whatever" class="wikimodel-freestanding wikigeneratedid" id="Iattach:whatever" alt="attach:whatever"/><br/><img src="icon:whatever" class="wikimodel-freestanding wikigeneratedid" id="Iicon:whatever" alt="icon:whatever"/></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:false|-|url|-|attach:whatever--><img src="attach:whatever" class="wikimodel-freestanding" alt="attach:whatever"/><!--stopimage--><br/><!--startimage:false|-|url|-|icon:whatever--><img src="icon:whatever" class="wikimodel-freestanding" alt="icon:whatever"/><!--stopimage--></p>
+<p><!--startimage:false|-|url|-|attach:whatever--><img src="attach:whatever" class="wikimodel-freestanding wikigeneratedid" id="Iattach:whatever" alt="attach:whatever"/><!--stopimage--><br/><!--startimage:false|-|url|-|icon:whatever--><img src="icon:whatever" class="wikimodel-freestanding wikigeneratedid" id="Iicon:whatever" alt="icon:whatever"/><!--stopimage--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
@@ -30,4 +30,4 @@ image:icon:whatever
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:false|-|url|-|attach:whatever--><img src="attach:whatever" class="wikimodel-freestanding" alt="attach:whatever"/><!--stopimage--><br/><!--startimage:false|-|url|-|icon:whatever--><img src="icon:whatever" class="wikimodel-freestanding" alt="icon:whatever"/><!--stopimage--></p>
+<p><!--startimage:false|-|url|-|attach:whatever--><img src="attach:whatever" class="wikimodel-freestanding wikigeneratedid" id="Iattach:whatever" alt="attach:whatever"/><!--stopimage--><br/><!--startimage:false|-|url|-|icon:whatever--><img src="icon:whatever" class="wikimodel-freestanding wikigeneratedid" id="Iicon:whatever" alt="icon:whatever"/><!--stopimage--></p>

@@ -493,6 +493,14 @@ public class WrappingListener implements Listener
     }
 
     @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        if (this.listener != null) {
+            this.listener.onImage(reference, freestanding, id, parameters);
+        }
+    }
+
+    @Override
     public void beginMetaData(MetaData metadata)
     {
         if (this.listener != null) {

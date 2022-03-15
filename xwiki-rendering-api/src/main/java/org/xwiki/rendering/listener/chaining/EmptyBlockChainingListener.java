@@ -452,6 +452,13 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
     }
 
     @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        super.onImage(reference, freestanding, id, parameters);
+        markNotEmpty();
+    }
+
+    @Override
     public void onNewLine()
     {
         super.onNewLine();

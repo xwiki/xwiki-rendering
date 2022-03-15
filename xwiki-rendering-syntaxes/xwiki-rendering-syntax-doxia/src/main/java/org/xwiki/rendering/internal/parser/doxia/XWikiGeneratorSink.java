@@ -354,9 +354,10 @@ public class XWikiGeneratorSink extends SinkAdapter
     public void figureGraphics(String source, SinkEventAttributes attributes)
     {
         flushEmptyLines();
+        String id = this.idGenerator.generateUniqueId("I", source);
 
         // TODO: Handle image to attachments. For now we only handle URLs.
-        getListener().onImage(new ResourceReference(source, ResourceType.URL), false, Listener.EMPTY_PARAMETERS);
+        getListener().onImage(new ResourceReference(source, ResourceType.URL), false, id, Listener.EMPTY_PARAMETERS);
     }
 
     @Override

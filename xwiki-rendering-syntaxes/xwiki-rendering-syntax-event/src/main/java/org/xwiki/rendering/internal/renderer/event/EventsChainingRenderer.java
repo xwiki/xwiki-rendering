@@ -425,6 +425,13 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
         getPrinter().println("onImage [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
     }
 
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        getPrinter().println(
+            "onImage [" + reference + "] [" + freestanding + "] [" + id + "]" + serializeParameters(parameters));
+    }
+
     public String getEscaped(String str)
     {
         String printableStr;

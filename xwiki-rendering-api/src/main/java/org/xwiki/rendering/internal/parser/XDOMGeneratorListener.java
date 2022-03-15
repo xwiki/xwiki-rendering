@@ -465,4 +465,11 @@ public class XDOMGeneratorListener implements Listener
         this.builder.addBlock(
             new ImageBlock(reference, freestanding, parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
     }
+
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        this.builder.addBlock(
+            new ImageBlock(reference, freestanding, id, parameters != null ? parameters : Listener.EMPTY_PARAMETERS));
+    }
 }

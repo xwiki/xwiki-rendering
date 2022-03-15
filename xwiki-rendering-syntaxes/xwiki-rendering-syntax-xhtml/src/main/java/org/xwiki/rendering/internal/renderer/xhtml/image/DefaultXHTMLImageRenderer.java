@@ -76,6 +76,12 @@ public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer
         getXHTMLImageTypeRenderer(reference).onImage(reference, freestanding, parameters);
     }
 
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        getXHTMLImageTypeRenderer(reference).onImage(reference, freestanding, id, parameters);
+    }
+
     private XHTMLImageTypeRenderer getXHTMLImageTypeRenderer(ResourceReference reference)
     {
         XHTMLImageTypeRenderer renderer;

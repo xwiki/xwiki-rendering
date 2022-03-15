@@ -1,0 +1,5 @@
+.#-----------------------------------------------------
+.inputexpect|xhtml/1.0
+.# Test that user-specified ids override automatic ids.
+.#-----------------------------------------------------
+<p><img src="image.png" id="foo" alt="Some image" class="someclass"/></p>

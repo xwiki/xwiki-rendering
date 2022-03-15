@@ -11,19 +11,19 @@ onWord [Inline]
 onSpace
 onWord [images]
 onSpace
-onImage [Typed = [false] Type = [attach] Reference = [existing.attachment]] [true]
+onImage [Typed = [false] Type = [attach] Reference = [existing.attachment]] [true] [Iexisting.attachment]
 onSpace
-onImage [Typed = [false] Type = [attach] Reference = [Space.ExistingPage@existing.attachment]] [true]
+onImage [Typed = [false] Type = [attach] Reference = [Space.ExistingPage@existing.attachment]] [true] [ISpace.ExistingPage40existing.attachment]
 endParagraph
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>Inline images <img src="imageurl" class="wikimodel-freestanding" alt="existing.attachment"/> <img src="imageurl" class="wikimodel-freestanding" alt="Space.ExistingPage@existing.attachment"/></p>
+<p>Inline images <img src="imageurl" class="wikimodel-freestanding wikigeneratedid" id="Iexisting.attachment" alt="existing.attachment"/> <img src="imageurl" class="wikimodel-freestanding wikigeneratedid" id="ISpace.ExistingPage40existing.attachment" alt="Space.ExistingPage@existing.attachment"/></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p>Inline images <!--startimage:false|-|attach|-|existing.attachment--><img src="imageurl" class="wikimodel-freestanding" alt="existing.attachment"/><!--stopimage--> <!--startimage:false|-|attach|-|Space.ExistingPage@existing.attachment--><img src="imageurl" class="wikimodel-freestanding" alt="Space.ExistingPage@existing.attachment"/><!--stopimage--></p>
+<p>Inline images <!--startimage:false|-|attach|-|existing.attachment--><img src="imageurl" class="wikimodel-freestanding wikigeneratedid" id="Iexisting.attachment" alt="existing.attachment"/><!--stopimage--> <!--startimage:false|-|attach|-|Space.ExistingPage@existing.attachment--><img src="imageurl" class="wikimodel-freestanding wikigeneratedid" id="ISpace.ExistingPage40existing.attachment" alt="Space.ExistingPage@existing.attachment"/><!--stopimage--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -31,4 +31,4 @@ Inline images image:existing.attachment image:Space.ExistingPage@existing.attach
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p>Inline images <!--startimage:false|-|attach|-|existing.attachment--><img src="imageurl" class="wikimodel-freestanding" alt="existing.attachment"/><!--stopimage--> <!--startimage:false|-|attach|-|Space.ExistingPage@existing.attachment--><img src="imageurl" class="wikimodel-freestanding" alt="Space.ExistingPage@existing.attachment"/><!--stopimage--></p>
+<p>Inline images <!--startimage:false|-|attach|-|existing.attachment--><img src="imageurl" class="wikimodel-freestanding wikigeneratedid" id="Iexisting.attachment" alt="existing.attachment"/><!--stopimage--> <!--startimage:false|-|attach|-|Space.ExistingPage@existing.attachment--><img src="imageurl" class="wikimodel-freestanding wikigeneratedid" id="ISpace.ExistingPage40existing.attachment" alt="Space.ExistingPage@existing.attachment"/><!--stopimage--></p>

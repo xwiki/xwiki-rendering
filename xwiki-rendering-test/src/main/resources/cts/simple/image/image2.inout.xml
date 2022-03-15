@@ -21,7 +21,7 @@
 
 <document>
   <paragraph>
-    <image freestanding="true">
+    <image freestanding="true" id="Iimage.png">
       <p>
         <reference>
           <typed>false</typed>

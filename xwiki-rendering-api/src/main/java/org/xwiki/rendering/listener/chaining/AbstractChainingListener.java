@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.xwiki.rendering.listener.Format;
@@ -58,7 +59,19 @@ public abstract class AbstractChainingListener implements ChainingListener
      * @since 11.10.2
      * @since 12.0RC1
      */
-    private boolean listItemRetroCompatibility;
+    private final boolean listItemRetroCompatibility;
+
+    /**
+     * True if {@link #onImage(ResourceReference, boolean, String, Map)} should redirect to
+     * {@link #onImage(ResourceReference, boolean, Map)} for retro compatibility.
+     *
+     * The method {@link #onImage(ResourceReference, boolean, String, Map)} was added long after
+     * {@link #onImage(ResourceReference, boolean, Map)} and renderers/listeners overriding the latter only won't be
+     * called in versions 14.2RC1 and later without this compatibility mode.
+     *
+     * @since 14.2RC1
+     */
+    private final boolean imageRetroCompatibility;
 
     /**
      * The default constructor.
@@ -67,16 +80,32 @@ public abstract class AbstractChainingListener implements ChainingListener
      */
     public AbstractChainingListener()
     {
+        this.listItemRetroCompatibility = needsRetroCompatibility(method -> method.getName().endsWith("ListItem"), 0);
+        this.imageRetroCompatibility = needsRetroCompatibility(method -> method.getName().equals("onImage"), 3);
+    }
+
+    /**
+     * Checks if a method needs retro compatibility.
+     *
+     * @param methodFilter a predicate to filter the methods
+     * @param oldParameterCount the number of parameters the old version of the method has
+     * @return true if there is a child class that implements the matched method(s) only with the old parameter count
+     * @since 14.2RC1
+     */
+    private boolean needsRetroCompatibility(Predicate<Method> methodFilter, int oldParameterCount)
+    {
+        boolean result = false;
+
         for (Class<?> current = getClass(); current != AbstractChainingListener.class; current =
             current.getSuperclass()) {
             Set<Integer> parameterCounts = Arrays.stream(current.getDeclaredMethods())
-                .filter(method -> method.getName().endsWith("ListItem"))
+                .filter(methodFilter)
                 .map(Method::getParameterCount)
                 .collect(Collectors.toSet());
 
-            // If there is only the variant without parameter, we need the compatibility wrapper.
-            if (parameterCounts.size() == 1 && parameterCounts.contains(0)) {
-                this.listItemRetroCompatibility = true;
+            // If there is only the variant with the old parameter count, we need the compatibility wrapper.
+            if (parameterCounts.size() == 1 && parameterCounts.contains(oldParameterCount)) {
+                result = true;
             }
 
             // Do not continue looking once we found a class implementing one of the methods.
@@ -84,6 +113,8 @@ public abstract class AbstractChainingListener implements ChainingListener
                 break;
             }
         }
+
+        return result;
     }
 
     /**
@@ -560,6 +591,21 @@ public abstract class AbstractChainingListener implements ChainingListener
         ChainingListener next = getListenerChain().getNextListener(getClass());
         if (next != null) {
             next.onImage(reference, freestanding, parameters);
+        }
+    }
+
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        // Make sure to call the old method without id if the child class does not implement the new variant that has
+        // been introduced in 14.2RC1.
+        if (this.imageRetroCompatibility) {
+            onImage(reference, freestanding, parameters);
+        } else {
+            ChainingListener next = getListenerChain().getNextListener(getClass());
+            if (next != null) {
+                next.onImage(reference, freestanding, id, parameters);
+            }
         }
     }
 

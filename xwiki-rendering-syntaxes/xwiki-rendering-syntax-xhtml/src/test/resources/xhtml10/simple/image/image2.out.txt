@@ -1,1 +1,1 @@
-<p><img src="image.png" class="wikimodel-freestanding" alt="image.png"/></p>
+<p><img src="image.png" class="wikimodel-freestanding wikigeneratedid" id="Iimage.png" alt="image.png"/></p>

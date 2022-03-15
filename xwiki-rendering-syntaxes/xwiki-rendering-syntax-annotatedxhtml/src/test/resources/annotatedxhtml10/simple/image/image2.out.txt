@@ -1,1 +1,1 @@
-<p><!--startimage:false|-|url|-|image.png--><img src="image.png" class="wikimodel-freestanding" alt="image.png"/><!--stopimage--></p>
+<p><!--startimage:false|-|url|-|image.png--><img src="image.png" class="wikimodel-freestanding wikigeneratedid" id="Iimage.png" alt="image.png"/><!--stopimage--></p>

@@ -71,13 +71,18 @@ public class AnnotatedXHTMLImageRenderer implements XHTMLImageRenderer
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
+        onImage(reference, freestanding, null, parameters);
+    }
+
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
         // We need to save the image location in XML comment so that it can be reconstructed later on when moving
         // from XHTML to wiki syntax.
-        StringBuilder builder = new StringBuilder("startimage:");
-        builder.append(this.xhtmlMarkerSerializer.serialize(reference));
+        String comment = "startimage:" + this.xhtmlMarkerSerializer.serialize(reference);
 
-        getXHTMLWikiPrinter().printXMLComment(builder.toString(), true);
-        this.defaultImageRenderer.onImage(reference, freestanding, parameters);
+        getXHTMLWikiPrinter().printXMLComment(comment, true);
+        this.defaultImageRenderer.onImage(reference, freestanding, id, parameters);
         getXHTMLWikiPrinter().printXMLComment("stopimage");
     }
 }

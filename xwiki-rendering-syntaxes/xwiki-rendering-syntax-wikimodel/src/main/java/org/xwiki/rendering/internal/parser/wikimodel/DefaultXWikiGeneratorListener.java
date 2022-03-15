@@ -994,7 +994,8 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
      */
     protected void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getListener().onImage(reference, freestanding, parameters);
+        String id = this.idGenerator.generateUniqueId("I", reference.getReference());
+        getListener().onImage(reference, freestanding, id, parameters);
     }
 
     @Override
