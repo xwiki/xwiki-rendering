@@ -96,12 +96,6 @@ public abstract class AbstractXHTMLImageTypeRenderer implements XHTMLImageTypeRe
         onImage(reference, freestanding, null, parameters);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see XHTMLImageRenderer#onImage(org.xwiki.rendering.listener.reference.ResourceReference , boolean, String,
-     *      java.util.Map)
-     */
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
     {
