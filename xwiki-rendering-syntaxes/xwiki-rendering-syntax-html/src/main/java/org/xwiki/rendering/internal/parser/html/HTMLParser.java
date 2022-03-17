@@ -32,6 +32,7 @@ import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.xml.html.HTMLCleaner;
 import org.xwiki.xml.html.HTMLUtils;
 
@@ -67,8 +68,20 @@ public class HTMLParser extends XHTMLParser
     }
 
     @Override
+    public XDOM parse(Reader source, IdGenerator idGenerator) throws ParseException
+    {
+        return super.parse(new StringReader(HTMLUtils.toString(this.htmlCleaner.clean(source))), idGenerator);
+    }
+
+    @Override
     public void parse(Reader source, Listener listener) throws ParseException
     {
         super.parse(new StringReader(HTMLUtils.toString(this.htmlCleaner.clean(source))), listener);
+    }
+
+    @Override
+    public void parse(Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
+    {
+        super.parse(new StringReader(HTMLUtils.toString(this.htmlCleaner.clean(source))), listener, idGenerator);
     }
 }

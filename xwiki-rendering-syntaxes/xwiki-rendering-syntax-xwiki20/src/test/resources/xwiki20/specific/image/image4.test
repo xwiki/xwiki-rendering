@@ -1,0 +1,19 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|xwiki/2.0
+.# Test that nested images in links get unique ids.
+.#-------------------------------------------------------------------------------------------------------
+[[image:image.png>>https://xwiki.org]] [[image:image.png>>https://xwiki.org]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [false] Type = [url] Reference = [https://xwiki.org]] [false]
+onImage [Typed = [false] Type = [url] Reference = [image.png]] [true] [Iimage.png]
+endLink [Typed = [false] Type = [url] Reference = [https://xwiki.org]] [false]
+onSpace
+beginLink [Typed = [false] Type = [url] Reference = [https://xwiki.org]] [false]
+onImage [Typed = [false] Type = [url] Reference = [image.png]] [true] [Iimage.png-1]
+endLink [Typed = [false] Type = [url] Reference = [https://xwiki.org]] [false]
+endParagraph
+endDocument

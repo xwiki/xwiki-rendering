@@ -33,6 +33,7 @@ import org.xwiki.rendering.internal.parser.xhtml5.XHTML5Parser;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.stability.Unstable;
 import org.xwiki.xml.html.HTMLCleaner;
 import org.xwiki.xml.html.HTMLCleanerConfiguration;
@@ -65,10 +66,25 @@ public class HTML5Parser extends XHTML5Parser
     }
 
     @Override
+    public XDOM parse(Reader source, IdGenerator idGenerator) throws ParseException
+    {
+        return super.parse(
+            new StringReader(HTMLUtils.toString(this.htmlCleaner.clean(source, getHTMLCleanerConfiguration()))),
+            idGenerator);
+    }
+
+    @Override
     public void parse(Reader source, Listener listener) throws ParseException
     {
         super.parse(new StringReader(HTMLUtils.toString(this.htmlCleaner.clean(source, getHTMLCleanerConfiguration()))),
             listener);
+    }
+
+    @Override
+    public void parse(Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
+    {
+        super.parse(new StringReader(HTMLUtils.toString(this.htmlCleaner.clean(source, getHTMLCleanerConfiguration()))),
+            listener, idGenerator);
     }
 
     @Override

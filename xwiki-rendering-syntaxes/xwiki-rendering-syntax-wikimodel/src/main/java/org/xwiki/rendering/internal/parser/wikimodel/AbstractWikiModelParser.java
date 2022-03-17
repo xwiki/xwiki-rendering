@@ -91,6 +91,12 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
     public XDOM parse(Reader source) throws ParseException
     {
         IdGenerator idGenerator = new IdGenerator();
+        return parse(source, idGenerator);
+    }
+
+    @Override
+    public XDOM parse(Reader source, IdGenerator idGenerator) throws ParseException
+    {
         XDOMGeneratorListener listener = new XDOMGeneratorListener();
         parse(source, listener, idGenerator);
 
@@ -116,14 +122,12 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
     }
 
     /**
-     * @param source the content to parse
-     * @param listener receive event for each element
-     * @param idGenerator unique id tool generator
-     * @throws ParseException if the source cannot be read or an unexpected error happens during the parsing. Parsers
-     *             should be written to not generate any error as much as possible.
+    * {@inheritDoc}
+     *
      * @since 2.1RC1
      */
-    protected void parse(Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
+    @Override
+    public void parse(Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
     {
         IWikiParser parser = createWikiModelParser();
         try {

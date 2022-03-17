@@ -760,7 +760,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
                     }
                 };
                 wrapper.setWrappedListener(getListener());
-                this.parser.parse(new StringReader(this.imageLabel), wrapper);
+                this.parser.parse(new StringReader(this.imageLabel), wrapper, this.idGenerator);
             } catch (ParseException e) {
                 // TODO what should we do here ?
             }
@@ -955,7 +955,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
             try {
                 // TODO: Use an inline parser. See https://jira.xwiki.org/browse/XWIKI-2748
                 WikiModelParserUtils parserUtils = new WikiModelParserUtils();
-                parserUtils.parseInline(this.parser, label, getListener(), prefix);
+                parserUtils.parseInline(this.parser, label, getListener(), this.idGenerator, prefix);
             } catch (ParseException e) {
                 // TODO what should we do here ?
             }
