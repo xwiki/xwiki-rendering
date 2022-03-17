@@ -203,6 +203,17 @@ public class XHTMLParser extends AbstractWikiModelParser
     }
 
     @Override
+    public XDOM parse(Reader source, IdGenerator idGenerator) throws ParseException
+    {
+        Reader pushBackReader = getPushBackReader(source);
+        if (pushBackReader != null) {
+            return super.parse(pushBackReader, idGenerator);
+        } else {
+            return new XDOM(Collections.emptyList());
+        }
+    }
+
+    @Override
     public void parse(Reader source, Listener listener) throws ParseException
     {
         Reader pushBackReader = getPushBackReader(source);
@@ -212,7 +223,7 @@ public class XHTMLParser extends AbstractWikiModelParser
     }
 
     @Override
-    protected void parse(Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
+    public void parse(Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
     {
         Reader pushBackReader = getPushBackReader(source);
         if (pushBackReader != null) {

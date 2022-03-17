@@ -1,0 +1,45 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Ensure that heading and image ids are not duplicated by the box macro.
+.#-----------------------------------------------------
+{{box}}
+= Heading =
+
+image:icon:accept
+{{/box}}
+
+= Heading =
+
+image:icon:accept
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [box] [] [= Heading =
+
+image:icon:accept]
+beginGroup [[class]=[box]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+beginSection
+beginHeader [1, HHeading-1]
+onWord [Heading]
+endHeader [1, HHeading-1]
+beginParagraph
+onImage [Typed = [false] Type = [url] Reference = [icon:accept]] [true] [Iicon:accept-1]
+endParagraph
+endSection
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+endGroup [[class]=[box]]
+endMacroMarkerStandalone [box] [] [= Heading =
+
+image:icon:accept]
+beginSection
+beginHeader [1, HHeading]
+onWord [Heading]
+endHeader [1, HHeading]
+beginParagraph
+onImage [Typed = [false] Type = [url] Reference = [icon:accept]] [true] [Iicon:accept]
+endParagraph
+endSection
+endDocument

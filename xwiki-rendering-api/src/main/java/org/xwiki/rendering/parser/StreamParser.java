@@ -24,6 +24,8 @@ import java.io.Reader;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.util.IdGenerator;
+import org.xwiki.stability.Unstable;
 
 /**
  * Streaming based parser. Instead of returning a resulting XDOM it send events during the parsing.
@@ -46,4 +48,19 @@ public interface StreamParser
      *             should be written to not generate any error as much as possible.
      */
     void parse(Reader source, Listener listener) throws ParseException;
+
+    /**
+     * @param source the content to parse
+     * @param listener the listener that receives an event for each element
+     * @param idGenerator the id generator to use for automatically generating ids during parsing
+     * @throws ParseException if the source cannot be read or an unexpected error happens during the parsing.
+     *     Parsers should be written to not generate any error as much as possible.
+     * @since 14.2RC1
+     */
+    @Unstable
+    default void parse(Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
+    {
+        parse(source, listener);
+    }
+
 }
