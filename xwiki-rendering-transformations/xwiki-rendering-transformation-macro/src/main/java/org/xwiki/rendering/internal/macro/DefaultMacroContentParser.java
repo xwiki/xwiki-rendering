@@ -110,7 +110,14 @@ public class DefaultMacroContentParser implements MacroContentParser
         MetaData metadata, boolean inline, Syntax syntax) throws MacroExecutionException
     {
         try {
-            XDOM result = getSyntaxParser(syntax).parse(new StringReader(content));
+            XDOM result;
+
+            if (macroContext.getXDOM() != null && macroContext.getXDOM().getIdGenerator() != null) {
+                result = getSyntaxParser(syntax).parse(new StringReader(content),
+                    macroContext.getXDOM().getIdGenerator());
+            } else {
+                result = getSyntaxParser(syntax).parse(new StringReader(content));
+            }
 
             // Inject metadata
             if (metadata != null) {

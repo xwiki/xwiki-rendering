@@ -26,6 +26,7 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.WrappingListener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.StreamParser;
+import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.rendering.util.ParserUtils;
 
 /**
@@ -38,10 +39,10 @@ public class WikiModelParserUtils extends ParserUtils
 {
     public void parseInline(StreamParser parser, String content, Listener listener) throws ParseException
     {
-        parseInline(parser, content, listener, false);
+        parseInline(parser, content, listener, null, false);
     }
-    
-    private class PrefixIgnoredInlineFilterListener extends InlineFilterListener 
+
+    private class PrefixIgnoredInlineFilterListener extends InlineFilterListener
     {
         private boolean foundWord;
 
@@ -69,22 +70,33 @@ public class WikiModelParserUtils extends ParserUtils
     }
 
     /**
-     * @since 6.0RC1
-     * @since 5.4.5
+     * @param parser the parser for parsing the content
+     * @param content the content to parse
+     * @param listener the listener to call on events
+     * @param idGenerator the id generator to automatically generate ids
+     * @param prefix if a prefix shall be added and ignored at the start of the content
+     * @since 14.2RC1
      */
-    public void parseInline(StreamParser parser, String content, Listener listener, boolean prefix)
-        throws ParseException
+    public void parseInline(StreamParser parser, String content, Listener listener, IdGenerator idGenerator,
+        boolean prefix) throws ParseException
     {
+        String contentToParse;
+        WrappingListener inlineFilterListener;
+
         if (prefix) {
-            WrappingListener inlineFilterListener = new PrefixIgnoredInlineFilterListener();
-            inlineFilterListener.setWrappedListener(listener);
-            
-            parser.parse(new StringReader("wikimarker " + content), inlineFilterListener);
+            inlineFilterListener = new PrefixIgnoredInlineFilterListener();
+            contentToParse = "wikimarker " + content;
         } else {
-            WrappingListener inlineFilterListener = new InlineFilterListener();
-            inlineFilterListener.setWrappedListener(listener);
-            
-            parser.parse(new StringReader(content), inlineFilterListener);
+            inlineFilterListener = new InlineFilterListener();
+            contentToParse = content;
+        }
+
+        inlineFilterListener.setWrappedListener(listener);
+
+        if (idGenerator != null) {
+            parser.parse(new StringReader(contentToParse), inlineFilterListener, idGenerator);
+        } else {
+            parser.parse(new StringReader(contentToParse), inlineFilterListener);
         }
     }
 }

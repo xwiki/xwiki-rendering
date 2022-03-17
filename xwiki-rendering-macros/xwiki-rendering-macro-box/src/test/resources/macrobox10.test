@@ -1,0 +1,31 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Ensure that heading ids are not duplicated by the box macro.
+.#-----------------------------------------------------
+{{box}}
+= Heading =
+{{/box}}
+
+= Heading =
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [box] [] [= Heading =]
+beginGroup [[class]=[box]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+beginSection
+beginHeader [1, HHeading-1]
+onWord [Heading]
+endHeader [1, HHeading-1]
+endSection
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+endGroup [[class]=[box]]
+endMacroMarkerStandalone [box] [] [= Heading =]
+beginSection
+beginHeader [1, HHeading]
+onWord [Heading]
+endHeader [1, HHeading]
+endSection
+endDocument
