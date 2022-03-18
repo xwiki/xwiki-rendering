@@ -114,7 +114,17 @@ public class ImageBlock extends AbstractBlock
     }
 
     /**
-     * @return the id of the image.
+     * @param id the id of the image to set
+     * @since 14.2RC1
+     */
+    @Unstable
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    /**
+     * @return the id of the image
      * @since 14.2RC1
      */
     @Unstable
