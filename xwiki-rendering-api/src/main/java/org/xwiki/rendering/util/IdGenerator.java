@@ -20,8 +20,8 @@
 package org.xwiki.rendering.util;
 
 import java.util.BitSet;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -38,6 +38,7 @@ public class IdGenerator
      * Id allowed characters {@link BitSet}.
      */
     private static final BitSet ALLOWED = new BitSet(256);
+
     static {
         // digits
         for (int i = '0'; i <= '9'; i++) {
@@ -74,19 +75,20 @@ public class IdGenerator
      */
     public IdGenerator()
     {
-        this.generatedIds = new HashSet<>();
+        this.generatedIds = ConcurrentHashMap.newKeySet();
     }
 
     /**
      * Clone an id generator.
-     * 
+     *
      * @param idGenerator the id generator to copy
      * @since 10.5RC1
      * @since 9.11.6
      */
     public IdGenerator(IdGenerator idGenerator)
     {
-        this.generatedIds = new HashSet<>(idGenerator.generatedIds);
+        this.generatedIds = ConcurrentHashMap.newKeySet();
+        this.generatedIds.addAll(idGenerator.generatedIds);
     }
 
     /**
@@ -109,6 +111,7 @@ public class IdGenerator
      * <code> When defining fragment identifiers to be backward-compatible, only strings matching the pattern
      * [A-Za-z][A-Za-z0-9:_.-]* should be used.</code>
      * </p>
+     * <p>This method is thread-safe since 14.2RC1 and 13.10.4.</p>
      *
      * @param prefix the prefix of the identifier. Has to match [a-zA-Z].
      * @param text the text used to generate the unique id
@@ -126,13 +129,12 @@ public class IdGenerator
 
         int occurence = 0;
         String id = idPrefix;
-        while (this.generatedIds.contains(id)) {
+        // Try saving the generated id so that the next call to this method will not generate the same id until the
+        // saving succeeds.
+        while (!this.generatedIds.add(id)) {
             occurence++;
             id = idPrefix + "-" + occurence;
         }
-
-        // Save the generated id so that the next call to this method will not generate the same id.
-        this.generatedIds.add(id);
 
         return id;
     }

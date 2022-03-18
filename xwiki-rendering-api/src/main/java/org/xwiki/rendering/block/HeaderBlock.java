@@ -26,6 +26,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.stability.Unstable;
 
 /**
  * @version $Id$
@@ -105,6 +106,16 @@ public class HeaderBlock extends AbstractBlock
     public String getId()
     {
         return this.id;
+    }
+
+    /**
+     * @param id the id of the header to set
+     * @since 14.2RC1
+     */
+    @Unstable
+    public void setId(String id)
+    {
+        this.id = id;
     }
 
     /**
