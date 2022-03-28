@@ -1,0 +1,50 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Verify that the toc uses manually specified ids.
+.#-----------------------------------------------------
+{{toc/}}
+
+(% id="somenewid" %)
+= h1 =
+
+== h2 ==
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [toc] []
+beginList [BULLETED]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [somenewid]]] [false]
+onWord [h1]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [somenewid]]] [false]
+beginList [BULLETED]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [Hh2]]] [false]
+onWord [h2]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [Hh2]]] [false]
+endListItem
+endList [BULLETED]
+endListItem
+endList [BULLETED]
+endMacroMarkerStandalone [toc] []
+beginSection
+beginHeader [1, Hh1] [[id]=[somenewid]]
+onWord [h1]
+endHeader [1, Hh1] [[id]=[somenewid]]
+beginSection
+beginHeader [2, Hh2]
+onWord [h2]
+endHeader [2, Hh2]
+endSection
+endSection
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<ul><li><span class="wikilink"><a href="#somenewid">h1</a></span><ul><li><span class="wikilink"><a href="#Hh2">h2</a></span></li></ul></li></ul><h1 id="somenewid"><span>h1</span></h1><h2 id="Hh2" class="wikigeneratedid"><span>h2</span></h2>
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<!--startmacro:toc|-|--><ul><li><!--startwikilink:#somenewid--><span class="wikilink"><a href="#somenewid">h1</a></span><!--stopwikilink--><ul><li><!--startwikilink:#Hh2--><span class="wikilink"><a href="#Hh2">h2</a></span><!--stopwikilink--></li></ul></li></ul><!--stopmacro--><h1 id="somenewid"><span>h1</span></h1><h2 id="Hh2" class="wikigeneratedid"><span>h2</span></h2>

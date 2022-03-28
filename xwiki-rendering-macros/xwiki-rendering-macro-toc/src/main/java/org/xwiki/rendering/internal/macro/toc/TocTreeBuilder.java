@@ -189,7 +189,12 @@ public class TocTreeBuilder
     {
         // Create the link to target the header anchor
         DocumentResourceReference reference = new DocumentResourceReference(documentReference);
-        reference.setAnchor(headerBlock.getId());
+        String idParameter = headerBlock.getParameter("id");
+        if (idParameter != null) {
+            reference.setAnchor(idParameter);
+        } else {
+            reference.setAnchor(headerBlock.getId());
+        }
         LinkBlock linkBlock = new LinkBlock(this.tocBlockFilter.generateLabel(headerBlock), reference, false);
 
         return new ListItemBlock(Collections.singletonList(linkBlock));
