@@ -86,7 +86,7 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
             if (anchor != null) {
                 reference.setParameter(DocumentResourceReference.ANCHOR, anchor);
             }
-        } else if (ResourceType.ATTACHMENT.equals(resourceType)) {
+        } else if (ResourceType.ATTACHMENT.equals(resourceType) || ResourceType.PAGE_ATTACHMENT.equals(resourceType)) {
             String queryString = parameters.remove(QUERY_STRING);
             if (queryString != null) {
                 reference.setParameter(AttachmentResourceReference.QUERY_STRING, queryString);
@@ -100,7 +100,8 @@ public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
     protected void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
         // Since 2.5M2, handle the special case when the image syntax used for an image has a query string specified.
-        if (ResourceType.ATTACHMENT.equals(reference.getType())) {
+        if (ResourceType.ATTACHMENT.equals(reference.getType())
+            || ResourceType.PAGE_ATTACHMENT.equals(reference.getType())) {
             String queryString = parameters.remove(QUERY_STRING);
             if (queryString != null) {
                 reference.setParameter(DocumentResourceReference.QUERY_STRING, queryString);
