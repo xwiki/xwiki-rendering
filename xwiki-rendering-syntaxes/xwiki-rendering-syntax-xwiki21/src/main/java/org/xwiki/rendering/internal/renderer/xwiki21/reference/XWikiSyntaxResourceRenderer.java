@@ -66,6 +66,11 @@ public class XWikiSyntaxResourceRenderer
             || ResourceType.PAGE.equals(resourceType);
     }
 
+    private boolean isAttachment(ResourceType resourceType)
+    {
+        return ResourceType.ATTACHMENT.equals(resourceType) || ResourceType.PAGE_ATTACHMENT.equals(resourceType);
+    }
+
     @Override
     protected void printParameters(XWikiSyntaxEscapeWikiPrinter printer, ResourceReference reference,
         Map<String, String> parameters)
@@ -97,7 +102,7 @@ public class XWikiSyntaxResourceRenderer
                 printer.print(this.PARAMETERS_PRINTER.print(ANCHOR, anchor, '~'));
                 shouldPrintSeparator = false;
             }
-        } else if (ResourceType.ATTACHMENT.equals(resourceType)) {
+        } else if (isAttachment(resourceType)) {
             String queryString = reference.getParameter(AttachmentResourceReference.QUERY_STRING);
             if (!StringUtils.isEmpty(queryString)) {
                 printer.print(PARAMETER_SEPARATOR);

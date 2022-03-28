@@ -82,9 +82,17 @@ public class ResourceType
     public static final ResourceType MAILTO = new ResourceType("mailto");
 
     /**
-     * Represents an attachment.
+     * Represents an attachment of a document.
      */
     public static final ResourceType ATTACHMENT = new ResourceType("attach");
+
+    /**
+     * Represents an attachment of a page.
+     * 
+     * @since 13.10.5
+     * @since 14.3RC1
+     */
+    public static final ResourceType PAGE_ATTACHMENT = new ResourceType("pageAttach");
 
     /**
      * Represents an icon.

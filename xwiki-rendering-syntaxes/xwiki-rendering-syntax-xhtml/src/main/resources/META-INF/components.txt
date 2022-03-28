@@ -10,12 +10,14 @@ org.xwiki.rendering.internal.renderer.xhtml.image.DefaultXHTMLImageTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.image.AttachmentXHTMLImageTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.image.IconXHTMLImageTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.image.DataURIXHTMLImageTypeRenderer
+org.xwiki.rendering.internal.renderer.xhtml.image.PageAttachmentXHTMLImageTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.AttachmentXHTMLLinkTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.DefaultXHTMLLinkRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.DefaultXHTMLLinkTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.DocumentXHTMLLinkTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.InterWikiXHTMLLinkTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.MailtoXHTMLLinkTypeRenderer
+org.xwiki.rendering.internal.renderer.xhtml.link.PageAttachmentXHTMLLinkTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.PathXHTMLLinkTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.SpaceXHTMLLinkTypeRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.UNCXHTMLLinkTypeRenderer

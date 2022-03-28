@@ -64,6 +64,7 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
         ResourceType.SPACE,
         ResourceType.PAGE,
         ResourceType.ATTACHMENT,
+        ResourceType.PAGE_ATTACHMENT,
         ResourceType.ICON
     );
     // @formatter:on
