@@ -292,7 +292,8 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                 ((MutableRenderingContext) this.renderingContext).setCurrentBlock(macroBlock);
 
                 // Populate and validate macro parameters.
-                Object macroParameters = macro.getDescriptor().getParametersBeanClass().newInstance();
+                Object macroParameters =
+                    macro.getDescriptor().getParametersBeanClass().getDeclaredConstructor().newInstance();
                 try {
                     this.beanManager.populate(macroParameters, macroBlock.getParameters());
                 } catch (Throwable e) {
