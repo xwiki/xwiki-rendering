@@ -50,7 +50,9 @@ public class ParserUtils
         // We only remove the paragraph if there's only one top level element and if it's a paragraph.
         if ((blocks.size() == 1) && blocks.get(0) instanceof ParagraphBlock) {
             Block paragraphBlock = blocks.remove(0);
-            blocks.addAll(0, paragraphBlock.getChildren());
+            if (paragraphBlock.getChildren() != null) {
+                blocks.addAll(0, paragraphBlock.getChildren());
+            }
 
             // Remove parent block
             for (Block block : blocks) {
@@ -106,13 +108,25 @@ public class ParserUtils
             // Clean top level paragraph
             removeTopLevelParagraph(blocks);
 
-            // Make sure included macro is inline when script macro itself is inline
-            Block block = blocks.get(0);
-            if (block instanceof MacroBlock) {
-                MacroBlock macro = (MacroBlock) block;
-                if (!macro.isInline()) {
-                    blocks.set(0, new MacroBlock(macro.getId(), macro.getParameters(), macro.getContent(), true));
-                }
+            // Synchronize macro
+            if (!blocks.isEmpty()) {
+                handleMacroInline(blocks);
+            }
+        }
+    }
+
+    /**
+     * Make sure included macro is inline when script macro itself is inline.
+     *
+     * @param blocks the blocks to align
+     */
+    private void handleMacroInline(List<Block> blocks)
+    {
+        Block block = blocks.get(0);
+        if (block instanceof MacroBlock) {
+            MacroBlock macro = (MacroBlock) block;
+            if (!macro.isInline()) {
+                blocks.set(0, new MacroBlock(macro.getId(), macro.getParameters(), macro.getContent(), true));
             }
         }
     }
