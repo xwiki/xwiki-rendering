@@ -50,9 +50,7 @@ public class ParserUtils
         // We only remove the paragraph if there's only one top level element and if it's a paragraph.
         if ((blocks.size() == 1) && blocks.get(0) instanceof ParagraphBlock) {
             Block paragraphBlock = blocks.remove(0);
-            if (paragraphBlock.getChildren() != null) {
-                blocks.addAll(0, paragraphBlock.getChildren());
-            }
+            blocks.addAll(0, paragraphBlock.getChildren());
 
             // Remove parent block
             for (Block block : blocks) {
