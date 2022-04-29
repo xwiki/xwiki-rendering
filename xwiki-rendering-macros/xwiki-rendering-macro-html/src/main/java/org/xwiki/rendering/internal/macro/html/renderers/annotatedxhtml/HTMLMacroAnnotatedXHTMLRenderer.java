@@ -30,6 +30,7 @@ import org.xwiki.rendering.internal.renderer.xhtml.AnnotatedXHTMLChainingRendere
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.xml.html.HTMLElementSanitizer;
 
 /**
  * Renderer that generates Annotated XHTML from a XDOM resulting from the parsing of text containing HTML mixed with
@@ -61,9 +62,13 @@ public class HTMLMacroAnnotatedXHTMLRenderer extends AbstractHTMLMacroRenderer
     @Named("annotated")
     private XHTMLImageRenderer imageRenderer;
 
+    @Inject
+    private HTMLElementSanitizer htmlElementSanitizer;
+
     @Override
     protected AbstractChainingPrintRenderer getSyntaxRenderer()
     {
-        return new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, getListenerChain());
+        return new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, this.htmlElementSanitizer,
+            getListenerChain());
     }
 }

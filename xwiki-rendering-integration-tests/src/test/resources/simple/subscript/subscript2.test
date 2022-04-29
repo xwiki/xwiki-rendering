@@ -2,7 +2,7 @@
 .input|xhtml/1.0
 .# Verify that SUB tag parameters are recognized.
 .#-----------------------------------------------------
-<html><p><sub a="b">something</sub></p></html>
+<html><p><sub data-xwiki-translated-attribute-a="b">something</sub></p></html>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -16,7 +16,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><sub><span a="b">something</span></sub></p>
+<p><sub><span data-xwiki-translated-attribute-a="b">something</span></sub></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------

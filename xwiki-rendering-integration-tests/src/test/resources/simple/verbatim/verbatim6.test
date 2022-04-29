@@ -12,7 +12,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<pre param="value">abc</pre>
+<pre data-xwiki-translated-attribute-param="value">abc</pre>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -21,4 +21,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<html><pre param="value">abc</pre></html>
+<html><pre data-xwiki-translated-attribute-param="value">abc</pre></html>

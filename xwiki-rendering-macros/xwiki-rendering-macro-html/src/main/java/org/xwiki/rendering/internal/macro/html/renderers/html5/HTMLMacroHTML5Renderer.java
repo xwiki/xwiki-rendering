@@ -30,6 +30,7 @@ import org.xwiki.rendering.internal.renderer.html5.HTML5ChainingRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.xml.html.HTMLElementSanitizer;
 
 /**
  * Renderer that generates HTML5 from a XDOM resulting from the parsing of text containing HTML mixed with
@@ -59,9 +60,13 @@ public class HTMLMacroHTML5Renderer extends AbstractHTMLMacroRenderer
     @Inject
     private XHTMLImageRenderer imageRenderer;
 
+    @Inject
+    private HTMLElementSanitizer htmlElementSanitizer;
+
     @Override
     protected AbstractChainingPrintRenderer getSyntaxRenderer()
     {
-        return new HTML5ChainingRenderer(this.linkRenderer, this.imageRenderer, getListenerChain());
+        return new HTML5ChainingRenderer(this.linkRenderer, this.imageRenderer, this.htmlElementSanitizer,
+            getListenerChain());
     }
 }

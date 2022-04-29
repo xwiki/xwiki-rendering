@@ -34,6 +34,7 @@ import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.xml.html.HTMLElementSanitizer;
 
 /**
  * Generates XHTML from a {@link org.xwiki.rendering.block.XDOM} object being traversed.
@@ -62,6 +63,9 @@ public class XHTMLRenderer extends AbstractChainingPrintRenderer implements Init
     @Inject
     private XHTMLImageRenderer imageRenderer;
 
+    @Inject
+    private HTMLElementSanitizer htmlElementSanitizer;
+
     @Override
     public void initialize() throws InitializationException
     {
@@ -74,6 +78,7 @@ public class XHTMLRenderer extends AbstractChainingPrintRenderer implements Init
         chain.addListener(new BlockStateChainingListener(chain));
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
-        chain.addListener(new XHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain));
+        chain.addListener(new XHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, this.htmlElementSanitizer,
+            chain));
     }
 }

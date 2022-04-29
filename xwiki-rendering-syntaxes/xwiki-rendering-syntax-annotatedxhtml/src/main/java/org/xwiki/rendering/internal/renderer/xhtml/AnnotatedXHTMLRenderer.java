@@ -34,6 +34,7 @@ import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.MetaDataStateChainingListener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.xml.html.HTMLElementSanitizer;
 
 /**
  * Generates Annotated XHTML (ie XHTML containing metadata information, for example macro definition or
@@ -67,6 +68,9 @@ public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implem
     @Named("annotated")
     private XHTMLImageRenderer imageRenderer;
 
+    @Inject
+    private HTMLElementSanitizer htmlElementSanitizer;
+
     @Override
     public void initialize() throws InitializationException
     {
@@ -79,6 +83,7 @@ public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implem
         chain.addListener(new BlockStateChainingListener(chain));
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
-        chain.addListener(new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain));
+        chain.addListener(new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer,
+            this.htmlElementSanitizer, chain));
     }
 }

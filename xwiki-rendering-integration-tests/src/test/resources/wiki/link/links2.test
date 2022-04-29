@@ -21,11 +21,11 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><span class="wikilink"><a param2="value2" href="viewurl?param1=value1#anchor"><span class="wikigeneratedlinkcontent">Space.ExistingPage</span></a></span></p>
+<p><span class="wikilink"><a data-xwiki-translated-attribute-param2="value2" href="viewurl?param1=value1#anchor"><span class="wikigeneratedlinkcontent">Space.ExistingPage</span></a></span></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:false|-|doc|-|Space.ExistingPage|-|queryString="param1=value1" anchor="anchor"--><span class="wikilink"><a param2="value2" href="viewurl?param1=value1#anchor"><span class="wikigeneratedlinkcontent">Space.ExistingPage</span></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:false|-|doc|-|Space.ExistingPage|-|queryString="param1=value1" anchor="anchor"--><span class="wikilink"><a data-xwiki-translated-attribute-param2="value2" href="viewurl?param1=value1#anchor"><span class="wikigeneratedlinkcontent">Space.ExistingPage</span></a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -37,4 +37,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:false|-|doc|-|Space.ExistingPage|-|queryString="param1=value1" anchor="anchor"--><span class="wikilink"><a param2="value2" href="viewurl?param1=value1#anchor"><span class="wikigeneratedlinkcontent">Space.ExistingPage</span></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:false|-|doc|-|Space.ExistingPage|-|queryString="param1=value1" anchor="anchor"--><span class="wikilink"><a data-xwiki-translated-attribute-param2="value2" href="viewurl?param1=value1#anchor"><span class="wikigeneratedlinkcontent">Space.ExistingPage</span></a></span><!--stopwikilink--></p>

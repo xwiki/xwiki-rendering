@@ -29,7 +29,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<div param="value"><p>some text</p></div><div param="value"><p>some text</p></div>
+<div data-xwiki-translated-attribute-param="value"><p>some text</p></div><div data-xwiki-translated-attribute-param="value"><p>some text</p></div>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -45,4 +45,4 @@ some text
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<div param="value"><p>some text</p></div><div param="value"><p>some text</p></div>
+<div data-xwiki-translated-attribute-param="value"><p>some text</p></div><div data-xwiki-translated-attribute-param="value"><p>some text</p></div>

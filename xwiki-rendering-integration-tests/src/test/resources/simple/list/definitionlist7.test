@@ -21,7 +21,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<dl param="value"><dt>title</dt><dd>definition</dd></dl>
+<dl data-xwiki-translated-attribute-param="value"><dt>title</dt><dd>definition</dd></dl>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -31,7 +31,7 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<dl param="value"><dt>title</dt><dd>definition</dd></dl>
+<dl data-xwiki-translated-attribute-param="value"><dt>title</dt><dd>definition</dd></dl>
 .#-----------------------------------------------------
 .expect|plain/1.0
 .#-----------------------------------------------------

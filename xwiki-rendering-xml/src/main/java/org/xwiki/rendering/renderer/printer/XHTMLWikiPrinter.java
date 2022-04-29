@@ -19,10 +19,15 @@
  */
 package org.xwiki.rendering.renderer.printer;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
+import org.xml.sax.helpers.AttributesImpl;
+import org.xwiki.stability.Unstable;
+import org.xwiki.xml.html.HTMLElementSanitizer;
 
 /**
  * Base toolkit class for all XHTML-based renderers. This printer handles whitespaces so that it prints "&nbsp;" when
@@ -34,6 +39,21 @@ import org.xml.sax.Attributes;
  */
 public class XHTMLWikiPrinter extends XMLWikiPrinter
 {
+    /**
+     * Prefix that is used for invalid/disallowed attributes.
+     *
+     * @since 14.6RC1
+     */
+    @Unstable
+    public static final String TRANSLATED_ATTRIBUTE_PREFIX = "data-xwiki-translated-attribute-";
+
+    /**
+     * The sanitizer used to restrict allowed elements and attributes, can be null (no restrictions).
+     *
+     * @since 14.6RC1
+     */
+    protected final HTMLElementSanitizer htmlElementSanitizer;
+
     private int spaceCount;
 
     private boolean isInCData;
@@ -51,14 +71,24 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
      */
     public XHTMLWikiPrinter(WikiPrinter printer)
     {
-        super(printer);
+        this(printer, null);
     }
 
     /**
-     * Use it to specify that the current element to print is standalone.
-     * This value might be used to know if the first space should be printed with a simple space or a {@code &nbsp;}
-     * entity. Note that the standalone value is automatically reset after first printing of a space, or when a text
-     * is printed.
+     * @param printer the object to which to write the XHTML output to
+     * @param htmlElementSanitizer the sanitizer to use for sanitizing elements and attributes
+     */
+    public XHTMLWikiPrinter(WikiPrinter printer, HTMLElementSanitizer htmlElementSanitizer)
+    {
+        super(printer);
+        this.htmlElementSanitizer = htmlElementSanitizer;
+    }
+
+    /**
+     * Use it to specify that the current element to print is standalone. This value might be used to know if the first
+     * space should be printed with a simple space or a {@code &nbsp;} entity. Note that the standalone value is
+     * automatically reset after first printing of a space, or when a text is printed.
+     *
      * @since 12.2
      */
     public void setStandalone()
@@ -78,58 +108,74 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
     @Override
     public void printXMLElement(String name)
     {
-        handleSpaceWhenStartElement();
-        super.printXMLElement(name);
+        if (this.htmlElementSanitizer == null || this.htmlElementSanitizer.isElementAllowed(name)) {
+            handleSpaceWhenStartElement();
+            super.printXMLElement(name);
+        }
     }
 
     @Override
     public void printXMLElement(String name, String[][] attributes)
     {
-        handleSpaceWhenStartElement();
-        super.printXMLElement(name, attributes);
+        if (this.htmlElementSanitizer == null || this.htmlElementSanitizer.isElementAllowed(name)) {
+            handleSpaceWhenStartElement();
+            super.printXMLElement(name, cleanAttributes(name, attributes));
+        }
     }
 
     @Override
     public void printXMLElement(String name, Map<String, String> attributes)
     {
-        handleSpaceWhenStartElement();
-        super.printXMLElement(name, attributes);
+        if (this.htmlElementSanitizer == null || this.htmlElementSanitizer.isElementAllowed(name)) {
+            handleSpaceWhenStartElement();
+            super.printXMLElement(name, cleanAttributes(name, attributes));
+        }
     }
 
     @Override
     public void printXMLStartElement(String name)
     {
-        handleSpaceWhenStartElement();
-        super.printXMLStartElement(name);
+        if (this.htmlElementSanitizer == null || this.htmlElementSanitizer.isElementAllowed(name)) {
+            handleSpaceWhenStartElement();
+            super.printXMLStartElement(name);
+        }
     }
 
     @Override
     public void printXMLStartElement(String name, String[][] attributes)
     {
-        handleSpaceWhenStartElement();
-        super.printXMLStartElement(name, attributes);
+        if (this.htmlElementSanitizer == null || this.htmlElementSanitizer.isElementAllowed(name)) {
+            handleSpaceWhenStartElement();
+            super.printXMLStartElement(name, cleanAttributes(name, attributes));
+        }
     }
 
     @Override
     public void printXMLStartElement(String name, Map<String, String> attributes)
     {
-        handleSpaceWhenStartElement();
-        super.printXMLStartElement(name, attributes);
+        if (this.htmlElementSanitizer == null || this.htmlElementSanitizer.isElementAllowed(name)) {
+            handleSpaceWhenStartElement();
+            super.printXMLStartElement(name, cleanAttributes(name, attributes));
+        }
     }
 
     @Override
     public void printXMLStartElement(String name, Attributes attributes)
     {
-        handleSpaceWhenStartElement();
-        super.printXMLStartElement(name, attributes);
+        if (this.htmlElementSanitizer == null || this.htmlElementSanitizer.isElementAllowed(name)) {
+            handleSpaceWhenStartElement();
+            super.printXMLStartElement(name, cleanAttributes(name, attributes));
+        }
     }
 
     @Override
     public void printXMLEndElement(String name)
     {
-        handleSpaceWhenEndlement();
-        super.printXMLEndElement(name);
-        this.elementEnded = true;
+        if (this.htmlElementSanitizer == null || this.htmlElementSanitizer.isElementAllowed(name)) {
+            handleSpaceWhenEndlement();
+            super.printXMLEndElement(name);
+            this.elementEnded = true;
+        }
     }
 
     @Override
@@ -183,6 +229,71 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         } else {
             handleSpaceWhenEndlement();
         }
+    }
+
+    private Map<String, String> cleanAttributes(String elementName, Map<String, String> attributes)
+    {
+        Map<String, String> cleanAttributes;
+
+        if (this.htmlElementSanitizer == null || attributes == null) {
+            cleanAttributes = attributes;
+        } else {
+            cleanAttributes = new LinkedHashMap<>();
+            for (Map.Entry<String, String> e : attributes.entrySet()) {
+                if (this.htmlElementSanitizer.isAttributeAllowed(elementName, e.getKey(), e.getValue())) {
+                    cleanAttributes.put(e.getKey(), e.getValue());
+                } else {
+                    cleanAttributes.put(TRANSLATED_ATTRIBUTE_PREFIX + e.getKey(), e.getValue());
+                }
+            }
+        }
+
+        return cleanAttributes;
+    }
+
+    private String[][] cleanAttributes(String elementName, String[][] attributes)
+    {
+        String[][] allowedAttributes;
+        if (this.htmlElementSanitizer == null || attributes == null) {
+            allowedAttributes = attributes;
+        } else {
+            allowedAttributes = Arrays.stream(attributes)
+                .map(entry -> {
+                    if (this.htmlElementSanitizer.isAttributeAllowed(elementName, entry[0], entry[1])) {
+                        return entry;
+                    } else {
+                        return new String[] { TRANSLATED_ATTRIBUTE_PREFIX + entry[0], entry[1] };
+                    }
+                })
+                .toArray(String[][]::new);
+        }
+
+        return allowedAttributes;
+    }
+
+    private Attributes cleanAttributes(String elementName, Attributes attributes)
+    {
+        Attributes allowedAttribute;
+
+        if (this.htmlElementSanitizer == null || attributes == null) {
+            allowedAttribute = attributes;
+        } else {
+            allowedAttribute = new AttributesImpl();
+
+            for (int i = 0; i < attributes.getLength(); ++i) {
+                if (this.htmlElementSanitizer.isAttributeAllowed(elementName, attributes.getQName(i),
+                    attributes.getValue(i)))
+                {
+                    ((AttributesImpl) allowedAttribute).addAttribute(null, null, attributes.getQName(i),
+                        null, attributes.getValue(i));
+                } else {
+                    ((AttributesImpl) allowedAttribute).addAttribute(null, null,
+                        TRANSLATED_ATTRIBUTE_PREFIX + attributes.getQName(i), null, attributes.getValue(i));
+                }
+            }
+        }
+
+        return allowedAttribute;
     }
 
     private void handleSpaceWhenStartElement()

@@ -16,7 +16,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p param="value"><span param2="value2"><tt class="wikimodel-verbatim">abc</tt></span></p>
+<p data-xwiki-translated-attribute-param="value"><span data-xwiki-translated-attribute-param2="value2"><tt class="wikimodel-verbatim">abc</tt></span></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -25,4 +25,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p param="value"><span param2="value2"><tt class="wikimodel-verbatim">abc</tt></span></p>
+<p data-xwiki-translated-attribute-param="value"><span data-xwiki-translated-attribute-param2="value2"><tt class="wikimodel-verbatim">abc</tt></span></p>
