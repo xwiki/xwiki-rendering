@@ -2,7 +2,7 @@
 .input|xhtml/1.0
 .# Verify that STRONG tag parameters are recognized.
 .#-----------------------------------------------------
-<p><strong a="b" data-xwiki-parameter="value">something</strong></p>
+<p><strong data-xwiki-translated-attribute-a="b" data-xwiki-parameter="value">something</strong></p>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -16,4 +16,4 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><strong><span a="b" data-xwiki-parameter="value">something</span></strong></p>
+<p><strong><span data-xwiki-translated-attribute-a="b" data-xwiki-parameter="value">something</span></strong></p>

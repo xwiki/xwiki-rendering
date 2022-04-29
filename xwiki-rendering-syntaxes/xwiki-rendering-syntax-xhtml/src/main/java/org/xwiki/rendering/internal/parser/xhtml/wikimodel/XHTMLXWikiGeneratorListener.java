@@ -19,10 +19,12 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
@@ -32,6 +34,7 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
+import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.rendering.wikimodel.WikiFormat;
@@ -204,7 +207,7 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
         for (WikiParameter parameter : parameters) {
             boolean acceptParameter = !(parameter.getKey().startsWith(METADATA_ATTRIBUTE_PREFIX)
                 || (
-                    parameter.getKey().equals(CLASS_ATTRIBUTE) && parameter.getValue().equals(METADATA_CONTAINER_CLASS)
+                parameter.getKey().equals(CLASS_ATTRIBUTE) && parameter.getValue().equals(METADATA_CONTAINER_CLASS)
             ));
             if (acceptParameter) {
                 wikiParameters = wikiParameters.addParameter(parameter.getKey(), parameter.getValue());
@@ -287,5 +290,48 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
         } else {
             super.endFormat(format);
         }
+    }
+
+    @Override
+    protected Map<String, String> convertParameters(WikiParameters params)
+    {
+        return maybeRemoveAttributePrefix(super.convertParameters(params));
+    }
+
+    @Override
+    protected Pair<Map<String, String>, Map<String, String>> convertAndSeparateParameters(WikiParameters params)
+    {
+        Pair<Map<String, String>, Map<String, String>> result = super.convertAndSeparateParameters(params);
+        Map<String, String> genericParameters = result.getRight();
+
+        if (!genericParameters.isEmpty()) {
+            genericParameters = maybeRemoveAttributePrefix(genericParameters);
+        }
+
+        return new ImmutablePair<>(result.getLeft(), genericParameters);
+    }
+
+    private Map<String, String> maybeRemoveAttributePrefix(Map<String, String> attributes)
+    {
+        Map<String, String> result;
+
+        if (!attributes.isEmpty()) {
+            result = new LinkedHashMap<>();
+
+            for (Map.Entry<String, String> entry : attributes.entrySet()) {
+                String newKey;
+                if (entry.getKey().startsWith(XHTMLWikiPrinter.TRANSLATED_ATTRIBUTE_PREFIX)) {
+                    newKey = entry.getKey().substring(XHTMLWikiPrinter.TRANSLATED_ATTRIBUTE_PREFIX.length());
+                } else {
+                    newKey = entry.getKey();
+                }
+
+                result.put(newKey, entry.getValue());
+            }
+        } else {
+            result = attributes;
+        }
+
+        return result;
     }
 }

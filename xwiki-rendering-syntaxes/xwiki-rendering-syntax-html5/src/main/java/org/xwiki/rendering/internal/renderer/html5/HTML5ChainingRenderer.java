@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.renderer.html5;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer;
@@ -27,6 +28,7 @@ import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
+import org.xwiki.xml.html.HTMLElementSanitizer;
 
 /**
  * Convert listener events to HTML5.
@@ -53,13 +55,14 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
      * @param imageRenderer the object to render image events into XHTML. This is done so that it's pluggable because
      * image rendering depends on how the underlying system wants to handle it. For example for XWiki we check if the
      * image exists as a document attachments, we get its URL, etc.
+     * @param htmlElementSanitizer the sanitizer to use for sanitizing HTML elements and attributes
      * @param listenerChain the chain of listener filters used to compute various states
      */
     public HTML5ChainingRenderer(XHTMLLinkRenderer linkRenderer,
-            XHTMLImageRenderer imageRenderer,
+            XHTMLImageRenderer imageRenderer, HTMLElementSanitizer htmlElementSanitizer,
             ListenerChain listenerChain)
     {
-        super(linkRenderer, imageRenderer, listenerChain);
+        super(linkRenderer, imageRenderer, htmlElementSanitizer, listenerChain);
     }
 
     @Override
@@ -67,8 +70,7 @@ public class HTML5ChainingRenderer extends XHTMLChainingRenderer
     {
         // Right now, the only difference with the super class is about the "monospace" format
         if (format == Format.MONOSPACE) {
-            Map<String, String> attributes = new HashMap<>();
-            attributes.putAll(parameters);
+            Map<String, String> attributes = new LinkedHashMap<>(parameters);
             String cssClass = "monospace";
             // The element may already have a class
             if (attributes.containsKey(PROP_CLASS)) {

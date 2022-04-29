@@ -29,6 +29,7 @@ import org.xwiki.rendering.internal.renderer.xhtml.XHTMLChainingRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.xml.html.HTMLElementSanitizer;
 
 /**
  * Renderer that generates XHTML from a XDOM resulting from the parsing of text containing HTML mixed with wiki syntax.
@@ -57,9 +58,13 @@ public class HTMLMacroXHTMLRenderer extends AbstractHTMLMacroRenderer
     @Inject
     private XHTMLImageRenderer imageRenderer;
 
+    @Inject
+    private HTMLElementSanitizer htmlElementSanitizer;
+
     @Override
     protected AbstractChainingPrintRenderer getSyntaxRenderer()
     {
-        return new XHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, getListenerChain());
+        return new XHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, this.htmlElementSanitizer,
+            getListenerChain());
     }
 }

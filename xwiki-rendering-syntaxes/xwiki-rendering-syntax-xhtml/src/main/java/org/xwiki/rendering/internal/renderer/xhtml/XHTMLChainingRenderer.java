@@ -41,6 +41,7 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.xml.html.HTMLConstants;
+import org.xwiki.xml.html.HTMLElementSanitizer;
 
 /**
  * Convert listener events to XHTML.
@@ -65,24 +66,28 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
 
     private XHTMLImageRenderer imageRenderer;
 
+    private final HTMLElementSanitizer htmlElementSanitizer;
+
     private XHTMLWikiPrinter xhtmlWikiPrinter;
 
     /**
-     * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because link
-     *            rendering depends on how the underlying system wants to handle it. For example for XWiki we check if
-     *            the document exists, we get the document URL, etc.
-     * @param imageRenderer the object to render image events into XHTML. This is done so that it's pluggable because
-     *            image rendering depends on how the underlying system wants to handle it. For example for XWiki we
-     *            check if the image exists as a document attachments, we get its URL, etc.
+     * @param linkRenderer the object to render link events into XHTML. This is done so that it's pluggable because
+     *     link rendering depends on how the underlying system wants to handle it. For example for XWiki we check if the
+     *     document exists, we get the document URL, etc.
+     * @param imageRenderer the object to render image events into XHTML. This is done so that it's pluggable
+     *     because image rendering depends on how the underlying system wants to handle it. For example for XWiki we
+     *     check if the image exists as a document attachments, we get its URL, etc.
+     * @param htmlElementSanitizer the sanitizer for XHTML elements
      * @param listenerChain the chain of listener filters used to compute various states
      */
     public XHTMLChainingRenderer(XHTMLLinkRenderer linkRenderer, XHTMLImageRenderer imageRenderer,
-        ListenerChain listenerChain)
+        HTMLElementSanitizer htmlElementSanitizer, ListenerChain listenerChain)
     {
         setListenerChain(listenerChain);
 
         this.linkRenderer = linkRenderer;
         this.imageRenderer = imageRenderer;
+        this.htmlElementSanitizer = htmlElementSanitizer;
     }
 
     // State
@@ -121,9 +126,14 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     protected XHTMLWikiPrinter getXHTMLWikiPrinter()
     {
         if (this.xhtmlWikiPrinter == null) {
-            this.xhtmlWikiPrinter = new XHTMLWikiPrinter(getPrinter());
+            this.xhtmlWikiPrinter = new XHTMLWikiPrinter(getPrinter(), getHtmlElementSanitizer());
         }
         return this.xhtmlWikiPrinter;
+    }
+
+    protected HTMLElementSanitizer getHtmlElementSanitizer()
+    {
+        return this.htmlElementSanitizer;
     }
 
     // Events

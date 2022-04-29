@@ -44,12 +44,12 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<span param="value">formatmacro2</span><p><span a="b"><span param="value">formatmacro3</span> text</span></p><p><span a="b">text</span><span param="value">formatmacro4</span></p>
+<span data-xwiki-translated-attribute-param="value">formatmacro2</span><p><span data-xwiki-translated-attribute-a="b"><span data-xwiki-translated-attribute-param="value">formatmacro3</span> text</span></p><p><span data-xwiki-translated-attribute-a="b">text</span><span data-xwiki-translated-attribute-param="value">formatmacro4</span></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<!--startmacro:testformatmacro|-|--><span param="value">formatmacro2</span><!--stopmacro--><p><span a="b"><!--startmacro:testformatmacro|-|--><span param="value">formatmacro3</span><!--stopmacro--> text</span></p><p><span a="b">text</span><!--startmacro:testformatmacro|-|--><span param="value">formatmacro4</span><!--stopmacro--></p>
+<!--startmacro:testformatmacro|-|--><span data-xwiki-translated-attribute-param="value">formatmacro2</span><!--stopmacro--><p><span data-xwiki-translated-attribute-a="b"><!--startmacro:testformatmacro|-|--><span data-xwiki-translated-attribute-param="value">formatmacro3</span><!--stopmacro--> text</span></p><p><span data-xwiki-translated-attribute-a="b">text</span><!--startmacro:testformatmacro|-|--><span data-xwiki-translated-attribute-param="value">formatmacro4</span><!--stopmacro--></p>
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<!--startmacro:testformatmacro|-|--><span param="value">formatmacro2</span><!--stopmacro--><p><span a="b"><!--startmacro:testformatmacro|-|--><span param="value">formatmacro3</span><!--stopmacro--> text</span></p><p><span a="b">text</span><!--startmacro:testformatmacro|-|--><span param="value">formatmacro4</span><!--stopmacro--></p>
+<!--startmacro:testformatmacro|-|--><span data-xwiki-translated-attribute-param="value">formatmacro2</span><!--stopmacro--><p><span data-xwiki-translated-attribute-a="b"><!--startmacro:testformatmacro|-|--><span data-xwiki-translated-attribute-param="value">formatmacro3</span><!--stopmacro--> text</span></p><p><span data-xwiki-translated-attribute-a="b">text</span><!--startmacro:testformatmacro|-|--><span data-xwiki-translated-attribute-param="value">formatmacro4</span><!--stopmacro--></p>

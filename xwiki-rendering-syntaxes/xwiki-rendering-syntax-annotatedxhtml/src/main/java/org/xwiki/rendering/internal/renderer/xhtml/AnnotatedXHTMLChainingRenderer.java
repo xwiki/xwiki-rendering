@@ -25,6 +25,7 @@ import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
+import org.xwiki.xml.html.HTMLElementSanitizer;
 
 /**
  * Convert listener events to annotated XHTML. See {@link AnnotatedXHTMLChainingRenderer} for more details on
@@ -52,12 +53,13 @@ public class AnnotatedXHTMLChainingRenderer extends XHTMLChainingRenderer
      * @param imageRenderer the object to render image events into XHTML. This is done so that it's pluggable because
      *            image rendering depends on how the underlying system wants to handle it. For example for XWiki we
      *            check if the image exists as a document attachments, we get its URL, etc.
+     * @param htmlElementSanitizer the sanitizer to use for sanitizing HTML elements and attributes
      * @param listenerChain the chain of listener filters used to compute various states
      */
     public AnnotatedXHTMLChainingRenderer(XHTMLLinkRenderer linkRenderer,
-        XHTMLImageRenderer imageRenderer, ListenerChain listenerChain)
+        XHTMLImageRenderer imageRenderer, HTMLElementSanitizer htmlElementSanitizer, ListenerChain listenerChain)
     {
-        super(linkRenderer, imageRenderer, listenerChain);
+        super(linkRenderer, imageRenderer, htmlElementSanitizer, listenerChain);
 
         this.macroRenderer = new XHTMLMacroRenderer();
 

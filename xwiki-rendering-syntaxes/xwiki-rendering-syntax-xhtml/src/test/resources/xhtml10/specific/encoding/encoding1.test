@@ -3,7 +3,7 @@
 .# Verify that HTML entities can be parsed by the XHTML parser and are encoded properly
 .# Note that &nbsp; is transformed into a space.
 .#-------------------------------------------------------------------------------------
-<p>&nbsp;&tilde;&euro;</p><p param1="val&#252;e">&#160;&#732;&#8364;</p>
+<p>&nbsp;&tilde;&euro;</p><p data-xwiki-translated-attribute-param1="val&#252;e">&#160;&#732;&#8364;</p>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -20,4 +20,4 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p>&nbsp;˜€</p><p param1="valüe">&nbsp;˜€</p>
+<p>&nbsp;˜€</p><p data-xwiki-translated-attribute-param1="valüe">&nbsp;˜€</p>

@@ -1,1 +1,1 @@
-<p><span a="b" class="monospace">monospace</span></p>
+<p><span data-xwiki-translated-attribute-a="b" class="monospace">monospace</span></p>

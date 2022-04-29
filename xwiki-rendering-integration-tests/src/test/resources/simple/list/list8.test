@@ -16,7 +16,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<ul param1="value1" param2="value2"><li>item</li></ul>
+<ul data-xwiki-translated-attribute-param1="value1" data-xwiki-translated-attribute-param2="value2"><li>item</li></ul>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -25,4 +25,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<html><ul param1="value1" param2="value2"><li>item</li></ul></html>
+<html><ul data-xwiki-translated-attribute-param1="value1" data-xwiki-translated-attribute-param2="value2"><li>item</li></ul></html>

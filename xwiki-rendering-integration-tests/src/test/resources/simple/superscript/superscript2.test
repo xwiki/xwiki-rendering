@@ -2,7 +2,7 @@
 .input|xhtml/1.0
 .# Verify that SUP tag parameters are recognized.
 .#-----------------------------------------------------
-<html><p><sup a="b">something</sup></p></html>
+<html><p><sup data-xwiki-translated-attribute-a="b">something</sup></p></html>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -16,7 +16,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><sup><span a="b">something</span></sup></p>
+<p><sup><span data-xwiki-translated-attribute-a="b">something</span></sup></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------

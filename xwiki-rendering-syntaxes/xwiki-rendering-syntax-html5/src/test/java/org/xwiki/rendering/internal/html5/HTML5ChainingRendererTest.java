@@ -24,9 +24,9 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.rendering.internal.renderer.html5.HTML5ChainingRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
-import org.xwiki.rendering.internal.renderer.html5.HTML5ChainingRenderer;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
@@ -58,7 +58,7 @@ public class HTML5ChainingRendererTest
         linkRenderer = mock(XHTMLLinkRenderer.class);
         imageRenderer = mock(XHTMLImageRenderer.class);
         listenerChain = new ListenerChain();
-        chainingRenderer = new HTML5ChainingRenderer(linkRenderer, imageRenderer, listenerChain);
+        chainingRenderer = new HTML5ChainingRenderer(linkRenderer, imageRenderer, null, listenerChain);
         printer = new DefaultWikiPrinter();
         chainingRenderer.setPrinter(printer);
     }

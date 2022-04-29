@@ -16,11 +16,11 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><img src="imageurl" param1="value1" param2="value2" id="Imy.png" class="wikigeneratedid" alt="my.png"/><br/><img src="imageurl" id="ISpace.ExistingPage40my.png" class="wikigeneratedid" alt="Space.ExistingPage@my.png"/></p>
+<p><img src="imageurl" data-xwiki-translated-attribute-param1="value1" data-xwiki-translated-attribute-param2="value2" id="Imy.png" class="wikigeneratedid" alt="my.png"/><br/><img src="imageurl" id="ISpace.ExistingPage40my.png" class="wikigeneratedid" alt="Space.ExistingPage@my.png"/></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:false|-|attach|-|my.png--><img src="imageurl" param1="value1" param2="value2" id="Imy.png" class="wikigeneratedid" alt="my.png"/><!--stopimage--><br/><!--startimage:false|-|attach|-|Space.ExistingPage@my.png--><img src="imageurl" id="ISpace.ExistingPage40my.png" class="wikigeneratedid" alt="Space.ExistingPage@my.png"/><!--stopimage--></p>
+<p><!--startimage:false|-|attach|-|my.png--><img src="imageurl" data-xwiki-translated-attribute-param1="value1" data-xwiki-translated-attribute-param2="value2" id="Imy.png" class="wikigeneratedid" alt="my.png"/><!--stopimage--><br/><!--startimage:false|-|attach|-|Space.ExistingPage@my.png--><img src="imageurl" id="ISpace.ExistingPage40my.png" class="wikigeneratedid" alt="Space.ExistingPage@my.png"/><!--stopimage--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -29,4 +29,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startimage:false|-|attach|-|my.png--><img src="imageurl" param1="value1" param2="value2" id="Imy.png" class="wikigeneratedid" alt="my.png"/><!--stopimage--><br/><!--startimage:false|-|attach|-|Space.ExistingPage@my.png--><img src="imageurl" id="ISpace.ExistingPage40my.png" class="wikigeneratedid" alt="Space.ExistingPage@my.png"/><!--stopimage--></p>
+<p><!--startimage:false|-|attach|-|my.png--><img src="imageurl" data-xwiki-translated-attribute-param1="value1" data-xwiki-translated-attribute-param2="value2" id="Imy.png" class="wikigeneratedid" alt="my.png"/><!--stopimage--><br/><!--startimage:false|-|attach|-|Space.ExistingPage@my.png--><img src="imageurl" id="ISpace.ExistingPage40my.png" class="wikigeneratedid" alt="Space.ExistingPage@my.png"/><!--stopimage--></p>

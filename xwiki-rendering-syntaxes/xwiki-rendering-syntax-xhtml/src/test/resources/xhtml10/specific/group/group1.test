@@ -2,7 +2,7 @@
 .input|xhtml/1.0
 .# Verify that div tag parameters, also starting with data-xwiki-, are recognized.
 .#-----------------------------------------------------
-<div a="b" data-xwiki-parameter="value">something</div>
+<div data-xwiki-translated-attribute-a="b" data-xwiki-parameter="value">something</div>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -16,4 +16,4 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<div a="b" data-xwiki-parameter="value"><p>something</p></div>
+<div data-xwiki-translated-attribute-a="b" data-xwiki-parameter="value"><p>something</p></div>

@@ -44,7 +44,7 @@ class XHTMLChainingRendererTest
     @Test
     void outputFigureCaptionEvents()
     {
-        XHTMLChainingRenderer renderer = new XHTMLChainingRenderer(null, null, new ListenerChain());
+        XHTMLChainingRenderer renderer = new XHTMLChainingRenderer(null, null, null, new ListenerChain());
         WikiPrinter wikiPrinter = new DefaultWikiPrinter();
         renderer.setPrinter(wikiPrinter);
         renderer.beginFigureCaption(Collections.emptyMap());
@@ -57,7 +57,7 @@ class XHTMLChainingRendererTest
     @Test
     void onRawText()
     {
-        XHTMLChainingRenderer renderer = new XHTMLChainingRenderer(null, null, new ListenerChain());
+        XHTMLChainingRenderer renderer = new XHTMLChainingRenderer(null, null, null, new ListenerChain());
         WikiPrinter wikiPrinter = new DefaultWikiPrinter();
         renderer.setPrinter(wikiPrinter);
         renderer.onRawText("xhtml/1.0", Syntax.XHTML_1_0);
