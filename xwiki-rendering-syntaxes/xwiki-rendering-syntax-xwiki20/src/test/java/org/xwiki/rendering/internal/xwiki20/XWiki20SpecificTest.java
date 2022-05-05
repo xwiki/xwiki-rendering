@@ -28,7 +28,7 @@ import org.xwiki.rendering.test.integration.junit5.RenderingTests;
  * @version $Id$
  * @since 4.5M1
  */
-@RenderingTests.Scope(value = "xwiki20.specific"/*, pattern = "misc.test"*/)
+@RenderingTests.Scope(value = "xwiki20.specific"/*, pattern = "escaping4.test"*/)
 public class XWiki20SpecificTest implements RenderingTests
 {
 }

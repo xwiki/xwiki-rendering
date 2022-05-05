@@ -479,6 +479,10 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
         // Remove our stacking event listener
         getXWikiSyntaxListenerChain().removeListener(ListItemStackingInlineContentChainingListener.class);
+
+        // Ensure that any not printed characters are flushed.
+        // TODO: Fix this better by introducing a state listener to handle escapes
+        getXWikiPrinter().flush();
     }
 
     @Override
