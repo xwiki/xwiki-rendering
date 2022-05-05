@@ -1,0 +1,20 @@
+.#-----------------------------------------------------
+.inputexpect|xwiki/2.0
+.# Test escaping of heading after a list item
+.#-----------------------------------------------------
+* Item
+~= Test
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginList [BULLETED]
+beginListItem
+onWord [Item]
+onNewLine
+onSpecialSymbol [=]
+onSpace
+onWord [Test]
+endListItem
+endList [BULLETED]
+endDocument
