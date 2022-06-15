@@ -12,7 +12,9 @@ whatever2
 beginDocument
 beginMacroMarkerStandalone [figure] [] [whatever1
 whatever2]
-beginFigure
+beginMacroMarkerStandalone [figureTypeRecognizer] []
+endMacroMarkerStandalone [figureTypeRecognizer] []
+beginFigure [[data-xwiki-rendering-figure-type]=[figure]]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
 onWord [whatever1]
@@ -20,7 +22,7 @@ onNewLine
 onWord [whatever2]
 endParagraph
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
-endFigure
+endFigure [[data-xwiki-rendering-figure-type]=[figure]]
 endMacroMarkerStandalone [figure] [] [whatever1
 whatever2]
 endDocument

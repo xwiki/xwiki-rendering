@@ -16,7 +16,9 @@ beginDocument
 beginMacroMarkerStandalone [figure] [] [[[image:Space.ExistingPage@my.png]]
 
 {{figureCaption}}caption{{/figureCaption}}]
-beginFigure
+beginMacroMarkerStandalone [figureTypeRecognizer] []
+endMacroMarkerStandalone [figureTypeRecognizer] []
+beginFigure [[data-xwiki-rendering-figure-type]=[figure]]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
 onImage [Typed = [false] Type = [url] Reference = [Space.ExistingPage@my.png]] [false] [ISpace.ExistingPage40my.png]
@@ -31,7 +33,7 @@ endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.B
 endFigureCaption
 endMacroMarkerStandalone [figureCaption] [] [caption]
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
-endFigure
+endFigure [[data-xwiki-rendering-figure-type]=[figure]]
 endMacroMarkerStandalone [figure] [] [[[image:Space.ExistingPage@my.png]]
 
 {{figureCaption}}caption{{/figureCaption}}]

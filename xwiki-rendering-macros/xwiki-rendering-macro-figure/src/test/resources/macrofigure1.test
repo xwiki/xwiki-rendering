@@ -16,7 +16,9 @@ beginMacroMarkerStandalone [figure] [] [{{figureCaption}}caption{{/figureCaption
 
 whatever1
 whatever2]
-beginFigure
+beginMacroMarkerStandalone [figureTypeRecognizer] []
+endMacroMarkerStandalone [figureTypeRecognizer] []
+beginFigure [[data-xwiki-rendering-figure-type]=[figure]]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginMacroMarkerStandalone [figureCaption] [] [caption]
 beginFigureCaption
@@ -33,7 +35,7 @@ onNewLine
 onWord [whatever2]
 endParagraph
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
-endFigure
+endFigure [[data-xwiki-rendering-figure-type]=[figure]]
 endMacroMarkerStandalone [figure] [] [{{figureCaption}}caption{{/figureCaption}}
 
 whatever1
