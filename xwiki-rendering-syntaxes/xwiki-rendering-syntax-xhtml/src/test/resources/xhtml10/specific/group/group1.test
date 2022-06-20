@@ -1,19 +1,19 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
-.# Verify that STRONG tag parameters are recognized.
+.# Verify that div tag parameters, also starting with data-xwiki-, are recognized.
 .#-----------------------------------------------------
-<p><strong a="b" data-xwiki-parameter="value">something</strong></p>
+<div a="b" data-xwiki-parameter="value">something</div>
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
+beginGroup [[a]=[b][data-xwiki-parameter]=[value]]
 beginParagraph
-beginFormat [BOLD] [[a]=[b][data-xwiki-parameter]=[value]]
 onWord [something]
-endFormat [BOLD] [[a]=[b][data-xwiki-parameter]=[value]]
 endParagraph
+endGroup [[a]=[b][data-xwiki-parameter]=[value]]
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><strong><span a="b" data-xwiki-parameter="value">something</span></strong></p>
+<div a="b" data-xwiki-parameter="value"><p>something</p></div>
