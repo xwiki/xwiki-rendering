@@ -217,31 +217,32 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
     @Override
     protected void beginGroup(WikiParameters parameters)
     {
-        boolean withoutMetadata = true;
         if (isMetaDataElement(parameters)) {
             MetaData metaData = createMetaData(parameters);
             getListener().beginMetaData(metaData);
-            withoutMetadata = false;
-        }
 
-        WikiParameters cleanParameters = cleanParametersFromMetadata(parameters);
-        if (withoutMetadata || cleanParameters.getSize() > 0) {
-            super.beginGroup(cleanParameters);
+            WikiParameters cleanParameters = cleanParametersFromMetadata(parameters);
+            if (cleanParameters.getSize() > 0) {
+                super.beginGroup(cleanParameters);
+            }
+        } else {
+            super.beginGroup(parameters);
         }
     }
 
     @Override
     protected void endGroup(WikiParameters parameters)
     {
-        boolean withoutMetadata = true;
         if (isMetaDataElement(parameters)) {
-            getListener().endMetaData(createMetaData(parameters));
-            withoutMetadata = false;
-        }
+            MetaData metaData = createMetaData(parameters);
+            getListener().endMetaData(metaData);
 
-        WikiParameters cleanParameters = cleanParametersFromMetadata(parameters);
-        if (withoutMetadata || cleanParameters.getSize() > 0) {
-            super.endGroup(cleanParameters);
+            WikiParameters cleanParameters = cleanParametersFromMetadata(parameters);
+            if (cleanParameters.getSize() > 0) {
+                super.endGroup(cleanParameters);
+            }
+        } else {
+            super.endGroup(parameters);
         }
     }
 
@@ -250,20 +251,19 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
     {
         WikiParameters wikiParameters = new WikiParameters(format.getParams());
 
-        boolean withoutMetadata = true;
         if (isMetaDataElement(wikiParameters)) {
             getListener().beginMetaData(createMetaData(wikiParameters));
-            withoutMetadata = false;
-        }
+            WikiParameters cleanParameters = cleanParametersFromMetadata(wikiParameters);
+            if (cleanParameters.getSize() > 0 || !format.getStyles().isEmpty()) {
+                WikiFormat newFormat = format;
+                if (wikiParameters.getSize() != cleanParameters.getSize()) {
+                    newFormat = format.setParameters(cleanParameters.toList());
+                }
 
-        WikiParameters cleanParameters = cleanParametersFromMetadata(wikiParameters);
-        if (withoutMetadata || cleanParameters.getSize() > 0 || !format.getStyles().isEmpty()) {
-            WikiFormat newFormat = format;
-            if (wikiParameters.getSize() != cleanParameters.getSize()) {
-                newFormat = format.setParameters(cleanParameters.toList());
+                super.beginFormat(newFormat);
             }
-
-            super.beginFormat(newFormat);
+        } else {
+            super.beginFormat(format);
         }
     }
 
@@ -272,20 +272,20 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
     {
         WikiParameters wikiParameters = new WikiParameters(format.getParams());
 
-        boolean withoutMetadata = true;
         if (isMetaDataElement(wikiParameters)) {
             getListener().endMetaData(createMetaData(wikiParameters));
-            withoutMetadata = false;
-        }
 
-        WikiParameters cleanParameters = cleanParametersFromMetadata(wikiParameters);
-        if (withoutMetadata || cleanParameters.getSize() > 0 || !format.getStyles().isEmpty()) {
-            WikiFormat newFormat = format;
-            if (wikiParameters.getSize() != cleanParameters.getSize()) {
-                newFormat = format.setParameters(cleanParameters.toList());
+            WikiParameters cleanParameters = cleanParametersFromMetadata(wikiParameters);
+            if (cleanParameters.getSize() > 0 || !format.getStyles().isEmpty()) {
+                WikiFormat newFormat = format;
+                if (wikiParameters.getSize() != cleanParameters.getSize()) {
+                    newFormat = format.setParameters(cleanParameters.toList());
+                }
+
+                super.endFormat(newFormat);
             }
-
-            super.endFormat(newFormat);
+        } else {
+            super.endFormat(format);
         }
     }
 }
