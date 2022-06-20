@@ -245,7 +245,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * {@link MacroDescriptor} is of type {@link AbstractMacroDescriptor}.
      *
      * @param defaultCategory the default macro category to be set.
-     * @deprecated since 14.5RC1, use {@link #setDefaultCategories(Set)} or {@link #setDefaultCategories(String...)}
+     * @deprecated since 14.6RC1, use {@link #setDefaultCategories(Set)} or {@link #setDefaultCategories(String...)}
      *     instead
      */
     @Deprecated(since = "14.6RC1")
