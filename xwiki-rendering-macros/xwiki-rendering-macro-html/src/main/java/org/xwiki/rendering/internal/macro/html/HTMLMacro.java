@@ -125,7 +125,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     public HTMLMacro()
     {
         super("HTML", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION), HTMLMacroParameters.class);
-        setDefaultCategory(DEFAULT_CATEGORY_DEVELOPMENT);
+        setDefaultCategories(DEFAULT_CATEGORY_DEVELOPMENT);
     }
 
     @Override

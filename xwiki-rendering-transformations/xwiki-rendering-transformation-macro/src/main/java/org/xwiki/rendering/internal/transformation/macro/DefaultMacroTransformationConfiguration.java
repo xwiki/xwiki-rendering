@@ -19,7 +19,10 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.inject.Singleton;
 
@@ -51,11 +54,41 @@ public class DefaultMacroTransformationConfiguration implements MacroTransformat
     /**
      * @param macroId the id of the macro for which to set a category
      * @param category the category name to set
+     * @deprecated since 14.6RC1 use {@link #addCategories(MacroId, String...)} or {@link #addCategories(MacroId, Set)}
+     *     instead
      */
+    // TODO: move the legacy.
+    @Deprecated(since = "14.6RC1")
     public void addCategory(MacroId macroId, String category)
     {
         // This method is useful for those using the XWiki Rendering in standalone mode since it allows the rendering
         // to work even without a configuration store.
-        this.macroCategories.setProperty(macroId.toString(), category);
+        addCategories(macroId, category);
+    }
+
+    /**
+     * Add the categories to the macro.
+     *
+     * @param macroId the id of the macro for which to set the categories
+     * @param categories the categories to set
+     * @since 14.6RC1
+     */
+    public void addCategories(MacroId macroId, String... categories)
+    {
+        addCategories(macroId, new LinkedHashSet<>(Arrays.asList(categories)));
+    }
+
+    /**
+     * Add the categories to the macro.
+     *
+     * @param macroId the id of the macro for which to set the categories
+     * @param categories the categories to set
+     * @since 14.6RC1
+     */
+    public void addCategories(MacroId macroId, Set<String> categories)
+    {
+        // This method is useful for those using the XWiki Rendering in standalone mode since it allows the rendering
+        // to work even without a configuration store.
+        this.macroCategories.setProperty(macroId.toString(), String.join(",", categories));
     }
 }

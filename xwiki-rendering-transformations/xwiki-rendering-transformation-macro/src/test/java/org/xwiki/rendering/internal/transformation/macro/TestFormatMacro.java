@@ -43,7 +43,7 @@ public class TestFormatMacro extends AbstractNoParameterMacro
     public TestFormatMacro()
     {
         super("Format Macro");
-        setDefaultCategory("Test");
+        setDefaultCategories("Test");
     }
 
     @Override

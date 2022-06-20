@@ -43,7 +43,7 @@ public class TestSyntaxWikiMacro extends AbstractNoParameterMacro
     public TestSyntaxWikiMacro()
     {
         super("Content Macro");
-        setDefaultCategory("Test");
+        setDefaultCategories("Test");
     }
 
     @Override

@@ -60,7 +60,7 @@ public class CommentMacro extends AbstractNoParameterMacro
     public CommentMacro()
     {
         super("Comment", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION));
-        setDefaultCategory(DEFAULT_CATEGORY_DEVELOPMENT);
+        setDefaultCategories(DEFAULT_CATEGORY_DEVELOPMENT);
     }
 
     @Override

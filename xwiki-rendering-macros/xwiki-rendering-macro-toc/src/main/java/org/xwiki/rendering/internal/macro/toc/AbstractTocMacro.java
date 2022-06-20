@@ -82,7 +82,7 @@ public abstract class AbstractTocMacro<T extends TocMacroParameters> extends Abs
         // other macros can generate headers which need to be taken into account by the TOC
         // macro.
         setPriority(2000);
-        setDefaultCategory(DEFAULT_CATEGORY_NAVIGATION);
+        setDefaultCategories(DEFAULT_CATEGORY_NAVIGATION);
     }
 
     @Override

@@ -79,7 +79,7 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
     {
         super("Content", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, true,
             Block.LIST_BLOCK_TYPE), ContentMacroParameters.class);
-        setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
+        setDefaultCategories(DEFAULT_CATEGORY_CONTENT);
     }
 
     @Override

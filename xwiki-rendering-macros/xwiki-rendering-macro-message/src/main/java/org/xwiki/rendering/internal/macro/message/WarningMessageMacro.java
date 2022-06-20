@@ -41,6 +41,6 @@ public class WarningMessageMacro extends AbstractMessageMacro
     public WarningMessageMacro()
     {
         super("Warning Message", "Displays a warning message note.");
-        setDefaultCategory(DEFAULT_CATEGORY_FORMATTING);
+        setDefaultCategories(DEFAULT_CATEGORY_FORMATTING);
     }
 }

@@ -87,7 +87,7 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
     {
         super("Footnote", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION),
             FootnoteMacroParameters.class);
-        setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
+        setDefaultCategories(DEFAULT_CATEGORY_CONTENT);
 
         // The putfootnote macro might already exist in some other macro but to find it the footnote macro need to be
         // executed later

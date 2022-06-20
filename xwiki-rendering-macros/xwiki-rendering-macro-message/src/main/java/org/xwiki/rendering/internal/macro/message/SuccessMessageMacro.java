@@ -41,6 +41,6 @@ public class SuccessMessageMacro extends AbstractMessageMacro
     public SuccessMessageMacro()
     {
         super("Success Message", "Displays a success message note.");
-        setDefaultCategory(DEFAULT_CATEGORY_FORMATTING);
+        setDefaultCategories(DEFAULT_CATEGORY_FORMATTING);
     }
 }

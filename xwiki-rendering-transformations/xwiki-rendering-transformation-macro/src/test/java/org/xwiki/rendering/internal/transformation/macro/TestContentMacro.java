@@ -40,7 +40,7 @@ public class TestContentMacro extends AbstractNoParameterMacro
     public TestContentMacro()
     {
         super("Content Macro");
-        setDefaultCategory("Test");
+        setDefaultCategories("Test");
     }
 
     @Override

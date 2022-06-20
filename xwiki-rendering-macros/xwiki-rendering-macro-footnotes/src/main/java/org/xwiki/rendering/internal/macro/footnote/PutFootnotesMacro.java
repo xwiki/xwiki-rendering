@@ -88,7 +88,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     public PutFootnotesMacro()
     {
         super("Put Footnote", DESCRIPTION, FootnoteMacroParameters.class);
-        setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
+        setDefaultCategories(DEFAULT_CATEGORY_CONTENT);
 
         // Must be executed after footnote macro because it's injecting links in it
         setPriority(FootnoteMacro.PRIORITY + 1);

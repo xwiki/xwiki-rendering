@@ -63,7 +63,7 @@ public class RawMacro extends AbstractMacro<RawMacroParameters>
     {
         super("Raw", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, true, Block.LIST_BLOCK_TYPE),
             RawMacroParameters.class);
-        setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
+        setDefaultCategories(DEFAULT_CATEGORY_CONTENT);
     }
 
     @Override

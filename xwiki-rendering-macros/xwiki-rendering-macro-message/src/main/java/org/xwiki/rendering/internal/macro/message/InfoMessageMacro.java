@@ -41,6 +41,6 @@ public class InfoMessageMacro extends AbstractMessageMacro
     public InfoMessageMacro()
     {
         super("Info Message", "Displays an info message note.");
-        setDefaultCategory(DEFAULT_CATEGORY_FORMATTING);
+        setDefaultCategories(DEFAULT_CATEGORY_FORMATTING);
     }
 }

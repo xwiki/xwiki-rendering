@@ -20,6 +20,7 @@
 package org.xwiki.rendering.macro.descriptor;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.xwiki.rendering.macro.MacroId;
 
@@ -79,8 +80,26 @@ public interface MacroDescriptor
      * @return the default category under which this macro should be listed or null if the macro doesn't have a default
      *         category defined
      * @since 2.0M3
+     * @deprecated since 14.6RC1, use {@link #getDefaultCategories()} instead
      */
+    @Deprecated(since = "14.6RC1")
+    // TODO: move to legacy
     String getDefaultCategory();
+
+    /**
+     * A macro a define a set of classification categories under which it falls. For instance, the "skype" macro would
+     * fall under the "Communication" and "Videa" categories. However, a wiki administration has the ability to override
+     * the default categories for a given macro in order to organize categories as he sees fit. Thus, these default
+     * categories are only an indication from the macro author about what categories the macro should fall.
+     *
+     * @return the default categories under which this macro should be listed, of the empty list of the macro does not
+     *     have any default category defined
+     * @since 14.6RC1
+     */
+    default Set<String> getDefaultCategories()
+    {
+        return Set.of();
+    }
 
     /**
      * @return true if the macro can be inserted in some existing content such as a paragraph, a list item etc. For

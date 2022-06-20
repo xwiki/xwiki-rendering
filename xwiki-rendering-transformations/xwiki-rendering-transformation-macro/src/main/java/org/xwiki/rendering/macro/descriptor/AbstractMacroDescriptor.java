@@ -19,13 +19,17 @@
  */
 package org.xwiki.rendering.macro.descriptor;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.xwiki.properties.BeanDescriptor;
 import org.xwiki.properties.PropertyDescriptor;
 import org.xwiki.rendering.macro.MacroId;
+import org.xwiki.stability.Unstable;
 
 /**
  * Describe a macro.
@@ -63,7 +67,7 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     /**
      * Default macro category.
      */
-    private String defaultCategory;
+    private Set<String> defaultCategories;
 
     /**
      * @see #supportsInlineMode()
@@ -181,17 +185,43 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     @Override
     public String getDefaultCategory()
     {
-        return this.defaultCategory;
+        return this.defaultCategories.stream().findFirst().orElse(null);
     }
 
     /**
-     * @param defaultCategory default category under which this macro should be listed.
-     * @see MacroDescriptor#getDefaultCategory()
+     * @param defaultCategory default category under which this macro should be listed
+     * @see MacroDescriptor#getDefaultCategories()
+     * @deprecated since 14.6RC1 use {@link #setDefaultCategories(String...)} or {@link  #setDefaultCategories(Set)}
+     *     instead
      */
+    @Deprecated(since = "14.6RC1")
+    // TODO: move to legacy
     public void setDefaultCategory(String defaultCategory)
     {
-        this.defaultCategory = defaultCategory;
+        this.defaultCategories = Set.of(defaultCategory);
     }
+
+    /**
+     * @param defaultCategories the list of default categories which the macro should be listed
+     * @see MacroDescriptor#getDefaultCategories()
+     * @since 14.6RC1
+     */
+    @Unstable
+    public void setDefaultCategories(Set<String> defaultCategories)
+    {
+        this.defaultCategories = defaultCategories;
+    }
+
+    /**
+     * @param defaultCategories the list of default categories under which the macro should be listed
+     * @see MacroDescriptor#getDefaultCategories()
+     * @since 14.6RC1
+     */
+    public void setDefaultCategories(String... defaultCategories)
+    {
+        this.defaultCategories = new LinkedHashSet<>(Arrays.asList(defaultCategories));
+    }
+    
 
     @Override
     public boolean supportsInlineMode()
