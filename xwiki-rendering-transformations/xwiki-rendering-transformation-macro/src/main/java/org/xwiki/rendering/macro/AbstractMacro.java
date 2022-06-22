@@ -256,7 +256,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     }
 
     /**
-     * Allows sub-classes to the set default macro categories. This method only has an effect of the internal
+     * Allows sub-classes to set default macro categories. This method only has an effect of the internal
      * {@link MacroDescriptor} is of type {@link AbstractMacroDescriptor}.
      *
      * @param defaultCategories the default macro categories to set
@@ -278,7 +278,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     }
 
     /**
-     * Allows sub-classes to the set default macro categories. This method only has an effect of the internal
+     * Allows sub-classes to the default macro categories. This method only has an effect of the internal
      * {@link MacroDescriptor} is of type {@link AbstractMacroDescriptor}.
      *
      * @param defaultCategories the default macro categories to set

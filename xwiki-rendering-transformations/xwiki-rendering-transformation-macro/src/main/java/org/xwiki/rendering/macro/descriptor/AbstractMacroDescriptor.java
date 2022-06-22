@@ -221,7 +221,12 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     {
         this.defaultCategories = new LinkedHashSet<>(Arrays.asList(defaultCategories));
     }
-    
+
+    @Override
+    public Set<String> getDefaultCategories()
+    {
+        return this.defaultCategories;
+    }
 
     @Override
     public boolean supportsInlineMode()

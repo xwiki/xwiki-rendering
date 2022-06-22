@@ -114,6 +114,8 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
         Set<MacroId> macroIds = this.macroManager.getMacroIds();
 
         // Loop through all the macro ids and categorize them.
+        // TODO: test this part with Option 1 (fully override, several categories).
+        // TODO: also test in the current configuration to see how it's behaving currently.
         Properties categories = this.configuration.getCategories();
         for (MacroId macroId : macroIds) {
             if (matcher.match(macroId)) {
@@ -129,14 +131,13 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
                         .collect(Collectors.toSet());
                 }
 
-                for (String macroCategory : macroCategories) {
-                    // Add to category. Note the category can also be null.
-                    Set<MacroId> ids = result.get(macroCategory);
-                    if (ids == null) {
-                        ids = new HashSet<>();
+                if (macroCategories != null) {
+                    for (String macroCategory : macroCategories) {
+                        addToCategory(result, macroId, macroCategory);
                     }
-                    ids.add(macroId);
-                    result.put(macroCategory, ids);
+                } else {
+                    // If no categories are found, the macro is added to a single "null" category.
+                    addToCategory(result, macroId, null);
                 }
             }
         }
@@ -150,5 +151,16 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
             // True if the macroId has no syntax or if it has one it has to match the passed syntax
             return syntax == null || macroId.getSyntax() == null || macroId.getSyntax().equals(syntax);
         });
+    }
+
+    private void addToCategory(Map<String, Set<MacroId>> result, MacroId macroId, String macroCategory)
+    {
+        // Add to category. Note the category can also be null.
+        Set<MacroId> ids = result.get(macroCategory);
+        if (ids == null) {
+            ids = new HashSet<>();
+        }
+        ids.add(macroId);
+        result.put(macroCategory, ids);
     }
 }

@@ -87,8 +87,8 @@ public interface MacroDescriptor
     String getDefaultCategory();
 
     /**
-     * A macro a define a set of classification categories under which it falls. For instance, the "skype" macro would
-     * fall under the "Communication" and "Videa" categories. However, a wiki administration has the ability to override
+     * A macro define a set of classification categories under which it falls. For instance, the "skype" macro would
+     * fall under the "Communication" and "Video" categories. However, a wiki administrator has the ability to override
      * the default categories for a given macro in order to organize categories as he sees fit. Thus, these default
      * categories are only an indication from the macro author about what categories the macro should fall.
      *
