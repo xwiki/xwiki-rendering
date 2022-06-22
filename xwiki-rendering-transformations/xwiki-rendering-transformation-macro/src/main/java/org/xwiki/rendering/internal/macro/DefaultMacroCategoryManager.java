@@ -114,8 +114,6 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
         Set<MacroId> macroIds = this.macroManager.getMacroIds();
 
         // Loop through all the macro ids and categorize them.
-        // TODO: test this part with Option 1 (fully override, several categories).
-        // TODO: also test in the current configuration to see how it's behaving currently.
         Properties categories = this.configuration.getCategories();
         for (MacroId macroId : macroIds) {
             if (matcher.match(macroId)) {
