@@ -53,7 +53,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-transformation-macro</artifactId>
+      <artifactId>xwiki-rendering-legacy-transformation-macro</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -70,36 +70,85 @@
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-id</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <!-- Exclude transitive dependencies which are conflicting with legacy dependencies -->
+        <exclusion>
+          <groupId>org.xwiki.rendering</groupId>
+          <artifactId>xwiki-rendering-transformation-macro</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-toc</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <!-- Exclude transitive dependencies which are conflicting with legacy dependencies -->
+        <exclusion>
+          <groupId>org.xwiki.rendering</groupId>
+          <artifactId>xwiki-rendering-transformation-macro</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-box</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <!-- Exclude transitive dependencies which are conflicting with legacy dependencies -->
+        <exclusion>
+          <groupId>org.xwiki.rendering</groupId>
+          <artifactId>xwiki-rendering-transformation-macro</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-message</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <!-- Exclude transitive dependencies which are conflicting with legacy dependencies -->
+        <exclusion>
+          <groupId>org.xwiki.rendering</groupId>
+          <artifactId>xwiki-rendering-transformation-macro</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-html</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <!-- Exclude transitive dependencies which are conflicting with legacy dependencies -->
+        <exclusion>
+          <groupId>org.xwiki.rendering</groupId>
+          <artifactId>xwiki-rendering-transformation-macro</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-footnotes</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <!-- Exclude transitive dependencies which are conflicting with legacy dependencies -->
+        <exclusion>
+          <groupId>org.xwiki.rendering</groupId>
+          <artifactId>xwiki-rendering-transformation-macro</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-comment</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <!-- Exclude transitive dependencies which are conflicting with legacy dependencies -->
+        <exclusion>
+          <groupId>org.xwiki.rendering</groupId>
+          <artifactId>xwiki-rendering-transformation-macro</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <!-- Bundle Legacy Commons and Rendering JARs -->
     <dependency>

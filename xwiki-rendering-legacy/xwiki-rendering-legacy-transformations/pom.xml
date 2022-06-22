@@ -20,30 +20,18 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.rendering</groupId>
-    <artifactId>xwiki-rendering</artifactId>
-    <version>14.6-SNAPSHOT</version>
+    <artifactId>xwiki-rendering-legacy</artifactId>
+    <version>14.5-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-rendering-legacy</artifactId>
-  <name>XWiki Rendering - Legacy</name>
+  <artifactId>xwiki-rendering-legacy-transformations</artifactId>
+  <name>XWiki Rendering - Legacy - Transformations - Parent POM</name>
   <packaging>pom</packaging>
-  <description>Legacy modules for XWiki Rendering</description>
-  <properties>
-    <!-- Skip Enforcer check on legacy dependencies since we allow legacy modules to depend on other legacy modules -->
-    <xwiki.enforcer.no-legacy-dependencies.skip>true</xwiki.enforcer.no-legacy-dependencies.skip>
-  </properties>
+  <description>XWiki Rendering - Legacy - Transformations - Parent POM</description>
   <modules>
-    <module>xwiki-rendering-legacy-api</module>
-    <module>xwiki-rendering-legacy-transformations</module>
+    <module>xwiki-rendering-legacy-transformation-macro</module>
   </modules>
-  <dependencies>
-    <!-- Needed for backward compatibility Aspects -->
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjrt</artifactId>
-    </dependency>
-  </dependencies>
 </project>

@@ -189,19 +189,6 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     }
 
     /**
-     * @param defaultCategory default category under which this macro should be listed
-     * @see MacroDescriptor#getDefaultCategories()
-     * @deprecated since 14.6RC1 use {@link #setDefaultCategories(String...)} or {@link  #setDefaultCategories(Set)}
-     *     instead
-     */
-    @Deprecated(since = "14.6RC1")
-    // TODO: move to legacy
-    public void setDefaultCategory(String defaultCategory)
-    {
-        this.defaultCategories = Set.of(defaultCategory);
-    }
-
-    /**
      * @param defaultCategories the list of default categories which the macro should be listed
      * @see MacroDescriptor#getDefaultCategories()
      * @since 14.6RC1

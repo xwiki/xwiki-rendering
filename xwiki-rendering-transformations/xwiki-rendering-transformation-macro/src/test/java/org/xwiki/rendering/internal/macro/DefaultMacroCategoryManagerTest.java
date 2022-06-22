@@ -60,8 +60,8 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
         DefaultMacroTransformationConfiguration configuration =
             (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
                 MacroTransformationConfiguration.class);
-        configuration.addCategory(new MacroId("testcontentmacro"), "Content");
-        configuration.addCategory(new MacroId("testsimplemacro"), "Simple");
+        configuration.setCategories(new MacroId("testcontentmacro"), "Content");
+        configuration.setCategories(new MacroId("testsimplemacro"), "Simple");
 
         Set<String> macroCategories = this.macroCategoryManager.getMacroCategories();
 
@@ -93,8 +93,8 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
         DefaultMacroTransformationConfiguration configuration =
             (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
                 MacroTransformationConfiguration.class);
-        configuration.addCategory(new MacroId("mytestmacro1"), "Cat1");
-        configuration.addCategory(new MacroId("mytestmacro2"), "Cat2");
+        configuration.setCategories(new MacroId("mytestmacro1"), "Cat1");
+        configuration.setCategories(new MacroId("mytestmacro2"), "Cat2");
 
         // Check whether our macros are registered under correct categories.
         Set<MacroId> macroIds = this.macroCategoryManager.getMacroIds("Cat1");
@@ -124,7 +124,7 @@ public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
         DefaultMacroTransformationConfiguration configuration =
             (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
                 MacroTransformationConfiguration.class);
-        configuration.addCategory(new MacroId("mytestmacro", Syntax.XWIKI_2_0), "Test");
+        configuration.setCategories(new MacroId("mytestmacro", Syntax.XWIKI_2_0), "Test");
 
         // Make sure our macro is put into the correct category & registered under correct syntax.
         Set<MacroId> macroIds = this.macroCategoryManager.getMacroIds("Test");

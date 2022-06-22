@@ -52,21 +52,6 @@ public class DefaultMacroTransformationConfiguration implements MacroTransformat
     }
 
     /**
-     * @param macroId the id of the macro for which to set a category
-     * @param category the category name to set
-     * @deprecated since 14.6RC1 use {@link #setCategories(MacroId, String...)} or {@link #setCategories(MacroId, Set)}
-     *     instead
-     */
-    // TODO: move the legacy!
-    @Deprecated(since = "14.6RC1")
-    public void addCategory(MacroId macroId, String category)
-    {
-        // This method is useful for those using the XWiki Rendering in standalone mode since it allows the rendering
-        // to work even without a configuration store.
-        setCategories(macroId, category);
-    }
-
-    /**
      * Set the categories of the macro.
      *
      * @param macroId the id of the macro for which to set the categories

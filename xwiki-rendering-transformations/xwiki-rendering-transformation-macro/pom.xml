@@ -35,6 +35,8 @@
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Rendering Macro Transformation</xwiki.extension.name>
     <xwiki.extension.category>transformation</xwiki.extension.category>
+    <!-- Skipping revapi since xwiki-rendering-legacy-transformation-macro wraps this module and runs checks on it. -->
+    <xwiki.revapi.skip>true</xwiki.revapi.skip>
   </properties>
   <dependencies>
     <dependency>

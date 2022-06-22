@@ -83,7 +83,7 @@ public interface MacroDescriptor
      * @deprecated since 14.6RC1, use {@link #getDefaultCategories()} instead
      */
     @Deprecated(since = "14.6RC1")
-    // TODO: move to legacy
+    // TODO: move to legacy once cleaned-up from xwiki-platform.
     String getDefaultCategory();
 
     /**
