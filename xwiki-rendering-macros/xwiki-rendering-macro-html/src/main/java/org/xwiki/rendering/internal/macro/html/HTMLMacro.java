@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -125,7 +126,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     public HTMLMacro()
     {
         super("HTML", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION), HTMLMacroParameters.class);
-        setDefaultCategories(DEFAULT_CATEGORY_DEVELOPMENT);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_DEVELOPMENT));
     }
 
     @Override

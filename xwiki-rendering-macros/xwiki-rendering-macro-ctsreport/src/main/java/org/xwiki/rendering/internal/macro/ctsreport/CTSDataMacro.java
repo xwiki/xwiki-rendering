@@ -95,7 +95,7 @@ public class CTSDataMacro extends AbstractNoParameterMacro
     public CTSDataMacro()
     {
         super("CTS Data", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION));
-        setDefaultCategories(DEFAULT_CATEGORY_DEVELOPMENT);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_DEVELOPMENT));
     }
 
     @Override

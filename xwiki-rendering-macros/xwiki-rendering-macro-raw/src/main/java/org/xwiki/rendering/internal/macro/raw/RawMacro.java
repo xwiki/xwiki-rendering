@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.macro.raw;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -63,7 +64,7 @@ public class RawMacro extends AbstractMacro<RawMacroParameters>
     {
         super("Raw", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, true, Block.LIST_BLOCK_TYPE),
             RawMacroParameters.class);
-        setDefaultCategories(DEFAULT_CATEGORY_CONTENT);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_CONTENT));
     }
 
     @Override

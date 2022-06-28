@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.macro.footnote;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -88,7 +89,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     public PutFootnotesMacro()
     {
         super("Put Footnote", DESCRIPTION, FootnoteMacroParameters.class);
-        setDefaultCategories(DEFAULT_CATEGORY_CONTENT);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_CONTENT));
 
         // Must be executed after footnote macro because it's injecting links in it
         setPriority(FootnoteMacro.PRIORITY + 1);

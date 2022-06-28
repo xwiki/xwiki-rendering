@@ -74,8 +74,8 @@ public interface MacroDescriptor
     /**
      * A macro can define a default classification category under which it falls. For an example, the "skype" macro
      * would fall under the "Communication" category of macros. However, a wiki administrator has the ability to
-     * override the default category for a given macro in order to organize categories as he sees fit. Thus this default
-     * category is only an indication from the macro author about what category the macro should fall.
+     * override the default category for a given macro in order to organize categories as he sees fit. Thus, this
+     * default category is only an indication from the macro author about what category the macro should fall under.
      *
      * @return the default category under which this macro should be listed or null if the macro doesn't have a default
      *         category defined
@@ -87,12 +87,12 @@ public interface MacroDescriptor
     String getDefaultCategory();
 
     /**
-     * A macro define a set of classification categories under which it falls. For instance, the "skype" macro would
+     * A macro defines a set of classification categories under which it falls. For instance, the "skype" macro would
      * fall under the "Communication" and "Video" categories. However, a wiki administrator has the ability to override
-     * the default categories for a given macro in order to organize categories as he sees fit. Thus, these default
-     * categories are only an indication from the macro author about what categories the macro should fall.
+     * the default categories for a given macro in order to organize categories as he or she sees fit. Thus, these
+     * default categories are only an indication from the macro author about what categories the macro should fall.
      *
-     * @return the default categories under which this macro should be listed, of the empty list of the macro does not
+     * @return the default categories under which this macro should be listed, or the empty list of the macro does not
      *     have any default category defined
      * @since 14.6RC1
      */

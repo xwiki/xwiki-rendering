@@ -19,8 +19,6 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
-import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.Properties;
 import java.util.Set;
 
@@ -49,20 +47,6 @@ public class DefaultMacroTransformationConfiguration implements MacroTransformat
     public Properties getCategories()
     {
         return this.macroCategories;
-    }
-
-    /**
-     * Set the categories of the macro.
-     *
-     * @param macroId the id of the macro for which to set the categories
-     * @param categories the categories to set
-     * @since 14.6RC1
-     */
-    public void setCategories(MacroId macroId, String... categories)
-    {
-        // This method is useful for those using the XWiki Rendering in standalone mode since it allows the rendering
-        // to work even without a configuration store.
-        setCategories(macroId, new LinkedHashSet<>(Arrays.asList(categories)));
     }
 
     /**

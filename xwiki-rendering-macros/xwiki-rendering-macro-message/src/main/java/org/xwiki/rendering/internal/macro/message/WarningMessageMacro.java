@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
+import java.util.Set;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -41,6 +43,6 @@ public class WarningMessageMacro extends AbstractMessageMacro
     public WarningMessageMacro()
     {
         super("Warning Message", "Displays a warning message note.");
-        setDefaultCategories(DEFAULT_CATEGORY_FORMATTING);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
     }
 }

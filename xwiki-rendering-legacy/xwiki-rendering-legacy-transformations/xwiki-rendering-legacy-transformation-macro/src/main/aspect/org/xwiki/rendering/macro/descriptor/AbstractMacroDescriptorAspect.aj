@@ -13,8 +13,7 @@ public privileged aspect AbstractMacroDescriptorAspect
     /**
      * @param defaultCategory default category under which this macro should be listed
      * @see MacroDescriptor#getDefaultCategories()
-     * @deprecated since 14.6RC1 use {@link AbstractMacroDescriptor#setDefaultCategories(String...)} or {@link  AbstractMacroDescriptor#setDefaultCategories(Set)}
-     *     instead
+     * @deprecated since 14.6RC1 use {@link  AbstractMacroDescriptor#setDefaultCategories(Set)} instead
      */
     @Deprecated(since = "14.6RC1")
     public void AbstractMacroDescriptor.setDefaultCategory(String defaultCategory)

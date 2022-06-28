@@ -19,10 +19,8 @@
  */
 package org.xwiki.rendering.macro.descriptor;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -185,6 +183,8 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     @Override
     public String getDefaultCategory()
     {
+        // Takes any category if defaultCategories is not empty, to have a value to return when this method is called.
+        // Note that there is no guarantee of which category will be returned.
         return this.defaultCategories.stream().findFirst().orElse(null);
     }
 
@@ -198,17 +198,7 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     {
         this.defaultCategories = defaultCategories;
     }
-
-    /**
-     * @param defaultCategories the list of default categories under which the macro should be listed
-     * @see MacroDescriptor#getDefaultCategories()
-     * @since 14.6RC1
-     */
-    public void setDefaultCategories(String... defaultCategories)
-    {
-        this.defaultCategories = new LinkedHashSet<>(Arrays.asList(defaultCategories));
-    }
-
+    
     @Override
     public Set<String> getDefaultCategories()
     {

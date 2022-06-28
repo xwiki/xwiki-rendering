@@ -20,8 +20,6 @@
 package org.xwiki.rendering.macro;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -245,14 +243,13 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * {@link MacroDescriptor} is of type {@link AbstractMacroDescriptor}.
      *
      * @param defaultCategory the default macro category to be set.
-     * @deprecated since 14.6RC1, use {@link #setDefaultCategories(Set)} or {@link #setDefaultCategories(String...)}
-     *     instead
+     * @deprecated since 14.6RC1, use {@link #setDefaultCategories(Set)} instead
      */
     @Deprecated(since = "14.6RC1")
     // TODO: move to legacy once cleaned-up from xwiki-platform.
     protected void setDefaultCategory(String defaultCategory)
     {
-        setDefaultCategories(defaultCategory);
+        setDefaultCategories(Set.of(defaultCategory));
     }
 
     /**
@@ -274,19 +271,6 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
         if (getDescriptor() instanceof AbstractMacroDescriptor) {
             ((AbstractMacroDescriptor) getDescriptor()).setDefaultCategories(defaultCategories);
         }
-    }
-
-    /**
-     * Allows sub-classes to the default macro categories. This method only has an effect of the internal
-     * {@link MacroDescriptor} is of type {@link AbstractMacroDescriptor}.
-     *
-     * @param defaultCategories the default macro categories to set
-     * @since 14.6RC1
-     */
-    @Unstable
-    protected void setDefaultCategories(String... defaultCategories)
-    {
-        setDefaultCategories(new LinkedHashSet<>(Arrays.asList(defaultCategories)));
     }
 
     /**

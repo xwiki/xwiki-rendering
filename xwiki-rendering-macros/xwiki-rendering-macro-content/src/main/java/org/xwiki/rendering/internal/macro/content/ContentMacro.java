@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.macro.content;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -79,7 +80,7 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
     {
         super("Content", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, true,
             Block.LIST_BLOCK_TYPE), ContentMacroParameters.class);
-        setDefaultCategories(DEFAULT_CATEGORY_CONTENT);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_CONTENT));
     }
 
     @Override

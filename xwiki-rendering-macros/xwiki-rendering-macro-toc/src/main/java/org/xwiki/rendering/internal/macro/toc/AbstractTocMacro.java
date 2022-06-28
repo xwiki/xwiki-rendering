@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.macro.toc;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -82,7 +83,7 @@ public abstract class AbstractTocMacro<T extends TocMacroParameters> extends Abs
         // other macros can generate headers which need to be taken into account by the TOC
         // macro.
         setPriority(2000);
-        setDefaultCategories(DEFAULT_CATEGORY_NAVIGATION);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_NAVIGATION));
     }
 
     @Override
