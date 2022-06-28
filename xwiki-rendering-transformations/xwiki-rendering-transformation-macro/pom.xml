@@ -31,7 +31,7 @@
   <name>XWiki Rendering - Transformation - Macro</name>
   <description>Transform Macro blocks by executing Macros</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.77</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.80</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Rendering Macro Transformation</xwiki.extension.name>
     <xwiki.extension.category>transformation</xwiki.extension.category>

@@ -185,6 +185,9 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     {
         // Takes any category if defaultCategories is not empty, to have a value to return when this method is called.
         // Note that there is no guarantee of which category will be returned.
+        if (this.defaultCategories == null) {
+            return null;
+        }
         return this.defaultCategories.stream().findFirst().orElse(null);
     }
 
