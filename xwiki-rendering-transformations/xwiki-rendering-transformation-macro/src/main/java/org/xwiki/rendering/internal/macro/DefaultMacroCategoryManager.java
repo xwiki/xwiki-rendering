@@ -19,12 +19,14 @@
  */
 package org.xwiki.rendering.internal.macro;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -80,16 +82,7 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
     @Override
     public Set<String> getMacroCategories(final Syntax syntax) throws MacroLookupException
     {
-        Set<String> categories = getMacroIdsByCategory(new MacroMatcher()
-            {
-                @Override
-                public boolean match(MacroId macroId)
-                {
-                    // True if the macroId has no syntax or if it has one it has to match the passed syntax
-                    return syntax == null || macroId.getSyntax() == null || macroId.getSyntax().equals(syntax);
-                }
-            }).keySet();
-        return Collections.unmodifiableSet(categories);
+        return Collections.unmodifiableSet(getMacrosGroupedByCategories(syntax).keySet());
     }
 
     @Override
@@ -101,26 +94,21 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
     @Override
     public Set<MacroId> getMacroIds(String category, final Syntax syntax) throws MacroLookupException
     {
-        Set<MacroId> macros = getMacroIdsByCategory(new MacroMatcher()
-            {
-                @Override
-                public boolean match(MacroId macroId)
-                {
-                    // True if the macroId has no syntax or if it has one it has to match the passed syntax
-                    return syntax == null || macroId.getSyntax() == null || macroId.getSyntax().equals(syntax);
-                }
-            }).get(category);
+        Set<MacroId> macros = getMacrosGroupedByCategories(syntax).get(category);
         return (null != macros) ? Collections.unmodifiableSet(macros) : Collections.<MacroId>emptySet();
     }
 
     /**
+     * Returns a map of macros, grouped by their categories. Note that a macro can have more than one category and can
+     * be returned under multiple keys.
+     *
      * @param matcher a macro name matcher to be able to filter macros, used to filter macros for a given syntax
-     * @return macro names grouped by category, including the 'null' macro category.
-     * @exception MacroLookupException if any error occurs when getting macros ids by category
+     * @return macro names grouped by category, including the 'null' macro category
+     * @throws MacroLookupException if any error occurs when getting macros ids by category
      */
     private Map<String, Set<MacroId>> getMacroIdsByCategory(MacroMatcher matcher) throws MacroLookupException
     {
-        Map<String, Set<MacroId>> result = new HashMap<String, Set<MacroId>>();
+        Map<String, Set<MacroId>> result = new HashMap<>();
 
         // Find all registered macro ids
         Set<MacroId> macroIds = this.macroManager.getMacroIds();
@@ -130,23 +118,47 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
         for (MacroId macroId : macroIds) {
             if (matcher.match(macroId)) {
                 // Check if this macro's category has been overwritten.
-                String category = categories.getProperty(macroId.toString());
+                String macroCategoriesProperty = categories.getProperty(macroId.toString());
 
                 // If not, use the default category set by macro author.
-                if (category == null) {
-                    category = this.macroManager.getMacro(macroId).getDescriptor().getDefaultCategory();
+                Set<String> macroCategories;
+                if (macroCategoriesProperty == null) {
+                    macroCategories = this.macroManager.getMacro(macroId).getDescriptor().getDefaultCategories();
+                } else {
+                    macroCategories = Arrays.stream(macroCategoriesProperty.split("\\s+,\\s+"))
+                        .collect(Collectors.toSet());
                 }
 
-                // Add to category. Note the category can also be null.
-                Set<MacroId> ids = result.get(category);
-                if (ids == null) {
-                    ids = new HashSet<MacroId>();
+                if (macroCategories != null) {
+                    for (String macroCategory : macroCategories) {
+                        addToCategory(result, macroId, macroCategory);
+                    }
+                } else {
+                    // If no categories are found, the macro is added to a single "null" category.
+                    addToCategory(result, macroId, null);
                 }
-                ids.add(macroId);
-                result.put(category, ids);
             }
         }
 
         return result;
+    }
+
+    private Map<String, Set<MacroId>> getMacrosGroupedByCategories(Syntax syntax) throws MacroLookupException
+    {
+        return getMacroIdsByCategory(macroId -> {
+            // True if the macroId has no syntax or if it has one it has to match the passed syntax
+            return syntax == null || macroId.getSyntax() == null || macroId.getSyntax().equals(syntax);
+        });
+    }
+
+    private void addToCategory(Map<String, Set<MacroId>> result, MacroId macroId, String macroCategory)
+    {
+        // Add to category. Note the category can also be null.
+        Set<MacroId> ids = result.get(macroCategory);
+        if (ids == null) {
+            ids = new HashSet<>();
+        }
+        ids.add(macroId);
+        result.put(macroCategory, ids);
     }
 }

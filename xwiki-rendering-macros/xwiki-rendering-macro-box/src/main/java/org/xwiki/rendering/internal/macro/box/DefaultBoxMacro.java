@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.macro.box;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -63,7 +64,7 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
     {
         super("Box", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, false,
             Block.LIST_BLOCK_TYPE), BoxMacroParameters.class);
-        setDefaultCategory(DEFAULT_CATEGORY_FORMATTING);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
     }
 
     @Override

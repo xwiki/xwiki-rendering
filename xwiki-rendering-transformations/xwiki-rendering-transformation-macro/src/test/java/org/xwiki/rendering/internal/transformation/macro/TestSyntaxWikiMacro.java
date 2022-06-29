@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.transformation.macro;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -43,7 +44,7 @@ public class TestSyntaxWikiMacro extends AbstractNoParameterMacro
     public TestSyntaxWikiMacro()
     {
         super("Content Macro");
-        setDefaultCategory("Test");
+        setDefaultCategories(Set.of("Test"));
     }
 
     @Override

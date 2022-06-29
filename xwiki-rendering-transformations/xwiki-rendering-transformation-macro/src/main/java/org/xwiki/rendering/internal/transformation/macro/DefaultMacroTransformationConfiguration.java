@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.transformation.macro;
 
 import java.util.Properties;
+import java.util.Set;
 
 import javax.inject.Singleton;
 
@@ -49,13 +50,16 @@ public class DefaultMacroTransformationConfiguration implements MacroTransformat
     }
 
     /**
-     * @param macroId the id of the macro for which to set a category
-     * @param category the category name to set
+     * Set the categories of the macro.
+     *
+     * @param macroId the id of the macro for which to set the categories
+     * @param categories the categories to set
+     * @since 14.6RC1
      */
-    public void addCategory(MacroId macroId, String category)
+    public void setCategories(MacroId macroId, Set<String> categories)
     {
         // This method is useful for those using the XWiki Rendering in standalone mode since it allows the rendering
         // to work even without a configuration store.
-        this.macroCategories.setProperty(macroId.toString(), category);
+        this.macroCategories.setProperty(macroId.toString(), String.join(",", categories));
     }
 }

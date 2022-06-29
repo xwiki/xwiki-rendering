@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.macro.footnote;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -87,7 +88,7 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
     {
         super("Footnote", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION),
             FootnoteMacroParameters.class);
-        setDefaultCategory(DEFAULT_CATEGORY_CONTENT);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_CONTENT));
 
         // The putfootnote macro might already exist in some other macro but to find it the footnote macro need to be
         // executed later

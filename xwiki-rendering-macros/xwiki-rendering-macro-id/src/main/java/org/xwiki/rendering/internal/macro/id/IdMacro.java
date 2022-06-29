@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.macro.id;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -61,7 +62,7 @@ public class IdMacro extends AbstractMacro<IdMacroParameters>
 
         // Set a high priority so that this macro executes before most others.
         setPriority(20);
-        setDefaultCategory(DEFAULT_CATEGORY_NAVIGATION);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_NAVIGATION));
     }
 
     @Override

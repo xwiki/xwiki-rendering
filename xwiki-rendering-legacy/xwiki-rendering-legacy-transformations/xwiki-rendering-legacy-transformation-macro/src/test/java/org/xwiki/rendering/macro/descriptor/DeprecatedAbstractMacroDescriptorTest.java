@@ -17,32 +17,33 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.macro.message;
+package org.xwiki.rendering.macro.descriptor;
 
-import java.util.Set;
+import org.junit.jupiter.api.Test;
+import org.xwiki.properties.BeanDescriptor;
+import org.xwiki.rendering.macro.MacroId;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
-import org.xwiki.component.annotation.Component;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.mockito.Mockito.mock;
 
 /**
- * Displays a success message.
+ * Test of the deprecated methods of {@link AbstractMacroDescriptorAspect}.
  *
  * @version $Id$
- * @since 3.1M1
+ * @since 14.6RC1
  */
-@Component
-@Named("success")
-@Singleton
-public class SuccessMessageMacro extends AbstractMessageMacro
+class DeprecatedAbstractMacroDescriptorTest
 {
-    /**
-     * Create and initialize the descriptor of the macro.
-     */
-    public SuccessMessageMacro()
+    @Test
+    void setDefaultCategory()
     {
-        super("Success Message", "Displays a success message note.");
-        setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
+        AbstractMacroDescriptor abstractMacroDescriptor = new AbstractMacroDescriptor(new MacroId("testmacro"),
+            "testmacro", "description", new DefaultContentDescriptor("description", false), mock(BeanDescriptor.class))
+        {
+        };
+
+        abstractMacroDescriptor.setDefaultCategory("testcategory");
+        assertThat(abstractMacroDescriptor.getDefaultCategories(), containsInAnyOrder("testcategory"));
     }
 }

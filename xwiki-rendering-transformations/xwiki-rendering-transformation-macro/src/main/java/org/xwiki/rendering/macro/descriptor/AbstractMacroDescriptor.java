@@ -22,10 +22,12 @@ package org.xwiki.rendering.macro.descriptor;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.xwiki.properties.BeanDescriptor;
 import org.xwiki.properties.PropertyDescriptor;
 import org.xwiki.rendering.macro.MacroId;
+import org.xwiki.stability.Unstable;
 
 /**
  * Describe a macro.
@@ -63,7 +65,7 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     /**
      * Default macro category.
      */
-    private String defaultCategory;
+    private Set<String> defaultCategories;
 
     /**
      * @see #supportsInlineMode()
@@ -181,16 +183,29 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     @Override
     public String getDefaultCategory()
     {
-        return this.defaultCategory;
+        // Takes any category if defaultCategories is not empty, to have a value to return when this method is called.
+        // Note that there is no guarantee of which category will be returned.
+        if (this.defaultCategories == null) {
+            return null;
+        }
+        return this.defaultCategories.stream().findFirst().orElse(null);
     }
 
     /**
-     * @param defaultCategory default category under which this macro should be listed.
-     * @see MacroDescriptor#getDefaultCategory()
+     * @param defaultCategories the list of default categories which the macro should be listed
+     * @see MacroDescriptor#getDefaultCategories()
+     * @since 14.6RC1
      */
-    public void setDefaultCategory(String defaultCategory)
+    @Unstable
+    public void setDefaultCategories(Set<String> defaultCategories)
     {
-        this.defaultCategory = defaultCategory;
+        this.defaultCategories = defaultCategories;
+    }
+    
+    @Override
+    public Set<String> getDefaultCategories()
+    {
+        return this.defaultCategories;
     }
 
     @Override

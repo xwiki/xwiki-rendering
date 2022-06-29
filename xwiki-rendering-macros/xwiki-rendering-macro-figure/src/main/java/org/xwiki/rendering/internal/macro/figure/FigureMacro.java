@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.macro.figure;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -68,7 +69,7 @@ public class FigureMacro extends AbstractNoParameterMacro
     {
         super("Figure", DESCRIPTION,
             new DefaultContentDescriptor(CONTENT_DESCRIPTION, false, Block.LIST_BLOCK_TYPE));
-        setDefaultCategory(DEFAULT_CATEGORY_DEVELOPMENT);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_DEVELOPMENT));
     }
 
     @Override

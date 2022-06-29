@@ -37,6 +37,7 @@
   </properties>
   <modules>
     <module>xwiki-rendering-legacy-api</module>
+    <module>xwiki-rendering-legacy-transformations</module>
   </modules>
   <dependencies>
     <!-- Needed for backward compatibility Aspects -->

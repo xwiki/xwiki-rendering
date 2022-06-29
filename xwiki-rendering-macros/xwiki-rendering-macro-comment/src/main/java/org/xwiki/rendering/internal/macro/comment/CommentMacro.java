@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.macro.comment;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -60,7 +61,7 @@ public class CommentMacro extends AbstractNoParameterMacro
     public CommentMacro()
     {
         super("Comment", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION));
-        setDefaultCategory(DEFAULT_CATEGORY_DEVELOPMENT);
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_DEVELOPMENT));
     }
 
     @Override
