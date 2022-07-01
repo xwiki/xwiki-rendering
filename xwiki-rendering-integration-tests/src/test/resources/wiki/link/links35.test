@@ -1,0 +1,36 @@
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.# Test JavaScript links.
+.#-----------------------------------------------------
+[[Click!>>path:javascript:alert(1)]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [true] Type = [path] Reference = [javascript:alert(1)]] [false]
+onWord [Click]
+onSpecialSymbol [!]
+endLink [Typed = [true] Type = [path] Reference = [javascript:alert(1)]] [false]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p><span class="wikiinternallink"><a data-xwiki-translated-attribute-href="javascript:alert(1)">Click!</a></span></p>
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<p><!--startwikilink:true|-|path|-|javascript:alert(1)--><span class="wikiinternallink"><a data-xwiki-translated-attribute-href="javascript:alert(1)">Click!</a></span><!--stopwikilink--></p>
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+[[Click!>>path:javascript:alert(1)]]
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<p><!--startwikilink:true|-|path|-|javascript:alert(1)--><span class="wikiinternallink"><a data-xwiki-translated-attribute-href="javascript:alert(1)">Click!</a></span><!--stopwikilink--></p>
+.#-----------------------------------------------------
+.expect|plain/1.0
+.#-----------------------------------------------------
+Click!

@@ -1,0 +1,23 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Testing duplicate translated attributes.
+.#-----------------------------------------------------
+<p>one <a data-xwiki-translated-attribute-href="translated" href="javascript:alert(1)">two</a> three</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [one]
+onSpace
+beginLink [Typed = [true] Type = [path] Reference = [javascript:alert(1)]] [false]
+onWord [two]
+endLink [Typed = [true] Type = [path] Reference = [javascript:alert(1)]] [false]
+onSpace
+onWord [three]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p>one <span class="wikiinternallink"><a data-xwiki-translated-attribute-href="javascript:alert(1)">two</a></span> three</p>

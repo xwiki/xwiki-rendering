@@ -21,14 +21,18 @@ package org.xwiki.rendering.wikimodel.xhtml.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.Attributes2;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
+import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
@@ -186,8 +190,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
     }
 
     /**
-     * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String,
-     *      java.lang.String, java.lang.String)
+     * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
     public void endElement(String uri, String localName, String qName)
@@ -206,8 +209,8 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
     }
 
     /**
-     * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String,
-     *      java.lang.String, java.lang.String, org.xml.sax.Attributes)
+     * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String,
+     *     org.xml.sax.Attributes)
      */
     @Override
     public void startElement(
@@ -273,9 +276,11 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
 
     private WikiParameters getParameters(Attributes attributes)
     {
+        Set<String> keys = new HashSet<>();
         List<WikiParameter> params = new ArrayList<>();
         for (int i = 0; i < attributes.getLength(); i++) {
             String key = getLocalName(attributes.getQName(i), attributes.getLocalName(i), false);
+            keys.add(key);
             String value = attributes.getValue(i);
             WikiParameter param = new WikiParameter(key, value);
 
@@ -301,6 +306,30 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
                 params.add(param);
             }
         }
-        return new WikiParameters(params);
+
+        List<WikiParameter> translatedParameters = params.stream()
+            // Remove prefixed attributes that also exist as non-prefixed version.
+            .filter(param -> {
+                // Kep all attributes without prefix.
+                boolean keep = !param.getKey().startsWith(XHTMLWikiPrinter.TRANSLATED_ATTRIBUTE_PREFIX);
+                if (!keep) {
+                    String translatedKey =
+                        param.getKey().substring(XHTMLWikiPrinter.TRANSLATED_ATTRIBUTE_PREFIX.length());
+                    keep = !keys.contains(translatedKey);
+                }
+                return keep;
+            })
+            // Remove prefix.
+            .map(param -> {
+                if (param.getKey().startsWith(XHTMLWikiPrinter.TRANSLATED_ATTRIBUTE_PREFIX)) {
+                    String translatedKey =
+                        param.getKey().substring(XHTMLWikiPrinter.TRANSLATED_ATTRIBUTE_PREFIX.length());
+                    return new WikiParameter(translatedKey, param.getValue());
+                } else {
+                    return param;
+                }
+            })
+            .collect(Collectors.toList());
+        return new WikiParameters(translatedParameters);
     }
 }
