@@ -19,122 +19,181 @@
  */
 package org.xwiki.rendering.internal.macro;
 
+import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
-import org.jmock.Expectations;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.xwiki.rendering.internal.transformation.macro.DefaultMacroTransformationConfiguration;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroCategoryManager;
 import org.xwiki.rendering.macro.MacroId;
+import org.xwiki.rendering.macro.MacroLookupException;
+import org.xwiki.rendering.macro.MacroManager;
 import org.xwiki.rendering.macro.descriptor.DefaultMacroDescriptor;
-import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.macro.MacroTransformationConfiguration;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.test.LogLevel;
+import org.xwiki.test.junit5.LogCaptureExtension;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
+import org.xwiki.test.junit5.mockito.MockComponent;
+
+import ch.qos.logback.classic.Level;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.xwiki.rendering.syntax.Syntax.JSPWIKI_1_0;
+import static org.xwiki.rendering.syntax.Syntax.XWIKI_2_0;
 
 /**
- * Unit tests for {@link org.xwiki.rendering.macro.MacroCategoryManager}.
+ * Unit tests for {@link MacroCategoryManager}.
  *
  * @version $Id$
  * @since 2.0M3
  */
-public class DefaultMacroCategoryManagerTest extends AbstractComponentTestCase
+@ComponentTest
+class DefaultMacroCategoryManagerTest
 {
-    private MacroCategoryManager macroCategoryManager;
+    @InjectMockComponents
+    private DefaultMacroCategoryManager macroCategoryManager;
 
-    @Override
-    @Before
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        this.macroCategoryManager = getComponentManager().getInstance(MacroCategoryManager.class);
-    }
+    @MockComponent
+    private MacroTransformationConfiguration configuration;
+
+    @MockComponent
+    private MacroManager macroManager;
+
+    @RegisterExtension
+    LogCaptureExtension logCapture = new LogCaptureExtension(LogLevel.WARN);
 
     @Test
-    public void testGetMacroCategories() throws Exception
+    void getMacroCategories() throws Exception
     {
-        // TODO: This test needs to be improved. Right now it's based on the Test Macro located in the transformation
-        // package and for 4 of them a "Test" category has been set...
-        DefaultMacroTransformationConfiguration configuration =
-            (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
-                MacroTransformationConfiguration.class);
-        configuration.setCategories(new MacroId("testcontentmacro"), Set.of("Content"));
-        configuration.setCategories(new MacroId("testsimplemacro"), Set.of("Simple"));
+        Properties properties = new Properties();
+        properties.put("testcontentmacro", "Content");
+        properties.put("testsimplemacro", "Simple");
+        when(this.configuration.getCategories()).thenReturn(properties);
+        when(this.macroManager.getMacroIds())
+            .thenReturn(Set.of(new MacroId("testcontentmacro"), new MacroId("testsimplemacro")));
 
         Set<String> macroCategories = this.macroCategoryManager.getMacroCategories();
 
         // Check for a default category.
-        Assert.assertTrue(macroCategories.contains("Test"));
-
-        // Check for null category.
-        Assert.assertTrue(macroCategories.contains(null));
-
-        // Check for overwritten categories.
-        Assert.assertTrue(macroCategories.contains("Content"));
-        Assert.assertTrue(macroCategories.contains("Simple"));
+        assertEquals(Set.of("Content", "Simple"), macroCategories);
     }
 
     @Test
-    public void testGetMacroNamesForCategory() throws Exception
+    void getMacroCategoriesNoCategory() throws Exception
     {
-        // Create two mock macros and register them macros against the CM as macros registered for all syntaxes.
-        final Macro testMacro1 = registerMockComponent(Macro.class, "mytestmacro1", "mock1");
-        final Macro testMacro2 = registerMockComponent(Macro.class, "mytestmacro2", "mock2");
-        getMockery().checking(new Expectations(){{
-            allowing(testMacro1).getDescriptor();
-            will(returnValue(new DefaultMacroDescriptor(new MacroId("macro1"), "Test macro - 1")));
-            allowing(testMacro2).getDescriptor();
-            will(returnValue(new DefaultMacroDescriptor(new MacroId("macro2"), "Test macro - 2")));
-        }});
+        MacroId macroAId = new MacroId("macroA");
+        DefaultMacroDescriptor macroADescriptor = new DefaultMacroDescriptor(macroAId, "Macro A", "Macro A");
+        Macro macroA = mock(Macro.class);
 
-        // Override default macro categories.
-        DefaultMacroTransformationConfiguration configuration =
-            (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
-                MacroTransformationConfiguration.class);
-        configuration.setCategories(new MacroId("mytestmacro1"), Set.of("Cat1"));
-        configuration.setCategories(new MacroId("mytestmacro2"), Set.of("Cat2"));
+        when(this.configuration.getCategories()).thenReturn(new Properties());
+        when(this.macroManager.getMacroIds()).thenReturn(Set.of(macroAId));
+        when(this.macroManager.getMacro(macroAId)).thenReturn(macroA);
+        when(macroA.getDescriptor()).thenReturn(macroADescriptor);
 
         // Check whether our macros are registered under correct categories.
-        Set<MacroId> macroIds = this.macroCategoryManager.getMacroIds("Cat1");
-        Assert.assertTrue(macroIds.contains(new MacroId("mytestmacro1")));
-        Assert.assertFalse(macroIds.contains(new MacroId("mytestmacro2")));
-
-        // These macros should be registered for all syntaxes.
-        macroIds = this.macroCategoryManager.getMacroIds("Cat1", Syntax.JSPWIKI_1_0);
-        Assert.assertTrue(macroIds.contains(new MacroId("mytestmacro1")));
-
-        // Finally, unregister test macros.
-        getComponentManager().unregisterComponent(Macro.class, "mytestmacro1");
-        getComponentManager().unregisterComponent(Macro.class, "mytestmacro2");
+        Set<Object> expected = new HashSet<>();
+        expected.add(null);
+        assertEquals(expected, this.macroCategoryManager.getMacroCategories());
     }
 
     @Test
-    public void testGetMacroIdsWithSyntaxSpecificMacros() throws Exception
+    void getMacroIds() throws Exception
     {
-        // Create a mock macro and register it against CM as a xwiki/2.0 specific macro.
-        final Macro mockMacro = registerMockComponent(Macro.class, "mytestmacro/xwiki/2.0");
-        getMockery().checking(new Expectations(){{
-            allowing(mockMacro).getDescriptor();
-            will(returnValue(new DefaultMacroDescriptor(new MacroId("test"), "Test macro")));
-        }});
+        Properties properties = new Properties();
+        properties.put("mytestmacro1", "Cat1");
+        properties.put("mytestmacro2", "Cat2");
+        properties.put("mytestmacro3", "Cat1,Cat2");
+        when(this.configuration.getCategories()).thenReturn(properties);
+        when(this.macroManager.getMacroIds())
+            .thenReturn(Set.of(new MacroId("mytestmacro1"), new MacroId("mytestmacro2"), new MacroId("mytestmacro3")));
 
-        // Override the macro category for this macro.
-        DefaultMacroTransformationConfiguration configuration =
-            (DefaultMacroTransformationConfiguration) getComponentManager().getInstance(
-                MacroTransformationConfiguration.class);
-        configuration.setCategories(new MacroId("mytestmacro", Syntax.XWIKI_2_0), Set.of("Test"));
+        // Check whether our macros are registered under correct categories.
+        assertEquals(Set.of(new MacroId("mytestmacro1"), new MacroId("mytestmacro3")),
+            this.macroCategoryManager.getMacroIds("Cat1"));
+    }
+
+    @Test
+    void getMacroIdsWithSyntax() throws Exception
+    {
+        Properties properties = new Properties();
+        properties.put("mytestmacro1", "Cat1");
+        properties.put("mytestmacro2", "Cat2");
+        when(this.configuration.getCategories()).thenReturn(properties);
+        when(this.macroManager.getMacroIds())
+            .thenReturn(Set.of(new MacroId("mytestmacro1"), new MacroId("mytestmacro2")));
+
+        // These macros should be registered for all syntaxes.
+        assertEquals(Set.of(new MacroId("mytestmacro1")), this.macroCategoryManager.getMacroIds("Cat1", JSPWIKI_1_0));
+    }
+
+    @Test
+    void getMacroIdsWithSyntaxSpecificMacros() throws Exception
+    {
+        MacroId myTestMacroId = new MacroId("mytestmacro", XWIKI_2_0);
+        Properties properties = new Properties();
+        properties.put("mytestmacro", "Test");
+        when(this.configuration.getCategories()).thenReturn(properties);
+        when(this.macroManager.getMacroIds()).thenReturn(Set.of(myTestMacroId));
 
         // Make sure our macro is put into the correct category & registered under correct syntax.
-        Set<MacroId> macroIds = this.macroCategoryManager.getMacroIds("Test");
-        Assert.assertTrue(macroIds.contains(new MacroId("mytestmacro", Syntax.XWIKI_2_0)));
-        macroIds = this.macroCategoryManager.getMacroIds("Test", Syntax.XWIKI_2_0);
-        Assert.assertTrue(macroIds.contains(new MacroId("mytestmacro", Syntax.XWIKI_2_0)));
-        macroIds = this.macroCategoryManager.getMacroIds("Test", Syntax.JSPWIKI_1_0);
-        Assert.assertFalse(macroIds.contains(new MacroId("mytestmacro")));
+        assertEquals(Set.of(myTestMacroId), this.macroCategoryManager.getMacroIds("Test"));
+        assertEquals(Set.of(myTestMacroId), this.macroCategoryManager.getMacroIds("Test", XWIKI_2_0));
+        assertEquals(Set.of(), this.macroCategoryManager.getMacroIds("Test", JSPWIKI_1_0));
+    }
 
-        // Finally, unregister the test macro.
-        getComponentManager().unregisterComponent(Macro.class, "mytestmacro/xwiki/2.0");
+    @Test
+    void getMacroCategoriesByMacroIdNoOverride() throws Exception
+    {
+        MacroId macroAId = new MacroId("macroA");
+        Macro macroA = mock(Macro.class);
+        DefaultMacroDescriptor macroADescriptor = new DefaultMacroDescriptor(macroAId, "Macro A", "Macro A");
+        macroADescriptor.setDefaultCategories(Set.of("Cat A, Cat B"));
+
+        when(this.configuration.getCategories()).thenReturn(new Properties());
+        when(this.macroManager.getMacro(macroAId)).thenReturn(macroA);
+        when(macroA.getDescriptor()).thenReturn(macroADescriptor);
+
+        assertEquals(Set.of("Cat A, Cat B"), this.macroCategoryManager.getMacroCategories(macroAId));
+    }
+
+    @Test
+    void getMacroCategoriesByMacroIdNoOverrideError() throws Exception
+    {
+        MacroId macroAId = new MacroId("macroA");
+        Macro macroA = mock(Macro.class);
+        DefaultMacroDescriptor macroADescriptor = new DefaultMacroDescriptor(macroAId, "Macro A", "Macro A");
+        macroADescriptor.setDefaultCategories(Set.of("Cat A, Cat B"));
+
+        when(this.configuration.getCategories()).thenReturn(new Properties());
+        when(this.macroManager.getMacro(macroAId)).thenThrow(MacroLookupException.class);
+        when(macroA.getDescriptor()).thenReturn(macroADescriptor);
+
+        assertEquals(Set.of(), this.macroCategoryManager.getMacroCategories(macroAId));
+        assertEquals("Failed to get macro [macroA]. Cause: [MacroLookupException: ]", this.logCapture.getMessage(0));
+        assertEquals(Level.WARN, this.logCapture.getLogEvent(0).getLevel());
+    }
+
+    @Test
+    void getMacroCategoriesByMacroIdWithOverride() throws Exception
+    {
+        MacroId macroAId = new MacroId("macroA");
+        Macro macroA = mock(Macro.class);
+        DefaultMacroDescriptor macroADescriptor = new DefaultMacroDescriptor(macroAId, "Macro A", "Macro A");
+        macroADescriptor.setDefaultCategories(Set.of("Cat A, Cat B"));
+
+        Properties properties = new Properties();
+        properties.put("macroA", "O1,O2");
+        when(this.configuration.getCategories()).thenReturn(properties);
+        when(this.macroManager.getMacro(macroAId)).thenReturn(macroA);
+        when(macroA.getDescriptor()).thenReturn(macroADescriptor);
+        when(this.configuration.getCategories()).thenReturn(properties);
+        when(this.macroManager.getMacro(macroAId)).thenThrow(MacroLookupException.class);
+
+        assertEquals(Set.of("O1", "O2"), this.macroCategoryManager.getMacroCategories(macroAId));
     }
 }

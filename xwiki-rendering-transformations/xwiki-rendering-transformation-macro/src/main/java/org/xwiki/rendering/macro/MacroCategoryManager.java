@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.stability.Unstable;
 
 /**
  * Component interface for managing macro category information. Each rendering macro defines a default category under
@@ -73,4 +74,17 @@ public interface MacroCategoryManager
      * @throws MacroLookupException error when lookup macros
      */
     Set<MacroId> getMacroIds(String category, Syntax syntax) throws MacroLookupException;
+
+    /**
+     * Return the set of categories of a given macro.
+     *
+     * @param macroId the id of the macro to get the category for
+     * @return the list of categories of the macro,
+     * @since 14.6RC1
+     */
+    @Unstable
+    default Set<String> getMacroCategories(MacroId macroId)
+    {
+        return Set.of();
+    }
 }

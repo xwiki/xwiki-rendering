@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.macro;
 
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -33,7 +34,6 @@ import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroNotFoundException;
 import org.xwiki.rendering.syntax.Syntax;
-
 import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.test.LogLevel;
@@ -73,8 +73,8 @@ class DefaultMacroManagerTest
     private class TestInvalidMacro extends AbstractNoParameterMacro
     {
         /**
-         * @param unusedParameter a parameter that shouldn't be there in a component. We do that to make sure that the
-         *        CM will fail to instantiate this macro and to test this error case.
+         * @param unusedParameter a parameter that shouldn't be there in a component. We do that to make sure that
+         *     the CM will fail to instantiate this macro and to test this error case.
          */
         TestInvalidMacro(String unusedParameter)
         {
@@ -205,9 +205,26 @@ class DefaultMacroManagerTest
 
         assertEquals(1, logCapture.size());
         assertEquals("Invalid Macro descriptor format for hint [macro/invalidsyntax]. The hint should contain either "
-            + "the macro name only or the macro name followed by the syntax for which it is valid. In that case the "
-            + "macro name should be followed by a \"/\" followed by the syntax name followed by another \"/\" followed "
-            + "by the syntax version. For example \"html/xwiki/2.0\". This macro will not be available in the system.",
+                + "the macro name only or the macro name followed by the syntax for which it is valid. In that case the "
+                + "macro name should be followed by a \"/\" followed by the syntax name followed by another \"/\" followed "
+                + "by the syntax version. For example \"html/xwiki/2.0\". This macro will not be available in the system.",
             logCapture.getMessage(0));
+    }
+
+    @Test
+    void getMacroIds() throws Exception
+    {
+        assertEquals(Set.of(
+            new MacroId("testsimplemacro"),
+            new MacroId("testprioritymacro"),
+            new MacroId("testinlineeditingmacro"),
+            new MacroId("testrecursivemacro"),
+            new MacroId("testformatmacro"),
+            new MacroId("testsyntaxwikimacro"),
+            new MacroId("testnestedmacro"),
+            new MacroId("testcontentmacro"),
+            new MacroId("testsimpleinlinemacro"),
+            new MacroId("testfailingmacro")            
+        ), this.macroManager.getMacroIds());
     }
 }
