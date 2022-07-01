@@ -78,8 +78,8 @@ public interface MacroCategoryManager
     /**
      * Return the set of categories of a given macro.
      *
-     * @param macroId the id of the macro to get the category for
-     * @return the list of categories of the macro,
+     * @param macroId the id of the macro to get the categories for
+     * @return the list of categories of the macro
      * @since 14.6RC1
      */
     @Unstable
