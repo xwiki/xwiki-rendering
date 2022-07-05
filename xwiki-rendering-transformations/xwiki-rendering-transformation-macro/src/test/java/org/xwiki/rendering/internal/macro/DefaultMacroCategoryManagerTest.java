@@ -38,8 +38,7 @@ import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
 import org.xwiki.test.junit5.mockito.MockComponent;
 
-import ch.qos.logback.classic.Level;
-
+import static ch.qos.logback.classic.Level.WARN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -175,7 +174,7 @@ class DefaultMacroCategoryManagerTest
 
         assertEquals(Set.of(), this.macroCategoryManager.getMacroCategories(macroAId));
         assertEquals("Failed to get macro [macroA]. Cause: [MacroLookupException: ]", this.logCapture.getMessage(0));
-        assertEquals(Level.WARN, this.logCapture.getLogEvent(0).getLevel());
+        assertEquals(WARN, this.logCapture.getLogEvent(0).getLevel());
     }
 
     @Test

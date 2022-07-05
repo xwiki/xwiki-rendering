@@ -19,20 +19,20 @@
  */
 package org.xwiki.rendering.internal.macro;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroCategoryManager;
 import org.xwiki.rendering.macro.MacroId;
@@ -53,6 +53,9 @@ import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMess
 @Singleton
 public class DefaultMacroCategoryManager implements MacroCategoryManager
 {
+    @Inject
+    private ConverterManager converterManager;
+
     /**
      * Used to get macro categories defined by the user (if any).
      */
@@ -187,8 +190,8 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
         result.put(macroCategory, ids);
     }
 
-    private Set<String> splitCategories(String s)
+    private Set<String> splitCategories(String categories)
     {
-        return Arrays.stream(s.split("\\s*,\\s*")).collect(Collectors.toSet());
+        return new HashSet<>(this.converterManager.getConverter(List.class).convert(List.class, categories));
     }
 }
