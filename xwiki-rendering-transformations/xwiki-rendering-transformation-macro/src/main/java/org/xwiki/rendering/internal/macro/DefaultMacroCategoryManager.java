@@ -53,9 +53,6 @@ import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMess
 @Singleton
 public class DefaultMacroCategoryManager implements MacroCategoryManager
 {
-    @Inject
-    private ConverterManager converterManager;
-
     /**
      * Used to get macro categories defined by the user (if any).
      */
@@ -67,6 +64,9 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
      */
     @Inject
     private MacroManager macroManager;
+
+    @Inject
+    private ConverterManager converterManager;
 
     @Inject
     private Logger logger;

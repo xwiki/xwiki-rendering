@@ -20,11 +20,16 @@
 package org.xwiki.rendering.internal.macro;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.mockito.Mock;
+import org.xwiki.properties.ConverterManager;
+import org.xwiki.properties.converter.Converter;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroCategoryManager;
 import org.xwiki.rendering.macro.MacroId;
@@ -63,8 +68,20 @@ class DefaultMacroCategoryManagerTest
     @MockComponent
     private MacroManager macroManager;
 
+    @MockComponent
+    private ConverterManager converterManager;
+
     @RegisterExtension
     LogCaptureExtension logCapture = new LogCaptureExtension(LogLevel.WARN);
+
+    @Mock
+    private Converter<Object> converter;
+
+    @BeforeEach
+    void setUp()
+    {
+        when(this.converterManager.getConverter(List.class)).thenReturn(this.converter);
+    }
 
     @Test
     void getMacroCategories() throws Exception
@@ -75,6 +92,9 @@ class DefaultMacroCategoryManagerTest
         when(this.configuration.getCategories()).thenReturn(properties);
         when(this.macroManager.getMacroIds())
             .thenReturn(Set.of(new MacroId("testcontentmacro"), new MacroId("testsimplemacro")));
+
+        when(this.converter.convert(List.class, "Content")).thenReturn(List.of("Content"));
+        when(this.converter.convert(List.class, "Simple")).thenReturn(List.of("Simple"));
 
         Set<String> macroCategories = this.macroCategoryManager.getMacroCategories();
 
@@ -110,6 +130,9 @@ class DefaultMacroCategoryManagerTest
         when(this.configuration.getCategories()).thenReturn(properties);
         when(this.macroManager.getMacroIds())
             .thenReturn(Set.of(new MacroId("mytestmacro1"), new MacroId("mytestmacro2"), new MacroId("mytestmacro3")));
+        when(this.converter.convert(List.class, "Cat1,Cat2")).thenReturn(List.of("Cat1", "Cat2"));
+        when(this.converter.convert(List.class, "Cat2")).thenReturn(List.of("Cat2"));
+        when(this.converter.convert(List.class, "Cat1")).thenReturn(List.of("Cat1"));
 
         // Check whether our macros are registered under correct categories.
         assertEquals(Set.of(new MacroId("mytestmacro1"), new MacroId("mytestmacro3")),
@@ -125,6 +148,8 @@ class DefaultMacroCategoryManagerTest
         when(this.configuration.getCategories()).thenReturn(properties);
         when(this.macroManager.getMacroIds())
             .thenReturn(Set.of(new MacroId("mytestmacro1"), new MacroId("mytestmacro2")));
+        when(this.converter.convert(List.class, "Cat1")).thenReturn(List.of("Cat1"));
+        when(this.converter.convert(List.class, "Cat2")).thenReturn(List.of("Cat2"));
 
         // These macros should be registered for all syntaxes.
         assertEquals(Set.of(new MacroId("mytestmacro1")), this.macroCategoryManager.getMacroIds("Cat1", JSPWIKI_1_0));
@@ -138,6 +163,7 @@ class DefaultMacroCategoryManagerTest
         properties.put("mytestmacro", "Test");
         when(this.configuration.getCategories()).thenReturn(properties);
         when(this.macroManager.getMacroIds()).thenReturn(Set.of(myTestMacroId));
+        when(this.converter.convert(List.class, "Test")).thenReturn(List.of("Test"));
 
         // Make sure our macro is put into the correct category & registered under correct syntax.
         assertEquals(Set.of(myTestMacroId), this.macroCategoryManager.getMacroIds("Test"));
@@ -192,6 +218,7 @@ class DefaultMacroCategoryManagerTest
         when(macroA.getDescriptor()).thenReturn(macroADescriptor);
         when(this.configuration.getCategories()).thenReturn(properties);
         when(this.macroManager.getMacro(macroAId)).thenThrow(MacroLookupException.class);
+        when(this.converter.convert(List.class, "O1,O2")).thenReturn(List.of("O1", "O2"));
 
         assertEquals(Set.of("O1", "O2"), this.macroCategoryManager.getMacroCategories(macroAId));
     }
