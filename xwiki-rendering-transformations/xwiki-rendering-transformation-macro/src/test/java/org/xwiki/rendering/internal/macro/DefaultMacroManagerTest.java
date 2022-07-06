@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.macro;
 
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -33,7 +34,6 @@ import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroNotFoundException;
 import org.xwiki.rendering.syntax.Syntax;
-
 import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.test.LogLevel;
@@ -209,5 +209,22 @@ class DefaultMacroManagerTest
             + "macro name should be followed by a \"/\" followed by the syntax name followed by another \"/\" followed "
             + "by the syntax version. For example \"html/xwiki/2.0\". This macro will not be available in the system.",
             logCapture.getMessage(0));
+    }
+
+    @Test
+    void getMacroIds() throws Exception
+    {
+        assertEquals(Set.of(
+            new MacroId("testsimplemacro"),
+            new MacroId("testprioritymacro"),
+            new MacroId("testinlineeditingmacro"),
+            new MacroId("testrecursivemacro"),
+            new MacroId("testformatmacro"),
+            new MacroId("testsyntaxwikimacro"),
+            new MacroId("testnestedmacro"),
+            new MacroId("testcontentmacro"),
+            new MacroId("testsimpleinlinemacro"),
+            new MacroId("testfailingmacro")            
+        ), this.macroManager.getMacroIds());
     }
 }

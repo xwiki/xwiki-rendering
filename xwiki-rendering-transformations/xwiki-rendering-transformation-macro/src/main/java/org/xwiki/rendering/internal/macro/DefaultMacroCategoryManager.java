@@ -19,25 +19,29 @@
  */
 package org.xwiki.rendering.internal.macro;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.properties.ConverterManager;
+import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroCategoryManager;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroManager;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.macro.MacroTransformationConfiguration;
+
+import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage;
 
 /**
  * Default implementation of {@link org.xwiki.rendering.macro.MacroCategoryManager}.
@@ -61,6 +65,12 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
     @Inject
     private MacroManager macroManager;
 
+    @Inject
+    private ConverterManager converterManager;
+
+    @Inject
+    private Logger logger;
+
     /**
      * Internal help class to be able to search Macros matching a Macro Id.
      */
@@ -76,7 +86,7 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
     @Override
     public Set<String> getMacroCategories() throws MacroLookupException
     {
-        return getMacroCategories(null);
+        return getMacroCategories((Syntax) null);
     }
 
     @Override
@@ -96,6 +106,25 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
     {
         Set<MacroId> macros = getMacrosGroupedByCategories(syntax).get(category);
         return (null != macros) ? Collections.unmodifiableSet(macros) : Collections.<MacroId>emptySet();
+    }
+
+    @Override
+    public Set<String> getMacroCategories(MacroId macroId)
+    {
+        Properties properties = this.configuration.getCategories();
+        Set<String> categories;
+        if (properties == null || !properties.containsKey(macroId.getId())) {
+            try {
+                Macro<?> macro = this.macroManager.getMacro(macroId);
+                categories = macro.getDescriptor().getDefaultCategories();
+            } catch (MacroLookupException e) {
+                this.logger.warn("Failed to get macro [{}]. Cause: [{}]", macroId, getRootCauseMessage(e));
+                categories = Set.of();
+            }
+        } else {
+            categories = splitCategories((String) properties.get(macroId.getId()));
+        }
+        return categories;
     }
 
     /**
@@ -118,15 +147,14 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
         for (MacroId macroId : macroIds) {
             if (matcher.match(macroId)) {
                 // Check if this macro's category has been overwritten.
-                String macroCategoriesProperty = categories.getProperty(macroId.toString());
+                String macroCategoriesProperty = categories.getProperty(macroId.getId());
 
                 // If not, use the default category set by macro author.
                 Set<String> macroCategories;
                 if (macroCategoriesProperty == null) {
                     macroCategories = this.macroManager.getMacro(macroId).getDescriptor().getDefaultCategories();
                 } else {
-                    macroCategories = Arrays.stream(macroCategoriesProperty.split("\\s+,\\s+"))
-                        .collect(Collectors.toSet());
+                    macroCategories = splitCategories(macroCategoriesProperty);
                 }
 
                 if (macroCategories != null) {
@@ -160,5 +188,10 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
         }
         ids.add(macroId);
         result.put(macroCategory, ids);
+    }
+
+    private Set<String> splitCategories(String categories)
+    {
+        return new HashSet<>(this.converterManager.getConverter(List.class).convert(List.class, categories));
     }
 }
