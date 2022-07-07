@@ -29,13 +29,17 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroCategoryManager;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroManager;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.macro.MacroTransformationConfiguration;
+
+import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage;
 
 /**
  * Default implementation of {@link org.xwiki.rendering.macro.MacroCategoryManager}.
@@ -58,6 +62,9 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
      */
     @Inject
     private MacroManager macroManager;
+
+    @Inject
+    private Logger logger;
 
     /**
      * Internal help class to be able to search Macros matching a Macro Id.
@@ -111,6 +118,25 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
                 }
             }).get(category);
         return (null != macros) ? Collections.unmodifiableSet(macros) : Collections.<MacroId>emptySet();
+    }
+
+    @Override
+    public String getMacroCategory(MacroId macroId)
+    {
+        Properties properties = this.configuration.getCategories();
+        String category;
+        if (properties == null || !properties.containsKey(macroId.getId())) {
+            try {
+                Macro<?> macro = this.macroManager.getMacro(macroId);
+                category = macro.getDescriptor().getDefaultCategory();
+            } catch (MacroLookupException e) {
+                this.logger.warn("Failed to get macro [{}]. Cause: [{}]", macroId, getRootCauseMessage(e));
+                category = null;
+            }
+        } else {
+            category = (String) properties.get(macroId.getId());
+        }
+        return category;
     }
 
     /**
