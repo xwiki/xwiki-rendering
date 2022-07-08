@@ -38,6 +38,7 @@ import org.w3c.dom.Node;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.MacroBlock;
@@ -57,6 +58,7 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.rendering.transformation.RawContentEvent;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.xml.html.HTMLCleaner;
@@ -123,6 +125,12 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     private Provider<ComponentManager> componentManagerProvider;
 
     /**
+     * Observation manager used to sent evaluation events.
+     */
+    @Inject
+    private ObservationManager observation;
+
+    /**
      * Create and initialize the descriptor of the macro.
      */
     public HTMLMacro()
@@ -144,6 +152,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
         List<Block> blocks;
 
         if (!StringUtils.isEmpty(content)) {
+            Syntax targetSyntax = getHTMLTargetSyntax();
 
             String normalizedContent = content;
 
@@ -154,15 +163,27 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
                 normalizedContent = renderWikiSyntax(normalizedContent, context.getTransformation(), context);
             }
 
-            // Clean the HTML into valid XHTML if the user has asked (it's the default).
-            if (parameters.getClean()) {
-                normalizedContent = cleanHTML(normalizedContent, context);
+            boolean restricted = parameters.getRestricted() || context.getTransformationContext().isRestricted();
+
+            if (!restricted) {
+                // Send raw content event to check if raw content is allowed.
+                RawContentEvent event = new RawContentEvent(getDescriptor().getId().getId());
+                this.observation.notify(event, context, targetSyntax);
+                if (event.isCanceled()) {
+                    restricted = true;
+                }
+            }
+
+            // Clean the HTML into valid XHTML if the user has asked (it's the default) or if restricted mode is
+            // enabled.
+            if (parameters.getClean() || restricted) {
+                normalizedContent = cleanHTML(normalizedContent, context, restricted, targetSyntax);
             } else if (context.getTransformationContext().isRestricted()) {
                 throw new MacroExecutionException(
                     "The HTML macro may not be used with clean=\"false\" in this context.");
             }
 
-            blocks = List.of(new RawBlock(normalizedContent, getHTMLTargetSyntax()));
+            blocks = List.of(new RawBlock(normalizedContent, targetSyntax));
         } else {
             blocks = Collections.emptyList();
         }
@@ -175,14 +196,18 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
      *
      * @param content the content to clean
      * @param context the macro transformation context
+     * @param restricted if the allowed HTML shall be restricted
+     * @param targetSyntax the target syntax
      * @return the cleaned HTML as a string representing valid XHTML
      * @throws MacroExecutionException if the macro is inline and the content is not inline HTML
      */
-    private String cleanHTML(String content, MacroTransformationContext context) throws MacroExecutionException
+    private String cleanHTML(String content, MacroTransformationContext context, boolean restricted,
+        Syntax targetSyntax)
+        throws MacroExecutionException
     {
         String cleanedContent = content;
 
-        HTMLCleanerConfiguration cleanerConfiguration = getCleanerConfiguration(context);
+        HTMLCleanerConfiguration cleanerConfiguration = getCleanerConfiguration(restricted, targetSyntax);
 
         // Note that we trim the content since we want to be lenient with the user in case he has entered
         // some spaces/newlines before a XML declaration (prolog). Otherwise the XML parser would fail to parse.
@@ -322,21 +347,20 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     }
 
     /**
-     * @param context the macro transformation context
+     * @param restricted if the allowed HTML shall be restricted
+     * @param targetSyntax the target syntax
      * @return the appropriate cleaner configuration.
      */
-    private HTMLCleanerConfiguration getCleanerConfiguration(MacroTransformationContext context)
+    private HTMLCleanerConfiguration getCleanerConfiguration(boolean restricted, Syntax targetSyntax)
     {
         HTMLCleanerConfiguration cleanerConfiguration = this.htmlCleaner.getDefaultConfiguration();
         Map<String, String> parameters = new HashMap<>(cleanerConfiguration.getParameters());
-
-        Syntax targetSyntax = this.getHTMLTargetSyntax();
 
         if (Syntax.HTML_5_0.equals(targetSyntax) || Syntax.ANNOTATED_HTML_5_0.equals(targetSyntax)) {
             parameters.put(HTMLCleanerConfiguration.HTML_VERSION, "5");
         }
 
-        if (context.getTransformationContext().isRestricted()) {
+        if (restricted) {
             parameters.put(HTMLCleanerConfiguration.RESTRICTED, "true");
         }
 

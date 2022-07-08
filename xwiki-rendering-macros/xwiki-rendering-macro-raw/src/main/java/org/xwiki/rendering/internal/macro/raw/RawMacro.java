@@ -23,16 +23,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.raw.RawMacroParameters;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.rendering.transformation.RawContentEvent;
 
 /**
  * Directly output content in a target syntax (this generates a {@link org.xwiki.rendering.block.RawBlock}).
@@ -58,6 +61,12 @@ public class RawMacro extends AbstractMacro<RawMacroParameters>
     private static final String CONTENT_DESCRIPTION = "The content written in the target syntax";
 
     /**
+     * Observation manager used to check if raw content is allowed.
+     */
+    @Inject
+    private ObservationManager observation;
+
+    /**
      * Create and initialize the descriptor of the macro.
      */
     public RawMacro()
@@ -76,7 +85,18 @@ public class RawMacro extends AbstractMacro<RawMacroParameters>
     @Override
     public List<Block> execute(RawMacroParameters parameters, String content, MacroTransformationContext context)
     {
-        RawBlock rawBlock = new RawBlock(content, parameters.getSyntax());
-        return Collections.singletonList(rawBlock);
+        // Send raw content event to check if raw content is allowed.
+        RawContentEvent event = new RawContentEvent(getDescriptor().getId().getId());
+        this.observation.notify(event, context, parameters.getSyntax());
+
+        List<Block> result;
+        if (!event.isCanceled()) {
+            RawBlock rawBlock = new RawBlock(content, parameters.getSyntax());
+            result = Collections.singletonList(rawBlock);
+        } else {
+            result = Collections.emptyList();
+        }
+
+        return result;
     }
 }
