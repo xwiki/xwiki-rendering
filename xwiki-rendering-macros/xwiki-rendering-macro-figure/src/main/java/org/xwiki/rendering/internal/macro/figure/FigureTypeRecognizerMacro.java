@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.macro.figure;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,13 +38,15 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * insert a {@code data-xwiki-rendering-figure-type} property with its type in the {@link FigureBlock}.
  *
  * @version $Id$
- * @since 14.5RC1
+ * @since 14.6RC1
  */
 @Component
 @Named("figureTypeRecognizer")
 @Singleton
 public class FigureTypeRecognizerMacro extends AbstractNoParameterMacro
 {
+    private static final String DATA_XWIKI_RENDERING_FIGURE_TYPE = "data-xwiki-rendering-figure-type";
+
     @Inject
     private FigureTypeRecognizer figureTypeRecognizer;
 
@@ -52,10 +55,10 @@ public class FigureTypeRecognizerMacro extends AbstractNoParameterMacro
      */
     public FigureTypeRecognizerMacro()
     {
-        super("Figure Type Recognizer", "Internal macro used to recognizer the type of a figure.");
-        setDefaultCategory(DEFAULT_CATEGORY_HIDDEN);
-        // 1 more than the Figure macro priority (so executed after the Figure macro).
-        setPriority(1001);
+        super("Figure Type Recognizer", "Internal macro used to recognize the type of a figure.");
+        setDefaultCategories(Set.of(DEFAULT_CATEGORY_INTERNAL));
+        // High priority to make sure this macro is executed after all the content of the figure macro is executed.
+        setPriority(3000);
     }
 
     @Override
@@ -68,9 +71,9 @@ public class FigureTypeRecognizerMacro extends AbstractNoParameterMacro
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
     {
         Block nextSibling = context.getCurrentMacroBlock().getNextSibling();
-        if (nextSibling instanceof FigureBlock) {
+        if (nextSibling instanceof FigureBlock && nextSibling.getParameter(DATA_XWIKI_RENDERING_FIGURE_TYPE) == null) {
             String type = this.figureTypeRecognizer.isTable((FigureBlock) nextSibling) ? "table" : "figure";
-            nextSibling.setParameter("data-xwiki-rendering-figure-type", type);
+            nextSibling.setParameter(DATA_XWIKI_RENDERING_FIGURE_TYPE, type);
         }
         return List.of();
     }
