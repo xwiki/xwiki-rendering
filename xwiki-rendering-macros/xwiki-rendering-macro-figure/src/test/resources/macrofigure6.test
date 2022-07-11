@@ -1,45 +1,63 @@
 .runTransformations:macro
-.#-----------------------------------------------------
+.#--------------------------------------------------------------------------------------------------
 .input|xwiki/2.0
-.#-----------------------------------------------------
+.# Test with a table content to ensure propery figure type recognition.
+.#--------------------------------------------------------------------------------------------------
 {{figure}}
-whatever1
-whatever2
+|a|b
+|c|d
 
-{{figureCaption}}caption{{/figureCaption}}
+{{figureCaption}} A table {{/figureCaption}}
 {{/figure}}
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginMacroMarkerStandalone [figure] [] [whatever1
-whatever2
+beginMacroMarkerStandalone [figure] [] [|a|b
+|c|d
 
-{{figureCaption}}caption{{/figureCaption}}]
+{{figureCaption}} A table {{/figureCaption}}]
 beginMacroMarkerStandalone [figureTypeRecognizer] []
 endMacroMarkerStandalone [figureTypeRecognizer] []
-beginFigure [[data-xwiki-rendering-figure-type]=[figure]]
+beginFigure [[data-xwiki-rendering-figure-type]=[table]]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
-beginParagraph
-onWord [whatever1]
-onNewLine
-onWord [whatever2]
-endParagraph
-beginMacroMarkerStandalone [figureCaption] [] [caption]
+beginTable
+beginTableRow
+beginTableCell
+onWord [a]
+endTableCell
+beginTableCell
+onWord [b]
+endTableCell
+endTableRow
+beginTableRow
+beginTableCell
+onWord [c]
+endTableCell
+beginTableCell
+onWord [d]
+endTableCell
+endTableRow
+endTable
+beginMacroMarkerStandalone [figureCaption] [] [ A table ]
 beginFigureCaption
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
-onWord [caption]
+onSpace
+onWord [A]
+onSpace
+onWord [table]
+onSpace
 endParagraph
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endFigureCaption
-endMacroMarkerStandalone [figureCaption] [] [caption]
+endMacroMarkerStandalone [figureCaption] [] [ A table ]
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
-endFigure [[data-xwiki-rendering-figure-type]=[figure]]
-endMacroMarkerStandalone [figure] [] [whatever1
-whatever2
+endFigure [[data-xwiki-rendering-figure-type]=[table]]
+endMacroMarkerStandalone [figure] [] [|a|b
+|c|d
 
-{{figureCaption}}caption{{/figureCaption}}]
+{{figureCaption}} A table {{/figureCaption}}]
 endDocument
 .#--------------------------------------------------------------------------------------------------
 .expect|xhtml/1.0
@@ -47,4 +65,4 @@ endDocument
 .# The main problem is that ATM we don't have a way to input FigureBlock/FigureCaptionBlock without
 .# resorting to the XWiki 2.0+ syntax and Transformations.
 .#--------------------------------------------------------------------------------------------------
-<p>whatever1<br/>whatever2</p><div class="figcaption"><p>caption</p></div>
+<table><tr><td>a</td><td>b</td></tr><tr><td>c</td><td>d</td></tr></table><div class="figcaption"><p>&nbsp;A table&nbsp;</p></div>

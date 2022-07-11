@@ -17,7 +17,9 @@
 .#-----------------------------------------------------
 beginDocument
 beginMacroMarkerStandalone [figure] [] [{{figureCaption}}{{/figureCaption}}]
-beginFigure
+beginMacroMarkerStandalone [figureTypeRecognizer] []
+endMacroMarkerStandalone [figureTypeRecognizer] []
+beginFigure [[data-xwiki-rendering-figure-type]=[figure]]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginMacroMarkerStandalone [figureCaption] [] []
 beginFigureCaption
@@ -26,16 +28,20 @@ endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.B
 endFigureCaption
 endMacroMarkerStandalone [figureCaption] [] []
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
-endFigure
+endFigure [[data-xwiki-rendering-figure-type]=[figure]]
 endMacroMarkerStandalone [figure] [] [{{figureCaption}}{{/figureCaption}}]
 beginMacroMarkerStandalone [figure] []
-beginFigure
+beginMacroMarkerStandalone [figureTypeRecognizer] []
+endMacroMarkerStandalone [figureTypeRecognizer] []
+beginFigure [[data-xwiki-rendering-figure-type]=[figure]]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
-endFigure
+endFigure [[data-xwiki-rendering-figure-type]=[figure]]
 endMacroMarkerStandalone [figure] []
 beginMacroMarkerStandalone [figure] [] [{{figureCaption/}}]
-beginFigure
+beginMacroMarkerStandalone [figureTypeRecognizer] []
+endMacroMarkerStandalone [figureTypeRecognizer] []
+beginFigure [[data-xwiki-rendering-figure-type]=[figure]]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginMacroMarkerStandalone [figureCaption] []
 beginFigureCaption
@@ -44,7 +50,7 @@ endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.B
 endFigureCaption
 endMacroMarkerStandalone [figureCaption] []
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
-endFigure
+endFigure [[data-xwiki-rendering-figure-type]=[figure]]
 endMacroMarkerStandalone [figure] [] [{{figureCaption/}}]
 endDocument
 .#--------------------------------------------------------------------------------------------------

@@ -19,8 +19,8 @@
  */
 package org.xwiki.rendering.internal.macro.figure;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -29,7 +29,9 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.CompositeBlock;
 import org.xwiki.rendering.block.FigureBlock;
+import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
@@ -83,10 +85,12 @@ public class FigureMacro extends AbstractNoParameterMacro
         throws MacroExecutionException
     {
         XDOM xdom = this.contentParser.parse(content, context, false, false);
-        // Mark the macro content as being content that has not been transformed (so that it can editable inline)
-        List<Block> contentBlock = Collections.singletonList(new MetaDataBlock(xdom.getChildren(),
-            getNonGeneratedContentMetaData()));
+        // Mark the macro content as being content that has not been transformed (so that it can be edited inline).
+        List<Block> contentBlock = List.of(new MetaDataBlock(xdom.getChildren(), getNonGeneratedContentMetaData()));
 
-        return Collections.singletonList(new FigureBlock(contentBlock));
+        return List.of(new CompositeBlock(List.of(
+            new MacroBlock("figureTypeRecognizer", Map.of(), false),
+            new FigureBlock(contentBlock))
+        ));
     }
 }
