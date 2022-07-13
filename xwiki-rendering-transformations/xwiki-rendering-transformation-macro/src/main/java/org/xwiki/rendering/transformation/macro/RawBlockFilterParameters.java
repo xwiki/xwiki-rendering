@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.transformation.macro;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.stability.Unstable;
 
@@ -26,7 +28,7 @@ import org.xwiki.stability.Unstable;
  * Parameters for the {@link RawBlockFilter}.
  *
  * @version $Id$
- * @since 14.6RC1
+ * @since 14.7RC1
  */
 @Unstable
 public class RawBlockFilterParameters
@@ -93,5 +95,32 @@ public class RawBlockFilterParameters
         MacroTransformationContext macroTransformationContext)
     {
         this.macroTransformationContext = macroTransformationContext;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        RawBlockFilterParameters that = (RawBlockFilterParameters) o;
+
+        return new EqualsBuilder().append(isRestricted(), that.isRestricted())
+            .append(isClean(), that.isClean())
+            .append(getMacroTransformationContext(), that.getMacroTransformationContext())
+            .isEquals();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(17, 37).append(isRestricted()).append(isClean())
+            .append(getMacroTransformationContext())
+            .toHashCode();
     }
 }

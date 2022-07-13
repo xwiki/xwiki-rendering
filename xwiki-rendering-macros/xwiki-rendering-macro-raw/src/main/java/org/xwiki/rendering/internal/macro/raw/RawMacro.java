@@ -96,7 +96,7 @@ public class RawMacro extends AbstractMacro<RawMacroParameters>
                 rawBlock = filter.filter(rawBlock, filterParameters);
             }
         } catch (ComponentLookupException e) {
-            throw new MacroExecutionException("Couldn't initialize the HTML filtering.", e);
+            throw new MacroExecutionException("Couldn't initialize the raw content filtering.", e);
         }
 
         return Collections.singletonList(rawBlock);

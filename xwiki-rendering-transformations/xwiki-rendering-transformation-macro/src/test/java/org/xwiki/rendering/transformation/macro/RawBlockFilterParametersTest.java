@@ -19,26 +19,36 @@
  */
 package org.xwiki.rendering.transformation.macro;
 
-import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.block.RawBlock;
-import org.xwiki.rendering.macro.MacroExecutionException;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
- * Filtering for raw blocks to clean and sanitize raw content.
+ * Unit test for {@link RawBlockFilterParameters}.
  *
  * @version $Id$
  * @since 14.7RC1
  */
-@Role
-public interface RawBlockFilter
+class RawBlockFilterParametersTest
 {
-    /**
-     * Filter the given block according to the specified parameters.
-     *
-     * @param block the block to filter
-     * @param parameters the filtering parameters
-     * @return the filtered raw block
-     * @throws MacroExecutionException when the filtering failed
-     */
-    RawBlock filter(RawBlock block, RawBlockFilterParameters parameters) throws MacroExecutionException;
+    @Test
+    void equalsHashCode()
+    {
+        RawBlockFilterParameters parameters1 = new RawBlockFilterParameters();
+        RawBlockFilterParameters parameters2 = new RawBlockFilterParameters();
+        assertEquals(parameters1, parameters2);
+        assertEquals(parameters1.hashCode(), parameters2.hashCode());
+
+        parameters1.setClean(true);
+        parameters2.setClean(true);
+
+        assertEquals(parameters1, parameters2);
+        assertEquals(parameters1.hashCode(), parameters2.hashCode());
+
+        parameters1.setRestricted(true);
+
+        assertNotEquals(parameters1, parameters2);
+        assertNotEquals(parameters1.hashCode(), parameters2.hashCode());
+    }
 }

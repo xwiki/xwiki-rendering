@@ -17,105 +17,107 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.macro.html;
+package org.xwiki.rendering.macro.raw;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.xwiki.component.annotation.Component;
+import org.xwiki.component.annotation.InstantiationStrategy;
+import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.component.phase.Initializable;
+import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.RawBlock;
-import org.xwiki.rendering.internal.macro.html.HTMLMacro;
+import org.xwiki.rendering.internal.macro.raw.RawMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.macro.RawBlockFilter;
 import org.xwiki.rendering.transformation.macro.RawBlockFilterParameters;
-import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
 import org.xwiki.test.mockito.MockitoComponentManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for {@link HTMLMacro} that cannot be performed using the Rendering Test framework.
+ * Unit tests for the {@link RawMacro}.
  *
  * @version $Id$
- * @since 1.8.3
+ * @since 14.7RC1
  */
 @ComponentTest
-@AllComponents
-class HTMLMacroTest
+class RawMacroTest
 {
-    @InjectMockComponents
-    private HTMLMacro macro;
+    private static final String TEST_CONTENT = "Test content";
 
-    /**
-     * Verify that inline HTML macros with non inline content generate an exception.
-     */
-    @Test
-    void executeMacroWhenNonInlineContentInInlineContext()
+    @Component
+    @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
+    public static class ThrowingComponent implements Initializable, RawBlockFilter
     {
-        HTMLMacroParameters parameters = new HTMLMacroParameters();
-        MacroTransformationContext context = new MacroTransformationContext();
-        context.setInline(true);
-        assertThrows(MacroExecutionException.class, () ->
-            this.macro.execute(parameters, "<ul><li>item</li></ul>", context));
-    }
+        private static final String MESSAGE = "Test exception";
 
-    @Test
-    void macroDescriptor()
-    {
-        assertEquals("Indicate if the HTML should be transformed into valid XHTML or not.",
-            this.macro.getDescriptor().getParameterDescriptorMap().get("clean").getDescription());
-    }
+        @Override
+        public void initialize() throws InitializationException
+        {
+            throw new InitializationException(MESSAGE);
+        }
 
-    @Test
-    void restrictedHtml() throws MacroExecutionException
-    {
-        HTMLMacroParameters parameters = new HTMLMacroParameters();
-        MacroTransformationContext context = new MacroTransformationContext();
-        context.getTransformationContext().setRestricted(true);
-        List<Block> blocks = this.macro.execute(parameters, "<script>alert('Hello!');</script>", context);
-
-        for (Block block : blocks) {
-            if (block instanceof RawBlock) {
-                RawBlock rawBlock = (RawBlock) block;
-                assertEquals("<pre>alert('Hello!');</pre>", rawBlock.getRawContent());
-            }
+        @Override
+        public RawBlock filter(RawBlock block, RawBlockFilterParameters parameters)
+        {
+            return null;
         }
     }
+
+    @InjectMockComponents
+    private RawMacro rawMacro;
 
     @Test
     void filtering(MockitoComponentManager componentManager) throws Exception
     {
-        String content = "<p>Hello World!</p>";
-        RawBlock expectedRawBlock = new RawBlock(content, Syntax.HTML_5_0);
+        RawBlock expectedRawBlock = new RawBlock(TEST_CONTENT, Syntax.EVENT_1_0);
 
         MacroTransformationContext transformationContext = new MacroTransformationContext();
 
         RawBlockFilterParameters expectedFilterParameters = new RawBlockFilterParameters();
         expectedFilterParameters.setMacroTransformationContext(transformationContext);
-        expectedFilterParameters.setClean(true);
 
-        RawBlock filteredRawBlock = new RawBlock("<p>filtered</p>", Syntax.HTML_5_0);
+        RawBlock filteredRawBlock = new RawBlock("filtered", Syntax.EVENT_1_0);
 
         RawBlockFilter filter = mock(RawBlockFilter.class);
         when(filter.filter(expectedRawBlock, expectedFilterParameters)).thenReturn(filteredRawBlock);
         componentManager.registerComponent(RawBlockFilter.class, "test", filter);
 
-        HTMLMacroParameters parameters = new HTMLMacroParameters();
-        List<Block> result = this.macro.execute(parameters, content, transformationContext);
+        RawMacroParameters parameters = new RawMacroParameters();
+        parameters.setSyntax(Syntax.EVENT_1_0);
+        List<Block> result = this.rawMacro.execute(parameters, TEST_CONTENT, transformationContext);
 
         verify(filter).filter(expectedRawBlock, expectedFilterParameters);
         verifyNoMoreInteractions(filter);
 
         assertEquals(1, result.size());
         assertEquals(filteredRawBlock, result.get(0));
+    }
+
+    @Test
+    void throwingFilter(MockitoComponentManager componentManager) throws Exception
+    {
+        MacroTransformationContext transformationContext = new MacroTransformationContext();
+
+        componentManager.registerComponent(ThrowingComponent.class);
+
+        Exception exception = assertThrows(MacroExecutionException.class, () ->
+            this.rawMacro.execute(new RawMacroParameters(), "Hello", transformationContext));
+
+        assertTrue(exception.getMessage().contains("raw content filtering"));
+        assertEquals(ThrowingComponent.MESSAGE, exception.getCause().getCause().getMessage());
     }
 }

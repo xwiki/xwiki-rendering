@@ -47,7 +47,7 @@ import org.xwiki.xml.html.HTMLUtils;
  * HTML filter for raw blocks.
  *
  * @version $Id$
- * @since 14.6RC1
+ * @since 14.7RC1
  */
 @Component
 @Singleton
@@ -64,10 +64,10 @@ public class HTMLRawBlockFilter implements RawBlockFilter
     public RawBlock filter(RawBlock block, RawBlockFilterParameters parameters) throws MacroExecutionException
     {
         RawBlock result = block;
+        MacroTransformationContext macroTransformationContext = parameters.getMacroTransformationContext();
 
-        boolean restricted =
-            parameters.isRestricted() || parameters.getMacroTransformationContext().getTransformationContext()
-                .isRestricted();
+        boolean restricted = parameters.isRestricted() || (macroTransformationContext != null
+            && macroTransformationContext.getTransformationContext().isRestricted());
 
         if (SyntaxType.HTML_FAMILY_TYPES.contains(block.getSyntax().getType())
             && (parameters.isClean()) || restricted)
@@ -127,9 +127,9 @@ public class HTMLRawBlockFilter implements RawBlockFilter
                 HTMLUtils.stripFirstElementInside(document, HTMLConstants.TAG_HTML, HTMLConstants.TAG_P);
             } else {
                 throw new MacroExecutionException(
-                    "When using the HTML macro inline, you can only use inline HTML content."
+                    "When using HTML content inline, you can only use inline HTML content."
                         + " Block HTML content (such as tables) cannot be displayed."
-                        + " Try leaving an empty line before and after the HTML macro.");
+                        + " Try leaving an empty line before and after the macro.");
             }
         }
 
