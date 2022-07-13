@@ -40,11 +40,6 @@ public class HTMLMacroParameters
     private boolean clean = true;
 
     /**
-     * Indicate if the allowed HTML should be restricted to a safe subset excluding JavaScript.
-     */
-    private boolean restricted;
-
-    /**
      * @param wiki indicate if the user has asked to interpret wiki syntax or not
      */
     @PropertyDescription("Indicate if the wiki syntax in the macro will be interpreted or not.")
@@ -63,15 +58,6 @@ public class HTMLMacroParameters
     }
 
     /**
-     * @param restricted indicate if the HTML should be restricted to a safe subset excluding JavaScript
-     */
-    @PropertyDescription("Indicate if the allowed HTML should be restricted to a safe subset excluding JavaScript.")
-    public void setRestricted(boolean restricted)
-    {
-        this.restricted = restricted;
-    }
-
-    /**
      * @return if the user has asked to interpret wiki syntax or not
      */
     public boolean getWiki()
@@ -85,13 +71,5 @@ public class HTMLMacroParameters
     public boolean getClean()
     {
         return this.clean;
-    }
-
-    /**
-     * @return if the HTML should be restricted to a safe subset excluding JavaScript
-     */
-    public boolean getRestricted()
-    {
-        return this.restricted;
     }
 }

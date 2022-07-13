@@ -146,7 +146,6 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             try {
                 RawBlockFilterParameters filterParameters = new RawBlockFilterParameters();
                 filterParameters.setClean(parameters.getClean());
-                filterParameters.setRestricted(parameters.getRestricted());
                 filterParameters.setMacroTransformationContext(context);
                 for (RawBlockFilter filter
                     : this.componentManager.<RawBlockFilter>getInstanceList(RawBlockFilter.class)) {
