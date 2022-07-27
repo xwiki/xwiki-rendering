@@ -71,13 +71,13 @@ class HTMLRawBlockFilterTest
         String output) throws MacroExecutionException
     {
         RawBlock input = new RawBlock(INPUT, Syntax.HTML_5_0);
-        RawBlockFilterParameters parameters = new RawBlockFilterParameters();
-        parameters.setClean(clean);
-        parameters.setRestricted(restricted);
+
         MacroTransformationContext context = new MacroTransformationContext();
         context.setInline(inline);
         context.getTransformationContext().setRestricted(restrictedContext);
-        parameters.setMacroTransformationContext(context);
+        RawBlockFilterParameters parameters = new RawBlockFilterParameters(context);
+        parameters.setClean(clean);
+        parameters.setRestricted(restricted);
 
         RawBlock outputBlock = this.htmlRawBlockFilter.filter(input, parameters);
 
@@ -89,11 +89,11 @@ class HTMLRawBlockFilterTest
     void invalidInlineCleaning()
     {
         RawBlock input = new RawBlock("<div>Block content.</div>", Syntax.XHTML_1_0);
-        RawBlockFilterParameters parameters = new RawBlockFilterParameters();
+
         MacroTransformationContext macroTransformationContext = new MacroTransformationContext();
         macroTransformationContext.setInline(true);
+        RawBlockFilterParameters parameters = new RawBlockFilterParameters(macroTransformationContext);
         parameters.setClean(true);
-        parameters.setMacroTransformationContext(macroTransformationContext);
         Exception exception = assertThrows(MacroExecutionException.class,
             () -> this.htmlRawBlockFilter.filter(input, parameters));
         assertTrue(exception.getMessage().contains("inline HTML content"));

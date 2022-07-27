@@ -41,4 +41,13 @@ public interface RawBlockFilter
      * @throws MacroExecutionException when the filtering failed
      */
     RawBlock filter(RawBlock block, RawBlockFilterParameters parameters) throws MacroExecutionException;
+
+    /**
+     * The priority defines the order in which the filters will be executed since filters are executed on a block
+     * that might have been already transformed by a previous filter.
+     * The lower the number, the sooner the filter will be executed.
+     *
+     * @return the priority of execution of the filter.
+     */
+    int getPriority();
 }

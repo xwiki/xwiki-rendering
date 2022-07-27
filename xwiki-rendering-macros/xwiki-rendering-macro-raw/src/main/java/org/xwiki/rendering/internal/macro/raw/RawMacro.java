@@ -89,10 +89,10 @@ public class RawMacro extends AbstractMacro<RawMacroParameters>
         RawBlock rawBlock = new RawBlock(content, parameters.getSyntax());
 
         try {
-            RawBlockFilterParameters filterParameters = new RawBlockFilterParameters();
-            filterParameters.setMacroTransformationContext(context);
-            for (RawBlockFilter filter
-                : this.componentManager.<RawBlockFilter>getInstanceList(RawBlockFilter.class)) {
+            RawBlockFilterParameters filterParameters = new RawBlockFilterParameters(context);
+            List<RawBlockFilter> filters = this.componentManager.getInstanceList(RawBlockFilter.class);
+            filters.sort((filter1, filter2) -> filter1.getPriority() - filter2.getPriority());
+            for (RawBlockFilter filter : filters) {
                 rawBlock = filter.filter(rawBlock, filterParameters);
             }
         } catch (ComponentLookupException e) {

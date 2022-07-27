@@ -38,6 +38,7 @@ import org.xwiki.test.mockito.MockitoComponentManager;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -99,21 +100,43 @@ class HTMLMacroTest
 
         MacroTransformationContext transformationContext = new MacroTransformationContext();
 
-        RawBlockFilterParameters expectedFilterParameters = new RawBlockFilterParameters();
-        expectedFilterParameters.setMacroTransformationContext(transformationContext);
+        RawBlockFilterParameters expectedFilterParameters = new RawBlockFilterParameters(transformationContext);
         expectedFilterParameters.setClean(true);
 
         RawBlock filteredRawBlock = new RawBlock("<p>filtered</p>", Syntax.HTML_5_0);
 
-        RawBlockFilter filter = mock(RawBlockFilter.class);
-        when(filter.filter(expectedRawBlock, expectedFilterParameters)).thenReturn(filteredRawBlock);
-        componentManager.registerComponent(RawBlockFilter.class, "test", filter);
+        RawBlockFilter filter1 = componentManager.registerMockComponent(RawBlockFilter.class, "filter1");
+        RawBlockFilter filter2 = componentManager.registerMockComponent(RawBlockFilter.class, "filter2");
+        RawBlockFilter filter3 = componentManager.registerMockComponent(RawBlockFilter.class, "filter3");
+
+        componentManager.unregisterComponent(RawBlockFilter.class, "html");
+
+        // filters should be executed this way: filter3, then filter1, then filter2
+        when(filter3.getPriority()).thenReturn(5);
+        when(filter1.getPriority()).thenReturn(10);
+        when(filter2.getPriority()).thenReturn(15);
+
+        RawBlock intermediateBlock1 = new RawBlock("<p>intermediate 1</p>", Syntax.HTML_5_0);
+        RawBlock intermediateBlock2 = new RawBlock("<p>intermediate 2</p>", Syntax.HTML_5_0);
+
+        when(filter3.filter(expectedRawBlock, expectedFilterParameters)).thenReturn(intermediateBlock1);
+        when(filter1.filter(intermediateBlock1, expectedFilterParameters)).thenReturn(intermediateBlock2);
+        when(filter2.filter(intermediateBlock2, expectedFilterParameters)).thenReturn(filteredRawBlock);
 
         HTMLMacroParameters parameters = new HTMLMacroParameters();
         List<Block> result = this.macro.execute(parameters, content, transformationContext);
 
-        verify(filter).filter(expectedRawBlock, expectedFilterParameters);
-        verifyNoMoreInteractions(filter);
+        verify(filter3, times(3)).getPriority();
+        verify(filter3).filter(expectedRawBlock, expectedFilterParameters);
+        verifyNoMoreInteractions(filter3);
+
+        verify(filter1, times(2)).getPriority();
+        verify(filter1).filter(intermediateBlock1, expectedFilterParameters);
+        verifyNoMoreInteractions(filter1);
+
+        verify(filter2, times(3)).getPriority();
+        verify(filter2).filter(intermediateBlock2, expectedFilterParameters);
+        verifyNoMoreInteractions(filter2);
 
         assertEquals(1, result.size());
         assertEquals(filteredRawBlock, result.get(0));

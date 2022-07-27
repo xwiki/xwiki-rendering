@@ -20,9 +20,11 @@
 package org.xwiki.rendering.transformation.macro;
 
 import org.junit.jupiter.api.Test;
+import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.Mockito.mock;
 
 /**
  * Unit test for {@link RawBlockFilterParameters}.
@@ -35,8 +37,9 @@ class RawBlockFilterParametersTest
     @Test
     void equalsHashCode()
     {
-        RawBlockFilterParameters parameters1 = new RawBlockFilterParameters();
-        RawBlockFilterParameters parameters2 = new RawBlockFilterParameters();
+        MacroTransformationContext macroTransformationContext = mock(MacroTransformationContext.class);
+        RawBlockFilterParameters parameters1 = new RawBlockFilterParameters(macroTransformationContext);
+        RawBlockFilterParameters parameters2 = new RawBlockFilterParameters(macroTransformationContext);
         assertEquals(parameters1, parameters2);
         assertEquals(parameters1.hashCode(), parameters2.hashCode());
 

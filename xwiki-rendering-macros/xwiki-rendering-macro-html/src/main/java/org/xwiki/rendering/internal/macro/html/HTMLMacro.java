@@ -144,11 +144,11 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             RawBlock contentBlock = new RawBlock(normalizedContent, targetSyntax);
 
             try {
-                RawBlockFilterParameters filterParameters = new RawBlockFilterParameters();
+                RawBlockFilterParameters filterParameters = new RawBlockFilterParameters(context);
                 filterParameters.setClean(parameters.getClean());
-                filterParameters.setMacroTransformationContext(context);
-                for (RawBlockFilter filter
-                    : this.componentManager.<RawBlockFilter>getInstanceList(RawBlockFilter.class)) {
+                List<RawBlockFilter> filters = this.componentManager.getInstanceList(RawBlockFilter.class);
+                filters.sort((filter1, filter2) -> filter1.getPriority() - filter2.getPriority());
+                for (RawBlockFilter filter : filters) {
                     contentBlock = filter.filter(contentBlock, filterParameters);
                 }
             } catch (ComponentLookupException e) {

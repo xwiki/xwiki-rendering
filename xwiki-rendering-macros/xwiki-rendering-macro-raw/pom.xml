@@ -31,7 +31,7 @@
   <name>XWiki Rendering - Macro - Raw</name>
   <description>Directly output content in a target syntax</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>1.00</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.92</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Raw Macro</xwiki.extension.name>
   </properties>

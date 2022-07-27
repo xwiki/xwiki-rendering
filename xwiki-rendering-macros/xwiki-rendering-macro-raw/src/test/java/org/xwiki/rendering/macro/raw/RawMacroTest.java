@@ -75,6 +75,12 @@ class RawMacroTest
         {
             return null;
         }
+
+        @Override
+        public int getPriority()
+        {
+            return 0;
+        }
     }
 
     @InjectMockComponents
@@ -87,8 +93,7 @@ class RawMacroTest
 
         MacroTransformationContext transformationContext = new MacroTransformationContext();
 
-        RawBlockFilterParameters expectedFilterParameters = new RawBlockFilterParameters();
-        expectedFilterParameters.setMacroTransformationContext(transformationContext);
+        RawBlockFilterParameters expectedFilterParameters = new RawBlockFilterParameters(transformationContext);
 
         RawBlock filteredRawBlock = new RawBlock("filtered", Syntax.EVENT_1_0);
 

@@ -46,7 +46,17 @@ public class RawBlockFilterParameters
     /**
      * The macro transformation context.
      */
-    private MacroTransformationContext macroTransformationContext;
+    private final MacroTransformationContext macroTransformationContext;
+
+    /**
+     * Default constructor.
+     *
+     * @param macroTransformationContext the macro transformation context that should be used.
+     */
+    public RawBlockFilterParameters(MacroTransformationContext macroTransformationContext)
+    {
+        this.macroTransformationContext = macroTransformationContext;
+    }
 
     /**
      * @return if the filtering shall use a safe, restricted mode
@@ -86,15 +96,6 @@ public class RawBlockFilterParameters
     public MacroTransformationContext getMacroTransformationContext()
     {
         return this.macroTransformationContext;
-    }
-
-    /**
-     * @param macroTransformationContext the macro transformation context in which the filter is applied
-     */
-    public void setMacroTransformationContext(
-        MacroTransformationContext macroTransformationContext)
-    {
-        this.macroTransformationContext = macroTransformationContext;
     }
 
     @Override
