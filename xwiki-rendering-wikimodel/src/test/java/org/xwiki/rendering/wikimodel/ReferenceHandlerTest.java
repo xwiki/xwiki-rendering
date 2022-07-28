@@ -30,18 +30,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @version $Id$
  * @since 4.0M1
  */
-public class ReferenceHandlerTest
+class ReferenceHandlerTest
 {
     private TestReferenceHandler clazz;
 
     @BeforeEach
-    private void setUp()
+    void setUp()
     {
         this.clazz = new TestReferenceHandler(true, true);
     }
 
     @Test
-    public void handleImageUppercase()
+    void handleImageUppercase()
     {
         WikiReference ref = new WikiReference("Image:foo.png", "bar");
         clazz.handle(ref);
@@ -50,7 +50,7 @@ public class ReferenceHandlerTest
     }
 
     @Test
-    public void handleImageLowercase()
+    void handleImageLowercase()
     {
         WikiReference ref = new WikiReference("image:bar.png", "foo");
         clazz.handle(ref);

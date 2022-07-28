@@ -28,10 +28,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * 
  * @version $Id$
  */
-public class WikiParametersTest
+class WikiParametersTest
 {
     @Test
-    public void testParametersValuewithoutEndingDoubleQuote()
+    void testParametersValuewithoutEndingDoubleQuote()
     {
         WikiParameters wikiParameters = WikiParameters.newWikiParameters("key=\"value");
 
