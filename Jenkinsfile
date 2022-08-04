@@ -65,7 +65,7 @@ stage ('Rendering Builds') {
           profiles: 'repository-snapshots,quality,legacy,coverage',
           properties: '-Dxwiki.jacoco.itDestFile=`pwd`/target/jacoco-it.exec',
           sonar: true
-        }
+        )
       }
     },
     'checkstyle': {
@@ -77,7 +77,7 @@ stage ('Rendering Builds') {
           name: 'Checkstyle',
           goals: 'clean test-compile checkstyle:check@default',
           profiles: 'repository-snapshots,legacy'
-        }
+        )
       }
     }
   )
