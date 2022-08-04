@@ -80,7 +80,7 @@ stage ('Rendering Builds') {
           name: 'Checkstyle',
           goals: 'clean test-compile checkstyle:check@default',
           profiles: 'repository-snapshots,legacy'
-        }
+        )
       }
     }
   )
