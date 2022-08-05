@@ -68,7 +68,7 @@ stage ('Rendering Builds') {
           // Build with Java 14 since Sonar requires Java 11+ (and currently we can't use Java 16 or 17 because of
           // Spoon).
           javaTool: 'java14'
-        }
+        )
       }
     },
     'checkstyle': {
