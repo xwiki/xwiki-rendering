@@ -19,12 +19,17 @@
 # ---------------------------------------------------------------------------
 version: 2
 registries:
-  maven-artifactory:
+  # Required to resolve xwiki-common SNAPSHOT parent pom
+  maven-xwiki-snapshots:
     type: maven-repository
-    url: https://nexus.xwiki.org/nexus/content/groups/public/
+    url: https://maven.xwiki.org/snapshots
+    username: "void"
+    password: "void"
 updates:
   - package-ecosystem: "maven"
     directory: "/"
+    registries:
+      - maven-xwiki-snapshots
     schedule:
       interval: "weekly"
     allow:
