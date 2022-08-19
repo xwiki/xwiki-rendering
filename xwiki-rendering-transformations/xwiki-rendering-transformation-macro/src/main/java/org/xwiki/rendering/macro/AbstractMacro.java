@@ -75,6 +75,13 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     public static final String DEFAULT_CATEGORY_INTERNAL = "Internal";
 
     /**
+     * "Deprecated" default macro category.
+     * @since 14.8RC1
+     */
+    @Unstable
+    public static final String DEFAULT_CATEGORY_DEPRECATED = "Deprecated";
+
+    /**
      * "Layout" default macro category.
      */
     public static final String DEFAULT_CATEGORY_LAYOUT = "Layout";
