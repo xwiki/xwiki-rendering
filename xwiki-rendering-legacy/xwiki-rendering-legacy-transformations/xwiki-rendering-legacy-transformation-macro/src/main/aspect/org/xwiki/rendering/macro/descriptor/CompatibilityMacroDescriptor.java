@@ -21,7 +21,7 @@ package org.xwiki.rendering.macro.descriptor;
 
 /**
  * Compatibility interface for {@link MacroDescriptor}. Contains the methods from {@link MacroDescriptor} moved to
- * legacy, and weaved to its hierarchy by {@link MacroDescriptorAspect}.
+ * legacy, and weaved to its hierarchy by {@code MacroDescriptorAspect}.
  *
  * @version $Id$
  * @since 14.8RC1

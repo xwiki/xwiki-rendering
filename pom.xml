@@ -271,6 +271,22 @@
                    </differences>
                  </revapi.differences>
             -->
+            <revapi.differences>
+              <justification>Moved to a legacy module</justification>
+              <criticality>allowed</criticality>
+              <differences>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.method.removed</code>
+                  <old>method void org.xwiki.rendering.macro.AbstractMacro&lt;P&gt;::setDefaultCategory(java.lang.String) @ org.xwiki.rendering.macro.box.AbstractBoxMacro&lt;P extends org.xwiki.rendering.macro.box.BoxMacroParameters&gt;</old>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.method.removed</code>
+                  <old>method java.lang.String org.xwiki.rendering.macro.descriptor.MacroDescriptor::getDefaultCategory()</old>
+                </item>
+              </differences>
+            </revapi.differences>
           </analysisConfiguration>
         </configuration>
       </plugin>
