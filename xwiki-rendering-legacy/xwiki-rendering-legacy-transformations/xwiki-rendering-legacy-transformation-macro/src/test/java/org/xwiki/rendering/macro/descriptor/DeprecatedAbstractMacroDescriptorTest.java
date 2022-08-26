@@ -19,12 +19,17 @@
  */
 package org.xwiki.rendering.macro.descriptor;
 
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 import org.xwiki.properties.BeanDescriptor;
 import org.xwiki.rendering.macro.MacroId;
 
+import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -35,6 +40,10 @@ import static org.mockito.Mockito.mock;
  */
 class DeprecatedAbstractMacroDescriptorTest
 {
+    private AbstractMacroDescriptor macroDescriptor = new AbstractMacroDescriptor(new MacroId("testmacro"), "testmacro",
+        "description", new DefaultContentDescriptor("description", false), mock(BeanDescriptor.class))
+    {
+    };
     @Test
     void setDefaultCategory()
     {
@@ -45,5 +54,28 @@ class DeprecatedAbstractMacroDescriptorTest
 
         abstractMacroDescriptor.setDefaultCategory("testcategory");
         assertThat(abstractMacroDescriptor.getDefaultCategories(), containsInAnyOrder("testcategory"));
+    }
+
+    @Test
+    void getDefaultCategoryEmpty()
+    {
+        this.macroDescriptor.setDefaultCategories(Set.of());
+        assertNull(this.macroDescriptor.getDefaultCategory());
+    }
+
+    @Test
+    void getDefaultCategory()
+    {
+        this.macroDescriptor.setDefaultCategories(Set.of("CatA", "CatB"));
+
+        assertThat(this.macroDescriptor.getDefaultCategory(),
+            anyOf(equalTo("CatA"), equalTo("CatB")));
+    }
+
+    @Test
+    void getDefaultCategoryNull()
+    {
+        this.macroDescriptor.setDefaultCategories(null);
+        assertNull(this.macroDescriptor.getDefaultCategory());
     }
 }

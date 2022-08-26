@@ -239,20 +239,6 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     }
 
     /**
-     * Allows sub classes to set the default macro category. This method only has an effect if the internal
-     * {@link MacroDescriptor} is of type {@link AbstractMacroDescriptor}.
-     *
-     * @param defaultCategory the default macro category to be set.
-     * @deprecated since 14.6RC1, use {@link #setDefaultCategories(Set)} instead
-     */
-    @Deprecated(since = "14.6RC1")
-    // TODO: move to legacy once cleaned-up from xwiki-platform.
-    protected void setDefaultCategory(String defaultCategory)
-    {
-        setDefaultCategories(Set.of(defaultCategory));
-    }
-
-    /**
      * Allows sub-classes to set default macro categories. This method only has an effect of the internal
      * {@link MacroDescriptor} is of type {@link AbstractMacroDescriptor}.
      *

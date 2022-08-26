@@ -100,26 +100,6 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     }
 
     /**
-     * @param name the name of the macro (eg "Table Of Contents" for the TOC macro)
-     * @param description the description of the macro.
-     * @param contentDescriptor the description of the macro content. null indicate macro does not support content.
-     * @param parametersBeanDescriptor the description of the parameters bean or null if there are no parameters for
-     *            this macro.
-     * @since 2.0M3
-     * @deprecated since 2.3M1 use
-     *             {@link #AbstractMacroDescriptor(MacroId, String, String, ContentDescriptor, BeanDescriptor)} instead
-     */
-    @Deprecated
-    public AbstractMacroDescriptor(String name, String description, ContentDescriptor contentDescriptor,
-        BeanDescriptor parametersBeanDescriptor)
-    {
-        this.name = name;
-        this.description = description;
-        this.contentDescriptor = contentDescriptor;
-        this.parametersBeanDescriptor = parametersBeanDescriptor;
-    }
-
-    /**
      * Extract parameters informations from {@link #parametersBeanDescriptor} and insert it in
      * {@link #parameterDescriptorMap}.
      *
@@ -178,17 +158,6 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
     {
         return (null != this.parametersBeanDescriptor) ? Collections.unmodifiableMap(this.parameterDescriptorMap)
             : Collections.<String, ParameterDescriptor>emptyMap();
-    }
-
-    @Override
-    public String getDefaultCategory()
-    {
-        // Takes any category if defaultCategories is not empty, to have a value to return when this method is called.
-        // Note that there is no guarantee of which category will be returned.
-        if (this.defaultCategories == null) {
-            return null;
-        }
-        return this.defaultCategories.stream().findFirst().orElse(null);
     }
 
     /**

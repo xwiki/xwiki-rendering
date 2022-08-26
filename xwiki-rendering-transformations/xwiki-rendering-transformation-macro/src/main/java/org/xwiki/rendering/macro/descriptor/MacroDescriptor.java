@@ -72,21 +72,6 @@ public interface MacroDescriptor
     Map<String, ParameterDescriptor> getParameterDescriptorMap();
 
     /**
-     * A macro can define a default classification category under which it falls. For an example, the "skype" macro
-     * would fall under the "Communication" category of macros. However, a wiki administrator has the ability to
-     * override the default category for a given macro in order to organize categories as he sees fit. Thus, this
-     * default category is only an indication from the macro author about what category the macro should fall under.
-     *
-     * @return the default category under which this macro should be listed or null if the macro doesn't have a default
-     *         category defined
-     * @since 2.0M3
-     * @deprecated since 14.6RC1, use {@link #getDefaultCategories()} instead
-     */
-    @Deprecated(since = "14.6RC1")
-    // TODO: move to legacy once cleaned-up from xwiki-platform.
-    String getDefaultCategory();
-
-    /**
      * A macro defines a set of classification categories under which it falls. For instance, the "skype" macro would
      * fall under the "Communication" and "Video" categories. However, a wiki administrator has the ability to override
      * the default categories for a given macro in order to organize categories as he or she sees fit. Thus, these
