@@ -55,6 +55,6 @@ public interface MacroTransformationConfiguration
     @Unstable
     default Set<String> getHiddenCategories()
     {
-        throw new UnsupportedOperationException();
+        return Set.of();
     }
 }
