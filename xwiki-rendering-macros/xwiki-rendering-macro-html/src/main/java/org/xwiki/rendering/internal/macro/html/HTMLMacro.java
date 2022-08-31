@@ -118,6 +118,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     private RenderingContext renderingContext;
 
     @Inject
+    @Named("context")
     private ComponentManager componentManager;
 
     /**
