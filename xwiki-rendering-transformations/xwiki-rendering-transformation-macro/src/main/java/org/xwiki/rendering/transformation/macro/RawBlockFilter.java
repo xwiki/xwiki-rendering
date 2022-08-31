@@ -22,14 +22,16 @@ package org.xwiki.rendering.transformation.macro;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.stability.Unstable;
 
 /**
  * Filtering for raw blocks to clean and sanitize raw content.
  *
  * @version $Id$
- * @since 14.7RC1
+ * @since 14.8RC1
  */
 @Role
+@Unstable
 public interface RawBlockFilter
 {
     /**

@@ -39,6 +39,7 @@ import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
+import org.xwiki.rendering.internal.transformation.macro.RawBlockFilterUtils;
 import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
@@ -108,6 +109,9 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     @Named("context")
     private Provider<ComponentManager> componentManagerProvider;
 
+    @Inject
+    private RawBlockFilterUtils rawBlockFilterUtils;
+
     /**
      * Create and initialize the descriptor of the macro.
      */
@@ -146,9 +150,8 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             try {
                 RawBlockFilterParameters filterParameters = new RawBlockFilterParameters(context);
                 filterParameters.setClean(parameters.getClean());
-                List<RawBlockFilter> filters = this.componentManager.getInstanceList(RawBlockFilter.class);
-                filters.sort((filter1, filter2) -> filter1.getPriority() - filter2.getPriority());
-                for (RawBlockFilter filter : filters) {
+
+                for (RawBlockFilter filter : this.rawBlockFilterUtils.getRawBlockFilters()) {
                     contentBlock = filter.filter(contentBlock, filterParameters);
                 }
             } catch (ComponentLookupException e) {

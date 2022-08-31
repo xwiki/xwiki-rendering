@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Unit test for the {@link HTMLRawBlockFilter}.
  *
  * @version $Id$
- * @since 14.7RC1
+ * @since 14.8RC1
  */
 @ComponentTest
 @DefaultHTMLCleanerComponentList

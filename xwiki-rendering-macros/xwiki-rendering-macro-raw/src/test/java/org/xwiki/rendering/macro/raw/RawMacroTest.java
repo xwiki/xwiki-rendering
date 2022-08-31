@@ -19,24 +19,29 @@
  */
 package org.xwiki.rendering.macro.raw;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.internal.macro.raw.RawMacro;
+import org.xwiki.rendering.internal.transformation.macro.RawBlockFilterUtils;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.macro.RawBlockFilter;
 import org.xwiki.rendering.transformation.macro.RawBlockFilterParameters;
+import org.xwiki.test.annotation.BeforeComponent;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
+import org.xwiki.test.junit5.mockito.MockComponent;
 import org.xwiki.test.mockito.MockitoComponentManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,7 +56,7 @@ import static org.mockito.Mockito.when;
  * Unit tests for the {@link RawMacro}.
  *
  * @version $Id$
- * @since 14.7RC1
+ * @since 14.8RC1
  */
 @ComponentTest
 class RawMacroTest
@@ -86,8 +91,11 @@ class RawMacroTest
     @InjectMockComponents
     private RawMacro rawMacro;
 
+    @MockComponent
+    private RawBlockFilterUtils rawBlockFilterUtils;
+
     @Test
-    void filtering(MockitoComponentManager componentManager) throws Exception
+    void filtering() throws Exception
     {
         RawBlock expectedRawBlock = new RawBlock(TEST_CONTENT, Syntax.EVENT_1_0);
 
@@ -99,7 +107,7 @@ class RawMacroTest
 
         RawBlockFilter filter = mock(RawBlockFilter.class);
         when(filter.filter(expectedRawBlock, expectedFilterParameters)).thenReturn(filteredRawBlock);
-        componentManager.registerComponent(RawBlockFilter.class, "test", filter);
+        when(rawBlockFilterUtils.getRawBlockFilters()).thenReturn(Collections.singletonList(filter));
 
         RawMacroParameters parameters = new RawMacroParameters();
         parameters.setSyntax(Syntax.EVENT_1_0);
@@ -113,11 +121,13 @@ class RawMacroTest
     }
 
     @Test
-    void throwingFilter(MockitoComponentManager componentManager) throws Exception
+    void throwingFilter() throws Exception
     {
         MacroTransformationContext transformationContext = new MacroTransformationContext();
 
-        componentManager.registerComponent(ThrowingComponent.class);
+        when(rawBlockFilterUtils.getRawBlockFilters())
+            .thenThrow(new ComponentLookupException("Error initializing component",
+                new InitializationException(ThrowingComponent.MESSAGE)));
 
         Exception exception = assertThrows(MacroExecutionException.class, () ->
             this.rawMacro.execute(new RawMacroParameters(), "Hello", transformationContext));

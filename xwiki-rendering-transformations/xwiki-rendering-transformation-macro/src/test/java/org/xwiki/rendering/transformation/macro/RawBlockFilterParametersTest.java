@@ -30,7 +30,7 @@ import static org.mockito.Mockito.mock;
  * Unit test for {@link RawBlockFilterParameters}.
  *
  * @version $Id$
- * @since 14.7RC1
+ * @since 14.8RC1
  */
 class RawBlockFilterParametersTest
 {

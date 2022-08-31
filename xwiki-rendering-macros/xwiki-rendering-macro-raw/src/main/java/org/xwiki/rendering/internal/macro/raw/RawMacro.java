@@ -29,9 +29,9 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.RawBlock;
+import org.xwiki.rendering.internal.transformation.macro.RawBlockFilterUtils;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
@@ -64,7 +64,7 @@ public class RawMacro extends AbstractMacro<RawMacroParameters>
     private static final String CONTENT_DESCRIPTION = "The content written in the target syntax";
 
     @Inject
-    private ComponentManager componentManager;
+    private RawBlockFilterUtils rawBlockFilterUtils;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -90,9 +90,7 @@ public class RawMacro extends AbstractMacro<RawMacroParameters>
 
         try {
             RawBlockFilterParameters filterParameters = new RawBlockFilterParameters(context);
-            List<RawBlockFilter> filters = this.componentManager.getInstanceList(RawBlockFilter.class);
-            filters.sort((filter1, filter2) -> filter1.getPriority() - filter2.getPriority());
-            for (RawBlockFilter filter : filters) {
+            for (RawBlockFilter filter : this.rawBlockFilterUtils.getRawBlockFilters()) {
                 rawBlock = filter.filter(rawBlock, filterParameters);
             }
         } catch (ComponentLookupException e) {

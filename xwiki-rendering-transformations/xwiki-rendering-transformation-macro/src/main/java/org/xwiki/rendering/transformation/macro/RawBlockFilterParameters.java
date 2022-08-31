@@ -28,7 +28,7 @@ import org.xwiki.stability.Unstable;
  * Parameters for the {@link RawBlockFilter}.
  *
  * @version $Id$
- * @since 14.7RC1
+ * @since 14.8RC1
  */
 @Unstable
 public class RawBlockFilterParameters

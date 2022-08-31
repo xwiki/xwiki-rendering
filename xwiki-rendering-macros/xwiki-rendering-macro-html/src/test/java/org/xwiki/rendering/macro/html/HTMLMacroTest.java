@@ -22,6 +22,7 @@ package org.xwiki.rendering.macro.html;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.internal.macro.html.HTMLMacro;
@@ -31,6 +32,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.macro.RawBlockFilter;
 import org.xwiki.rendering.transformation.macro.RawBlockFilterParameters;
 import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.annotation.BeforeComponent;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
 import org.xwiki.test.mockito.MockitoComponentManager;
@@ -55,6 +57,12 @@ class HTMLMacroTest
 {
     @InjectMockComponents
     private HTMLMacro macro;
+
+    @BeforeComponent
+    void beforeComponent(MockitoComponentManager componentManager) throws Exception
+    {
+        componentManager.registerComponent(ComponentManager.class, "context", componentManager);
+    }
 
     /**
      * Verify that inline HTML macros with non inline content generate an exception.

@@ -49,7 +49,7 @@ import org.xwiki.xml.html.HTMLUtils;
  * The priority of this filter is set to {@code 10} (see {@link #getPriority()}).
  *
  * @version $Id$
- * @since 14.7RC1
+ * @since 14.8RC1
  */
 @Component
 @Singleton
@@ -77,7 +77,7 @@ public class HTMLRawBlockFilter implements RawBlockFilter
             && (parameters.isClean()) || restricted)
         {
             String cleanedContent =
-                cleanHTML(block.getRawContent(), parameters.getMacroTransformationContext(), restricted,
+                cleanHTML(block.getRawContent(), macroTransformationContext, restricted,
                     block.getSyntax());
             result = new RawBlock(cleanedContent, block.getSyntax());
         }
