@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.xwiki.component.descriptor.DefaultComponentDescriptor;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.context.Execution;
@@ -103,12 +102,6 @@ public abstract class AbstractRenderingTest
 
     public void execute() throws Exception
     {
-        // Register the context component manager.
-        DefaultComponentDescriptor<Object> contextCM = new DefaultComponentDescriptor<>();
-        contextCM.setRoleType(ComponentManager.class);
-        contextCM.setRoleHint("context");
-        getComponentManager().registerComponent(contextCM, getComponentManager());
-
         Map<String, String> originalConfiguration = new HashMap<>();
         if (this.configuration != null) {
             ConfigurationSource configurationSource = getComponentManager().getInstance(ConfigurationSource.class);

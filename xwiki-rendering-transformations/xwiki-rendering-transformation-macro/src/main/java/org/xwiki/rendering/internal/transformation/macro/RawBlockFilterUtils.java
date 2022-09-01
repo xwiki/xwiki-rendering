@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -47,7 +48,7 @@ public class RawBlockFilterUtils
 {
     @Inject
     @Named("context")
-    private ComponentManager componentManager;
+    private Provider<ComponentManager> componentManagerProvider;
 
     /**
      * Retrieve and return the list of filters ordered by priority.
@@ -57,7 +58,8 @@ public class RawBlockFilterUtils
      */
     public List<RawBlockFilter> getRawBlockFilters() throws ComponentLookupException
     {
-        List<RawBlockFilter> filters = new ArrayList<>(this.componentManager.getInstanceList(RawBlockFilter.class));
+        List<RawBlockFilter> filters =
+            new ArrayList<>(this.componentManagerProvider.get().getInstanceList(RawBlockFilter.class));
         filters.sort(Comparator.comparingInt(RawBlockFilter::getPriority));
         return filters;
     }
