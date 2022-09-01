@@ -19,11 +19,8 @@
  */
 package org.xwiki.rendering.internal.macro.html;
 
-import java.io.StringReader;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -32,9 +29,6 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -45,6 +39,7 @@ import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
+import org.xwiki.rendering.internal.transformation.macro.RawBlockFilterUtils;
 import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
@@ -59,10 +54,8 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
-import org.xwiki.xml.html.HTMLCleaner;
-import org.xwiki.xml.html.HTMLCleanerConfiguration;
-import org.xwiki.xml.html.HTMLConstants;
-import org.xwiki.xml.html.HTMLUtils;
+import org.xwiki.rendering.transformation.macro.RawBlockFilter;
+import org.xwiki.rendering.transformation.macro.RawBlockFilterParameters;
 
 /**
  * Allows inserting HTML and XHTML in wiki pages. This macro also accepts wiki syntax alongside (X)HTML elements (it's
@@ -93,12 +86,6 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     private static final ClassBlockMatcher MACROBLOCKMATCHER = new ClassBlockMatcher(MacroBlock.class);
 
     /**
-     * To clean the passed HTML so that it's valid XHTML (this is required since we use an XML parser to parse it).
-     */
-    @Inject
-    private HTMLCleaner htmlCleaner;
-
-    /**
      * Default Factory to create special HTML renderer for the HTML Macro. It is used as fallback in
      * {@link #getRendererFactory(Syntax)}.
      */
@@ -122,6 +109,9 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     @Named("context")
     private Provider<ComponentManager> componentManagerProvider;
 
+    @Inject
+    private RawBlockFilterUtils rawBlockFilterUtils;
+
     /**
      * Create and initialize the descriptor of the macro.
      */
@@ -144,6 +134,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
         List<Block> blocks;
 
         if (!StringUtils.isEmpty(content)) {
+            Syntax targetSyntax = getHTMLTargetSyntax();
 
             String normalizedContent = content;
 
@@ -154,81 +145,25 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
                 normalizedContent = renderWikiSyntax(normalizedContent, context.getTransformation(), context);
             }
 
-            // Clean the HTML into valid XHTML if the user has asked (it's the default).
-            if (parameters.getClean()) {
-                normalizedContent = cleanHTML(normalizedContent, context);
-            } else if (context.getTransformationContext().isRestricted()) {
-                throw new MacroExecutionException(
-                    "The HTML macro may not be used with clean=\"false\" in this context.");
+            RawBlock contentBlock = new RawBlock(normalizedContent, targetSyntax);
+
+            try {
+                RawBlockFilterParameters filterParameters = new RawBlockFilterParameters(context);
+                filterParameters.setClean(parameters.getClean());
+
+                for (RawBlockFilter filter : this.rawBlockFilterUtils.getRawBlockFilters()) {
+                    contentBlock = filter.filter(contentBlock, filterParameters);
+                }
+            } catch (ComponentLookupException e) {
+                throw new MacroExecutionException("Couldn't initialize the HTML filtering.", e);
             }
 
-            blocks = List.of(new RawBlock(normalizedContent, getHTMLTargetSyntax()));
+            blocks = List.of(contentBlock);
         } else {
             blocks = Collections.emptyList();
         }
 
         return blocks;
-    }
-
-    /**
-     * Clean the HTML entered by the user, transforming it into valid XHTML.
-     *
-     * @param content the content to clean
-     * @param context the macro transformation context
-     * @return the cleaned HTML as a string representing valid XHTML
-     * @throws MacroExecutionException if the macro is inline and the content is not inline HTML
-     */
-    private String cleanHTML(String content, MacroTransformationContext context) throws MacroExecutionException
-    {
-        String cleanedContent = content;
-
-        HTMLCleanerConfiguration cleanerConfiguration = getCleanerConfiguration(context);
-
-        // Note that we trim the content since we want to be lenient with the user in case he has entered
-        // some spaces/newlines before a XML declaration (prolog). Otherwise the XML parser would fail to parse.
-        Document document = this.htmlCleaner.clean(new StringReader(cleanedContent), cleanerConfiguration);
-
-        // Since XML can only have a single root node and since we want to allow users to put
-        // content such as the following, we need to wrap the content in a root node:
-        // <tag1>
-        // ..
-        // </tag1>
-        // <tag2>
-        // </tag2>
-        // In addition we also need to ensure the XHTML DTD is defined so that valid XHTML entities can be
-        // specified.
-
-        // Remove the HTML envelope since this macro is only a fragment of a page which will already have an
-        // HTML envelope when rendered. We remove it so that the HTML <head> tag isn't output.
-        HTMLUtils.stripHTMLEnvelope(document);
-
-        // If in inline mode verify we have inline HTML content and remove the top level paragraph if there's one
-        if (context.isInline()) {
-            // TODO: Improve this since when're inside a table cell or a list item we can allow non inline items too
-            Element root = document.getDocumentElement();
-            if (root.getChildNodes().getLength() == 1 && root.getFirstChild().getNodeType() == Node.ELEMENT_NODE
-                && root.getFirstChild().getNodeName().equalsIgnoreCase("p"))
-            {
-                HTMLUtils.stripFirstElementInside(document, HTMLConstants.TAG_HTML, HTMLConstants.TAG_P);
-            } else {
-                throw new MacroExecutionException(
-                    "When using the HTML macro inline, you can only use inline HTML content."
-                        + " Block HTML content (such as tables) cannot be displayed."
-                        + " Try leaving an empty line before and after the HTML macro.");
-            }
-        }
-
-        // Don't print the XML declaration nor the XHTML DocType.
-        cleanedContent = HTMLUtils.toString(document, true, true);
-
-        // Don't print the top level html element (which is always present and at the same location
-        // since it's been normalized by the HTML cleaner)
-        // Note: we trim the first 7 characters since they correspond to a leading new line (generated by
-        // XMLUtils.toString() since the doctype is printed on a line by itself followed by a new line) +
-        // the 6 chars from "<html>".
-        cleanedContent = cleanedContent.substring(7, cleanedContent.length() - 8);
-
-        return cleanedContent;
     }
 
     /**
@@ -319,30 +254,6 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
         }
 
         return result;
-    }
-
-    /**
-     * @param context the macro transformation context
-     * @return the appropriate cleaner configuration.
-     */
-    private HTMLCleanerConfiguration getCleanerConfiguration(MacroTransformationContext context)
-    {
-        HTMLCleanerConfiguration cleanerConfiguration = this.htmlCleaner.getDefaultConfiguration();
-        Map<String, String> parameters = new HashMap<>(cleanerConfiguration.getParameters());
-
-        Syntax targetSyntax = this.getHTMLTargetSyntax();
-
-        if (Syntax.HTML_5_0.equals(targetSyntax) || Syntax.ANNOTATED_HTML_5_0.equals(targetSyntax)) {
-            parameters.put(HTMLCleanerConfiguration.HTML_VERSION, "5");
-        }
-
-        if (context.getTransformationContext().isRestricted()) {
-            parameters.put(HTMLCleanerConfiguration.RESTRICTED, "true");
-        }
-
-        cleanerConfiguration.setParameters(parameters);
-
-        return cleanerConfiguration;
     }
 
     /**
