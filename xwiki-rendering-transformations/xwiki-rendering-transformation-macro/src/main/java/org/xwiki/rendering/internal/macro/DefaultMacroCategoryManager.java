@@ -127,6 +127,12 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
         return categories;
     }
 
+    @Override
+    public Set<String> getHiddenCategories()
+    {
+        return this.configuration.getHiddenCategories();
+    }
+
     /**
      * Returns a map of macros, grouped by their categories. Note that a macro can have more than one category and can
      * be returned under multiple keys.

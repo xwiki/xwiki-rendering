@@ -87,4 +87,14 @@ public interface MacroCategoryManager
     {
         return Set.of();
     }
+
+    /**
+     * @return the set of hidden categories (e.g., "Deprecated, Internal")
+     * @since 14.8RC1
+     */
+    @Unstable
+    default Set<String> getHiddenCategories()
+    {
+        return Set.of();
+    }
 }

@@ -43,10 +43,18 @@ public class DefaultMacroTransformationConfiguration implements MacroTransformat
      */
     private Properties macroCategories = new Properties();
 
+    private Set<String> hiddenCategories = Set.of();
+
     @Override
     public Properties getCategories()
     {
         return this.macroCategories;
+    }
+
+    @Override
+    public Set<String> getHiddenCategories()
+    {
+        return this.hiddenCategories;
     }
 
     /**
@@ -61,5 +69,16 @@ public class DefaultMacroTransformationConfiguration implements MacroTransformat
         // This method is useful for those using the XWiki Rendering in standalone mode since it allows the rendering
         // to work even without a configuration store.
         this.macroCategories.setProperty(macroId.toString(), String.join(",", categories));
+    }
+
+    /**
+     * Set the hidden categories.
+     *
+     * @param hiddenCategories the set of hidden categories
+     * @since 14.8RC1
+     */
+    public void setHiddenCategories(Set<String> hiddenCategories)
+    {
+        this.hiddenCategories = hiddenCategories;
     }
 }

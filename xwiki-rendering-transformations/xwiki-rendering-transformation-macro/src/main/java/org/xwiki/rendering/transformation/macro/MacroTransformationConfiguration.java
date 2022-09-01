@@ -20,15 +20,20 @@
 package org.xwiki.rendering.transformation.macro;
 
 import java.util.Properties;
+import java.util.Set;
 
 import org.xwiki.component.annotation.Role;
+import org.xwiki.stability.Unstable;
 
 /**
  * Configuration properties for the Macro Transformation module.
  * <p>
- * You can override the default values for each of the configuration properties below by defining them in XWiki's
- * global configuration file using a prefix of "rendering.transformation.macro." followed by the property name.
- * For example: <code>rendering.transformation.macro.categories = toc:my Category</code>
+ * You can override the default values for each of the configuration properties below by defining them in XWiki's global
+ * configuration file using a prefix of "rendering.transformation.macro." followed by the property name. For example:
+ * {@code rendering.transformation.macro.categories = toc:my Category}
+ * <p>
+ * You can also override the default set of hidden macros by defining the
+ * {@code rendering.transformation.macro.hiddenCategories} property.
  *
  * @version $Id$
  * @since 2.6RC1
@@ -42,4 +47,14 @@ public interface MacroTransformationConfiguration
      *         descriptor (ie defined by the macro author) will be used
      */
     Properties getCategories();
+
+    /**
+     * @return the set of hidden categories (e.g., "Deprecated", "Internal")
+     * @since 14.8RC1
+     */
+    @Unstable
+    default Set<String> getHiddenCategories()
+    {
+        return Set.of();
+    }
 }
