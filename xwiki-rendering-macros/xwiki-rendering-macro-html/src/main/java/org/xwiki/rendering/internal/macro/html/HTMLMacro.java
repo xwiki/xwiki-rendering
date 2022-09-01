@@ -27,6 +27,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
@@ -117,7 +118,8 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
     private RenderingContext renderingContext;
 
     @Inject
-    private ComponentManager componentManager;
+    @Named("context")
+    private Provider<ComponentManager> componentManagerProvider;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -309,7 +311,7 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
         if (targetSyntax != null) {
             String hint = HTMLMacroXHTMLRendererFactory.PREFIX_SYNTAX + targetSyntax.toIdString();
             try {
-                result = this.componentManager.getInstance(PrintRendererFactory.class, hint);
+                result = this.componentManagerProvider.get().getInstance(PrintRendererFactory.class, hint);
             } catch (ComponentLookupException ignored) {
                 // Unsupported syntax - keep default.
             }
