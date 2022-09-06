@@ -90,6 +90,27 @@ class DefaultFigureTypeRecognizerTest
     }
 
     @Test
+    void isTableWhenTableIsNestedInsideGroups() throws ParseException, TransformationException
+    {
+        String testInput = "{{figure}}\n"
+            + "{{figureCaption}}caption{{/figureCaption}}\n"
+            + "(% class=\"a\" %) (((\n"
+            + "(% class=\"b\" %) (((\n"
+            + "(% class=\"c\" %) (((\n"
+            + "|A|a\n"
+            + "|B|b\n"
+            + ")))\n"
+            + ")))\n"
+            + ")))\n"
+            + "{{/figure}}";
+
+        XDOM xdom = this.xwikiParser.parse(new StringReader(testInput));
+        this.macroTransformation.transform(xdom, new TransformationContext());
+        FigureBlock figureBlock = xdom.getFirstBlock(new ClassBlockMatcher(FigureBlock.class), Block.Axes.DESCENDANT);
+        assertTrue(this.figureTypeRecognizer.isTable(figureBlock));
+    }
+
+    @Test
     void isTableWhenNoCaption()
     {
         FigureBlock fb = new FigureBlock(blocks(

@@ -28,6 +28,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FigureBlock;
 import org.xwiki.rendering.block.FigureCaptionBlock;
+import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.TableBlock;
@@ -62,8 +63,8 @@ public class DefaultFigureTypeRecognizer implements FigureTypeRecognizer
                 if (!"figureCaption".equals(macroMarkerBlock.getId())) {
                     results.addAll(getBlocksIgnoringMacroMarkerBlocks(block.getChildren()));
                 }
-            } else if (block instanceof MetaDataBlock) {
-                // Ignore MetaData block since they're not structural
+            } else if (block instanceof MetaDataBlock || block instanceof GroupBlock) {
+                // Ignore MetaData/Group blocks since they're not structural
                 results.addAll(getBlocksIgnoringMacroMarkerBlocks(block.getChildren()));
             } else if (!(block instanceof FigureCaptionBlock)) {
                 // Ignore figure caption blocks since they're special and do not affect whether the content contains
