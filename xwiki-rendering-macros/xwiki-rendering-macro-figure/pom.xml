@@ -34,5 +34,13 @@
     <xwiki.jacoco.instructionRatio>1.00</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Figure Macro</xwiki.extension.name>
+    <!-- Extension Type for the Extension Manager -->
+    <xwiki.extension.category>macro</xwiki.extension.category>
+    <!-- Exposed Components for the Extension Manager -->
+    <!-- Note: We don't put the figureCaption macro here because it can only be used inside the Figure macro, and it's
+         bundled with it -->
+    <xwiki.extension.components>
+      org.xwiki.rendering.macro.Macro/figure
+    </xwiki.extension.components>
   </properties>
 </project>
