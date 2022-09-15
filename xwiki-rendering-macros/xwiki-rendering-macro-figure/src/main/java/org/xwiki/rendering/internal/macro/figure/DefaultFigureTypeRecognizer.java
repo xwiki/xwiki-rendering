@@ -68,8 +68,9 @@ public class DefaultFigureTypeRecognizer implements FigureTypeRecognizer
                 // Ignore MetaData/Group blocks since they're not structural
                 results.addAll(getBlocksIgnoringMacroMarkerBlocks(block.getChildren()));
             } else if (!(block instanceof FigureCaptionBlock || block instanceof EmptyLinesBlock)) {
-                // Ignore figure caption and empty lines blocks since they're special and do not affect whether the 
-                // content contains a table or not.
+                // Ignore figure caption blocks since they're special and do not affect whether the content contains
+                // a table or not.
+                // Similarly to MetaData/Group blocks, empty lines are also ignored since they are not structural.
                 results.add(block);
             }
         }
