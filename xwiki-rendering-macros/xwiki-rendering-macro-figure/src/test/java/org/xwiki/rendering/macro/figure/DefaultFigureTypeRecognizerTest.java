@@ -83,10 +83,21 @@ class DefaultFigureTypeRecognizerTest
             + "{{figureCaption}}caption{{/figureCaption}}\n"
             + "{{/figure}}\n";
 
-        XDOM xdom = this.xwikiParser.parse(new StringReader(testInput));
-        this.macroTransformation.transform(xdom, new TransformationContext());
-        FigureBlock figureBlock = xdom.getFirstBlock(new ClassBlockMatcher(FigureBlock.class), Block.Axes.DESCENDANT);
-        assertTrue(this.figureTypeRecognizer.isTable(figureBlock));
+        assertTrue(this.figureTypeRecognizer.isTable(parseFigure(testInput)));
+    }
+
+    @Test
+    void isTableWithEmptyLines() throws ParseException, TransformationException
+    {
+        String testInput = "{{figure}}\n"
+            + "{{figureCaption}}caption{{/figureCaption}}\n"
+            + "\n"
+            + "\n"
+            + "| Some | Table\n"
+            + "| With two | rows\n"
+            + "{{/figure}}\n";
+
+        assertTrue(this.figureTypeRecognizer.isTable(parseFigure(testInput)));
     }
 
     @Test
@@ -104,10 +115,7 @@ class DefaultFigureTypeRecognizerTest
             + ")))\n"
             + "{{/figure}}";
 
-        XDOM xdom = this.xwikiParser.parse(new StringReader(testInput));
-        this.macroTransformation.transform(xdom, new TransformationContext());
-        FigureBlock figureBlock = xdom.getFirstBlock(new ClassBlockMatcher(FigureBlock.class), Block.Axes.DESCENDANT);
-        assertTrue(this.figureTypeRecognizer.isTable(figureBlock));
+        assertTrue(this.figureTypeRecognizer.isTable(parseFigure(testInput)));
     }
 
     @Test
@@ -195,5 +203,20 @@ class DefaultFigureTypeRecognizerTest
     private MacroMarkerBlock createMacroMarkerBlock(String macroId, List<Block> blocks)
     {
         return new MacroMarkerBlock(macroId, Collections.emptyMap(), "", blocks, false);
+    }
+
+    /**
+     * Helper to parse a source and return a {@link FigureBlock}.
+     *
+     * @param source the source to parse and return
+     * @return the first {@link FigureBlock} found in the {@link XDOM} resulting from the parsing of the source
+     * @throws ParseException in case of issue when parsing
+     * @throws TransformationException in case of issue when executing the macro transformations on the xdom
+     */
+    private FigureBlock parseFigure(String source) throws ParseException, TransformationException
+    {
+        XDOM xdom = this.xwikiParser.parse(new StringReader(source));
+        this.macroTransformation.transform(xdom, new TransformationContext());
+        return xdom.getFirstBlock(new ClassBlockMatcher(FigureBlock.class), Block.Axes.DESCENDANT);
     }
 }

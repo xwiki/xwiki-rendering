@@ -26,6 +26,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.EmptyLinesBlock;
 import org.xwiki.rendering.block.FigureBlock;
 import org.xwiki.rendering.block.FigureCaptionBlock;
 import org.xwiki.rendering.block.GroupBlock;
@@ -66,9 +67,9 @@ public class DefaultFigureTypeRecognizer implements FigureTypeRecognizer
             } else if (block instanceof MetaDataBlock || block instanceof GroupBlock) {
                 // Ignore MetaData/Group blocks since they're not structural
                 results.addAll(getBlocksIgnoringMacroMarkerBlocks(block.getChildren()));
-            } else if (!(block instanceof FigureCaptionBlock)) {
-                // Ignore figure caption blocks since they're special and do not affect whether the content contains
-                // a table or not.
+            } else if (!(block instanceof FigureCaptionBlock || block instanceof EmptyLinesBlock)) {
+                // Ignore figure caption and empty lines blocks since they're special and do not affect whether the 
+                // content contains a table or not.
                 results.add(block);
             }
         }
