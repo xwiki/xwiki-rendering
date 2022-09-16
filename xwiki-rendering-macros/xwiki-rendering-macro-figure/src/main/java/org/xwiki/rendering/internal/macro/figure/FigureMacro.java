@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.macro.figure;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -34,11 +35,15 @@ import org.xwiki.rendering.block.FigureBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.macro.AbstractNoParameterMacro;
+import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
+import org.xwiki.rendering.macro.figure.FigureMacroParameters;
+import org.xwiki.rendering.macro.figure.FigureType;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+
+import static org.xwiki.rendering.internal.macro.figure.FigureTypeRecognizerMacro.DATA_XWIKI_RENDERING_FIGURE_TYPE;
 
 /**
  * Tag content as an illustration and with an optional caption.
@@ -49,7 +54,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 @Component
 @Named("figure")
 @Singleton
-public class FigureMacro extends AbstractNoParameterMacro
+public class FigureMacro extends AbstractMacro<FigureMacroParameters>
 {
     /**
      * The description of the macro.
@@ -69,8 +74,8 @@ public class FigureMacro extends AbstractNoParameterMacro
      */
     public FigureMacro()
     {
-        super("Figure", DESCRIPTION,
-            new DefaultContentDescriptor(CONTENT_DESCRIPTION, false, Block.LIST_BLOCK_TYPE));
+        super("Figure", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, false, Block.LIST_BLOCK_TYPE),
+            FigureMacroParameters.class);
         setDefaultCategories(Set.of(DEFAULT_CATEGORY_DEVELOPMENT));
     }
 
@@ -81,16 +86,25 @@ public class FigureMacro extends AbstractNoParameterMacro
     }
 
     @Override
-    public List<Block> execute(Object unusedParameters, String content, MacroTransformationContext context)
+    public List<Block> execute(FigureMacroParameters parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
         XDOM xdom = this.contentParser.parse(content, context, false, false);
         // Mark the macro content as being content that has not been transformed (so that it can be edited inline).
         List<Block> contentBlock = List.of(new MetaDataBlock(xdom.getChildren(), getNonGeneratedContentMetaData()));
 
-        return List.of(new CompositeBlock(List.of(
-            new MacroBlock("figureTypeRecognizer", Map.of(), false),
-            new FigureBlock(contentBlock))
-        ));
+        FigureBlock figureBlock = new FigureBlock(contentBlock);
+        Block block;
+        // If a type is explicitly defined, it is used directly. Otherwise, we try to infer it from the macro's content.
+        if (parameters.getType() != null && !Objects.equals(parameters.getType(), FigureType.AUTOMATIC)) {
+            figureBlock.setParameter(DATA_XWIKI_RENDERING_FIGURE_TYPE, parameters.getType().getName());
+            block = figureBlock;
+        } else {
+            block = new CompositeBlock(List.of(
+                new MacroBlock("figureTypeRecognizer", Map.of(), false),
+                figureBlock)
+            );
+        }
+        return List.of(block);
     }
 }
