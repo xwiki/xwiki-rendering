@@ -3,7 +3,7 @@
 .input|xwiki/2.0
 .# Test with an explicit figure type.
 .#--------------------------------------------------------------------------------------------------
-{{figure type="FIGURE"}}
+{{figure type="figure"}}
 |a|b
 |c|d
 
@@ -13,7 +13,7 @@
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginMacroMarkerStandalone [figure] [type=FIGURE] [|a|b
+beginMacroMarkerStandalone [figure] [type=figure] [|a|b
 |c|d
 
 {{figureCaption}} A table {{/figureCaption}}]
@@ -52,7 +52,7 @@ endFigureCaption
 endMacroMarkerStandalone [figureCaption] [] [ A table ]
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endFigure [[data-xwiki-rendering-figure-type]=[figure]]
-endMacroMarkerStandalone [figure] [type=FIGURE] [|a|b
+endMacroMarkerStandalone [figure] [type=figure] [|a|b
 |c|d
 
 {{figureCaption}} A table {{/figureCaption}}]

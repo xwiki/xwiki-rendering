@@ -49,7 +49,7 @@ public enum FigureType
     private String name;
 
     /**
-     * @param name the name of the figure type (e.g., "figure")
+     * @param name the name of the figure type (e.g., {@link FigureType#FIGURE})
      */
     FigureType(String name)
     {
@@ -57,7 +57,7 @@ public enum FigureType
     }
 
     /**
-     * @return the name of the figure type (e.g., "figure")
+     * @return the name of the figure type (e.g., {@link FigureType#FIGURE})
      */
     public String getName()
     {

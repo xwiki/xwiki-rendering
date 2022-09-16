@@ -51,7 +51,8 @@ public class FigureMacroParameters
      * @param type the type of the figure (i.e., {@link FigureType#FIGURE} or {@link FigureType#TABLE}}), if
      *     {@link FigureType#AUTOMATIC} the type will be automatically defined based on the macro content
      */
-    @PropertyDescription("The type of the figure. When automatic, the type will be defined based on the macro content.")
+    @PropertyDescription("The type of the figure (i.e., \"figure\" or \"table\"). When automatic, the type will be " 
+        + "defined based on the macro content.")
     @PropertyName("Type")
     public void setType(FigureType type)
     {

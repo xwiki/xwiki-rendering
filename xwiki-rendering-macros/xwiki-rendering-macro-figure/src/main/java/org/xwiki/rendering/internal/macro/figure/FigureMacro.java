@@ -96,7 +96,7 @@ public class FigureMacro extends AbstractMacro<FigureMacroParameters>
         FigureBlock figureBlock = new FigureBlock(contentBlock);
         Block block;
         // If a type is explicitly defined, it is used directly. Otherwise, we try to infer it from the macro's content.
-        if (parameters.getType() != null && !Objects.equals(parameters.getType(), FigureType.AUTOMATIC)) {
+        if (!Objects.equals(parameters.getType(), FigureType.AUTOMATIC)) {
             figureBlock.setParameter(DATA_XWIKI_RENDERING_FIGURE_TYPE, parameters.getType().getName());
             block = figureBlock;
         } else {
