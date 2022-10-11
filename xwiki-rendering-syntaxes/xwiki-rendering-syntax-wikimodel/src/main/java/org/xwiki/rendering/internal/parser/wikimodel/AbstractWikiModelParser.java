@@ -91,7 +91,11 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
     public XDOM parse(Reader source) throws ParseException
     {
         IdGenerator idGenerator = new IdGenerator();
-        return parse(source, idGenerator);
+        try {
+            return parse(source, idGenerator);
+        } catch (StackOverflowError e) {
+            throw new ParseException(e);
+        }
     }
 
     @Override

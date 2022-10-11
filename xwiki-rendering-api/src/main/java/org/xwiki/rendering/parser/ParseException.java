@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.parser;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * Encapsulate a parsing error.
  *
@@ -39,6 +41,20 @@ public class ParseException extends Exception
     public ParseException(String message)
     {
         super(message);
+    }
+
+    /**
+     * Constructs a new parse exception with the specified cause .
+     *
+     * @param cause the cause (which is saved for later retrieval by the {@link #getCause()} method).)
+     * @since 14.9RC1
+     * @since 14.4.6
+     * @since 13.10.10
+     */
+    @Unstable
+    public ParseException(Throwable cause)
+    {
+        super(cause);
     }
 
     /**
