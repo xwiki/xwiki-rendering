@@ -91,11 +91,7 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
     public XDOM parse(Reader source) throws ParseException
     {
         IdGenerator idGenerator = new IdGenerator();
-        try {
-            return parse(source, idGenerator);
-        } catch (StackOverflowError e) {
-            throw new ParseException(e);
-        }
+        return parse(source, idGenerator);
     }
 
     @Override
@@ -136,7 +132,7 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
         IWikiParser parser = createWikiModelParser();
         try {
             parser.parse(source, createXWikiGeneratorListener(listener, idGenerator));
-        } catch (Exception e) {
+        } catch (Exception | StackOverflowError e) {
             throw new ParseException("Failed to parse input source", e);
         }
     }
