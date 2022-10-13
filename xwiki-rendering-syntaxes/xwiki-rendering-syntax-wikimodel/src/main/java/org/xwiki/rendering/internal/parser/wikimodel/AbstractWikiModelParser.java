@@ -132,7 +132,9 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
         IWikiParser parser = createWikiModelParser();
         try {
             parser.parse(source, createXWikiGeneratorListener(listener, idGenerator));
-        } catch (Exception e) {
+        } catch (Exception | StackOverflowError e) {
+            // Stack overflow errors are caught in addition to exceptions because they can be thrown by javacc based
+            // implementations in case of too deeply nested contents (e.g., too many nested groups).   
             throw new ParseException("Failed to parse input source", e);
         }
     }
