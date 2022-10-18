@@ -185,7 +185,7 @@ public class TocTreeBuilder
      * @param headerBlock the {@link HeaderBlock}.
      * @return the new list item block.
      */
-    private ListItemBlock createTocEntry(HeaderBlock headerBlock, String documentReference)
+    protected ListItemBlock createTocEntry(HeaderBlock headerBlock, String documentReference)
     {
         // Create the link to target the header anchor
         DocumentResourceReference reference = new DocumentResourceReference(documentReference);
