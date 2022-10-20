@@ -94,8 +94,7 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
     {
         try {
             List<Block> blocks = getSyntaxParser(parameters.getSyntax()).parse(new StringReader(content)).getChildren();
-            MetaDataBlock metaDataBlock = new MetaDataBlock(blocks, MetaData.SYNTAX,
-                parameters.getSyntax().toIdString());
+            MetaDataBlock metaDataBlock = new MetaDataBlock(blocks, MetaData.SYNTAX, parameters.getSyntax());
 
             metaDataBlock.getMetaData().addMetaData(this.getNonGeneratedContentMetaData());
             return Collections.singletonList(metaDataBlock);
