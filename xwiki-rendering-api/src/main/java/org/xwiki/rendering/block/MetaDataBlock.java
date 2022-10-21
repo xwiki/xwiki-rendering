@@ -26,6 +26,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.text.XWikiToStringBuilder;
 
 /**
  * Represents any kind of MetaData in the XDOM (eg saving original blocks so that the XWiki Syntax Renderer can restore
@@ -131,5 +132,16 @@ public class MetaDataBlock extends AbstractBlock
         builder.append(getMetaData());
 
         return builder.toHashCode();
+    }
+
+    @Override
+    public String toString()
+    {
+        XWikiToStringBuilder builder = new XWikiToStringBuilder(this);
+
+        builder.append("metadata", getMetaData());
+        builder.append("children", getChildren());
+
+        return builder.build();
     }
 }
