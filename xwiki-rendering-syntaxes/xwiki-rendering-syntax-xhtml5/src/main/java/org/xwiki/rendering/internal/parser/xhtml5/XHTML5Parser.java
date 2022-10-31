@@ -27,9 +27,6 @@ import javax.inject.Named;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XWikiFigcaptionTagHandler;
-import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XWikiFigureTagHandler;
-import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XHTML5SpanTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiCommentHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiDivTagHandler;
@@ -37,9 +34,11 @@ import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiHeaderTagHandler
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiImageTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiReferenceTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiTableDataTagHandler;
+import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XHTML5SpanTagHandler;
+import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XWikiFigcaptionTagHandler;
+import org.xwiki.rendering.internal.parser.xhtml5.wikimodel.XWikiFigureTagHandler;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
-import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
@@ -60,10 +59,6 @@ import static org.xwiki.rendering.internal.xhtml5.XHTML5SyntaxProvider.XHTML_5;
 @Unstable
 public class XHTML5Parser extends XHTMLParser
 {
-    @Inject
-    @Named("xdom+xml/current")
-    private PrintRendererFactory xmlRenderer;
-
     @Inject
     private ComponentManager componentManager;
 
@@ -103,7 +98,7 @@ public class XHTML5Parser extends XHTMLParser
         handlers.put("h4", handler);
         handlers.put("h5", handler);
         handlers.put("h6", handler);
-        handlers.put("a", new XWikiReferenceTagHandler(this, this.xmlRenderer));
+        handlers.put("a", new XWikiReferenceTagHandler(this));
         handlers.put("img", new XWikiImageTagHandler());
         handlers.put("span", new XHTML5SpanTagHandler(this.componentManager, this));
         // Change the class value indicating that the division is an embedded document. We do this in order to be
@@ -118,8 +113,8 @@ public class XHTML5Parser extends XHTMLParser
 
         XhtmlParser parser = new XhtmlParser();
         parser.setExtraHandlers(handlers);
-        parser.setCommentHandler(new XWikiCommentHandler(this.componentManager, this, this.xmlRenderer,
-            this.xhtmlMarkerResourceReferenceParser));
+        parser.setCommentHandler(
+            new XWikiCommentHandler(this.componentManager, this, this.xhtmlMarkerResourceReferenceParser));
 
         // Construct our own XML filter chain since we want to use our own Comment filter.
         try {

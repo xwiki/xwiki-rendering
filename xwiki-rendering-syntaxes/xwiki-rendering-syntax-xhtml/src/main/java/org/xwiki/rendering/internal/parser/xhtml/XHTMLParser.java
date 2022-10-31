@@ -47,13 +47,11 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
-import org.xwiki.rendering.renderer.PrintRendererFactory;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
-import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 import org.xwiki.xml.XMLReaderFactory;
 
 import static org.xwiki.rendering.internal.xhtml.XHTML10SyntaxProvider.XHTML_1_0;
@@ -69,20 +67,6 @@ import static org.xwiki.rendering.internal.xhtml.XHTML10SyntaxProvider.XHTML_1_0
 @Singleton
 public class XHTMLParser extends AbstractWikiModelParser
 {
-    /**
-     * The parser used for the link label parsing. For (x)html parsing, this will be an xwiki 2.0 parser, since it's
-     * more convenient to pass link labels in xwiki syntax. See referred resource for more details.
-     *
-     * @see XWikiCommentHandler#handleLinkCommentStop(TagStack)
-     */
-    @Inject
-    @Named("xdom+xml/current")
-    private StreamParser xmlParser;
-
-    @Inject
-    @Named("xdom+xml/current")
-    private PrintRendererFactory xmlRenderer;
-
     /**
      * @see #getLinkReferenceParser()
      */
@@ -127,7 +111,7 @@ public class XHTMLParser extends AbstractWikiModelParser
     @Override
     public StreamParser getLinkLabelParser()
     {
-        return this.xmlParser;
+        return null;
     }
 
     @Override
@@ -142,7 +126,7 @@ public class XHTMLParser extends AbstractWikiModelParser
         handlers.put("h4", handler);
         handlers.put("h5", handler);
         handlers.put("h6", handler);
-        handlers.put("a", new XWikiReferenceTagHandler(this, this.xmlRenderer));
+        handlers.put("a", new XWikiReferenceTagHandler(this));
         handlers.put("img", new XWikiImageTagHandler());
         handlers.put("span", new XWikiSpanTagHandler(this.componentManager, this));
         // Change the class value indicating that the division is an embedded document. We do this in order to be
@@ -153,8 +137,8 @@ public class XHTMLParser extends AbstractWikiModelParser
 
         XhtmlParser parser = new XhtmlParser();
         parser.setExtraHandlers(handlers);
-        parser.setCommentHandler(new XWikiCommentHandler(this.componentManager, this,
-            this.xmlRenderer, this.xhtmlMarkerResourceReferenceParser));
+        parser.setCommentHandler(
+            new XWikiCommentHandler(this.componentManager, this, this.xhtmlMarkerResourceReferenceParser));
 
         // Construct our own XML filter chain since we want to use our own Comment filter.
         try {
