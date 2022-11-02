@@ -48,6 +48,9 @@ public class XWikiWikiReference extends WikiReference
      * @param label the already parsed label content
      * @param linkParameters the parameters of the link
      * @param freeStanding if the link is freestanding
+     * @since 14.10RC1
+     * @since 14.4.7
+     * @since 13.10.11
      */
     public XWikiWikiReference(ResourceReference reference, XDOM label, WikiParameters linkParameters,
         boolean freeStanding)
@@ -60,6 +63,9 @@ public class XWikiWikiReference extends WikiReference
 
     /**
      * @return the parsed label's XDOM
+     * @since 14.10RC1
+     * @since 14.4.7
+     * @since 13.10.11
      */
     public XDOM getLabelXDOM()
     {

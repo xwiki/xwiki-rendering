@@ -29,7 +29,6 @@ import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
-import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
@@ -215,7 +214,7 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         // see WikiModelXHTMLParser#getLinkLabelParser()
         // see http://code.google.com/p/wikimodel/issues/detail?id=87
         // TODO: remove this workaround when wiki syntax in link labels will be supported by wikimodel
-        Listener linkLabelListener = new XDOMGeneratorListener();
+        XDOMGeneratorListener linkLabelListener = new XDOMGeneratorListener();
         linkLabelListener.beginDocument(MetaData.EMPTY);
 
         XWikiGeneratorListener xwikiListener = this.parser.createXWikiGeneratorListener(linkLabelListener, null);
