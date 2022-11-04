@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
@@ -38,12 +39,33 @@ public class XWikiWikiReference extends WikiReference
 
     private boolean freeStanding;
 
-    public XWikiWikiReference(ResourceReference reference, String label, WikiParameters linkParameters,
+    private final XDOM labelXDOM;
+
+    /**
+     * Construct a new wiki reference.
+     *
+     * @param reference the reference the link points to
+     * @param label the already parsed label content
+     * @param linkParameters the parameters of the link
+     * @param freeStanding if the link is freestanding
+     * @since 14.10RC1
+     */
+    public XWikiWikiReference(ResourceReference reference, XDOM label, WikiParameters linkParameters,
         boolean freeStanding)
     {
-        super(reference.getReference(), label, linkParameters);
+        super(reference.getReference(), null, linkParameters);
         this.reference = reference;
         this.freeStanding = freeStanding;
+        this.labelXDOM = label;
+    }
+
+    /**
+     * @return the parsed label's XDOM
+     * @since 14.10RC1
+     */
+    public XDOM getLabelXDOM()
+    {
+        return this.labelXDOM;
     }
 
     public boolean isFreeStanding()
@@ -75,6 +97,7 @@ public class XWikiWikiReference extends WikiReference
         builder.appendSuper(super.equals(obj));
         builder.append(this.reference, ((XWikiWikiReference) obj).reference);
         builder.append(this.freeStanding, ((XWikiWikiReference) obj).freeStanding);
+        builder.append(this.labelXDOM, ((XWikiWikiReference) obj).labelXDOM);
 
         return builder.isEquals();
     }
@@ -87,6 +110,7 @@ public class XWikiWikiReference extends WikiReference
         builder.appendSuper(super.hashCode());
         builder.append(reference);
         builder.append(freeStanding);
+        builder.append(this.labelXDOM);
 
         return builder.toHashCode();
     }

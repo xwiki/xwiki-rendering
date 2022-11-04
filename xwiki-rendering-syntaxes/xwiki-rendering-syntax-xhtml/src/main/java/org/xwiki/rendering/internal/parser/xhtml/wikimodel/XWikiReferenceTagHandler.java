@@ -20,16 +20,18 @@
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.wikimodel.WikiModelStreamParser;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
-import org.xwiki.rendering.renderer.PrintRenderer;
-import org.xwiki.rendering.renderer.PrintRendererFactory;
-import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
-import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
 import org.xwiki.rendering.wikimodel.xhtml.handler.ReferenceTagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
@@ -44,19 +46,27 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
  */
 public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWikiWikiModelHandler
 {
-    private WikiModelStreamParser parser;
-
-    private PrintRendererFactory xwikiSyntaxPrintRendererFactory;
+    /**
+     * URL matching pattern.
+     */
+    private static final Pattern URL_SCHEME_PATTERN = Pattern.compile("[a-zA-Z0-9+.-]*://");
 
     /**
-     * @since 2.2.5
+     * Prefix for mailto-links.
+     */
+    private static final String MAILTO_PREFIX = "mailto:";
+
+    private WikiModelStreamParser parser;
+
+    /**
+     * @param parser the XHTML parser, used for the label
+     * @since 14.10RC1
      * @todo Remove the need to pass a Parser when WikiModel implements support for wiki syntax in links. See
      *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */
-    public XWikiReferenceTagHandler(WikiModelStreamParser parser, PrintRendererFactory xwikiSyntaxPrintRendererFactory)
+    public XWikiReferenceTagHandler(WikiModelStreamParser parser)
     {
         this.parser = parser;
-        this.xwikiSyntaxPrintRendererFactory = xwikiSyntaxPrintRendererFactory;
     }
 
     @Override
@@ -93,12 +103,8 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
             WikiParameter ref = context.getParams().getParameter("href");
 
             if (ref != null) {
-                DefaultWikiPrinter printer = new DefaultWikiPrinter();
-
-                PrintRenderer linkLabelRenderer = this.xwikiSyntaxPrintRendererFactory.createRenderer(printer);
-
                 XWikiGeneratorListener xwikiListener =
-                    this.parser.createXWikiGeneratorListener(linkLabelRenderer, null);
+                    this.parser.createXWikiGeneratorListener(new XDOMGeneratorListener(), null);
                 context.getTagStack().pushScannerContext(new WikiScannerContext(xwikiListener));
 
                 // Ensure we simulate a new document being parsed
@@ -142,17 +148,53 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
                 WikiScannerContext scannerContext = context.getTagStack().popScannerContext();
 
                 XWikiGeneratorListener xwikiListener = (XWikiGeneratorListener) scannerContext.getfListener();
-                PrintRenderer linkLabelRenderer = (PrintRenderer) xwikiListener.getListener();
+                XDOMGeneratorListener linkLabelRenderer = (XDOMGeneratorListener) xwikiListener.getListener();
 
-                String label = linkLabelRenderer.getPrinter().toString();
+                XDOM label = linkLabelRenderer.getXDOM();
 
-                WikiReference reference =
-                    new WikiReference(ref.getValue(), label, removeMeaningfulParameters(parameters));
+                ResourceReference resourceReference = computeResourceReference(ref.getValue());
+
+                XWikiWikiReference reference =
+                    new XWikiWikiReference(resourceReference, label, removeMeaningfulParameters(parameters), false);
 
                 context.getScannerContext().onReference(reference);
             }
         } else {
             super.end(context);
         }
+    }
+
+    /**
+     * Recognize the passed reference and figure out what type of link it should be:
+     * <ul>
+     *   <li>UC1: the reference points to a valid URL, we return a reference of type "url",
+     *       e.g. {@code http://server/path/reference#anchor}</li>
+     *   <li>UC2: the reference is a mailto: link, we return a reference of type "mailto",
+     *       e.g., {@code mailto:user@example.com}</li>
+     *   <li>UC3: the reference is not a valid URL, we return a reference of type "path",
+     *       e.g. {@code path/reference#anchor}</li>
+     * </ul>
+     *
+     * @param rawReference the full reference (e.g. "/some/path/something#other")
+     * @return the properly typed {@link ResourceReference} matching the use cases
+     */
+    private ResourceReference computeResourceReference(String rawReference)
+    {
+        ResourceReference reference;
+
+        // Do we have a valid URL?
+        Matcher matcher = URL_SCHEME_PATTERN.matcher(rawReference);
+        if (matcher.lookingAt()) {
+            // We have UC1
+            reference = new ResourceReference(rawReference, ResourceType.URL);
+        } else if (rawReference.startsWith(MAILTO_PREFIX)) {
+            // We have UC2
+            reference = new ResourceReference(rawReference.substring(MAILTO_PREFIX.length()), ResourceType.MAILTO);
+        } else {
+            // We have UC3
+            reference = new ResourceReference(rawReference, ResourceType.PATH);
+        }
+
+        return reference;
     }
 }

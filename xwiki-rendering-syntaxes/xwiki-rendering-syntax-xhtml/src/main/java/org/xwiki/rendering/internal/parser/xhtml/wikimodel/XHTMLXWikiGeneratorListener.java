@@ -20,15 +20,14 @@
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
+import org.xwiki.rendering.listener.InlineFilterListener;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
@@ -61,16 +60,6 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
      */
     public static final String METADATA_ATTRIBUTE_PREFIX = "data-xwiki-";
 
-    /**
-     * URL matching pattern.
-     */
-    private static final Pattern URL_SCHEME_PATTERN = Pattern.compile("[a-zA-Z0-9+.-]*://");
-
-    /**
-     * Prefix for mailto-links.
-     */
-    private static final String MAILTO_PREFIX = "mailto:";
-
     private static final String CLASS_ATTRIBUTE = "class";
 
     /**
@@ -93,32 +82,34 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
     @Override
     public void onReference(WikiReference reference)
     {
-        // We need to handle 2 cases:
-        // - when the passed reference is an instance of XWikiWikiReference, i.e. when a XHTML comment defining a XWiki
-        // link has been specified and the XHTML parser has recognized it and thus is passing a typed reference to us.
-        // - when the passed reference is not an instance of XWikiWikiReference which will happen if there's no special
-        // XHTML comment defining a XWiki link. In this case, we need to figure out what how to consider the passed
-        // reference.
+        // We only support XWikiWikiReference as the XHTML parser never passes anything else to onReference.
 
-        ResourceReference resourceReference;
-        boolean isFreeStanding;
         if (!(reference instanceof XWikiWikiReference)) {
-            resourceReference = computeResourceReference(reference.getLink());
-            isFreeStanding = false;
-        } else {
-            XWikiWikiReference xwikiReference = (XWikiWikiReference) reference;
-            resourceReference = xwikiReference.getReference();
-            isFreeStanding = xwikiReference.isFreeStanding();
-
-            flushFormat();
+            throw new IllegalArgumentException("Expected XWikiWikiReference but got another type!");
         }
+
+        XWikiWikiReference xwikiReference = (XWikiWikiReference) reference;
+        ResourceReference resourceReference = xwikiReference.getReference();
+        boolean isFreeStanding = xwikiReference.isFreeStanding();
+        Block labelXDOM = xwikiReference.getLabelXDOM();
+
+        flushFormat();
 
         // Consider query string and anchor as ResourceReference parameters and the rest as generic parameters
         Pair<Map<String, String>, Map<String, String>> parameters =
             convertAndSeparateParameters(reference.getParameters());
 
         resourceReference.setParameters(parameters.getLeft());
-        onReference(resourceReference, reference.getLabel(), isFreeStanding, parameters.getRight(), false);
+
+        getListener().beginLink(resourceReference, isFreeStanding, parameters.getRight());
+
+        if (labelXDOM != null) {
+            InlineFilterListener inlineFilterListener = new InlineFilterListener();
+            inlineFilterListener.setWrappedListener(getListener());
+            labelXDOM.traverse(inlineFilterListener);
+        }
+
+        getListener().endLink(resourceReference, isFreeStanding, parameters.getRight());
     }
 
     @Override
@@ -140,40 +131,6 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
             onImage(resourceReference, xwikiReference.isFreeStanding(),
                 convertParameters(xwikiReference.getParameters()));
         }
-    }
-
-    /**
-     * Recognize the passed reference and figure out what type of link it should be:
-     * <ul>
-     *   <li>UC1: the reference points to a valid URL, we return a reference of type "url",
-     *       e.g. {@code http://server/path/reference#anchor}</li>
-     *   <li>UC2: the reference is a mailto: link, we return a reference of type "mailto",
-     *       e.g., {@code mailto:user@example.com}</li>
-     *   <li>UC3: the reference is not a valid URL, we return a reference of type "path",
-     *       e.g. {@code path/reference#anchor}</li>
-     * </ul>
-     *
-     * @param rawReference the full reference (e.g. "/some/path/something#other")
-     * @return the properly typed {@link ResourceReference} matching the use cases
-     */
-    private ResourceReference computeResourceReference(String rawReference)
-    {
-        ResourceReference reference;
-
-        // Do we have a valid URL?
-        Matcher matcher = URL_SCHEME_PATTERN.matcher(rawReference);
-        if (matcher.lookingAt()) {
-            // We have UC1
-            reference = new ResourceReference(rawReference, ResourceType.URL);
-        } else if (rawReference.startsWith(MAILTO_PREFIX)) {
-            // We have UC2
-            reference = new ResourceReference(rawReference.substring(MAILTO_PREFIX.length()), ResourceType.MAILTO);
-        } else {
-            // We have UC3
-            reference = new ResourceReference(rawReference, ResourceType.PATH);
-        }
-
-        return reference;
     }
 
     static boolean isMetaDataElement(WikiParameters parameters)

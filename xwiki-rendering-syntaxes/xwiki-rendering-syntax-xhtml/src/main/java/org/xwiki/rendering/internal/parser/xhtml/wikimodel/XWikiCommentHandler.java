@@ -25,14 +25,13 @@ import java.util.Map;
 
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
 import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
-import org.xwiki.rendering.renderer.PrintRenderer;
-import org.xwiki.rendering.renderer.PrintRendererFactory;
-import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
@@ -62,8 +61,6 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 {
     private XHTMLParser parser;
 
-    private PrintRendererFactory xwikiSyntaxPrintRendererFactory;
-
     private ComponentManager componentManager;
 
     private ResourceReferenceParser xhtmlMarkerResourceReferenceParser;
@@ -80,12 +77,10 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
      *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */
     public XWikiCommentHandler(ComponentManager componentManager, XHTMLParser parser,
-        PrintRendererFactory xwikiSyntaxPrintRendererFactory, 
         ResourceReferenceParser xhtmlMarkerResourceReferenceParser)
     {
         this.componentManager = componentManager;
         this.parser = parser;
-        this.xwikiSyntaxPrintRendererFactory = xwikiSyntaxPrintRendererFactory;
         this.xhtmlMarkerResourceReferenceParser = xhtmlMarkerResourceReferenceParser;
     }
 
@@ -214,22 +209,15 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         // originally appears in the parsed source) and handle it specially in DefaultXWikiGeneratorListener, with the
         // parser passed as the first parameter in the DefaultXWikiGeneratorListener constructor.
         // Since we cannot get this label as it originally appeared in the HTML source ( we are doing a SAX-like
-        // parsing), we should render the XDOM as HTML to get an HTML label.
-        // Since any syntax would do it, as long as this renderer matches the corresponding
-        // DefaultXWikiGeneratorListener
-        // parser, we use an xwiki 2.1 renderer for it is less complex (no context needed to render xwiki 2.1, no url
-        // resolution needed, no reference validity tests).
+        // parsing), we directly parse it and instead pass the resulting XDOM via the XWikiWikiReference class.
         // see DefaultXWikiGeneratorListener#DefaultXWikiGeneratorListener(Parser, ResourceReferenceParser, ImageParser)
         // see WikiModelXHTMLParser#getLinkLabelParser()
         // see http://code.google.com/p/wikimodel/issues/detail?id=87
         // TODO: remove this workaround when wiki syntax in link labels will be supported by wikimodel
-        DefaultWikiPrinter printer = new DefaultWikiPrinter();
+        XDOMGeneratorListener linkLabelListener = new XDOMGeneratorListener();
+        linkLabelListener.beginDocument(MetaData.EMPTY);
 
-        PrintRenderer linkLabelRenderer = this.xwikiSyntaxPrintRendererFactory.createRenderer(printer);
-        // Make sure to flush whatever the renderer implementation
-        linkLabelRenderer.beginDocument(MetaData.EMPTY);
-
-        XWikiGeneratorListener xwikiListener = this.parser.createXWikiGeneratorListener(linkLabelRenderer, null);
+        XWikiGeneratorListener xwikiListener = this.parser.createXWikiGeneratorListener(linkLabelListener, null);
 
         stack.pushStackParameter(LINK_LISTENER, xwikiListener);
 
@@ -244,7 +232,7 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
     {
         XWikiGeneratorListener xwikiListener =
             (XWikiGeneratorListener) stack.popStackParameter(LINK_LISTENER);
-        PrintRenderer linkLabelRenderer = (PrintRenderer) xwikiListener.getListener();
+        XDOMGeneratorListener linkLabelRenderer = (XDOMGeneratorListener) xwikiListener.getListener();
 
         // Make sure to flush whatever the renderer implementation
         linkLabelRenderer.endDocument(MetaData.EMPTY);
@@ -253,15 +241,15 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
         ResourceReference linkReference = this.xhtmlMarkerResourceReferenceParser.parse(this.commentContentStack.pop());
         WikiParameters linkParams = WikiParameters.EMPTY;
-        String label = null;
+        XDOM label = null;
         if (!isFreeStandingLink) {
-            label = linkLabelRenderer.getPrinter().toString();
+            label = linkLabelRenderer.getXDOM();
 
             // Add the Link reference parameters to the link parameters.
             linkParams = (WikiParameters) stack.getStackParameter(LINK_PARAMETERS);
         }
 
-        WikiReference wikiReference = new XWikiWikiReference(linkReference, label, linkParams, isFreeStandingLink);
+        XWikiWikiReference wikiReference = new XWikiWikiReference(linkReference, label, linkParams, isFreeStandingLink);
         stack.getScannerContext().onReference(wikiReference);
 
         stack.popStackParameter(IS_IN_LINK);
