@@ -271,7 +271,18 @@
                    </differences>
                  </revapi.differences>
             -->
-            
+            <revapi.differences>
+              <differences>
+                <item>
+                  <code>java.class.nonFinalClassInheritsFromNewClass</code>
+                  <old>class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver</old>
+                  <new>class org.xwiki.rendering.wikimodel.xhtml.impl.LocalEntityResolver</new>
+                  <superClass>org.xwiki.xml.internal.LocalEntityResolverComponent</superClass>
+                  <justification>Not a breakage (superclass was renamed, same methods)</justification>
+                  <criticality>allowed</criticality>
+                </item>
+              </differences>
+            </revapi.differences>
           </analysisConfiguration>
         </configuration>
       </plugin>
