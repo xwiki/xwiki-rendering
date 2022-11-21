@@ -39,6 +39,7 @@ import org.xwiki.rendering.syntax.SyntaxType;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
+import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
@@ -46,6 +47,7 @@ import org.xwiki.test.junit5.mockito.MockComponent;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -108,7 +110,26 @@ class DefaultMacroContentParserTest
 
         this.macroContentParser.parse("content", this.macroContext, true, true);
 
-        verify((MutableRenderingContext) this.renderingContext).transformInContext(any(), any(),
+        verify((MutableRenderingContext) this.renderingContext).transformInContext(any(),
+            argThat(context -> !context.isRestricted()),
             eq(new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.emptyMap(), null, true)))));
+    }
+
+    @Test
+    void parseInlineWithStandaloneMacroWithRestrictedTransformations() throws Exception
+    {
+        when(this.mockParser.parse(any(Reader.class)))
+            .thenReturn(
+                new XDOM(Collections.singletonList(new MacroBlock("macro", Collections.emptyMap(), null, false))));
+
+        this.macroContext.setTransformation(mock(Transformation.class));
+        this.macroContext.getTransformationContext().setRestricted(true);
+
+        this.macroContentParser.parse("content", this.macroContext, true, true);
+
+        verify((MutableRenderingContext) this.renderingContext).transformInContext(
+            any(), argThat(TransformationContext::isRestricted),
+            eq(new XDOM(Collections.singletonList(new MacroBlock("macro", Collections.emptyMap(), null, true))))
+        );
     }
 }
