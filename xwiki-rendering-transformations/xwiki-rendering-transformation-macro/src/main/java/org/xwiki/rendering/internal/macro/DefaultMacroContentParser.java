@@ -132,7 +132,9 @@ public class DefaultMacroContentParser implements MacroContentParser
 
             // Execute the content
             if (transform && macroContext.getTransformation() != null) {
-                TransformationContext txContext = new TransformationContext(result, syntax);
+                TransformationContext wrappingContext = macroContext.getTransformationContext();
+                boolean isRestricted = wrappingContext != null && wrappingContext.isRestricted();
+                TransformationContext txContext = new TransformationContext(result, syntax, isRestricted);
                 txContext.setId(macroContext.getId());
                 performTransformation((MutableRenderingContext) this.renderingContext,
                     macroContext.getTransformation(), txContext, result);
