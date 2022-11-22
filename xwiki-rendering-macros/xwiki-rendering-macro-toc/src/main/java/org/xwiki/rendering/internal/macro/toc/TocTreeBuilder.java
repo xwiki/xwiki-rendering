@@ -150,6 +150,9 @@ public class TocTreeBuilder
             tocBlock = currentBlock.getRoot();
         }
 
+        /** Add CSS class to ease styling. */
+        tocBlock.setParameter("class", "wikitoc");
+
         return tocBlock;
     }
 
