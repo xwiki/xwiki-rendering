@@ -60,7 +60,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
 
     /**
      * @param parser the XHTML parser, used for the label
-     * @since 14.10RC1
+     * @since 14.10
      * @todo Remove the need to pass a Parser when WikiModel implements support for wiki syntax in links. See
      *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */
