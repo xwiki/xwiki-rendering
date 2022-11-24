@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-macros</artifactId>
-    <version>14.4.7-SNAPSHOT</version>
+    <version>14.4.7</version>
   </parent>
   <artifactId>xwiki-rendering-macro-message</artifactId>
   <name>XWiki Rendering - Macro - Message</name>
