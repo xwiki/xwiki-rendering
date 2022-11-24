@@ -18,7 +18,7 @@ beginHeader [1, HTitle1]
 onWord [Title1]
 endHeader [1, HTitle1]
 beginMacroMarkerStandalone [toc] [start=1|depth=6|numbered=false|scope=page]
-beginList [BULLETED]
+beginList [BULLETED] [[class]=[wikitoc]]
 beginListItem
 beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [HTitle1]]] [false]
 onWord [Title1]
@@ -55,7 +55,7 @@ beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [HTitle2]]] [fal
 onWord [Title2]
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [HTitle2]]] [false]
 endListItem
-endList [BULLETED]
+endList [BULLETED] [[class]=[wikitoc]]
 endMacroMarkerStandalone [toc] [start=1|depth=6|numbered=false|scope=page]
 beginSection
 beginHeader [2, HTitle1.1]
