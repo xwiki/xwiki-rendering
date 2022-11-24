@@ -18,7 +18,7 @@ beginHeader [1, HTitle1]
 onWord [Title1]
 endHeader [1, HTitle1]
 beginMacroMarkerStandalone [toc] [start=1|depth=6|numbered=true|scope=local]
-beginList [NUMBERED]
+beginList [NUMBERED] [[class]=[wikitoc]]
 beginListItem
 beginList [NUMBERED]
 beginListItem
@@ -49,7 +49,7 @@ endList [NUMBERED]
 endListItem
 endList [NUMBERED]
 endListItem
-endList [NUMBERED]
+endList [NUMBERED] [[class]=[wikitoc]]
 endMacroMarkerStandalone [toc] [start=1|depth=6|numbered=true|scope=local]
 beginSection
 beginHeader [2, HTitle1.1]

@@ -9,11 +9,11 @@
 .#-----------------------------------------------------
 beginDocument
 beginMacroMarkerStandalone [toc] [reference=somereference]
-beginList [BULLETED]
+beginList [BULLETED] [[class]=[wikitoc]]
 beginListItem
 beginLink [Typed = [true] Type = [doc] Reference = [somereference]] [false]
 endLink [Typed = [true] Type = [doc] Reference = [somereference]] [false]
 endListItem
-endList [BULLETED]
+endList [BULLETED] [[class]=[wikitoc]]
 endMacroMarkerStandalone [toc] [reference=somereference]
 endDocument

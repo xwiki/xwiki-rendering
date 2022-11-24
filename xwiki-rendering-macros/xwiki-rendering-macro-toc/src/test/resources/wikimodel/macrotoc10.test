@@ -31,7 +31,7 @@ onSpecialSymbol [.]
 onWord [1]
 endHeader [2, HS1.1]
 beginMacroMarkerStandalone [toc] [scope=local]
-beginList [BULLETED]
+beginList [BULLETED] [[class]=[wikitoc]]
 beginListItem
 beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [HS1.1.1]]] [false]
 onWord [S1]
@@ -63,7 +63,7 @@ onSpecialSymbol [.]
 onWord [2]
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [HS1.1.2]]] [false]
 endListItem
-endList [BULLETED]
+endList [BULLETED] [[class]=[wikitoc]]
 endMacroMarkerStandalone [toc] [scope=local]
 beginSection
 beginHeader [3, HS1.1.1]
