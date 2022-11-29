@@ -24,7 +24,6 @@ import java.util.Optional;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.stability.Unstable;
 
 /**
  * Register, unregister and list syntaxes available in the wiki. Syntaxes can be automatically registered by
@@ -36,7 +35,6 @@ import org.xwiki.stability.Unstable;
  * @version $Id$
  * @since 13.3RC1
  */
-@Unstable
 @Role
 public interface SyntaxRegistry
 {
