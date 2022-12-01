@@ -33,10 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.logging.LogLevel;
-import org.xwiki.logging.LogUtils;
-import org.xwiki.logging.event.LogEvent;
-import org.xwiki.logging.marker.TranslationMarker;
+import org.xwiki.logging.Message;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
@@ -64,18 +61,15 @@ public class DefaultErrorBlockGenerator implements ErrorBlockGenerator
     public List<Block> generateErrorBlocks(boolean inline, String messageId, String defaultMessage,
         String defaultDescription, Object... arguments)
     {
-        LogEvent message = LogUtils.newLogEvent(messageId != null ? new TranslationMarker(messageId) : null,
-            LogLevel.ERROR,
+        Message message = new Message(messageId,
             defaultMessage != null && !defaultMessage.endsWith(".") ? defaultMessage + '.' : defaultMessage, arguments);
-        LogEvent description = defaultDescription != null
-            ? LogUtils.newLogEvent(messageId != null ? new TranslationMarker(messageId + ".description") : null,
-                LogLevel.ERROR, defaultDescription, arguments)
-            : null;
+        Message description = defaultDescription != null
+            ? new Message(messageId != null ? messageId + ".description" : null, defaultDescription, arguments) : null;
 
         return generateErrorBlocks(inline, message, description);
     }
 
-    protected List<Block> generateErrorBlocks(boolean inline, LogEvent message, LogEvent description)
+    protected List<Block> generateErrorBlocks(boolean inline, Message message, Message description)
     {
         List<Block> errorBlocks = new ArrayList<>();
 
@@ -118,14 +112,14 @@ public class DefaultErrorBlockGenerator implements ErrorBlockGenerator
         return errorBlocks;
     }
 
-    private void addDescriptionBlock(boolean inline, LogEvent description, List<Block> descriptionChildren)
+    private void addDescriptionBlock(boolean inline, Message description, List<Block> descriptionChildren)
     {
         if (description != null) {
             descriptionChildren.add(new VerbatimBlock(description.getFormattedMessage(), inline));
         }
     }
 
-    private void addStackTraceBlock(boolean inline, LogEvent message, StringBuilder messageBuilder,
+    private void addStackTraceBlock(boolean inline, Message message, StringBuilder messageBuilder,
         List<Block> descriptionChildren)
     {
         if (message.getThrowable() != null) {
