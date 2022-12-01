@@ -22,11 +22,8 @@ package org.xwiki.rendering.util;
 import java.util.List;
 
 import org.slf4j.Logger;
-import org.slf4j.Marker;
 import org.xwiki.component.annotation.Role;
-import org.xwiki.logging.LogLevel;
-import org.xwiki.logging.LogUtils;
-import org.xwiki.logging.event.LogEvent;
+import org.xwiki.logging.Message;
 import org.xwiki.logging.marker.TranslationMarker;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
@@ -115,13 +112,12 @@ public interface ErrorBlockGenerator
     default List<Block> generateErrorBlocks(boolean inline, String messageId, String defaultMessage,
         String defaultDescription, Object... arguments)
     {
-        Marker marker = new TranslationMarker(messageId);
-        LogEvent message = LogUtils.newLogEvent(marker, LogLevel.ERROR, defaultMessage, arguments);
+        Message message = new Message(messageId, defaultMessage, arguments);
 
         if (message.getThrowable() != null) {
             return generateErrorBlocks(message.getFormattedMessage(), message.getThrowable(), inline);
         } else {
-            LogEvent description = LogUtils.newLogEvent(marker, LogLevel.ERROR, defaultDescription, arguments);
+            Message description = new Message(messageId, defaultDescription, arguments);
 
             return generateErrorBlocks(message.getFormattedMessage(), description.getFormattedMessage(), inline);
         }
