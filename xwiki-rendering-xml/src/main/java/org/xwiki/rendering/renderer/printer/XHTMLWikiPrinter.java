@@ -21,6 +21,7 @@ package org.xwiki.rendering.renderer.printer;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -218,7 +219,23 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
     public void printRaw(String raw)
     {
         handleSpaceWhenStartElement();
-        super.printRaw(raw);
+        // Prevent injecting {{/html}}. We escape {{/html}} as well as prefixes of {{/html}} at the end of the raw
+        // content to avoid that raw content and plain texts can be combined to construct the full {{/html}}. This may
+        // cause errors as we might not be using the right escaping for the context (e.g., JSON or HTML comments) but
+        // for this reason we also escape in JSON output and HTML comments.
+        String escapedRaw = raw.replace("{{/html}}", "&#123;&#123;/html}}");
+
+        StringBuilder prefix = new StringBuilder();
+        for (Character nextChar : List.of('{', '/', 'h', 't', 'm', 'l', '}', '}')) {
+            prefix.append(nextChar);
+
+            if (escapedRaw.endsWith(prefix.toString())) {
+                escapedRaw =
+                    escapedRaw.substring(0, escapedRaw.length() - prefix.length()) + "&#123;" + prefix.substring(1);
+                break;
+            }
+        }
+        super.printRaw(escapedRaw);
         this.elementEnded = true;
     }
 
