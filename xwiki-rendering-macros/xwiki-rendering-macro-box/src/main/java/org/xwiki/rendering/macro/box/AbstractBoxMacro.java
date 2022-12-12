@@ -44,6 +44,7 @@ import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.ContentDescriptor;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.stability.Unstable;
 
 /**
  * Draw a box around provided content.
@@ -250,14 +251,22 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
                 throw new MacroExecutionException(CONTENT_MISSING_ERROR);
             }
 
-            // if it's null but not mandatory we return null
-            // if it's only empty we continue the processing
-            if (content == null) {
-                return ret;
+            if (isContentChecked()) {
+                // if it's null but not mandatory we return null
+                // if it's only empty we continue the processing
+                if (content == null) {
+                    return ret;
+                }
+            }
+
+            List<Block> contentBlocks = parseContent(parameters, content, context);
+
+            // If the result of the execution is null, return null
+            if (contentBlocks == null) {
+                return null;
             }
 
             if (context.isInline()) {
-                List<Block> contentBlocks = parseContent(parameters, content, context);
                 FormatBlock spanBlock = new FormatBlock(contentBlocks, Format.NONE);
                 spanBlock.setParameters(boxParameters);
                 ret = spanBlock;
@@ -283,7 +292,6 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
                 if (titleBlockList != null) {
                     ret.addChildren(titleBlockList);
                 }
-                List<Block> contentBlocks = parseContent(parameters, content, context);
                 ret.addChildren(contentBlocks);
             }
 
@@ -304,6 +312,18 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      */
     protected abstract List<Block> parseContent(P parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException;
+
+    /**
+     * @return true if {@link AbstractBoxMacro#execute(BoxMacroParameters, String, MacroTransformationContext)} should
+     *         make sure the content is not null
+     * @since 15.0RC1
+     * @since 14.10.2
+     */
+    @Unstable
+    protected boolean isContentChecked()
+    {
+        return true;
+    }
 
     /**
      * @return the name of the CSS class to use when rendering, in case no cssClass parameter is specified.
