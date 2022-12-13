@@ -19,12 +19,12 @@
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<!--startmacro:html|-|wiki="true"|-|{{toc scope="page"/}}
+<!--startmacro:html|-|wiki="true"|-|\{\{toc scope="page"/}}
 
 = title =--><ul class="wikitoc"><li><!--startwikilink:true|-|doc|-|null|-|anchor="Htitle"--><span class="wikilink"><a href="#Htitle">title</a></span><!--stopwikilink--></li></ul><h1 class="wikigeneratedid wikigeneratedheader" id="Htitle"><span>title</span></h1><!--stopmacro-->
 .#-----------------------------------------------------
 .expect|annotatedhtml/5.0
 .#-----------------------------------------------------
-<!--startmacro:html|-|wiki="true"|-|{{toc scope="page"/}}
+<!--startmacro:html|-|wiki="true"|-|\{\{toc scope="page"/}}
 
 = title =--><ul class="wikitoc"><li><span class="wikilink"><a href="#Htitle">title</a></span></li></ul><h1 class="wikigeneratedid wikigeneratedheader" id="Htitle"><span>title</span></h1><!--stopmacro-->
