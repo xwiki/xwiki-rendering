@@ -17,8 +17,8 @@
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<!--startmacro:html|-|wiki="true"|-|<div>{{testtextmacro}}<br/>{{/testtextmacro}}</div>--><div>&lt;br/&gt;</div><!--stopmacro-->
+<!--startmacro:html|-|wiki="true"|-|<div>\{\{testtextmacro}}<br/>\{\{/testtextmacro}}</div>--><div>&lt;br/&gt;</div><!--stopmacro-->
 .#-----------------------------------------------------
 .expect|annotatedhtml/5.0
 .#-----------------------------------------------------
-<!--startmacro:html|-|wiki="true"|-|<div>{{testtextmacro}}<br/>{{/testtextmacro}}</div>--><div>&lt;br/&gt;</div><!--stopmacro-->
+<!--startmacro:html|-|wiki="true"|-|<div>\{\{testtextmacro}}<br/>\{\{/testtextmacro}}</div>--><div>&lt;br/&gt;</div><!--stopmacro-->
