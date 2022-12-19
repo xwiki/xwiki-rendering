@@ -19,8 +19,8 @@
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startmacro:html|-||-|{-->&#123;<!--stopmacro--><!--startmacro:html|-||-|{-->&#123;<!--stopmacro-->/html}}</p>
+<p><!--startmacro:html|-||-|\{-->&#123;<!--stopmacro--><!--startmacro:html|-||-|\{-->&#123;<!--stopmacro-->/html}}</p>
 .#-----------------------------------------------------
 .expect|annotatedhtml/5.0
 .#-----------------------------------------------------
-<p><!--startmacro:html|-||-|{-->&#123;<!--stopmacro--><!--startmacro:html|-||-|{-->&#123;<!--stopmacro-->/html}}</p>
+<p><!--startmacro:html|-||-|\{-->&#123;<!--stopmacro--><!--startmacro:html|-||-|\{-->&#123;<!--stopmacro-->/html}}</p>
