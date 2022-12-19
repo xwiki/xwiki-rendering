@@ -31,7 +31,7 @@
   <name>XWiki Rendering - XML</name>
   <description>XML related tools for the rendering</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.00</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.10</xwiki.jacoco.instructionRatio>
   </properties>
   <dependencies>
     <dependency>
@@ -55,6 +55,13 @@
       <groupId>xerces</groupId>
       <artifactId>xercesImpl</artifactId>
       <scope>runtime</scope>
+    </dependency>
+    <!-- Testing Dependencies -->
+    <dependency>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-tool-test-simple</artifactId>
+      <version>${commons.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
