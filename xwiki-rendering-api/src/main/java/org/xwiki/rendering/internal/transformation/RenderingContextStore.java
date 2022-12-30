@@ -91,6 +91,7 @@ public class RenderingContextStore extends AbstractContextStore
     {
         save(contextStore, PROP_DEFAULTSYNTAX, this.context::getDefaultSyntax, entries);
         save(contextStore, PROP_TARGETSYNTAX, this.context::getTargetSyntax, entries);
+        save(contextStore, PROP_RESTRICTED, this.context.isRestricted(), entries);
     }
 
     private void save(Map<String, Serializable> contextStore, String key, Supplier<Syntax> supplier,
