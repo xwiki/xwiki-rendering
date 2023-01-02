@@ -22,8 +22,8 @@ package org.xwiki.rendering.internal.transformation;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
+import org.apache.commons.collections4.SetUtils;
 import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.RenderingContext;
@@ -53,7 +53,7 @@ class RenderingContextStoreTest
     {
         Map<String, Serializable> contextStore = new HashMap<>();
 
-        this.store.save(contextStore, Set.of(RenderingContextStore.PROP_DEFAULTSYNTAX,
+        this.store.save(contextStore, SetUtils.hashSet(RenderingContextStore.PROP_DEFAULTSYNTAX,
             RenderingContextStore.PROP_TARGETSYNTAX, RenderingContextStore.PROP_RESTRICTED));
 
         Map<String, Serializable> expectedContextStore = new HashMap<>();
@@ -64,7 +64,7 @@ class RenderingContextStoreTest
         when(this.renderingContext.getTargetSyntax()).thenReturn(Syntax.PLAIN_1_0);
         when(this.renderingContext.isRestricted()).thenReturn(true);
 
-        this.store.save(contextStore, Set.of(RenderingContextStore.PROP_DEFAULTSYNTAX,
+        this.store.save(contextStore, SetUtils.hashSet(RenderingContextStore.PROP_DEFAULTSYNTAX,
             RenderingContextStore.PROP_TARGETSYNTAX, RenderingContextStore.PROP_RESTRICTED));
 
         expectedContextStore = new HashMap<>();
