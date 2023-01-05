@@ -1,0 +1,29 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Verify that the generated classes are also removed when no id is present.
+.#-----------------------------------------------------
+<h1 class="one wikigeneratedid wikigeneratedheader">
+  <span>Heading 1</span>
+</h1>
+<h2 class="wikigeneratedid wikigeneratedheader">
+  <span>Heading 2</span>
+</h2>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginSection
+beginHeader [1, HHeading1] [[class]=[one]]
+onWord [Heading]
+onSpace
+onWord [1]
+endHeader [1, HHeading1] [[class]=[one]]
+beginSection
+beginHeader [2, HHeading2]
+onWord [Heading]
+onSpace
+onWord [2]
+endHeader [2, HHeading2]
+endSection
+endSection
+endDocument
