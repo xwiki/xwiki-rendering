@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
@@ -47,6 +49,17 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
      */
     @Unstable
     public static final String TRANSLATED_ATTRIBUTE_PREFIX = "data-xwiki-translated-attribute-";
+
+    /**
+     * Pattern for matching characters not allowed in data attributes.
+     * <p>
+     * This is the inverse of the definition of a name being
+     * <a href="https://html.spec.whatwg.org/multipage/infrastructure.html#xml-compatible>XML-compatible</a>,
+     * i.e., matching the <a href="https://www.w3.org/TR/xml/#NT-Name">Name production</a> without ":".
+     */
+    private static final Pattern DATA_REPLACEMENT_PATTERN = Pattern.compile("[^A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6"
+        + "\\u00F8-\\u02ff\\u0370-\\u037d\\u037f-\\u1fff\\u200c\\u200d\\u2070-\\u218f\\u2c00-\\u2fef\\u3001-\\ud7ff"
+        + "\\uf900-\\ufdcf\\ufdf0-\\ufffd\\x{10000}-\\x{EFFFF}\\-.0-9\\u00b7\\u0300-\\u036f\\u203f-\\u2040]");
 
     /**
      * The sanitizer used to restrict allowed elements and attributes, can be null (no restrictions).
@@ -260,7 +273,13 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
                 if (this.htmlElementSanitizer.isAttributeAllowed(elementName, e.getKey(), e.getValue())) {
                     cleanAttributes.put(e.getKey(), e.getValue());
                 } else {
-                    cleanAttributes.put(TRANSLATED_ATTRIBUTE_PREFIX + e.getKey(), e.getValue());
+                    // Keep but clean invalid attributes with a prefix (removed during parsing) to avoid loosing them
+                    // through WYSIWYG editing.
+                    String translatedName =
+                        TRANSLATED_ATTRIBUTE_PREFIX + removeInvalidDataAttributeCharacters(e.getKey());
+                    if (this.htmlElementSanitizer.isAttributeAllowed(elementName, translatedName, e.getValue())) {
+                        cleanAttributes.put(translatedName, e.getValue());
+                    }
                 }
             }
         }
@@ -279,9 +298,18 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
                     if (this.htmlElementSanitizer.isAttributeAllowed(elementName, entry[0], entry[1])) {
                         return entry;
                     } else {
-                        return new String[] { TRANSLATED_ATTRIBUTE_PREFIX + entry[0], entry[1] };
+                        // Keep but clean invalid attributes with a prefix (removed during parsing) to avoid loosing
+                        // them through WYSIWYG editing.
+                        String translatedName =
+                            TRANSLATED_ATTRIBUTE_PREFIX + removeInvalidDataAttributeCharacters(entry[0]);
+                        if (this.htmlElementSanitizer.isAttributeAllowed(elementName, translatedName, entry[1])) {
+                            return new String[] { translatedName, entry[1] };
+                        } else {
+                            return null;
+                        }
                     }
                 })
+                .filter(Objects::nonNull)
                 .toArray(String[][]::new);
         }
 
@@ -304,13 +332,32 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
                     ((AttributesImpl) allowedAttribute).addAttribute(null, null, attributes.getQName(i),
                         null, attributes.getValue(i));
                 } else {
-                    ((AttributesImpl) allowedAttribute).addAttribute(null, null,
-                        TRANSLATED_ATTRIBUTE_PREFIX + attributes.getQName(i), null, attributes.getValue(i));
+                    // Keep but clean invalid attributes with a prefix (removed during parsing) to avoid loosing them
+                    // through WYSIWYG editing.
+                    String translatedName =
+                        TRANSLATED_ATTRIBUTE_PREFIX + removeInvalidDataAttributeCharacters(attributes.getQName(i));
+                    if (this.htmlElementSanitizer.isAttributeAllowed(elementName, translatedName,
+                        attributes.getValue(i)))
+                    {
+                        ((AttributesImpl) allowedAttribute).addAttribute(null, null,
+                            translatedName, null, attributes.getValue(i));
+                    }
                 }
             }
         }
 
         return allowedAttribute;
+    }
+
+    /**
+     * Strips out invalid characters from names used for data attributes.
+     *
+     * @param name the data attribute name to clean
+     * @return valid name, to be prefixed with data-
+     */
+    public static String removeInvalidDataAttributeCharacters(String name)
+    {
+        return DATA_REPLACEMENT_PATTERN.matcher(name).replaceAll("");
     }
 
     private void handleSpaceWhenStartElement()

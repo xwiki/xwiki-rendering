@@ -19,11 +19,21 @@
  */
 package org.xwiki.rendering.renderer.printer;
 
+import java.util.Map;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
+import org.xml.sax.helpers.AttributesImpl;
+import org.xwiki.xml.html.HTMLElementSanitizer;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link XHTMLWikiPrinter}.
@@ -45,5 +55,76 @@ class XHTMLWikiPrinterTest
         XHTMLWikiPrinter xhtmlWikiPrinter = new XHTMLWikiPrinter(mockPrinter);
         xhtmlWikiPrinter.printRaw(input);
         verify(mockPrinter).print(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "invalid, value, data-xwiki-translated-attribute-invalid, value",
+        "valid, test&, valid, test&amp;",
+        "in/valid, value, data-xwiki-translated-attribute-invalid, value"
+    })
+    void testParameterCleaning(String parameterName, String parameterValue, String expectedName, String expectedValue)
+    {
+        HTMLElementSanitizer mockSanitizer = mock(HTMLElementSanitizer.class);
+        when(mockSanitizer.isElementAllowed(anyString())).thenReturn(true);
+        when(mockSanitizer.isAttributeAllowed(anyString(), anyString(), anyString())).then(invocation ->
+        {
+            String attributeName = invocation.getArgument(1, String.class);
+            return "valid".equals(attributeName) || attributeName.startsWith("data-");
+        });
+
+        // Test all possibilities of invoking the printer (with different kinds of arguments).
+        WikiPrinter mockPrinter = mock(WikiPrinter.class);
+        XHTMLWikiPrinter xhtmlWikiPrinter = new XHTMLWikiPrinter(mockPrinter, mockSanitizer);
+        Map<String, String> mapParameters = Map.of(parameterName, parameterValue);
+        xhtmlWikiPrinter.printXMLStartElement("div", mapParameters);
+        verify(mockSanitizer, atLeast(1)).isElementAllowed("div");
+        verify(mockSanitizer, atLeast(1)).isAttributeAllowed("div", parameterName, parameterValue);
+        verify(mockSanitizer, atLeast(1)).isAttributeAllowed("div", expectedName, parameterValue);
+        verifyPrinting(mockPrinter, expectedName, expectedValue, true);
+
+        mockPrinter = mock(WikiPrinter.class);
+        xhtmlWikiPrinter = new XHTMLWikiPrinter(mockPrinter, mockSanitizer);
+        xhtmlWikiPrinter.printXMLElement("div", mapParameters);
+        verifyPrinting(mockPrinter, expectedName, expectedValue, false);
+
+        mockPrinter = mock(WikiPrinter.class);
+        xhtmlWikiPrinter = new XHTMLWikiPrinter(mockPrinter, mockSanitizer);
+        String[][] arrayParameters = { { parameterName, parameterValue } };
+        xhtmlWikiPrinter.printXMLStartElement("div", arrayParameters);
+        verifyPrinting(mockPrinter, expectedName, expectedValue, true);
+
+        mockPrinter = mock(WikiPrinter.class);
+        xhtmlWikiPrinter = new XHTMLWikiPrinter(mockPrinter, mockSanitizer);
+        xhtmlWikiPrinter.printXMLElement("div", arrayParameters);
+        verifyPrinting(mockPrinter, expectedName, expectedValue, false);
+
+        mockPrinter = mock(WikiPrinter.class);
+        xhtmlWikiPrinter = new XHTMLWikiPrinter(mockPrinter, mockSanitizer);
+        AttributesImpl attributes = new AttributesImpl();
+        attributes.addAttribute(null, null, parameterName, null, parameterValue);
+        xhtmlWikiPrinter.printXMLStartElement("div", attributes);
+        verifyPrinting(mockPrinter, expectedName, expectedValue, true);
+    }
+
+    private void verifyPrinting(WikiPrinter mockPrinter, String attributeName,
+        String attributeValue, boolean isStart)
+    {
+        InOrder inOrder = Mockito.inOrder(mockPrinter);
+        inOrder.verify(mockPrinter).print("<");
+        inOrder.verify(mockPrinter).print("div");
+        inOrder.verify(mockPrinter).print(" ");
+        inOrder.verify(mockPrinter).print(attributeName);
+        inOrder.verify(mockPrinter).print("=");
+        inOrder.verify(mockPrinter).print("\"");
+        inOrder.verify(mockPrinter).print(attributeValue);
+        inOrder.verify(mockPrinter).print("\"");
+        if (isStart) {
+            inOrder.verify(mockPrinter).print(">");
+        } else {
+            inOrder.verify(mockPrinter).print("/>");
+        }
+        verifyNoMoreInteractions(mockPrinter);
+
     }
 }
