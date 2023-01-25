@@ -85,19 +85,30 @@ public class DefaultMacroContentParser implements MacroContentParser
     public XDOM parse(String content, MacroTransformationContext macroContext, boolean transform, MetaData metadata,
         boolean inline) throws MacroExecutionException
     {
+        return parse(content, null, macroContext, transform, metadata, inline);
+    }
+
+    @Override
+    public XDOM parse(String content, Syntax syntax, MacroTransformationContext macroContext, boolean transform,
+        MetaData metadata, boolean inline) throws MacroExecutionException
+    {
         // If the content is empty return an empty list
         if (StringUtils.isEmpty(content)) {
             return new XDOM(Collections.<Block>emptyList(), metadata != null ? metadata : MetaData.EMPTY);
         }
 
-        Syntax syntax = getCurrentSyntax(macroContext);
+        // Resolve the syntax
+        Syntax finalSyntax = syntax;
+        if (finalSyntax == null) {
+            finalSyntax = getCurrentSyntax(macroContext);
+        }
 
         // If there's no syntax specified in the Transformation throw an error
-        if (syntax == null) {
+        if (finalSyntax == null) {
             throw new MacroExecutionException("Invalid Transformation: missing Syntax");
         }
 
-        return createXDOM(content, macroContext, transform, metadata, inline, syntax);
+        return createXDOM(content, macroContext, transform, metadata, inline, finalSyntax);
     }
 
     /**

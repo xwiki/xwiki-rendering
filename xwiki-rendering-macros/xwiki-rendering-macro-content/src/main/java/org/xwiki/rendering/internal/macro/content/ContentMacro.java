@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.macro.content;
 
-import java.io.StringReader;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -30,17 +29,18 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.macro.AbstractMacro;
+import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.content.ContentMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
-import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.rendering.parser.Parser;
+import org.xwiki.rendering.macro.source.MacroContentWikiSource;
+import org.xwiki.rendering.macro.source.MacroContentWikiSourceFactory;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
@@ -66,6 +66,12 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
      */
     private static final String CONTENT_DESCRIPTION = "The content to execute";
 
+    @Inject
+    private MacroContentWikiSourceFactory contentFactory;
+
+    @Inject
+    private MacroContentParser macroContentParser;
+
     /**
      * Used to find the Parser corresponding to the user-specified syntax for the Macro.
      */
@@ -78,52 +84,45 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
      */
     public ContentMacro()
     {
-        super("Content", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, true,
-            Block.LIST_BLOCK_TYPE), ContentMacroParameters.class);
+        super("Content", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, false, Block.LIST_BLOCK_TYPE),
+            ContentMacroParameters.class);
+
         setDefaultCategories(Set.of(DEFAULT_CATEGORY_CONTENT));
     }
 
     @Override
     public boolean supportsInlineMode()
     {
-        return false;
+        return true;
     }
 
     @Override
-    public List<Block> execute(ContentMacroParameters parameters, String content, MacroTransformationContext context)
-        throws MacroExecutionException
+    public List<Block> execute(ContentMacroParameters parameters, String macroContent,
+        MacroTransformationContext context) throws MacroExecutionException
     {
-        try {
-            List<Block> blocks = getSyntaxParser(parameters.getSyntax()).parse(new StringReader(content)).getChildren();
-            MetaDataBlock metaDataBlock = new MetaDataBlock(blocks, MetaData.SYNTAX, parameters.getSyntax());
-
-            metaDataBlock.getMetaData().addMetaData(this.getNonGeneratedContentMetaData());
-            return Collections.singletonList(metaDataBlock);
-        } catch (ParseException e) {
-            throw new MacroExecutionException(
-                String.format("Failed to parse macro content in syntax [%s]", parameters.getSyntax()), e);
+        Syntax syntax = parameters.getSyntax();
+        String content = macroContent;
+        MetaData metadata = new MetaData();
+        if (syntax != null) {
+            // Remember the custom syntax as it can be needed for sub macros
+            metadata.addMetaData(MetaData.SYNTAX, syntax);
         }
-    }
-
-    /**
-     * Get the parser for the passed Syntax.
-     *
-     * @param syntax the Syntax for which to find the Parser
-     * @return the matching Parser that can be used to parse content in the passed Syntax
-     * @throws MacroExecutionException if there's no Parser in the system for the passed Syntax
-     */
-    protected Parser getSyntaxParser(Syntax syntax) throws MacroExecutionException
-    {
-        ComponentManager componentManager = this.componentManagerProvider.get();
-        if (componentManager.hasComponent(Parser.class, syntax.toIdString())) {
-            try {
-                return componentManager.getInstance(Parser.class, syntax.toIdString());
-            } catch (ComponentLookupException e) {
-                throw new MacroExecutionException(
-                    String.format("Failed to lookup Parser for syntax [%s]", syntax.toIdString()), e);
+        if (parameters.getSource() != null) {
+            MacroContentWikiSource wikiSource = this.contentFactory.getContent(parameters.getSource(), context);
+            if (parameters.getSyntax() == null) {
+                // Use the source syntax if no explicit one is given as parameter
+                syntax = wikiSource.getSyntax();
             }
+            content = wikiSource.getContent();
         } else {
-            throw new MacroExecutionException(String.format("Cannot find Parser for syntax [%s]", syntax.toIdString()));
+            // Make the content editable inline only if it's not coming from a source
+            metadata.addMetaData(this.getNonGeneratedContentMetaData());
         }
+
+        // Parse the content
+        XDOM xdom = this.macroContentParser.parse(content, syntax, context, false, metadata, context.isInline());
+
+        // Remember the metadata of the XDOM
+        return Collections.singletonList(new MetaDataBlock(xdom.getChildren(), xdom.getMetaData()));
     }
 }

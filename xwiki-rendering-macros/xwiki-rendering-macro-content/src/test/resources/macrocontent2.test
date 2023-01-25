@@ -12,10 +12,10 @@ whatever
 beginDocument
 beginMacroMarkerStandalone [content] [syntax=invalid/1.0] [whatever]
 beginGroup [[class]=[xwikirenderingerror]]
-onWord [Failed to execute the [content] macro. Cause: [Cannot find Parser for syntax [invalid/1.0]]. Click on this message for details.]
+onWord [Failed to execute the [content] macro. Cause: [Can't find descriptor for the component with type [interface org.xwiki.rendering.parser.Parser] and hint [invalid/1.0]]. Click on this message for details.]
 endGroup [[class]=[xwikirenderingerror]]
 beginGroup [[class]=[xwikirenderingerrordescription hidden]]
-onVerbatim [org.xwiki.rendering.macro.MacroExecutionException: Cannot find Parser for syntax [invalid/1.0]${{{regex:.*}}}] [false]
+onVerbatim [org.xwiki.rendering.macro.MacroExecutionException: Failed to parse content [whatever]${{{regex:.*}}}] [false]
 endGroup [[class]=[xwikirenderingerrordescription hidden]]
 endMacroMarkerStandalone [content] [syntax=invalid/1.0] [whatever]
 endDocument
