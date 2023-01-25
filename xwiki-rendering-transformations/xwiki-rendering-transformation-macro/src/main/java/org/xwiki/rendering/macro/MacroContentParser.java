@@ -24,6 +24,7 @@ import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.stability.Unstable;
 
 /**
  * Parses content of a macro field (parameter, macro content) in a given syntax.
@@ -63,6 +64,28 @@ public interface MacroContentParser
      */
     XDOM parse(String content, MacroTransformationContext macroContext, boolean transform, MetaData metadata,
         boolean inline) throws MacroExecutionException;
+
+    /**
+     * Parses content of a macro field (parameter, macro content) in a given syntax and optionally remove the top level
+     * paragraph.
+     *
+     * @param content the content to parse
+     * @param syntax the syntax of the content or null if the context one should be used
+     * @param macroContext the executing Macro context (from which to get the current syntax, etc)
+     * @param transform if true then executes transformations
+     * @param metadata the metadata to add to the XDOM before executing transformations
+     * @param inline whether the content should be parsed as inline content (not top level paragraph, etc)
+     * @return the result as a {@link org.xwiki.rendering.block.Block}s
+     * @throws MacroExecutionException in case of a parsing error
+     * @since 15.1RC1
+     * @since 14.10.5
+     */
+    @Unstable
+    default XDOM parse(String content, Syntax syntax, MacroTransformationContext macroContext, boolean transform,
+        MetaData metadata, boolean inline) throws MacroExecutionException
+    {
+        return parse(content, macroContext, transform, metadata, inline);
+    }
 
     /**
      * Find the current syntax to use for macro supporting wiki content/parameters/whatever.

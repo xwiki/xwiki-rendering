@@ -19,8 +19,9 @@
  */
 package org.xwiki.rendering.macro.content;
 
+import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
-import org.xwiki.properties.annotation.PropertyMandatory;
+import org.xwiki.rendering.macro.source.MacroContentSourceReference;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
@@ -36,10 +37,11 @@ public class ContentMacroParameters
      */
     private Syntax syntax;
 
+    private MacroContentSourceReference source;
+
     /**
      * @param syntax see {@link #getSyntax()}
      */
-    @PropertyMandatory
     @PropertyDescription(
         "the wiki syntax in which the content is written (e.g. \"xwiki/2.1\", \"confluence/1.0\", etc)")
     public void setSyntax(Syntax syntax)
@@ -53,5 +55,28 @@ public class ContentMacroParameters
     public Syntax getSyntax()
     {
         return this.syntax;
+    }
+
+    /**
+     * @param source the reference of the content to parse
+     * @since 15.1RC1
+     * @since 14.10.5
+     */
+    @PropertyDescription("the reference of the content to parse instead of the content of the macro"
+        + " (script:myvariable for the entry with name myvariable in the script context)")
+    @PropertyAdvanced
+    public void setSource(MacroContentSourceReference source)
+    {
+        this.source = source;
+    }
+
+    /**
+     * @return the reference of the content to parse
+     * @since 15.1RC1
+     * @since 14.10.5
+     */
+    public MacroContentSourceReference getSource()
+    {
+        return this.source;
     }
 }
