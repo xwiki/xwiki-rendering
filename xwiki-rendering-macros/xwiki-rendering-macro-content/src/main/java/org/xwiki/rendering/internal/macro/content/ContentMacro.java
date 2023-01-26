@@ -109,7 +109,7 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
         }
         if (parameters.getSource() != null) {
             MacroContentWikiSource wikiSource = this.contentFactory.getContent(parameters.getSource(), context);
-            if (parameters.getSyntax() == null) {
+            if (syntax == null) {
                 // Use the source syntax if no explicit one is given as parameter
                 syntax = wikiSource.getSyntax();
             }
