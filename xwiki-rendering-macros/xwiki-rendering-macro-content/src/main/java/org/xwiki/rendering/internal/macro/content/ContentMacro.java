@@ -123,6 +123,6 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
         XDOM xdom = this.macroContentParser.parse(content, syntax, context, false, metadata, context.isInline());
 
         // Remember the metadata of the XDOM
-        return Collections.singletonList(new MetaDataBlock(xdom.getChildren(), xdom.getMetaData()));
+        return List.of(new MetaDataBlock(xdom.getChildren(), xdom.getMetaData()));
     }
 }
