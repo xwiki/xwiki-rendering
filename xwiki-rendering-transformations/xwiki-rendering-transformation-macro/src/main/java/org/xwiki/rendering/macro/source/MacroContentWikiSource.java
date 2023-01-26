@@ -44,7 +44,7 @@ public class MacroContentWikiSource
 
     /**
      * @param reference the reference of the content
-     * @param content the content to highlight
+     * @param content the wiki content
      * @param syntax the syntax of the content if known, null otherwise
      */
     public MacroContentWikiSource(MacroContentSourceReference reference, String content, Syntax syntax)
@@ -63,7 +63,7 @@ public class MacroContentWikiSource
     }
 
     /**
-     * @return the content to highlight
+     * @return the wiki content
      */
     public String getContent()
     {
