@@ -115,7 +115,7 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
             content = wikiSource.getContent();
         } else {
             // Make the content editable inline only if it's not coming from a source
-            metadata.addMetaData(this.getNonGeneratedContentMetaData());
+            metadata.addMetaData(getNonGeneratedContentMetaData());
         }
 
         // Parse the content
