@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.macro.content;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
