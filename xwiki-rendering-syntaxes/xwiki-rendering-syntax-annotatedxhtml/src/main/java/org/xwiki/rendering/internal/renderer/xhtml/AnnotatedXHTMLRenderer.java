@@ -69,6 +69,9 @@ public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implem
     private XHTMLImageRenderer imageRenderer;
 
     @Inject
+    private XHTMLMetaDataRenderer metaDataRenderer;
+
+    @Inject
     private HTMLElementSanitizer htmlElementSanitizer;
 
     @Override
@@ -84,6 +87,6 @@ public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implem
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
         chain.addListener(new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer,
-            this.htmlElementSanitizer, chain));
+            this.metaDataRenderer, this.htmlElementSanitizer, chain));
     }
 }
