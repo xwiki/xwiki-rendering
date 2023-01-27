@@ -27,6 +27,7 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
+import org.xwiki.rendering.internal.renderer.xhtml.XHTMLMetaDataRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
@@ -69,6 +70,9 @@ public class AnnotatedHTML5Renderer extends AbstractChainingPrintRenderer implem
     private XHTMLImageRenderer imageRenderer;
 
     @Inject
+    private XHTMLMetaDataRenderer metaDataRenderer;
+
+    @Inject
     private HTMLElementSanitizer htmlElementSanitizer;
 
     @Override
@@ -84,6 +88,6 @@ public class AnnotatedHTML5Renderer extends AbstractChainingPrintRenderer implem
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
         chain.addListener(new AnnotatedHTML5ChainingRenderer(this.linkRenderer, this.imageRenderer,
-            this.htmlElementSanitizer, chain));
+            this.metaDataRenderer, this.htmlElementSanitizer, chain));
     }
 }

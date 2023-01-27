@@ -27,6 +27,7 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.internal.macro.html.AbstractHTMLMacroRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.AnnotatedXHTMLChainingRenderer;
+import org.xwiki.rendering.internal.renderer.xhtml.XHTMLMetaDataRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.image.XHTMLImageRenderer;
 import org.xwiki.rendering.internal.renderer.xhtml.link.XHTMLLinkRenderer;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
@@ -65,10 +66,13 @@ public class HTMLMacroAnnotatedXHTMLRenderer extends AbstractHTMLMacroRenderer
     @Inject
     private HTMLElementSanitizer htmlElementSanitizer;
 
+    @Inject
+    private XHTMLMetaDataRenderer metaDataRenderer;
+
     @Override
     protected AbstractChainingPrintRenderer getSyntaxRenderer()
     {
-        return new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, this.htmlElementSanitizer,
-            getListenerChain());
+        return new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, this.metaDataRenderer,
+            this.htmlElementSanitizer, getListenerChain());
     }
 }
