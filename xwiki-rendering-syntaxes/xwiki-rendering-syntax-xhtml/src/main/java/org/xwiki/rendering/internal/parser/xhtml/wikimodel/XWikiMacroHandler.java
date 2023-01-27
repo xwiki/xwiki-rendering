@@ -19,9 +19,8 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.util.ReflectionUtils;
@@ -53,12 +52,11 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
 {
     private static final String WIKI_CONTENT_TYPE = ReflectionUtils.serializeType(Block.LIST_BLOCK_TYPE);
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(XWikiMacroHandler.class);
+
     private ComponentManager componentManager;
 
     private XHTMLParser parser;
-
-    @Inject
-    private Logger logger;
 
     /**
      * Default constructor for XWikiMacroHandler.
@@ -87,7 +85,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                 RenderingContext renderingContext = this.componentManager.getInstance(RenderingContext.class);
                 syntax = renderingContext.getTargetSyntax();
             } catch (ComponentLookupException e) {
-                this.logger.error("Error while retrieving the rendering context", e);
+                LOGGER.error("Error while retrieving the rendering context", e);
             }
             if (syntax == null) {
                 syntax = this.parser.getSyntax();
@@ -162,7 +160,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                         context.getTagStack().getScannerContext().beginDocument();
                     }
                 } catch (ComponentLookupException e) {
-                    this.logger.error("Error while getting the appropriate renderer for syntax [{}]",
+                    LOGGER.error("Error while getting the appropriate renderer for syntax [{}]",
                         currentSyntaxParameter, e);
                 }
             }
