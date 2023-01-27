@@ -67,6 +67,9 @@ public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implem
     @Named("annotated")
     private XHTMLImageRenderer imageRenderer;
 
+    @Inject
+    private XHTMLMetaDataRenderer metaDataRenderer;
+
     @Override
     public void initialize() throws InitializationException
     {
@@ -79,6 +82,7 @@ public class AnnotatedXHTMLRenderer extends AbstractChainingPrintRenderer implem
         chain.addListener(new BlockStateChainingListener(chain));
         chain.addListener(new EmptyBlockChainingListener(chain));
         chain.addListener(new MetaDataStateChainingListener(chain));
-        chain.addListener(new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer, chain));
+        chain.addListener(new AnnotatedXHTMLChainingRenderer(this.linkRenderer, this.imageRenderer,
+            this.metaDataRenderer, chain));
     }
 }
