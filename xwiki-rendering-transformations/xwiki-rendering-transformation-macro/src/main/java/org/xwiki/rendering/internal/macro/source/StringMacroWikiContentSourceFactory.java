@@ -30,8 +30,8 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
  * @version $Id$
- * @since 15.0RC1
- * @since 14.10.2
+ * @since 15.1RC1
+ * @since 14.10.5
  */
 @Component
 @Singleton
