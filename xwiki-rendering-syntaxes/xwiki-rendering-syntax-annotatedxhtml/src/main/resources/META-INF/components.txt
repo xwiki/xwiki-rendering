@@ -1,6 +1,7 @@
 org.xwiki.rendering.internal.renderer.xhtml.AnnotatedXHTMLBlockRenderer
 org.xwiki.rendering.internal.renderer.xhtml.AnnotatedXHTMLRendererFactory
 org.xwiki.rendering.internal.renderer.xhtml.AnnotatedXHTMLRenderer
+org.xwiki.rendering.internal.renderer.xhtml.XHTMLMetaDataRenderer
 org.xwiki.rendering.internal.renderer.xhtml.image.AnnotatedXHTMLImageRenderer
 org.xwiki.rendering.internal.renderer.xhtml.link.AnnotatedXHTMLLinkRenderer
 org.xwiki.rendering.internal.xhtml.AnnotatedXHTML10SyntaxProvider

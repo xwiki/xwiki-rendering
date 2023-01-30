@@ -56,17 +56,19 @@ public class AnnotatedHTML5ChainingRenderer extends HTML5ChainingRenderer
      * @param imageRenderer the object to render image events into XHTML. This is done so that it's pluggable because
      *            image rendering depends on how the underlying system wants to handle it. For example for XWiki we
      *            check if the image exists as a document attachments, we get its URL, etc.
+     * @param metadataRenderer the object to render metadata events into XHTML.
      * @param htmlElementSanitizer the HTML element sanitizer to use
      * @param listenerChain the chain of listener filters used to compute various states
      */
     public AnnotatedHTML5ChainingRenderer(XHTMLLinkRenderer linkRenderer,
-            XHTMLImageRenderer imageRenderer, HTMLElementSanitizer htmlElementSanitizer, ListenerChain listenerChain)
+        XHTMLImageRenderer imageRenderer, XHTMLMetaDataRenderer metadataRenderer,
+        HTMLElementSanitizer htmlElementSanitizer, ListenerChain listenerChain)
     {
         super(linkRenderer, imageRenderer, htmlElementSanitizer, listenerChain);
 
         this.macroRenderer = new XHTMLMacroRenderer();
 
-        this.metaDataRenderer = new XHTMLMetaDataRenderer();
+        this.metaDataRenderer = metadataRenderer;
     }
 
     @Override

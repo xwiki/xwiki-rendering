@@ -22,6 +22,11 @@ package org.xwiki.rendering.internal.renderer.xhtml;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import org.xwiki.component.annotation.Component;
+import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
@@ -32,8 +37,13 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
  * @version $Id$
  * @since 14.0RC1
  */
+@Component(roles = XHTMLMetaDataRenderer.class)
+@Singleton
 public class XHTMLMetaDataRenderer
 {
+    @Inject
+    private ConverterManager converterManager;
+
     /**
      * @return a span element if we are inside an inline macro. Else a div.
      */
@@ -58,8 +68,8 @@ public class XHTMLMetaDataRenderer
         Map<String, String> attributes = new LinkedHashMap<>();
 
         for (Map.Entry<String, Object> metadataPair : metaData.getMetaData().entrySet()) {
-            attributes.put(XHTMLXWikiGeneratorListener.METADATA_ATTRIBUTE_PREFIX + metadataPair.getKey(),
-                metadataPair.getValue().toString());
+            String value = this.converterManager.convert(String.class, metadataPair.getValue());
+            attributes.put(XHTMLXWikiGeneratorListener.METADATA_ATTRIBUTE_PREFIX + metadataPair.getKey(), value);
         }
 
         attributes.put("class", XHTMLXWikiGeneratorListener.METADATA_CONTAINER_CLASS);
