@@ -1,20 +1,24 @@
 .runTransformations
 .#-----------------------------------------------------
 .input|xwiki/2.1
-.# Check source support
+.# Check source support in inline context
 .#-----------------------------------------------------
-{{content source="string:**bold**"/}}
+some {{content source="string:**bold**"/}} text
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginMacroMarkerStandalone [content] [source=string:**bold**]
-beginMetaData [[syntax]=[XWiki 2.1]]
 beginParagraph
+onWord [some]
+onSpace
+beginMacroMarkerInline [content] [source=string:**bold**]
+beginMetaData [[syntax]=[XWiki 2.1]]
 beginFormat [BOLD]
 onWord [bold]
 endFormat [BOLD]
-endParagraph
 endMetaData [[syntax]=[XWiki 2.1]]
-endMacroMarkerStandalone [content] [source=string:**bold**]
+endMacroMarkerInline [content] [source=string:**bold**]
+onSpace
+onWord [text]
+endParagraph
 endDocument

@@ -1,9 +1,9 @@
 .runTransformations
 .#-----------------------------------------------------
 .input|xwiki/2.1
-.# Check source support in inline context
+.# Check support for inline context
 .#-----------------------------------------------------
-some {{content source="string:**bold**"/}} text
+some {{content}}**bold**{{/content}} text
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -11,13 +11,13 @@ beginDocument
 beginParagraph
 onWord [some]
 onSpace
-beginMacroMarkerInline [content] [source=string:**bold**]
-beginMetaData [[syntax]=[XWiki 2.1]]
+beginMacroMarkerInline [content] [] [**bold**]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>][syntax]=[XWiki 2.1]]
 beginFormat [BOLD]
 onWord [bold]
 endFormat [BOLD]
-endMetaData [[syntax]=[XWiki 2.1]]
-endMacroMarkerInline [content] [source=string:**bold**]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>][syntax]=[XWiki 2.1]]
+endMacroMarkerInline [content] [] [**bold**]
 onSpace
 onWord [text]
 endParagraph
