@@ -48,6 +48,11 @@ public abstract class AbstractBlock implements Block
     private Map<String, String> parameters;
 
     /**
+     * Store attributes, see {@link #getAttribute(String)} for more explanations what attributes are.
+     */
+    private Map<String, Object> attributes;
+
+    /**
      * The Blocks this Block contains.
      */
     private List<Block> childrenBlocks;
@@ -396,6 +401,40 @@ public abstract class AbstractBlock implements Block
         } else {
             this.parameters.clear();
             this.parameters.putAll(parameters);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getAttributes()
+    {
+        return this.attributes == null ? Collections.emptyMap()
+            : Collections.unmodifiableMap(this.attributes);
+    }
+
+    @Override
+    public Object getAttribute(String name)
+    {
+        return this.attributes == null ? null : this.attributes.get(name);
+    }
+
+    @Override
+    public void setAttribute(String name, Object value)
+    {
+        if (this.attributes == null) {
+            this.attributes = new LinkedHashMap<>(1);
+        }
+
+        this.attributes.put(name, value);
+    }
+
+    @Override
+    public void setAttributes(Map<String, Object> attributes)
+    {
+        if (this.attributes == null) {
+            this.attributes = new LinkedHashMap<>(attributes);
+        } else {
+            this.attributes.clear();
+            this.attributes.putAll(attributes);
         }
     }
 

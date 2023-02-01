@@ -280,7 +280,43 @@ public class BlockTest
 
         assertEquals(parameters2, wordBlock.getParameters());
     }
+    
+    @Test
+    void setAndGetAttribute()
+    {
+        WordBlock wordBlock = new WordBlock("word");
 
+        wordBlock.setAttribute("param", List.of("value"));
+
+        assertEquals(List.of("value"), wordBlock.getAttribute("param"));
+
+        wordBlock.setAttribute("param", 42);
+
+        assertEquals(42, wordBlock.getAttribute("param"));
+    }
+
+    @Test
+    void setAndGetattributes()
+    {
+        WordBlock wordBlock = new WordBlock("word");
+
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("param1", List.of("value1"));
+        attributes.put("param2", 42);
+
+        wordBlock.setAttributes(attributes);
+
+        assertEquals(attributes, wordBlock.getAttributes());
+
+        Map<String, Object> attributes2 = new HashMap<>();
+        attributes.put("param21", Map.of("key", "value21"));
+        attributes.put("param22", "value22");
+
+        wordBlock.setAttributes(attributes2);
+
+        assertEquals(attributes2, wordBlock.getAttributes());
+    }
+    
     @Test
     public void getRoot()
     {
