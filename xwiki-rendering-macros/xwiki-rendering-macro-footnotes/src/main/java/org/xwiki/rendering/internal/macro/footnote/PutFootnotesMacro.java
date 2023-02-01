@@ -21,14 +21,13 @@ package org.xwiki.rendering.internal.macro.footnote;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
@@ -38,14 +37,14 @@ import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.NumberedListBlock;
 import org.xwiki.rendering.block.SpaceBlock;
 import org.xwiki.rendering.block.WordBlock;
-import org.xwiki.rendering.block.match.ClassBlockMatcher;
+import org.xwiki.rendering.block.match.MacroMarkerBlockMatcher;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
-import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.footnote.FootnoteMacroParameters;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.rendering.util.IdGenerator;
 
 /**
  * List footnotes at the end of the page.
@@ -77,6 +76,18 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     /** Prefix for the ID of the footnote. */
     private static final String FOOTNOTE_REFERENCE_ID_PREFIX = "x_footnote_ref_";
 
+    /** Class name for the reference to the footnote. */
+    private static final String FOOTNOTE_REF_CLASS_NAME = "footnoteRef";
+
+    /** Name of the attribute in the footnote macro marker block that stores the footnote id. */
+    private static final String FOOTNOTE_ID_ATTRIBUTE = "footnoteId";
+
+    /** Name of the attribute in the footnote macro marker block that stores the footnote reference's id. */
+    private static final String FOOTNOTE_REFERENCE_ID_ATTRIBUTE = "footnoteReferenceId";
+
+    /** Name of the attribute in the footnote macro marker block that stores the original content of the footnote. */
+    private static final String FOOTNOTE_CONTENT_ATTRIBUTE = "footnoteContent";
+
     /**
      * Used to parse the content of the macro.
      */
@@ -103,41 +114,45 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
 
     @Override
     public List<Block> execute(FootnoteMacroParameters parameters, String content, MacroTransformationContext context)
-        throws MacroExecutionException
     {
         List<Block> result = Collections.emptyList();
 
         // Get the list of footnotes in the document
         Block root = context.getXDOM();
-        List<MacroMarkerBlock> footnotes =
-            root.getBlocks(new ClassBlockMatcher(MacroMarkerBlock.class), Block.Axes.DESCENDANT);
-        for (ListIterator<MacroMarkerBlock> it = footnotes.listIterator(); it.hasNext();) {
-            MacroMarkerBlock macro = it.next();
-            if (FootnoteMacro.MACRO_NAME.equals(macro.getId())) {
-                continue;
-            } else if (PutFootnotesMacro.MACRO_NAME.equals(macro.getId())) {
-                macro.getParent().replaceChild(Collections.<Block>emptyList(), macro);
-            }
-            it.remove();
-        }
-        if (footnotes.isEmpty()) {
-            return result;
+        List<MacroMarkerBlock> macroMarkerBlocks =
+            root.getBlocks(new MacroMarkerBlockMatcher(PutFootnotesMacro.MACRO_NAME, FootnoteMacro.MACRO_NAME),
+                Block.Axes.DESCENDANT);
+
+        // Clear the existing footnote lists.
+        macroMarkerBlocks.stream()
+            .filter(macro -> PutFootnotesMacro.MACRO_NAME.equals(macro.getId()))
+            .forEach(macro -> macro.setChildren(Collections.emptyList()));
+
+        IdGenerator idGenerator = null;
+
+        if (context.getXDOM() != null) {
+            idGenerator = context.getXDOM().getIdGenerator();
         }
 
-        NumberedListBlock container = new NumberedListBlock(Collections.<Block>emptyList());
-        container.setParameter(CLASS_ATTRIBUTE_NAME, "footnotes");
-        Block footnoteResult;
+        // Collect the footnote macros.
+        List<MacroMarkerBlock> footnotes = macroMarkerBlocks.stream()
+            .filter(macro -> FootnoteMacro.MACRO_NAME.equals(macro.getId()))
+            .collect(Collectors.toList());
 
-        int counter = 1;
-        for (MacroMarkerBlock footnote : footnotes) {
-            footnoteResult = processFootnote(footnote, counter, context);
-            if (footnoteResult != null) {
+        if (!footnotes.isEmpty()) {
+            NumberedListBlock container = new NumberedListBlock(Collections.<Block>emptyList());
+            container.setParameter(CLASS_ATTRIBUTE_NAME, "footnotes");
+            result = Collections.singletonList(container);
+
+            int counter = 1;
+            for (MacroMarkerBlock footnote : footnotes) {
+                Block footnoteResult = processFootnote(footnote, counter, idGenerator);
                 container.addChild(footnoteResult);
                 counter++;
             }
         }
 
-        return Collections.<Block>singletonList(container);
+        return result;
     }
 
     /**
@@ -146,26 +161,44 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
      *
      * @param footnoteMacro the {{footnote}} macro element
      * @param counter the current footnote counter
-     * @param context the execution context of the macro
      * @return the footnote element which should be inserted in the footnote list
-     * @throws MacroExecutionException if the footnote content cannot be further processed
      */
-    private ListItemBlock processFootnote(MacroMarkerBlock footnoteMacro, int counter,
-        MacroTransformationContext context) throws MacroExecutionException
+    private ListItemBlock processFootnote(MacroMarkerBlock footnoteMacro, int counter, IdGenerator idGenerator)
     {
-        String content = footnoteMacro.getContent();
-        if (StringUtils.isBlank(content)) {
-            content = " ";
+        @SuppressWarnings("unchecked")
+        List<Block> content = (List<Block>) footnoteMacro.getAttribute(FOOTNOTE_CONTENT_ATTRIBUTE);
+        if (content == null) {
+            // Copy the list of children as the code will later clear the original children list.
+            content = List.copyOf(footnoteMacro.getChildren());
+            footnoteMacro.setAttribute(FOOTNOTE_CONTENT_ATTRIBUTE, content);
         }
+
+        String referenceId = generateId(footnoteMacro, counter, idGenerator, FOOTNOTE_REFERENCE_ID_ATTRIBUTE,
+            FOOTNOTE_REFERENCE_ID_PREFIX);
+        String footnoteId = generateId(footnoteMacro, counter, idGenerator, FOOTNOTE_ID_ATTRIBUTE, FOOTNOTE_ID_PREFIX);
+
         // Construct the footnote and reference blocks
-        Block referenceBlock = createFootnoteReferenceBlock(counter);
-        ListItemBlock footnoteBlock = createFootnoteBlock(content, counter, context);
+        Block referenceBlock = createFootnoteReferenceBlock(counter, footnoteId, referenceId);
+        ListItemBlock footnoteBlock = createFootnoteBlock(content, footnoteId, referenceId);
         // Insert the footnote and the reference in the document.
-        if (referenceBlock != null && footnoteBlock != null) {
-            addFootnoteRef(footnoteMacro, referenceBlock);
-            return footnoteBlock;
+        addFootnoteRef(footnoteMacro, referenceBlock);
+        return footnoteBlock;
+    }
+
+    private String generateId(MacroMarkerBlock footnoteMacro, int counter, IdGenerator idGenerator,
+        String attributeName, String idPrefix)
+    {
+        String footnoteId = (String) footnoteMacro.getAttribute(attributeName);
+        if (footnoteId == null) {
+            footnoteId = idPrefix + counter;
+            if (idGenerator != null) {
+                footnoteId = idGenerator.generateUniqueId(footnoteId.substring(0, 1), footnoteId.substring(1));
+            }
+
+            footnoteMacro.setAttribute(attributeName, footnoteId);
         }
-        return null;
+
+        return footnoteId;
     }
 
     /**
@@ -186,17 +219,19 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
      * the actual footnote at the end of the document.
      *
      * @param counter the current footnote counter
+     * @param footnoteId the id of the footnote
+     * @param referenceId the id of the reference
      * @return the generated reference element, displayed as {@code (superscript(link(footnote index)))}
      */
-    private Block createFootnoteReferenceBlock(int counter)
+    private Block createFootnoteReferenceBlock(int counter, String footnoteId, String referenceId)
     {
         Block result = new WordBlock(String.valueOf(counter));
         DocumentResourceReference reference = new DocumentResourceReference(null);
-        reference.setAnchor(FOOTNOTE_ID_PREFIX + counter);
+        reference.setAnchor(footnoteId);
         result = new LinkBlock(Collections.singletonList(result), reference, false);
         result = new FormatBlock(Collections.singletonList(result), Format.SUPERSCRIPT);
-        result.setParameter(ID_ATTRIBUTE_NAME, FOOTNOTE_REFERENCE_ID_PREFIX + counter);
-        result.setParameter(CLASS_ATTRIBUTE_NAME, "footnoteRef");
+        result.setParameter(ID_ATTRIBUTE_NAME, referenceId);
+        result.setParameter(CLASS_ATTRIBUTE_NAME, FOOTNOTE_REF_CLASS_NAME);
         return result;
     }
 
@@ -205,29 +240,21 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
      * actual footnote text, parsed into XDOM.
      *
      * @param content the string representation of the actual footnote text; the content of the macro
-     * @param counter the current footnote counter
-     * @param context the macro transformation context, used for obtaining the correct parser for parsing the content
+     * @param footnoteId the id of the footnote
+     * @param referenceId the id of the reference
      * @return the generated footnote block
-     * @throws MacroExecutionException if parsing the content fails
      */
-    private ListItemBlock createFootnoteBlock(String content, int counter, MacroTransformationContext context)
-        throws MacroExecutionException
+    private ListItemBlock createFootnoteBlock(List<Block> content, String footnoteId, String referenceId)
     {
-        List<Block> parsedContent;
-        try {
-            parsedContent = this.contentParser.parse(content, context, false, true).getChildren();
-        } catch (MacroExecutionException e) {
-            parsedContent = Collections.<Block>singletonList(new WordBlock(content));
-        }
         Block result = new WordBlock("^");
         DocumentResourceReference reference = new DocumentResourceReference(null);
-        reference.setAnchor(FOOTNOTE_REFERENCE_ID_PREFIX + counter);
+        reference.setAnchor(referenceId);
         result = new LinkBlock(Collections.singletonList(result), reference, false);
-        result.setParameter(ID_ATTRIBUTE_NAME, FOOTNOTE_ID_PREFIX + counter);
+        result.setParameter(ID_ATTRIBUTE_NAME, footnoteId);
         result.setParameter(CLASS_ATTRIBUTE_NAME, "footnoteBackRef");
         result = new ListItemBlock(Collections.singletonList(result));
         result.addChild(new SpaceBlock());
-        result.addChildren(parsedContent);
+        result.addChildren(content);
         return (ListItemBlock) result;
     }
 }

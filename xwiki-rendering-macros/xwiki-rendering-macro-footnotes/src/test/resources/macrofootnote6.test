@@ -1,0 +1,146 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Verify that several footnotes and putFootnotes markers work.
+.#-----------------------------------------------------
+Footnote{{footnote}}content 1{{/footnote}} {{footnote}}content 2{{/footnote}}
+
+{{putFootnotes/}}
+
+{{executedcontent}}
+{{footnote}}Inner footnote{{/footnote}}
+{{/executedcontent}}
+
+{{executedcontent}}
+{{footnote}}Second inner footnote{{/footnote}}
+{{/executedcontent}}
+
+
+{{footnote}}These are the footnotes:
+
+{{putFootnotes/}}
+
+{{/footnote}}
+
+{{putFootnotes/}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Footnote]
+beginMacroMarkerInline [footnote] [] [content 1]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1-2]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1-2]]] [false]
+onWord [1]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1-2]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1-2]]
+endMacroMarkerInline [footnote] [] [content 1]
+onSpace
+beginMacroMarkerInline [footnote] [] [content 2]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_2]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_2]]] [false]
+onWord [2]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_2]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_2]]
+endMacroMarkerInline [footnote] [] [content 2]
+endParagraph
+beginMacroMarkerStandalone [putFootnotes] []
+endMacroMarkerStandalone [putFootnotes] []
+beginMacroMarkerStandalone [executedcontent] [] [{{footnote}}Inner footnote{{/footnote}}]
+beginMacroMarkerStandalone [footnote] [] [Inner footnote]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+onWord [3]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+endMacroMarkerStandalone [footnote] [] [Inner footnote]
+beginMacroMarkerStandalone [putFootnotes] []
+endMacroMarkerStandalone [putFootnotes] []
+endMacroMarkerStandalone [executedcontent] [] [{{footnote}}Inner footnote{{/footnote}}]
+beginMacroMarkerStandalone [executedcontent] [] [{{footnote}}Second inner footnote{{/footnote}}]
+beginMacroMarkerStandalone [footnote] [] [Second inner footnote]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1-1]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1-1]]] [false]
+onWord [4]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1-1]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1-1]]
+endMacroMarkerStandalone [footnote] [] [Second inner footnote]
+beginMacroMarkerStandalone [putFootnotes] []
+endMacroMarkerStandalone [putFootnotes] []
+endMacroMarkerStandalone [executedcontent] [] [{{footnote}}Second inner footnote{{/footnote}}]
+onEmptyLines [1]
+beginMacroMarkerStandalone [footnote] [] [These are the footnotes:
+
+{{putFootnotes/}}
+]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_5]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_5]]] [false]
+onWord [5]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_5]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_5]]
+endMacroMarkerStandalone [footnote] [] [These are the footnotes:
+
+{{putFootnotes/}}
+]
+beginMacroMarkerStandalone [putFootnotes] []
+beginList [NUMBERED] [[class]=[footnotes]]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1-2]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1-2]]
+onWord [^]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1-2]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1-2]]
+onSpace
+onWord [content]
+onSpace
+onWord [1]
+endListItem
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_2]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_2]]
+onWord [^]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_2]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_2]]
+onSpace
+onWord [content]
+onSpace
+onWord [2]
+endListItem
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
+onWord [^]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
+onSpace
+onWord [Inner]
+onSpace
+onWord [footnote]
+endListItem
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1-1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1-1]]
+onWord [^]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1-1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1-1]]
+onSpace
+onWord [Second]
+onSpace
+onWord [inner]
+onSpace
+onWord [footnote]
+endListItem
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_5]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_5]]
+onWord [^]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_5]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_5]]
+onSpace
+beginParagraph
+onWord [These]
+onSpace
+onWord [are]
+onSpace
+onWord [the]
+onSpace
+onWord [footnotes]
+onSpecialSymbol [:]
+endParagraph
+beginMacroMarkerStandalone [putFootnotes] []
+endMacroMarkerStandalone [putFootnotes] []
+endListItem
+endList [NUMBERED] [[class]=[footnotes]]
+endMacroMarkerStandalone [putFootnotes] []
+endDocument
