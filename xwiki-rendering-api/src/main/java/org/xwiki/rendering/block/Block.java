@@ -296,7 +296,9 @@ public interface Block extends Cloneable
      * An attribute is a generic key/value pair which can be used to add internal data to a block.
      * <p>
      * These attribute shouldn't be serialized by any renderer, they are meant to be used internally, e.g., in an XDOM
-     * transformation or a macro execution to store data related to the block.
+     * transformation or a macro execution to store data related to the block. When a block is cloned, attribute values
+     * will be cloned using their {@code clone()}-implementation when the value is cloneable, if not, the value will
+     * be shared by original and clone.
      *
      * @param name the name of the attribute to return
      * @return the attribute or null if the attribute doesn't exist
@@ -318,10 +320,7 @@ public interface Block extends Cloneable
      * @since 15.1RC1
      */
     @Unstable
-    default void setAttribute(String name, Object value)
-    {
-        throw new UnsupportedOperationException();
-    }
+    void setAttribute(String name, Object value);
 
     /**
      * Set (replace) all attributes.
@@ -332,10 +331,7 @@ public interface Block extends Cloneable
      * @since 15.1RC1
      */
     @Unstable
-    default void setAttributes(Map<String, Object> attributes)
-    {
-        throw new UnsupportedOperationException();
-    }
+    void setAttributes(Map<String, Object> attributes);
 
     /**
      * Get all blocks following provided {@link BlockMatcher} and {@link Axes}.

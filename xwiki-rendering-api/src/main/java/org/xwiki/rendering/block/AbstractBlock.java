@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.block.match.BlockMatcher;
@@ -506,6 +507,7 @@ public abstract class AbstractBlock implements Block
 
             builder.append(getChildren(), ((Block) obj).getChildren());
             builder.append(getParameters(), ((Block) obj).getParameters());
+            builder.append(getAttributes(), ((Block) obj).getAttributes());
 
             return builder.isEquals();
         }
@@ -520,6 +522,7 @@ public abstract class AbstractBlock implements Block
 
         builder.append(this.childrenBlocks);
         builder.append(this.parameters);
+        builder.append(this.attributes);
 
         return builder.toHashCode();
     }
@@ -549,6 +552,9 @@ public abstract class AbstractBlock implements Block
         if (this.parameters != null) {
             ((AbstractBlock) block).parameters = new LinkedHashMap<>(this.parameters);
         }
+
+        // Clone attribute values if possible as documented in getAttribute().
+        this.getAttributes().forEach((key, value) -> block.setAttribute(key, ObjectUtils.cloneIfPossible(value)));
 
         if (this.childrenBlocks != null) {
             ((AbstractBlock) block).childrenBlocks = new ArrayList<>(this.childrenBlocks.size());
