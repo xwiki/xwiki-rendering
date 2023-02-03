@@ -1,1 +1,3 @@
 org.xwiki.rendering.internal.macro.toc.TocMacro
+org.xwiki.rendering.internal.macro.toc.DefaultTocTreeBuilderFactory
+org.xwiki.rendering.internal.macro.toc.DefaultTocEntriesResolver
