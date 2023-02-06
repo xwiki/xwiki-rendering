@@ -68,7 +68,7 @@ class DefaultMacroManagerTest
     private MockitoComponentManager componentManager;
 
     @RegisterExtension
-    LogCaptureExtension logCapture = new LogCaptureExtension(LogLevel.WARN);
+    private LogCaptureExtension logCapture = new LogCaptureExtension(LogLevel.WARN);
 
     private class TestInvalidMacro extends AbstractNoParameterMacro
     {

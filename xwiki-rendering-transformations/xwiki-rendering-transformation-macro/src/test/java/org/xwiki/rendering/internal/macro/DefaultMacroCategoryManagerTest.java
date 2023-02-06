@@ -72,7 +72,7 @@ class DefaultMacroCategoryManagerTest
     private ConverterManager converterManager;
 
     @RegisterExtension
-    LogCaptureExtension logCapture = new LogCaptureExtension(LogLevel.WARN);
+    private LogCaptureExtension logCapture = new LogCaptureExtension(LogLevel.WARN);
 
     @Mock
     private Converter<Object> converter;
