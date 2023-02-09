@@ -35,8 +35,6 @@ onWord [2]
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
 endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
 endMacroMarkerInline [footnote] [] [ content]
-beginMacroMarkerStandalone [putFootnotes] []
-endMacroMarkerStandalone [putFootnotes] []
 endListItem
 beginListItem
 beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
