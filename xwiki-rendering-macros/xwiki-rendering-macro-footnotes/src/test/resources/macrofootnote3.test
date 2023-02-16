@@ -13,23 +13,36 @@ beginParagraph
 onWord [Nested]
 onSpace
 beginMacroMarkerInline [footnote] [] [footnote{{footnote}} content]
-beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
-beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1-1]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1-1]]] [false]
 onWord [1]
-endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
-endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1-1]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1-1]]
 endMacroMarkerInline [footnote] [] [footnote{{footnote}} content]
 endParagraph
 beginMacroMarkerStandalone [putFootnotes] []
 beginList [NUMBERED] [[class]=[footnotes]]
 beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1-1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1-1]]
+onWord [^]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1-1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1-1]]
+onSpace
+onWord [footnote]
+beginMacroMarkerInline [footnote] [] [ content]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+onWord [2]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+endMacroMarkerInline [footnote] [] [ content]
+endListItem
+beginListItem
 beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
 onWord [^]
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
 onSpace
-onWord [footnote]
-beginMacroMarkerInline [footnote] [] [ content]
-endMacroMarkerInline [footnote] [] [ content]
+onSpace
+onWord [content]
 endListItem
 endList [NUMBERED] [[class]=[footnotes]]
 endMacroMarkerStandalone [putFootnotes] []
