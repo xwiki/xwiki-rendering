@@ -41,7 +41,7 @@ public class WikiScannerContext implements IWikiScannerContext
 
     protected final Deque<IWikiScannerContext> fStack = new ArrayDeque<IWikiScannerContext>();
 
-    private final class DefaultSectionListener extends SectionListener<WikiParameters>
+    private class DefaultSectionListener extends SectionListener<WikiParameters>
     {
         @Override
         public void beginDocument(IPos<WikiParameters> pos)
