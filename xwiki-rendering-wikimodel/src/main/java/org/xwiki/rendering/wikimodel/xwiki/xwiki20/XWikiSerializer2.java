@@ -623,7 +623,7 @@ public class XWikiSerializer2 extends PrintTextListener
     /**
      * Workaround to put a caption in front of a table.
      */
-    private static class Table
+    private static final class Table
     {
         private StringBuilder text = new StringBuilder();
 

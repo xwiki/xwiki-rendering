@@ -61,7 +61,7 @@ class SyntaxRegistryListenerTest
      * CM initialization. Note that the MySyntaxProvider component is registered in the CM during the initial CM
      * initialization and this allows us to test the 2 use cases and verify they both work.
      */
-    private class MyExtensionSyntaxProvider implements Provider<List<Syntax>>
+    private final class MyExtensionSyntaxProvider implements Provider<List<Syntax>>
     {
         @Override
         public List<Syntax> get()
