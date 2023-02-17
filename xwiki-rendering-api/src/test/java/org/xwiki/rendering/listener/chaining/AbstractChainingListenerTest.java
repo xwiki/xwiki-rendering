@@ -44,7 +44,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  */
 class AbstractChainingListenerTest
 {
-    private static class AbstractChild extends AbstractChainingPrintRenderer
+    private static final class AbstractChild extends AbstractChainingPrintRenderer
     {
         boolean called;
 
@@ -55,7 +55,7 @@ class AbstractChainingListenerTest
         }
     }
 
-    private static class Child extends AbstractChainingListener
+    private static final class Child extends AbstractChainingListener
     {
         boolean called;
 
@@ -66,12 +66,12 @@ class AbstractChainingListenerTest
         }
     }
 
-    private static class Child2 extends AbstractChild
+    private static final class Child2 extends AbstractChild
     {
 
     }
 
-    private static class ChildWithBothBeginMethods extends AbstractChild
+    private static final class ChildWithBothBeginMethods extends AbstractChild
     {
         boolean calledWithoutParameter;
         boolean calledWithParameter;
@@ -93,7 +93,7 @@ class AbstractChainingListenerTest
         }
     }
 
-    private static class Child3 extends AbstractChainingListener
+    private static final class Child3 extends AbstractChainingListener
     {
         boolean called;
 
@@ -104,11 +104,11 @@ class AbstractChainingListenerTest
         }
     }
 
-    private static class DummyListener extends AbstractChainingListener
+    private static final class DummyListener extends AbstractChainingListener
     {
     }
 
-    private static class EndListItemChild extends AbstractChainingListener
+    private static final class EndListItemChild extends AbstractChainingListener
     {
         boolean called;
 

@@ -931,12 +931,12 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         this.previousEvent = Event.MACRO;
     }
 
-    private static class ListState
+    private static final class ListState
     {
         public int listItemIndex = -1;
     }
 
-    private static class DefinitionListState
+    private static final class DefinitionListState
     {
         public int definitionListItemIndex = -1;
     }

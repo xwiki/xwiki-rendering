@@ -42,7 +42,7 @@ public class WikiModelParserUtils extends ParserUtils
         parseInline(parser, content, listener, null, false);
     }
 
-    private class PrefixIgnoredInlineFilterListener extends InlineFilterListener
+    private final class PrefixIgnoredInlineFilterListener extends InlineFilterListener
     {
         private boolean foundWord;
 
