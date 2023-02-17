@@ -44,7 +44,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  */
 class AbstractChainingListenerTest
 {
-    private static final class AbstractChild extends AbstractChainingPrintRenderer
+    private static class AbstractChild extends AbstractChainingPrintRenderer
     {
         boolean called;
 
