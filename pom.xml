@@ -272,19 +272,7 @@
                  </revapi.differences>
             -->
 
-            <revapi.differences>
-              <differences>
-                <item>
-                  <ignore>true</ignore>
-                  <code>java.annotation.removed</code>
-                  <old>method void org.xwiki.rendering.macro.content.ContentMacroParameters::setSyntax(org.xwiki.rendering.syntax.Syntax)</old>
-                  <new>method void org.xwiki.rendering.macro.content.ContentMacroParameters::setSyntax(org.xwiki.rendering.syntax.Syntax)</new>
-                  <annotation>@org.xwiki.properties.annotation.PropertyMandatory</annotation>
-                  <justification>Binary compatible</justification>
-                  <criticality>allowed</criticality>
-                </item>
-              </differences>
-            </revapi.differences>
+            
           </analysisConfiguration>
         </configuration>
       </plugin>
