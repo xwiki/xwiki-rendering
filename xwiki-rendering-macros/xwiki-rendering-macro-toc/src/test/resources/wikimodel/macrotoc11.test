@@ -12,7 +12,7 @@ beginMacroMarkerStandalone [toc] [reference=somereference]
 beginList [BULLETED] [[class]=[wikitoc]]
 beginListItem
 beginLink [Typed = [true] Type = [doc] Reference = [somereference]] [false]
-onWord []
+onSpace
 endLink [Typed = [true] Type = [doc] Reference = [somereference]] [false]
 endListItem
 endList [BULLETED] [[class]=[wikitoc]]

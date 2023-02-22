@@ -16,12 +16,12 @@ beginMacroMarkerStandalone [toc] []
 beginList [BULLETED] [[class]=[wikitoc]]
 beginListItem
 beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [H]]] [false]
-onWord []
+onSpace
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [H]]] [false]
 beginList [BULLETED]
 beginListItem
 beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [H-1]]] [false]
-onWord []
+onSpace
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [H-1]]] [false]
 endListItem
 endList [BULLETED]
@@ -40,4 +40,4 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<ul class="wikitoc"><li><span class="wikilink"><a href="#H"></a></span><ul><li><span class="wikilink"><a href="#H-1"></a></span></li></ul></li></ul><h1 id="H" class="wikigeneratedid"><span></span></h1><h2 id="H-1" class="wikigeneratedid"><span></span></h2>
+<ul class="wikitoc"><li><span class="wikilink"><a href="#H">&nbsp;</a></span><ul><li><span class="wikilink"><a href="#H-1">&nbsp;</a></span></li></ul></li></ul><h1 id="H" class="wikigeneratedid"><span></span></h1><h2 id="H-1" class="wikigeneratedid"><span></span></h2>

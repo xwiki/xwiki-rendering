@@ -24,7 +24,7 @@ import java.util.List;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.HeaderBlock;
 import org.xwiki.rendering.block.PlainTextBlockFilter;
-import org.xwiki.rendering.block.WordBlock;
+import org.xwiki.rendering.block.SpaceBlock;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
 
@@ -56,7 +56,7 @@ public class TocBlockFilter extends PlainTextBlockFilter
         if (children.isEmpty()) {
             // In case of empty header, explicitly assign an empty label. Otherwise, the toc entry is generated with 
             // the name of the page.
-            children = List.of(new WordBlock(""));
+            children = List.of(new SpaceBlock());
         }
         return children;
     }
