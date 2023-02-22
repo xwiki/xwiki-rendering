@@ -54,8 +54,8 @@ public class TocBlockFilter extends PlainTextBlockFilter
     {
         List<Block> children = headerBlock.clone(this).getChildren();
         if (children.isEmpty()) {
-            // In case of empty header, explicitly assign an empty label. Otherwise, the toc entry is generated with 
-            // the name of the page.
+            // If the header is empty, explicitly assign a single space. Otherwise, the toc entry is created with the
+            // name of the page.
             children = List.of(new SpaceBlock());
         }
         return children;
