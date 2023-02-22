@@ -1,7 +1,7 @@
 .runTransformations
 .#-----------------------------------------------------
 .input|xwiki/2.1
-.# Verify that a toc containing empty header generates empty entries.
+.# Verify that a toc containing empty header generates entries containing a single space.
 .#-----------------------------------------------------
 {{toc/}}
 
