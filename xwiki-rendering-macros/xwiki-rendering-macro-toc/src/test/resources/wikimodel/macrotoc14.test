@@ -1,0 +1,43 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.# Verify that a toc containing empty header generates entries containing a single space.
+.#-----------------------------------------------------
+{{toc/}}
+
+=   =
+
+==   ==
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [toc] []
+beginList [BULLETED]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [H]]] [false]
+onSpace
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [H]]] [false]
+beginList [BULLETED]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [H-1]]] [false]
+onSpace
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [H-1]]] [false]
+endListItem
+endList [BULLETED]
+endListItem
+endList [BULLETED]
+endMacroMarkerStandalone [toc] []
+beginSection
+beginHeader [1, H]
+endHeader [1, H]
+beginSection
+beginHeader [2, H-1]
+endHeader [2, H-1]
+endSection
+endSection
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<ul><li><span class="wikilink"><a href="#H">&nbsp;</a></span><ul><li><span class="wikilink"><a href="#H-1">&nbsp;</a></span></li></ul></li></ul><h1 id="H" class="wikigeneratedid"><span></span></h1><h2 id="H-1" class="wikigeneratedid"><span></span></h2>
