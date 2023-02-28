@@ -26,17 +26,26 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.HeaderBlock;
 
 /**
- * Decorator taking an entry and manipulating the list of blocks used to render the header.
+ * Table of content entry extension, allowing to intercept and improve the default rendering of the table of content
+ * entries.
+ * <p>
+ * For instance, this component can be used by the numbered content application to prefix each entry with an
+ * auto-generated number, matching the number used as a prefix for the corresponding header.
  *
  * @version $Id$
- * @since 15.1RC1
+ * @since 15.2RC1
  */
 @Role
-public interface TocEntryDecorator
+public interface TocEntryExtension
 {
     /**
-     * Allow to decorate a table of content entry. Decorators components are expected to be called one after the other
-     * on each table of content entry. The call order is the same for all entries but is not guaranteed.
+     * Allow to decorate a table of content entry.
+     * <p>
+     * For instance, the numbered content extension can decorate the table of content entries by prefixing each entry
+     * with an automatically generated number.
+     * <p>
+     * The {@code decorate} methods from all {@link TocEntryExtension} components are expected to be called one after
+     * the other on each table of content entry. The call order is the same for all entries but is not guaranteed.
      *
      * @param headerBlock the header block to render as an entry
      * @param blocks the blocks

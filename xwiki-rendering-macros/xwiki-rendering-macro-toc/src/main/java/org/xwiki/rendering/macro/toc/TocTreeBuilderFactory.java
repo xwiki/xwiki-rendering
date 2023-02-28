@@ -28,7 +28,7 @@ import org.xwiki.rendering.internal.macro.toc.TocTreeBuilder;
  * resolver.
  *
  * @version $Id$
- * @since 15.1RC1
+ * @since 15.2RC1
  */
 @Role
 public interface TocTreeBuilderFactory
@@ -36,7 +36,7 @@ public interface TocTreeBuilderFactory
     /**
      * @return a toc tree builder using the default {@link TocEntriesResolver}
      * @throws ComponentLookupException in case of error when accessing the {@link TocEntriesResolver} or
-     *     {@link TocEntryDecorator} instances
+     *     {@link TocEntryExtension} instances
      */
     default TocTreeBuilder build() throws ComponentLookupException
     {
@@ -47,7 +47,7 @@ public interface TocTreeBuilderFactory
      * @param resolverHint the hint to use to resolve the {@link TocEntriesResolver}
      * @return a toc tree builder using the a {@link TocEntriesResolver} with hint {@code resolverHint}
      * @throws ComponentLookupException in case of error when accessing the {@link TocEntriesResolver} or
-     *     {@link TocEntryDecorator} instances
+     *     {@link TocEntryExtension} instances
      */
     TocTreeBuilder build(String resolverHint) throws ComponentLookupException;
 }

@@ -28,7 +28,7 @@ import org.xwiki.component.manager.ComponentLookupException;
  * Default table of content factory builder.
  *
  * @version $Id$
- * @since 15.1RC1
+ * @since 15.2RC1
  */
 @Component
 @Singleton
@@ -37,6 +37,6 @@ public class DefaultTocTreeBuilderFactory extends AbstractTocTreeBuilderFactory
     @Override
     public TocTreeBuilder build(String resolverHint) throws ComponentLookupException
     {
-        return new TocTreeBuilder(getTocBlockFilter(), getTocEntriesResolver(resolverHint), getDecorators());
+        return new TocTreeBuilder(getTocBlockFilter(), getTocEntriesResolver(resolverHint), getExtensions());
     }
 }

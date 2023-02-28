@@ -33,7 +33,7 @@ import org.xwiki.rendering.macro.toc.TocEntriesResolver;
  * Returns all the headers of the provided root block.
  *
  * @version $Id$
- * @since 15.1RC1
+ * @since 15.2RC1
  */
 @Component
 @Singleton

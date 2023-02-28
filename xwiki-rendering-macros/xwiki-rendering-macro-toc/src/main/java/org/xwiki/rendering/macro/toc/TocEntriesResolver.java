@@ -29,7 +29,7 @@ import org.xwiki.rendering.block.HeaderBlock;
  * Resolve the entries to use for the table of content for a given root block.
  *
  * @version $Id$
- * @since 15.1RC1
+ * @since 15.2RC1
  */
 @Role
 public interface TocEntriesResolver

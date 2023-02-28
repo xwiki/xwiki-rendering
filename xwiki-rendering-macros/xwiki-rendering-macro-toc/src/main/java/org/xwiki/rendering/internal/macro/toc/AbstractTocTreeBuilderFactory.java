@@ -27,7 +27,7 @@ import javax.inject.Named;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.macro.toc.TocEntriesResolver;
-import org.xwiki.rendering.macro.toc.TocEntryDecorator;
+import org.xwiki.rendering.macro.toc.TocEntryExtension;
 import org.xwiki.rendering.macro.toc.TocTreeBuilderFactory;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
@@ -37,7 +37,7 @@ import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
  * {@link LinkLabelGenerator}.
  *
  * @version $Id$
- * @since 15.1RC1
+ * @since 15.2RC1
  */
 public abstract class AbstractTocTreeBuilderFactory implements TocTreeBuilderFactory
 {
@@ -67,8 +67,8 @@ public abstract class AbstractTocTreeBuilderFactory implements TocTreeBuilderFac
         return this.componentManager.getInstance(TocEntriesResolver.class, resolverHint);
     }
 
-    protected List<TocEntryDecorator> getDecorators() throws ComponentLookupException
+    protected List<TocEntryExtension> getExtensions() throws ComponentLookupException
     {
-        return this.componentManager.getInstanceList(TocEntryDecorator.class);
+        return this.componentManager.getInstanceList(TocEntryExtension.class);
     }
 }

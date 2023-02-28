@@ -34,7 +34,7 @@ import org.xwiki.rendering.block.NumberedListBlock;
 import org.xwiki.rendering.block.SectionBlock;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.macro.toc.TocEntriesResolver;
-import org.xwiki.rendering.macro.toc.TocEntryDecorator;
+import org.xwiki.rendering.macro.toc.TocEntryExtension;
 
 /**
  * Generates a TOc Tree of {@link Block} from input input parameters.
@@ -50,22 +50,22 @@ public class TocTreeBuilder
 
     private TocEntriesResolver tocEntriesResolver;
 
-    private List<TocEntryDecorator> decorators;
+    private List<TocEntryExtension> extensions;
 
     /**
      * Initialize a table of content tree builder.
      *
      * @param tocBlockFilter the filter to use to generate the toc anchors
      * @param tocEntriesResolver the resolver to use to find the entries in a given {@link Block}
-     * @param decorators the decorators that will be called on each toc entry, allowing to add additional
+     * @param extensions the decorators that will be called on each toc entry, allowing to add additional
      *     information on the toc entries
      */
     public TocTreeBuilder(TocBlockFilter tocBlockFilter, TocEntriesResolver tocEntriesResolver,
-        List<TocEntryDecorator> decorators)
+        List<TocEntryExtension> extensions)
     {
         this.tocBlockFilter = tocBlockFilter;
         this.tocEntriesResolver = tocEntriesResolver;
-        this.decorators = decorators;
+        this.extensions = extensions;
     }
 
     /**
@@ -221,8 +221,8 @@ public class TocTreeBuilder
 
         List<Block> blocks = this.tocBlockFilter.generateLabel(headerBlock);
 
-        for (TocEntryDecorator decorator : this.decorators) {
-            blocks = decorator.decorate(headerBlock, blocks, parameters.rootBlock, this.tocEntriesResolver);
+        for (TocEntryExtension extension : this.extensions) {
+            blocks = extension.decorate(headerBlock, blocks, parameters.rootBlock, this.tocEntriesResolver);
         }
         LinkBlock linkBlock = new LinkBlock(blocks, reference, false);
 
