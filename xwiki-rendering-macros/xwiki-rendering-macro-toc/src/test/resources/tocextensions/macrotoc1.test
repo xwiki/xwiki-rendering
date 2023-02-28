@@ -1,0 +1,56 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Verify the TOC Entry Extension is applied on all entries.
+.#-----------------------------------------------------
+{{toc /}}
+
+= H1
+== H2
+=== H3
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [toc] []
+beginList [BULLETED] [[class]=[wikitoc]]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [HH1]]] [false]
+onWord [Extension]
+onWord [H1]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [HH1]]] [false]
+beginList [BULLETED]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [HH2]]] [false]
+onWord [Extension]
+onWord [H2]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [HH2]]] [false]
+beginList [BULLETED]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [HH3]]] [false]
+onWord [Extension]
+onWord [H3]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [HH3]]] [false]
+endListItem
+endList [BULLETED]
+endListItem
+endList [BULLETED]
+endListItem
+endList [BULLETED] [[class]=[wikitoc]]
+endMacroMarkerStandalone [toc] []
+beginSection
+beginHeader [1, HH1]
+onWord [H1]
+endHeader [1, HH1]
+beginSection
+beginHeader [2, HH2]
+onWord [H2]
+endHeader [2, HH2]
+beginSection
+beginHeader [3, HH3]
+onWord [H3]
+endHeader [3, HH3]
+endSection
+endSection
+endSection
+endDocument
