@@ -22,6 +22,7 @@ package org.xwiki.rendering.macro.toc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.test.integration.junit5.RenderingTests;
@@ -46,6 +47,8 @@ public class ToCExtensionsIntegrationTests implements RenderingTests
     @Initialized
     public void initialize(MockitoComponentManager componentManager) throws Exception
     {
+        componentManager.registerComponent(ComponentManager.class, "context",
+            componentManager.getInstance(ComponentManager.class));
         TocEntryExtension tocEntryExtension = componentManager.registerMockComponent(TocEntryExtension.class);
         when(tocEntryExtension.decorate(any(), anyList(), any(), any())).thenAnswer(invocation -> {
             List<Block> blocks = new ArrayList<>();

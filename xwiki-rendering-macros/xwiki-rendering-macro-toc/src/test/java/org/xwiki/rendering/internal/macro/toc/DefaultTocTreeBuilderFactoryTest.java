@@ -62,6 +62,7 @@ class DefaultTocTreeBuilderFactoryTest
     private TocEntriesResolver tocEntriesResolver;
 
     @MockComponent
+    @Named("context")
     private ComponentManager componentManager;
 
     @Test

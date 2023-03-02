@@ -42,6 +42,7 @@ import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
 public abstract class AbstractTocTreeBuilderFactory implements TocTreeBuilderFactory
 {
     @Inject
+    @Named("context")
     private ComponentManager componentManager;
 
     /**

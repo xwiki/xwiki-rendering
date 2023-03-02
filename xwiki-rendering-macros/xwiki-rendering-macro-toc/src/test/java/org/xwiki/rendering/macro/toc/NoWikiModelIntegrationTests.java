@@ -19,7 +19,10 @@
  */
 package org.xwiki.rendering.macro.toc;
 
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.mockito.MockitoComponentManager;
 
 /**
  * Run some tests when there's no WikiModel implementation available.
@@ -27,7 +30,14 @@ import org.xwiki.rendering.test.integration.junit5.RenderingTests;
  * @version $Id$
  * @since 9.6RC1
  */
+@AllComponents
 @RenderingTests.Scope("nowikimodel")
 public class NoWikiModelIntegrationTests implements RenderingTests
 {
+    @Initialized
+    public void initialize(MockitoComponentManager componentManager) throws Exception
+    {
+        componentManager.registerComponent(ComponentManager.class, "context",
+            componentManager.getInstance(ComponentManager.class));
+    }
 }
