@@ -27,7 +27,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
  * part and the query string part.
  *
  * @version $Id$
- * @since 15.2-RC1
+ * @since 15.2RC1
  */
 @Role
 public interface URITitleGenerator
@@ -35,7 +35,6 @@ public interface URITitleGenerator
     /**
      * @param reference the reference pointing to a URI for which we want to generate a create link title
      * @return the URI title to display when rendering resource references
-     * @since 15.2-RC1
      */
     String generateCreateTitle(ResourceReference reference);
 }
