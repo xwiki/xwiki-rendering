@@ -125,6 +125,7 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
         } else {
             // The wiki document doesn't exist
             spanAttributes.put(CLASS, "wikicreatelink");
+            spanAttributes.put(TITLE, computeCreateTitle(reference));
             anchorAttributes.put(XHTMLLinkRenderer.HREF, this.wikiModel.getDocumentEditURL(reference));
         }
 
