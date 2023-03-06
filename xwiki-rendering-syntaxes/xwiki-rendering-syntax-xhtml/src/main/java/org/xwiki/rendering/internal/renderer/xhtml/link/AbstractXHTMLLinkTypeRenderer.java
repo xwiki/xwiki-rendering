@@ -33,6 +33,7 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
+import org.xwiki.rendering.renderer.reference.link.URITitleGenerator;
 
 /**
  * Common code for XHTML Link Type Renderer implementations.
@@ -46,6 +47,10 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
      * The XHTML element <code>class</code> parameter.
      */
     protected static final String CLASS = "class";
+    /**
+     * The XHTML element <code>title</code> parameter.
+     */
+    protected static final String TITLE = "title";
 
     /**
      * The name of the XHTML format element.
@@ -136,6 +141,30 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
         return label;
     }
 
+    /**
+     * Default implementation for computing a link title when no title has been specified. Can be overwritten by
+     * implementations to provide a different algorithm.
+     *
+     * @param reference the reference of the link for which to compute the label
+     * @return the computed title
+     */
+    protected String computeCreateTitle(ResourceReference reference)
+    {
+        // Look for a component implementing URITitleGenerator with a role hint matching the link scheme.
+        // If not found then use the full reference as the label.
+        // If there's no scheme separator then use the full reference as the title. Note that this can happen
+        // when we're not in wiki mode (since all links are considered URIs when not in wiki mode).
+        String title;
+        try {
+            URITitleGenerator uriTitleGenerator =
+                this.componentManager.getInstance(URITitleGenerator.class, reference.getType().getScheme());
+            title = uriTitleGenerator.generateCreateTitle(reference);
+        } catch (ComponentLookupException e) {
+            title = reference.getReference();
+        }
+        return title;
+    }
+
     @Override
     public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
@@ -221,7 +250,10 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     {
         // If there was no link content then generate it based on the passed reference
         if (!hasLabel()) {
-            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][] { { CLASS, "wikigeneratedlinkcontent" } });
+            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][]
+            {
+                { CLASS, "wikigeneratedlinkcontent" }
+            });
             getXHTMLWikiPrinter().printXML(computeLabel(reference));
             getXHTMLWikiPrinter().printXMLEndElement(SPAN);
         }
