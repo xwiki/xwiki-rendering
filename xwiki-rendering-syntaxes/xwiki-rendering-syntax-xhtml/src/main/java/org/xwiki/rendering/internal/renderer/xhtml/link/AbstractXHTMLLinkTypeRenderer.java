@@ -49,6 +49,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     protected static final String CLASS = "class";
     /**
      * The XHTML element <code>title</code> parameter.
+     * @since 15.2RC1
      */
     protected static final String TITLE = "title";
 
@@ -144,9 +145,9 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     /**
      * Default implementation for computing a link title when no title has been specified. Can be overwritten by
      * implementations to provide a different algorithm.
-     *
      * @param reference the reference of the link for which to compute the label
      * @return the computed title
+     * @since 15.2RC1
      */
     protected String computeCreateTitle(ResourceReference reference)
     {
@@ -160,6 +161,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
                 this.componentManager.getInstance(URITitleGenerator.class, reference.getType().getScheme());
             title = uriTitleGenerator.generateCreateTitle(reference);
         } catch (ComponentLookupException e) {
+            e.printStackTrace();
             title = reference.getReference();
         }
         return title;
