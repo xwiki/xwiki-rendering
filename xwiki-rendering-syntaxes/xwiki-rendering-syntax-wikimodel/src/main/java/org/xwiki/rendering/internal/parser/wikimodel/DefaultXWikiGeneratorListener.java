@@ -742,6 +742,8 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
             getListener().beginFigure(figureParameters);
             queue.consumeEvents(getListener());
+            // TODO: should be the params of the image, one of the is a generic param map (the last one, index 3 or 4).
+            Object[] first = queue.getFirst().eventParameters;
             getListener().beginFigureCaption(Listener.EMPTY_PARAMETERS);
             try {
                 // Render the caption ignoring begin/endDocument events.

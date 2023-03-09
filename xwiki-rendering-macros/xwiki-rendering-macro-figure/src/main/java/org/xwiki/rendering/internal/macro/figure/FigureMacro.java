@@ -104,6 +104,36 @@ public class FigureMacro extends AbstractMacro<FigureMacroParameters>
                 figureBlock)
             );
         }
+
+        updateStyleParameters(parameters, figureBlock);
+
         return List.of(block);
+    }
+
+    private void updateStyleParameters(FigureMacroParameters parameters, FigureBlock figureBlock)
+    {
+        if (parameters.getStyle() != null) {
+            figureBlock.setParameter("data-xwiki-image-style", parameters.getStyle());
+        }
+
+        if (parameters.getHeight() != null) {
+            figureBlock.setParameter("height", String.valueOf(parameters.getHeight()));
+        }
+
+        if (parameters.getWidth() != null) {
+            figureBlock.setParameter("width", String.valueOf(parameters.getWidth()));
+        }
+
+        if (parameters.isBorder()) {
+            figureBlock.setParameter("data-xwiki-image-style-border", Boolean.TRUE.toString());
+        }
+
+        if (parameters.isTextWrap()) {
+            figureBlock.setParameter("data-xwiki-image-style-text-wrap", Boolean.TRUE.toString());
+        }
+
+        if (parameters.getAlignment() != null) {
+            figureBlock.setParameter("data-xwiki-image-style-alignment", parameters.getAlignment());
+        }
     }
 }

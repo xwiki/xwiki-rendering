@@ -61,4 +61,5 @@ public class FigureBlock extends AbstractBlock
     {
         listener.endFigure(getParameters());
     }
+    
 }

@@ -763,12 +763,14 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
                 // Remove the image class
                 Map<String, String> adaptedParameters = new LinkedHashMap<>(parameters);
+                // TODO: here remove the image params as well
                 adaptedParameters.computeIfPresent("class", (k, v) -> Arrays.stream(StringUtils.split(v))
                     .filter(Predicate.isEqual("image").negate())
                     // Map empty string to null to remove the class parameter when empty.
                     .collect(Collectors.collectingAndThen(Collectors.joining(" "), s -> s.isEmpty() ? null : s)));
 
                 this.beginParagraph(adaptedParameters);
+                // personal note: generate the image syntax
                 getImageRenderer().beginRenderLink(getXWikiPrinter(), false, figureContent.getImageParameters());
 
                 // Ignore output from, e.g., a nested paragraph or anything else that might wrap the image/caption.
@@ -839,6 +841,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 if (this.figureCaption != null) {
                     getImageRenderer().renderLinkContent(getXWikiPrinter(), this.figureCaption);
                 }
+                // TODO: check here if params are correct
                 getImageRenderer().endRenderLink(getXWikiPrinter(), figureContent.getImageReference(), false,
                     figureContent.getImageParameters());
                 endParagraph(parameters);

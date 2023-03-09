@@ -38,6 +38,18 @@ public class FigureMacroParameters
      */
     private FigureType type = FigureType.AUTOMATIC;
 
+    private String style;
+
+    private Integer width;
+
+    private Integer height;
+
+    private boolean border;
+
+    private String alignment;
+
+    private boolean textWrap;
+
     /**
      * @return the type of the figure (i.e., {@link FigureType#FIGURE} or {@link FigureType#TABLE}}), if
      *     {@link FigureType#AUTOMATIC} the type will be automatically defined based on the macro content
@@ -51,11 +63,107 @@ public class FigureMacroParameters
      * @param type the type of the figure (i.e., {@link FigureType#FIGURE} or {@link FigureType#TABLE}}), if
      *     {@link FigureType#AUTOMATIC} the type will be automatically defined based on the macro content
      */
-    @PropertyDescription("The type of the figure (i.e., \"figure\" or \"table\"). When automatic, the type will be " 
+    @PropertyDescription("The type of the figure (i.e., \"figure\" or \"table\"). When automatic, the type will be "
         + "defined based on the macro content.")
     @PropertyName("Type")
     public void setType(FigureType type)
     {
         this.type = type;
+    }
+
+    /**
+     * Define the figure style.
+     *
+     * @param style the style of the image
+     * @since 14.10.7
+     * @since 15.2-RC1
+     */
+    @Unstable
+    @PropertyDescription("TODO Style description")
+    @PropertyName("TODO Style name")
+    public void setStyle(String style)
+    {
+        this.style = style;
+    }
+
+    /**
+     * @return the type of the image
+     * @since 14.10.7
+     * @since 15.2-RC1
+     */
+    @Unstable
+    public String getStyle()
+    {
+        return this.style;
+    }
+
+    @Unstable
+    public Integer getWidth()
+    {
+        return this.width;
+    }
+
+    @Unstable
+    @PropertyDescription("TODO width description")
+    @PropertyName("TODO width name")
+    public void setWidth(Integer width)
+    {
+        this.width = width;
+    }
+
+    @Unstable
+    public Integer getHeight()
+    {
+        return this.height;
+    }
+
+    @Unstable
+    @PropertyDescription("TODO height description")
+    @PropertyName("TODO height name")
+    public void setHeight(Integer height)
+    {
+        this.height = height;
+    }
+
+    @Unstable
+    public boolean isBorder()
+    {
+        return this.border;
+    }
+
+    @Unstable
+    @PropertyDescription("TODO border description")
+    @PropertyName("TODO border name")
+    public void setBorder(boolean border)
+    {
+        this.border = border;
+    }
+
+    @Unstable
+    public String getAlignment()
+    {
+        return this.alignment;
+    }
+
+    @Unstable
+    @PropertyDescription("TODO alignment description")
+    @PropertyName("TODO alignment name")
+    public void setAlignment(String alignment)
+    {
+        this.alignment = alignment;
+    }
+
+    @Unstable
+    public boolean isTextWrap()
+    {
+        return this.textWrap;
+    }
+
+    @Unstable
+    @PropertyDescription("TODO textWrap description")
+    @PropertyName("TODO textWrap name")
+    public void setTextWrap(boolean textWrap)
+    {
+        this.textWrap = textWrap;
     }
 }

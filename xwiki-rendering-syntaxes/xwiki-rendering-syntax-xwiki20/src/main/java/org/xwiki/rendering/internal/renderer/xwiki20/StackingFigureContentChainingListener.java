@@ -407,6 +407,8 @@ public class StackingFigureContentChainingListener extends LookaheadChainingList
             this.isStacking = false;
 
             this.cleanImageFigure = isCleanImageFigure;
+            
+            // TODO: maybe transform the params here?
 
             // Stop stacking in this listener
             setLookaheadDepth(0);
