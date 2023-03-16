@@ -32,7 +32,7 @@ import org.xwiki.rendering.renderer.reference.link.URITitleGenerator;
  * @version $Id$
  * @since 15.2-RC1
  */
-@Component
+@Component(hints = {"doc", "page"})
 @Named("pageAttach")
 @Singleton
 public class DefaultPageAttachmentURITitleGenerator implements URITitleGenerator
