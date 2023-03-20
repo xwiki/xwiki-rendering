@@ -29,7 +29,7 @@ org.xwiki.rendering.internal.renderer.DefaultAttachmentURILabelGenerator
 org.xwiki.rendering.internal.renderer.MailtoURILabelGenerator
 org.xwiki.rendering.internal.renderer.DataURILabelGenerator
 org.xwiki.rendering.internal.renderer.DefaultPageAttachmentURILabelGenerator
-org.xwiki.rendering.internal.renderer.DefaultPageAttachmentURITitleGenerator
+org.xwiki.rendering.internal.renderer.DefaultDocumentURITitleGenerator
 org.xwiki.rendering.internal.renderer.reference.DefaultResourceReferenceTypeSerializer
 org.xwiki.rendering.internal.syntax.SyntaxConverter
 org.xwiki.rendering.internal.syntax.DefaultSyntaxRegistry

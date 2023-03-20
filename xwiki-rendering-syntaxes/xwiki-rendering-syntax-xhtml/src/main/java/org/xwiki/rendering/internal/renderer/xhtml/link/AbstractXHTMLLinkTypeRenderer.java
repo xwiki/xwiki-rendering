@@ -33,7 +33,6 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
-import org.xwiki.rendering.renderer.reference.link.URITitleGenerator;
 
 /**
  * Common code for XHTML Link Type Renderer implementations.
@@ -140,31 +139,6 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
             label = reference.getReference();
         }
         return label;
-    }
-
-    /**
-     * Default implementation for computing a link title when no title has been specified. Can be overwritten by
-     * implementations to provide a different algorithm.
-     * @param reference the reference of the link for which to compute the label
-     * @return the computed title
-     * @since 15.2RC1
-     */
-    protected String computeCreateTitle(ResourceReference reference)
-    {
-        // Look for a component implementing URITitleGenerator with a role hint matching the link scheme.
-        // If not found then use the full reference as the label.
-        // If there's no scheme separator then use the full reference as the title. Note that this can happen
-        // when we're not in wiki mode (since all links are considered URIs when not in wiki mode).
-        String title;
-        try {
-            URITitleGenerator uriTitleGenerator =
-                this.componentManager.getInstance(URITitleGenerator.class, reference.getType().getScheme());
-            title = uriTitleGenerator.generateCreateTitle(reference);
-        } catch (ComponentLookupException e) {
-            e.printStackTrace();
-            title = reference.getReference();
-        }
-        return title;
     }
 
     @Override

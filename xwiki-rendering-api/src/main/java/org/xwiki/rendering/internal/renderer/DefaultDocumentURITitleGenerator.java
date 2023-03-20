@@ -27,19 +27,19 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.link.URITitleGenerator;
 
 /**
- * Generate link titles for ATTACH URIs.
+ * Generate link titles for DOC URIs.
  *
  * @version $Id$
- * @since 15.2-RC1
+ * @since 15.2RC1
  */
-@Component
-@Named("doc")
+@Component(hints = {"doc", "page"})
 @Singleton
-public class DefaultPageAttachmentURITitleGenerator implements URITitleGenerator
+public class DefaultDocumentURITitleGenerator implements URITitleGenerator
 {
+    private static final String DEFAULT_LABEL = "Create page: %s";
     @Override
     public String generateCreateTitle(ResourceReference reference)
     {
-        return "Create page: " + reference.getReference();
+        return String.format(DEFAULT_LABEL,reference.getReference());
     }
 }
