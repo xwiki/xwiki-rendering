@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.renderer;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -36,10 +35,11 @@ import org.xwiki.rendering.renderer.reference.link.URITitleGenerator;
 @Singleton
 public class DefaultDocumentURITitleGenerator implements URITitleGenerator
 {
-    private static final String DEFAULT_LABEL = "Create page: %s";
+    private static final String DEFAULT_TITLE = "Create page: %s";
+
     @Override
     public String generateCreateTitle(ResourceReference reference)
     {
-        return String.format(DEFAULT_LABEL,reference.getReference());
+        return String.format(DEFAULT_TITLE, reference.getReference());
     }
 }
