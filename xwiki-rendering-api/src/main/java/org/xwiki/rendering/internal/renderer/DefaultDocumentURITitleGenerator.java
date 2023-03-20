@@ -37,6 +37,13 @@ public class DefaultDocumentURITitleGenerator implements URITitleGenerator
 {
     private static final String DEFAULT_TITLE = "Create page: %s";
 
+    /**
+     * Generate the title of a Document URI. Using this implementation should be avoided, another implementation should
+     * be used instead, e.g. XWikiDocumentURITitleGenerator in xwiki-platform which is used to provide proper
+     * translations. This implementation should only be used when xwiki-rendering is running by itself.
+     * @param reference the reference pointing to a document URI for which we want to generate a create link title
+     * @return the URI title to display when rendering a document reference.
+     */
     @Override
     public String generateCreateTitle(ResourceReference reference)
     {
