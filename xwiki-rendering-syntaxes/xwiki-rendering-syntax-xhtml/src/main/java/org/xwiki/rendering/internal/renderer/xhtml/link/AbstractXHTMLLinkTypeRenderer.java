@@ -46,8 +46,9 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
      * The XHTML element <code>class</code> parameter.
      */
     protected static final String CLASS = "class";
+
     /**
-     * The XHTML element <code>title</code> parameter.
+     * The XHTML element {@code title} parameter.
      * @since 15.2RC1
      */
     protected static final String TITLE = "title";
