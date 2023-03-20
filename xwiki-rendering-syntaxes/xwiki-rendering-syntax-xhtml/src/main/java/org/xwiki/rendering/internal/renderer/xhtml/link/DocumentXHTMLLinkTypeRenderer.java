@@ -27,7 +27,6 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -75,7 +74,6 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
     @Inject
     private URITitleGenerator defaultTitleGenerator;
 
-
     @Override
     public void initialize() throws InitializationException
     {
@@ -104,6 +102,22 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
         return this.linkLabelGenerator.generate(reference);
     }
 
+    private URITitleGenerator getTitleGenerator(ResourceReference reference)
+    {
+        URITitleGenerator titleGenerator = this.defaultTitleGenerator;
+        if (this.componentManager.hasComponent(URITitleGenerator.class, reference.getType().getScheme())) {
+            try {
+                titleGenerator = this.componentManager.getInstance(URITitleGenerator.class,
+                    reference.getType().getScheme());
+            } catch (Exception e) {
+                logger.warn("Error while loading component for generating URI title: [{}]",
+                    ExceptionUtils.getRootCauseMessage(e));
+                logger.debug("Full stack trace: ", e);
+            }
+        }
+        return titleGenerator;
+    }
+
     /**
      * Implementation for computing a document link title when no title has been specified.
      * Looks for a component implementing URITitleGenerator with a role hint matching the reference scheme.
@@ -113,20 +127,8 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      */
     private String computeCreateTitle(ResourceReference reference)
     {
-        URITitleGenerator titleGenerator = this.defaultTitleGenerator;
-        String title;
-        if (this.componentManager.hasComponent(URITitleGenerator.class, reference.getType().getScheme())) {
-            try {
-                titleGenerator = this.componentManager.getInstance(URITitleGenerator.class,
-                 reference.getType().getScheme());
-            } catch (Exception e) {
-                LOGGER.error("Error while loading component for generating URI title: [{}]",
-                    ExceptionUtils.getRootCauseMessage(e));
-                LOGGER.debug("Full stack trace: ", e);
-            }
-        }
-        title = titleGenerator.generateCreateTitle(reference);
-        return title;
+        URITitleGenerator titleGenerator = getTitleGenerator(reference);
+        return titleGenerator.generateCreateTitle(reference);
     }
 
     @Override
