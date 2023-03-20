@@ -55,7 +55,8 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      */
     private static final String WIKILINK = "wikilink";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractXHTMLLinkTypeRenderer.class);
+    @Inject
+    private Logger logger;
 
     /**
      * Used to generate the link targeting a local document.
