@@ -25,6 +25,9 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -34,6 +37,7 @@ import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
+import org.xwiki.rendering.renderer.reference.link.URITitleGenerator;
 import org.xwiki.rendering.wiki.WikiModel;
 
 /**
@@ -51,6 +55,8 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      */
     private static final String WIKILINK = "wikilink";
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractXHTMLLinkTypeRenderer.class);
+
     /**
      * Used to generate the link targeting a local document.
      */
@@ -61,6 +67,13 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      */
     @Inject
     private LinkLabelGenerator linkLabelGenerator;
+
+    /**
+     * Used to generate a link title.
+     */
+    @Inject
+    private URITitleGenerator defaultTitleGenerator;
+
 
     @Override
     public void initialize() throws InitializationException
@@ -88,6 +101,31 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
     protected String computeLabel(ResourceReference reference)
     {
         return this.linkLabelGenerator.generate(reference);
+    }
+
+    /**
+     * Implementation for computing a document link title when no title has been specified.
+     * Looks for a component implementing URITitleGenerator with a role hint matching the reference scheme.
+     * @param reference the reference of the link for which to compute the label
+     * @return the computed title
+     * @since 15.2RC1
+     */
+    private String computeCreateTitle(ResourceReference reference)
+    {
+        URITitleGenerator titleGenerator = this.defaultTitleGenerator;
+        String title;
+        if (this.componentManager.hasComponent(URITitleGenerator.class, reference.getType().getScheme())) {
+            try {
+                titleGenerator = this.componentManager.getInstance(URITitleGenerator.class,
+                 reference.getType().getScheme());
+            } catch (Exception e) {
+                LOGGER.error("Error while loading component for generating URI title: [{}]",
+                    ExceptionUtils.getRootCauseMessage(e));
+                LOGGER.debug("Full stack trace: ", e);
+            }
+        }
+        title = titleGenerator.generateCreateTitle(reference);
+        return title;
     }
 
     @Override

@@ -21,15 +21,17 @@ package org.xwiki.rendering.renderer.reference.link;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.stability.Unstable;
 
 /**
- * Generate Resource Reference titles for URIs. For example an implementation for MAILTO URIs would remove the scheme
- * part and the query string part.
+ * Generate Resource Reference titles for URIs.
+ * The implementations should be named according to the kind of reference they process.
  *
  * @version $Id$
  * @since 15.2RC1
  */
 @Role
+@Unstable
 public interface URITitleGenerator
 {
     /**
