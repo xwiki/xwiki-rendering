@@ -40,13 +40,11 @@ public class FigureMacroParameters
 
     private String style;
 
-    private Integer width;
-
-    private Integer height;
+    private String width;
 
     private boolean border;
 
-    private String alignment;
+    private AlignmentType alignment;
 
     private boolean textWrap;
 
@@ -75,8 +73,8 @@ public class FigureMacroParameters
      * Define the figure style.
      *
      * @param style the style of the image
-     * @since 14.10.7
-     * @since 15.2-RC1
+     * @since 14.10.8
+     * @since 15.3RC1
      */
     @Unstable
     @PropertyDescription("TODO Style description")
@@ -88,8 +86,8 @@ public class FigureMacroParameters
 
     /**
      * @return the type of the image
-     * @since 14.10.7
-     * @since 15.2-RC1
+     * @since 14.10.8
+     * @since 15.3RC1
      */
     @Unstable
     public String getStyle()
@@ -97,40 +95,46 @@ public class FigureMacroParameters
         return this.style;
     }
 
+    /**
+     * @return the width of the image (a css dimension e.g., in pixel or percent, or "automatic", or "")
+     * @since 14.10.8
+     * @since 15.3RC1
+     */
     @Unstable
-    public Integer getWidth()
+    public String getWidth()
     {
         return this.width;
     }
 
+    /**
+     * @param width a css dimension e.g., in pixel or percent, or "automatic", or ""
+     * @since 14.10.8
+     * @since 15.3RC1
+     */
     @Unstable
     @PropertyDescription("TODO width description")
     @PropertyName("TODO width name")
-    public void setWidth(Integer width)
+    public void setWidth(String width)
     {
         this.width = width;
     }
 
-    @Unstable
-    public Integer getHeight()
-    {
-        return this.height;
-    }
-
-    @Unstable
-    @PropertyDescription("TODO height description")
-    @PropertyName("TODO height name")
-    public void setHeight(Integer height)
-    {
-        this.height = height;
-    }
-
+    /**
+     * @return {@code true} if the figure must have a border
+     * @since 14.10.8
+     * @since 15.3RC1
+     */
     @Unstable
     public boolean isBorder()
     {
         return this.border;
     }
 
+    /**
+     * @param border {@code true} of the figure must have a border
+     * @since 14.10.8
+     * @since 15.3RC1
+     */
     @Unstable
     @PropertyDescription("TODO border description")
     @PropertyName("TODO border name")
@@ -139,26 +143,44 @@ public class FigureMacroParameters
         this.border = border;
     }
 
+    /**
+     * @return the alignment type of the figure (none, start, center, or end)
+     * @since 14.10.8
+     * @since 15.3RC1
+     */
     @Unstable
-    public String getAlignment()
+    public AlignmentType getAlignment()
     {
         return this.alignment;
     }
 
+    /**
+     * @param alignment the alignment type of the figure (none, start, center, or end)
+     * @since 14.10.8
+     * @since 15.3RC1
+     */
     @Unstable
     @PropertyDescription("TODO alignment description")
     @PropertyName("TODO alignment name")
-    public void setAlignment(String alignment)
+    public void setAlignment(AlignmentType alignment)
     {
         this.alignment = alignment;
     }
 
+    /**
+     * @return {@code true} if figure must wrap the text
+     * @since 14.10.8
+     * @since 15.3RC1
+     */
     @Unstable
     public boolean isTextWrap()
     {
         return this.textWrap;
     }
 
+    /**
+     * @param textWrap {@code true} if the fuigure must wrap the text
+     */
     @Unstable
     @PropertyDescription("TODO textWrap description")
     @PropertyName("TODO textWrap name")
