@@ -180,6 +180,8 @@ public class FigureMacroParameters
 
     /**
      * @param textWrap {@code true} if the fuigure must wrap the text
+     * @since 14.10.8
+     * @since 15.3RC1
      */
     @Unstable
     @PropertyDescription("TODO textWrap description")

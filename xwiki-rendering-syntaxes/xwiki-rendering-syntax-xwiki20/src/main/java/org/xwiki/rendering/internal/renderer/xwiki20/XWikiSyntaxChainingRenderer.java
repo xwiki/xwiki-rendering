@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.renderer.xwiki20;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -768,6 +769,16 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                     .filter(Predicate.isEqual("image").negate())
                     // Map empty string to null to remove the class parameter when empty.
                     .collect(Collectors.collectingAndThen(Collectors.joining(" "), s -> s.isEmpty() ? null : s)));
+
+                List<Object> knownParameters = List.of(
+                    "data-xwiki-image-style",
+                    "width", // TODO: maybe have a speciif logic for this one?
+                    "data-xwiki-image-style-alignment",
+                    "data-xwiki-image-style-border",
+                    "data-xwiki-image-style-text-wrap"
+                );
+                
+                knownParameters.forEach(adaptedParameters::remove);
 
                 this.beginParagraph(adaptedParameters);
                 // personal note: generate the image syntax

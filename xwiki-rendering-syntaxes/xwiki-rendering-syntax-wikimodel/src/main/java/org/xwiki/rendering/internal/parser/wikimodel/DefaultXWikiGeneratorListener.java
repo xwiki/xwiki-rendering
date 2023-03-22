@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -731,19 +732,45 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         // as caption.
         if (this.imageLabel != null && queue.size() == 1 && queue.getFirst().eventType == EventType.ON_IMAGE) {
             Map<String, String> figureParameters = new LinkedHashMap<>(paragraphParameters);
-            figureParameters.merge(CLASS_PARAMETER, IMAGE_CLASS,
-                (oldValue, newValue) -> {
-                    if (Arrays.asList(StringUtils.split(oldValue)).contains(newValue)) {
-                        return oldValue;
-                    } else {
-                        return oldValue + " " + newValue;
-                    }
-                });
 
+            // TODO: should be the params of the image, one of the is a generic param map (the last one, index 3 or 4).
+            Map<String, String> map;
+            if (!queue.isEmpty()) {
+                Object[] eventParameters = queue.getFirst().eventParameters;
+                if (eventParameters.length > 0) {
+                    map = (Map<String, String>) eventParameters[eventParameters.length - 1];
+                } else {
+                    map = Listener.EMPTY_PARAMETERS;
+                }
+            } else {
+                map = Listener.EMPTY_PARAMETERS;
+            }
+            BiFunction<String, String, String> classMerger = (oldValue, newValue) -> {
+                if (Arrays.asList(StringUtils.split(oldValue)).contains(newValue)) {
+                    return oldValue;
+                } else {
+                    return oldValue + " " + newValue;
+                }
+            };
+            figureParameters.merge(CLASS_PARAMETER, IMAGE_CLASS, classMerger);
+            List<Object> knownParameters = List.of(
+                "data-xwiki-image-style",
+                "width", // TODO: maybe have a speciif logic for this one?
+                "data-xwiki-image-style-alignment",
+                "data-xwiki-image-style-border",
+                "data-xwiki-image-style-text-wrap"
+            );
+            // TODO: class?
+            // TODO: add some logic, we know which params we are looking for.
+            map.forEach((key, s2) -> {
+                if (CLASS_PARAMETER.equals(key)) {
+                    figureParameters.merge(key, s2, classMerger);
+                } else if (knownParameters.contains(key)) {
+                    figureParameters.put(key, s2);
+                }
+            });
             getListener().beginFigure(figureParameters);
             queue.consumeEvents(getListener());
-            // TODO: should be the params of the image, one of the is a generic param map (the last one, index 3 or 4).
-            Object[] first = queue.getFirst().eventParameters;
             getListener().beginFigureCaption(Listener.EMPTY_PARAMETERS);
             try {
                 // Render the caption ignoring begin/endDocument events.
@@ -871,7 +898,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
     /**
      * A macro block was found and it's separated at least by one new line from the next block. If there's no new line
-     * with the next block then wikimodel calls 
+     * with the next block then wikimodel calls
      * {@link #onMacroInline(String, org.xwiki.rendering.wikimodel.WikiParameters, String)} instead.
      * <p>
      * In wikimodel block elements can be:

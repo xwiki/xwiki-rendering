@@ -20,14 +20,45 @@
 package org.xwiki.rendering.macro.figure;
 
 /**
+ * Allowed alignment types.
+ *
  * @version $Id$
  * @since 14.10.8
  * @since 15.3RC1
  */
 public enum AlignmentType
 {
-    NONE,
-    START,
-    CENTER,
-    END
+    /**
+     * No specific figure alignment.
+     */
+    NONE(""),
+    /**
+     * Start alignment (e.g., at the left in a left-to-right language).
+     */
+    START("start"),
+    /**
+     * Centered alignment.
+     */
+    CENTER("center"),
+    /**
+     * End alignment (e.g., at the right in a left-to-right language).
+     */
+    END("end");
+
+    private String id;
+
+    AlignmentType(String id)
+    {
+
+        this.id = id;
+    }
+
+    /**
+     * @return the technical id of the alignment
+     */
+    public String getId()
+    {
+        return this.id;
+    }
 }
+
