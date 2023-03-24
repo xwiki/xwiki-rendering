@@ -1,6 +1,7 @@
 .#-----------------------------------------------------
 .input|html/5.0
-.# Verify that a HTML figure is transformed into the XWiki figure caption syntax.
+.# Verify that a HTML figure is transformed into the XWiki figure caption syntax and the image inside the figure is not
+.# wrapped in a paragraph.
 .#-----------------------------------------------------
 <figure class="image">
     <p><!--startimage:false|-|url|-|/media/cc0-images/elephant-660-480.jpg--><img src="/media/cc0-images/elephant-660-480.jpg" alt="Elephant at sunset" /><!--stopimage--></p>
@@ -11,9 +12,7 @@
 .#-----------------------------------------------------
 beginDocument
 beginFigure [[class]=[image]]
-beginParagraph
 onImage [Typed = [false] Type = [url] Reference = [/media/cc0-images/elephant-660-480.jpg]] [false] [I2Fmedia2Fcc0-images2Felephant-660-480.jpg] [[alt]=[Elephant at sunset]]
-endParagraph
 beginFigureCaption
 beginParagraph
 onWord [An]
@@ -30,7 +29,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><img src="/media/cc0-images/elephant-660-480.jpg" alt="Elephant at sunset" id="I2Fmedia2Fcc0-images2Felephant-660-480.jpg" class="wikigeneratedid"/></p><div class="figcaption"><p>An elephant at sunset</p></div>
+<img src="/media/cc0-images/elephant-660-480.jpg" alt="Elephant at sunset" id="I2Fmedia2Fcc0-images2Felephant-660-480.jpg" class="wikigeneratedid"/><div class="figcaption"><p>An elephant at sunset</p></div>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -38,4 +37,4 @@ endDocument
 .#-----------------------------------------------------
 .expect|html/5.0
 .#-----------------------------------------------------
-<figure class="image"><p><img src="/media/cc0-images/elephant-660-480.jpg" alt="Elephant at sunset" id="I2Fmedia2Fcc0-images2Felephant-660-480.jpg" class="wikigeneratedid"/></p><figcaption><p>An elephant at sunset</p></figcaption></figure>
+<figure class="image"><img src="/media/cc0-images/elephant-660-480.jpg" alt="Elephant at sunset" id="I2Fmedia2Fcc0-images2Felephant-660-480.jpg" class="wikigeneratedid"/><figcaption><p>An elephant at sunset</p></figcaption></figure>

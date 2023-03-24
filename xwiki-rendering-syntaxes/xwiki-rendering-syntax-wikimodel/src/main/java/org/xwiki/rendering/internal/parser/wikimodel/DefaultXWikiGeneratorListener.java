@@ -224,7 +224,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
      * @param listener the listener to add in the top of the stack
      * @return the listener pushed in the top of the stack
      */
-    private Listener pushListener(Listener listener)
+    protected Listener pushListener(Listener listener)
     {
         this.listener.push(listener);
         return listener;
@@ -235,7 +235,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
      *
      * @return the removed listener
      */
-    private Listener popListener()
+    protected Listener popListener()
     {
         return this.listener.pop();
     }
