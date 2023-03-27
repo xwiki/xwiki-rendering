@@ -898,7 +898,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
     /**
      * A macro block was found and it's separated at least by one new line from the next block. If there's no new line
-     * with the next block then wikimodel calls
+     * with the next block then wikimodel calls 
      * {@link #onMacroInline(String, org.xwiki.rendering.wikimodel.WikiParameters, String)} instead.
      * <p>
      * In wikimodel block elements can be:

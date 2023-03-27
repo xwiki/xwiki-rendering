@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -239,7 +240,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         // If the previous format had parameters and the parameters are different from the current ones then close them
         if (this.previousFormatParameters != null) {
             if (parameters.isEmpty()) {
-                 // do nothing
+                // do nothing
             } else if (!this.previousFormatParameters.equals(parameters)) {
                 this.previousFormatParameters = null;
                 printParameters(parameters, false);
@@ -690,7 +691,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 && EventType.BEGIN_FORMAT.equals(nextEvent.eventType)
                 && nextEvent.eventParameters.length > 1
                 && nextEvent.eventParameters[1] instanceof Map<?, ?>
-                && !((Map<?, ?>)nextEvent.eventParameters[1]).isEmpty()) {
+                && !((Map<?, ?>) nextEvent.eventParameters[1]).isEmpty())
+            {
                 print(EMPTY_PARAMETERS);
             }
         }
@@ -770,19 +772,32 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                     // Map empty string to null to remove the class parameter when empty.
                     .collect(Collectors.collectingAndThen(Collectors.joining(" "), s -> s.isEmpty() ? null : s)));
 
-                List<Object> knownParameters = List.of(
+                List<String> knownParameters = List.of(
                     "data-xwiki-image-style",
                     "width", // TODO: maybe have a speciif logic for this one?
                     "data-xwiki-image-style-alignment",
                     "data-xwiki-image-style-border",
                     "data-xwiki-image-style-text-wrap"
                 );
-                
-                knownParameters.forEach(adaptedParameters::remove);
+
+                Map<String, String> imageParameters = figureContent.getImageParameters();
+                knownParameters.forEach(key -> {
+                    if (adaptedParameters.containsKey(key) && !imageParameters.containsKey(key)) {
+                        imageParameters.put(key, adaptedParameters.get(key));
+                    }
+                    adaptedParameters.remove(key);
+                });
+
+                if (adaptedParameters.containsKey("style") && imageParameters.containsKey("width")
+                    && Objects.equals(adaptedParameters.get("style"),
+                    String.format("width: %spx", imageParameters.get("width"))))
+                {
+                    adaptedParameters.remove("style");
+                }
 
                 this.beginParagraph(adaptedParameters);
                 // personal note: generate the image syntax
-                getImageRenderer().beginRenderLink(getXWikiPrinter(), false, figureContent.getImageParameters());
+                getImageRenderer().beginRenderLink(getXWikiPrinter(), false, imageParameters);
 
                 // Ignore output from, e.g., a nested paragraph or anything else that might wrap the image/caption.
                 this.pushPrinter(
