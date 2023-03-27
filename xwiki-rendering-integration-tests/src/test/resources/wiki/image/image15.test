@@ -6,7 +6,7 @@
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
-beginDocument
+beginDocumentssss
 beginFigure [[class]=[extra image][data-attribute]=[figureValue]]
 onImage [Typed = [false] Type = [url] Reference = [https://example.com/image.jpg]] [false] [Ihttps:2F2Fexample.com2Fimage.jpg] [[alt]=[Elephant at sunset][class]=[imageClass][data-attribute]=[imageValue]]
 beginFigureCaption

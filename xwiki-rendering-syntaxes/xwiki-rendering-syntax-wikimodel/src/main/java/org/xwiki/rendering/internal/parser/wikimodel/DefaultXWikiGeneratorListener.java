@@ -732,19 +732,8 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         // as caption.
         if (this.imageLabel != null && queue.size() == 1 && queue.getFirst().eventType == EventType.ON_IMAGE) {
             Map<String, String> figureParameters = new LinkedHashMap<>(paragraphParameters);
-
-            // TODO: should be the params of the image, one of the is a generic param map (the last one, index 3 or 4).
-            Map<String, String> map;
-            if (!queue.isEmpty()) {
-                Object[] eventParameters = queue.getFirst().eventParameters;
-                if (eventParameters.length > 0) {
-                    map = (Map<String, String>) eventParameters[eventParameters.length - 1];
-                } else {
-                    map = Listener.EMPTY_PARAMETERS;
-                }
-            } else {
-                map = Listener.EMPTY_PARAMETERS;
-            }
+            
+            Map<String, String> imageParameters = getImageParameters(queue);
             BiFunction<String, String, String> classMerger = (oldValue, newValue) -> {
                 if (Arrays.asList(StringUtils.split(oldValue)).contains(newValue)) {
                     return oldValue;
@@ -762,13 +751,9 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
             );
             // TODO: class?
             // TODO: add some logic, we know which params we are looking for.
-            map.forEach((key, s2) -> {
-                if (CLASS_PARAMETER.equals(key)) {
-                    figureParameters.merge(key, s2, classMerger);
-                } else if (knownParameters.contains(key)) {
-                    figureParameters.put(key, s2);
-                }
-            });
+            for (Map.Entry<String, String> entry : imageParameters.entrySet()) {
+                tada(figureParameters, classMerger, knownParameters, entry);
+            }
             getListener().beginFigure(figureParameters);
             queue.consumeEvents(getListener());
             getListener().beginFigureCaption(Listener.EMPTY_PARAMETERS);
@@ -1074,5 +1059,33 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
         flushFormat();
 
         getListener().onWord(str);
+    }
+
+    private Map<String, String> getImageParameters(QueueListener queue)
+    {
+        Map<String, String> map;
+        if (!queue.isEmpty()) {
+            Object[] eventParameters = queue.getFirst().eventParameters;
+            if (eventParameters.length > 0) {
+                map = (Map<String, String>) eventParameters[eventParameters.length - 1];
+            } else {
+                map = Listener.EMPTY_PARAMETERS;
+            }
+        } else {
+            map = Listener.EMPTY_PARAMETERS;
+        }
+        return map;
+    }
+
+    private void tada(Map<String, String> figureParameters, BiFunction<String, String, String> classMerger,
+        List<Object> knownParameters, Map.Entry<String, String> entry)
+    {
+        String key = entry.getKey();
+        String s2 = entry.getValue();
+        if (CLASS_PARAMETER.equals(key)) {
+            figureParameters.merge(key, s2, classMerger);
+        } else if (knownParameters.contains(key)) {
+            figureParameters.put(key, s2);
+        }
     }
 }
