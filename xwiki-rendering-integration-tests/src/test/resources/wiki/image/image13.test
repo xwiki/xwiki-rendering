@@ -4,7 +4,8 @@
 .# wrapped in a paragraph.
 .#-----------------------------------------------------
 <figure class="image">
-    <!--startimage:false|-|url|-|/media/cc0-images/elephant-660-480.jpg--><img src="/media/cc0-images/elephant-660-480.jpg" alt="Elephant at sunset" /><!--stopimage--><figcaption>An elephant at sunset</figcaption>
+    <!--startimage:false|-|url|-|/media/cc0-images/elephant-660-480.jpg--><img src="/media/cc0-images/elephant-660-480.jpg" alt="Elephant at sunset" /><!--stopimage-->
+    <figcaption>An elephant at sunset</figcaption>
 </figure>
 .#-----------------------------------------------------
 .expect|event/1.0
