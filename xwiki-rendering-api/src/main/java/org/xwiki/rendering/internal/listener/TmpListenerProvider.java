@@ -25,18 +25,15 @@ import java.util.Map;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.listener.Format;
-import org.xwiki.rendering.listener.HeaderLevel;
-import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.ListenerProvider;
-import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
 import org.xwiki.rendering.listener.chaining.ChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.syntax.Syntax;
 
 /**
+ * TODO.
+ *
  * @version $Id$
  * @since x.y.z
  */
@@ -44,55 +41,56 @@ import org.xwiki.rendering.syntax.Syntax;
 @Singleton
 public class TmpListenerProvider implements ListenerProvider
 {
+    private static class FigureStyleChainingListener extends AbstractChainingListener
+    {
+        public static final String DATA_XWIKI_IMAGE_STYLE = "data-xwiki-image-style";
+
+        private Map<String, String> additionalFigureParameters;
+
+        /**
+         * TODO.
+         *
+         * @param listenerChain TODO
+         */
+        protected FigureStyleChainingListener(ListenerChain listenerChain)
+        {
+            setListenerChain(listenerChain);
+        }
+
+        @Override
+        public void beginFigure(Map<String, String> parameters)
+        {
+            Map<String, String> cleanedUpParameters = new HashMap<>(parameters);
+            cleanedUpParameters.remove(DATA_XWIKI_IMAGE_STYLE);
+            super.beginFigure(cleanedUpParameters);
+        }
+
+        @Override
+        public void onImage(ResourceReference reference, boolean freestanding, String id,
+            Map<String, String> parameters)
+        {
+            this.additionalFigureParameters = new HashMap<>();
+            if (parameters.containsKey(DATA_XWIKI_IMAGE_STYLE)) {
+                this.additionalFigureParameters.put(DATA_XWIKI_IMAGE_STYLE, parameters.get(DATA_XWIKI_IMAGE_STYLE));
+            }
+            super.onImage(reference, freestanding, id, parameters);
+        }
+
+        @Override
+        public void endFigure(Map<String, String> parameters)
+        {
+            Map<String, String> withImageParams = new HashMap<>(parameters);
+            if (this.additionalFigureParameters != null) {
+                withImageParams.putAll(this.additionalFigureParameters);
+                this.additionalFigureParameters = null;
+            }
+            super.endFigure(withImageParams);
+        }
+    }
+
     @Override
     public ChainingListener getListener(ListenerChain listenerChain)
     {
-        AbstractChainingListener chainingListener = new AbstractChainingListener()
-        {
-            private Map<String, String> additionalFigureParameters;
-
-            @Override
-            public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
-            {
-                System.out.println("onImage");
-                super.onImage(reference, freestanding, parameters);
-            }
-
-            @Override
-            public void onImage(ResourceReference reference, boolean freestanding, String id,
-                Map<String, String> parameters)
-            {
-                System.out.println("onImage");
-                this.additionalFigureParameters = new HashMap<>();
-                if (parameters.containsKey("data-xwiki-image-style")) {
-                    this.additionalFigureParameters.put("data-xwiki-image-style",
-                        parameters.get("data-xwiki-image-style"));
-                }
-                super.onImage(reference, freestanding, id, parameters);
-            }
-
-            @Override
-            public void beginFigure(Map<String, String> parameters)
-            {
-                System.out.println("beginFigure " + parameters);
-                super.beginFigure(parameters);
-            }
-
-            @Override
-            public void endFigure(Map<String, String> parameters)
-            {
-                System.out.println("endFigure" + parameters);
-                // TODO: refine
-
-                Map<String, String> withImageParams = new HashMap<>(parameters);
-                if (this.additionalFigureParameters != null) {
-                    withImageParams.putAll(this.additionalFigureParameters);
-                    this.additionalFigureParameters = null;
-                }
-                super.endFigure(withImageParams);
-            }
-        };
-        chainingListener.setListenerChain(listenerChain);
-        return chainingListener;
+        return new FigureStyleChainingListener(listenerChain);
     }
 }

@@ -21,9 +21,7 @@ package org.xwiki.rendering.internal.renderer.xwiki20;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -770,6 +768,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                     // Map empty string to null to remove the class parameter when empty.
                     .collect(Collectors.collectingAndThen(Collectors.joining(" "), s -> s.isEmpty() ? null : s)));
 
+                this.beginParagraph(adaptedParameters);
                 getImageRenderer().beginRenderLink(getXWikiPrinter(), false, figureContent.getImageParameters());
 
 //                List<String> knownParameters = List.of(
