@@ -25,6 +25,8 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * @version $Id$
  * @since 4.0M1
@@ -189,7 +191,10 @@ public class SectionBuilder<T>
 
     /**
      * @return if the section builder represents a figure document
+     * @since 14.10.8
+     * @since 15.3RC1
      */
+    @Unstable
     public boolean isFigureDocument()
     {
         return this.fListener.isFigureDocument();
