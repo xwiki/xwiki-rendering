@@ -58,7 +58,7 @@ public class XWiki21Parser extends AbstractWikiModelParser
     @Inject
     @Named("image")
     private ResourceReferenceParser imageReferenceParser;
-
+    
     @Override
     public Syntax getSyntax()
     {

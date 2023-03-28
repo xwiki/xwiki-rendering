@@ -62,6 +62,8 @@ public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintR
         // to write the XWiki Syntax chaining listener, for example for saving states (are we in a list, in a
         // paragraph, are we starting a new line, etc).
         chain.addListener(this);
+        // TODO: Add here some dynamic list of listeners
+        // TODO: example of chain load.
         chain.addListener(new LookaheadChainingListener(chain, 2));
         chain.addListener(new GroupStateChainingListener(chain));
         chain.addListener(new BlockStateChainingListener(chain));

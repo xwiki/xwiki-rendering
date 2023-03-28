@@ -17,17 +17,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.wikimodel.figure;
+package org.xwiki.rendering.internal.listener;
 
 import org.xwiki.component.annotation.Role;
-import org.xwiki.stability.Unstable;
+import org.xwiki.rendering.listener.chaining.ChainingListener;
+import org.xwiki.rendering.listener.chaining.ListenerChain;
 
 /**
  * @version $Id$
  * @since x.y.z
  */
-@Unstable
 @Role
-public class FigureAction
+public interface ListenerProvider
 {
+    ChainingListener getListener(ListenerChain chain);
 }

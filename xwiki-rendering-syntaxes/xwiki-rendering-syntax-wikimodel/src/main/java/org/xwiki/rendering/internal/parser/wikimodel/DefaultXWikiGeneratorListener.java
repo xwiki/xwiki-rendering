@@ -734,14 +734,13 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
             Map<String, String> figureParameters = new LinkedHashMap<>(paragraphParameters);
             
             Map<String, String> imageParameters = getImageParameters(queue);
-            BiFunction<String, String, String> classMerger = (oldValue, newValue) -> {
+            figureParameters.merge(CLASS_PARAMETER, IMAGE_CLASS, (oldValue, newValue) -> {
                 if (Arrays.asList(StringUtils.split(oldValue)).contains(newValue)) {
                     return oldValue;
                 } else {
                     return oldValue + " " + newValue;
                 }
-            };
-            figureParameters.merge(CLASS_PARAMETER, IMAGE_CLASS, classMerger);
+            });
             List<Object> knownParameters = List.of(
                 "data-xwiki-image-style",
                 "width", // TODO: maybe have a speciif logic for this one?
@@ -752,7 +751,7 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
             // TODO: class?
             // TODO: add some logic, we know which params we are looking for.
             for (Map.Entry<String, String> entry : imageParameters.entrySet()) {
-                tada(figureParameters, classMerger, knownParameters, entry);
+                tada(figureParameters, null, knownParameters, entry);
             }
             getListener().beginFigure(figureParameters);
             queue.consumeEvents(getListener());
