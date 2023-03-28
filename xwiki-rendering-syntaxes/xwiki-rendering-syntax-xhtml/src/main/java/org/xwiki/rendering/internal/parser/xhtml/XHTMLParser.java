@@ -101,7 +101,7 @@ public class XHTMLParser extends AbstractWikiModelParser
     @Inject
     @Named("xwiki")
     private XMLReaderFactory xmlReaderFactory;
-    
+
     @Override
     public Syntax getSyntax()
     {

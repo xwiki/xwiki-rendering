@@ -170,7 +170,7 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
         startChainingListener.setListenerChain(chain);
         chain.addListener(startChainingListener);
         // Add additional listeners here...
-        listenerRegistry.resigterListeners(chain);
+        this.listenerRegistry.registerListeners(chain);
         chain.addListener(wrappedListener);
         return startChainingListener;
     }

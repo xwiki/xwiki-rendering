@@ -19,24 +19,28 @@
  */
 package org.xwiki.rendering.internal.listener;
 
-import java.util.List;
-
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.listener.ListenerProvider;
+import org.xwiki.rendering.listener.chaining.ChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
-import org.xwiki.rendering.listener.chaining.LookaheadChainingListener;
 
 import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage;
 
 /**
+ * Loads and register a list of {@link ChainingListener} provided by {@link ListenerProvider} in the provided chain.
+ *
  * @version $Id$
- * @since x.y.z
+ * @since 15.3RC1
+ * @since 14.10.8
  */
 @Component(roles = ListenerRegistry.class)
+@Singleton
 public class ListenerRegistry
 {
     @Inject
@@ -45,11 +49,16 @@ public class ListenerRegistry
     @Inject
     private Logger logger;
 
-    public void resigterListeners(ListenerChain chain)
+    /**
+     * Register a list of {@link ChainingListener} provided by {@link ListenerProvider} in the provided chain.
+     *
+     * @param listenerChain the listener chain in which new listener will be added
+     */
+    public void registerListeners(ListenerChain listenerChain)
     {
         try {
             this.componentManager.<ListenerProvider>getInstanceList(ListenerProvider.class)
-                .forEach(listenerProvider -> chain.addListener(listenerProvider.getListener(chain)));
+                .forEach(listenerProvider -> listenerChain.addListener(listenerProvider.getListener(listenerChain)));
         } catch (ComponentLookupException e) {
             this.logger.warn("Failed to load and register the list of [{}]. Cause [{}].", ListenerProvider.class,
                 getRootCauseMessage(e));

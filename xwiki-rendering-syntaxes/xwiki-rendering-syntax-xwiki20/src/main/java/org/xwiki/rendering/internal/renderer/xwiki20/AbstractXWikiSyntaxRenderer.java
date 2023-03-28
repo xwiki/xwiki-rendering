@@ -22,8 +22,11 @@ package org.xwiki.rendering.internal.renderer.xwiki20;
 import java.io.Flushable;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
+import org.xwiki.rendering.internal.listener.ListenerRegistry;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ChainingListener;
@@ -43,6 +46,9 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintRenderer implements Initializable,
     Flushable
 {
+    @Inject
+    private ListenerRegistry listenerRegistry;
+
     /**
      * Allows extending classes to choose which implementation to use.
      *
@@ -64,6 +70,7 @@ public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintR
         chain.addListener(this);
         // TODO: Add here some dynamic list of listeners
         // TODO: example of chain load.
+        this.listenerRegistry.registerListeners(chain);
         chain.addListener(new LookaheadChainingListener(chain, 2));
         chain.addListener(new GroupStateChainingListener(chain));
         chain.addListener(new BlockStateChainingListener(chain));
