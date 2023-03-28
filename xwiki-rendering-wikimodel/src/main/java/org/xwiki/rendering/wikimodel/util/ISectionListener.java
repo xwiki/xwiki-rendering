@@ -50,4 +50,12 @@ public interface ISectionListener<T>
     void endSectionContent(IPos<T> pos);
 
     void endSectionHeader(IPos<T> pos);
+
+    /**
+     * @return if this section listener generates a figure as document
+     */
+    default boolean isFigureDocument()
+    {
+        return false;
+    }
 }

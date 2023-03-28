@@ -186,4 +186,12 @@ public class SectionBuilder<T>
     {
         return fDocEntries.size();
     }
+
+    /**
+     * @return if the section builder represents a figure document
+     */
+    public boolean isFigureDocument()
+    {
+        return this.fListener.isFigureDocument();
+    }
 }
