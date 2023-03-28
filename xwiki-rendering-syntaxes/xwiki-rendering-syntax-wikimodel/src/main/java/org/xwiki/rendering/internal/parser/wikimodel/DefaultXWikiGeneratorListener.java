@@ -740,26 +740,6 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
                     }
                 });
 
-//            Map<String, String> imageParameters = getImageParameters(queue);
-//            figureParameters.merge(CLASS_PARAMETER, IMAGE_CLASS, (oldValue, newValue) -> {
-//                if (Arrays.asList(StringUtils.split(oldValue)).contains(newValue)) {
-//                    return oldValue;
-//                } else {
-//                    return oldValue + " " + newValue;
-//                }
-//            });
-//            List<Object> knownParameters = List.of(
-//                "data-xwiki-image-style",
-//                "width", // TODO: maybe have a speciif logic for this one?
-//                "data-xwiki-image-style-alignment",
-//                "data-xwiki-image-style-border",
-//                "data-xwiki-image-style-text-wrap"
-//            );
-//            // TODO: class?
-//            // TODO: add some logic, we know which params we are looking for.
-//            for (Map.Entry<String, String> entry : imageParameters.entrySet()) {
-//                tada(figureParameters, null, knownParameters, entry);
-//            }
             getListener().beginFigure(figureParameters);
             queue.consumeEvents(getListener());
             getListener().beginFigureCaption(Listener.EMPTY_PARAMETERS);
@@ -1066,32 +1046,4 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
 
         getListener().onWord(str);
     }
-
-//    private Map<String, String> getImageParameters(QueueListener queue)
-//    {
-//        Map<String, String> map;
-//        if (!queue.isEmpty()) {
-//            Object[] eventParameters = queue.getFirst().eventParameters;
-//            if (eventParameters.length > 0) {
-//                map = (Map<String, String>) eventParameters[eventParameters.length - 1];
-//            } else {
-//                map = Listener.EMPTY_PARAMETERS;
-//            }
-//        } else {
-//            map = Listener.EMPTY_PARAMETERS;
-//        }
-//        return map;
-//    }
-//
-//    private void tada(Map<String, String> figureParameters, BiFunction<String, String, String> classMerger,
-//        List<Object> knownParameters, Map.Entry<String, String> entry)
-//    {
-//        String key = entry.getKey();
-//        String s2 = entry.getValue();
-//        if (CLASS_PARAMETER.equals(key)) {
-//            figureParameters.merge(key, s2, classMerger);
-//        } else if (knownParameters.contains(key)) {
-//            figureParameters.put(key, s2);
-//        }
-//    }
 }

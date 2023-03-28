@@ -771,32 +771,6 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 this.beginParagraph(adaptedParameters);
                 getImageRenderer().beginRenderLink(getXWikiPrinter(), false, figureContent.getImageParameters());
 
-//                List<String> knownParameters = List.of(
-//                    "data-xwiki-image-style",
-//                    "width", // TODO: maybe have a speciif logic for this one?
-//                    "data-xwiki-image-style-alignment",
-//                    "data-xwiki-image-style-border",
-//                    "data-xwiki-image-style-text-wrap"
-//                );
-//
-//                Map<String, String> imageParameters = figureContent.getImageParameters();
-//                knownParameters.forEach(key -> {
-//                    if (adaptedParameters.containsKey(key) && !imageParameters.containsKey(key)) {
-//                        imageParameters.put(key, adaptedParameters.get(key));
-//                    }
-//                    adaptedParameters.remove(key);
-//                });
-//
-//                if (adaptedParameters.containsKey("style") && imageParameters.containsKey("width")
-//                    && Objects.equals(adaptedParameters.get("style"),
-//                    String.format("width: %spx", imageParameters.get("width"))))
-//                {
-//                    adaptedParameters.remove("style");
-//                }
-//
-//                this.beginParagraph(adaptedParameters);
-//                getImageRenderer().beginRenderLink(getXWikiPrinter(), false, imageParameters);
-
                 // Ignore output from, e.g., a nested paragraph or anything else that might wrap the image/caption.
                 this.pushPrinter(
                     new XWikiSyntaxEscapeWikiPrinter(VoidWikiPrinter.VOIDWIKIPRINTER, getXWikiSyntaxListenerChain()));

@@ -38,4 +38,3 @@ org.xwiki.rendering.internal.transformation.DefaultTransformationManager
 org.xwiki.rendering.internal.transformation.RenderingContextStore
 org.xwiki.rendering.internal.util.DefaultErrorBlockGenerator
 org.xwiki.rendering.internal.wiki.WikiModelProvider
-org.xwiki.rendering.internal.listener.TmpListenerProvider

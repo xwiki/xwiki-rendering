@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.listener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Singleton;
@@ -43,7 +44,14 @@ public class TmpListenerProvider implements ListenerProvider
 {
     private static class FigureStyleChainingListener extends AbstractChainingListener
     {
-        public static final String DATA_XWIKI_IMAGE_STYLE = "data-xwiki-image-style";
+        private static final List<String> KNOWN_PARAMETERS = List.of(
+            "data-xwiki-image-style",
+            "width",
+            "data-xwiki-image-style-alignment",
+            "data-xwiki-image-style-border",
+            "data-xwiki-image-style-text-wrap",
+            "style"
+        );
 
         private Map<String, String> additionalFigureParameters;
 
@@ -61,7 +69,7 @@ public class TmpListenerProvider implements ListenerProvider
         public void beginFigure(Map<String, String> parameters)
         {
             Map<String, String> cleanedUpParameters = new HashMap<>(parameters);
-            cleanedUpParameters.remove(DATA_XWIKI_IMAGE_STYLE);
+            KNOWN_PARAMETERS.forEach(cleanedUpParameters::remove);
             super.beginFigure(cleanedUpParameters);
         }
 
@@ -70,9 +78,12 @@ public class TmpListenerProvider implements ListenerProvider
             Map<String, String> parameters)
         {
             this.additionalFigureParameters = new HashMap<>();
-            if (parameters.containsKey(DATA_XWIKI_IMAGE_STYLE)) {
-                this.additionalFigureParameters.put(DATA_XWIKI_IMAGE_STYLE, parameters.get(DATA_XWIKI_IMAGE_STYLE));
-            }
+            KNOWN_PARAMETERS.forEach(knowParameter -> {
+                if (parameters.containsKey(knowParameter)) {
+                    this.additionalFigureParameters.put(knowParameter, parameters.get(knowParameter));
+                }
+            });
+
             super.onImage(reference, freestanding, id, parameters);
         }
 
