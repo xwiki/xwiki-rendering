@@ -43,6 +43,16 @@ import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMess
 @Singleton
 public class ListenerRegistry
 {
+    /**
+     * Parse action identifier.
+     */
+    public static final String PARSE_ACTION = "parse";
+
+    /**
+     * Render action identifier.
+     */
+    public static final String RENDER_ACTION = "render";
+
     @Inject
     private ComponentManager componentManager;
 
@@ -53,11 +63,15 @@ public class ListenerRegistry
      * Register a list of {@link ChainingListener} provided by {@link ListenerProvider} in the provided chain.
      *
      * @param listenerChain the listener chain in which new listener will be added
+     * @param action the action performed by the caller ("parse" or "render")
+     * @param syntaxHint the hint of the syntax of the action (e.g., "xwiki/2.1")
      */
-    public void registerListeners(ListenerChain listenerChain)
+    public void registerListeners(ListenerChain listenerChain, String action, String syntaxHint)
     {
         try {
             this.componentManager.<ListenerProvider>getInstanceList(ListenerProvider.class)
+                .stream()
+                .filter(listenerProvider -> listenerProvider.accept(action, syntaxHint))
                 .forEach(listenerProvider -> listenerChain.addListener(listenerProvider.getListener(listenerChain)));
         } catch (ComponentLookupException e) {
             this.logger.warn("Failed to load and register the list of [{}]. Cause [{}].", ListenerProvider.class,

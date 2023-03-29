@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.listener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.inject.Singleton;
 
@@ -32,6 +33,9 @@ import org.xwiki.rendering.listener.chaining.ChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
+import static org.xwiki.rendering.internal.listener.ListenerRegistry.PARSE_ACTION;
+import static org.xwiki.rendering.syntax.Syntax.HTML_5_0;
+
 /**
  * TODO.
  *
@@ -40,17 +44,22 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
  */
 @Component
 @Singleton
-public class TmpListenerProvider implements ListenerProvider
+public class TmpRenderListenerProvider implements ListenerProvider
 {
-    private static class FigureStyleChainingListener extends AbstractChainingListener
+    private static final String WIDTH_PROPERTY = "width";
+
+    private static final String STYLE_PROPERTY = "style";
+
+    private static class InternalChainingListener extends AbstractChainingListener
     {
         private static final List<String> KNOWN_PARAMETERS = List.of(
+            WIDTH_PROPERTY,
+            STYLE_PROPERTY,
+            // TODO: reuse constant if it exists
             "data-xwiki-image-style",
-            "width",
             "data-xwiki-image-style-alignment",
             "data-xwiki-image-style-border",
-            "data-xwiki-image-style-text-wrap",
-            "style"
+            "data-xwiki-image-style-text-wrap"
         );
 
         private Map<String, String> additionalFigureParameters;
@@ -60,7 +69,7 @@ public class TmpListenerProvider implements ListenerProvider
          *
          * @param listenerChain TODO
          */
-        protected FigureStyleChainingListener(ListenerChain listenerChain)
+        protected InternalChainingListener(ListenerChain listenerChain)
         {
             setListenerChain(listenerChain);
         }
@@ -80,7 +89,12 @@ public class TmpListenerProvider implements ListenerProvider
             this.additionalFigureParameters = new HashMap<>();
             KNOWN_PARAMETERS.forEach(knowParameter -> {
                 if (parameters.containsKey(knowParameter)) {
-                    this.additionalFigureParameters.put(knowParameter, parameters.get(knowParameter));
+                    String param = parameters.get(knowParameter);
+                    if (Objects.equals(knowParameter, WIDTH_PROPERTY)) {
+                        this.additionalFigureParameters.put(STYLE_PROPERTY, String.format("width: %spx;", param));
+                    } else {
+                        this.additionalFigureParameters.put(knowParameter, param);
+                    }
                 }
             });
 
@@ -91,7 +105,23 @@ public class TmpListenerProvider implements ListenerProvider
         public void endFigure(Map<String, String> parameters)
         {
             Map<String, String> withImageParams = new HashMap<>(parameters);
+            String existingStyle = withImageParams.get(STYLE_PROPERTY);
             if (this.additionalFigureParameters != null) {
+                this.additionalFigureParameters.forEach((key, value) -> {
+                    String computedValue;
+                    if (key.equals(STYLE_PROPERTY) && existingStyle != null) {
+                        String format;
+                        if (existingStyle.endsWith(";")) {
+                            format = "%s %s";
+                        } else {
+                            format = "%s; %s";
+                        }
+                        computedValue = String.format(format, existingStyle, value);
+                    } else {
+                        computedValue = value;
+                    }
+                    withImageParams.put(key, computedValue);
+                });
                 withImageParams.putAll(this.additionalFigureParameters);
                 this.additionalFigureParameters = null;
             }
@@ -102,6 +132,12 @@ public class TmpListenerProvider implements ListenerProvider
     @Override
     public ChainingListener getListener(ListenerChain listenerChain)
     {
-        return new FigureStyleChainingListener(listenerChain);
+        return new InternalChainingListener(listenerChain);
+    }
+
+    @Override
+    public boolean accept(String action, String syntaxHint)
+    {
+        return Objects.equals(action, PARSE_ACTION) && Objects.equals(syntaxHint, HTML_5_0.toIdString());
     }
 }

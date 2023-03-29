@@ -36,6 +36,13 @@ import org.xwiki.stability.Unstable;
 public interface ListenerProvider
 {
     /**
+     * @param action the action performed by the listener ("render" or "parse")
+     * @param syntaxHint the hint of the syntax using for the action
+     * @return {@code true} when the listener provider can return a listener for the given action and syntaxHint
+     */
+    boolean accept(String action, String syntaxHint);
+
+    /**
      * @param listenerChain the listener chain in which the listener will be included
      * @return the listener to add to the listener chain
      */

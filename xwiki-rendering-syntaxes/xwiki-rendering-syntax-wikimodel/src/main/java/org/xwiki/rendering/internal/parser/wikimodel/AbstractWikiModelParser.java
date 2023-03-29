@@ -24,6 +24,7 @@ import java.io.Reader;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.xwiki.component.descriptor.ComponentDescriptor;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.listener.ListenerRegistry;
 import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
@@ -57,6 +58,10 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
 
     @Inject
     private ListenerRegistry listenerRegistry;
+
+    @Inject
+    private ComponentDescriptor<Parser> descriptor;
+
 
     /**
      * @return the WikiModel parser instance to use to parse input content.
@@ -169,7 +174,7 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
         StartChainingListener startChainingListener = new StartChainingListener();
         startChainingListener.setListenerChain(chain);
         chain.addListener(startChainingListener);
-        this.listenerRegistry.registerListeners(chain);
+        this.listenerRegistry.registerListeners(chain, ListenerRegistry.PARSE_ACTION, this.descriptor.getRoleHint());
         chain.addListener(wrappedListener);
         return startChainingListener;
     }

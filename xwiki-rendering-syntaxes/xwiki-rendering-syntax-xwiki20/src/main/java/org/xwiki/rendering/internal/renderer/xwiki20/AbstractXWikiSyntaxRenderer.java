@@ -24,6 +24,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import org.xwiki.component.descriptor.ComponentDescriptor;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.internal.listener.ListenerRegistry;
@@ -35,6 +36,7 @@ import org.xwiki.rendering.listener.chaining.GroupStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.LookaheadChainingListener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.rendering.renderer.PrintRenderer;
 
 /**
  * XWiki Syntax Renderer implementation common to XWiki Syntax versions greater than 2.0 (X>iki Syntax 2.0, XWiki Syntax
@@ -48,6 +50,9 @@ public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintR
 {
     @Inject
     private ListenerRegistry listenerRegistry;
+
+    @Inject
+    private ComponentDescriptor<PrintRenderer> descriptor;
 
     /**
      * Allows extending classes to choose which implementation to use.
@@ -68,7 +73,7 @@ public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintR
         // to write the XWiki Syntax chaining listener, for example for saving states (are we in a list, in a
         // paragraph, are we starting a new line, etc).
         chain.addListener(this);
-        this.listenerRegistry.registerListeners(chain);
+        this.listenerRegistry.registerListeners(chain, ListenerRegistry.RENDER_ACTION, this.descriptor.getRoleHint());
         chain.addListener(new LookaheadChainingListener(chain, 2));
         chain.addListener(new GroupStateChainingListener(chain));
         chain.addListener(new BlockStateChainingListener(chain));
