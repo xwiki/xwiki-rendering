@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.wikimodel.util;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * @param <T> the type of data managed by this listener
  * @version $Id$
@@ -50,4 +52,15 @@ public interface ISectionListener<T>
     void endSectionContent(IPos<T> pos);
 
     void endSectionHeader(IPos<T> pos);
+
+    /**
+     * @return if this section listener generates a figure as document
+     * @since 14.10.8
+     * @since 15.3RC1
+     */
+    @Unstable
+    default boolean isFigureDocument()
+    {
+        return false;
+    }
 }

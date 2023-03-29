@@ -1,0 +1,33 @@
+.#-----------------------------------------------------
+.inputexpect|html/5.0
+.# Verify that parameters are preserved both on the image and on the figure (also from XWiki syntax).
+.#-----------------------------------------------------
+<figure class="extra image" data-attribute="figureValue"><img src="https://example.com/image.jpg" alt="Elephant at sunset" data-attribute="imageValue" class="imageClass wikigeneratedid" id="Ihttps:2F2Fexample.com2Fimage.jpg"/><figcaption><p>An elephant at sunset</p></figcaption></figure>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginFigure [[class]=[extra image][data-attribute]=[figureValue]]
+onImage [Typed = [false] Type = [url] Reference = [https://example.com/image.jpg]] [false] [Ihttps:2F2Fexample.com2Fimage.jpg] [[alt]=[Elephant at sunset][class]=[imageClass][data-attribute]=[imageValue]]
+beginFigureCaption
+beginParagraph
+onWord [An]
+onSpace
+onWord [elephant]
+onSpace
+onWord [at]
+onSpace
+onWord [sunset]
+endParagraph
+endFigureCaption
+endFigure [[class]=[extra image][data-attribute]=[figureValue]]
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<img src="https://example.com/image.jpg" alt="Elephant at sunset" data-attribute="imageValue" class="imageClass wikigeneratedid" id="Ihttps:2F2Fexample.com2Fimage.jpg"/><div class="figcaption"><p>An elephant at sunset</p></div>
+.#-----------------------------------------------------
+.inputexpect|xwiki/2.1
+.#-----------------------------------------------------
+(% class="extra" data-attribute="figureValue" %)
+[[An elephant at sunset>>image:https://example.com/image.jpg||alt="Elephant at sunset" data-attribute="imageValue" class="imageClass"]]
