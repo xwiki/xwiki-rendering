@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering;
 
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.internal.configuration.DefaultRenderingConfiguration;
 import org.xwiki.rendering.test.MockWikiModel;
@@ -41,7 +40,6 @@ public class WikiIntegrationTests implements RenderingTests
     @RenderingTests.Initialized
     public void initialize(MockitoComponentManager componentManager) throws Exception
     {
-        componentManager.registerComponent(ComponentManager.class, "context", componentManager);
         componentManager.registerComponent(MockWikiModel.getComponentDescriptor());
 
         // Add InterWiki Definition for links28 test

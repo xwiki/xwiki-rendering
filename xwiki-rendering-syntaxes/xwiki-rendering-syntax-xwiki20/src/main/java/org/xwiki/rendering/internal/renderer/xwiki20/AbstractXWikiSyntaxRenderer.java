@@ -36,11 +36,13 @@ import org.xwiki.rendering.listener.chaining.ConsecutiveNewLineStateChainingList
 import org.xwiki.rendering.listener.chaining.GroupStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.LookaheadChainingListener;
+import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 import org.xwiki.rendering.renderer.PrintRenderer;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxRegistry;
 
+import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage;
 import static org.xwiki.rendering.listener.ListenerProvider.RENDER_ACTION;
 
 /**
@@ -85,11 +87,14 @@ public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintR
         // paragraph, are we starting a new line, etc).
         chain.addListener(this);
         String roleHint = this.descriptor.getRoleHint();
-        Syntax syntax = this.syntaxRegistry.getSyntax(roleHint).orElse(null);
-        if (syntax == null) {
-            this.logger.warn("Failed to find syntax [{}] in the registry during renderer initialization.",
-                roleHint);
+        Syntax syntax = null;
+        try {
+            syntax = this.syntaxRegistry.resolveSyntax(roleHint);
+        } catch (ParseException e) {
+            this.logger.warn("Failed to find syntax [{}] in the registry during renderer initialization. Cause: [{}]",
+                roleHint, getRootCauseMessage(e));
         }
+
         this.listenerRegistry.registerListeners(chain, RENDER_ACTION, syntax);
         chain.addListener(new LookaheadChainingListener(chain, 2));
         chain.addListener(new GroupStateChainingListener(chain));

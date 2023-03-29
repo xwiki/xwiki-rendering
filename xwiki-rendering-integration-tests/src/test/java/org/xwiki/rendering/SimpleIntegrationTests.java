@@ -19,10 +19,8 @@
  */
 package org.xwiki.rendering;
 
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.test.integration.junit5.RenderingTests;
 import org.xwiki.test.annotation.AllComponents;
-import org.xwiki.test.mockito.MockitoComponentManager;
 
 /**
  * Run all tests found in {@code simple/*.test} files located in the classpath. These {@code *.test} files must follow
@@ -35,9 +33,4 @@ import org.xwiki.test.mockito.MockitoComponentManager;
 @AllComponents
 public class SimpleIntegrationTests implements RenderingTests
 {
-    @RenderingTests.Initialized
-    public void initialize(MockitoComponentManager componentManager) throws Exception
-    {
-        componentManager.registerComponent(ComponentManager.class, "context", componentManager);
-    }
 }

@@ -24,27 +24,17 @@ import java.io.Reader;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.slf4j.Logger;
 import org.xwiki.component.descriptor.ComponentDescriptor;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.internal.listener.ListenerRegistry;
 import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
-import org.xwiki.rendering.listener.WrappingListener;
-import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
-import org.xwiki.rendering.listener.chaining.ChainingListener;
-import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.syntax.SyntaxRegistry;
 import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.rendering.wikimodel.IWikiParser;
-
-import static org.xwiki.rendering.listener.ListenerProvider.PARSE_ACTION;
 
 /**
  * Common code for all WikiModel-based parsers.
@@ -62,16 +52,10 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
     protected PrintRendererFactory plainRendererFactory;
 
     @Inject
-    private ListenerRegistry listenerRegistry;
-
-    @Inject
     private ComponentDescriptor<Parser> descriptor;
 
     @Inject
-    private SyntaxRegistry syntaxRegistry;
-
-    @Inject
-    private Logger logger;
+    private WikiModelParserListenerBuilder wikiModelParserListenerBuilder;
 
     /**
      * @return the WikiModel parser instance to use to parse input content.
@@ -144,19 +128,6 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
             getImageReferenceParser(), this.plainRendererFactory, idGenerator, getSyntax());
     }
 
-    private static class ChainingWrappingListener extends WrappingListener implements ChainingListener
-    {
-        @Override
-        public ListenerChain getListenerChain()
-        {
-            return null;
-        }
-    }
-
-    private static class StartChainingListener extends AbstractChainingListener
-    {
-    }
-
     /**
     * {@inheritDoc}
      *
@@ -167,32 +138,14 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
     {
         IWikiParser parser = createWikiModelParser();
         try {
-            parser.parse(source, createXWikiGeneratorListener(buildListener(listener), idGenerator));
+            parser.parse(source,
+                createXWikiGeneratorListener(
+                    this.wikiModelParserListenerBuilder.buildListener(this.descriptor.getRoleHint(), listener),
+                    idGenerator));
         } catch (Exception | StackOverflowError e) {
             // Stack overflow errors are caught in addition to exceptions because they can be thrown by javacc based
             // implementations in case of too deeply nested contents (e.g., too many nested groups).   
             throw new ParseException("Failed to parse input source", e);
         }
-    }
-
-    private Listener buildListener(Listener listener)
-    {
-        // TODO: to be documented...
-        ListenerChain chain = new ListenerChain();
-        ChainingWrappingListener wrappedListener = new ChainingWrappingListener();
-        wrappedListener.setWrappedListener(listener);
-        StartChainingListener startChainingListener = new StartChainingListener();
-        startChainingListener.setListenerChain(chain);
-        chain.addListener(startChainingListener);
-        String roleHint = this.descriptor.getRoleHint();
-        Syntax syntax = this.syntaxRegistry.getSyntax(roleHint).orElse(null);
-        if (syntax == null) {
-            this.logger.warn("Failed to find syntax [{}] in the registry during parser initialization.",
-                roleHint);
-        }
-
-        this.listenerRegistry.registerListeners(chain, PARSE_ACTION, syntax);
-        chain.addListener(wrappedListener);
-        return startChainingListener;
     }
 }

@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.listener;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public class ListenerRegistry
 {
     @Inject
     @Named("context")
-    private ComponentManager componentManager;
+    private Provider<ComponentManager> componentManagerProvider;
 
     @Inject
     private Logger logger;
@@ -62,7 +63,7 @@ public class ListenerRegistry
     public void registerListeners(ListenerChain listenerChain, String action, Syntax syntax)
     {
         try {
-            this.componentManager.<ListenerProvider>getInstanceList(ListenerProvider.class)
+            this.componentManagerProvider.get().<ListenerProvider>getInstanceList(ListenerProvider.class)
                 .stream()
                 .filter(listenerProvider -> listenerProvider.accept(action, syntax))
                 .forEach(listenerProvider -> listenerChain.addListener(listenerProvider.getListener(listenerChain)));

@@ -53,10 +53,7 @@ public class TmpParseListenerProvider implements ListenerProvider
 
     private static final String STYLE_PROPERTY = "style";
 
-    private static final List<String> ACCEPTED_SYNTAX = List.of(
-        XWIKI_2_0.toIdString(),
-        XWIKI_2_1.toIdString()
-    );
+    private static final List<Syntax> ACCEPTED_SYNTAX = List.of(XWIKI_2_0, XWIKI_2_1);
 
     private static class InternalChainingListener extends AbstractChainingListener
     {
@@ -137,8 +134,8 @@ public class TmpParseListenerProvider implements ListenerProvider
     }
 
     @Override
-    public boolean accept(String action, String syntaxHint)
+    public boolean accept(String action, Syntax syntax)
     {
-        return Objects.equals(action, PARSE_ACTION) && ACCEPTED_SYNTAX.contains(syntaxHint);
+        return Objects.equals(action, PARSE_ACTION) && syntax != null && ACCEPTED_SYNTAX.contains(syntax);
     }
 }

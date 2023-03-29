@@ -103,6 +103,6 @@ public class TmpRenderListenerProvider implements ListenerProvider
     @Override
     public boolean accept(String action, Syntax syntax)
     {
-        return Objects.equals(action, RENDER_ACTION) && ACCEPTED_SYNTAX.contains(syntax);
+        return Objects.equals(action, RENDER_ACTION) && syntax != null && ACCEPTED_SYNTAX.contains(syntax);
     }
 }
