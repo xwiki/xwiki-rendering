@@ -71,8 +71,14 @@ public class ListenerRegistry
         try {
             this.componentManager.<ListenerProvider>getInstanceList(ListenerProvider.class)
                 .stream()
-                .filter(listenerProvider -> listenerProvider.accept(action, syntaxHint))
-                .forEach(listenerProvider -> listenerChain.addListener(listenerProvider.getListener(listenerChain)));
+                .filter(listenerProvider -> {
+                    boolean accept = listenerProvider.accept(action, syntaxHint);
+                    System.out.println(listenerProvider + " -> accept(" + action + ", " + syntaxHint + ") = " + accept);
+                    return accept;
+                })
+                .forEach(listenerProvider -> {
+                    listenerChain.addListener(listenerProvider.getListener(listenerChain));
+                });
         } catch (ComponentLookupException e) {
             this.logger.warn("Failed to load and register the list of [{}]. Cause [{}].", ListenerProvider.class,
                 getRootCauseMessage(e));

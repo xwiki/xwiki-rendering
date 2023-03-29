@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -33,8 +34,10 @@ import org.xwiki.rendering.listener.chaining.ChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 
-import static org.xwiki.rendering.internal.listener.ListenerRegistry.PARSE_ACTION;
+import static org.xwiki.rendering.internal.listener.ListenerRegistry.RENDER_ACTION;
 import static org.xwiki.rendering.syntax.Syntax.HTML_5_0;
+import static org.xwiki.rendering.syntax.Syntax.XWIKI_2_0;
+import static org.xwiki.rendering.syntax.Syntax.XWIKI_2_1;
 
 /**
  * TODO.
@@ -44,11 +47,18 @@ import static org.xwiki.rendering.syntax.Syntax.HTML_5_0;
  */
 @Component
 @Singleton
+@Named("tmprender")
 public class TmpRenderListenerProvider implements ListenerProvider
 {
     private static final String WIDTH_PROPERTY = "width";
 
     private static final String STYLE_PROPERTY = "style";
+
+    private static final List<String> ACCEPTED_SYNTAX = List.of(
+        HTML_5_0.toIdString(),
+        XWIKI_2_0.toIdString(),
+        XWIKI_2_1.toIdString()
+    );
 
     private static class InternalChainingListener extends AbstractChainingListener
     {
@@ -138,6 +148,6 @@ public class TmpRenderListenerProvider implements ListenerProvider
     @Override
     public boolean accept(String action, String syntaxHint)
     {
-        return Objects.equals(action, PARSE_ACTION) && Objects.equals(syntaxHint, HTML_5_0.toIdString());
+        return Objects.equals(action, RENDER_ACTION) && ACCEPTED_SYNTAX.contains(syntaxHint);
     }
 }

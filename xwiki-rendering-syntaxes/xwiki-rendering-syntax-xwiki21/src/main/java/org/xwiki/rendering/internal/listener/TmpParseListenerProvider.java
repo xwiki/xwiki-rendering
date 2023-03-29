@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
@@ -45,6 +46,7 @@ import static org.xwiki.rendering.syntax.Syntax.XWIKI_2_1;
  */
 @Component
 @Singleton
+@Named("tmpparse")
 public class TmpParseListenerProvider implements ListenerProvider
 {
     private static final String WIDTH_PROPERTY = "width";
