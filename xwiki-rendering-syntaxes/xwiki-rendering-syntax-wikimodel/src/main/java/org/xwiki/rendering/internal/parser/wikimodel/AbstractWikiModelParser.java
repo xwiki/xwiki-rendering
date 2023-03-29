@@ -24,6 +24,7 @@ import java.io.Reader;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
 import org.xwiki.component.descriptor.ComponentDescriptor;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.listener.ListenerRegistry;
@@ -38,8 +39,12 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.parser.StreamParser;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxRegistry;
 import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.rendering.wikimodel.IWikiParser;
+
+import static org.xwiki.rendering.listener.ListenerProvider.PARSE_ACTION;
 
 /**
  * Common code for all WikiModel-based parsers.
@@ -62,6 +67,11 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
     @Inject
     private ComponentDescriptor<Parser> descriptor;
 
+    @Inject
+    private SyntaxRegistry syntaxRegistry;
+
+    @Inject
+    private Logger logger;
 
     /**
      * @return the WikiModel parser instance to use to parse input content.
@@ -174,7 +184,14 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
         StartChainingListener startChainingListener = new StartChainingListener();
         startChainingListener.setListenerChain(chain);
         chain.addListener(startChainingListener);
-        this.listenerRegistry.registerListeners(chain, ListenerRegistry.PARSE_ACTION, this.descriptor.getRoleHint());
+        String roleHint = this.descriptor.getRoleHint();
+        Syntax syntax = this.syntaxRegistry.getSyntax(roleHint).orElse(null);
+        if (syntax == null) {
+            this.logger.warn("Failed to find syntax [{}] in the registry during parser initialization.",
+                roleHint);
+        }
+
+        this.listenerRegistry.registerListeners(chain, PARSE_ACTION, syntax);
         chain.addListener(wrappedListener);
         return startChainingListener;
     }

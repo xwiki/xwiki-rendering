@@ -22,6 +22,7 @@ package org.xwiki.rendering.listener;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.listener.chaining.ChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
+import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -36,11 +37,21 @@ import org.xwiki.stability.Unstable;
 public interface ListenerProvider
 {
     /**
+     * Parse action identifier.
+     */
+    String PARSE_ACTION = "parse";
+
+    /**
+     * Render action identifier.
+     */
+    String RENDER_ACTION = "render";
+    
+    /**
      * @param action the action performed by the listener ("render" or "parse")
-     * @param syntaxHint the hint of the syntax using for the action
+     * @param syntax the hint of the syntax using for the action
      * @return {@code true} when the listener provider can return a listener for the given action and syntaxHint
      */
-    boolean accept(String action, String syntaxHint);
+    boolean accept(String action, Syntax syntax);
 
     /**
      * @param listenerChain the listener chain in which the listener will be included

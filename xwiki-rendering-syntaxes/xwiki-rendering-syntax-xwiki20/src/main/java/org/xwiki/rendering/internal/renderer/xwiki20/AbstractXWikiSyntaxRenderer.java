@@ -24,6 +24,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
 import org.xwiki.component.descriptor.ComponentDescriptor;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
@@ -37,6 +38,10 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.LookaheadChainingListener;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 import org.xwiki.rendering.renderer.PrintRenderer;
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxRegistry;
+
+import static org.xwiki.rendering.listener.ListenerProvider.RENDER_ACTION;
 
 /**
  * XWiki Syntax Renderer implementation common to XWiki Syntax versions greater than 2.0 (X>iki Syntax 2.0, XWiki Syntax
@@ -53,6 +58,12 @@ public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintR
 
     @Inject
     private ComponentDescriptor<PrintRenderer> descriptor;
+
+    @Inject
+    private SyntaxRegistry syntaxRegistry;
+
+    @Inject
+    private Logger logger;
 
     /**
      * Allows extending classes to choose which implementation to use.
@@ -73,7 +84,13 @@ public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintR
         // to write the XWiki Syntax chaining listener, for example for saving states (are we in a list, in a
         // paragraph, are we starting a new line, etc).
         chain.addListener(this);
-        this.listenerRegistry.registerListeners(chain, ListenerRegistry.RENDER_ACTION, this.descriptor.getRoleHint());
+        String roleHint = this.descriptor.getRoleHint();
+        Syntax syntax = this.syntaxRegistry.getSyntax(roleHint).orElse(null);
+        if (syntax == null) {
+            this.logger.warn("Failed to find syntax [{}] in the registry during renderer initialization.",
+                roleHint);
+        }
+        this.listenerRegistry.registerListeners(chain, RENDER_ACTION, syntax);
         chain.addListener(new LookaheadChainingListener(chain, 2));
         chain.addListener(new GroupStateChainingListener(chain));
         chain.addListener(new BlockStateChainingListener(chain));

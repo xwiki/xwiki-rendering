@@ -32,9 +32,8 @@ import org.xwiki.rendering.listener.ListenerProvider;
 import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
 import org.xwiki.rendering.listener.chaining.ChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
-import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.syntax.Syntax;
 
-import static org.xwiki.rendering.internal.listener.ListenerRegistry.RENDER_ACTION;
 import static org.xwiki.rendering.syntax.Syntax.HTML_5_0;
 import static org.xwiki.rendering.syntax.Syntax.XWIKI_2_0;
 import static org.xwiki.rendering.syntax.Syntax.XWIKI_2_1;
@@ -54,11 +53,7 @@ public class TmpRenderListenerProvider implements ListenerProvider
 
     private static final String STYLE_PROPERTY = "style";
 
-    private static final List<String> ACCEPTED_SYNTAX = List.of(
-        HTML_5_0.toIdString(),
-        XWIKI_2_0.toIdString(),
-        XWIKI_2_1.toIdString()
-    );
+    private static final List<Syntax> ACCEPTED_SYNTAX = List.of(HTML_5_0, XWIKI_2_0, XWIKI_2_1);
 
     private static class InternalChainingListener extends AbstractChainingListener
     {
@@ -106,8 +101,8 @@ public class TmpRenderListenerProvider implements ListenerProvider
     }
 
     @Override
-    public boolean accept(String action, String syntaxHint)
+    public boolean accept(String action, Syntax syntax)
     {
-        return Objects.equals(action, RENDER_ACTION) && ACCEPTED_SYNTAX.contains(syntaxHint);
+        return Objects.equals(action, RENDER_ACTION) && ACCEPTED_SYNTAX.contains(syntax);
     }
 }
