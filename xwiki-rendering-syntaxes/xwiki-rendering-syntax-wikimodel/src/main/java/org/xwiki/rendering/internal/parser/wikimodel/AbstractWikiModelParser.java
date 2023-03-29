@@ -65,26 +65,26 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
     public abstract IWikiParser createWikiModelParser() throws ParseException;
 
     /**
-     * @return the parser to use when parsing link references. We need to parse link references to transform them from a
-     *     string representation coming from WikiModel into a
-     *     {@link org.xwiki.rendering.listener.reference.ResourceReference} object.
+     * @return the parser to use when parsing link references. We need to parse link references to transform them from
+     *         a string representation coming from WikiModel into a
+     *         {@link org.xwiki.rendering.listener.reference.ResourceReference} object.
      * @since 2.5RC1
      */
     public abstract ResourceReferenceParser getLinkReferenceParser();
 
     /**
      * @return the parser to use when parsing image references. We need to parse image references to transform them from
-     *     a string representation coming from WikiModel into a
-     *     {@link org.xwiki.rendering.listener.reference.ResourceReference} object.
+     *         a string representation coming from WikiModel into a
+     *         {@link org.xwiki.rendering.listener.reference.ResourceReference} object.
      * @since 2.5RC1
      */
     public abstract ResourceReferenceParser getImageReferenceParser();
 
     /**
      * @return the syntax parser to use for parsing link labels, since wikimodel does not support wiki syntax in links
-     *     and they need to be handled in the {@link XWikiGeneratorListener}. By default, the link label parser is the
-     *     same one as the source parser (this), but you should overwrite this method if you need to use a special
-     *     parser.
+     *         and they need to be handled in the {@link XWikiGeneratorListener}. By default, the link label parser is
+     *         the same one as the source parser (this), but you should overwrite this method if you need to use a
+     *         special parser.
      * @see XDOMGeneratorListener
      * @see <a href="http://code.google.com/p/wikimodel/issues/detail?id=87">wikimodel issue 87</a>
      * @since 2.1RC1
@@ -143,7 +143,7 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
     }
 
     /**
-     * {@inheritDoc}
+    * {@inheritDoc}
      *
      * @since 2.1RC1
      */
@@ -169,7 +169,6 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
         StartChainingListener startChainingListener = new StartChainingListener();
         startChainingListener.setListenerChain(chain);
         chain.addListener(startChainingListener);
-        // Add additional listeners here...
         this.listenerRegistry.registerListeners(chain);
         chain.addListener(wrappedListener);
         return startChainingListener;
