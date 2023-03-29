@@ -72,7 +72,7 @@ public class TmpRenderListenerProvider implements ListenerProvider
             "data-xwiki-image-style-text-wrap"
         );
 
-        private Map<String, String> additionalFigureParameters;
+        private Map<String, String> cleanedUpParameters;
 
         /**
          * TODO.
@@ -87,55 +87,15 @@ public class TmpRenderListenerProvider implements ListenerProvider
         @Override
         public void beginFigure(Map<String, String> parameters)
         {
-            Map<String, String> cleanedUpParameters = new HashMap<>(parameters);
-            KNOWN_PARAMETERS.forEach(cleanedUpParameters::remove);
-            super.beginFigure(cleanedUpParameters);
-        }
-
-        @Override
-        public void onImage(ResourceReference reference, boolean freestanding, String id,
-            Map<String, String> parameters)
-        {
-            this.additionalFigureParameters = new HashMap<>();
-            KNOWN_PARAMETERS.forEach(knowParameter -> {
-                if (parameters.containsKey(knowParameter)) {
-                    String param = parameters.get(knowParameter);
-                    if (Objects.equals(knowParameter, WIDTH_PROPERTY)) {
-                        this.additionalFigureParameters.put(STYLE_PROPERTY, String.format("width: %spx;", param));
-                    } else {
-                        this.additionalFigureParameters.put(knowParameter, param);
-                    }
-                }
-            });
-
-            super.onImage(reference, freestanding, id, parameters);
+            this.cleanedUpParameters = new HashMap<>(parameters);
+            KNOWN_PARAMETERS.forEach(this.cleanedUpParameters::remove);
+            super.beginFigure(this.cleanedUpParameters);
         }
 
         @Override
         public void endFigure(Map<String, String> parameters)
         {
-            Map<String, String> withImageParams = new HashMap<>(parameters);
-            String existingStyle = withImageParams.get(STYLE_PROPERTY);
-            if (this.additionalFigureParameters != null) {
-                this.additionalFigureParameters.forEach((key, value) -> {
-                    String computedValue;
-                    if (key.equals(STYLE_PROPERTY) && existingStyle != null) {
-                        String format;
-                        if (existingStyle.endsWith(";")) {
-                            format = "%s %s";
-                        } else {
-                            format = "%s; %s";
-                        }
-                        computedValue = String.format(format, existingStyle, value);
-                    } else {
-                        computedValue = value;
-                    }
-                    withImageParams.put(key, computedValue);
-                });
-                withImageParams.putAll(this.additionalFigureParameters);
-                this.additionalFigureParameters = null;
-            }
-            super.endFigure(withImageParams);
+            super.endFigure(this.cleanedUpParameters);
         }
     }
 

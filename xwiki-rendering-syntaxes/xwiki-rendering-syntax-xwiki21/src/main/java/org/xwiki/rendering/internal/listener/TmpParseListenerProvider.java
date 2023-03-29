@@ -71,6 +71,7 @@ public class TmpParseListenerProvider implements ListenerProvider
         );
 
         private Map<String, String> additionalFigureParameters;
+//
 
         /**
          * TODO.
@@ -80,14 +81,6 @@ public class TmpParseListenerProvider implements ListenerProvider
         protected InternalChainingListener(ListenerChain listenerChain)
         {
             setListenerChain(listenerChain);
-        }
-
-        @Override
-        public void beginFigure(Map<String, String> parameters)
-        {
-            Map<String, String> cleanedUpParameters = new HashMap<>(parameters);
-            KNOWN_PARAMETERS.forEach(cleanedUpParameters::remove);
-            super.beginFigure(cleanedUpParameters);
         }
 
         @Override
