@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.internal.listener;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +31,14 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.ListenerProvider;
-import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
+import org.xwiki.rendering.listener.QueueListener;
 import org.xwiki.rendering.listener.chaining.ChainingListener;
+import org.xwiki.rendering.listener.chaining.EventType;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
+import org.xwiki.rendering.listener.chaining.LookaheadChainingListener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.syntax.Syntax;
 
-import static org.xwiki.rendering.internal.listener.ListenerRegistry.PARSE_ACTION;
 import static org.xwiki.rendering.syntax.Syntax.XWIKI_2_0;
 import static org.xwiki.rendering.syntax.Syntax.XWIKI_2_1;
 
@@ -55,11 +59,12 @@ public class TmpParseListenerProvider implements ListenerProvider
 
     private static final List<Syntax> ACCEPTED_SYNTAX = List.of(XWIKI_2_0, XWIKI_2_1);
 
-    private static class InternalChainingListener extends AbstractChainingListener
+    private static final String STYLE_SEPARATOR = ";";
+
+    private static class InternalChainingListener extends LookaheadChainingListener
     {
         private static final List<String> KNOWN_PARAMETERS = List.of(
             WIDTH_PROPERTY,
-            STYLE_PROPERTY,
             // TODO: reuse constant if it exists
             "data-xwiki-image-style",
             "data-xwiki-image-style-alignment",
@@ -67,8 +72,7 @@ public class TmpParseListenerProvider implements ListenerProvider
             "data-xwiki-image-style-text-wrap"
         );
 
-        private Map<String, String> additionalFigureParameters;
-//
+        private final Deque<Map<String, String>> figureParametersQueue = new ArrayDeque<>();
 
         /**
          * TODO.
@@ -77,53 +81,62 @@ public class TmpParseListenerProvider implements ListenerProvider
          */
         protected InternalChainingListener(ListenerChain listenerChain)
         {
-            setListenerChain(listenerChain);
+            super(listenerChain, 1);
+        }
+
+        @Override
+        public void beginFigure(Map<String, String> parameters)
+        {
+            this.figureParametersQueue.push(parameters);
+
+            super.beginFigure(parameters);
         }
 
         @Override
         public void onImage(ResourceReference reference, boolean freestanding, String id,
             Map<String, String> parameters)
         {
-            this.additionalFigureParameters = new HashMap<>();
-            KNOWN_PARAMETERS.forEach(knowParameter -> {
-                if (parameters.containsKey(knowParameter)) {
-                    String param = parameters.get(knowParameter);
-                    if (Objects.equals(knowParameter, WIDTH_PROPERTY)) {
-                        this.additionalFigureParameters.put(STYLE_PROPERTY, String.format("width: %spx;", param));
-                    } else {
-                        this.additionalFigureParameters.put(knowParameter, param);
-                    }
+            QueueListener.Event nextEvent = getPreviousEvents().peekLast();
+            if (nextEvent != null && nextEvent.eventType == EventType.BEGIN_FIGURE) {
+                // modify figure parameters
+                Object[] eventParameters = nextEvent.eventParameters;
+                // Note: sanity check to make sure that we are handling the expected case.
+                if (eventParameters.length == 1 && eventParameters[0] instanceof Map<?, ?>) {
+                    Map<String, String> figureParameters = this.figureParametersQueue.pop();
+                    Map<String, String> mergedMap = new HashMap<>(figureParameters);
+                    KNOWN_PARAMETERS.stream()
+                        .filter(parameters::containsKey)
+                        .forEach(key -> mergeParameter(key, mergedMap, parameters, figureParameters));
+                    this.figureParametersQueue.push(mergedMap);
+                    eventParameters[0] = mergedMap;
                 }
-            });
+            }
 
             super.onImage(reference, freestanding, id, parameters);
+        }
+
+        private void mergeParameter(String key, Map<String, String> mergedMap,
+            Map<String, String> imageParameters, Map<String, String> figureParameters)
+        {
+            String value = imageParameters.get(key);
+            if (Objects.equals(key, WIDTH_PROPERTY)) {
+                String styleValue = String.format("width: %spx;", imageParameters.get(key));
+                if (figureParameters.containsKey(STYLE_PROPERTY)) {
+                    if (!figureParameters.get(STYLE_PROPERTY).endsWith(STYLE_SEPARATOR)) {
+                        styleValue = STYLE_SEPARATOR + styleValue;
+                    }
+                    styleValue = figureParameters.get(STYLE_PROPERTY) + styleValue;
+                }
+                mergedMap.put(STYLE_PROPERTY, styleValue);
+            } else {
+                mergedMap.put(key, value);
+            }
         }
 
         @Override
         public void endFigure(Map<String, String> parameters)
         {
-            Map<String, String> withImageParams = new HashMap<>(parameters);
-            String existingStyle = withImageParams.get(STYLE_PROPERTY);
-            if (this.additionalFigureParameters != null) {
-                this.additionalFigureParameters.forEach((key, value) -> {
-                    String computedValue;
-                    if (key.equals(STYLE_PROPERTY) && existingStyle != null) {
-                        String format;
-                        if (existingStyle.endsWith(";")) {
-                            format = "%s %s";
-                        } else {
-                            format = "%s; %s";
-                        }
-                        computedValue = String.format(format, existingStyle, value);
-                    } else {
-                        computedValue = value;
-                    }
-                    withImageParams.put(key, computedValue);
-                });
-                withImageParams.putAll(this.additionalFigureParameters);
-                this.additionalFigureParameters = null;
-            }
-            super.endFigure(withImageParams);
+            super.endFigure(this.figureParametersQueue.pop());
         }
     }
 

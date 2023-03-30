@@ -740,6 +740,9 @@ public class DefaultXWikiGeneratorListener implements XWikiGeneratorListener
                     }
                 });
 
+            // If this should be changed to produce more than just an image directly inside the caption, +
+            // TmpParseListenerProvider needs to be adapted.
+            // FIXME: substitute real name + link to xwiki-platform
             getListener().beginFigure(figureParameters);
             queue.consumeEvents(getListener());
             getListener().beginFigureCaption(Listener.EMPTY_PARAMETERS);
