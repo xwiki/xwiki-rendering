@@ -54,7 +54,6 @@ import static org.xwiki.rendering.syntax.Syntax.XWIKI_2_1;
  * Test of {@link ListenerRegistry}.
  *
  * @version $Id$
- * @since x.y.z
  */
 @ComponentTest
 class ListenerRegistryTest

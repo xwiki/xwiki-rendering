@@ -53,7 +53,6 @@ import static org.xwiki.rendering.syntax.Syntax.XWIKI_2_1;
  * Test of {@link WikiModelParserListenerBuilder}.
  *
  * @version $Id$
- * @since x.y.z
  */
 @ComponentTest
 class WikiModelParserListenerBuilderTest
