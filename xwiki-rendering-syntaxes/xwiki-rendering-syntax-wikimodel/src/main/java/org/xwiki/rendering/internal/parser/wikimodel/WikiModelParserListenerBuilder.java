@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.internal.parser.wikimodel;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -26,9 +28,7 @@ import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.listener.ListenerRegistry;
 import org.xwiki.rendering.listener.Listener;
-import org.xwiki.rendering.listener.ListenerProvider;
 import org.xwiki.rendering.listener.WrappingListener;
-import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
 import org.xwiki.rendering.listener.chaining.ChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.parser.ParseException;
@@ -36,6 +36,7 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxRegistry;
 
 import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage;
+import static org.xwiki.rendering.listener.ListenerProvider.PARSE_ACTION;
 
 /**
  * Internal class used by {@link AbstractWikiModelParser} to dynamically initialize a list of listeners.
@@ -57,12 +58,13 @@ public class WikiModelParserListenerBuilder
     @Inject
     private Logger logger;
 
-    private static class StartChainingListener extends AbstractChainingListener
+    private static class ChainingWrappingListener extends WrappingListener implements ChainingListener
     {
-    }
+        protected ChainingWrappingListener(Listener listener)
+        {
+            setWrappedListener(listener);
+        }
 
-    class ChainingWrappingListener extends WrappingListener implements ChainingListener
-    {
         @Override
         public ListenerChain getListenerChain()
         {
@@ -72,14 +74,15 @@ public class WikiModelParserListenerBuilder
 
     Listener buildListener(String roleHint, Listener listener)
     {
-        // TODO: to be documented...
         ListenerChain chain = new ListenerChain();
-        ChainingWrappingListener wrappedListener = new ChainingWrappingListener();
-        wrappedListener.setWrappedListener(listener);
-        StartChainingListener startChainingListener =
-            new StartChainingListener();
-        startChainingListener.setListenerChain(chain);
-        chain.addListener(startChainingListener);
+        List<ChainingListener> listeners = this.listenerRegistry.getListeners(chain, PARSE_ACTION, getSyntax(roleHint));
+        listeners.forEach(chain::addListener);
+        chain.addListener(new ChainingWrappingListener(listener));
+        return listeners.isEmpty() ? listener : listeners.get(0);
+    }
+
+    private Syntax getSyntax(String roleHint)
+    {
         Syntax syntax = null;
         try {
             syntax = this.syntaxRegistry.resolveSyntax(roleHint);
@@ -87,9 +90,6 @@ public class WikiModelParserListenerBuilder
             this.logger.warn("Failed to find syntax [{}] in the registry during parser initialization. Cause: [{}]",
                 roleHint, getRootCauseMessage(e));
         }
-
-        this.listenerRegistry.registerListeners(chain, ListenerProvider.PARSE_ACTION, syntax);
-        chain.addListener(wrappedListener);
-        return startChainingListener;
+        return syntax;
     }
 }

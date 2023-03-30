@@ -94,8 +94,8 @@ public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintR
             this.logger.warn("Failed to find syntax [{}] in the registry during renderer initialization. Cause: [{}]",
                 roleHint, getRootCauseMessage(e));
         }
-
-        this.listenerRegistry.registerListeners(chain, RENDER_ACTION, syntax);
+        
+        this.listenerRegistry.getListeners(chain, RENDER_ACTION, syntax).forEach(chain::addListener);
         chain.addListener(new LookaheadChainingListener(chain, 2));
         chain.addListener(new GroupStateChainingListener(chain));
         chain.addListener(new BlockStateChainingListener(chain));

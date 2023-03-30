@@ -26,7 +26,7 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.stability.Unstable;
 
 /**
- * Allows to access a listener instance.
+ * Allows to access listener instances.
  *
  * @version $Id$
  * @since 15.3RC1

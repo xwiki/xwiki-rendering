@@ -19,6 +19,9 @@
  */
 package org.xwiki.rendering.internal.listener;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
@@ -36,7 +39,7 @@ import org.xwiki.rendering.syntax.Syntax;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage;
 
 /**
- * Loads and register a list of {@link ChainingListener} provided by {@link ListenerProvider} in the provided chain.
+ * Returns a list of {@link ChainingListener} provided by {@link ListenerProvider}.
  *
  * @version $Id$
  * @since 15.3RC1
@@ -54,22 +57,27 @@ public class ListenerRegistry
     private Logger logger;
 
     /**
-     * Register a list of {@link ChainingListener} provided by {@link ListenerProvider} in the provided chain.
+     * Return a list of {@link ChainingListener} provided by {@link ListenerProvider}.
      *
      * @param listenerChain the listener chain in which new listener will be added
-     * @param action the action performed by the caller ("parse" or "render")
+     * @param action the action performed by the caller ({@link ListenerProvider#PARSE_ACTION} or
+     *     {@link ListenerProvider#RENDER_ACTION})
      * @param syntax the syntax of the action (e.g., {@link Syntax#XWIKI_2_1})
+     * @return the initialized list of {@link ChainingListener}
      */
-    public void registerListeners(ListenerChain listenerChain, String action, Syntax syntax)
+    public List<ChainingListener> getListeners(ListenerChain listenerChain, String action, Syntax syntax)
     {
         try {
-            this.componentManagerProvider.get().<ListenerProvider>getInstanceList(ListenerProvider.class)
+            return this.componentManagerProvider.get()
+                .<ListenerProvider>getInstanceList(ListenerProvider.class)
                 .stream()
                 .filter(listenerProvider -> listenerProvider.accept(action, syntax))
-                .forEach(listenerProvider -> listenerChain.addListener(listenerProvider.getListener(listenerChain)));
+                .map(listenerProvider -> listenerProvider.getListener(listenerChain))
+                .collect(Collectors.toList());
         } catch (ComponentLookupException e) {
-            this.logger.warn("Failed to load and register the list of [{}]. Cause [{}].", ListenerProvider.class,
-                getRootCauseMessage(e));
+            this.logger.warn("Failed to load the list of [{}] for action [{}] and syntax [{}]. Cause [{}].",
+                ListenerProvider.class, action, syntax, getRootCauseMessage(e));
+            return List.of();
         }
     }
 }

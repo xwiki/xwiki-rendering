@@ -7,5 +7,3 @@ org.xwiki.rendering.internal.renderer.xwiki21.reference.XWiki21ResourceReference
 org.xwiki.rendering.internal.renderer.xwiki21.reference.XWikiSyntaxImageReferenceSerializer
 org.xwiki.rendering.internal.renderer.xwiki21.reference.XWikiSyntaxLinkReferenceSerializer
 org.xwiki.rendering.internal.xwiki21.XWiki21SyntaxProvider
-org.xwiki.rendering.internal.listener.TmpRenderListenerProvider
-org.xwiki.rendering.internal.listener.TmpParseListenerProvider
