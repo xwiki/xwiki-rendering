@@ -24,19 +24,19 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.stability.Unstable;
 
 /**
- * Generate Resource Reference titles for URIs.
+ * Generate Resource Reference titles for wanted links.
  * The implementations should be named according to the kind of reference they process.
  *
  * @version $Id$
- * @since 15.2RC1
+ * @since 15.3RC1
  */
 @Role
 @Unstable
-public interface URITitleGenerator
+public interface WantedLinkTitleGenerator
 {
     /**
-     * @param reference the reference pointing to a URI for which we want to generate a create link title
-     * @return the URI title to display when rendering resource references
+     * @param reference the reference for which we want to generate a wanted link title
+     * @return the title to display when rendering the resource reference wanted link
      */
-    String generateCreateTitle(ResourceReference reference);
+    String generateWantedLinkTitle(ResourceReference reference);
 }
