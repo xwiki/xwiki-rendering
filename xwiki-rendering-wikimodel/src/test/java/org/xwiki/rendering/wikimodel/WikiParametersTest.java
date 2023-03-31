@@ -38,4 +38,14 @@ class WikiParametersTest
         assertEquals(1, wikiParameters.getSize());
         assertEquals("value", wikiParameters.getParameter("key").getValue());
     }
+
+    @Test
+    void testParametersOnSeveralLines()
+    {
+        WikiParameters wikiParameters = WikiParameters.newWikiParameters("key1='value1'\n  key2='value2'");
+
+        assertEquals(2, wikiParameters.getSize());
+        assertEquals("value1", wikiParameters.getParameter("key1").getValue());
+        assertEquals("value2", wikiParameters.getParameter("key2").getValue());
+    }
 }

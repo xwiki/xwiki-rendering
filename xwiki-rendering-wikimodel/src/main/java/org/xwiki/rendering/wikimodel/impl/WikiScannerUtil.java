@@ -275,11 +275,11 @@ public class WikiScannerUtil
      * @param buf to this buffer all not empty characters will be added
      * @return the new position int the array of characters
      */
-    private static int removeSpaces(char[] array, int pos, StringBuffer buf)
+    private static int removeWhitespaces(char[] array, int pos, StringBuffer buf)
     {
         buf.delete(0, buf.length());
         for (; pos < array.length
-            && (array[pos] == '=' || Character.isSpaceChar(array[pos])); pos++)
+            && (array[pos] == '=' || Character.isWhitespace(array[pos])); pos++)
         {
             if (array[pos] == '=') {
                 buf.append(array[pos]);
@@ -388,7 +388,7 @@ public class WikiScannerUtil
         for (; i < array.length; ) {
             String key = null;
             String value = null;
-            i = removeSpaces(array, i, buf);
+            i = removeWhitespaces(array, i, buf);
             if (i >= array.length) {
                 break;
             }
@@ -398,7 +398,7 @@ public class WikiScannerUtil
                 break;
             }
             if (i > prev) {
-                i = removeSpaces(array, i, buf);
+                i = removeWhitespaces(array, i, buf);
                 if (i >= array.length) {
                     break;
                 }
@@ -411,7 +411,7 @@ public class WikiScannerUtil
             i = getNextToken(array, i, delimiterArray, buf, trim, escapeChar);
             key = buf.toString().trim();
 
-            i = removeSpaces(array, i, buf);
+            i = removeWhitespaces(array, i, buf);
             if (buf.indexOf("=") >= 0) {
                 i = getNextToken(
                     array,

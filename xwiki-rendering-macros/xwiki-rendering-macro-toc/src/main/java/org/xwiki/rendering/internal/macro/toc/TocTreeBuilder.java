@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.BulletedListBlock;
 import org.xwiki.rendering.block.HeaderBlock;
@@ -42,6 +43,8 @@ import org.xwiki.rendering.listener.reference.DocumentResourceReference;
  */
 public class TocTreeBuilder
 {
+    private static final String CLASS_PARAMETER = "class";
+
     private TocBlockFilter tocBlockFilter;
 
     /**
@@ -150,7 +153,11 @@ public class TocTreeBuilder
             tocBlock = currentBlock.getRoot();
 
             // Add CSS class to ease styling.
-            tocBlock.setParameter("class", "wikitoc");
+            tocBlock.setParameter(CLASS_PARAMETER, "wikitoc");
+        }
+
+        if (tocBlock != null) {
+            flagEntriesWithNoDirectChild(tocBlock);
         }
 
         return tocBlock;
@@ -220,5 +227,23 @@ public class TocTreeBuilder
         }
 
         return childListBlock;
+    }
+
+    /**
+     * Add a {@code nodirectchild} class to each entry that has no direct child. This happens when two successive items
+     * have a level difference greater than one. For instance, when a level 1 heading is followed by a level 3 heading.
+     *
+     * @param tocBlock the toc block to analyse for entries with not direct child
+     */
+    private void flagEntriesWithNoDirectChild(Block tocBlock)
+    {
+        tocBlock.getBlocks(block ->
+                    block instanceof ListItemBlock
+                        && block.getChildren().size() == 1
+                        && !(block.getChildren().get(0) instanceof LinkBlock),
+                Block.Axes.DESCENDANT)
+            .forEach(listBlock -> listBlock.setParameter(CLASS_PARAMETER,
+                (StringUtils.defaultIfEmpty(listBlock.getParameter(CLASS_PARAMETER), "")
+                    + " nodirectchild").trim()));
     }
 }

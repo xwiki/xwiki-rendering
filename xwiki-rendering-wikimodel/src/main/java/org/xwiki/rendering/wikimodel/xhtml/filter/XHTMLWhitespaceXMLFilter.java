@@ -70,7 +70,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
             "noscript", "ol", "p", "pre", "script", "table", "ul", "html",
             "body", "td", "tr", "th", "tbody", "head", "li", "thead", "tfoot",
             "caption", "col", "colgroup", "legend", "base", "link", "meta",
-            "style", "title"));
+            "style", "title", "figure", "figcaption"));
 
     /**
      * Non visible elements behave like CDATA and comments: it's part of thewhite space group.

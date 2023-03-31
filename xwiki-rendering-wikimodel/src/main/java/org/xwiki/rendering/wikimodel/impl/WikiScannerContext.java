@@ -106,6 +106,33 @@ public class WikiScannerContext implements IWikiScannerContext
         }
     }
 
+    private class FigureSectionListener extends DefaultSectionListener
+    {
+        @Override
+        public void beginDocument(IPos<WikiParameters> pos)
+        {
+            WikiParameters params = pos.getData();
+            WikiScannerContext.this.fListener.beginFigure(params);
+            beginSection(pos);
+            beginSectionContent(pos);
+        }
+
+        @Override
+        public void endDocument(IPos<WikiParameters> pos)
+        {
+            endSectionContent(pos);
+            endSection(pos);
+            WikiParameters params = pos.getData();
+            WikiScannerContext.this.fListener.endFigure(params);
+        }
+
+        @Override
+        public boolean isFigureDocument()
+        {
+            return true;
+        }
+    }
+
     public WikiScannerContext(IWemListener listener)
     {
         fListener = listener;
@@ -138,27 +165,7 @@ public class WikiScannerContext implements IWikiScannerContext
             context.closeFormat();
         }
 
-        context = new InternalWikiScannerContext(
-            new SectionBuilder<>(new DefaultSectionListener() {
-                @Override
-                public void beginDocument(IPos<WikiParameters> pos)
-                {
-                    WikiParameters params = pos.getData();
-                    WikiScannerContext.this.fListener.beginFigure(params);
-                    beginSection(pos);
-                    beginSectionContent(pos);
-                }
-
-                @Override
-                public void endDocument(IPos<WikiParameters> pos)
-                {
-                    endSectionContent(pos);
-                    endSection(pos);
-                    WikiParameters params = pos.getData();
-                    WikiScannerContext.this.fListener.endFigure(params);
-                }
-            }),
-            this.fListener);
+        context = new InternalWikiScannerContext(new SectionBuilder<>(new FigureSectionListener()), this.fListener);
         this.fStack.push(context);
         context.beginFigure(params);
     }
