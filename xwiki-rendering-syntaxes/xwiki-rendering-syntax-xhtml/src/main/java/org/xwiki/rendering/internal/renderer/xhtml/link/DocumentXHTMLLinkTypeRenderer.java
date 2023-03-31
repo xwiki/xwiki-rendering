@@ -36,7 +36,7 @@ import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
-import org.xwiki.rendering.renderer.reference.link.URITitleGenerator;
+import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
 import org.xwiki.rendering.wiki.WikiModel;
 
 /**
@@ -72,7 +72,7 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      * Used to generate a link title.
      */
     @Inject
-    private URITitleGenerator defaultTitleGenerator;
+    private WantedLinkTitleGenerator defaultTitleGenerator;
 
     @Override
     public void initialize() throws InitializationException
@@ -102,33 +102,35 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
         return this.linkLabelGenerator.generate(reference);
     }
 
-    private URITitleGenerator getTitleGenerator(ResourceReference reference)
+    private WantedLinkTitleGenerator getTitleGenerator(ResourceReference reference)
     {
-        URITitleGenerator titleGenerator = this.defaultTitleGenerator;
-        if (this.componentManager.hasComponent(URITitleGenerator.class, reference.getType().getScheme())) {
-            try {
-                titleGenerator = this.componentManager.getInstance(URITitleGenerator.class,
-                    reference.getType().getScheme());
-            } catch (Exception e) {
-                logger.warn("Error while loading component for generating URI title: [{}]",
-                    ExceptionUtils.getRootCauseMessage(e));
-                logger.debug("Full stack trace: ", e);
+        WantedLinkTitleGenerator titleGenerator = this.defaultTitleGenerator;
+        try {
+            titleGenerator = this.componentManager.getInstance(WantedLinkTitleGenerator.class,
+                reference.getType().getScheme());
+        } catch (Exception e) {
+            String message = "Could not find a [WantedLinkTitleGenerator] component to generate the wanted "
+                + "link title for [{}].";
+            if (logger.isDebugEnabled()) {
+                logger.debug(message, reference, e);
+            } else {
+                logger.warn(String.format("%s: [{}]", message), reference, ExceptionUtils.getRootCauseMessage(e));
             }
         }
         return titleGenerator;
     }
 
     /**
-     * Implementation for computing a document link title when no title has been specified.
-     * Looks for a component implementing URITitleGenerator with a role hint matching the reference scheme.
-     * @param reference the reference of the link for which to compute the label
-     * @return the computed title
-     * @since 15.2RC1
+     * Implementation for computing a wanted link title.
+     * Looks for a component implementing WantedLinkTitleGenerator with a role hint matching the reference scheme.
+     * @param reference the reference for which to compute the title
+     * @return the wanted link title
+     * @since 15.3RC1
      */
-    private String computeCreateTitle(ResourceReference reference)
+    private String computeWantedLinkTitle(ResourceReference reference)
     {
-        URITitleGenerator titleGenerator = getTitleGenerator(reference);
-        return titleGenerator.generateCreateTitle(reference);
+        WantedLinkTitleGenerator titleGenerator = getTitleGenerator(reference);
+        return titleGenerator.generateWantedLinkTitle(reference);
     }
 
     @Override
@@ -167,7 +169,7 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
         } else {
             // The wiki document doesn't exist
             spanAttributes.put(CLASS, "wikicreatelink");
-            spanAttributes.put(TITLE, computeCreateTitle(reference));
+            spanAttributes.put(TITLE, computeWantedLinkTitle(reference));
             anchorAttributes.put(XHTMLLinkRenderer.HREF, this.wikiModel.getDocumentEditURL(reference));
         }
 
