@@ -28,7 +28,7 @@ import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
 /**
  * Generates wanted link titles for resource references.
  * Using this implementation should be avoided, another implementation should be used instead.
- * E.g. XWikiDocumentURITitleGenerator in xwiki-platform which is used to provide proper translations.
+ * E.g. XWikiDocumentWantedLinkTitleGenerator in xwiki-platform which is used to provide translations.
  * This implementation is a fallback and should only be used when xwiki-rendering is running by itself.
  * This implementation uses the reference as the title.
  * @version $Id$
