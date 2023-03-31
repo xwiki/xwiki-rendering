@@ -23,29 +23,30 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.renderer.reference.link.URITitleGenerator;
+import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
 
 /**
- * Generate link titles for DOC URIs.
- *
+ * Generates wanted link titles for resource references.
+ * Using this implementation should be avoided, another implementation should be used instead.
+ * E.g. XWikiDocumentURITitleGenerator in xwiki-platform which is used to provide proper translations.
+ * This implementation is a fallback and should only be used when xwiki-rendering is running by itself.
+ * This implementation uses the reference as the title.
  * @version $Id$
- * @since 15.2RC1
+ * @since 15.3RC1
  */
-@Component(hints = {"doc", "page"})
+@Component
 @Singleton
-public class DefaultDocumentURITitleGenerator implements URITitleGenerator
+public class DefaultWantedLinkTitleGenerator implements WantedLinkTitleGenerator
 {
-    private static final String DEFAULT_TITLE = "Create page: %s";
+    private static final String DEFAULT_TITLE = "Create resource: %s";
 
     /**
-     * Generate the title of a Document URI. Using this implementation should be avoided, another implementation should
-     * be used instead, e.g. XWikiDocumentURITitleGenerator in xwiki-platform which is used to provide proper
-     * translations. This implementation should only be used when xwiki-rendering is running by itself.
-     * @param reference the reference pointing to a document URI for which we want to generate a create link title
-     * @return the URI title to display when rendering a document reference.
+     * Generates wanted link titles for resource references.
+     * @param reference the reference for which we want to generate a wanted link title
+     * @return the wanted link title used when rendering a resource reference.
      */
     @Override
-    public String generateCreateTitle(ResourceReference reference)
+    public String generateWantedLinkTitle(ResourceReference reference)
     {
         return String.format(DEFAULT_TITLE, reference.getReference());
     }
