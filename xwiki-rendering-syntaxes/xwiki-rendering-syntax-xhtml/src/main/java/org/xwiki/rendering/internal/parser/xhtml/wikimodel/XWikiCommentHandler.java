@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.xwiki.component.manager.ComponentLookupException;
@@ -112,18 +113,11 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
     private void handleMacroCommentStart(String content, TagStack stack)
     {
-        boolean shouldIgnoreAll;
 
-        // true if we are already in a non generated content block
-        boolean inNonGeneratedContent = stack.getStackParameter(NON_GENERATED_CONTENT_STACK) != null
-            && (Boolean) stack.getStackParameter(NON_GENERATED_CONTENT_STACK);
+        boolean inNonGeneratedContent = isInNonGeneratedContent(stack);
 
         // if we are in a macro but not in a non generated content, we should ignore all
-        if (stack.getStackParameter(MACRO_INFO) != null && !inNonGeneratedContent) {
-            shouldIgnoreAll = true;
-        } else {
-            shouldIgnoreAll = false;
-        }
+        boolean shouldIgnoreAll = stack.getStackParameter(MACRO_INFO) != null && !inNonGeneratedContent;
 
         MacroInfo macroInfo = new MacroInfo(content);
         stack.pushStackParameter(MACRO_INFO, macroInfo);
@@ -181,6 +175,26 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
                 return result;
             }, true));
         }
+    }
+
+    private boolean isInNonGeneratedContent(TagStack stack)
+    {
+        // True if we are already in a non generated content block.
+        boolean inNonGeneratedContent = stack.getStackParameter(NON_GENERATED_CONTENT_STACK) != null
+            && (boolean) stack.getStackParameter(NON_GENERATED_CONTENT_STACK);
+
+        // If a stack of parameters exists, climb up the stack to find if a parent is non-generated.
+        // If any parent is non generated, we consider this element non generated as well.
+        Iterator<Object> stackIter = stack.getStackParameterIterator(NON_GENERATED_CONTENT_STACK);
+        if (stackIter != null) {
+            while (stackIter.hasNext()) {
+                inNonGeneratedContent = (boolean) stackIter.next();
+                if (inNonGeneratedContent) {
+                    break;
+                }
+            }
+        }
+        return inNonGeneratedContent;
     }
 
     private void handleMacroCommentStop(TagStack stack)
