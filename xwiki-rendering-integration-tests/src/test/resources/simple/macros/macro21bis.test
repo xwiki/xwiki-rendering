@@ -1,0 +1,49 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test nested macro with a non generated content in the children macro which need to be ignored as its parent doesn't say it's a non generated content.
+.#-----------------------------------------------------
+<p>First paragraph.</p>
+<!--startmacro:outertestcontentmacro|-||-|Outer content-->
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
+<!--startmacro:testcontentmacro|-||-|First content-->
+<div>
+Some data to ignore
+<!--startmacro:testcontentmacro|-||-|Second content-->
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-syntax="xwiki/2.0" class="xwiki-metadata-container">
+<strong>Content ignored because the top macro doesn't have a non generated content</strong>
+</div>
+<!--stopmacro-->
+</div>
+<div>
+Some other data to ignore
+</div>
+<!--stopmacro-->
+</div>
+<!--stopmacro-->
+
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [First]
+onSpace
+onWord [paragraph]
+onSpecialSymbol [.]
+endParagraph
+onMacroStandalone [testcontentmacro] [] [First content]
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+First paragraph.
+
+{{outertestcontentmacro}}
+{{testcontentmacro}}
+**Content ignored because the top macro doesn't have a non generated content**
+{{/testcontentmacro}}
+
+{{testcontentmacro}}
+First content
+{{/testcontentmacro}}
+{{/outertestcontentmacro}}
