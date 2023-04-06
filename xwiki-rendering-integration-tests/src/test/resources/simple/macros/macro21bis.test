@@ -31,7 +31,9 @@ onSpace
 onWord [paragraph]
 onSpecialSymbol [.]
 endParagraph
-onMacroStandalone [testcontentmacro] [] [First content]
+onMacroStandalone [outertestcontentmacro] [] [{{testcontentmacro}}
+First content
+{{/testcontentmacro}}]
 endDocument
 .#-----------------------------------------------------
 .expect|xwiki/2.0
