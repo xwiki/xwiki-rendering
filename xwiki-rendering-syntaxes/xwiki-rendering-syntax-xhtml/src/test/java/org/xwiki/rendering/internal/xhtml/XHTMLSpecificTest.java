@@ -27,7 +27,7 @@ import org.xwiki.rendering.test.integration.junit5.RenderingTests;
  *
  * @version $Id$
  */
-@RenderingTests.Scope(value="xhtml10.specific",pattern = "macro3.test")
+@RenderingTests.Scope(value="xhtml10.specific")
 public class XHTMLSpecificTest implements RenderingTests
 {
 }

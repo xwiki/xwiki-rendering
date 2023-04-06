@@ -21,7 +21,9 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -117,6 +119,13 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         // true if we are already in a non generated content block
         boolean inNonGeneratedContent = stack.getStackParameter(NON_GENERATED_CONTENT_STACK) != null
             && (Boolean) stack.getStackParameter(NON_GENERATED_CONTENT_STACK);
+
+        System.out.println("handleMacroCommentStart");
+        System.out.println(stack.getStackParameter(NON_GENERATED_CONTENT_STACK));
+        Iterator<Object> stackParameterIterator = stack.getStackParameterIterator(NON_GENERATED_CONTENT_STACK);
+        if(stackParameterIterator != null) {
+            stackParameterIterator.forEachRemaining(o -> System.out.println(o));
+        }
 
         // if we are in a macro but not in a non generated content, we should ignore all
         if (stack.getStackParameter(MACRO_INFO) != null && !inNonGeneratedContent) {

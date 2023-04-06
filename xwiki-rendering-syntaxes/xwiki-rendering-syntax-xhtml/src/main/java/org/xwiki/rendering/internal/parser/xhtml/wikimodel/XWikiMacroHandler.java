@@ -125,6 +125,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
         boolean withNonGeneratedContent = false;
+        boolean stackWithNonGeneratedContent = globalStackParam(context);
         if (isMetaDataElement(params)) {
             MetaData metaData = createMetaData(params);
 
@@ -166,7 +167,8 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             }
         }
 
-        context.getTagStack().pushStackParameter(NON_GENERATED_CONTENT_STACK, withNonGeneratedContent);
+        context.getTagStack()
+            .pushStackParameter(NON_GENERATED_CONTENT_STACK, withNonGeneratedContent || stackWithNonGeneratedContent);
         return withNonGeneratedContent;
     }
 
@@ -223,5 +225,17 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         }
 
         return nonGeneratedContent;
+    }
+
+    private boolean globalStackParam(TagContext context)
+    {
+        Object stackParameter = context.getTagStack().getStackParameter(NON_GENERATED_CONTENT_STACK);
+        boolean stackWithNonGeneratedContent;
+        if (stackParameter != null) {
+            stackWithNonGeneratedContent = (boolean) stackParameter;
+        } else {
+            stackWithNonGeneratedContent = false;
+        }
+        return stackWithNonGeneratedContent;
     }
 }
