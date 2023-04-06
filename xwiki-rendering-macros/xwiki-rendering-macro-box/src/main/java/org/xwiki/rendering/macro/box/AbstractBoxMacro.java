@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.macro.box;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,7 +32,6 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.ImageBlock;
-import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.NewLineBlock;
 import org.xwiki.rendering.listener.Format;
@@ -262,12 +260,6 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
             }
 
             List<Block> contentBlocks = parseContent(parameters, content, context);
-
-            List<Block> objects = new ArrayList<>();
-            objects.add(new MacroBlock("figure", Map.of(), "GENERATED", false));
-            objects.addAll(contentBlocks);
-
-            contentBlocks = objects;
 
             // If the result of the execution is null, return null
             if (contentBlocks == null) {

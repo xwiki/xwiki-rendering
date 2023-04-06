@@ -40,10 +40,6 @@ First paragraph.
 
 {{outertestcontentmacro}}
 {{testcontentmacro}}
-**Content ignored because the top macro doesn't have a non generated content**
-{{/testcontentmacro}}
-
-{{testcontentmacro}}
 First content
 {{/testcontentmacro}}
 {{/outertestcontentmacro}}

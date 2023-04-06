@@ -23,7 +23,6 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -114,25 +113,12 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
     private void handleMacroCommentStart(String content, TagStack stack)
     {
-        boolean shouldIgnoreAll;
 
-        // true if we are already in a non generated content block
-        boolean inNonGeneratedContent = stack.getStackParameter(NON_GENERATED_CONTENT_STACK) != null
-            && (Boolean) stack.getStackParameter(NON_GENERATED_CONTENT_STACK);
-
-        System.out.println("handleMacroCommentStart");
-        System.out.println(stack.getStackParameter(NON_GENERATED_CONTENT_STACK));
-        Iterator<Object> stackParameterIterator = stack.getStackParameterIterator(NON_GENERATED_CONTENT_STACK);
-        if(stackParameterIterator != null) {
-            stackParameterIterator.forEachRemaining(o -> System.out.println(o));
-        }
+        boolean inNonGeneratedContent = isInNonGeneratedContent(stack);
 
         // if we are in a macro but not in a non generated content, we should ignore all
-        if (stack.getStackParameter(MACRO_INFO) != null && !inNonGeneratedContent) {
-            shouldIgnoreAll = true;
-        } else {
-            shouldIgnoreAll = false;
-        }
+        boolean shouldIgnoreAll =
+            stack.getStackParameter(MACRO_INFO) != null && !inNonGeneratedContent || stack.shouldIgnoreElements();
 
         MacroInfo macroInfo = new MacroInfo(content);
         stack.pushStackParameter(MACRO_INFO, macroInfo);
@@ -141,8 +127,8 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
         if (shouldIgnoreAll) {
             stack.setIgnoreElements();
 
-        // we ignore elements until we get a non generated content: then the rule will be deactivated
-        // see IgnoreElementRule
+            // we ignore elements until we get a non generated content: then the rule will be deactivated
+            // see IgnoreElementRule
         } else {
             stack.pushIgnoreElementRule(new IgnoreElementRule(ignoreElementRule -> {
                 boolean result = false;
@@ -190,6 +176,27 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
                 return result;
             }, true));
         }
+    }
+
+    private boolean isInNonGeneratedContent(TagStack stack)
+    {
+        // True if we are already in a non generated content block.
+        boolean isInStack = stack.getStackParameter(NON_GENERATED_CONTENT_STACK) != null;
+        boolean inNonGeneratedContent = false;
+        if (isInStack) {
+            inNonGeneratedContent = (boolean) stack.getStackParameter(NON_GENERATED_CONTENT_STACK);
+        }
+
+        if (!inNonGeneratedContent)
+        // If a stack of parameters exists, climb up the stack to find if a parent is non-generated.
+        // If any parent is non generated, we consider this element non generated as well.
+        {
+            Iterator<Object> stackIter = stack.getStackParameterIterator(NON_GENERATED_CONTENT_STACK);
+            if (stackIter != null && (stackIter.hasNext())) {
+                inNonGeneratedContent = (boolean) stackIter.next();
+            }
+        }
+        return inNonGeneratedContent;
     }
 
     private void handleMacroCommentStop(TagStack stack)

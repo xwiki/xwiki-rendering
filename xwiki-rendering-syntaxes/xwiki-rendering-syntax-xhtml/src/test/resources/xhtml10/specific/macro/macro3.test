@@ -31,8 +31,15 @@ onWord [aaaa]
 onSpace
 onMacroInline [info] [] [beginDocument [[syntax]=[XHTML 1.0]]
 onWord [bbb]
+onSpace
 endDocument [[syntax]=[XHTML 1.0]]]
 endFormat [NONE] [[class]=[someclass]]
 endParagraph
 endDocument [[syntax]=[XHTML 1.0]]]
 endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{info}}
+(% class="someclass" %)aaaa {{info}}bbb {{/info}}
+{{/info}}
