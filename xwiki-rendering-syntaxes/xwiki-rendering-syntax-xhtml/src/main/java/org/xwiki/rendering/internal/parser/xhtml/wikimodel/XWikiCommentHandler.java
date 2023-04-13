@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.Map;
@@ -73,9 +74,9 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
     private Deque<String> commentContentStack = new ArrayDeque<String>();
 
     /**
-     * @since 2.5RC1
      * @todo Remove the need to pass a Parser when WikiModel implements support for wiki syntax in links. See
-     *       http://code.google.com/p/wikimodel/issues/detail?id=87
+     *     http://code.google.com/p/wikimodel/issues/detail?id=87
+     * @since 2.5RC1
      */
     public XWikiCommentHandler(ComponentManager componentManager, XHTMLParser parser,
         ResourceReferenceParser xhtmlMarkerResourceReferenceParser)
@@ -114,6 +115,7 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
     private void handleMacroCommentStart(String content, TagStack stack)
     {
 
+        System.out.println("handleMacroCommentStart \n------\n" + content + "\n------");
         boolean inNonGeneratedContent = isInNonGeneratedContent(stack);
 
         // if we are in a macro but not in a non generated content, we should ignore all
@@ -180,20 +182,38 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
     private boolean isInNonGeneratedContent(TagStack stack)
     {
+
+        System.out.println(
+            "getStackParameter " + stack.getStackParameter(NON_GENERATED_CONTENT_STACK)
+                + " (" + stack + ")");
+        if (stack.getStackParameterIterator(NON_GENERATED_CONTENT_STACK) != null) {
+            Iterator<Object> itt = stack.getStackParameterIterator(NON_GENERATED_CONTENT_STACK);
+            System.out.println("getStackParameterIterator");
+            while (itt.hasNext()) {
+                System.out.println(" - " + itt.next());
+            }
+        }
+
         // True if we are already in a non generated content block.
         boolean isInStack = stack.getStackParameter(NON_GENERATED_CONTENT_STACK) != null;
         boolean inNonGeneratedContent = false;
         if (isInStack) {
             inNonGeneratedContent = (boolean) stack.getStackParameter(NON_GENERATED_CONTENT_STACK);
+//            inNonGeneratedContent = (boolean) ((Object[]) stack.getStackParameter(NON_GENERATED_CONTENT_STACK))[0];
         }
 
         if (!inNonGeneratedContent)
-        // If a stack of parameters exists, climb up the stack to find if a parent is non-generated.
+        // If a stack of parameters exists, climb up the stack one level up to find if a parent is non-generated.
         // If any parent is non generated, we consider this element non generated as well.
         {
             Iterator<Object> stackIter = stack.getStackParameterIterator(NON_GENERATED_CONTENT_STACK);
-            if (stackIter != null && (stackIter.hasNext())) {
-                inNonGeneratedContent = (boolean) stackIter.next();
+            if (stackIter != null) {
+                while (stackIter.hasNext()) {
+                    inNonGeneratedContent = (boolean)  stackIter.next();
+                    if (inNonGeneratedContent) {
+                        break;
+                    }
+                }
             }
         }
         return inNonGeneratedContent;
