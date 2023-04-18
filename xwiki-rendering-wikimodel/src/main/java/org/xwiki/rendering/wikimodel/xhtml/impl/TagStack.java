@@ -327,13 +327,7 @@ public class TagStack
 
     public Object getStackParameter(String name)
     {
-        Map<String, Object> stackParameters = getStackParameters();
-        Deque<Object> set;
-        if (stackParameters == null) {
-            set = new ArrayDeque<>();
-        } else {
-            set = (Deque<Object>) stackParameters.get(name);
-        }
+        Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
         return (set == null) ? null : set.peek();
     }
 

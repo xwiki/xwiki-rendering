@@ -15,6 +15,13 @@ onMacroStandalone [figure] [] [beginDocument [[syntax]=[XHTML 1.0]]
 beginParagraph [[a]=[1]]
 onSpace
 endParagraph [[a]=[1]]
+onMacroStandalone [info] [] [beginDocument [[syntax]=[XHTML 1.0]]
+onMacroStandalone [info] [] [beginDocument [[syntax]=[XHTML 1.0]]
+beginParagraph
+onWord [inner]
+endParagraph
+endDocument [[syntax]=[XHTML 1.0]]]
+endDocument [[syntax]=[XHTML 1.0]]]
 onMacroStandalone [toc] []
 endDocument [[syntax]=[XHTML 1.0]]]
 endDocument
@@ -24,6 +31,12 @@ endDocument
 {{figure}}
 (% a="1" %)
  
+
+{{info}}
+{{info}}
+inner
+{{/info}}
+{{/info}}
 
 {{toc/}}
 {{/figure}}
