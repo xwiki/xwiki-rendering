@@ -125,6 +125,6 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
             }
         }
 
-        return this.contentParser.parse(content, context, true, true).getChildren();
+        return this.contentParser.parse(content, context, false, true).getChildren();
     }
 }
