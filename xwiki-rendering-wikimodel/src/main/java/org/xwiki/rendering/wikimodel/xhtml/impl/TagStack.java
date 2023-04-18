@@ -20,7 +20,6 @@
 package org.xwiki.rendering.wikimodel.xhtml.impl;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -89,7 +88,6 @@ public class TagStack
 
     public TagStack(WikiScannerContext context, Map<String, TagHandler> handlers, CommentHandler commentHandler)
     {
-        System.out.println("new TagStack " + this);
         fMap = handlers;
         fScannerContext.push(context);
         fCommentHandler = commentHandler;
@@ -357,11 +355,6 @@ public class TagStack
 
     public void pushStackParameter(String name, Object data)
     {
-        if (name.equals("nonGeneratedContentStack")) {
-            System.out.println(
-                "pushStackParameter " + name + " = " +  data + "(" + this + ")");
-        }
-
         Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
         if (set == null) {
             getStackParameters().put(name, set = new LinkedList<Object>());
@@ -372,9 +365,6 @@ public class TagStack
 
     public Object popStackParameter(String name)
     {
-        if (name.equals("nonGeneratedContentStack")) {
-            System.out.println("pop " + name);
-        }
         return ((Deque<Object>) getStackParameters().get(name)).pop();
     }
 
@@ -471,6 +461,7 @@ public class TagStack
      * Push a new rule to ignore elements.
      *
      * @param ignoreElementRule the rule to be used now.
+     *
      * @since 10.10RC1
      */
     public void pushIgnoreElementRule(IgnoreElementRule ignoreElementRule)
@@ -482,6 +473,7 @@ public class TagStack
      * Retrieve the last rule to ignore element.
      *
      * @return the last rule that was in the stack.
+     *
      * @since 10.10RC1
      */
     public IgnoreElementRule popIgnoreElementRule()
@@ -494,6 +486,7 @@ public class TagStack
      *
      * @param fPeek the tag context to match with a rule for activating it.
      * @param begin if true, then the method is called with a begin element.
+     *
      * @since 10.10RC1
      */
     private void switchIgnoreRule(TagContext fPeek, boolean begin)

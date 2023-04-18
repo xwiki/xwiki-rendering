@@ -40,7 +40,6 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener.createMetaData;
-import static org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener.isMetaDataElement;
 
 /**
  * This class aims at handling specific macro metadata.
@@ -125,7 +124,6 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
         boolean withNonGeneratedContent = false;
-//        if (isMetaDataElement(params)) {
         MetaData metaData = createMetaData(params);
 
         if (metaData.contains(MetaData.SYNTAX)) {
@@ -164,10 +162,8 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                     currentSyntaxParameter, e);
             }
         }
-//        }
 
         context.getTagStack().pushStackParameter(NON_GENERATED_CONTENT_STACK, withNonGeneratedContent);
-//        context.getTagStack().pushStackParameter(NON_GENERATED_CONTENT_STACK, new Object[] { withNonGeneratedContent, "macroHandler" });
         return withNonGeneratedContent;
     }
 
