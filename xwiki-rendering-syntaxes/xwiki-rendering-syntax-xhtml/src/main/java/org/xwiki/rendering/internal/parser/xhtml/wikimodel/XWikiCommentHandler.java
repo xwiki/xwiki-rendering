@@ -76,8 +76,7 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
     /**
      * @since 2.5RC1
      * @todo Remove the need to pass a Parser when WikiModel implements support for wiki syntax in links. See
-     *     http://code.google.com/p/wikimodel/issues/detail?id=87
-     * @since 2.5RC1
+     *       http://code.google.com/p/wikimodel/issues/detail?id=87
      */
     public XWikiCommentHandler(ComponentManager componentManager, XHTMLParser parser,
         ResourceReferenceParser xhtmlMarkerResourceReferenceParser)
@@ -299,20 +298,12 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
     {
         Optional<Iterator<Object>> stackParameterIterator =
             Optional.ofNullable(stack.getStackParameterIterator(NON_GENERATED_CONTENT_STACK));
-//        stackParameterIterator.ifPresentOrElse(itt -> {
-//            System.out.print("Stack: [");
-//            while (itt.hasNext()) {
-//                System.out.print(itt.next() + ", ");
-//            }
-//            System.out.println("]");
-//        }, () -> {
-//            System.out.println("Empty stack");
-//        });
         boolean inNonGeneratedContent =
             stackParameterIterator
                 .map(iterator -> {
                     while (iterator.hasNext()) {
                         NonGeneratedContentStackValue value = (NonGeneratedContentStackValue) iterator.next();
+                        // Stops at the first value which is associated with a macro.
                         if (value.isMetaDataElement) {
                             return value.nonGeneratedContent;
                         }
@@ -320,8 +311,7 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
                     return false;
                 }).orElse(false);
 
-        // if we are in a macro but not in a non generated content, we should ignore all
-        boolean b = stack.getStackParameter(MACRO_INFO) != null && !inNonGeneratedContent;
-        return b;
+        // If we are in a macro but not in a non generated content, we should ignore all
+        return stack.getStackParameter(MACRO_INFO) != null && !inNonGeneratedContent;
     }
 }
