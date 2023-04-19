@@ -23,7 +23,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
 
-import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.wiki.WikiModel;
@@ -50,13 +49,6 @@ public abstract class AbstractResourceReferenceParser implements ResourceReferen
      */
     protected boolean isInWikiMode()
     {
-        boolean result = true;
-        try {
-            this.componentManagerProvider.get().getInstance(WikiModel.class);
-        } catch (ComponentLookupException e) {
-            result = false;
-        }
-
-        return result;
+        return this.componentManagerProvider.get().hasComponent(WikiModel.class);
     }
 }
