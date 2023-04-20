@@ -58,8 +58,7 @@ public class XWikiDivTagHandler extends DivisionTagHandler implements XWikiWikiM
 
             // in case of beginDocument we use a new stack of parameter, so we need to put in it the
             // NON_GENERATED_CONTENT_STACK value, as it will be popped in end()
-            context.getTagStack()
-                .pushStackParameter(NON_GENERATED_CONTENT_STACK, new NonGeneratedContentStackValue(false, false));
+            context.getTagStack().pushStackParameter(NON_GENERATED_CONTENT_STACK, false);
         }
     }
 

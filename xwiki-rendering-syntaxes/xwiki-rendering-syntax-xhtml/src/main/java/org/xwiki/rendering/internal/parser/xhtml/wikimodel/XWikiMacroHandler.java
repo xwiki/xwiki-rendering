@@ -1,4 +1,4 @@
- /*
+/*
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  *
@@ -125,8 +125,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
         boolean withNonGeneratedContent = false;
-        boolean metaDataElement = isMetaDataElement(params);
-        if (metaDataElement) {
+        if (isMetaDataElement(params)) {
             MetaData metaData = createMetaData(params);
 
             if (metaData.contains(MetaData.SYNTAX)) {
@@ -167,8 +166,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
             }
         }
 
-        context.getTagStack().pushStackParameter(NON_GENERATED_CONTENT_STACK,
-            new NonGeneratedContentStackValue(withNonGeneratedContent, metaDataElement));
+        context.getTagStack().pushStackParameter(NON_GENERATED_CONTENT_STACK, withNonGeneratedContent);
         return withNonGeneratedContent;
     }
 
@@ -197,8 +195,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
      */
     public boolean handleEnd(TagContext context)
     {
-        boolean nonGeneratedContent = ((NonGeneratedContentStackValue) context.getTagStack()
-            .popStackParameter(NON_GENERATED_CONTENT_STACK)).nonGeneratedContent;
+        boolean nonGeneratedContent = (boolean) context.getTagStack().popStackParameter(NON_GENERATED_CONTENT_STACK);
         MacroInfo macroInfo = (MacroInfo) context.getTagStack().getStackParameter(MACRO_INFO);
 
         if (nonGeneratedContent && macroInfo != null) {
