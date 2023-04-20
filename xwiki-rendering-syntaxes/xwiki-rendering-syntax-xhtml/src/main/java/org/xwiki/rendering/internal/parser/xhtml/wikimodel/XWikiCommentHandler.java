@@ -21,9 +21,7 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Optional;
 
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -114,7 +112,9 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
     private void handleMacroCommentStart(String content, TagStack stack)
     {
-        boolean shouldIgnoreAll = shouldIgnoreAll(stack);
+        // If we're currently ignoring elements, the whole macro needs to be ignored regardless if it contains
+        // non-generated content or not.
+        boolean shouldIgnoreAll = stack.shouldIgnoreElements();
 
         MacroInfo macroInfo = new MacroInfo(content);
         stack.pushStackParameter(MACRO_INFO, macroInfo);
@@ -292,26 +292,5 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
             label = reference.getReference();
         }
         return label;
-    }
-
-    private boolean shouldIgnoreAll(TagStack stack)
-    {
-        Optional<Iterator<Object>> stackParameterIterator =
-            Optional.ofNullable(stack.getStackParameterIterator(NON_GENERATED_CONTENT_STACK));
-        boolean inNonGeneratedContent =
-            stackParameterIterator
-                .map(iterator -> {
-                    while (iterator.hasNext()) {
-                        NonGeneratedContentStackValue value = (NonGeneratedContentStackValue) iterator.next();
-                        // Stops at the first value which is associated with a macro.
-                        if (value.isMetaDataElement) {
-                            return value.nonGeneratedContent;
-                        }
-                    }
-                    return false;
-                }).orElse(false);
-
-        // If we are in a macro but not in a non generated content, we should ignore all
-        return stack.getStackParameter(MACRO_INFO) != null && !inNonGeneratedContent;
     }
 }
