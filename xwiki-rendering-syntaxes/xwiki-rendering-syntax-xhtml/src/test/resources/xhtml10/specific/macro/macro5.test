@@ -1,0 +1,31 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Macro with other macros inside
+.#-----------------------------------------------------
+<!--startmacro:info|-||-|Ignore me--><div
+data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;"
+class="xwiki-metadata-container"><!--startmacro:toc|-|--><ul><li>aaaaa</li></ul><!--stopmacro--></div><!--stopmacro--><div class="wikimodel-emptyline"></div><h1 id="Haaaaa2" class="wikigeneratedid"><span>aaaaa3</span></h1>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onMacroStandalone [info] [] [beginDocument [[syntax]=[XHTML 1.0]]
+onMacroStandalone [toc] []
+endDocument [[syntax]=[XHTML 1.0]]]
+onEmptyLines [1]
+beginSection
+beginHeader [1, Haaaaa3]
+onWord [aaaaa3]
+endHeader [1, Haaaaa3]
+endSection
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{info}}
+{{toc/}}
+{{/info}}
+
+
+= aaaaa3 =
