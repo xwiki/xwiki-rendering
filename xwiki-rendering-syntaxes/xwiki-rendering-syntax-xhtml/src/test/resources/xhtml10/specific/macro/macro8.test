@@ -3,7 +3,10 @@
 .input|xhtml/1.0
 .# Macro with other macros inside
 .#-----------------------------------------------------
-<p>First paragraph</p><!--startmacro:info|-||-|{{info}}Ignore me.{{/info}}Ignore me too--><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p><!--startmacro:info|-||-|Ignore me.--><!--stopmacro--><br />Ignore me too</p></div><!--stopmacro-->
+<p>First paragraph</p><!--startmacro:info|-||-|{{info}}Ignore me.{{/info}}Ignore me too--><div
+data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;"
+class="xwiki-metadata-container"><p><!--startmacro:info|-||-|Show me.--><!--stopmacro--><br
+/>Show me too</p></div><!--stopmacro-->
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -15,9 +18,9 @@ onWord [paragraph]
 endParagraph
 onMacroStandalone [info] [] [beginDocument [[syntax]=[XHTML 1.0]]
 beginParagraph
-onMacroInline [info] [] [Ignore me.]
+onMacroInline [info] [] [Show me.]
 onNewLine
-onWord [Ignore]
+onWord [Show]
 onSpace
 onWord [me]
 onSpace
@@ -31,6 +34,6 @@ endDocument
 First paragraph
 
 {{info}}
-{{info}}Ignore me.{{/info}}
-Ignore me too
+{{info}}Show me.{{/info}}
+Show me too
 {{/info}}

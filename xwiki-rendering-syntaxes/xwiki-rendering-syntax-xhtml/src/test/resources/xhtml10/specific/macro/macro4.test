@@ -3,9 +3,9 @@
 .input|xhtml/1.0
 .# Test nested macro following inline parameters.
 .#-----------------------------------------------------
-<!--startmacro:paragraphs-numbering|-||-|= h1 =
+<!--startmacro:paragraphs-numbering|-||-|= OldH1 =
 
-= h2 {{reference id='Hh1'/}} =-->
+= h2 {{reference id='HOldH1'/}} =-->
 <div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container">
   <h1 id="Hh1" class="wikigeneratedid wikigeneratedheader">
     <span>h1</span>
