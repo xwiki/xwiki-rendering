@@ -1,0 +1,39 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Macro with other macros inside
+.#-----------------------------------------------------
+<p>First paragraph</p><!--startmacro:info|-||-|{{info}}Ignore me.{{/info}}Ignore me too--><div
+data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;"
+class="xwiki-metadata-container"><p><!--startmacro:info|-||-|Show me.--><!--stopmacro--><br
+/>Show me too</p></div><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [First]
+onSpace
+onWord [paragraph]
+endParagraph
+onMacroStandalone [info] [] [beginDocument [[syntax]=[XHTML 1.0]]
+beginParagraph
+onMacroInline [info] [] [Show me.]
+onNewLine
+onWord [Show]
+onSpace
+onWord [me]
+onSpace
+onWord [too]
+endParagraph
+endDocument [[syntax]=[XHTML 1.0]]]
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+First paragraph
+
+{{info}}
+{{info}}Show me.{{/info}}
+Show me too
+{{/info}}

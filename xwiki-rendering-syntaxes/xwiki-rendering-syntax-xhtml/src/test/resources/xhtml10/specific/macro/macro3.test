@@ -1,0 +1,45 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test nested macro following inline parameters.
+.#-----------------------------------------------------
+<!--startmacro:info|-||-|(% class="someclass" %)aaaa \{\{info}}bbb\{\{/info}}-->
+<div class="box infomessage">
+  <div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;"
+      class="xwiki-metadata-container">
+    <p>
+      <span class="someclass">
+        aaaa <!--startmacro:info|-||-|bbb-->
+        <span class="box infomessage">
+          <span data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;"
+              class="xwiki-metadata-container">bbb </span>
+        </span>
+        <!--stopmacro-->
+      </span>
+    </p>
+  </div>
+</div>
+<!--stopmacro-->
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onMacroStandalone [info] [] [beginDocument [[syntax]=[XHTML 1.0]]
+beginParagraph
+beginFormat [NONE] [[class]=[someclass]]
+onWord [aaaa]
+onSpace
+onMacroInline [info] [] [beginDocument [[syntax]=[XHTML 1.0]]
+onWord [bbb]
+onSpace
+endDocument [[syntax]=[XHTML 1.0]]]
+endFormat [NONE] [[class]=[someclass]]
+endParagraph
+endDocument [[syntax]=[XHTML 1.0]]]
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{info}}
+(% class="someclass" %)aaaa {{info}}bbb {{/info}}
+{{/info}}
