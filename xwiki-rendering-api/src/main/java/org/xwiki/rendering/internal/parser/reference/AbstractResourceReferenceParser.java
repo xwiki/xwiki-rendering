@@ -35,13 +35,16 @@ import org.xwiki.rendering.wiki.WikiModel;
  */
 public abstract class AbstractResourceReferenceParser implements ResourceReferenceParser
 {
+    @Inject
+    @Named("context")
+    protected Provider<ComponentManager> componentManagerProvider;
+
     /**
      * Used to verify if we're in wiki mode or not by looking up an implementation of
      * {@link org.xwiki.rendering.wiki.WikiModel}.
      */
     @Inject
-    @Named("context")
-    protected Provider<ComponentManager> componentManagerProvider;
+    protected Provider<WikiModel> wikiModelProvider;
 
     /**
      * @return true if we're in wiki mode (i.e. an implementing class for {@link org.xwiki.rendering.wiki.WikiModel}
@@ -49,6 +52,6 @@ public abstract class AbstractResourceReferenceParser implements ResourceReferen
      */
     protected boolean isInWikiMode()
     {
-        return this.componentManagerProvider.get().hasComponent(WikiModel.class);
+        return this.wikiModelProvider.get() != null;
     }
 }
