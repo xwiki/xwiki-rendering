@@ -386,6 +386,7 @@ public interface Listener extends LinkListener, ImageListener
      * Start of a figure.
      *
      * @param parameters a generic list of parameters for the figure
+     * @since 10.2
      */
     default void beginFigure(Map<String, String> parameters)
     {
@@ -396,6 +397,7 @@ public interface Listener extends LinkListener, ImageListener
      * End of a figure.
      *
      * @param parameters a generic list of parameters for the figure
+     * @since 10.2
      */
     default void endFigure(Map<String, String> parameters)
     {
@@ -406,6 +408,7 @@ public interface Listener extends LinkListener, ImageListener
      * Start of a figure caption.
      *
      * @param parameters a generic list of parameters for the figure
+     * @since 10.2
      */
     default void beginFigureCaption(Map<String, String> parameters)
     {
@@ -416,6 +419,7 @@ public interface Listener extends LinkListener, ImageListener
      * End of a figure caption.
      *
      * @param parameters a generic list of parameters for the figure
+     * @since 10.2
      */
     default void endFigureCaption(Map<String, String> parameters)
     {
