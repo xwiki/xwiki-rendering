@@ -276,7 +276,19 @@
                  </revapi.differences>
             -->
 
-            
+            <revapi.differences>
+              <differences>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.annotation.added</code>
+                  <old>method void org.xwiki.rendering.macro.toc.TocMacroParameters::setNumbered(boolean)</old>
+                  <new>method void org.xwiki.rendering.macro.toc.TocMacroParameters::setNumbered(boolean)</new>
+                  <annotation>@org.xwiki.properties.annotation.PropertyAdvanced</annotation>
+                  <criticality>allowed</criticality>
+                  <justification>Binary compatible</justification>
+                </item>
+              </differences>
+            </revapi.differences>
           </analysisConfiguration>
         </configuration>
       </plugin>
