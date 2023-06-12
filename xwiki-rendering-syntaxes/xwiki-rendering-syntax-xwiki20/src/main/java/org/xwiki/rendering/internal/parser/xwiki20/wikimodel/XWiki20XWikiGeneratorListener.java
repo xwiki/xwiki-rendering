@@ -44,7 +44,7 @@ import org.xwiki.rendering.wikimodel.WikiReference;
  * WikiModel listener bridge for the XWiki Syntax 2.0.
  *
  * @version $Id$
- * @since 14.10.12
+ * @since 14.10.13
  * @since 15.5RC1
  */
 public class XWiki20XWikiGeneratorListener extends DefaultXWikiGeneratorListener
