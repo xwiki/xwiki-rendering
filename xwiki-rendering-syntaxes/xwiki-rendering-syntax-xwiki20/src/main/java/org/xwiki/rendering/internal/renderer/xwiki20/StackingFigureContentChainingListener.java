@@ -33,7 +33,8 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.syntax.Syntax;
 
 /**
- * Chaining listener that detects if a figure just wraps a single image.
+ * Chaining listener that detects if a figure just wraps a single image, possibly wrapped in a link, and optionally a
+ * caption.
  *
  * @version $Id$
  * @since 14.1RC1
@@ -50,11 +51,17 @@ public class StackingFigureContentChainingListener extends LookaheadChainingList
 
     private int figureDepth;
 
+    private int numLinks;
+
     private boolean cleanImageFigure;
 
     private ResourceReference imageReference;
 
     private Map<String, String> imageParameters;
+
+    private ResourceReference linkReference;
+
+    private Map<String, String> linkParameters;
 
     /**
      * @param listenerChain the listener chain to save
@@ -269,7 +276,26 @@ public class StackingFigureContentChainingListener extends LookaheadChainingList
     {
         super.beginLink(reference, freestanding, parameters);
 
-        if (this.captionDepth == 0) {
+        if (this.captionDepth == 0 && this.isStacking) {
+            // Record the link label and parameters if this is the first link in the figure and there was no previous
+            // image. Otherwise, this is not the case we want to recognize.
+            if (!freestanding && this.numLinks == 0 && this.numImages == 0) {
+                this.linkReference = reference;
+                this.linkParameters = parameters;
+                ++this.numLinks;
+            } else {
+                stopStacking(false);
+            }
+        }
+    }
+
+    @Override
+    public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
+    {
+        super.endLink(reference, freestanding, parameters);
+
+        // If there was no image in the link, then this is not the case we want to recognize.
+        if (this.captionDepth == 0 && this.numImages == 0) {
             stopStacking(false);
         }
     }
@@ -396,6 +422,32 @@ public class StackingFigureContentChainingListener extends LookaheadChainingList
     public ResourceReference getImageReference()
     {
         return this.imageReference;
+    }
+
+    /**
+     * @return if the image is wrapped in a link.
+     */
+    public boolean isWrappedInLink()
+    {
+        return this.numLinks > 0;
+    }
+
+    /**
+     * @return The parameters of the (single) link contained in the clean figure, if there is any,
+     * {@code null} otherwise.
+     */
+    public ResourceReference getLinkReference()
+    {
+        return this.linkReference;
+    }
+
+    /**
+     * @return The parameters of the (single) link contained in the clean figure, if there is any,
+     * {@code null} otherwise.
+     */
+    public Map<String, String> getLinkParameters()
+    {
+        return this.linkParameters;
     }
 
     /**
