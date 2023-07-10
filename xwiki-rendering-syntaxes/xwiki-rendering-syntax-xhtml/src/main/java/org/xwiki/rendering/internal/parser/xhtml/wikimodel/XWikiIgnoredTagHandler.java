@@ -26,24 +26,27 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.IgnoreElementRule;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 
-import static org.xwiki.xml.html.HTMLConstants.TAG_HEAD;
-
 /**
- * Handler for the head tag. Ignore all the content of the element.
+ * Handle any tag for which the content can be ignored during parsing.
  *
  * @version $Id$
  * @since 15.6RC1
  * @since 15.5.1
  * @since 14.10.14
  */
-public class XWikiHeadTagHandler extends TagHandler
+public class XWikiIgnoredTagHandler extends TagHandler
 {
+    private final String tag;
+
     /**
      * Default constructor.
+     *
+     * @param tag name of the tag to ignore
      */
-    public XWikiHeadTagHandler()
+    public XWikiIgnoredTagHandler(String tag)
     {
         super(false);
+        this.tag = tag;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class XWikiHeadTagHandler extends TagHandler
         tagStack.pushIgnoreElementRule(new IgnoreElementRule(ignoreElementRule -> {
             TagContext tagContext = ignoreElementRule.getTagContext();
             // Pops itself off the stack when the head element ends.
-            if (Objects.equals(tagContext.getName(), TAG_HEAD)) {
+            if (Objects.equals(tagContext.getName(), this.tag)) {
                 tagContext.getTagStack().popIgnoreElementRule();
             }
             return false;

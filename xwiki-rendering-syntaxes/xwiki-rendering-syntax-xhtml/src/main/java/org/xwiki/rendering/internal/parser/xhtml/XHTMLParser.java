@@ -38,7 +38,7 @@ import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XHTMLXWikiGeneratorListener;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiCommentHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiDivTagHandler;
-import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiHeadTagHandler;
+import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiIgnoredTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiHeaderTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiImageTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiReferenceTagHandler;
@@ -57,6 +57,7 @@ import org.xwiki.xml.XMLReaderFactory;
 
 import static org.xwiki.rendering.internal.xhtml.XHTML10SyntaxProvider.XHTML_1_0;
 import static org.xwiki.xml.html.HTMLConstants.TAG_HEAD;
+import static org.xwiki.xml.html.HTMLConstants.TAG_SCRIPT;
 
 /**
  * Parses XHTML and generate a {@link org.xwiki.rendering.block.XDOM} object.
@@ -136,7 +137,8 @@ public class XHTMLParser extends AbstractWikiModelParser
         // another implementation we won't be tied to WikiModel.
         handlers.put("div", new XWikiDivTagHandler("xwiki-document", this.componentManager, this));
         handlers.put("th", new XWikiTableDataTagHandler());
-        handlers.put(TAG_HEAD, new XWikiHeadTagHandler());
+        handlers.put(TAG_HEAD, new XWikiIgnoredTagHandler(TAG_HEAD));
+        handlers.put(TAG_SCRIPT, new XWikiIgnoredTagHandler(TAG_SCRIPT));
 
         XhtmlParser parser = new XhtmlParser();
         parser.setExtraHandlers(handlers);
