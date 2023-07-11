@@ -53,13 +53,26 @@ public class XWikiIgnoredTagHandler extends TagHandler
     protected void begin(TagContext context)
     {
         TagStack tagStack = context.getTagStack();
-        tagStack.pushIgnoreElementRule(new IgnoreElementRule(ignoreElementRule -> {
+        // Push the ignored element rule for the outermost element.
+        tagStack.pushIgnoreElementRule(getIgnoreElementRule());
+    }
+
+    private IgnoreElementRule getIgnoreElementRule()
+    {
+        return new IgnoreElementRule(ignoreElementRule -> {
             TagContext tagContext = ignoreElementRule.getTagContext();
-            // Pops itself off the stack when the head element ends.
-            if (Objects.equals(tagContext.getName(), this.tag)) {
-                tagContext.getTagStack().popIgnoreElementRule();
+            boolean isExpectedTag = Objects.equals(tagContext.getName(), this.tag);
+            if (isExpectedTag) {
+                TagStack tagStack = tagContext.getTagStack();
+                if (ignoreElementRule.isBeginElement()) {
+                    // Re-push the ignored element rule for nested opening tags of the expected tag. 
+                    tagStack.pushIgnoreElementRule(getIgnoreElementRule());
+                } else {
+                    // Pop the ignored element rule for closing tags of the expected tag.
+                    tagStack.popIgnoreElementRule();
+                }
             }
             return false;
-        }, true));
+        }, true);
     }
 }
