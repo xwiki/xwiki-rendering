@@ -1,5 +1,6 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
+.# Verify that the content of the script element is ignored.
 .#-----------------------------------------------------
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -13,7 +14,7 @@
         "isActivatedOnParent": false
       }
     </script>
-  mybody
+    mybody
   </body>
 </html>
 .#-----------------------------------------------------
