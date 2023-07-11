@@ -27,7 +27,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
 
 /**
- * Handle any tag for which the content can be ignored during parsing.
+ * Handle any tag for which the content should be ignored during parsing.
  *
  * @version $Id$
  * @since 15.6RC1
