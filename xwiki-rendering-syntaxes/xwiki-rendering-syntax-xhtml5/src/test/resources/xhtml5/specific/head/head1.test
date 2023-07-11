@@ -1,5 +1,6 @@
 .#-----------------------------------------------------
 .input|xhtml/5
+.# Verify that the content of the head element is ignored.
 .#-----------------------------------------------------
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -13,7 +14,7 @@
     </script>
   </head>
   <body id="body" class="skin-flamingo viewbody main wiki-xwikispace-XWiki">
-  mybody
+    mybody
   </body>
 </html>
 .#-----------------------------------------------------
