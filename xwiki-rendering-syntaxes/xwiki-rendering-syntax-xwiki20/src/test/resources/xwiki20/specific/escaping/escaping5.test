@@ -1,0 +1,17 @@
+.#-----------------------------------------------------
+.inputexpect|xwiki/2.0
+.# Test escaping support in link and image references
+.#-----------------------------------------------------
+[[~]~]~|~|"reference]]
+[[image:~]~]~|~|"reference]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [false] Type = [url] Reference = []]||"reference]] [false]
+endLink [Typed = [false] Type = [url] Reference = []]||"reference]] [false]
+onNewLine
+onImage [Typed = [false] Type = [url] Reference = []]||"reference]] [false] [I5D5D7C7C22reference]
+endParagraph
+endDocument
