@@ -25,9 +25,13 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.wikimodel.AbstractWikiModelParser;
+import org.xwiki.rendering.internal.parser.wikimodel.XWikiGeneratorListener;
+import org.xwiki.rendering.internal.parser.xwiki20.wikimodel.XWiki20XWikiGeneratorListener;
 import org.xwiki.rendering.internal.xwiki20.XWiki20SyntaxProvider;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiParser;
 
@@ -64,6 +68,13 @@ public class XWiki20Parser extends AbstractWikiModelParser
     public IWikiParser createWikiModelParser()
     {
         return new XWikiParser();
+    }
+
+    @Override
+    public XWikiGeneratorListener createXWikiGeneratorListener(Listener listener, IdGenerator idGenerator)
+    {
+        return new XWiki20XWikiGeneratorListener(getLinkLabelParser(), listener, getLinkReferenceParser(),
+            getImageReferenceParser(), this.plainRendererFactory, idGenerator, getSyntax());
     }
 
     @Override

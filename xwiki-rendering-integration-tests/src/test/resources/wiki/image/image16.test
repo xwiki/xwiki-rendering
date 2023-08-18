@@ -1,0 +1,35 @@
+.#-----------------------------------------------------
+.input|html/5.0
+.# Verify that a HTML figure is transformed into the XWiki figure caption syntax when the image is wrapped inside a link
+.#-----------------------------------------------------
+<figure class="image">
+<a href="https://example.com" target="_blank"><img src="img.jpg" /></a>
+<figcaption>Caption</figcaption>
+</figure>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginFigure [[class]=[image]]
+beginLink [Typed = [true] Type = [url] Reference = [https://example.com]] [false] [[rel]=[noopener noreferrer][target]=[_blank]]
+onImage [Typed = [false] Type = [attach] Reference = [img.jpg]] [false] [Iimg.jpg]
+endLink [Typed = [true] Type = [url] Reference = [https://example.com]] [false] [[rel]=[noopener noreferrer][target]=[_blank]]
+beginFigureCaption
+beginParagraph
+onWord [Caption]
+endParagraph
+endFigureCaption
+endFigure [[class]=[image]]
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<span class="wikiexternallink"><a rel="noopener noreferrer" target="_blank" href="https://example.com"><img src="imageurl" id="Iimg.jpg" class="wikigeneratedid" alt="img.jpg"/></a></span><div class="figcaption"><p>Caption</p></div>
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+[[~[~[Caption~>~>image:img.jpg~]~]>>https://example.com||rel="noopener noreferrer" target="_blank"]]
+.#-----------------------------------------------------
+.expect|html/5.0
+.#-----------------------------------------------------
+<figure class="image"><span class="wikiexternallink"><a rel="noopener noreferrer" target="_blank" href="https://example.com"><img src="imageurl" id="Iimg.jpg" class="wikigeneratedid" alt="img.jpg"/></a></span><figcaption><p>Caption</p></figcaption></figure>

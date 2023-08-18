@@ -1,6 +1,7 @@
 org.xwiki.rendering.internal.block.BlockMatcherConverter
 org.xwiki.rendering.internal.configuration.DefaultRenderingConfiguration
 org.xwiki.rendering.internal.converter.DefaultConverter
+org.xwiki.rendering.internal.listener.ListenerRegistry
 org.xwiki.rendering.internal.listener.MetaDataConverter
 org.xwiki.rendering.internal.listener.descriptor.DefaultListenerDescriptorManager
 org.xwiki.rendering.internal.parser.reference.GenericLinkReferenceParser

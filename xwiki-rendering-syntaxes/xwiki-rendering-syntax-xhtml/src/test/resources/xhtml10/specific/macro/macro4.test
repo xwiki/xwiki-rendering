@@ -1,0 +1,44 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test nested macro following inline parameters.
+.#-----------------------------------------------------
+<!--startmacro:paragraphs-numbering|-||-|= OldH1 =
+
+= h2 {{reference id='HOldH1'/}} =-->
+<div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container">
+  <h1 id="Hh1" class="wikigeneratedid wikigeneratedheader">
+    <span>h1</span>
+  </h1>
+  <h1 id="Hh2" class="wikigeneratedid wikigeneratedheader">
+    <span>h2 <!--startmacro:reference|-|id="Hh1"--><!--stopmacro--> </span>
+  </h1>
+</div>
+<!--stopmacro-->
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onMacroStandalone [paragraphs-numbering] [] [beginDocument [[syntax]=[XHTML 1.0]]
+beginSection
+beginHeader [1, Hh1]
+onWord [h1]
+endHeader [1, Hh1]
+endSection
+beginSection
+beginHeader [1, Hh2]
+onWord [h2]
+onSpace
+onMacroInline [reference] [id=Hh1]
+endHeader [1, Hh2]
+endSection
+endDocument [[syntax]=[XHTML 1.0]]]
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{paragraphs-numbering}}
+= h1 =
+
+= h2 {{reference id="Hh1"/}} =
+{{/paragraphs-numbering}}

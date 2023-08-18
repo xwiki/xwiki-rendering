@@ -1,0 +1,32 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|xwiki/2.0
+.# Test the new figure caption syntax with a link inside the caption.
+.#-------------------------------------------------------------------------------------------------------
+[[~[~[This **is some** caption ~~~[~~~[Example~~~>~~~>https://www.example.com~~~]~~~]~>~>image:image.png~]~]>>https://www.xwiki.org]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginFigure [[class]=[image]]
+beginLink [Typed = [false] Type = [url] Reference = [https://www.xwiki.org]] [false]
+onImage [Typed = [false] Type = [url] Reference = [image.png]] [false] [Iimage.png]
+endLink [Typed = [false] Type = [url] Reference = [https://www.xwiki.org]] [false]
+beginFigureCaption
+beginParagraph
+onWord [This]
+onSpace
+beginFormat [BOLD]
+onWord [is]
+onSpace
+onWord [some]
+endFormat [BOLD]
+onSpace
+onWord [caption]
+onSpace
+beginLink [Typed = [false] Type = [url] Reference = [https://www.example.com]] [false]
+onWord [Example]
+endLink [Typed = [false] Type = [url] Reference = [https://www.example.com]] [false]
+endParagraph
+endFigureCaption
+endFigure [[class]=[image]]
+endDocument

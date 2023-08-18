@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InOrder;
@@ -38,7 +39,9 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -54,6 +57,11 @@ class StackingFigureContentChainingListenerTest
     private static final ResourceReference IMAGE_REFERENCE = new ResourceReference("test.png", ResourceType.ATTACHMENT);
 
     private static final Map<String, String> IMAGE_PARAMETERS = Map.of("param", "value");
+
+    private static final ResourceReference LINK_REFERENCE =
+        new ResourceReference("https://example.com", ResourceType.URL);
+
+    private static final Map<String, String> LINK_PARAMETERS = Map.of("linkparam", "linkvalue");
 
     private static final List<String> ALLOWED_METHODS_IN_FIGURE = List.of("beginParagraph", "beginGroup",
         "beginFormat", "beginSection", "onSpace", "beginFigureCaption", "onEmptyLines", "onNewLine");
@@ -82,6 +90,50 @@ class StackingFigureContentChainingListenerTest
         this.mockListener = mock(ChainingListener.class);
         listenerChain.addListener(this.mockListener);
 
+    }
+
+    /**
+     * Test that a link wrapping the figure is accepted and correctly stored as link reference/parameters.
+     */
+    @Test
+    void testLinkInFigure()
+    {
+        this.firstListener.beginDocument(MetaData.EMPTY);
+        this.firstListener.beginFigure(IMAGE_FIGURE_PARAMETER);
+        this.firstListener.beginLink(LINK_REFERENCE, false, LINK_PARAMETERS);
+        this.firstListener.onImage(IMAGE_REFERENCE, false, IMAGE_PARAMETERS);
+        this.firstListener.endLink(LINK_REFERENCE, false, LINK_PARAMETERS);
+        this.firstListener.beginFigureCaption(Listener.EMPTY_PARAMETERS);
+        // Call the methods with changed parameters to ensure that the listener does not store the parameters of the
+        // link or image in the caption.
+        this.firstListener.beginLink(IMAGE_REFERENCE, false, IMAGE_PARAMETERS);
+        this.firstListener.onImage(LINK_REFERENCE, false, LINK_PARAMETERS);
+        this.firstListener.endLink(IMAGE_REFERENCE, false, IMAGE_PARAMETERS);
+        this.firstListener.endFigureCaption(Listener.EMPTY_PARAMETERS);
+        this.firstListener.endFigure(IMAGE_FIGURE_PARAMETER);
+        this.firstListener.endDocument(MetaData.EMPTY);
+
+        assertTrue(this.listener.isCleanImageFigure());
+        assertTrue(this.listener.isWrappedInLink());
+        assertEquals(IMAGE_REFERENCE, this.listener.getImageReference());
+        assertEquals(IMAGE_PARAMETERS, this.listener.getImageParameters());
+        assertEquals(LINK_REFERENCE, this.listener.getLinkReference());
+        assertEquals(LINK_PARAMETERS, this.listener.getLinkParameters());
+    }
+
+    /**
+     * Test that a link that doesn't wrap an image isn't accepted.
+     */
+    @Test
+    void testLinkInFigureWithoutImage()
+    {
+        this.firstListener.beginDocument(MetaData.EMPTY);
+        this.firstListener.beginFigure(IMAGE_FIGURE_PARAMETER);
+        this.firstListener.beginLink(LINK_REFERENCE, false, LINK_PARAMETERS);
+        this.firstListener.endLink(LINK_REFERENCE, false, LINK_PARAMETERS);
+        this.firstListener.endDocument(MetaData.EMPTY);
+
+        assertFalse(this.listener.isCleanImageFigure());
     }
 
     /**

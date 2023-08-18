@@ -1093,7 +1093,11 @@ public class InternalWikiScannerContext implements IWikiScannerContext
 
     public void onReference(WikiReference ref)
     {
-        checkStyleOpened();
+        // Do not wrap a link that is a direct child of a figure in a paragraph as CKEditor doesn't recognize that,
+        // see https://jira.xwiki.org/browse/XRENDERING-710.
+        if (!(this.fBlockType == IBlockTypes.NONE && this.fSectionBuilder.isFigureDocument())) {
+            checkStyleOpened();
+        }
         fListener.onReference(ref);
         fInlineState.set(InlineState.REFERENCE);
     }

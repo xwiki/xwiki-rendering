@@ -30,6 +30,7 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiCommentHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiDivTagHandler;
+import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiIgnoredTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiHeaderTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiImageTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiReferenceTagHandler;
@@ -47,6 +48,8 @@ import org.xwiki.stability.Unstable;
 import org.xwiki.xml.XMLReaderFactory;
 
 import static org.xwiki.rendering.internal.xhtml5.XHTML5SyntaxProvider.XHTML_5;
+import static org.xwiki.xml.html.HTMLConstants.TAG_HEAD;
+import static org.xwiki.xml.html.HTMLConstants.TAG_SCRIPT;
 
 /**
  * This is an HTML5 parser that expects valid XML as input, i.e., doesn't run HTMLCleaner.
@@ -110,6 +113,8 @@ public class XHTML5Parser extends XHTMLParser
 
         handlers.put("figure", new XWikiFigureTagHandler());
         handlers.put("figcaption", new XWikiFigcaptionTagHandler());
+        handlers.put(TAG_HEAD, new XWikiIgnoredTagHandler(TAG_HEAD));
+        handlers.put(TAG_SCRIPT, new XWikiIgnoredTagHandler(TAG_SCRIPT));
 
         XhtmlParser parser = new XhtmlParser();
         parser.setExtraHandlers(handlers);

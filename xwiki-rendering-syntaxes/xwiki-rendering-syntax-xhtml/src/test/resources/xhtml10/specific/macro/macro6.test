@@ -1,0 +1,23 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Macro with other macros inside
+.#-----------------------------------------------------
+<!--startmacro:toc|-|--><!--startmacro:info|-||-|\{\{info}}inner\{\{/info}}--><div class="box infomessage"><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><!--startmacro:info|-||-|inner--><div class="box infomessage"><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>inner</p></div></div><!--stopmacro--></div></div><!--stopmacro--><div><ul class="wikitoc"><li><!--startwikilink:true|-|doc|-|null|-|anchor="HH2"--><span class="wikilink"><a href="#HH2">H2</a></span><!--stopwikilink--></li></ul></div><!--stopmacro--><h1 id="HH2" class="wikigeneratedid"><span>H2</span></h1>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onMacroStandalone [toc] []
+beginSection
+beginHeader [1, HH2]
+onWord [H2]
+endHeader [1, HH2]
+endSection
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{toc/}}
+
+= H2 =

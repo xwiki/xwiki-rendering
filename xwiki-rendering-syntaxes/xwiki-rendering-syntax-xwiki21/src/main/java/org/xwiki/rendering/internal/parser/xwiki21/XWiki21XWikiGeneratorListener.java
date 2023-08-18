@@ -21,7 +21,7 @@ package org.xwiki.rendering.internal.parser.xwiki21;
 
 import java.util.Map;
 
-import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
+import org.xwiki.rendering.internal.parser.xwiki20.wikimodel.XWiki20XWikiGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.reference.AttachmentResourceReference;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
@@ -39,7 +39,7 @@ import org.xwiki.rendering.util.IdGenerator;
  * @version $Id$
  * @since 2.5RC1
  */
-public class XWiki21XWikiGeneratorListener extends DefaultXWikiGeneratorListener
+public class XWiki21XWikiGeneratorListener extends XWiki20XWikiGeneratorListener
 {
     /**
      * Parameter name for Query String.

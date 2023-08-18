@@ -23,7 +23,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
 
-import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.wiki.WikiModel;
@@ -36,13 +35,16 @@ import org.xwiki.rendering.wiki.WikiModel;
  */
 public abstract class AbstractResourceReferenceParser implements ResourceReferenceParser
 {
+    @Inject
+    @Named("context")
+    protected Provider<ComponentManager> componentManagerProvider;
+
     /**
      * Used to verify if we're in wiki mode or not by looking up an implementation of
      * {@link org.xwiki.rendering.wiki.WikiModel}.
      */
     @Inject
-    @Named("context")
-    protected Provider<ComponentManager> componentManagerProvider;
+    protected Provider<WikiModel> wikiModelProvider;
 
     /**
      * @return true if we're in wiki mode (i.e. an implementing class for {@link org.xwiki.rendering.wiki.WikiModel}
@@ -50,13 +52,6 @@ public abstract class AbstractResourceReferenceParser implements ResourceReferen
      */
     protected boolean isInWikiMode()
     {
-        boolean result = true;
-        try {
-            this.componentManagerProvider.get().getInstance(WikiModel.class);
-        } catch (ComponentLookupException e) {
-            result = false;
-        }
-
-        return result;
+        return this.wikiModelProvider.get() != null;
     }
 }

@@ -1,1 +1,2 @@
 org.xwiki.rendering.macro.footnote.ExecutedContentMacro
+org.xwiki.rendering.macro.footnote.ReferenceMacro

@@ -21,8 +21,10 @@ package org.xwiki.rendering.internal.renderer.xhtml.image;
 
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -43,6 +45,9 @@ import org.xwiki.rendering.wiki.WikiModel;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class AttachmentXHTMLImageTypeRenderer extends AbstractXHTMLImageTypeRenderer implements Initializable
 {
+    @Inject
+    private Logger logger;
+
     /**
      * Use to resolve local image URL when the image is attached to a document.
      */
@@ -53,10 +58,12 @@ public class AttachmentXHTMLImageTypeRenderer extends AbstractXHTMLImageTypeRend
     {
         // Try to find a WikiModel implementation and set it if it can be found. If not it means we're in
         // non wiki mode (i.e. no attachment in wiki documents and no links to documents for example).
-        try {
-            this.wikiModel = this.componentManager.getInstance(WikiModel.class);
-        } catch (ComponentLookupException e) {
-            // There's no WikiModel implementation available. this.wikiModel stays null.
+        if (this.componentManager.hasComponent(WikiModel.class)) {
+            try {
+                this.wikiModel = this.componentManager.getInstance(WikiModel.class);
+            } catch (ComponentLookupException e) {
+                this.logger.error("Failed to initialize the default WikiModel implementation", e);
+            }
         }
     }
 

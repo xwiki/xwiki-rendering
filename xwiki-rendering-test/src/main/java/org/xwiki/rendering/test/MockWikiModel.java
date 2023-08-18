@@ -53,6 +53,7 @@ public class MockWikiModel implements WikiModel
 
         componentDescriptor.setRoleType(WikiModel.class);
         componentDescriptor.setImplementation(MockWikiModel.class);
+        componentDescriptor.setRoleHintPriority(0);
 
         return componentDescriptor;
     }

@@ -80,7 +80,10 @@ public class XWikiSyntaxResourceRenderer
         String result = this.referenceSerializer.serialize(reference);
 
         if (!isFreeStanding) {
-            result = result.replace("~", "~~").replace(">>", "~>~>").replace(PARAMETER_SEPARATOR, "~|~|");
+            result = result.replace("~", "~~")
+                .replace(">>", "~>~>")
+                .replace(PARAMETER_SEPARATOR, "~|~|")
+                .replace("]]", "~]~]");
         }
 
         return result;

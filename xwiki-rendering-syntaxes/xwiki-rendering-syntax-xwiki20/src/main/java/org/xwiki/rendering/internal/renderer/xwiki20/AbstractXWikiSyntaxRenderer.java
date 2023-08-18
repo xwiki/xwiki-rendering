@@ -22,8 +22,13 @@ package org.xwiki.rendering.internal.renderer.xwiki20;
 import java.io.Flushable;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.xwiki.component.descriptor.ComponentDescriptor;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
+import org.xwiki.rendering.internal.listener.ListenerRegistry;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ChainingListener;
@@ -31,7 +36,14 @@ import org.xwiki.rendering.listener.chaining.ConsecutiveNewLineStateChainingList
 import org.xwiki.rendering.listener.chaining.GroupStateChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.chaining.LookaheadChainingListener;
+import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.rendering.renderer.PrintRenderer;
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.syntax.SyntaxRegistry;
+
+import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage;
+import static org.xwiki.rendering.listener.ListenerProvider.RENDER_ACTION;
 
 /**
  * XWiki Syntax Renderer implementation common to XWiki Syntax versions greater than 2.0 (X>iki Syntax 2.0, XWiki Syntax
@@ -43,6 +55,18 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintRenderer implements Initializable,
     Flushable
 {
+    @Inject
+    private ListenerRegistry listenerRegistry;
+
+    @Inject
+    private ComponentDescriptor<PrintRenderer> descriptor;
+
+    @Inject
+    private SyntaxRegistry syntaxRegistry;
+
+    @Inject
+    private Logger logger;
+
     /**
      * Allows extending classes to choose which implementation to use.
      *
@@ -62,6 +86,16 @@ public abstract class AbstractXWikiSyntaxRenderer extends AbstractChainingPrintR
         // to write the XWiki Syntax chaining listener, for example for saving states (are we in a list, in a
         // paragraph, are we starting a new line, etc).
         chain.addListener(this);
+        String roleHint = this.descriptor.getRoleHint();
+        Syntax syntax = null;
+        try {
+            syntax = this.syntaxRegistry.resolveSyntax(roleHint);
+        } catch (ParseException e) {
+            this.logger.warn("Failed to find syntax [{}] in the registry during renderer initialization. Cause: [{}]",
+                roleHint, getRootCauseMessage(e));
+        }
+        
+        this.listenerRegistry.getListeners(chain, RENDER_ACTION, syntax).forEach(chain::addListener);
         chain.addListener(new LookaheadChainingListener(chain, 2));
         chain.addListener(new GroupStateChainingListener(chain));
         chain.addListener(new BlockStateChainingListener(chain));

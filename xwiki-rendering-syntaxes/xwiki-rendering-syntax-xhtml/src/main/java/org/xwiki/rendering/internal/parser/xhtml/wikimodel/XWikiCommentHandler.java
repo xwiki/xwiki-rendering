@@ -112,18 +112,9 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
     private void handleMacroCommentStart(String content, TagStack stack)
     {
-        boolean shouldIgnoreAll;
-
-        // true if we are already in a non generated content block
-        boolean inNonGeneratedContent = stack.getStackParameter(NON_GENERATED_CONTENT_STACK) != null
-            && (Boolean) stack.getStackParameter(NON_GENERATED_CONTENT_STACK);
-
-        // if we are in a macro but not in a non generated content, we should ignore all
-        if (stack.getStackParameter(MACRO_INFO) != null && !inNonGeneratedContent) {
-            shouldIgnoreAll = true;
-        } else {
-            shouldIgnoreAll = false;
-        }
+        // If we're currently ignoring elements, the whole macro needs to be ignored regardless if it contains
+        // non-generated content or not.
+        boolean shouldIgnoreAll = stack.shouldIgnoreElements();
 
         MacroInfo macroInfo = new MacroInfo(content);
         stack.pushStackParameter(MACRO_INFO, macroInfo);

@@ -1,0 +1,26 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Macro with other macros inside
+.#-----------------------------------------------------
+<!--startmacro:figure|-||-|Old content--><!--startmacro:figureTypeRecognizer|-|--><!--stopmacro--><figure data-xwiki-rendering-figure-type="figure"><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p data-xwiki-translated-attribute-a="1">&nbsp;</p><!--startmacro:toc|-|--><!--startmacro:info|-||-|\{\{info}}inner\{\{/info}}--><div class="box infomessage"><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><!--startmacro:info|-||-|inner--><div class="box infomessage"><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>inner</p></div></div><!--stopmacro--></div></div><!--stopmacro--><div></div><!--stopmacro--></div></figure><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onMacroStandalone [figure] [] [beginDocument [[syntax]=[XHTML 1.0]]
+beginParagraph [[a]=[1]]
+onSpace
+endParagraph [[a]=[1]]
+onMacroStandalone [toc] []
+endDocument [[syntax]=[XHTML 1.0]]]
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{figure}}
+(% a="1" %)
+ 
+
+{{toc/}}
+{{/figure}}

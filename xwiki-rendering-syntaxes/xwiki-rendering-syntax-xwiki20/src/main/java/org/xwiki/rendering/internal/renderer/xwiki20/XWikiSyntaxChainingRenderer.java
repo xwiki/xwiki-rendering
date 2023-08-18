@@ -197,39 +197,28 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         handleEmptyParameters();
         getXWikiPrinter().flush();
 
-        int linkDepth = getBlockState().getLinkDepth();
+        getLinkRenderer().beginRenderLink(getXWikiPrinter(), freestanding, parameters);
 
-        // If we are at a depth of 2 or greater it means we're in a link inside a link and in this case we
-        // shouldn't output the nested link as a link unless it's a free standing link.
-        if (linkDepth < 2) {
-            getLinkRenderer().beginRenderLink(getXWikiPrinter(), freestanding, parameters);
+        XWikiSyntaxEscapeWikiPrinter linkLabelPrinter =
+            new XWikiSyntaxEscapeWikiPrinter(new DefaultWikiPrinter(), getXWikiSyntaxListenerChain());
 
-            XWikiSyntaxEscapeWikiPrinter linkLabelPrinter =
-                new XWikiSyntaxEscapeWikiPrinter(new DefaultWikiPrinter(), getXWikiSyntaxListenerChain());
+        // Make sure the escape handler knows there is already characters before
+        linkLabelPrinter.setOnNewLine(getXWikiPrinter().isOnNewLine());
 
-            // Make sure the escape handler knows there is already characters before
-            linkLabelPrinter.setOnNewLine(getXWikiPrinter().isOnNewLine());
-
-            // Defer printing the link content since we need to gather all nested elements
-            pushPrinter(linkLabelPrinter);
-        } else if (freestanding) {
-            print(getLinkRenderer().serialize(reference, freestanding));
-        }
+        // Defer printing the link content since we need to gather all nested elements
+        pushPrinter(linkLabelPrinter);
     }
 
     @Override
     public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        // The links in a top level link label are not rendered as link (only the label is printed)
-        if (getBlockState().getLinkDepth() == 1) {
-            XWikiSyntaxEscapeWikiPrinter linkBlocksPrinter = getXWikiPrinter();
-            linkBlocksPrinter.flush();
-            String content = linkBlocksPrinter.toString();
-            popPrinter();
+        XWikiSyntaxEscapeWikiPrinter linkBlocksPrinter = getXWikiPrinter();
+        linkBlocksPrinter.flush();
+        String content = linkBlocksPrinter.toString();
+        popPrinter();
 
-            getLinkRenderer().renderLinkContent(getXWikiPrinter(), content);
-            getLinkRenderer().endRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
-        }
+        getLinkRenderer().renderLinkContent(getXWikiPrinter(), content);
+        getLinkRenderer().endRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
     }
 
     @Override
@@ -769,6 +758,12 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                     .collect(Collectors.collectingAndThen(Collectors.joining(" "), s -> s.isEmpty() ? null : s)));
 
                 this.beginParagraph(adaptedParameters);
+                if (figureContent.isWrappedInLink()) {
+                    // Trigger the event on the block state to ensure that the block state is properly updated. The
+                    // block state will forward the event on the listener chain to this listener.
+                    getBlockState().beginLink(figureContent.getLinkReference(), false,
+                        figureContent.getLinkParameters());
+                }
                 getImageRenderer().beginRenderLink(getXWikiPrinter(), false, figureContent.getImageParameters());
 
                 // Ignore output from, e.g., a nested paragraph or anything else that might wrap the image/caption.
@@ -841,6 +836,11 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 }
                 getImageRenderer().endRenderLink(getXWikiPrinter(), figureContent.getImageReference(), false,
                     figureContent.getImageParameters());
+
+                if (figureContent.isWrappedInLink()) {
+                    getBlockState().endLink(figureContent.getLinkReference(), false, figureContent.getLinkParameters());
+                }
+
                 endParagraph(parameters);
             }
         }

@@ -1,0 +1,9 @@
+.#-----------------------------------------------------
+.input|html/5.0
+.# Test images in bold are correctly recognized.
+.#-----------------------------------------------------
+<p>x <strong>y&nbsp;<!--startimage:false|-|attach|-|Sandbox.WebHome@XWikiLogo.png--><img alt="" src="/xwiki/bin/get/aaa1.60.1/?sheet=CKEditor.ResourceDispatcher&amp;outputSyntax=plain&amp;language=en&amp;type=attach&amp;reference=Sandbox.WebHome%40XWikiLogo.png&amp;typed=true" /><!--stopimage--> z</strong></p>
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+x **y [[image:Sandbox.WebHome@XWikiLogo.png||alt=""]] z**

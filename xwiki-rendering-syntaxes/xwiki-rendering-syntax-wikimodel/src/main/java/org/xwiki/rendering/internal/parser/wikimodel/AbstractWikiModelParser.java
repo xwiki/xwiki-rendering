@@ -24,6 +24,7 @@ import java.io.Reader;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.xwiki.component.descriptor.ComponentDescriptor;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.parser.XDOMGeneratorListener;
 import org.xwiki.rendering.listener.Listener;
@@ -49,6 +50,12 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
     @Inject
     @Named("plain/1.0")
     protected PrintRendererFactory plainRendererFactory;
+
+    @Inject
+    private ComponentDescriptor<Parser> descriptor;
+
+    @Inject
+    private WikiModelParserListenerBuilder wikiModelParserListenerBuilder;
 
     /**
      * @return the WikiModel parser instance to use to parse input content.
@@ -131,7 +138,9 @@ public abstract class AbstractWikiModelParser implements Parser, WikiModelStream
     {
         IWikiParser parser = createWikiModelParser();
         try {
-            parser.parse(source, createXWikiGeneratorListener(listener, idGenerator));
+            parser.parse(source, createXWikiGeneratorListener(
+                this.wikiModelParserListenerBuilder.buildListener(this.descriptor.getRoleHint(), listener),
+                idGenerator));
         } catch (Exception | StackOverflowError e) {
             // Stack overflow errors are caught in addition to exceptions because they can be thrown by javacc based
             // implementations in case of too deeply nested contents (e.g., too many nested groups).   

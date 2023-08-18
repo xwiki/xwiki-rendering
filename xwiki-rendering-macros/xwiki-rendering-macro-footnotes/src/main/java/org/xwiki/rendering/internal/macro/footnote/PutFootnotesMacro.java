@@ -168,6 +168,17 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     {
         List<Block> result = Collections.emptyList();
 
+        // If this macro is inside a footnote list or a footnote, don't do anything as this creates a huge mess - it
+        // would remove the generated footnote list from the XDOM in the process of creating it.
+        Block footnoteAncestor =
+            context.getCurrentMacroBlock()
+                .getFirstBlock(new MacroMarkerBlockMatcher(PutFootnotesMacro.MACRO_NAME, FootnoteMacro.MACRO_NAME),
+                    Block.Axes.ANCESTOR);
+
+        if (footnoteAncestor != null) {
+            return result;
+        }
+
         Block root = context.getXDOM();
         List<MacroMarkerBlock> macroMarkerBlocks =
             root.getBlocks(new MacroMarkerBlockMatcher(PutFootnotesMacro.MACRO_NAME, FootnoteMacro.MACRO_NAME),
