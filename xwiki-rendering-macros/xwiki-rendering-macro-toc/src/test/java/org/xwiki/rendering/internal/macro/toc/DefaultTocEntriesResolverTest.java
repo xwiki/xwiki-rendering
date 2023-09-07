@@ -38,7 +38,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Test of {@link DefaultTocEntriesResolver}.
  *
  * @version $Id$
- * @since 15.2RC1
  */
 @ComponentTest
 class DefaultTocEntriesResolverTest

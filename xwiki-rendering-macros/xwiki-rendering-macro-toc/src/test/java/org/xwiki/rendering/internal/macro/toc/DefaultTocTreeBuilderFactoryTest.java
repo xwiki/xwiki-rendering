@@ -37,7 +37,6 @@ import static org.mockito.Mockito.verify;
  * Test of {@link DefaultTocTreeBuilderFactory}.
  *
  * @version $Id$
- * @since 15.2RC1
  */
 @ComponentTest
 class DefaultTocTreeBuilderFactoryTest

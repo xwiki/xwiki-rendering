@@ -23,6 +23,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
@@ -37,13 +38,13 @@ import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
  * {@link LinkLabelGenerator}.
  *
  * @version $Id$
- * @since 15.2RC1
+ * @since 15.8RC1
  */
 public abstract class AbstractTocTreeBuilderFactory implements TocTreeBuilderFactory
 {
     @Inject
     @Named("context")
-    private ComponentManager componentManager;
+    private Provider<ComponentManager> componentManager;
 
     /**
      * A parser that knows how to parse plain text; this is used to transform link labels into plain text.
@@ -65,11 +66,11 @@ public abstract class AbstractTocTreeBuilderFactory implements TocTreeBuilderFac
 
     protected TocEntriesResolver getTocEntriesResolver(String resolverHint) throws ComponentLookupException
     {
-        return this.componentManager.getInstance(TocEntriesResolver.class, resolverHint);
+        return this.componentManager.get().getInstance(TocEntriesResolver.class, resolverHint);
     }
 
     protected List<TocEntryExtension> getExtensions() throws ComponentLookupException
     {
-        return this.componentManager.getInstanceList(TocEntryExtension.class);
+        return this.componentManager.get().getInstanceList(TocEntryExtension.class);
     }
 }

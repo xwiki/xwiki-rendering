@@ -28,7 +28,7 @@ import org.xwiki.component.manager.ComponentLookupException;
  * Default table of content factory builder.
  *
  * @version $Id$
- * @since 15.2RC1
+ * @since 15.8RC1
  */
 @Component
 @Singleton

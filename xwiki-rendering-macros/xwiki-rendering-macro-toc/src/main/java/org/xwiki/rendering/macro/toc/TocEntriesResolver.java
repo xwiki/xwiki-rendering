@@ -24,14 +24,16 @@ import java.util.List;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.HeaderBlock;
+import org.xwiki.stability.Unstable;
 
 /**
  * Resolve the entries to use for the table of content for a given root block.
  *
  * @version $Id$
- * @since 15.2RC1
+ * @since 15.8RC1
  */
 @Role
+@Unstable
 public interface TocEntriesResolver
 {
     /**

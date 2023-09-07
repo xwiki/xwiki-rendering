@@ -22,15 +22,17 @@ package org.xwiki.rendering.macro.toc;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.rendering.internal.macro.toc.TocTreeBuilder;
+import org.xwiki.stability.Unstable;
 
 /**
  * Provide the operations to build a {@link TocTreeBuilder}, possibly based on a hint used to select the heading
  * resolver.
  *
  * @version $Id$
- * @since 15.2RC1
+ * @since 15.8RC1
  */
 @Role
+@Unstable
 public interface TocTreeBuilderFactory
 {
     /**

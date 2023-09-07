@@ -38,7 +38,6 @@ import static org.mockito.Mockito.when;
  * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
  *
  * @version $Id$
- * @since 15.2RC1
  */
 @AllComponents
 @RenderingTests.Scope("tocextensions")

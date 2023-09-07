@@ -24,6 +24,7 @@ import java.util.List;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.HeaderBlock;
+import org.xwiki.stability.Unstable;
 
 /**
  * Table of content entry extension, allowing to intercept and improve the default rendering of the table of content
@@ -33,9 +34,10 @@ import org.xwiki.rendering.block.HeaderBlock;
  * auto-generated number, matching the number used as a prefix for the corresponding header.
  *
  * @version $Id$
- * @since 15.2RC1
+ * @since 15.8RC1
  */
 @Role
+@Unstable
 public interface TocEntryExtension
 {
     /**
