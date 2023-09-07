@@ -19,25 +19,26 @@
  */
 package org.xwiki.rendering.macro.toc;
 
-import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
-import org.xwiki.test.annotation.AllComponents;
-import org.xwiki.test.mockito.MockitoComponentManager;
+import java.util.List;
+
+import org.xwiki.component.annotation.Role;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.HeaderBlock;
+import org.xwiki.stability.Unstable;
 
 /**
- * Run some tests when there's no WikiModel implementation available.
+ * Resolve the entries to use for the table of content for a given root block.
  *
  * @version $Id$
- * @since 9.6RC1
+ * @since 15.8RC1
  */
-@AllComponents
-@RenderingTests.Scope("nowikimodel")
-public class NoWikiModelIntegrationTests implements RenderingTests
+@Role
+@Unstable
+public interface TocEntriesResolver
 {
-    @Initialized
-    public void initialize(MockitoComponentManager componentManager) throws Exception
-    {
-        componentManager.registerComponent(ComponentManager.class, "context",
-            componentManager.getInstance(ComponentManager.class));
-    }
+    /**
+     * @param rootBlock the root block for which the table of content entries are resolved
+     * @return the list of headers to use for the table of content
+     */
+    List<HeaderBlock> getBlocks(Block rootBlock);
 }

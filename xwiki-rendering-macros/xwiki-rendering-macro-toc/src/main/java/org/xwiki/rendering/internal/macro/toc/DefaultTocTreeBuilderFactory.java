@@ -17,27 +17,26 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.macro.toc;
+package org.xwiki.rendering.internal.macro.toc;
 
-import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
-import org.xwiki.test.annotation.AllComponents;
-import org.xwiki.test.mockito.MockitoComponentManager;
+import javax.inject.Singleton;
+
+import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentLookupException;
 
 /**
- * Run some tests when there's no WikiModel implementation available.
+ * Default table of content factory builder.
  *
  * @version $Id$
- * @since 9.6RC1
+ * @since 15.8RC1
  */
-@AllComponents
-@RenderingTests.Scope("nowikimodel")
-public class NoWikiModelIntegrationTests implements RenderingTests
+@Component
+@Singleton
+public class DefaultTocTreeBuilderFactory extends AbstractTocTreeBuilderFactory
 {
-    @Initialized
-    public void initialize(MockitoComponentManager componentManager) throws Exception
+    @Override
+    public TocTreeBuilder build(String resolverHint) throws ComponentLookupException
     {
-        componentManager.registerComponent(ComponentManager.class, "context",
-            componentManager.getInstance(ComponentManager.class));
+        return new TocTreeBuilder(getTocBlockFilter(), getTocEntriesResolver(resolverHint), getExtensions());
     }
 }

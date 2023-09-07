@@ -17,27 +17,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.macro.toc;
+package org.xwiki.rendering.internal.macro.toc;
 
-import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
-import org.xwiki.test.annotation.AllComponents;
-import org.xwiki.test.mockito.MockitoComponentManager;
+import java.util.List;
+
+import javax.inject.Singleton;
+
+import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.HeaderBlock;
+import org.xwiki.rendering.block.match.ClassBlockMatcher;
+import org.xwiki.rendering.macro.toc.TocEntriesResolver;
 
 /**
- * Run some tests when there's no WikiModel implementation available.
+ * Returns all the headers of the provided root block.
  *
  * @version $Id$
- * @since 9.6RC1
+ * @since 15.8RC1
  */
-@AllComponents
-@RenderingTests.Scope("nowikimodel")
-public class NoWikiModelIntegrationTests implements RenderingTests
+@Component
+@Singleton
+public class DefaultTocEntriesResolver implements TocEntriesResolver
 {
-    @Initialized
-    public void initialize(MockitoComponentManager componentManager) throws Exception
+    @Override
+    public List<HeaderBlock> getBlocks(Block rootBlock)
     {
-        componentManager.registerComponent(ComponentManager.class, "context",
-            componentManager.getInstance(ComponentManager.class));
+        return rootBlock.getBlocks(new ClassBlockMatcher(HeaderBlock.class), Block.Axes.DESCENDANT);
     }
 }

@@ -22,6 +22,7 @@ package org.xwiki.rendering.macro.toc;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.HeaderBlock;
 import org.xwiki.rendering.block.SectionBlock;
 import org.xwiki.rendering.block.XDOM;
@@ -48,6 +49,9 @@ public class WikiModelIntegrationTests implements RenderingTests
     @RenderingTests.Initialized
     public void initialize(MockitoComponentManager componentManager) throws Exception
     {
+        componentManager.registerComponent(ComponentManager.class, "context",
+            componentManager.getInstance(ComponentManager.class));
+
         WikiModel wikiModel = componentManager.registerMockComponent(WikiModel.class);
         XDOM xdom = new XDOM(Arrays.asList(new SectionBlock(Arrays.asList(new HeaderBlock(Collections.emptyList(),
             HeaderLevel.LEVEL1)))));

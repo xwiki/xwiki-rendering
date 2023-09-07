@@ -19,25 +19,41 @@
  */
 package org.xwiki.rendering.macro.toc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.test.integration.junit5.RenderingTests;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.mockito.MockitoComponentManager;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.when;
+
 /**
- * Run some tests when there's no WikiModel implementation available.
+ * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
+ * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
  *
  * @version $Id$
- * @since 9.6RC1
  */
 @AllComponents
-@RenderingTests.Scope("nowikimodel")
-public class NoWikiModelIntegrationTests implements RenderingTests
+@RenderingTests.Scope("tocextensions")
+public class ToCExtensionsIntegrationTests implements RenderingTests
 {
     @Initialized
     public void initialize(MockitoComponentManager componentManager) throws Exception
     {
         componentManager.registerComponent(ComponentManager.class, "context",
             componentManager.getInstance(ComponentManager.class));
+        TocEntryExtension tocEntryExtension = componentManager.registerMockComponent(TocEntryExtension.class);
+        when(tocEntryExtension.decorate(any(), anyList(), any(), any())).thenAnswer(invocation -> {
+            List<Block> blocks = new ArrayList<>();
+            blocks.add(new WordBlock("Extension"));
+            blocks.addAll(invocation.<List<Block>>getArgument(1));
+            return blocks;
+        });
     }
 }
