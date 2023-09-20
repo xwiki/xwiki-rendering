@@ -341,7 +341,7 @@ public abstract class AbstractRenderingTest
             StringBuilder builder = new StringBuilder();
             builder.append("<variants>");
             for (String variant : validatedSyntax.getType().getVariants()) {
-                builder.append("<variant>").append(variant).append("</variant");
+                builder.append("<string>").append(variant).append("</string>");
             }
             builder.append("</variants>");
             variantsText = builder.toString();
