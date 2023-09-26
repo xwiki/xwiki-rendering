@@ -1,8 +1,8 @@
 {
-  // There is no point trying to find update for commons dependencies
+  // There is no point trying to find update for commons and rendering dependencies
   [
     {
-      "matchPackagePrefixes": ["org.xwiki.commons:"],
+      "matchPackagePrefixes": ["org.xwiki.commons:", "org.xwiki.rendering:"],
       "enabled": false
     }
   ]
