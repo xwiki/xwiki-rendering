@@ -1,6 +1,6 @@
 {
   // There is no point trying to find update for commons and rendering dependencies
-  [
+  "packageRules": [
     {
       "matchPackagePrefixes": ["org.xwiki.commons:", "org.xwiki.rendering:"],
       "enabled": false
