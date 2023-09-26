@@ -1,0 +1,9 @@
+{
+  // There is no point trying to find update for commons dependencies
+  [
+    {
+      "matchPackagePrefixes": ["org.xwiki.commons:"],
+      "enabled": false
+    }
+  ]
+}
