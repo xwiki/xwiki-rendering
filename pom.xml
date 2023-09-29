@@ -275,8 +275,25 @@
                    </differences>
                  </revapi.differences>
             -->
-
-            
+            <revapi.differences>
+              <justification>
+                Needed to add attribute support in blocks, implementation is provided in abstract base class that should
+                be inherited by all implementations.
+              </justification>
+              <criticality>highlight</criticality>
+              <differences>
+                <item>
+                  <code>java.method.addedToInterface</code>
+                  <new>method void org.xwiki.rendering.block.Block::setAttribute(java.lang.String, java.lang.Object)
+                  </new>
+                </item>
+                <item>
+                  <code>java.method.addedToInterface</code>
+                  <new>method void org.xwiki.rendering.block.Block::setAttributes(java.util.Map&lt;java.lang.String, java.lang.Object&gt;)
+                  </new>
+                </item>
+              </differences>
+            </revapi.differences>
           </analysisConfiguration>
         </configuration>
       </plugin>

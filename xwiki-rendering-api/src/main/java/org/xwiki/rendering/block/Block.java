@@ -26,6 +26,7 @@ import java.util.Map;
 import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.stability.Unstable;
 
 /**
  * Represents an element of a XWiki Document's content. For example there are Blocks for Paragraphs, Bold parts,
@@ -279,6 +280,58 @@ public interface Block extends Cloneable
      * @since 3.0M1
      */
     void setParameters(Map<String, String> parameters);
+
+    /**
+     * @return all attributes
+     * @since 14.10.5
+     * @since 15.1RC1
+     */
+    @Unstable
+    default Map<String, Object> getAttributes()
+    {
+        return Map.of();
+    }
+
+    /**
+     * An attribute is a generic key/value pair which can be used to add internal data to a block.
+     * <p>
+     * These attribute shouldn't be serialized by any renderer, they are meant to be used internally, e.g., in an XDOM
+     * transformation or a macro execution to store data related to the block. When a block is cloned, attribute values
+     * will be cloned using their {@code clone()}-implementation when the value is cloneable, if not, the value will
+     * be shared by original and clone.
+     *
+     * @param name the name of the attribute to return
+     * @return the attribute or null if the attribute doesn't exist
+     * @since 14.10.5
+     * @since 15.1RC1
+     */
+    @Unstable
+    default Object getAttribute(String name)
+    {
+        return null;
+    }
+
+    /**
+     * Set an attribute on the current block. See {@link #getAttribute(String)} for more details.
+     *
+     * @param name the attribute's name
+     * @param value the attribute's value
+     * @since 14.10.5
+     * @since 15.1RC1
+     */
+    @Unstable
+    void setAttribute(String name, Object value);
+
+    /**
+     * Set (replace) all attributes.
+     *
+     * @param attributes the attributes to set
+     * @see #getAttribute(String)
+     * @since 14.10.5
+     * @since 15.1RC1
+     */
+    @Unstable
+    void setAttributes(Map<String, Object> attributes);
 
     /**
      * Get all blocks following provided {@link BlockMatcher} and {@link Axes}.
