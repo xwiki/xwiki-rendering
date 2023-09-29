@@ -29,7 +29,20 @@ endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]
 onSpace
 onWord [footnote]
 beginMacroMarkerInline [footnote] [] [ content]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_2]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_2]]] [false]
+onWord [2]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_2]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_2]]
 endMacroMarkerInline [footnote] [] [ content]
+endListItem
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_2]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_2]]
+onWord [^]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_2]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_2]]
+onSpace
+onSpace
+onWord [content]
 endListItem
 endList [NUMBERED] [[class]=[footnotes]]
 endMacroMarkerStandalone [putFootnotes] []

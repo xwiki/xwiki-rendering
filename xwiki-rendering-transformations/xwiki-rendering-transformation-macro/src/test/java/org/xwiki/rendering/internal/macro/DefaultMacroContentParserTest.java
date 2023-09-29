@@ -57,12 +57,20 @@ import static org.mockito.Mockito.when;
 @ComponentList({DefaultMacroContentParser.class})
 class DefaultMacroContentParserTest
 {
+    private static final Syntax TEST_SYNTAX = new Syntax(new SyntaxType("test", "test"), "1.0");
+
+    private static final Syntax TEST_SYNTAX_2 = new Syntax(new SyntaxType("test", "test"), "2.0");
+
     @MockComponent(classToMock = MutableRenderingContext.class)
     private RenderingContext renderingContext;
 
     @MockComponent
     @Named("test/1.0")
     private Parser mockParser;
+
+    @MockComponent
+    @Named("test/2.0")
+    private Parser mockParser2;
 
     @InjectMockComponents
     private DefaultMacroContentParser macroContentParser;
@@ -72,10 +80,8 @@ class DefaultMacroContentParserTest
     @BeforeEach
     public void beforeEach() throws Exception
     {
-        Syntax testSyntax = new Syntax(new SyntaxType("test", "test"), "1.0");
-
         this.macroContext = new MacroTransformationContext();
-        this.macroContext.setSyntax(testSyntax);
+        this.macroContext.setSyntax(TEST_SYNTAX);
     }
 
     // Tests
@@ -131,5 +137,15 @@ class DefaultMacroContentParserTest
             any(), argThat(TransformationContext::isRestricted),
             eq(new XDOM(Collections.singletonList(new MacroBlock("macro", Collections.emptyMap(), null, true))))
         );
+    }
+
+    @Test
+    void parseWithCustomSyntax() throws Exception
+    {
+        when(this.mockParser2.parse(any(Reader.class))).thenReturn(
+            new XDOM(Arrays.<Block>asList(new ParagraphBlock(Arrays.<Block>asList(new WordBlock("word2"))))));
+
+        assertEquals(new XDOM(Arrays.<Block>asList(new WordBlock("word2"))),
+            this.macroContentParser.parse("content", TEST_SYNTAX_2, this.macroContext, false, null, true));
     }
 }

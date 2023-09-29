@@ -19,11 +19,13 @@
  */
 package org.xwiki.rendering.macro.toc;
 
-import java.util.Collections;
+import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.component.phase.InitializationException;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.properties.PropertyException;
 import org.xwiki.properties.internal.DefaultBeanManager;
@@ -37,10 +39,13 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.wiki.WikiModel;
 import org.xwiki.rendering.wiki.WikiModelException;
 import org.xwiki.test.annotation.ComponentList;
-import org.xwiki.test.mockito.MockitoComponentMockingRule;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectComponentManager;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
+import org.xwiki.test.junit5.mockito.MockComponent;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -55,48 +60,73 @@ import static org.mockito.Mockito.when;
     EnumConverter.class,
     ConvertUtilsConverter.class
 })
-public class TocMacroTest
+@ComponentTest
+class TocMacroTest
 {
-    @Rule
-    public MockitoComponentMockingRule<TocMacro> mocker = new MockitoComponentMockingRule<TocMacro>(TocMacro.class);
+    @InjectMockComponents
+    private TocMacro tocMacro;
+
+    @InjectComponentManager
+    private ComponentManager componentManager;
+
+    @MockComponent
+    private WikiModel wikiModel;
+
+    @MockComponent
+    private TocTreeBuilderFactory tocTreeBuilderFactory;
 
     private BeanManager beanManager;
 
-    @Before
-    public void setUp() throws Exception
+    @BeforeEach
+    void setUp() throws Exception
     {
-        this.beanManager = this.mocker.getInstance(BeanManager.class);
-    }
-
-    @Test(expected = PropertyException.class)
-    public void testStartTooLow() throws PropertyException
-    {
-        this.beanManager.populate(new TocMacroParameters(), Collections.singletonMap("start", "0"));
-    }
-
-    @Test(expected = PropertyException.class)
-    public void testDepthTooLow() throws PropertyException
-    {
-        this.beanManager.populate(new TocMacroParameters(), Collections.singletonMap("depth", "0"));
+        this.beanManager = this.componentManager.getInstance(BeanManager.class);
     }
 
     @Test
-    public void executeWhenXDOMRetrievalFailed() throws Exception
+    void startTooLow()
+    {
+        TocMacroParameters bean = new TocMacroParameters();
+        Map<String, ?> values = Map.of("start", "0");
+        PropertyException propertyException =
+            assertThrows(PropertyException.class, () -> this.beanManager.populate(bean, values));
+        assertEquals("Failed to populate property [start]", propertyException.getMessage());
+    }
+
+    @Test
+    void depthTooLow() throws Exception
+    {
+        TocMacroParameters bean = new TocMacroParameters();
+        Map<String, ?> values = Map.of("depth", "0");
+        PropertyException propertyException =
+            assertThrows(PropertyException.class, () -> this.beanManager.populate(bean, values));
+        assertEquals("Failed to populate property [depth]", propertyException.getMessage());
+    }
+
+    @Test
+    void executeWhenXDOMRetrievalFailed() throws Exception
     {
         TocMacroParameters parameters = new TocMacroParameters();
         parameters.setReference("reference");
-        WikiModel wikiModel = this.mocker.getInstance(WikiModel.class);
-        when(wikiModel.getXDOM(new DocumentResourceReference("reference"))).thenThrow(new WikiModelException("error"));
+        when(this.wikiModel.getXDOM(new DocumentResourceReference("reference")))
+            .thenThrow(new WikiModelException("error"));
 
         MacroTransformationContext mtc = mock(MacroTransformationContext.class);
 
-        try {
-            this.mocker.getComponentUnderTest().execute(parameters, null, mtc);
-            fail("Should have thrown an exception here");
-        } catch (MacroExecutionException expected) {
-            assertEquals("Failed to get XDOM for [Typed = [true] Type = [doc] Reference = [reference]]",
-                expected.getMessage());
-        }
+        MacroExecutionException macroExecutionException =
+            assertThrows(MacroExecutionException.class, () -> this.tocMacro.execute(parameters, null, mtc));
+        assertEquals("Failed to get XDOM for [Typed = [true] Type = [doc] Reference = [reference]]",
+            macroExecutionException.getMessage());
+    }
 
+    @Test
+    void executeInitializationException() throws Exception
+    {
+        when(this.tocTreeBuilderFactory.build()).thenThrow(ComponentLookupException.class);
+        InitializationException initializationException =
+            assertThrows(InitializationException.class, () -> this.tocMacro.initialize());
+        assertEquals("Failed to initialize [class org.xwiki.rendering.internal.macro.toc.TocTreeBuilder]",
+            initializationException.getMessage());
+        assertEquals(ComponentLookupException.class, initializationException.getCause().getClass());
     }
 }

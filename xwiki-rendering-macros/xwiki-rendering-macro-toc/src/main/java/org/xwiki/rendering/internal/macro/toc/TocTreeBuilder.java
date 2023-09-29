@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.BulletedListBlock;
 import org.xwiki.rendering.block.HeaderBlock;
@@ -31,8 +32,9 @@ import org.xwiki.rendering.block.ListBLock;
 import org.xwiki.rendering.block.ListItemBlock;
 import org.xwiki.rendering.block.NumberedListBlock;
 import org.xwiki.rendering.block.SectionBlock;
-import org.xwiki.rendering.block.match.ClassBlockMatcher;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
+import org.xwiki.rendering.macro.toc.TocEntriesResolver;
+import org.xwiki.rendering.macro.toc.TocEntryExtension;
 
 /**
  * Generates a TOc Tree of {@link Block} from input input parameters.
@@ -42,14 +44,28 @@ import org.xwiki.rendering.listener.reference.DocumentResourceReference;
  */
 public class TocTreeBuilder
 {
+    private static final String CLASS_PARAMETER = "class";
+
     private TocBlockFilter tocBlockFilter;
 
+    private TocEntriesResolver tocEntriesResolver;
+
+    private List<TocEntryExtension> extensions;
+
     /**
-     * @param tocBlockFilter the filter to use to generate TOC anchors
+     * Initialize a table of content tree builder.
+     *
+     * @param tocBlockFilter the filter to use to generate the toc anchors
+     * @param tocEntriesResolver the resolver to use to find the entries in a given {@link Block}
+     * @param extensions the decorators that will be called on each toc entry, allowing to add additional
+     *     information on the toc entries
      */
-    public TocTreeBuilder(TocBlockFilter tocBlockFilter)
+    public TocTreeBuilder(TocBlockFilter tocBlockFilter, TocEntriesResolver tocEntriesResolver,
+        List<TocEntryExtension> extensions)
     {
         this.tocBlockFilter = tocBlockFilter;
+        this.tocEntriesResolver = tocEntriesResolver;
+        this.extensions = extensions;
     }
 
     /**
@@ -79,8 +95,7 @@ public class TocTreeBuilder
         // .........|_ ListItemBlock (TextBlock: Section5)
 
         // Get the list of sections in the scope
-        List<HeaderBlock> headers =
-            parameters.rootBlock.getBlocks(new ClassBlockMatcher(HeaderBlock.class), Block.Axes.DESCENDANT);
+        List<HeaderBlock> headers = this.tocEntriesResolver.getBlocks(parameters.rootBlock);
 
         // If the root block is a section, remove its header block for the list of header blocks
         if (parameters.rootBlock instanceof SectionBlock) {
@@ -92,8 +107,7 @@ public class TocTreeBuilder
         }
 
         // Construct table of content from sections list
-        Block tocBlock = generateTree(headers, parameters.start, parameters.depth, parameters.isNumbered,
-            parameters.documentReference);
+        Block tocBlock = generateTree(headers, parameters);
         if (tocBlock != null) {
             result = Arrays.asList(tocBlock);
         } else {
@@ -107,15 +121,16 @@ public class TocTreeBuilder
      * Convert headers into list block tree.
      *
      * @param headers the headers to convert.
-     * @param start the "start" parameter value.
-     * @param depth the "depth" parameter value.
-     * @param numbered the "numbered" parameter value.
+     * @param parameters the tree parameters
      * @return the root block of generated block tree or null if no header was matching the specified parameters
      */
-    private Block generateTree(List<HeaderBlock> headers, int start, int depth, boolean numbered,
-        String documentReference)
+    private Block generateTree(List<HeaderBlock> headers, TreeParameters parameters)
     {
         Block tocBlock = null;
+
+        int start = parameters.start;
+        int depth = parameters.depth;
+        boolean numbered = parameters.isNumbered;
 
         int currentLevel = start - 1;
         Block currentBlock = null;
@@ -128,7 +143,7 @@ public class TocTreeBuilder
                 if (currentLevel < headerLevel) {
                     while (currentLevel < headerLevel) {
                         if (currentBlock instanceof ListBLock) {
-                            currentBlock = addItemBlock(currentBlock, null, documentReference);
+                            currentBlock = addItemBlock(currentBlock, null, parameters);
                         }
 
                         currentBlock = createChildListBlock(numbered, currentBlock);
@@ -142,7 +157,7 @@ public class TocTreeBuilder
                     currentBlock = currentBlock.getParent();
                 }
 
-                currentBlock = addItemBlock(currentBlock, headerBlock, documentReference);
+                currentBlock = addItemBlock(currentBlock, headerBlock, parameters);
             }
         }
 
@@ -150,7 +165,11 @@ public class TocTreeBuilder
             tocBlock = currentBlock.getRoot();
 
             // Add CSS class to ease styling.
-            tocBlock.setParameter("class", "wikitoc");
+            tocBlock.setParameter(CLASS_PARAMETER, "wikitoc");
+        }
+
+        if (tocBlock != null) {
+            flagEntriesWithNoDirectChild(tocBlock);
         }
 
         return tocBlock;
@@ -161,12 +180,12 @@ public class TocTreeBuilder
      *
      * @param currentBlock the current block in the toc tree.
      * @param headerBlock the {@link HeaderBlock} to use to generate toc anchor label.
+     * @param parameters the tree parameters
      * @return the new {@link ListItemBlock}.
      */
-    private Block addItemBlock(Block currentBlock, HeaderBlock headerBlock, String documentReference)
+    private Block addItemBlock(Block currentBlock, HeaderBlock headerBlock, TreeParameters parameters)
     {
-        ListItemBlock itemBlock =
-            headerBlock == null ? createEmptyTocEntry() : createTocEntry(headerBlock, documentReference);
+        ListItemBlock itemBlock = headerBlock == null ? createEmptyTocEntry() : createTocEntry(headerBlock, parameters);
 
         currentBlock.addChild(itemBlock);
 
@@ -186,19 +205,26 @@ public class TocTreeBuilder
      * Create a new toc list item based on section title.
      *
      * @param headerBlock the {@link HeaderBlock}.
+     * @param parameters the tree parameters
      * @return the new list item block.
      */
-    protected ListItemBlock createTocEntry(HeaderBlock headerBlock, String documentReference)
+    protected ListItemBlock createTocEntry(HeaderBlock headerBlock, TreeParameters parameters)
     {
         // Create the link to target the header anchor
-        DocumentResourceReference reference = new DocumentResourceReference(documentReference);
+        DocumentResourceReference reference = new DocumentResourceReference(parameters.documentReference);
         String idParameter = headerBlock.getParameter("id");
         if (idParameter != null) {
             reference.setAnchor(idParameter);
         } else {
             reference.setAnchor(headerBlock.getId());
         }
-        LinkBlock linkBlock = new LinkBlock(this.tocBlockFilter.generateLabel(headerBlock), reference, false);
+
+        List<Block> blocks = this.tocBlockFilter.generateLabel(headerBlock);
+
+        for (TocEntryExtension extension : this.extensions) {
+            blocks = extension.decorate(headerBlock, blocks, parameters.rootBlock, this.tocEntriesResolver);
+        }
+        LinkBlock linkBlock = new LinkBlock(blocks, reference, false);
 
         return new ListItemBlock(Collections.singletonList(linkBlock));
     }
@@ -220,5 +246,23 @@ public class TocTreeBuilder
         }
 
         return childListBlock;
+    }
+
+    /**
+     * Add a {@code nodirectchild} class to each entry that has no direct child. This happens when two successive items
+     * have a level difference greater than one. For instance, when a level 1 heading is followed by a level 3 heading.
+     *
+     * @param tocBlock the toc block to analyse for entries with not direct child
+     */
+    private void flagEntriesWithNoDirectChild(Block tocBlock)
+    {
+        tocBlock.getBlocks(block ->
+                    block instanceof ListItemBlock
+                        && block.getChildren().size() == 1
+                        && !(block.getChildren().get(0) instanceof LinkBlock),
+                Block.Axes.DESCENDANT)
+            .forEach(listBlock -> listBlock.setParameter(CLASS_PARAMETER,
+                (StringUtils.defaultIfEmpty(listBlock.getParameter(CLASS_PARAMETER), "")
+                    + " nodirectchild").trim()));
     }
 }

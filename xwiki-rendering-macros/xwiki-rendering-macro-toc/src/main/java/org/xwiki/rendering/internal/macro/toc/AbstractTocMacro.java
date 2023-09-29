@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Provider;
 
+import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
@@ -34,8 +34,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.toc.TocMacroParameters;
-import org.xwiki.rendering.parser.Parser;
-import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
+import org.xwiki.rendering.macro.toc.TocTreeBuilderFactory;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.wiki.WikiModel;
 import org.xwiki.rendering.wiki.WikiModelException;
@@ -56,21 +55,11 @@ public abstract class AbstractTocMacro<T extends TocMacroParameters> extends Abs
 
     private TocTreeBuilder tocTreeBuilder;
 
-    /**
-     * A parser that knows how to parse plain text; this is used to transform link labels into plain text.
-     */
-    @Inject
-    @Named("plain/1.0")
-    private Parser plainTextParser;
-
-    /**
-     * Generate link label.
-     */
-    @Inject
-    private LinkLabelGenerator linkLabelGenerator;
-
     @Inject
     private Provider<WikiModel> wikiModelProvider;
+
+    @Inject
+    private TocTreeBuilderFactory tocTreeBuilderFactory;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -91,7 +80,11 @@ public abstract class AbstractTocMacro<T extends TocMacroParameters> extends Abs
     {
         super.initialize();
 
-        this.tocTreeBuilder = new TocTreeBuilder(new TocBlockFilter(this.plainTextParser, this.linkLabelGenerator));
+        try {
+            this.tocTreeBuilder = this.tocTreeBuilderFactory.build();
+        } catch (ComponentLookupException e) {
+            throw new InitializationException(String.format("Failed to initialize [%s]", TocTreeBuilder.class), e);
+        }
     }
 
     @Override

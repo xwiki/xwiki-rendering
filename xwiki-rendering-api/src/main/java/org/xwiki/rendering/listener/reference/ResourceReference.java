@@ -66,7 +66,7 @@ public class ResourceReference implements Cloneable
     private ResourceType type;
 
     /**
-     * @see #getParameter(String).
+     * @see #getParameter(String)
      */
     private Map<String, String> parameters = new LinkedHashMap<>();
 

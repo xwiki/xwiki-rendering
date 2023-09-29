@@ -21,6 +21,7 @@ package org.xwiki.rendering.macro.toc;
 
 import javax.validation.constraints.Min;
 
+import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
 
 /**
@@ -145,6 +146,7 @@ public class TocMacroParameters
      * @param numbered if true the section title number is printed.
      */
     @PropertyDescription("if true the section title number is printed")
+    @PropertyAdvanced
     public void setNumbered(boolean numbered)
     {
         this.numbered = numbered;

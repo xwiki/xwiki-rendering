@@ -1,0 +1,22 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.# Check source support with custom syntax
+.#-----------------------------------------------------
+{{content syntax="plain/1.0" source="string:**bold**"/}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginMacroMarkerStandalone [content] [syntax=plain/1.0|source=string:**bold**]
+beginMetaData [[syntax]=[Plain 1.0]]
+beginParagraph
+onSpecialSymbol [*]
+onSpecialSymbol [*]
+onWord [bold]
+onSpecialSymbol [*]
+onSpecialSymbol [*]
+endParagraph
+endMetaData [[syntax]=[Plain 1.0]]
+endMacroMarkerStandalone [content] [syntax=plain/1.0|source=string:**bold**]
+endDocument

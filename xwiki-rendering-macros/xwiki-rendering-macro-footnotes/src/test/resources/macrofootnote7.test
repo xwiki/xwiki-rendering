@@ -1,0 +1,52 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.# Verify that macros inside the footnote can reference headers outside the footnote.
+.#-----------------------------------------------------
+= Heading =
+
+This is a footnote{{footnote}}Reference to {{reference id="HHeading" /}}{{/footnote}}.
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginSection
+beginHeader [1, HHeading]
+onWord [Heading]
+endHeader [1, HHeading]
+beginParagraph
+onWord [This]
+onSpace
+onWord [is]
+onSpace
+onWord [a]
+onSpace
+onWord [footnote]
+beginMacroMarkerInline [footnote] [] [Reference to {{reference id="HHeading" /}}]
+beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+onWord [1]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
+endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+endMacroMarkerInline [footnote] [] [Reference to {{reference id="HHeading" /}}]
+onSpecialSymbol [.]
+endParagraph
+endSection
+beginMacroMarkerStandalone [putFootnotes] []
+beginList [NUMBERED] [[class]=[footnotes]]
+beginListItem
+beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
+onWord [^]
+endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_ref_1]]] [false] [[class]=[footnoteBackRef][id]=[x_footnote_1]]
+onSpace
+onWord [Reference]
+onSpace
+onWord [to]
+onSpace
+beginMacroMarkerInline [reference] [id=HHeading]
+onWord [Heading]
+endMacroMarkerInline [reference] [id=HHeading]
+endListItem
+endList [NUMBERED] [[class]=[footnotes]]
+endMacroMarkerStandalone [putFootnotes] []
+endDocument

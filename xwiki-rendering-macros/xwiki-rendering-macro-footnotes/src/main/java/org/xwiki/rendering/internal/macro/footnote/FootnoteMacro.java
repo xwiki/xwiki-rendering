@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -33,6 +34,7 @@ import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.block.match.MacroBlockMatcher;
 import org.xwiki.rendering.block.match.MacroMarkerBlockMatcher;
 import org.xwiki.rendering.macro.AbstractMacro;
+import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.footnote.FootnoteMacroParameters;
@@ -82,6 +84,12 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
         new MacroMarkerBlockMatcher(PutFootnotesMacro.MACRO_NAME);
 
     /**
+     * Used to parse the content of the footnote.
+     */
+    @Inject
+    private MacroContentParser contentParser;
+
+    /**
      * Create and initialize the descriptor of the macro.
      */
     public FootnoteMacro()
@@ -116,6 +124,7 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
                 root.addChild(putFootnotesMacro);
             }
         }
-        return Collections.emptyList();
+
+        return this.contentParser.parse(content, context, false, true).getChildren();
     }
 }
