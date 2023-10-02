@@ -79,7 +79,7 @@ public interface Macro<P> extends Comparable<Macro<?>>
      * @param macroBlock the macro block to prepare
      * @since 15.9RC1
      */
-    default void prepare(MacroBlock macroBlock)
+    default void prepare(MacroBlock macroBlock) throws MacroPreparationException
     {
         // Do nothing by default
     }
