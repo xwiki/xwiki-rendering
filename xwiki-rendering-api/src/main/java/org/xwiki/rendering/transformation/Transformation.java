@@ -64,4 +64,16 @@ public interface Transformation extends Comparable<Transformation>
      * @since 2.4M1
      */
     void transform(Block block, TransformationContext context) throws TransformationException;
+
+    /**
+     * Prepare a block meant to be cached to be executed several times. The goal is to pre-execute everything that can
+     * fit in any context and generally store them in block attributes (which are nor serialized).
+     * 
+     * @param block the block to prepare (can be an {@link XDOM})
+     * @since 15.9-rc-1
+     */
+    default void prepare(Block block)
+    {
+        // Do nothing by default
+    }
 }

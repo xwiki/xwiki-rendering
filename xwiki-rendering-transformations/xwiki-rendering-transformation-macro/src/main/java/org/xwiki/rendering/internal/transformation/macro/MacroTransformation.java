@@ -34,15 +34,20 @@ import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.properties.BeanManager;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.match.BlockMatcher;
+import org.xwiki.rendering.block.match.MetadataBlockMatcher;
 import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroManager;
 import org.xwiki.rendering.macro.MacroNotFoundException;
+import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.AbstractTransformation;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
@@ -145,9 +150,8 @@ public class MacroTransformation extends AbstractTransformation implements Initi
 
                     // If not found use the macro manager
                     if (macro == null) {
-                        macro =
-                            MacroTransformation.this.macroManager
-                                .getMacro(new MacroId(macroBlock.getId(), this.syntax));
+                        macro = MacroTransformation.this.macroManager
+                            .getMacro(new MacroId(macroBlock.getId(), this.syntax));
 
                         // Cache the found macro for later
                         this.knownMacros.put(macroBlock.getId(), macro);
@@ -353,5 +357,70 @@ public class MacroTransformation extends AbstractTransformation implements Initi
     public void setMaxRecursions(int maxRecursions)
     {
         this.maxRecursions = maxRecursions;
+    }
+
+    @Override
+    public void prepare(Block block)
+    {
+        Syntax syntax = null;
+
+        // Find the current syntax
+        MetaDataBlock metaDataBlock =
+            block.getFirstBlock(new MetadataBlockMatcher(MetaData.SYNTAX), Axes.ANCESTOR_OR_SELF);
+        if (metaDataBlock != null) {
+            syntax = (Syntax) metaDataBlock.getMetaData().getMetaData(MetaData.SYNTAX);
+        }
+
+        prepare(block, syntax, new HashMap<>());
+    }
+
+    public void prepare(Block block, Syntax syntax, Map<String, Macro<?>> knownMacros)
+    {
+        Syntax currentSyntax = syntax;
+
+        // Check if the syntax changes
+        if (block instanceof MetaDataBlock) {
+            Syntax blockSyntax = (Syntax) ((MetaDataBlock) block).getMetaData().getMetaData(MetaData.SYNTAX);
+            if (blockSyntax != null) {
+                currentSyntax = blockSyntax;
+            }
+        }
+
+        // Prepare the block
+        if (block instanceof MacroBlock) {
+            // Prepare the macro
+            MacroBlock macroBlock = (MacroBlock) block;
+
+            // Try to find a known macros
+            Macro<?> macro = knownMacros.get(macroBlock.getId());
+
+            // If not found use the macro manager
+            try {
+                if (macro == null) {
+                    macro =
+                        MacroTransformation.this.macroManager.getMacro(new MacroId(macroBlock.getId(), currentSyntax));
+
+                    // Cache the found macro for later
+                    knownMacros.put(macroBlock.getId(), macro);
+                }
+            } catch (Exception e) {
+                macro = VoidMacro.INSTANCE;
+
+                // Remember there is a problem with this macro
+                knownMacros.put(macroBlock.getId(), macro);
+            }
+
+            // Prepare the macro block
+            try {
+                macro.prepare(macroBlock);
+            } catch (MacroPreparationException e) {
+                this.logger.error("Failed to prepare the macro block", e);
+            }
+        }
+
+        // Prepare the children
+        for (Block child : block.getChildren()) {
+            prepare(child, currentSyntax, knownMacros);
+        }
     }
 }
