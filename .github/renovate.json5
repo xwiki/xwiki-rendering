@@ -20,6 +20,7 @@
  {
   // We want all suggestions right away
   "prHourlyLimit" : 0,
+  "prConcurrentLimit" : 0,
 
   // There is no point trying to find update for commons and rendering dependencies
   "packageRules": [
