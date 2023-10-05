@@ -283,8 +283,7 @@ public interface Block extends Cloneable
 
     /**
      * @return all attributes
-     * @since 14.10.5
-     * @since 15.1RC1
+     * @since 15.9-rc-1
      */
     @Unstable
     default Map<String, Object> getAttributes()
@@ -302,8 +301,7 @@ public interface Block extends Cloneable
      *
      * @param name the name of the attribute to return
      * @return the attribute or null if the attribute doesn't exist
-     * @since 14.10.5
-     * @since 15.1RC1
+     * @since 15.9-rc-1
      */
     @Unstable
     default Object getAttribute(String name)
@@ -316,8 +314,7 @@ public interface Block extends Cloneable
      *
      * @param name the attribute's name
      * @param value the attribute's value
-     * @since 14.10.5
-     * @since 15.1RC1
+     * @since 15.9-rc-1
      */
     @Unstable
     void setAttribute(String name, Object value);
@@ -327,8 +324,7 @@ public interface Block extends Cloneable
      *
      * @param attributes the attributes to set
      * @see #getAttribute(String)
-     * @since 14.10.5
-     * @since 15.1RC1
+     * @since 15.9-rc-1
      */
     @Unstable
     void setAttributes(Map<String, Object> attributes);
