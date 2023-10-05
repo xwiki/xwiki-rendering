@@ -552,6 +552,9 @@ public abstract class AbstractBlock implements Block
         if (this.parameters != null) {
             ((AbstractBlock) block).parameters = new LinkedHashMap<>(this.parameters);
         }
+        if (this.attributes != null) {
+            ((AbstractBlock) block).attributes = new LinkedHashMap<>(this.attributes);
+        }
 
         // Clone attribute values if possible as documented in getAttribute().
         this.getAttributes().forEach((key, value) -> block.setAttribute(key, ObjectUtils.cloneIfPossible(value)));
