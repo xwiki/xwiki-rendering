@@ -25,7 +25,7 @@ import org.xwiki.rendering.RenderingException;
  * Thrown when the preparation of a macro failed.
  *
  * @version $Id$
- * @since 15.9-rc-1
+ * @since 15.9RC1
  */
 public class MacroPreparationException extends RenderingException
 {

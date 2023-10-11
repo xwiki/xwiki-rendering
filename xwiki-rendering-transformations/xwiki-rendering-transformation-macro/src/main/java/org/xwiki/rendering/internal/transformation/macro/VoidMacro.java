@@ -29,7 +29,7 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * A macro that does nothing.
  * 
  * @version $Id$
- * @since 15.9-rc-1
+ * @since 15.9RC1
  */
 public final class VoidMacro extends AbstractMacro
 {

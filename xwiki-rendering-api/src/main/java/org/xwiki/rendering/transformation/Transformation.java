@@ -70,7 +70,7 @@ public interface Transformation extends Comparable<Transformation>
      * fit in any context and generally store them in block attributes (which are nor serialized).
      * 
      * @param block the block to prepare (can be an {@link XDOM})
-     * @since 15.9-rc-1
+     * @since 15.9RC1
      */
     default void prepare(Block block)
     {
