@@ -47,7 +47,6 @@ import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroLookupException;
 import org.xwiki.rendering.macro.MacroManager;
 import org.xwiki.rendering.macro.MacroNotFoundException;
-import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.AbstractTransformation;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
@@ -371,10 +370,10 @@ public class MacroTransformation extends AbstractTransformation implements Initi
             syntax = (Syntax) metaDataBlock.getMetaData().getMetaData(MetaData.SYNTAX);
         }
 
-        prepare(block, syntax, new HashMap<>());
+        prepare(block, syntax);
     }
 
-    public void prepare(Block block, Syntax syntax, Map<String, Macro<?>> knownMacros)
+    public void prepare(Block block, Syntax syntax)
     {
         Syntax currentSyntax = syntax;
 
@@ -391,36 +390,20 @@ public class MacroTransformation extends AbstractTransformation implements Initi
             // Prepare the macro
             MacroBlock macroBlock = (MacroBlock) block;
 
-            // Try to find a known macros
-            Macro<?> macro = knownMacros.get(macroBlock.getId());
-
-            // If not found use the macro manager
             try {
-                if (macro == null) {
-                    macro =
-                        MacroTransformation.this.macroManager.getMacro(new MacroId(macroBlock.getId(), currentSyntax));
+                // Try to find a known macros
+                Macro<?> macro = this.macroManager.getMacro(new MacroId(macroBlock.getId(), currentSyntax));
 
-                    // Cache the found macro for later
-                    knownMacros.put(macroBlock.getId(), macro);
-                }
-            } catch (Exception e) {
-                macro = VoidMacro.INSTANCE;
-
-                // Remember there is a problem with this macro
-                knownMacros.put(macroBlock.getId(), macro);
-            }
-
-            // Prepare the macro block
-            try {
+                // Prepare the macro block
                 macro.prepare(macroBlock);
-            } catch (MacroPreparationException e) {
+            } catch (Exception e) {
                 this.logger.error("Failed to prepare the macro block", e);
             }
         }
 
         // Prepare the children
         for (Block child : block.getChildren()) {
-            prepare(child, currentSyntax, knownMacros);
+            prepare(child, currentSyntax);
         }
     }
 }
