@@ -67,7 +67,7 @@ public interface Transformation extends Comparable<Transformation>
 
     /**
      * Prepare a block meant to be cached to be executed several times. The goal is to pre-execute everything that can
-     * fit in any context and generally store them in block attributes (which are nor serialized).
+     * fit in any context and generally store them in block attributes (which are not serialized).
      * 
      * @param block the block to prepare (can be an {@link XDOM})
      * @since 15.9RC1
