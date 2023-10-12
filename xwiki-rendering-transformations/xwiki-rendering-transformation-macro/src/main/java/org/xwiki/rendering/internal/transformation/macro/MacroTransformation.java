@@ -364,10 +364,15 @@ public class MacroTransformation extends AbstractTransformation implements Initi
         Syntax syntax = block.getSyntaxMetadata().orElse(null);
 
         // Prepare the block
-        prepare(block, syntax);
+        // FIXME: remove the try/catch while fixing http://jira.xwiki.org/browse/XRENDERING-725.
+        try {
+            prepare(block, syntax);
+        } catch (StackOverflowError e) {
+            this.logger.error("Failed to prepare the block", e);
+        }
     }
 
-    public void prepare(Block block, Syntax parentSyntax)
+    private void prepare(Block block, Syntax parentSyntax)
     {
         Syntax currentSyntax = parentSyntax;
 
