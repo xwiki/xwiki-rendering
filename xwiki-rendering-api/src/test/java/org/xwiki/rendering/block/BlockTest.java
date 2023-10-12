@@ -30,9 +30,11 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.match.AnyBlockMatcher;
 import org.xwiki.rendering.block.match.BlockNavigatorTest;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.syntax.Syntax;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for Block manipulation, testing {@link AbstractBlock}.
@@ -406,5 +409,28 @@ class BlockTest
         assertEquals(1, pb.indexOf(wb1));
         assertEquals(2, pb.indexOf(wb2));
         assertEquals(-1, pb.indexOf(new WordBlock("block1")));
+    }
+
+    @Test
+    void getSyntaxMetadata()
+    {
+        Block wb = new WordBlock("block1");
+
+        assertTrue(wb.getSyntaxMetadata().isEmpty());
+
+        MetaDataBlock metadata1 = new MetaDataBlock(List.of(wb));
+
+        assertTrue(wb.getSyntaxMetadata().isEmpty());
+
+        metadata1.getMetaData().addMetaData(MetaData.SYNTAX, Syntax.XWIKI_2_1);
+
+        assertEquals(Syntax.XWIKI_2_1, wb.getSyntaxMetadata().get());
+        assertEquals(Syntax.XWIKI_2_1, metadata1.getSyntaxMetadata().get());
+
+        MetaDataBlock metadata2 = new MetaDataBlock(List.of(metadata1), MetaData.SYNTAX, Syntax.PLAIN_1_0);
+
+        assertEquals(Syntax.XWIKI_2_1, wb.getSyntaxMetadata().get());
+        assertEquals(Syntax.XWIKI_2_1, metadata1.getSyntaxMetadata().get());
+        assertEquals(Syntax.PLAIN_1_0, metadata2.getSyntaxMetadata().get());
     }
 }

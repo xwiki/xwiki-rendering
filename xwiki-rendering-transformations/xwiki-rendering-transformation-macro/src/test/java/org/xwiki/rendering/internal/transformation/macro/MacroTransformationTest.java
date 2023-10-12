@@ -29,6 +29,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.xwiki.rendering.block.Block;
@@ -40,7 +41,9 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.TransformationContext;
+import org.xwiki.test.LogLevel;
 import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.junit5.LogCaptureExtension;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectComponentManager;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
@@ -65,6 +68,9 @@ class MacroTransformationTest
     @InjectMockComponents
     @Named("macro")
     private MacroTransformation transformation;
+
+    @RegisterExtension
+    private LogCaptureExtension logCapture = new LogCaptureExtension(LogLevel.WARN);
 
     /**
      * Test that a simple macro is correctly evaluated.
@@ -376,5 +382,11 @@ class MacroTransformationTest
         this.transformation.prepare(dom);
 
         assertTrue(macroBlock.getAttributes().isEmpty());
+
+        assertEquals(
+            "Failed to get the macro with identifier [notexisting] for syntax [null]"
+                + " (this macro block won't be prepared):"
+                + " MacroNotFoundException: No macro [notexisting] could be found.",
+            this.logCapture.getMessage(0));
     }
 }

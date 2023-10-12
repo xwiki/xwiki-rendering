@@ -22,10 +22,12 @@ package org.xwiki.rendering.block;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.stability.Unstable;
 
 /**
@@ -350,4 +352,15 @@ public interface Block extends Cloneable
      * @since 3.0M3
      */
     <T extends Block> T getFirstBlock(BlockMatcher matcher, Axes axes);
+
+    /**
+     * Try to find the syntax of the block in its hierarchy (itself of its ancestors).
+     * 
+     * @return the syntax of the block or null of none could be found
+     * @since 15.9RC1
+     */
+    default Optional<Syntax> getSyntaxMetadata()
+    {
+        return Optional.empty();
+    }
 }

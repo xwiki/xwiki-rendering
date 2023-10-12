@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -32,7 +33,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.block.match.BlockNavigator;
 import org.xwiki.rendering.block.match.CounterBlockMatcher;
+import org.xwiki.rendering.block.match.MetadataBlockMatcher;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Implementation for Block operations. All blocks should extend this class. Supports the notion of generic parameters
@@ -628,5 +632,17 @@ public abstract class AbstractBlock implements Block
         BlockNavigator navigator = new BlockNavigator(matcher);
 
         return navigator.getFirstBlock(this, axes);
+    }
+
+    @Override
+    public Optional<Syntax> getSyntaxMetadata()
+    {
+        MetaDataBlock metaDataBlock = getFirstBlock(new MetadataBlockMatcher(MetaData.SYNTAX), Axes.ANCESTOR_OR_SELF);
+
+        if (metaDataBlock != null) {
+            return Optional.ofNullable((Syntax) metaDataBlock.getMetaData().getMetaData(MetaData.SYNTAX));
+        }
+
+        return Optional.empty();
     }
 }
