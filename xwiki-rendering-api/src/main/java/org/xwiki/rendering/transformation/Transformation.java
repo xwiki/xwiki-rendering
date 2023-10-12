@@ -23,6 +23,7 @@ import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.stability.Unstable;
 
 /**
  * Performs a transformation on a XDOM (i.e. a tree of {@link org.xwiki.rendering.block.Block}. This used for example
@@ -64,4 +65,17 @@ public interface Transformation extends Comparable<Transformation>
      * @since 2.4M1
      */
     void transform(Block block, TransformationContext context) throws TransformationException;
+
+    /**
+     * Prepare a block meant to be cached to be executed several times. The goal is to pre-execute everything that can
+     * fit in any context and generally store them in block attributes (which are not serialized).
+     * 
+     * @param block the block to prepare (can be an {@link XDOM})
+     * @since 15.9RC1
+     */
+    @Unstable
+    default void prepare(Block block)
+    {
+        // Do nothing by default
+    }
 }

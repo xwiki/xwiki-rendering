@@ -23,23 +23,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
-import org.xwiki.test.ComponentManagerRule;
+import org.xwiki.test.LogLevel;
 import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.junit5.LogCaptureExtension;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectComponentManager;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
+import org.xwiki.test.mockito.MockitoComponentManager;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doAnswer;
 
 /**
  * Unit tests for {@link MacroTransformation}.
@@ -47,24 +59,24 @@ import org.xwiki.test.annotation.AllComponents;
  * @version $Id$
  */
 @AllComponents
-public class MacroTransformationTest
+@ComponentTest
+class MacroTransformationTest
 {
-    @Rule
-    public final ComponentManagerRule componentManager = new ComponentManagerRule();
+    @InjectComponentManager
+    private MockitoComponentManager componentManager;
 
+    @InjectMockComponents
+    @Named("macro")
     private MacroTransformation transformation;
 
-    @Before
-    public void setUp() throws Exception
-    {
-        this.transformation = this.componentManager.getInstance(Transformation.class, "macro");
-    }
+    @RegisterExtension
+    private LogCaptureExtension logCapture = new LogCaptureExtension(LogLevel.WARN);
 
     /**
      * Test that a simple macro is correctly evaluated.
      */
     @Test
-    public void transformSimpleMacro() throws Exception
+    void transformSimpleMacro() throws Exception
     {
         String expected = "beginDocument\n"
             + "beginMacroMarkerStandalone [testsimplemacro] []\n"
@@ -83,14 +95,14 @@ public class MacroTransformationTest
         BlockRenderer eventBlockRenderer =
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 
     /**
      * Test that a macro can generate another macro.
      */
     @Test
-    public void transformNestedMacro() throws Exception
+    void transformNestedMacro() throws Exception
     {
         String expected = "beginDocument\n"
             + "beginMacroMarkerStandalone [testnestedmacro] []\n"
@@ -111,14 +123,14 @@ public class MacroTransformationTest
         BlockRenderer eventBlockRenderer =
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 
     /**
      * Test that we have a safeguard against infinite recursive macros.
      */
     @Test
-    public void transformMacroWithInfiniteRecursion() throws Exception
+    void transformMacroWithInfiniteRecursion() throws Exception
     {
         String expected = "beginDocument\n"
             + StringUtils.repeat("beginMacroMarkerStandalone [testrecursivemacro] []\n", 5)
@@ -138,11 +150,11 @@ public class MacroTransformationTest
         BlockRenderer eventBlockRenderer =
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 
     @Test
-    public void transformWhenLotsOfMacrosButNoInfiniteRecursion() throws Exception
+    void transformWhenLotsOfMacrosButNoInfiniteRecursion() throws Exception
     {
         String expected = "beginDocument\n";
         for (int i = 0; i < 10; i++) {
@@ -170,14 +182,14 @@ public class MacroTransformationTest
         BlockRenderer eventBlockRenderer =
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 
     /**
      * Test that macro priorities are working.
      */
     @Test
-    public void transformMacrosWithPriorities() throws Exception
+    void transformMacrosWithPriorities() throws Exception
     {
         String expected = "beginDocument\n"
             + "beginMacroMarkerStandalone [testsimplemacro] []\n"
@@ -207,14 +219,14 @@ public class MacroTransformationTest
         BlockRenderer eventBlockRenderer =
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 
     /**
      * Test that macro with same priorities execute in the order in which they are defined.
      */
     @Test
-    public void macroWithSamePriorityExecuteOnPageOrder() throws Exception
+    void macroWithSamePriorityExecuteOnPageOrder() throws Exception
     {
         // Both macros have the same priorities and thus "testsimplemacro" should be executed first and generate
         // "simplemacro0".
@@ -240,7 +252,7 @@ public class MacroTransformationTest
             + "onWord [content]\n"
             + "endMacroMarkerStandalone [testcontentmacro] [] [content]\n"
             + "endDocument";
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
 
         // We must also test the other order ("testcontentmacro" before "testsimplemacro") to ensure for example that
         // there's no lexical order on Macro class names for example.
@@ -264,14 +276,14 @@ public class MacroTransformationTest
             + "endParagraph\n"
             + "endMacroMarkerStandalone [testsimplemacro] []\n"
             + "endDocument";
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 
     /**
      * Test that a not existing macro generate an error in the XDOM.
      */
     @Test
-    public void transformNotExistingMacro() throws Exception
+    void transformNotExistingMacro() throws Exception
     {
         String expected = "beginDocument\n"
             + "beginMacroMarkerStandalone [notexisting] []\n"
@@ -294,6 +306,87 @@ public class MacroTransformationTest
         BlockRenderer eventBlockRenderer =
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
+    }
+
+    @Test
+    void prepareSimpleMacro() throws Exception
+    {
+        MacroBlock macroBlock = new MacroBlock("testmacro",
+            Collections.<String, String>emptyMap(), false);
+
+        Macro testMacro = this.componentManager.registerMockComponent(Macro.class, macroBlock.getId());
+        doAnswer(new Answer<Void>()
+        {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable
+            {
+                invocation.<MacroBlock>getArgument(0).setAttribute("test", "prepared");
+
+                return null;
+            }
+        }).when(testMacro).prepare(macroBlock);
+
+        this.transformation.prepare(macroBlock);
+
+        assertEquals(Map.of("test", "prepared"), macroBlock.getAttributes());
+    }
+
+    @Test
+    void prepareSimpleMacros() throws Exception
+    {
+        MacroBlock macroBlock1 = new MacroBlock("testmacro1",
+            Collections.<String, String>emptyMap(), false);
+        MacroBlock macroBlock2 = new MacroBlock("testmacro2",
+            Collections.<String, String>emptyMap(), false);
+
+        Macro testMacro1 = this.componentManager.registerMockComponent(Macro.class, macroBlock1.getId());
+        Macro testMacro2 = this.componentManager.registerMockComponent(Macro.class, macroBlock2.getId());
+        doAnswer(new Answer<Void>()
+        {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable
+            {
+                MacroBlock block = invocation.getArgument(0);
+                block.setAttribute("test", "prepared1");
+
+                return null;
+            }
+        }).when(testMacro1).prepare(macroBlock1);
+        doAnswer(new Answer<Void>()
+        {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable
+            {
+                MacroBlock block = invocation.getArgument(0);
+                block.setAttribute("test", "prepared2");
+
+                return null;
+            }
+        }).when(testMacro2).prepare(macroBlock2);
+
+        this.transformation.prepare(new XDOM(List.of(macroBlock1, macroBlock2)));
+
+        assertEquals(Map.of("test", "prepared1"), macroBlock1.getAttributes());
+        assertEquals(Map.of("test", "prepared2"), macroBlock2.getAttributes());
+    }
+
+    @Test
+    void prepareNotExistingMacro()
+    {
+        MacroBlock macroBlock = new MacroBlock("notexisting", Collections.<String, String>emptyMap(), false);
+        XDOM dom = new XDOM(List.of(macroBlock));
+
+        assertTrue(macroBlock.getAttributes().isEmpty());
+
+        this.transformation.prepare(dom);
+
+        assertTrue(macroBlock.getAttributes().isEmpty());
+
+        assertEquals(
+            "Failed to get the macro with identifier [notexisting] for syntax [null]"
+                + " (this macro block won't be prepared):"
+                + " MacroNotFoundException: No macro [notexisting] could be found.",
+            this.logCapture.getMessage(0));
     }
 }

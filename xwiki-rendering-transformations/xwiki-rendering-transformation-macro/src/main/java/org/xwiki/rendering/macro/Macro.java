@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.xwiki.component.annotation.ComponentRole;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
@@ -70,4 +71,16 @@ public interface Macro<P> extends Comparable<Macro<?>>
      */
     List<Block> execute(P parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException;
+
+    /**
+     * Prepare a {@link MacroBlock} meant to be cached to be executed several times. The goal is to pre-execute
+     * everything that is independent of any context and store it in an annotation of the passed {@link MacroBlock}.
+     * 
+     * @param macroBlock the macro block to prepare
+     * @since 15.9RC1
+     */
+    default void prepare(MacroBlock macroBlock) throws MacroPreparationException
+    {
+        // Do nothing by default
+    }
 }

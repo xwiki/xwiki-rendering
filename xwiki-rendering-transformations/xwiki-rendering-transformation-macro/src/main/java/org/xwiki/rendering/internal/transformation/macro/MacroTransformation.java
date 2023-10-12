@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
@@ -36,8 +37,10 @@ import org.xwiki.properties.BeanManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroId;
 import org.xwiki.rendering.macro.MacroLookupException;
@@ -145,9 +148,8 @@ public class MacroTransformation extends AbstractTransformation implements Initi
 
                     // If not found use the macro manager
                     if (macro == null) {
-                        macro =
-                            MacroTransformation.this.macroManager
-                                .getMacro(new MacroId(macroBlock.getId(), this.syntax));
+                        macro = MacroTransformation.this.macroManager
+                            .getMacro(new MacroId(macroBlock.getId(), this.syntax));
 
                         // Cache the found macro for later
                         this.knownMacros.put(macroBlock.getId(), macro);
@@ -353,5 +355,62 @@ public class MacroTransformation extends AbstractTransformation implements Initi
     public void setMaxRecursions(int maxRecursions)
     {
         this.maxRecursions = maxRecursions;
+    }
+
+    @Override
+    public void prepare(Block block)
+    {
+        // Find the current syntax
+        Syntax syntax = block.getSyntaxMetadata().orElse(null);
+
+        // Prepare the block
+        // FIXME: remove the try/catch while fixing http://jira.xwiki.org/browse/XRENDERING-725.
+        try {
+            prepare(block, syntax);
+        } catch (StackOverflowError e) {
+            this.logger.error("Failed to prepare the block", e);
+        }
+    }
+
+    private void prepare(Block block, Syntax parentSyntax)
+    {
+        Syntax currentSyntax = parentSyntax;
+
+        // Check if the syntax changes
+        if (block instanceof MetaDataBlock) {
+            Syntax blockSyntax = (Syntax) ((MetaDataBlock) block).getMetaData().getMetaData(MetaData.SYNTAX);
+            if (blockSyntax != null) {
+                currentSyntax = blockSyntax;
+            }
+        }
+
+        // Prepare the block
+        if (block instanceof MacroBlock) {
+            MacroBlock macroBlock = (MacroBlock) block;
+
+            // Find the macro
+            Macro<?> macro = null;
+            try {
+                macro = this.macroManager.getMacro(new MacroId(macroBlock.getId(), currentSyntax));
+            } catch (Exception e) {
+                this.logger.warn(
+                    "Failed to get the macro with identifier [{}] for syntax [{}] (this macro block won't be prepared): {}",
+                    macroBlock.getId(), currentSyntax, ExceptionUtils.getRootCauseMessage(e));
+            }
+
+            // Prepare the macro block
+            if (macro != null) {
+                try {
+                    macro.prepare(macroBlock);
+                } catch (Exception e) {
+                    this.logger.error("Failed to prepare the macro block", e);
+                }
+            }
+        }
+
+        // Prepare the children
+        for (Block child : block.getChildren()) {
+            prepare(child, currentSyntax);
+        }
     }
 }

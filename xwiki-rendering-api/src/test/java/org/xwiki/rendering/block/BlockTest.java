@@ -30,9 +30,11 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.match.AnyBlockMatcher;
 import org.xwiki.rendering.block.match.BlockNavigatorTest;
+import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.syntax.Syntax;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for Block manipulation, testing {@link AbstractBlock}.
@@ -48,10 +51,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @version $Id$
  * @since 1.5M2
  */
-public class BlockTest
+class BlockTest
 {
     @Test
-    public void insertChildAfter()
+    void insertChildAfter()
     {
         Block wb1 = new WordBlock("block1");
         Block wb2 = new WordBlock("block2");
@@ -74,7 +77,7 @@ public class BlockTest
     }
 
     @Test
-    public void insertChildBefore()
+    void insertChildBefore()
     {
         Block wb1 = new WordBlock("block1");
         Block wb2 = new WordBlock("block2");
@@ -95,7 +98,7 @@ public class BlockTest
     }
 
     @Test
-    public void replaceBlock()
+    void replaceBlock()
     {
         // It's important all blocks have same content to make sure replacement api don't find the position of the
         // old block using Object#equals
@@ -144,9 +147,10 @@ public class BlockTest
     }
 
     @Test
-    public void testClone()
+    void testClone()
     {
         WordBlock wb = new WordBlock("block");
+        wb.setAttribute("att1", "value1");
         ImageBlock ib = new ImageBlock(new ResourceReference("document@attachment", ResourceType.ATTACHMENT), true);
         DocumentResourceReference linkReference = new DocumentResourceReference("reference");
         LinkBlock lb = new LinkBlock(Arrays.asList((Block) new WordBlock("label")), linkReference, false);
@@ -167,12 +171,13 @@ public class BlockTest
         assertNotSame(lb, newPB.getChildren().get(2));
 
         assertEquals(wb.getWord(), ((WordBlock) newPB.getChildren().get(0)).getWord());
+        assertEquals(wb.getAttributes(), ((WordBlock) newPB.getChildren().get(0)).getAttributes());
         assertNotSame(ib.getReference(), ((ImageBlock) newPB.getChildren().get(1)).getReference());
         assertNotSame(lb.getReference(), ((LinkBlock) newPB.getChildren().get(2)).getReference());
     }
 
     @Test
-    public void getNextSibling()
+    void getNextSibling()
     {
         WordBlock b1 = new WordBlock("b1");
         WordBlock b2 = new WordBlock("b2");
@@ -185,7 +190,7 @@ public class BlockTest
     }
 
     @Test
-    public void removeBlock()
+    void removeBlock()
     {
         WordBlock b1 = new WordBlock("b1");
         WordBlock b1bis = new WordBlock("b1");
@@ -211,21 +216,21 @@ public class BlockTest
     }
 
     @Test
-    public void getBlocks()
+    void getBlocks()
     {
         assertEquals(Arrays.asList(BlockNavigatorTest.parentBlock, BlockNavigatorTest.rootBlock),
             BlockNavigatorTest.contextBlock.getBlocks(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
     }
 
     @Test
-    public void getFirstBlock()
+    void getFirstBlock()
     {
         assertSame(BlockNavigatorTest.parentBlock,
             BlockNavigatorTest.contextBlock.getFirstBlock(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
     }
 
     @Test
-    public void setChildren()
+    void setChildren()
     {
         ParagraphBlock paragraphBlock = new ParagraphBlock(Collections.EMPTY_LIST);
 
@@ -246,7 +251,7 @@ public class BlockTest
     }
 
     @Test
-    public void setAndGetParameter()
+    void setAndGetParameter()
     {
         WordBlock wordBlock = new WordBlock("word");
 
@@ -260,7 +265,7 @@ public class BlockTest
     }
 
     @Test
-    public void setAndGetParameters()
+    void setAndGetParameters()
     {
         WordBlock wordBlock = new WordBlock("word");
 
@@ -282,7 +287,43 @@ public class BlockTest
     }
 
     @Test
-    public void getRoot()
+    void setAndGetAttribute()
+    {
+        WordBlock wordBlock = new WordBlock("word");
+
+        wordBlock.setAttribute("param", List.of("value"));
+
+        assertEquals(List.of("value"), wordBlock.getAttribute("param"));
+
+        wordBlock.setAttribute("param", 42);
+
+        assertEquals(42, wordBlock.getAttribute("param"));
+    }
+
+    @Test
+    void setAndGetattributes()
+    {
+        WordBlock wordBlock = new WordBlock("word");
+
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("param1", List.of("value1"));
+        attributes.put("param2", 42);
+
+        wordBlock.setAttributes(attributes);
+
+        assertEquals(attributes, wordBlock.getAttributes());
+
+        Map<String, Object> attributes2 = new HashMap<>();
+        attributes.put("param21", Map.of("key", "value21"));
+        attributes.put("param22", "value22");
+
+        wordBlock.setAttributes(attributes2);
+
+        assertEquals(attributes2, wordBlock.getAttributes());
+    }
+
+    @Test
+    void getRoot()
     {
         assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.rootBlock.getRoot());
         assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlock.getRoot());
@@ -291,7 +332,7 @@ public class BlockTest
     }
 
     @Test
-    public void testAbstractBlockEquals()
+    void testAbstractBlockEquals()
     {
         final String ID = "Test id";
         final String CONTENT = "Test content";
@@ -358,7 +399,7 @@ public class BlockTest
     }
 
     @Test
-    public void indexOf()
+    void indexOf()
     {
         Block wb1 = new WordBlock("block1");
         Block wb2 = new WordBlock("block2");
@@ -368,5 +409,28 @@ public class BlockTest
         assertEquals(1, pb.indexOf(wb1));
         assertEquals(2, pb.indexOf(wb2));
         assertEquals(-1, pb.indexOf(new WordBlock("block1")));
+    }
+
+    @Test
+    void getSyntaxMetadata()
+    {
+        Block wb = new WordBlock("block1");
+
+        assertTrue(wb.getSyntaxMetadata().isEmpty());
+
+        MetaDataBlock metadata1 = new MetaDataBlock(List.of(wb));
+
+        assertTrue(wb.getSyntaxMetadata().isEmpty());
+
+        metadata1.getMetaData().addMetaData(MetaData.SYNTAX, Syntax.XWIKI_2_1);
+
+        assertEquals(Syntax.XWIKI_2_1, wb.getSyntaxMetadata().get());
+        assertEquals(Syntax.XWIKI_2_1, metadata1.getSyntaxMetadata().get());
+
+        MetaDataBlock metadata2 = new MetaDataBlock(List.of(metadata1), MetaData.SYNTAX, Syntax.PLAIN_1_0);
+
+        assertEquals(Syntax.XWIKI_2_1, wb.getSyntaxMetadata().get());
+        assertEquals(Syntax.XWIKI_2_1, metadata1.getSyntaxMetadata().get());
+        assertEquals(Syntax.PLAIN_1_0, metadata2.getSyntaxMetadata().get());
     }
 }

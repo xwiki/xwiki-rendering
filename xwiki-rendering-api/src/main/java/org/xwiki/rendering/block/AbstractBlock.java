@@ -25,13 +25,18 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.block.match.BlockNavigator;
 import org.xwiki.rendering.block.match.CounterBlockMatcher;
+import org.xwiki.rendering.block.match.MetadataBlockMatcher;
 import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Implementation for Block operations. All blocks should extend this class. Supports the notion of generic parameters
@@ -46,6 +51,11 @@ public abstract class AbstractBlock implements Block
      * Store parameters, see {@link #getParameter(String)} for more explanations on what parameters are.
      */
     private Map<String, String> parameters;
+
+    /**
+     * Store attributes, see {@link #getAttribute(String)} for more explanations what attributes are.
+     */
+    private Map<String, Object> attributes;
 
     /**
      * The Blocks this Block contains.
@@ -400,6 +410,40 @@ public abstract class AbstractBlock implements Block
     }
 
     @Override
+    public Map<String, Object> getAttributes()
+    {
+        return this.attributes == null ? Collections.emptyMap()
+            : Collections.unmodifiableMap(this.attributes);
+    }
+
+    @Override
+    public Object getAttribute(String name)
+    {
+        return this.attributes == null ? null : this.attributes.get(name);
+    }
+
+    @Override
+    public void setAttribute(String name, Object value)
+    {
+        if (this.attributes == null) {
+            this.attributes = new LinkedHashMap<>(1);
+        }
+
+        this.attributes.put(name, value);
+    }
+
+    @Override
+    public void setAttributes(Map<String, Object> attributes)
+    {
+        if (this.attributes == null) {
+            this.attributes = new LinkedHashMap<>(attributes);
+        } else {
+            this.attributes.clear();
+            this.attributes.putAll(attributes);
+        }
+    }
+
+    @Override
     public void setParent(Block parentBlock)
     {
         this.parentBlock = parentBlock;
@@ -467,6 +511,7 @@ public abstract class AbstractBlock implements Block
 
             builder.append(getChildren(), ((Block) obj).getChildren());
             builder.append(getParameters(), ((Block) obj).getParameters());
+            builder.append(getAttributes(), ((Block) obj).getAttributes());
 
             return builder.isEquals();
         }
@@ -481,6 +526,7 @@ public abstract class AbstractBlock implements Block
 
         builder.append(this.childrenBlocks);
         builder.append(this.parameters);
+        builder.append(this.attributes);
 
         return builder.toHashCode();
     }
@@ -510,6 +556,9 @@ public abstract class AbstractBlock implements Block
         if (this.parameters != null) {
             ((AbstractBlock) block).parameters = new LinkedHashMap<>(this.parameters);
         }
+
+        // Clone attribute values if possible as documented in getAttribute().
+        this.getAttributes().forEach((key, value) -> block.setAttribute(key, ObjectUtils.cloneIfPossible(value)));
 
         if (this.childrenBlocks != null) {
             ((AbstractBlock) block).childrenBlocks = new ArrayList<>(this.childrenBlocks.size());
@@ -583,5 +632,17 @@ public abstract class AbstractBlock implements Block
         BlockNavigator navigator = new BlockNavigator(matcher);
 
         return navigator.getFirstBlock(this, axes);
+    }
+
+    @Override
+    public Optional<Syntax> getSyntaxMetadata()
+    {
+        MetaDataBlock metaDataBlock = getFirstBlock(new MetadataBlockMatcher(MetaData.SYNTAX), Axes.ANCESTOR_OR_SELF);
+
+        if (metaDataBlock != null) {
+            return Optional.ofNullable((Syntax) metaDataBlock.getMetaData().getMetaData(MetaData.SYNTAX));
+        }
+
+        return Optional.empty();
     }
 }

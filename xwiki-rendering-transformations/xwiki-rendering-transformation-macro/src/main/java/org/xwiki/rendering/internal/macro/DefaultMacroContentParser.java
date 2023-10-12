@@ -30,11 +30,8 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.MacroBlock;
-import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.block.match.MetadataBlockMatcher;
 import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.macro.MacroContentParser;
@@ -204,12 +201,7 @@ public class DefaultMacroContentParser implements MacroContentParser
         MacroBlock currentMacroBlock = context.getCurrentMacroBlock();
 
         if (currentMacroBlock != null) {
-            MetaDataBlock metaDataBlock =
-                currentMacroBlock.getFirstBlock(new MetadataBlockMatcher(MetaData.SYNTAX), Axes.ANCESTOR_OR_SELF);
-
-            if (metaDataBlock != null) {
-                currentSyntax = (Syntax) metaDataBlock.getMetaData().getMetaData(MetaData.SYNTAX);
-            }
+            return currentMacroBlock.getSyntaxMetadata().orElse(currentSyntax);
         }
 
         return currentSyntax;
