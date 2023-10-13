@@ -75,6 +75,9 @@ public interface Macro<P> extends Comparable<Macro<?>>
     /**
      * Prepare a {@link MacroBlock} meant to be cached to be executed several times. The goal is to pre-execute
      * everything that is independent of any context and store it in an annotation of the passed {@link MacroBlock}.
+     * <p>
+     * The result of the pre-execution is generally stored in the {@link MacroBlock} as attribute. Since the prepared
+     * block might end up exposed in an unsafe environment the value should be either clonable or immutable.
      * 
      * @param macroBlock the macro block to prepare
      * @since 15.9RC1
