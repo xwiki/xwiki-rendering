@@ -32,6 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.MacroBlock;
@@ -39,11 +40,12 @@ import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.block.match.ClassBlockMatcher;
-import org.xwiki.rendering.internal.transformation.macro.RawBlockFilterUtils;
 import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
+import org.xwiki.rendering.internal.transformation.macro.RawBlockFilterUtils;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.html.HTMLMacroParameters;
 import org.xwiki.rendering.renderer.PrintRenderer;
@@ -111,6 +113,9 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
 
     @Inject
     private RawBlockFilterUtils rawBlockFilterUtils;
+
+    @Inject
+    private ConverterManager converter;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -269,5 +274,13 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             return Syntax.HTML_5_0;
         }
         return targetSyntax;
+    }
+
+    @Override
+    public void prepare(MacroBlock macroBlock) throws MacroPreparationException
+    {
+        if (Boolean.TRUE.equals(this.converter.convert(Boolean.class, macroBlock.getParameter("wiki")))) {
+            this.contentParser.prepareContentWiki(macroBlock);
+        }
     }
 }

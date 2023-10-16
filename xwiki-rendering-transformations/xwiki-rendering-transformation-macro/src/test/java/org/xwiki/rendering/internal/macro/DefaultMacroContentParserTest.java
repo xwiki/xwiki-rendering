@@ -22,6 +22,8 @@ package org.xwiki.rendering.internal.macro;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Named;
 
@@ -33,6 +35,11 @@ import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
+import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.rendering.macro.MacroContentParser;
+import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.MacroPreparationException;
+import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxType;
@@ -40,12 +47,13 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
-import org.xwiki.test.annotation.ComponentList;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
 import org.xwiki.test.junit5.mockito.MockComponent;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
@@ -54,10 +62,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ComponentTest
-@ComponentList({DefaultMacroContentParser.class})
 class DefaultMacroContentParserTest
 {
-    private static final Syntax TEST_SYNTAX = new Syntax(new SyntaxType("test", "test"), "1.0");
+    private static final Syntax TEST_SYNTAX_1 = new Syntax(new SyntaxType("test", "test"), "1.0");
 
     private static final Syntax TEST_SYNTAX_2 = new Syntax(new SyntaxType("test", "test"), "2.0");
 
@@ -66,7 +73,7 @@ class DefaultMacroContentParserTest
 
     @MockComponent
     @Named("test/1.0")
-    private Parser mockParser;
+    private Parser mockParser1;
 
     @MockComponent
     @Named("test/2.0")
@@ -81,7 +88,7 @@ class DefaultMacroContentParserTest
     public void beforeEach() throws Exception
     {
         this.macroContext = new MacroTransformationContext();
-        this.macroContext.setSyntax(TEST_SYNTAX);
+        this.macroContext.setSyntax(TEST_SYNTAX_1);
     }
 
     // Tests
@@ -89,17 +96,20 @@ class DefaultMacroContentParserTest
     @Test
     void parseInline() throws Exception
     {
-        when(this.mockParser.parse(any(Reader.class))).thenReturn(
+        MacroBlock macroBlock = new MacroBlock("id", Map.of(), "content", false);
+        this.macroContext.setCurrentMacroBlock(macroBlock);
+
+        when(this.mockParser1.parse(any(Reader.class))).thenReturn(
             new XDOM(Arrays.<Block>asList(new ParagraphBlock(Arrays.<Block>asList(new WordBlock("word"))))));
 
         assertEquals(new XDOM(Arrays.<Block>asList(new WordBlock("word"))),
-            this.macroContentParser.parse("content", this.macroContext, false, true));
+            this.macroContentParser.parse(macroBlock.getContent(), this.macroContext, false, true));
     }
 
     @Test
     void parseInlineWithStandaloneMacro() throws Exception
     {
-        when(this.mockParser.parse(any(Reader.class)))
+        when(this.mockParser1.parse(any(Reader.class)))
             .thenReturn(new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.emptyMap(), null, false))));
 
         assertEquals(new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.emptyMap(), null, true))),
@@ -109,7 +119,7 @@ class DefaultMacroContentParserTest
     @Test
     void parseInlineWithStandaloneMacroWithTransformations() throws Exception
     {
-        when(this.mockParser.parse(any(Reader.class)))
+        when(this.mockParser1.parse(any(Reader.class)))
             .thenReturn(new XDOM(Arrays.<Block>asList(new MacroBlock("macro", Collections.emptyMap(), null, false))));
 
         this.macroContext.setTransformation(mock(Transformation.class));
@@ -124,7 +134,7 @@ class DefaultMacroContentParserTest
     @Test
     void parseInlineWithStandaloneMacroWithRestrictedTransformations() throws Exception
     {
-        when(this.mockParser.parse(any(Reader.class)))
+        when(this.mockParser1.parse(any(Reader.class)))
             .thenReturn(
                 new XDOM(Collections.singletonList(new MacroBlock("macro", Collections.emptyMap(), null, false))));
 
@@ -147,5 +157,62 @@ class DefaultMacroContentParserTest
 
         assertEquals(new XDOM(Arrays.<Block>asList(new WordBlock("word2"))),
             this.macroContentParser.parse("content", TEST_SYNTAX_2, this.macroContext, false, null, true));
+    }
+
+    @Test
+    void prepareContentWikiWithNullContent() throws MacroPreparationException
+    {
+        MacroBlock macroBlock = new MacroBlock("id", Map.of(), false);
+
+        this.macroContentParser.prepareContentWiki(macroBlock);
+
+        assertNull(macroBlock.getAttribute(MacroContentParser.ATTRIBUTE_PREPARE_CONTENT_XDOM));
+    }
+
+    @Test
+    void prepareContentWikiWithNoSyntax()
+    {
+        MacroBlock macroBlock = new MacroBlock("id", Map.of(), "content", false);
+
+        assertThrows(MacroPreparationException.class, () -> this.macroContentParser.prepareContentWiki(macroBlock),
+            "No syntax provided to parse the content");
+    }
+
+    @Test
+    void parsePreparedContent() throws MacroPreparationException, ParseException, MacroExecutionException
+    {
+        MacroBlock macroBlock = new MacroBlock("id", Map.of(), "content", false);
+        XDOM xdom = new XDOM(List.of(macroBlock));
+        xdom.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_1);
+        this.macroContext.setCurrentMacroBlock(macroBlock);
+
+        XDOM parsedXDOM1 = new XDOM(List.of(new WordBlock("1")));
+        parsedXDOM1.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_1);
+        when(this.mockParser1.parse(any(), any())).thenReturn(parsedXDOM1);
+        XDOM parsedXDOM2 = new XDOM(List.of(new WordBlock("2")));
+        parsedXDOM2.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_2);
+        when(this.mockParser2.parse(any(), any())).thenReturn(parsedXDOM2);
+
+        // Prepare without custom syntax
+        this.macroContentParser.prepareContentWiki(macroBlock);
+
+        XDOM preparedContent1 = (XDOM) macroBlock.getAttribute(MacroContentParser.ATTRIBUTE_PREPARE_CONTENT_XDOM);
+
+        assertEquals(parsedXDOM1, preparedContent1);
+
+        // Parse without custom syntax
+        assertEquals(preparedContent1, this.macroContentParser.parse(macroBlock.getContent(), TEST_SYNTAX_1,
+            this.macroContext, false, null, macroBlock.isInline()));
+
+        // Prepare with custom syntax
+        this.macroContentParser.prepareContentWiki(macroBlock, TEST_SYNTAX_2);
+
+        XDOM preparedContent2 = (XDOM) macroBlock.getAttribute(MacroContentParser.ATTRIBUTE_PREPARE_CONTENT_XDOM);
+
+        assertEquals(parsedXDOM2, preparedContent2);
+
+        // Parse with custom syntax
+        assertEquals(preparedContent2, this.macroContentParser.parse(macroBlock.getContent(), TEST_SYNTAX_2,
+            this.macroContext, false, null, macroBlock.isInline()));
     }
 }

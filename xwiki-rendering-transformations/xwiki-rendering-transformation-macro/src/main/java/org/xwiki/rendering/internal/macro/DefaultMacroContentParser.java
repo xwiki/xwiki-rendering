@@ -21,8 +21,10 @@ package org.xwiki.rendering.internal.macro;
 
 import java.io.StringReader;
 import java.util.Collections;
+import java.util.Optional;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,18 +32,21 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
+import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.rendering.util.ParserUtils;
 
 /**
@@ -65,6 +70,10 @@ public class DefaultMacroContentParser implements MacroContentParser
      */
     @Inject
     private RenderingContext renderingContext;
+
+    @Inject
+    @Named("macro")
+    private Transformation transformation;
 
     /**
      * Utility to remove the top level paragraph.
@@ -108,41 +117,83 @@ public class DefaultMacroContentParser implements MacroContentParser
         return createXDOM(content, macroContext, transform, metadata, inline, finalSyntax);
     }
 
-    /**
-     * creates XDOM.
-     */
+    private XDOM getPreparedXDOM(String content, MacroTransformationContext macroContext, Syntax syntax)
+    {
+        if (macroContext.getCurrentMacroBlock() != null
+            // Make sure the passed content is actually the current block content as otherwise it's a different use case
+            && macroContext.getCurrentMacroBlock().getContent() == content) {
+            XDOM preparedXDOM = (XDOM) macroContext.getCurrentMacroBlock().getAttribute(ATTRIBUTE_PREPARE_CONTENT_XDOM);
+
+            if (preparedXDOM != null) {
+                // Make sure the resolved syntax is the one that was used to prepare the content
+                Syntax preparedSyntax = (Syntax) preparedXDOM.getMetaData().getMetaData(MetaData.SYNTAX);
+                if (syntax.equals(preparedSyntax)) {
+                    return preparedXDOM;
+                }
+            }
+        }
+
+        return null;
+    }
+
     private XDOM createXDOM(String content, MacroTransformationContext macroContext, boolean transform,
         MetaData metadata, boolean inline, Syntax syntax) throws MacroExecutionException
     {
-        try {
-            XDOM result;
+        XDOM result = getPreparedXDOM(content, macroContext, syntax);
 
-            if (macroContext.getXDOM() != null && macroContext.getXDOM().getIdGenerator() != null) {
-                result = getSyntaxParser(syntax).parse(new StringReader(content),
-                    macroContext.getXDOM().getIdGenerator());
+        // Parse the content if not already prepared
+        if (result == null) {
+            IdGenerator idGenerator = null;
+            if (macroContext.getXDOM() != null) {
+                idGenerator = macroContext.getXDOM().getIdGenerator();
             } else {
-                result = getSyntaxParser(syntax).parse(new StringReader(content));
+                idGenerator = null;
             }
+            result = parse(content, syntax, inline, idGenerator);
+        } else {
+            // Clone the prepared content to be sure to not modify the potentially cached version
+            result = result.clone();
+        }
 
-            // Inject metadata
-            if (metadata != null) {
-                result.getMetaData().addMetaData(metadata);
-            }
+        // Inject metadata
+        if (metadata != null) {
+            result.getMetaData().addMetaData(metadata);
+        }
 
-            // Try to convert the content to inline content
-            // TODO: ideally we would use a real inline parser
-            if (inline) {
-                result = convertToInline(result);
-            }
-
-            // Execute the content
-            if (transform && macroContext.getTransformation() != null) {
+        // Transform the content
+        if (transform && macroContext.getTransformation() != null) {
+            try {
                 TransformationContext wrappingContext = macroContext.getTransformationContext();
                 boolean isRestricted = wrappingContext != null && wrappingContext.isRestricted();
                 TransformationContext txContext = new TransformationContext(result, syntax, isRestricted);
                 txContext.setId(macroContext.getId());
                 performTransformation((MutableRenderingContext) this.renderingContext, macroContext.getTransformation(),
                     txContext, result);
+            } catch (Exception e) {
+                throw new MacroExecutionException("Failed to tranform the content [" + content + "]", e);
+            }
+        }
+
+        return result;
+    }
+
+    private XDOM parse(String content, Syntax syntax, boolean inline, IdGenerator idGenerator)
+        throws MacroExecutionException
+    {
+        try {
+            XDOM result;
+
+            Parser parser = getSyntaxParser(syntax);
+            if (idGenerator != null) {
+                result = parser.parse(new StringReader(content), idGenerator);
+            } else {
+                result = parser.parse(new StringReader(content));
+            }
+
+            // Try to convert the content to inline content
+            // TODO: ideally we would use a real inline parser
+            if (inline) {
+                result = convertToInline(result);
             }
 
             return result;
@@ -175,6 +226,39 @@ public class DefaultMacroContentParser implements MacroContentParser
         }
 
         return xdom;
+    }
+
+    @Override
+    public void prepareContentWiki(MacroBlock macroBlock, Syntax syntax) throws MacroPreparationException
+    {
+        if (macroBlock.getContent() != null) {
+            // Find the syntax
+            Syntax contentSyntax = syntax;
+            if (contentSyntax == null) {
+                Optional<Syntax> syntaxMetadata = macroBlock.getSyntaxMetadata();
+                contentSyntax = syntaxMetadata
+                    .orElseThrow(() -> new MacroPreparationException("No syntax provided to parse the content"));
+            }
+
+            // Find the id generator
+            Optional<IdGenerator> idGenerator = macroBlock.get(
+                b -> b instanceof XDOM ? Optional.ofNullable(((XDOM) b).getIdGenerator()) : Optional.empty(),
+                Axes.DESCENDANT_OR_SELF);
+
+            try {
+                // Parse the macro wiki content
+                XDOM result = parse(macroBlock.getContent(), contentSyntax, macroBlock.isInline(),
+                    idGenerator.isPresent() ? idGenerator.get() : null);
+
+                // Prepare the macro wiki content
+                this.transformation.prepare(result);
+
+                // Store the prepared content as attribute
+                macroBlock.setAttribute(ATTRIBUTE_PREPARE_CONTENT_XDOM, result);
+            } catch (MacroExecutionException e) {
+                throw new MacroPreparationException("Failed to parse the content", e);
+            }
+        }
     }
 
     /**

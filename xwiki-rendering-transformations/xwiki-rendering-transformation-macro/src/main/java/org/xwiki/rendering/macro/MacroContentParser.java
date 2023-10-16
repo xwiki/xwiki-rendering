@@ -20,6 +20,7 @@
 package org.xwiki.rendering.macro;
 
 import org.xwiki.component.annotation.Role;
+import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.syntax.Syntax;
@@ -35,6 +36,14 @@ import org.xwiki.stability.Unstable;
 @Role
 public interface MacroContentParser
 {
+    /**
+     * The name of the attribute used to store the prepared wiki content of a macro.
+     * 
+     * @since 15.9RC1
+     */
+    @Unstable
+    String ATTRIBUTE_PREPARE_CONTENT_XDOM = "prepare.content.xdom";
+
     /**
      * Parses content of a macro field (parameter, macro content) in a given syntax and optionally remove the top level
      * paragraph.
@@ -94,4 +103,33 @@ public interface MacroContentParser
      * @return the current syntax
      */
     Syntax getCurrentSyntax(MacroTransformationContext context);
+
+    /**
+     * Prepare the passed macro content as wiki content to be executed later. The prepared blocks are injected in
+     * attribute {@link #ATTRIBUTE_PREPARE_CONTENT_XDOM}.
+     * 
+     * @param macroBlock the macro to prepare
+     * @throws MacroPreparationException when failing to prepare the content
+     * @since 15.9RC1
+     */
+    @Unstable
+    default void prepareContentWiki(MacroBlock macroBlock) throws MacroPreparationException
+    {
+        prepareContentWiki(macroBlock, null);
+    }
+
+    /**
+     * Prepare the passed macro content as wiki content to be executed later. The prepared blocks are injected in
+     * attribute {@link #ATTRIBUTE_PREPARE_CONTENT_XDOM}.
+     * 
+     * @param macroBlock the macro to prepare
+     * @param syntax the syntax of the macro content, or null to use the native {@link MacroBlock} syntax
+     * @throws MacroPreparationException when failing to prepare the content
+     * @since 15.9RC1
+     */
+    @Unstable
+    default void prepareContentWiki(MacroBlock macroBlock, Syntax syntax) throws MacroPreparationException
+    {
+        
+    }
 }

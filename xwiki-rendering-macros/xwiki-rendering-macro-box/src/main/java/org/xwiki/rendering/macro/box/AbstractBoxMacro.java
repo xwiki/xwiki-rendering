@@ -61,17 +61,19 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
     public static final String CONTENT_MISSING_ERROR = "The required content is missing.";
 
     /**
+     * The parser used to parse box content and box title parameter.
+     * 
+     * @since 15.9RC1
+     */
+    @Inject
+    protected MacroContentParser contentParser;
+
+    /**
      * Parses untyped image references.
      */
     @Inject
     @Named("image/untyped")
     private ResourceReferenceParser untypedImageReferenceParser;
-
-    /**
-     * The parser used to parse box content and box title parameter.
-     */
-    @Inject
-    private MacroContentParser contentParser;
 
     /**
      * Creates a new box macro.

@@ -53,7 +53,7 @@ public class XDOM extends MetaDataBlock
      */
     public XDOM(List<? extends Block> childBlocks)
     {
-        this(childBlocks, new IdGenerator(), MetaData.EMPTY);
+        this(childBlocks, new IdGenerator(), new MetaData());
     }
 
     /**
@@ -72,7 +72,7 @@ public class XDOM extends MetaDataBlock
      */
     public XDOM(List<? extends Block> childBlocks, IdGenerator idGenerator)
     {
-        this(childBlocks, idGenerator, MetaData.EMPTY);
+        this(childBlocks, idGenerator, new MetaData());
     }
 
     /**

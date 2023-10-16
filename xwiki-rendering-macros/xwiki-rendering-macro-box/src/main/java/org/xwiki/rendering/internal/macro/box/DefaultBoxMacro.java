@@ -28,8 +28,10 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
@@ -75,5 +77,11 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
         List<Block> children = getMacroContentParser().parse(content, context, false, context.isInline()).getChildren();
 
         return Collections.singletonList(new MetaDataBlock(children, this.getNonGeneratedContentMetaData()));
+    }
+
+    @Override
+    public void prepare(MacroBlock macroBlock) throws MacroPreparationException
+    {
+        this.contentParser.prepareContentWiki(macroBlock);
     }
 }
