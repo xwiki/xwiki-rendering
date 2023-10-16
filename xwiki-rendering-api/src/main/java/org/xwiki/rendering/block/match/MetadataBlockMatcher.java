@@ -22,6 +22,7 @@ package org.xwiki.rendering.block.match;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.stability.Unstable;
 
 /**
  * Implementation of {@link BlockMatcher} which matches {@link MetaData} information.
@@ -36,6 +37,7 @@ public class MetadataBlockMatcher extends ClassBlockMatcher
      * 
      * @since 15.9RC1
      */
+    @Unstable
     public static final MetadataBlockMatcher SYNTAX = new MetadataBlockMatcher(MetaData.SYNTAX);
 
     /**

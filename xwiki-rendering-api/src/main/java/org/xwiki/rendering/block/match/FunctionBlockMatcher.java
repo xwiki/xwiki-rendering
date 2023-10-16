@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import org.xwiki.rendering.block.Block;
+import org.xwiki.stability.Unstable;
 
 /**
  * Search for a specific value in a {@link Block}.
@@ -31,6 +32,7 @@ import org.xwiki.rendering.block.Block;
  * @version $Id$
  * @since 15.9RC1
  */
+@Unstable
 public class FunctionBlockMatcher<T> implements BlockMatcher
 {
     private final Function<Block, Optional<T>> function;
