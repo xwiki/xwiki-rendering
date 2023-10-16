@@ -637,7 +637,7 @@ public abstract class AbstractBlock implements Block
     @Override
     public Optional<Syntax> getSyntaxMetadata()
     {
-        MetaDataBlock metaDataBlock = getFirstBlock(new MetadataBlockMatcher(MetaData.SYNTAX), Axes.ANCESTOR_OR_SELF);
+        MetaDataBlock metaDataBlock = getFirstBlock(MetadataBlockMatcher.SYNTAX, Axes.ANCESTOR_OR_SELF);
 
         if (metaDataBlock != null) {
             return Optional.ofNullable((Syntax) metaDataBlock.getMetaData().getMetaData(MetaData.SYNTAX));

@@ -32,6 +32,13 @@ import org.xwiki.rendering.listener.MetaData;
 public class MetadataBlockMatcher extends ClassBlockMatcher
 {
     /**
+     * The {@link MetadataBlockMatcher} for {@link MetaData#SOURCE}.
+     * 
+     * @since 15.9RC1
+     */
+    public static final MetadataBlockMatcher SYNTAX = new MetadataBlockMatcher(MetaData.SYNTAX);
+
+    /**
      * The key of the {@link MetaData}.
      */
     private String metadataKey;
