@@ -33,7 +33,7 @@ import org.xwiki.stability.Unstable;
 public class MetadataBlockMatcher extends ClassBlockMatcher
 {
     /**
-     * The {@link MetadataBlockMatcher} for {@link MetaData#SOURCE}.
+     * The {@link MetadataBlockMatcher} for {@link MetaData#SYNTAX}.
      * 
      * @since 15.9RC1
      */
