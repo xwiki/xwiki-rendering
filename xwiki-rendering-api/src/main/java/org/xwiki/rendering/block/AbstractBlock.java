@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -33,6 +34,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.block.match.BlockNavigator;
 import org.xwiki.rendering.block.match.CounterBlockMatcher;
+import org.xwiki.rendering.block.match.FunctionBlockMatcher;
 import org.xwiki.rendering.block.match.MetadataBlockMatcher;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
@@ -644,5 +646,15 @@ public abstract class AbstractBlock implements Block
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public <T> Optional<T> get(Function<Block, Optional<T>> searcher, Axes axes)
+    {
+        FunctionBlockMatcher<T> matcher = new FunctionBlockMatcher<>(searcher);
+
+        getFirstBlock(matcher, Axes.ANCESTOR_OR_SELF);
+
+        return matcher.getValue();
     }
 }

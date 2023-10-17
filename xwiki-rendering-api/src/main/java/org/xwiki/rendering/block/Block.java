@@ -23,6 +23,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.rendering.block.match.BlockMatcher;
@@ -359,7 +360,23 @@ public interface Block extends Cloneable
      * @return the syntax of the block or null of none could be found
      * @since 15.9RC1
      */
+    @Unstable
     default Optional<Syntax> getSyntaxMetadata()
+    {
+        return Optional.empty();
+    }
+
+    /**
+     * Get the first value extracted from the blocks in the provided {@link Axes}.
+     * 
+     * @param <T> the type of value searching in the block
+     * @param searcher the {@link Function} in charge of extracting the searched value from the block
+     * @param axes indicate the search axes
+     * @return the value found in the provided block axes
+     * @since 15.9RC1
+     */
+    @Unstable
+    default <T> Optional<T> get(Function<Block, Optional<T>> searcher, Axes axes)
     {
         return Optional.empty();
     }

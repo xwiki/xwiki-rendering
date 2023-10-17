@@ -29,13 +29,16 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.properties.converter.Converter;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.content.ContentMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.source.MacroContentWikiSource;
@@ -70,6 +73,9 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
 
     @Inject
     private MacroContentParser macroContentParser;
+
+    @Inject
+    private Converter<Syntax> syntaxConverter;
 
     /**
      * Used to find the Parser corresponding to the user-specified syntax for the Macro.
@@ -123,5 +129,17 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
 
         // Remember the metadata of the XDOM
         return List.of(new MetaDataBlock(xdom.getChildren(), xdom.getMetaData()));
+    }
+
+    @Override
+    public void prepare(MacroBlock macroBlock) throws MacroPreparationException
+    {
+        Syntax syntax = null;
+        String syntaxString = macroBlock.getParameter("syntax");
+        if (syntaxString != null) {
+            syntax = this.syntaxConverter.convert(Syntax.class, syntaxString);
+        }
+
+        this.macroContentParser.prepareContentWiki(macroBlock, syntax);
     }
 }

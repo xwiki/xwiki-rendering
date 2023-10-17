@@ -36,6 +36,7 @@ import org.xwiki.rendering.block.match.MacroMarkerBlockMatcher;
 import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroContentParser;
 import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.macro.footnote.FootnoteMacroParameters;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
@@ -126,5 +127,11 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
         }
 
         return this.contentParser.parse(content, context, false, true).getChildren();
+    }
+
+    @Override
+    public void prepare(MacroBlock macroBlock) throws MacroPreparationException
+    {
+        this.contentParser.prepareContentWiki(macroBlock);
     }
 }

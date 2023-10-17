@@ -23,8 +23,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
@@ -64,5 +66,11 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     protected String getClassProperty()
     {
         return super.getClassProperty() + ' ' + this.getDescriptor().getId().getId() + "message";
+    }
+
+    @Override
+    public void prepare(MacroBlock macroBlock) throws MacroPreparationException
+    {
+        this.contentParser.prepareContentWiki(macroBlock);
     }
 }
