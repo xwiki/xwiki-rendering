@@ -53,7 +53,8 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.util.IdGenerator;
 
 /**
- * List footnotes at the end of the page.
+ * List footnotes at the location where the macro is used. Note that only a single such macro is supported (and the
+ * last one used is honored, the others are dropped).
  *
  * @version $Id$
  * @since 2.0M2

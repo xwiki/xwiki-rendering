@@ -42,8 +42,8 @@ import org.xwiki.rendering.macro.footnote.FootnoteMacroParameters;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
- * Generate footnotes, listed at the end of the page. A reference to the generated footnote is inserted at the location
- * where the macro is called.
+ * Generate footnotes, listed at the end of the page, or where the {@link PutFootnotesMacro} is used explicitly. A
+ * reference to the generated footnote is inserted at the location where the macro is called.
  *
  * @version $Id$
  * @since 2.0M2
