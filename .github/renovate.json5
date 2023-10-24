@@ -22,6 +22,10 @@
   "prHourlyLimit" : 0,
   "prConcurrentLimit" : 0,
 
+  // Create different pull request for each major upgrade
+  "separateMajorReleases" : true,
+  "separateMultipleMajor" : true,
+
   // There is no point trying to find update for commons and rendering dependencies
   "packageRules": [
     {
