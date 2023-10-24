@@ -25,8 +25,12 @@ import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
-import static com.github.tomakehurst.wiremock.client.RequestPatternBuilder.allRequests;
 import static com.github.tomakehurst.wiremock.client.WireMock.findAll;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.notFound;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.matching.RequestPatternBuilder.allRequests;
 import static org.junit.Assert.*;
 
 /**
@@ -56,6 +60,9 @@ public class DefaultHTTPCheckerTest
         // succeed since http://host will go to the proxy which is pointing to our Mock HTTP Server!
         System.setProperty("http.proxyHost", "localhost");
         System.setProperty("http.proxyPort", "8888");
+
+        stubFor(get(urlEqualTo("/")).willReturn(notFound()));
+
         assertEquals(404, this.mocker.getComponentUnderTest().check("http://unknownhostforxwikitest"));
         assertFalse("The HTTP server was called by the link checker", findAll(allRequests()).isEmpty());
     }

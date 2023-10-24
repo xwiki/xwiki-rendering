@@ -63,21 +63,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.tomakehurst</groupId>
-      <artifactId>wiremock</artifactId>
-      <version>1.46</version>
+      <groupId>org.wiremock</groupId>
+      <artifactId>wiremock-standalone</artifactId>
       <scope>test</scope>
-      <exclusions>
-        <!-- We are using SLF4J -->
-        <exclusion>
-          <artifactId>log4j</artifactId>
-          <groupId>log4j</groupId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.json</groupId>
-          <artifactId>json</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
 </project>
