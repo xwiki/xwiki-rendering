@@ -19,18 +19,22 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.ImageBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.match.AnyBlockMatcher;
+import org.xwiki.rendering.internal.parser.reference.type.IconResourceReferenceTypeParser;
+import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Common implementation for message macros (e.g. info, error, warning, success, etc).
@@ -40,6 +44,8 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  */
 public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
+    protected String iconName;
+    
     /**
      * Create and initialize the descriptor of the macro.
      *
@@ -72,5 +78,30 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     public void prepare(MacroBlock macroBlock) throws MacroPreparationException
     {
         this.contentParser.prepareContentWiki(macroBlock);
+    }
+    
+    protected ResourceReference getIconReference()
+    {
+        IconResourceReferenceTypeParser iconParser = new IconResourceReferenceTypeParser();
+        return iconParser.parse(this.iconName);
+    }
+
+    @Override
+    public List<Block> execute(BoxMacroParameters parameters, String content, MacroTransformationContext context) 
+        throws MacroExecutionException 
+    {
+        List<Block> boxFundation = super.execute(parameters, content, context);
+        if (boxFundation.size() == 0 || this.iconName == null) {
+            return boxFundation;
+        } else {
+            // Enhance the default box with an icon in the top left.
+            Block defaultBox = boxFundation.get(0);
+            Block iconBlock = new ImageBlock(this.getIconReference(), true);
+            
+            // Add the icon block at the start of the box block.
+            defaultBox.insertChildBefore(iconBlock, 
+                defaultBox.getFirstBlock(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.DESCENDANT));
+            return boxFundation;
+        }
     }
 }
