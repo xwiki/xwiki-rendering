@@ -32,6 +32,7 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.ImageBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.NewLineBlock;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -288,7 +289,10 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
                     // Don't execute transformations explicitly. They'll be executed on the generated content later on.
                     List<Block> titleContentBlock = AbstractBoxMacro.this.contentParser.parse(
                         titleParameter, context, false, true).getChildren();
-                    FormatBlock titleBlock = new FormatBlock(titleContentBlock, Format.NONE);
+                    // Put metadata around it so that it's inplace editable
+                    List<Block> titleMetadata = Collections.singletonList(new MetaDataBlock(titleContentBlock,
+                            AbstractBoxMacro.this.getNonGeneratedContentMetaData("title")));
+                    FormatBlock titleBlock = new FormatBlock(titleMetadata, Format.NONE);
                     titleBlock.setParameter(CLASS_ATTRIBUTE_NAME, "box-title");
                     ret.addChild(titleBlock);
                 }
