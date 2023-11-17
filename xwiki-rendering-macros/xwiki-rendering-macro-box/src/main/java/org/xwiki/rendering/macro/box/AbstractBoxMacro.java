@@ -290,7 +290,7 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
                     List<Block> titleContentBlock = AbstractBoxMacro.this.contentParser.parse(
                         titleParameter, context, false, true).getChildren();
                     // Put metadata around it so that it's inplace editable
-                    List<Block> titleMetadata = Collections.singletonList(new MetaDataBlock(titleContentBlock,
+                    List<Block> titleMetadata = List.of(new MetaDataBlock(titleContentBlock,
                             AbstractBoxMacro.this.getNonGeneratedContentMetaData("title")));
                     FormatBlock titleBlock = new FormatBlock(titleMetadata, Format.NONE);
                     titleBlock.setParameter(CLASS_ATTRIBUTE_NAME, "box-title");
