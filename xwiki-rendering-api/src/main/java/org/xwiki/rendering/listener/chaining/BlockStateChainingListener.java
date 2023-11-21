@@ -29,7 +29,6 @@ import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.stability.Unstable;
 
 /**
  * Indicates block element for which we are inside and previous blocks.
@@ -255,7 +254,6 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
      * @return The event that encloses the current event.
      * @since 14.0RC1
      */
-    @Unstable
     public Event getParentEvent()
     {
         return this.eventStack.peek();

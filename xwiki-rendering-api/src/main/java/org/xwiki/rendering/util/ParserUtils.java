@@ -28,7 +28,6 @@ import org.xwiki.rendering.block.CompositeBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.stability.Unstable;
 
 /**
  * Methods for helping in parsing.
@@ -68,7 +67,6 @@ public class ParserUtils
      * @return the inline version of the passed block
      * @since 14.0RC1
      */
-    @Unstable
     public Block convertToInline(Block rootBlock, boolean preserveXDOM)
     {
         List<Block> blocks;
@@ -98,7 +96,6 @@ public class ParserUtils
      * @param blocks the blocks to convert
      * @since 14.0RC1
      */
-    @Unstable
     // TODO: improve the implementation to really convert to inline everything that can be converted
     public void convertToInline(List<Block> blocks)
     {

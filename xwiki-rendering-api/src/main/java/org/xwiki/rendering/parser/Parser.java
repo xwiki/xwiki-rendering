@@ -25,7 +25,6 @@ import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
-import org.xwiki.stability.Unstable;
 
 /**
  * Parse content into a XDOM (a tree of {@link org.xwiki.rendering.block.Block}s).
@@ -57,7 +56,6 @@ public interface Parser
      *     Parsers should be written to not generate any error as much as possible.
      * @since 14.2RC1
      */
-    @Unstable
     default XDOM parse(Reader source, IdGenerator idGenerator) throws ParseException
     {
         return parse(source);

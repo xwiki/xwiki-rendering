@@ -23,7 +23,6 @@ import java.util.Set;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.stability.Unstable;
 
 /**
  * Component interface for managing macro category information. Each rendering macro defines a default category under
@@ -82,7 +81,6 @@ public interface MacroCategoryManager
      * @return the list of categories of the macro
      * @since 14.6RC1
      */
-    @Unstable
     default Set<String> getMacroCategories(MacroId macroId)
     {
         return Set.of();
@@ -92,7 +90,6 @@ public interface MacroCategoryManager
      * @return the set of hidden categories (e.g., "Deprecated, Internal")
      * @since 14.8RC1
      */
-    @Unstable
     default Set<String> getHiddenCategories()
     {
         return Set.of();

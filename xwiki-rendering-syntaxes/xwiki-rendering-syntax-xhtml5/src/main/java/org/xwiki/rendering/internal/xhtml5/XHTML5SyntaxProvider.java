@@ -29,7 +29,6 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxType;
-import org.xwiki.stability.Unstable;
 
 /**
  * Register the {@code xhtml/5} Syntax supported by this module.
@@ -40,7 +39,6 @@ import org.xwiki.stability.Unstable;
 @Component
 @Named("xhtml/5")
 @Singleton
-@Unstable
 public class XHTML5SyntaxProvider implements Provider<List<Syntax>>
 {
     /**

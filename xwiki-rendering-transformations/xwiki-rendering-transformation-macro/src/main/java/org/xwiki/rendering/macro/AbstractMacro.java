@@ -252,7 +252,6 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * @param defaultCategories the default macro categories to set
      * @since 14.6RC1
      */
-    @Unstable
     protected void setDefaultCategories(Set<String> defaultCategories)
     {
         // If this setDefaultCategories() is invoked before macro initialization, this will make sure the macro will 

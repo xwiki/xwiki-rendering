@@ -27,7 +27,6 @@ import java.util.Set;
 import org.xwiki.properties.BeanDescriptor;
 import org.xwiki.properties.PropertyDescriptor;
 import org.xwiki.rendering.macro.MacroId;
-import org.xwiki.stability.Unstable;
 
 /**
  * Describe a macro.
@@ -165,7 +164,6 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
      * @see MacroDescriptor#getDefaultCategories()
      * @since 14.6RC1
      */
-    @Unstable
     public void setDefaultCategories(Set<String> defaultCategories)
     {
         this.defaultCategories = defaultCategories;

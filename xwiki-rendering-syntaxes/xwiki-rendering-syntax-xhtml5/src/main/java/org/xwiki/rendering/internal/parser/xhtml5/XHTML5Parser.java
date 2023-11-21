@@ -30,8 +30,8 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.internal.parser.xhtml.XHTMLParser;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiCommentHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiDivTagHandler;
-import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiIgnoredTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiHeaderTagHandler;
+import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiIgnoredTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiImageTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiReferenceTagHandler;
 import org.xwiki.rendering.internal.parser.xhtml.wikimodel.XWikiTableDataTagHandler;
@@ -44,7 +44,6 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
 import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
-import org.xwiki.stability.Unstable;
 import org.xwiki.xml.XMLReaderFactory;
 
 import static org.xwiki.rendering.internal.xhtml5.XHTML5SyntaxProvider.XHTML_5;
@@ -59,7 +58,6 @@ import static org.xwiki.xml.html.HTMLConstants.TAG_SCRIPT;
  */
 @Component
 @Named("xhtml/5")
-@Unstable
 public class XHTML5Parser extends XHTMLParser
 {
     @Inject
