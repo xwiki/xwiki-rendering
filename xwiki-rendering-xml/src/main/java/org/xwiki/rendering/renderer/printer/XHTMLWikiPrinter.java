@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.AttributesImpl;
-import org.xwiki.stability.Unstable;
 import org.xwiki.xml.html.HTMLElementSanitizer;
 
 /**
@@ -47,7 +46,6 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
      *
      * @since 14.6RC1
      */
-    @Unstable
     public static final String TRANSLATED_ATTRIBUTE_PREFIX = "data-xwiki-translated-attribute-";
 
     /**

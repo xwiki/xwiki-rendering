@@ -38,7 +38,6 @@ import org.xwiki.rendering.macro.descriptor.DefaultMacroDescriptor;
 import org.xwiki.rendering.macro.descriptor.DefaultParameterDescriptor;
 import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
 import org.xwiki.rendering.macro.descriptor.ParameterDescriptor;
-import org.xwiki.stability.Unstable;
 
 /**
  * Helper to implement Macro, providing some default implementation. We recommend Macro writers to extend this class.
@@ -78,7 +77,6 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * "Deprecated" default macro category.
      * @since 14.8RC1
      */
-    @Unstable
     public static final String DEFAULT_CATEGORY_DEPRECATED = "Deprecated";
 
     /**
