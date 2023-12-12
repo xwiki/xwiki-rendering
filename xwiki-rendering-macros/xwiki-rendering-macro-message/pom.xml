@@ -41,5 +41,11 @@
       <artifactId>xwiki-rendering-macro-box</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+        <groupId>org.xwiki.rendering</groupId>
+        <artifactId>xwiki-rendering-transformation-icon</artifactId>
+        <version>15.10-SNAPSHOT</version>
+        <scope>compile</scope>
+    </dependency>
   </dependencies>
 </project>
