@@ -38,8 +38,6 @@ import org.xwiki.rendering.block.SpecialSymbolBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.block.ProtectedBlockFilter;
-import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.transformation.AbstractTransformation;
@@ -142,7 +140,7 @@ public class IconTransformation extends AbstractTransformation implements Initia
             pointer = block;
         }
         // Add an image block as the last block
-        pointer.addChild(new ImageBlock(new ResourceReference(iconName, ResourceType.ICON), true));
+        pointer.addChild(new DefaultIconProvider().get(iconName));
         return targetTree;
     }
 

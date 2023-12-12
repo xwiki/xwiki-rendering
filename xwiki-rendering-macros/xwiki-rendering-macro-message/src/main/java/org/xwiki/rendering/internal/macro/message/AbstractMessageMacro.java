@@ -20,12 +20,10 @@
 package org.xwiki.rendering.internal.macro.message;
 
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.ImageBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.match.AnyBlockMatcher;
-import org.xwiki.rendering.internal.parser.reference.type.IconResourceReferenceTypeParser;
-import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.internal.transformation.icon.DefaultIconProvider;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
@@ -79,12 +77,6 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     {
         this.contentParser.prepareContentWiki(macroBlock);
     }
-    
-    protected ResourceReference getIconReference()
-    {
-        IconResourceReferenceTypeParser iconParser = new IconResourceReferenceTypeParser();
-        return iconParser.parse(this.iconName);
-    }
 
     @Override
     public List<Block> execute(BoxMacroParameters parameters, String content, MacroTransformationContext context) 
@@ -96,7 +88,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
         } else {
             // Enhance the default box with an icon in the top left.
             Block defaultBox = boxFundation.get(0);
-            Block iconBlock = new ImageBlock(this.getIconReference(), true);
+            Block iconBlock = new DefaultIconProvider().get(iconName);
             
             // Add the icon block at the start of the box block.
             defaultBox.insertChildBefore(iconBlock, 
