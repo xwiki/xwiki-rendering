@@ -178,10 +178,10 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     {
         // Flush the internal buffer to ensure we have the correct newline state. Note that the following print()
         // would flush the buffer, anyway.
-        this.getXWikiPrinter().flush();
+        getXWikiPrinter().flush();
 
         // Don't print a new line if the last element of the group is a new line.
-        if (!this.getXWikiPrinter().getEscapeHandler().isOnNewLine()) {
+        if (!getXWikiPrinter().getEscapeHandler().isOnNewLine()) {
             print("\n");
         }
         print(")))");
