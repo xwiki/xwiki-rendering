@@ -33,7 +33,6 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.ImageBlock;
 import org.xwiki.rendering.block.SpecialSymbolBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
@@ -43,6 +42,7 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.transformation.AbstractTransformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
+import org.xwiki.rendering.transformation.icon.IconProvider;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 import org.xwiki.rendering.util.ParserUtils;
 import org.xwiki.text.StringUtils;
@@ -64,6 +64,12 @@ public class IconTransformation extends AbstractTransformation implements Initia
      */
     @Inject
     private IconTransformationConfiguration configuration;
+
+    /**
+     * Used to get the icon representation.
+     */
+    @Inject
+    private IconProvider iconProvider;
 
     /**
      * Used to parse the mapping suite of characters into a XDOM tree for fast matching.
@@ -125,7 +131,7 @@ public class IconTransformation extends AbstractTransformation implements Initia
 
     /**
      * Converts a standard XDOM tree into a deep tree: sibling are transformed into parent/child relationships and the
-     * leaf node is an Image node referencing the passed icon name.
+     * leaf node is an Icon node referencing the passed icon name.
      *
      * @param sourceTree the source tree to modify
      * @param iconName the name of the icon to display when a match is found
@@ -139,8 +145,8 @@ public class IconTransformation extends AbstractTransformation implements Initia
             pointer.addChild(block);
             pointer = block;
         }
-        // Add an image block as the last block
-        pointer.addChild(new DefaultIconProvider().get(iconName));
+        // Add an icon block as the last block
+        pointer.addChild(iconProvider.get(iconName));
         return targetTree;
     }
 
@@ -227,9 +233,9 @@ public class IconTransformation extends AbstractTransformation implements Initia
                     }
                     count++;
                     mappingCursor = mappingCursor.getChildren().get(0);
-                    // If we reach the Image Block then we've found a match!
-                    if (mappingCursor instanceof ImageBlock) {
-                        // Replace the first source block with the image block and remove all other blocks...
+                    // If we reach the Icon Block then we've found a match!
+                    if (iconProvider.getIconClass().contains(mappingCursor.getClass())) {
+                        // Replace the first source block with the icon block and remove all other blocks...
                         for (int i = 0; i < count - 1; i++) {
                             matchStartBlock.getParent().removeBlock(matchStartBlock.getNextSibling());
                         }
