@@ -1,8 +1,24 @@
 .#-------------------------------------------------------------------
 .inputexpect|xwiki/2.0
-.# Verify that newlines in a group stay unchanged
+.# Verify that newlines in a group stay unchanged. Note that it is impossible to have a single empty line in a group.
 .#-------------------------------------------------------------------
 (((
+)))
+
+(((
+
+
+)))
+
+(((
+
+
+
+)))
+
+(((
+
+
 
 
 )))
@@ -11,6 +27,14 @@
 .#-----------------------------------------------------
 beginDocument
 beginGroup
+endGroup
+beginGroup
 onEmptyLines [2]
+endGroup
+beginGroup
+onEmptyLines [3]
+endGroup
+beginGroup
+onEmptyLines [4]
 endGroup
 endDocument
