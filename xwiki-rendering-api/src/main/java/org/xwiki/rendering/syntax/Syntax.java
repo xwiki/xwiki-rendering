@@ -26,7 +26,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.parser.ParseException;
-import org.xwiki.stability.Unstable;
 
 /**
  * Represents a wiki syntax that the user can use to enter wiki content. A syntax is made of three parts:
@@ -54,7 +53,6 @@ public class Syntax implements Comparable<Syntax>
      *
      * @since 14.1RC1
      */
-    @Unstable
     public static final Syntax XHTML_5 = new Syntax(SyntaxType.XHTML, "5");
 
     /**

@@ -25,7 +25,6 @@ import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
-import org.xwiki.stability.Unstable;
 
 /**
  * Streaming based parser. Instead of returning a resulting XDOM it send events during the parsing.
@@ -57,7 +56,6 @@ public interface StreamParser
      *     Parsers should be written to not generate any error as much as possible.
      * @since 14.2RC1
      */
-    @Unstable
     default void parse(Reader source, Listener listener, IdGenerator idGenerator) throws ParseException
     {
         parse(source, listener);

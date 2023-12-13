@@ -27,7 +27,6 @@ import org.xwiki.logging.Message;
 import org.xwiki.logging.marker.TranslationMarker;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.stability.Unstable;
 
 /**
  * Generates error blocks to render an error in a wiki page.
@@ -58,7 +57,6 @@ public interface ErrorBlockGenerator
      * @return true if the passed block contains a rendering error, false otherwise
      * @since 14.0RC1
      */
-    @Unstable
     default boolean containsError(Block block)
     {
         return false;
@@ -108,7 +106,6 @@ public interface ErrorBlockGenerator
      * @return the generated blocks. Return a {@link XDOM} if {@code inline} is false.
      * @since 14.0RC1
      */
-    @Unstable
     default List<Block> generateErrorBlocks(boolean inline, String messageId, String defaultMessage,
         String defaultDescription, Object... arguments)
     {

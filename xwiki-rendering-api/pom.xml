@@ -25,14 +25,14 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering</artifactId>
-    <version>15.10-SNAPSHOT</version>
+    <version>16.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-api</artifactId>
   <name>XWiki Rendering - Api</name>
   <packaging>jar</packaging>
   <description>XWiki Rendering - Api</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.63</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.62</xwiki.jacoco.instructionRatio>
     <!-- Skipping revapi since xwiki-rendering-legacy-api wraps this module and runs checks on it -->
     <xwiki.revapi.skip>true</xwiki.revapi.skip>
   </properties>

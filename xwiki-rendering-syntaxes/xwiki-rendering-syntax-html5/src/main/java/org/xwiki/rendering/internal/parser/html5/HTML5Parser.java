@@ -34,7 +34,6 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.util.IdGenerator;
-import org.xwiki.stability.Unstable;
 import org.xwiki.xml.html.HTMLCleaner;
 import org.xwiki.xml.html.HTMLCleanerConfiguration;
 import org.xwiki.xml.html.HTMLUtils;
@@ -49,7 +48,6 @@ import static org.xwiki.rendering.internal.html5.HTML5SyntaxProvider.HTML_5_0;
  */
 @Component
 @Named("html/5.0")
-@Unstable
 public class HTML5Parser extends XHTML5Parser
 {
     /**

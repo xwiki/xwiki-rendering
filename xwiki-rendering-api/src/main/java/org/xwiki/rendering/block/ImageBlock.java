@@ -26,7 +26,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.stability.Unstable;
 
 /**
  * Represents an image.
@@ -85,7 +84,6 @@ public class ImageBlock extends AbstractBlock
      * @param parameters the custom parameters
      * @since 14.2RC1
      */
-    @Unstable
     public ImageBlock(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
     {
         super(parameters);
@@ -117,7 +115,6 @@ public class ImageBlock extends AbstractBlock
      * @param id the id of the image to set
      * @since 14.2RC1
      */
-    @Unstable
     public void setId(String id)
     {
         this.id = id;
@@ -127,7 +124,6 @@ public class ImageBlock extends AbstractBlock
      * @return the id of the image
      * @since 14.2RC1
      */
-    @Unstable
     public String getId()
     {
         return this.id;

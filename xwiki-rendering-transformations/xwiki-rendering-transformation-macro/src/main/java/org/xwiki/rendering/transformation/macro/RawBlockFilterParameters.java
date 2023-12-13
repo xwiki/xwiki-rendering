@@ -22,7 +22,6 @@ package org.xwiki.rendering.transformation.macro;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.xwiki.stability.Unstable;
 
 /**
  * Parameters for the {@link RawBlockFilter}.
@@ -30,7 +29,6 @@ import org.xwiki.stability.Unstable;
  * @version $Id$
  * @since 14.8RC1
  */
-@Unstable
 public class RawBlockFilterParameters
 {
     /**
