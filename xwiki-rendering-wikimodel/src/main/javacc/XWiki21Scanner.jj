@@ -125,6 +125,7 @@ public class XWikiScanner {
         if (emptyLinesCount > 1) {
             fContext.onEmptyLines(emptyLinesCount);
         }
+        emptyLinesCount = 0;
     }
 
     private void processMacro(String start, String content, boolean inline) {
