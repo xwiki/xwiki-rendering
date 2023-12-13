@@ -22,6 +22,8 @@ package org.xwiki.rendering.transformation.icon;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
 
+import java.util.List;
+
 /**
  * Component to provide an icon from its name.
  *
@@ -31,6 +33,12 @@ import org.xwiki.rendering.block.Block;
 @Role
 public interface IconProvider
 {
+    /**
+    * Some of the icons might use different iconProviders, so we concatenated all possibilities in a list.
+     * @return The class of the icon block created.
+     */
+    List<Class> getIconClass();
+
     /**
      * Provides an image icon from its name.
      * @param iconName the name of the icon needed

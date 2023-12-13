@@ -27,6 +27,8 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.transformation.icon.IconProvider;
 
 import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Component to provide an icon from its name.
@@ -38,6 +40,7 @@ import javax.inject.Singleton;
 @Singleton
 public class DefaultIconProvider implements IconProvider
 {
+    private static final List<Class> ICON_CLASS = new ArrayList<Class>(List.of(ImageBlock.class));
 
     /**
      * Provides an image icon from its name.
@@ -47,5 +50,14 @@ public class DefaultIconProvider implements IconProvider
     public Block get(String iconName)
     {
         return new ImageBlock(new ResourceReference(iconName, ResourceType.ICON), true);
+    }
+
+    /**
+    * Some of the icons might use different iconProviders, so we concatenated all possibilities in a list.
+     * @return the java classes of the icon block created.
+     */
+    public List<Class> getIconClass()
+    {
+        return ICON_CLASS;
     }
 }

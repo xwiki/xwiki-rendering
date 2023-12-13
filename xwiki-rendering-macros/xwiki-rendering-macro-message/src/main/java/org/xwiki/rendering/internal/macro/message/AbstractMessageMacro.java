@@ -23,14 +23,15 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.match.AnyBlockMatcher;
-import org.xwiki.rendering.internal.transformation.icon.DefaultIconProvider;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.rendering.transformation.icon.IconProvider;
 
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,7 +44,13 @@ import java.util.List;
 public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
     protected String iconName;
-    
+
+    /**
+     * Used to get the icon representation.
+     */
+    @Inject
+    private IconProvider iconProvider;
+
     /**
      * Create and initialize the descriptor of the macro.
      *
@@ -88,7 +95,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
         } else {
             // Enhance the default box with an icon in the top left.
             Block defaultBox = boxFundation.get(0);
-            Block iconBlock = new DefaultIconProvider().get(iconName);
+            Block iconBlock = iconProvider.get(iconName);
             
             // Add the icon block at the start of the box block.
             defaultBox.insertChildBefore(iconBlock, 
