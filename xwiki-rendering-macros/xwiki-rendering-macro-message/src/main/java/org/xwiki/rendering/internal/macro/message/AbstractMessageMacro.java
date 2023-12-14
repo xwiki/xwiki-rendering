@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.MacroBlock;
@@ -36,7 +35,6 @@ import org.xwiki.rendering.transformation.icon.IconProvider;
 import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Common implementation for message macros (e.g. info, error, warning, success, etc).
@@ -98,7 +96,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
         } else {
             Block defaultBox = boxFundation.get(0);
             // For an easier styling, we wrap the content and title together if they are non empty and visible
-            if (!Objects.equals(parameters.getTitle(), StringUtils.EMPTY) && !context.isInline()) {
+            if (defaultBox.getChildren().size() > 1) {
                 Block boxTextContent = new GroupBlock(defaultBox.getChildren());
                 defaultBox.setChildren(List.of(boxTextContent));
             }
