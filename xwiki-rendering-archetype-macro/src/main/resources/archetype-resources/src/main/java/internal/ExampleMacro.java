@@ -22,7 +22,6 @@ package ${package}.internal;
 import javax.inject.Named;
 
 import java.util.List;
-import java.util.Arrays;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
@@ -37,20 +36,20 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  * Example Macro.
  */
 @Component
-@Named("example")
+@Named("simple-example")
 public class ExampleMacro extends AbstractMacro<ExampleMacroParameters>
 {
     /**
      * The description of the macro.
      */
-    private static final String DESCRIPTION = "Example Macro";
+    private static final String DESCRIPTION = "Simple Example Macro";
     
     /**
      * Create and initialize the descriptor of the macro.
      */
     public ExampleMacro()
     {
-        super("Example", DESCRIPTION, ExampleMacroParameters.class);
+        super("Simple Example", DESCRIPTION, ExampleMacroParameters.class);
     }
 
     @Override
@@ -59,15 +58,15 @@ public class ExampleMacro extends AbstractMacro<ExampleMacroParameters>
     {
         List<Block> result;
 
-        List<Block> wordBlockAsList = Arrays.<Block>asList(new WordBlock(parameters.getParameter()));
+        List<Block> wordBlockAsList = List.of(new WordBlock(parameters.getParameter()));
 
         // Handle both inline mode and standalone mode.
         if (context.isInline()) {
             result = wordBlockAsList;
         } else {
-            // Wrap the result in a Paragraph Block since a WordBlock is an inline element and it needs to be
+            // Wrap the result in a Paragraph Block since a WordBlock is an inline element, and it needs to be
             // inside a standalone block.
-            result = Arrays.<Block>asList(new ParagraphBlock(wordBlockAsList));
+            result = List.of(new ParagraphBlock(wordBlockAsList));
         }
 
         return result;
