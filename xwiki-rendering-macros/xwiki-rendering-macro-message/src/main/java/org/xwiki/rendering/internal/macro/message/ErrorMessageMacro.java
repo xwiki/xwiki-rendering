@@ -19,11 +19,12 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
-import org.xwiki.component.annotation.Component;
+import java.util.Set;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.Set;
+
+import org.xwiki.component.annotation.Component;
 
 /**
  * Displays an error message.

@@ -21,6 +21,7 @@ package org.xwiki.rendering.transformation.icon;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.stability.Unstable;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ import java.util.List;
  * @since 15.10.2
  */
 @Role
+@Unstable
 public interface IconProvider
 {
     /**

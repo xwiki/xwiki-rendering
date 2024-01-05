@@ -19,6 +19,11 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.MacroBlock;
@@ -31,10 +36,6 @@ import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.icon.IconProvider;
-
-import javax.inject.Inject;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Common implementation for message macros (e.g. info, error, warning, success, etc).
@@ -90,12 +91,10 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     public List<Block> execute(BoxMacroParameters parameters, String content, MacroTransformationContext context) 
         throws MacroExecutionException 
     {
-        List<Block> boxFundation = super.execute(parameters, content, context);
-        if (boxFundation.size() == 0 || this.iconName == null) {
-            return boxFundation;
-        } else {
-            Block defaultBox = boxFundation.get(0);
-            // For an easier styling, we wrap the content and title together if they are non empty and visible
+        List<Block> boxFoundation = super.execute(parameters, content, context);
+        if (boxFoundation.size() > 0 && this.iconName != null) {
+            Block defaultBox = boxFoundation.get(0);
+            // For an easier styling, we wrap the content and title together if they are non-empty and visible
             if (defaultBox.getChildren().size() > 1) {
                 Block boxTextContent = new GroupBlock(defaultBox.getChildren());
                 defaultBox.setChildren(List.of(boxTextContent));
@@ -106,7 +105,8 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
             // Add the icon block at the start of the box block.
             defaultBox.insertChildBefore(iconBlock, 
                 defaultBox.getFirstBlock(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.DESCENDANT));
-            return boxFundation;
+            return boxFoundation;
         }
+        return boxFoundation;
     }
 }
