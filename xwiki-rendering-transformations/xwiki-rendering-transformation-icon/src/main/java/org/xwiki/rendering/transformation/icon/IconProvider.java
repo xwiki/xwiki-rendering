@@ -36,7 +36,7 @@ import java.util.List;
 public interface IconProvider
 {
     /**
-    * Some of the icons might use different iconProviders, so we concatenated all possibilities in a list.
+     * Some of the icons might use different iconProviders, so we concatenated all possibilities in a list.
      * @return The class of the icon block created.
      */
     List<Class> getIconClass();
