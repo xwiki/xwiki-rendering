@@ -17,34 +17,24 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.transformation.icon;
-
-import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.block.Block;
-import org.xwiki.stability.Unstable;
+package org.xwiki.rendering.block;
 
 import java.util.List;
 
 /**
- * Component to provide an icon from its name.
+ * This block itself does not have any meaning (it does not have any corresponding rendering stream event) and is just
+ * here to contain any representation of an icon.
  *
  * @version $Id$
- * @since 15.10.2
+ * @since 15.10.4
  */
-@Role
-@Unstable
-public interface IconProvider
+public class IconBlock extends CompositeBlock
 {
     /**
-     * Some of the icons might use different iconProviders, so we concatenated all possibilities in a list.
-     * @return The class of the icon block created.
+     * @param blocks the blocks
      */
-    List<Class> getIconClass();
-
-    /**
-     * Provides an image icon from its name.
-     * @param iconName the name of the icon needed
-     * @return the block containing the icon
-     */
-    Block get(String iconName);
+    public IconBlock(List<Block> blocks)
+    {
+        super(blocks);
+    }
 }

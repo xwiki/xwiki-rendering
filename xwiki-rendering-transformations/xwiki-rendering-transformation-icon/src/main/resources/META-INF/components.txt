@@ -1,3 +1,2 @@
 org.xwiki.rendering.internal.transformation.icon.IconTransformation
 org.xwiki.rendering.internal.transformation.icon.DefaultIconTransformationConfiguration
-org.xwiki.rendering.internal.transformation.icon.DefaultIconProvider
