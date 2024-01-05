@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Component to provide an icon from its name.
+ * Default component to provide an icon from its name.
  *
  * @version $Id$
  * @since 15.10.2
@@ -42,20 +42,13 @@ public class DefaultIconProvider implements IconProvider
 {
     private static final List<Class> ICON_CLASS = new ArrayList<Class>(List.of(ImageBlock.class));
 
-    /**
-     * Provides an image icon from its name.
-     * @param iconName the name of the icon needed
-     * @return the block containing the icon
-     */
+    @Override
     public Block get(String iconName)
     {
         return new ImageBlock(new ResourceReference(iconName, ResourceType.ICON), true);
     }
 
-    /**
-    * Some of the icons might use different iconProviders, so we concatenated all possibilities in a list.
-     * @return the java classes of the icon block created.
-     */
+    @Override
     public List<Class> getIconClass()
     {
         return ICON_CLASS;
