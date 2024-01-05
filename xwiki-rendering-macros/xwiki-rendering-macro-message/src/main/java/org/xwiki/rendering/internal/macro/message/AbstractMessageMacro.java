@@ -35,7 +35,7 @@ import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.xwiki.rendering.transformation.icon.IconProvider;
+import org.xwiki.rendering.transformation.IconProvider;
 
 /**
  * Common implementation for message macros (e.g. info, error, warning, success, etc).

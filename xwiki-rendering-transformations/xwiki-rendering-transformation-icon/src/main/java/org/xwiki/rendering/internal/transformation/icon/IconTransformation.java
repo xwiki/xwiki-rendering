@@ -42,7 +42,7 @@ import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.transformation.AbstractTransformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
-import org.xwiki.rendering.transformation.icon.IconProvider;
+import org.xwiki.rendering.transformation.IconProvider;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
 import org.xwiki.rendering.util.ParserUtils;
 import org.xwiki.text.StringUtils;
