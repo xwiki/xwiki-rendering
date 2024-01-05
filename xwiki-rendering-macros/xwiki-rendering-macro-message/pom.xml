@@ -43,7 +43,7 @@
     </dependency>
     <dependency>
         <groupId>org.xwiki.rendering</groupId>
-        <artifactId>xwiki-rendering-transformation-icon</artifactId>
+        <artifactId>xwiki-rendering-api</artifactId>
         <version>${project.version}</version>
     </dependency>
   </dependencies>
