@@ -29,6 +29,14 @@
   <description>XWiki Macro - Example</description>
   <properties>
     <rendering.version>${project.version}</rendering.version>
+    <!-- Indicate to the XWiki Extension Manager the pretty name of this extension -->
+    <xwiki.extension.name>Simple Example Macro</xwiki.extension.name>
+    <!-- Indicate to the XWiki Extension Manager the type of extension -->
+    <xwiki.extension.category>macro</xwiki.extension.category>
+    <!-- Indicate to the XWiki Extension Manager that this extensions contributes a Macro component -->
+    <xwiki.extension.components>
+      org.xwiki.rendering.macro.Macro/simple-example
+    </xwiki.extension.components>
   </properties>
   <build>
     <plugins>

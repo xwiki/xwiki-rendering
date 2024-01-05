@@ -44,7 +44,7 @@ public class ExampleMacroParameters
      * @param parameter the example parameter
      */
     @PropertyMandatory
-    @PropertyDescription("Example parameter")
+    @PropertyDescription("Simple Example parameter")
     public void setParameter(String parameter)
     {
         this.parameter = parameter;

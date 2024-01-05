@@ -3,7 +3,7 @@
 .input|xwiki/2.1
 .# Test the macro in standalone mode
 .#-----------------------------------------------------
-{{example parameter="hello"/}}
+{{simple-example parameter="hello"/}}
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
@@ -12,9 +12,9 @@
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginMacroMarkerStandalone [example] [parameter=hello]
+beginMacroMarkerStandalone [simple-example] [parameter=hello]
 beginParagraph
 onWord [hello]
 endParagraph
-endMacroMarkerStandalone [example] [parameter=hello]
+endMacroMarkerStandalone [simple-example] [parameter=hello]
 endDocument
