@@ -231,7 +231,7 @@ public class IconTransformation extends AbstractTransformation implements Initia
                     count++;
                     mappingCursor = mappingCursor.getChildren().get(0);
                     // If we reach the Icon Block then we've found a match!
-                    if (mappingCursor.getClass() == IconBlock.class) {
+                    if (mappingCursor instanceof IconBlock) {
                         // Replace the first source block with the icon block and remove all other blocks...
                         for (int i = 0; i < count - 1; i++) {
                             matchStartBlock.getParent().removeBlock(matchStartBlock.getNextSibling());
