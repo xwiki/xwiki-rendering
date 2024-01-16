@@ -33,11 +33,9 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.IconBlock;
 import org.xwiki.rendering.block.SpecialSymbolBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.block.match.AnyBlockMatcher;
 import org.xwiki.rendering.internal.block.ProtectedBlockFilter;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
@@ -236,13 +234,12 @@ public class IconTransformation extends AbstractTransformation implements Initia
                     count++;
                     mappingCursor = mappingCursor.getChildren().get(0);
                     // If we reach the Icon Block then we've found a match!
-                    if (mappingCursor instanceof IconBlock) {
+                    if (mappingCursor instanceof IconProvider.IconBlock) {
                         // Replace the first source block with the icon block and remove all other blocks...
                         for (int i = 0; i < count - 1; i++) {
                             matchStartBlock.getParent().removeBlock(matchStartBlock.getNextSibling());
                         }
-                        sourceBlock = mappingCursor
-                            .getFirstBlock(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.DESCENDANT).clone();
+                        sourceBlock = mappingCursor.getChildren().get(0).clone();
                         matchStartBlock.getParent().replaceChild(sourceBlock, matchStartBlock);
                         mappingCursor = null;
                         matchStartBlock = null;
