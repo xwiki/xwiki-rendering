@@ -59,6 +59,8 @@ import org.xwiki.text.StringUtils;
 @Singleton
 public class IconTransformation extends AbstractTransformation implements Initializable
 {
+    private static final String PARAMETER_KEY = "is-an-icon";
+    private static final Map<String, String> ICON_PARAMETER = Collections.singletonMap(PARAMETER_KEY, "true");
     /**
      * Used to get the icon mapping information (suite of characters mapped to an icon name).
      */
@@ -146,7 +148,9 @@ public class IconTransformation extends AbstractTransformation implements Initia
             pointer = block;
         }
         // Add an icon block as the last block
-        pointer.addChild(iconProvider.get(iconName));
+        Block iconBlock = iconProvider.get(iconName);
+        iconBlock.setParameters(ICON_PARAMETER);
+        pointer.addChild(iconBlock);
         return targetTree;
     }
 
@@ -234,7 +238,7 @@ public class IconTransformation extends AbstractTransformation implements Initia
                     count++;
                     mappingCursor = mappingCursor.getChildren().get(0);
                     // If we reach the Icon Block then we've found a match!
-                    if ("true".equals(mappingCursor.getParameter("icon"))) {
+                    if (ICON_PARAMETER.get(PARAMETER_KEY).equals(mappingCursor.getParameter(PARAMETER_KEY))) {
                         // Replace the first source block with the icon block and remove all other blocks...
                         for (int i = 0; i < count - 1; i++) {
                             matchStartBlock.getParent().removeBlock(matchStartBlock.getNextSibling());
