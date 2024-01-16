@@ -20,8 +20,11 @@
 package org.xwiki.rendering.transformation;
 
 import org.xwiki.component.annotation.Role;
-import org.xwiki.rendering.block.IconBlock;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.CompositeBlock;
 import org.xwiki.stability.Unstable;
+
+import java.util.List;
 
 
 /**
@@ -34,6 +37,25 @@ import org.xwiki.stability.Unstable;
 @Unstable
 public interface IconProvider
 {
+    /**
+     * This block itself does not have any meaning (it does not have any corresponding rendering stream event) and is
+     * just here to contain any representation of an icon. It contains only one child which itself contains all the
+     * icon content.
+     *
+     * @version $Id$
+     * @since 15.10.5
+     */
+    class IconBlock extends CompositeBlock
+    {
+        /**
+         * @param blocks the blocks
+         */
+        public IconBlock(List<Block> blocks)
+        {
+            super(blocks);
+        }
+    }
+
     /**
      * Provides an image icon from its name.
      * @param iconName the name of the icon needed

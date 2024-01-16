@@ -20,7 +20,6 @@
 package org.xwiki.rendering.internal.transformation;
 
 import org.xwiki.component.annotation.Component;
-import org.xwiki.rendering.block.IconBlock;
 import org.xwiki.rendering.block.ImageBlock;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
@@ -39,7 +38,6 @@ import java.util.List;
 @Singleton
 public class DefaultIconProvider implements IconProvider
 {
-
     @Override
     public IconBlock get(String iconName)
     {
