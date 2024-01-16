@@ -21,10 +21,10 @@ package org.xwiki.rendering.transformation;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.CompositeBlock;
 import org.xwiki.stability.Unstable;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Map;
 
 
 /**
@@ -38,28 +38,14 @@ import java.util.List;
 public interface IconProvider
 {
     /**
-     * This block itself does not have any meaning (it does not have any corresponding rendering stream event) and is
-     * just here to contain any representation of an icon. It contains only one child which itself contains all the
-     * icon content.
-     *
-     * @version $Id$
-     * @since 15.10.5
+     * Parameter to provide for the icon block.
      */
-    class IconBlock extends CompositeBlock
-    {
-        /**
-         * @param blocks the blocks
-         */
-        public IconBlock(List<Block> blocks)
-        {
-            super(blocks);
-        }
-    }
-
+    Map<String, String> ICONBLOCKPARAM =
+            Collections.singletonMap("icon", "true");
     /**
      * Provides an image icon from its name.
      * @param iconName the name of the icon needed
      * @return the block containing the icon
      */
-    IconBlock get(String iconName);
+    Block get(String iconName);
 }

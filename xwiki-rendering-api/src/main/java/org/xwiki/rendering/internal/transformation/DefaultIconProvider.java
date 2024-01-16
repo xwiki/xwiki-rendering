@@ -20,13 +20,13 @@
 package org.xwiki.rendering.internal.transformation;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.ImageBlock;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.transformation.IconProvider;
 
 import javax.inject.Singleton;
-import java.util.List;
 
 /**
  * Default component to provide an icon from its name.
@@ -39,8 +39,8 @@ import java.util.List;
 public class DefaultIconProvider implements IconProvider
 {
     @Override
-    public IconBlock get(String iconName)
+    public Block get(String iconName)
     {
-        return new IconBlock(List.of(new ImageBlock(new ResourceReference(iconName, ResourceType.ICON), true)));
+        return new ImageBlock(new ResourceReference(iconName, ResourceType.ICON), true, ICONBLOCKPARAM);
     }
 }
