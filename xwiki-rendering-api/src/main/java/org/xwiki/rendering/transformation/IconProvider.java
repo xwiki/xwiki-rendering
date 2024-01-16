@@ -38,11 +38,6 @@ import java.util.Map;
 public interface IconProvider
 {
     /**
-     * Parameter to provide for the icon block.
-     */
-    Map<String, String> ICONBLOCKPARAM =
-            Collections.singletonMap("icon", "true");
-    /**
      * Provides an image icon from its name.
      * @param iconName the name of the icon needed
      * @return the block containing the icon
