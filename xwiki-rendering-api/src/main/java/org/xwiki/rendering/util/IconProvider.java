@@ -35,7 +35,7 @@ import org.xwiki.stability.Unstable;
 public interface IconProvider
 {
     /**
-     * Provides an image icon from its name.
+     * Provides an icon from its name.
      * @param iconName the name of the icon needed
      * @return the block containing the icon
      */
