@@ -17,30 +17,26 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.transformation;
+package org.xwiki.rendering.util;
 
-import org.xwiki.component.annotation.Component;
+import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.ImageBlock;
-import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.listener.reference.ResourceType;
-import org.xwiki.rendering.transformation.IconProvider;
-
-import javax.inject.Singleton;
+import org.xwiki.stability.Unstable;
 
 /**
- * Default component to provide an icon from its name.
+ * Component to provide an icon from its name.
  *
  * @version $Id$
  * @since 15.10.4
  */
-@Component
-@Singleton
-public class DefaultIconProvider implements IconProvider
+@Role
+@Unstable
+public interface IconProvider
 {
-    @Override
-    public Block get(String iconName)
-    {
-        return new ImageBlock(new ResourceReference(iconName, ResourceType.ICON), true, ICONBLOCKPARAM);
-    }
+    /**
+     * Provides an image icon from its name.
+     * @param iconName the name of the icon needed
+     * @return the block containing the icon
+     */
+    Block get(String iconName);
 }
