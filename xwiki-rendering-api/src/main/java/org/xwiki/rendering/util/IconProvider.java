@@ -27,14 +27,15 @@ import org.xwiki.stability.Unstable;
  * Component to provide an icon from its name.
  *
  * @version $Id$
- * @since 15.10.4
+ * @since 15.10.6
+ * @since 16.0.0RC1
  */
 @Role
 @Unstable
 public interface IconProvider
 {
     /**
-     * Provides an image icon from its name.
+     * Provides an icon from its name.
      * @param iconName the name of the icon needed
      * @return the block containing the icon
      */
