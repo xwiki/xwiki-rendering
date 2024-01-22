@@ -103,8 +103,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
             Block iconBlock = iconProvider.get(iconName);
             
             // Add the icon block at the start of the box block.
-            defaultBox.insertChildBefore(iconBlock, 
-                defaultBox.getFirstBlock(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.DESCENDANT));
+            defaultBox.insertChildBefore(iconBlock, defaultBox.getChildren().get(0));
         }
         return boxFoundation;
     }
