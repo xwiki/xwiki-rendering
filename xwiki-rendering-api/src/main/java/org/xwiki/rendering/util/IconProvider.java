@@ -28,7 +28,7 @@ import org.xwiki.stability.Unstable;
  *
  * @version $Id$
  * @since 15.10.6
- * @since 16.0.0RC1
+ * @since 16.1.0RC1
  */
 @Role
 @Unstable
