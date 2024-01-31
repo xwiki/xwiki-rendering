@@ -33,7 +33,7 @@ import javax.inject.Singleton;
  *
  * @version $Id$
  * @since 15.10.6
- * @since 16.0.0RC1
+ * @since 16.1.0RC1
  */
 @Component
 @Singleton
