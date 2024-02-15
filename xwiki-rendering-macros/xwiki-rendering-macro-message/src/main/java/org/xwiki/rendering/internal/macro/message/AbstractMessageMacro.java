@@ -22,15 +22,20 @@ package org.xwiki.rendering.internal.macro.message;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.match.AnyBlockMatcher;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.rendering.util.IconProvider;
 
 /**
  * Common implementation for message macros (e.g. info, error, warning, success, etc).
@@ -40,6 +45,14 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
  */
 public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
+    protected String iconName;
+
+    /**
+     * Used to get the icon representation.
+     */
+    @Inject
+    private IconProvider iconProvider;
+
     /**
      * Create and initialize the descriptor of the macro.
      *
@@ -72,5 +85,26 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     public void prepare(MacroBlock macroBlock) throws MacroPreparationException
     {
         this.contentParser.prepareContentWiki(macroBlock);
+    }
+
+    @Override
+    public List<Block> execute(BoxMacroParameters parameters, String content, MacroTransformationContext context) 
+        throws MacroExecutionException 
+    {
+        List<Block> boxFoundation = super.execute(parameters, content, context);
+        if (boxFoundation.size() > 0 && this.iconName != null) {
+            Block defaultBox = boxFoundation.get(0);
+            // For an easier styling, we wrap the content and title together if they are non-empty and visible
+            if (defaultBox.getChildren().size() > 1) {
+                Block boxTextContent = new GroupBlock(defaultBox.getChildren());
+                defaultBox.setChildren(List.of(boxTextContent));
+            }
+            // Enhance the default box with an icon as the first element.
+            Block iconBlock = iconProvider.get(iconName);
+            
+            // Add the icon block at the start of the box block.
+            defaultBox.insertChildBefore(iconBlock, defaultBox.getChildren().get(0));
+        }
+        return boxFoundation;
     }
 }
