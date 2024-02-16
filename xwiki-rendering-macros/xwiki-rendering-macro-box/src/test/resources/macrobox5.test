@@ -11,13 +11,11 @@ beginMacroMarkerStandalone [box] [title=[[XWiki>>http://www.xwiki.org]]|cssClass
 beginGroup [[class]=[box myCLASS]]
 onImage [Typed = [false] Type = [url] Reference = [http://l.yimg.com/i/i/fr/tr/usa4.jpg]] [true]
 onNewLine
-beginFormat [NONE] [[class]=[box-title]]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>][parameter-name]=[title]]
 beginLink [Typed = [false] Type = [url] Reference = [http://www.xwiki.org]] [false]
 onWord [XWiki]
 endLink [Typed = [false] Type = [url] Reference = [http://www.xwiki.org]] [false]
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>][parameter-name]=[title]]
-endFormat [NONE] [[class]=[box-title]]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
 onWord [alabala]
@@ -29,7 +27,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<div class="box myCLASS"><img src="http://l.yimg.com/i/i/fr/tr/usa4.jpg" class="wikimodel-freestanding" alt="http://l.yimg.com/i/i/fr/tr/usa4.jpg"/><br/><span class="box-title"><span class="wikiexternallink"><a href="http://www.xwiki.org">XWiki</a></span></span><p>alabala</p></div>
+<div class="box myCLASS"><img src="http://l.yimg.com/i/i/fr/tr/usa4.jpg" class="wikimodel-freestanding" alt="http://l.yimg.com/i/i/fr/tr/usa4.jpg"/><br/><span class="wikiexternallink"><a href="http://www.xwiki.org">XWiki</a></span><p>alabala</p></div>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------

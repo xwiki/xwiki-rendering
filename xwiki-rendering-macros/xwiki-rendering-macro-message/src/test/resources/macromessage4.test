@@ -14,7 +14,6 @@ beginDocument
 beginMacroMarkerStandalone [info] [] [* item1
 * item2]
 beginGroup [[class]=[box infomessage]]
-onImage [Typed = [true] Type = [icon] Reference = [information]] [true]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginList [BULLETED]
 beginListItem
