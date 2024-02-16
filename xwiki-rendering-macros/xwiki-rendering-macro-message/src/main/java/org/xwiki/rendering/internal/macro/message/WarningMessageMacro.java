@@ -44,6 +44,5 @@ public class WarningMessageMacro extends AbstractMessageMacro
     {
         super("Warning Message", "Displays a warning message note.");
         setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
-        this.iconName = "error";
     }
 }

@@ -60,9 +60,6 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      */
     public static final String CONTENT_MISSING_ERROR = "The required content is missing.";
 
-    /** CSS Class attribute name. */
-    private static final String CLASS_ATTRIBUTE_NAME = "class";
-
     /**
      * The parser used to parse box content and box title parameter.
      * 
@@ -158,7 +155,7 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
         String classParameter = parameters.getCssClass();
         String cssClass =
             StringUtils.isEmpty(classParameter) ? getClassProperty() : getClassProperty() + " " + classParameter;
-        boxParameters.put(CLASS_ATTRIBUTE_NAME, cssClass);
+        boxParameters.put("class", cssClass);
 
         if (!StringUtils.isEmpty(parameters.getWidth())) {
             boxParameters.put("style", "width:" + parameters.getWidth());
@@ -287,14 +284,12 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
                 // we add the title, if there is one
                 if (!StringUtils.isEmpty(titleParameter)) {
                     // Don't execute transformations explicitly. They'll be executed on the generated content later on.
-                    List<Block> titleContentBlock = AbstractBoxMacro.this.contentParser.parse(
+                    List<? extends Block> titleBlock = AbstractBoxMacro.this.contentParser.parse(
                         titleParameter, context, false, true).getChildren();
-                    // Put metadata around it so that it's inplace editable
-                    List<Block> titleMetadata = List.of(new MetaDataBlock(titleContentBlock,
-                            AbstractBoxMacro.this.getNonGeneratedContentMetaData("title")));
-                    FormatBlock titleBlock = new FormatBlock(titleMetadata, Format.NONE);
-                    titleBlock.setParameter(CLASS_ATTRIBUTE_NAME, "box-title");
-                    ret.addChild(titleBlock);
+
+                    // put the right metadata around it
+                    ret.addChildren(Collections.singletonList(new MetaDataBlock(titleBlock,
+                        AbstractBoxMacro.this.getNonGeneratedContentMetaData("title"))));
                 }
                 if (titleBlockList != null) {
                     ret.addChildren(titleBlockList);

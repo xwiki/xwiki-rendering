@@ -17,7 +17,6 @@ beginMacroMarkerStandalone [info] [] [Failed to do this action. The correct poss
 * you don't have right
 * another possibility]
 beginGroup [[class]=[box infomessage]]
-onImage [Typed = [true] Type = [icon] Reference = [information]] [true]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
 onWord [Failed]
