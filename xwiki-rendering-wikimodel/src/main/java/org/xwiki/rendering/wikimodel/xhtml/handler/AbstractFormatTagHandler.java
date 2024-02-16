@@ -29,7 +29,7 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
 import com.steadystate.css.dom.CSSStyleDeclarationImpl;
 import com.steadystate.css.parser.CSSOMParser;
-import com.steadystate.css.parser.SACParserCSS21;
+import com.steadystate.css.parser.SACParserCSS3;
 
 /**
  * @version $Id$
@@ -50,7 +50,7 @@ public abstract class AbstractFormatTagHandler extends TagHandler
      * parser to use, since otherwise cssparser overrides the default parser
      * used in the JVM, breaking css4j.
      */
-    private final CSSOMParser cssParser = new CSSOMParser(new SACParserCSS21());
+    private final CSSOMParser cssParser = new CSSOMParser(new SACParserCSS3());
 
     public AbstractFormatTagHandler()
     {
