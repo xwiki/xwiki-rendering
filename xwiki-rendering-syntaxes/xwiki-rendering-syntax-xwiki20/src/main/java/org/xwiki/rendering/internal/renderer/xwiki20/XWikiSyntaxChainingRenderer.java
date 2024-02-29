@@ -671,14 +671,17 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             printParameters(parameters, false);
         } else {
             // XRENDERING-468 - if we are at the start of a table cell, the first parameters are used by the table cell.
-            // For this, we make sure to print empty parameters when the next event is a format event that will print
-            // parameters.
+            // For this, we make sure to print empty parameters when the next event is either a format or a group.
+            // Other events that accept parameters will be wrapped in a group block without parameters.
             QueueListener.Event nextEvent = getXWikiSyntaxListenerChain().getLookaheadChainingListener().getNextEvent();
-            if (nextEvent != null
-                && EventType.BEGIN_FORMAT.equals(nextEvent.eventType)
-                && nextEvent.eventParameters.length > 1
-                && nextEvent.eventParameters[1] instanceof Map<?, ?>
-                && !((Map<?, ?>)nextEvent.eventParameters[1]).isEmpty()) {
+            boolean isFormatOrGroup = nextEvent != null
+                && (EventType.BEGIN_FORMAT.equals(nextEvent.eventType)
+                || EventType.BEGIN_GROUP.equals(nextEvent.eventType));
+            int parameterLength = isFormatOrGroup ? nextEvent.eventParameters.length : 0;
+            if (isFormatOrGroup
+                && parameterLength > 0
+                && nextEvent.eventParameters[parameterLength - 1] instanceof Map<?, ?>
+                && !((Map<?, ?>) nextEvent.eventParameters[parameterLength - 1]).isEmpty()) {
                 print(EMPTY_PARAMETERS);
             }
         }

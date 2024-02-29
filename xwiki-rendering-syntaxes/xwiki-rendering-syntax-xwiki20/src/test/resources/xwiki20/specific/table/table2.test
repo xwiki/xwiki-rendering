@@ -1,0 +1,27 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|xwiki/2.0
+.# XRENDERING-740 - Test that the empty table cell parameters aren't omitted when they can be confused
+.# with parameters of nested group syntax.
+.#-------------------------------------------------------------------------------------------------------
+|(%%)(% class="content-wrapper" %)
+(((
+Some text
+)))
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginTable
+beginTableRow
+beginTableCell
+beginGroup [[class]=[content-wrapper]]
+beginParagraph
+onWord [Some]
+onSpace
+onWord [text]
+endParagraph
+endGroup [[class]=[content-wrapper]]
+endTableCell
+endTableRow
+endTable
+endDocument
