@@ -393,7 +393,7 @@ public class MacroTransformation extends AbstractTransformation implements Initi
             try {
                 macro = this.macroManager.getMacro(new MacroId(macroBlock.getId(), currentSyntax));
             } catch (Exception e) {
-                this.logger.warn(
+                this.logger.debug(
                     "Failed to get the macro with identifier [{}] for syntax [{}] (this macro block won't be prepared): {}",
                     macroBlock.getId(), currentSyntax, ExceptionUtils.getRootCauseMessage(e));
             }
