@@ -17,33 +17,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.macro.message;
-
-import java.util.Set;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
+package org.xwiki.rendering.internal.util;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.ImageBlock;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.util.IconProvider;
+
+import javax.inject.Singleton;
 
 /**
- * Displays an error message.
+ * Default component to provide an icon from its name.
  *
  * @version $Id$
- * @since 2.0M3
+ * @since 15.10.6
+ * @since 16.1.0RC1
  */
 @Component
-@Named("error")
 @Singleton
-public class ErrorMessageMacro extends AbstractMessageMacro
+public class DefaultIconProvider implements IconProvider
 {
-    /**
-     * Create and initialize the descriptor of the macro.
-     */
-    public ErrorMessageMacro()
+    @Override
+    public Block get(String iconName)
     {
-        super("Error Message", "Displays an error message note.");
-        setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
-        this.iconName = "exclamation";
+        return new ImageBlock(new ResourceReference(iconName, ResourceType.ICON), true);
     }
 }
