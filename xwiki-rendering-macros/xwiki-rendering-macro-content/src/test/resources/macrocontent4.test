@@ -24,8 +24,8 @@ endDocument
 .#-----------------------------------------------------
 .expect|annotatedhtml/5.0
 .#-----------------------------------------------------
-<!--startmacro:content|-|syntax="html/5.0"|-|<p>test</p><p>test2</p>--><div data-xwiki-syntax="html/5.0" data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>test</p><p>test2</p></div><!--stopmacro-->
+<!--startmacro:content|-|syntax="html/5.0"|-|<\p>test<\/p><\p>test2<\/p>--><div data-xwiki-syntax="html/5.0" data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>test</p><p>test2</p></div><!--stopmacro-->
 .#-----------------------------------------------------
 .input|html/5.0
 .#-----------------------------------------------------
-<!--startmacro:content|-|syntax="html/5.0"|-|<p>test</p><p>test2</p>--><div data-xwiki-syntax="html/5.0" data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>test</p><p>test2</p></div><!--stopmacro-->
+<!--startmacro:content|-|syntax="html/5.0"|-|<\p>test<\/p><\p>test2<\/p>--><div data-xwiki-syntax="html/5.0" data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>test</p><p>test2</p></div><!--stopmacro-->

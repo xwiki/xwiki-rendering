@@ -21,4 +21,4 @@
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<!--startmacro:box|-||-|<h1 id="HHeading" class="wikigeneratedid"><span>Heading</span></h1>--><div class="box"><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><h1 id="HHeading" class="wikigeneratedid wikigeneratedheader"><span>Heading</span></h1></div></div><!--stopmacro-->
+<!--startmacro:box|-||-|<\h1 id="HHeading" class="wikigeneratedid"><\span>Heading<\/span><\/h1>--><div class="box"><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><h1 id="HHeading" class="wikigeneratedid wikigeneratedheader"><span>Heading</span></h1></div></div><!--stopmacro-->
