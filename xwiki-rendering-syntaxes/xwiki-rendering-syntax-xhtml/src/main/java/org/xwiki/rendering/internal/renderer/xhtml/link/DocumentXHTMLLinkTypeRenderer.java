@@ -109,8 +109,8 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
             titleGenerator = this.componentManager.getInstance(WantedLinkTitleGenerator.class,
                 reference.getType().getScheme());
         } catch (Exception e) {
-            String message = "Could not find a [WantedLinkTitleGenerator] component to generate the wanted "
-                + "link title for [{}].";
+            String message = String.format("Could not find a [%s] component to generate the wanted "
+                + "link title for [{}].", WantedLinkTitleGenerator.class.getName());
             if (logger.isDebugEnabled()) {
                 logger.debug(message, reference, e);
             } else {
