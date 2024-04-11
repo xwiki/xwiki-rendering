@@ -26,8 +26,8 @@
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<!--startmacro:html|-||-|<b>bold</b>--><p><strong>bold</strong></p><!--stopmacro-->
+<!--startmacro:html|-||-|<\b>bold<\/b>--><p><strong>bold</strong></p><!--stopmacro-->
 .#-----------------------------------------------------
 .expect|annotatedhtml/5.0
 .#-----------------------------------------------------
-<!--startmacro:html|-||-|<b>bold</b>--><p><b>bold</b></p><!--stopmacro-->
+<!--startmacro:html|-||-|<\b>bold<\/b>--><p><b>bold</b></p><!--stopmacro-->
