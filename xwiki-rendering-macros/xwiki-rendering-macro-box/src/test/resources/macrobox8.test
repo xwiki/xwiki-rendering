@@ -10,11 +10,11 @@
 beginDocument
 beginMacroMarkerStandalone [custombox] [] [something]
 beginGroup [[class]=[box]]
-beginFormat [NONE] [[class]=[box-title]]
+beginGroup [[class]=[box-title]]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>][parameter-name]=[title]]
 onWord [something]
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>][parameter-name]=[title]]
-endFormat [NONE] [[class]=[box-title]]
+endGroup [[class]=[box-title]]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endGroup [[class]=[box]]
