@@ -49,7 +49,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
 
     /**
      * The XHTML element {@code title} parameter.
-     * @since 15.3RC1
+     * @since 16.3.0RC1
      */
     protected static final String TITLE = "title";
 

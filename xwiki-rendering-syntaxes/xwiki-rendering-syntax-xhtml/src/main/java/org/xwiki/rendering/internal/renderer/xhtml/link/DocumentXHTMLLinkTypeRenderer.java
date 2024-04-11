@@ -125,7 +125,7 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      * Looks for a component implementing WantedLinkTitleGenerator with a role hint matching the reference scheme.
      * @param reference the reference for which to compute the title
      * @return the wanted link title
-     * @since 15.3RC1
+     * @since 16.3.0RC1
      */
     private String computeWantedLinkTitle(ResourceReference reference)
     {

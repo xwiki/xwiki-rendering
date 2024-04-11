@@ -32,7 +32,7 @@ import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
  * This implementation is a fallback and should only be used when xwiki-rendering is running by itself.
  * This implementation uses the reference as the title.
  * @version $Id$
- * @since 15.3RC1
+ * @since 16.3.0RC1
  */
 @Component
 @Singleton
