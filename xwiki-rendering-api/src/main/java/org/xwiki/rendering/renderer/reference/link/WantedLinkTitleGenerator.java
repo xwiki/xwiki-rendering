@@ -28,7 +28,7 @@ import org.xwiki.stability.Unstable;
  * The implementations should be named according to the kind of reference they process.
  *
  * @version $Id$
- * @since 15.3RC1
+ * @since 16.3.0RC1
  */
 @Role
 @Unstable
