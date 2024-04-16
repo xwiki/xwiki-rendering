@@ -91,7 +91,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
         throws MacroExecutionException 
     {
         List<Block> boxFoundation = super.execute(parameters, content, context);
-        if (boxFoundation.size() > 0 && this.iconName != null) {
+        if (!boxFoundation.isEmpty() && this.iconName != null) {
             Block defaultBox = boxFoundation.get(0);
             // For an easier styling, we wrap the content and title together if they are non-empty and visible
             if (defaultBox.getChildren().size() > 1) {
