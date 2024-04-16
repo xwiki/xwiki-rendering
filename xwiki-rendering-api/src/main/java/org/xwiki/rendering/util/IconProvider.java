@@ -27,8 +27,8 @@ import org.xwiki.stability.Unstable;
  * Component to provide an icon from its name.
  *
  * @version $Id$
- * @since 15.10.6
- * @since 16.1.0RC1
+ * @since 15.10.9
+ * @since 16.3.0RC1
  */
 @Role
 @Unstable
