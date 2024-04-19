@@ -42,6 +42,9 @@ public class DefaultIconProvider implements IconProvider
     @Override
     public Block get(String iconName)
     {
-        return new ImageBlock(new ResourceReference(iconName, ResourceType.ICON), true);
+        Block icon = new ImageBlock(new ResourceReference(iconName, ResourceType.ICON), true);
+        // By default, the icon is presentation only, we say that by setting its alt to an empty string.
+        icon.setAttribute("alt", "");
+        return icon;
     }
 }

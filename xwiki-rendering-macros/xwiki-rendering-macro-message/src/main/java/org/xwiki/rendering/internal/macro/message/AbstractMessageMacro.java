@@ -24,15 +24,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.GroupBlock;
-import org.xwiki.rendering.block.MacroBlock;
-import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.*;
+import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
+import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.util.IconProvider;
 
@@ -45,6 +44,8 @@ import org.xwiki.rendering.util.IconProvider;
 public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
     protected String iconName;
+
+    protected String iconPrettyName = "";
 
     /**
      * Used to get the icon representation.
@@ -100,6 +101,16 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
             }
             // Enhance the default box with an icon as the first element.
             Block iconBlock = iconProvider.get(iconName);
+            // Provide an accessible name besides this icon
+            // This is the responsibility of the message macro and not the iconProvider which should only provide
+            // icons without any semantics
+            if (iconBlock.getClass() == ImageBlock.class) {
+                iconBlock.setAttribute("alt", iconPrettyName);
+            } else if (!iconPrettyName.equals("")) {
+                Block iconAlternative = new FormatBlock(List.of(new RawBlock(iconPrettyName, Syntax.PLAIN_1_0)),
+                    Format.NONE);
+                iconBlock = new CompositeBlock(List.of(iconBlock, iconAlternative));
+            }
             
             // Add the icon block at the start of the box block.
             defaultBox.insertChildBefore(iconBlock, defaultBox.getChildren().get(0));
