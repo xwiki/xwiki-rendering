@@ -24,7 +24,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.xwiki.rendering.block.*;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.CompositeBlock;
+import org.xwiki.rendering.block.FormatBlock;
+import org.xwiki.rendering.block.GroupBlock;
+import org.xwiki.rendering.block.ImageBlock;
+import org.xwiki.rendering.block.MacroBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.MacroPreparationException;
