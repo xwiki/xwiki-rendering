@@ -1,0 +1,17 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test that a macro content that is out of context doesn't break parsing.
+.#-----------------------------------------------------
+<p>Inline <!--startmacro:test-macro|-||-|Content--><!--stopmacro--></p><div><p><span
+data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;"
+data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container">Content</span></p></div><!--stopmacro--><p>A</p>
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+Inline {{test-macro}}Content{{/test-macro}}
+
+(((
+Content
+)))
+
+A
