@@ -178,6 +178,17 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
     {
         if (stack.getStackParameter(MACRO_INFO) != null) {
             MacroInfo macroInfo = (MacroInfo) stack.popStackParameter(MACRO_INFO);
+
+            String parameterName = (String) stack.getStackParameter(PARAMETER_CONTENT_NAME);
+            if (macroInfo.getContentScannerContext() != null
+                || (parameterName != null && macroInfo.getParameterScannerContext(parameterName) != null))
+            {
+                // Wrong/extra end of macro comment, ignore it as the content of the macro or one of its parameters
+                // didn't end yet.
+                stack.pushStackParameter(MACRO_INFO, macroInfo);
+                return;
+            }
+
             IgnoreElementRule ignoreElementRule = stack.popIgnoreElementRule();
 
             // if we were ignoring all we don't want to output the macro
