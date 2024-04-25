@@ -133,7 +133,11 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                 context.getTagStack().pushStackParameter(CURRENT_SYNTAX, currentSyntax);
             }
 
-            if (metaData.contains(MetaData.NON_GENERATED_CONTENT)) {
+            // Ignore non-generated content if we have no macro info. This most likely means that due to HTML
+            // "fixing" by the browser, the content of the macro is not inside the macro markers anymore. This will
+            // most likely result in broken and/or duplicated content, but we can't really fix this at this point, so
+            // continue parsing as if there was no metadata.
+            if (macroInfo != null && metaData.contains(MetaData.NON_GENERATED_CONTENT)) {
                 String currentSyntaxParameter =
                     this.getSyntax(context, (String) metaData.getMetaData(MetaData.NON_GENERATED_CONTENT));
                 try {
