@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.xwiki.rendering.block.Block;
@@ -142,8 +143,8 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
         // Consider any element that contains the metadata class as metadata. The class attribute might have been
         // messed up by the parser, e.g., duplicating the value.
         return parameters.getParameter(CLASS_ATTRIBUTE) != null
-            && Arrays.asList(StringUtils.split(parameters.getParameter(CLASS_ATTRIBUTE).getValue()))
-            .contains(METADATA_CONTAINER_CLASS);
+            && ArrayUtils.contains(StringUtils.split(parameters.getParameter(CLASS_ATTRIBUTE).getValue()),
+            METADATA_CONTAINER_CLASS);
     }
 
     static MetaData createMetaData(WikiParameters parameters)
