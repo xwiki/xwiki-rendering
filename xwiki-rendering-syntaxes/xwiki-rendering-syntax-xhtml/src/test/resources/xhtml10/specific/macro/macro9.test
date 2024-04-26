@@ -1,6 +1,6 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
-.# Test that a macro content that is out of context doesn't break parsing.
+.# Test that a macro content that is outside the start/stop macro comments doesn't break parsing.
 .#-----------------------------------------------------
 <p>Inline <!--startmacro:test-macro|-||-|Content--><!--stopmacro--></p><div><p><span
 data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;"
