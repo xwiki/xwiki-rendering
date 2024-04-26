@@ -1,6 +1,7 @@
 .#-----------------------------------------------------
 .input|xhtml/1.0
-.# Test that a macro content that is out of context doesn't break parsing.
+.# Test that a macro content that is outside the start/stop macro comments and ends with a duplicate macro stop comment
+.# doesn't break parsing.
 .#-----------------------------------------------------
 <!--startmacro:section|-|border="true"|-|\\{\\{column width="40%"}}\nFirst column\n\\{\\{/column}}\n\n \\{\\{column width="60%"}}Second column\\{\\{/column}}--><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><!--startmacro:column|-|width="40%"|-|First column--><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><p>First column</p></div><!--stopmacro--><p>&nbsp;<!--startmacro:column|-|width="60%"|-|Second column--><!--stopmacro--></p><div style="width: 60%" class="macro-column"><p><span data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container">Second column</span></p></div><!--stopmacro--><p>&nbsp;</p></div><!--stopmacro--><div class="wikimodel-emptyline"></div>
 .#-----------------------------------------------------
