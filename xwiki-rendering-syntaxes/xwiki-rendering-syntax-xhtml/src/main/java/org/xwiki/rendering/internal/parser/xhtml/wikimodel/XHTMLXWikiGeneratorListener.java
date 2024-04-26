@@ -19,8 +19,12 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.internal.parser.wikimodel.DefaultXWikiGeneratorListener;
@@ -135,8 +139,11 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
 
     static boolean isMetaDataElement(WikiParameters parameters)
     {
+        // Consider any element that contains the metadata class as metadata. The class attribute might have been
+        // messed up by the parser, e.g., duplicating the value.
         return parameters.getParameter(CLASS_ATTRIBUTE) != null
-            && METADATA_CONTAINER_CLASS.equals(parameters.getParameter(CLASS_ATTRIBUTE).getValue());
+            && Arrays.asList(StringUtils.split(parameters.getParameter(CLASS_ATTRIBUTE).getValue()))
+            .contains(METADATA_CONTAINER_CLASS);
     }
 
     static MetaData createMetaData(WikiParameters parameters)
@@ -159,12 +166,18 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
         WikiParameters wikiParameters = new WikiParameters();
 
         for (WikiParameter parameter : parameters) {
-            boolean acceptParameter = !(parameter.getKey().startsWith(METADATA_ATTRIBUTE_PREFIX)
-                || (
-                parameter.getKey().equals(CLASS_ATTRIBUTE) && parameter.getValue().equals(METADATA_CONTAINER_CLASS)
-            ));
+            boolean acceptParameter = !(parameter.getKey().startsWith(METADATA_ATTRIBUTE_PREFIX));
+            String value = parameter.getValue();
+            // Remove the metadata class from the class attribute but keep the rest
+            if (CLASS_ATTRIBUTE.equals(parameter.getKey())) {
+                value = Arrays.stream(StringUtils.split(value))
+                    .filter(Predicate.not(METADATA_CONTAINER_CLASS::equals))
+                    .collect(Collectors.joining(" "));
+                // Only accept the class attribute if it's not empty
+                acceptParameter = StringUtils.isNotBlank(value);
+            }
             if (acceptParameter) {
-                wikiParameters = wikiParameters.addParameter(parameter.getKey(), parameter.getValue());
+                wikiParameters = wikiParameters.addParameter(parameter.getKey(), value);
             }
         }
 
