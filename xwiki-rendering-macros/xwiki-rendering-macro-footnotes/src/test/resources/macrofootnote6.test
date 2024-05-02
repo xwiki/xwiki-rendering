@@ -2,6 +2,7 @@
 .#-----------------------------------------------------
 .input|xwiki/2.0
 .# Verify that several footnotes and putFootnotes markers work.
+.# Also verify that standalone footnote macros are converted to inline macros in a paragraph.
 .#-----------------------------------------------------
 Footnote{{footnote}}content 1{{/footnote}} {{footnote}}content 2{{/footnote}}
 
@@ -46,25 +47,30 @@ endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_2]]
 endMacroMarkerInline [footnote] [] [content 2]
 endParagraph
 beginMacroMarkerStandalone [executedcontent] [] [{{footnote}}Inner footnote{{/footnote}}]
-beginMacroMarkerStandalone [footnote] [] [Inner footnote]
+beginParagraph
+beginMacroMarkerInline [footnote] [] [Inner footnote]
 beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
 beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
 onWord [3]
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
 endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
-endMacroMarkerStandalone [footnote] [] [Inner footnote]
+endMacroMarkerInline [footnote] [] [Inner footnote]
+endParagraph
 endMacroMarkerStandalone [executedcontent] [] [{{footnote}}Inner footnote{{/footnote}}]
 beginMacroMarkerStandalone [executedcontent] [] [{{footnote}}Second inner footnote{{/footnote}}]
-beginMacroMarkerStandalone [footnote] [] [Second inner footnote]
+beginParagraph
+beginMacroMarkerInline [footnote] [] [Second inner footnote]
 beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1-1]]
 beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1-1]]] [false]
 onWord [4]
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1-1]]] [false]
 endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1-1]]
-endMacroMarkerStandalone [footnote] [] [Second inner footnote]
+endMacroMarkerInline [footnote] [] [Second inner footnote]
+endParagraph
 endMacroMarkerStandalone [executedcontent] [] [{{footnote}}Second inner footnote{{/footnote}}]
 onEmptyLines [1]
-beginMacroMarkerStandalone [footnote] [] [These are the footnotes:
+beginParagraph
+beginMacroMarkerInline [footnote] [] [These are the footnotes:
 
 {{putFootnotes/}}
 ]
@@ -73,10 +79,11 @@ beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_5]]]
 onWord [5]
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_5]]] [false]
 endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_5]]
-endMacroMarkerStandalone [footnote] [] [These are the footnotes:
+endMacroMarkerInline [footnote] [] [These are the footnotes:
 
 {{putFootnotes/}}
 ]
+endParagraph
 beginMacroMarkerStandalone [putFootnotes] []
 beginList [NUMBERED] [[class]=[footnotes]]
 beginListItem
