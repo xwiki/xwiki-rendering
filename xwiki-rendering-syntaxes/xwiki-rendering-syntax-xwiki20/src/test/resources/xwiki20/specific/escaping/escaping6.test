@@ -1,0 +1,17 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|xwiki/2.0
+.# Test ]]] in a link parameter.
+.#-------------------------------------------------------------------------------------------------------
+[[Link label>>https://www.xwiki.org||data-foo="bar~]~]]"]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [false] Type = [url] Reference = [https://www.xwiki.org]] [false] [[data-foo]=[bar]]]]]
+onWord [Link]
+onSpace
+onWord [label]
+endLink [Typed = [false] Type = [url] Reference = [https://www.xwiki.org]] [false] [[data-foo]=[bar]]]]]
+endParagraph
+endDocument
