@@ -42,6 +42,8 @@ public class ParametersPrinter
 
     private Pattern escaped;
 
+    private String replacement;
+
     /**
      * Default constructor.
      * 
@@ -66,7 +68,14 @@ public class ParametersPrinter
         builder.append(Pattern.quote(QUOTE));
         for (String str : escapedStrings) {
             builder.append('|');
-            builder.append(Pattern.quote(str));
+            // Only match the first character directly and use the rest as a lookahead as escaping only applies to
+            // the first character, and there might be further matches starting at later characters.
+            if (!str.isEmpty()) {
+                builder.append(Pattern.quote(str.substring(0, 1)));
+                if (str.length() > 1) {
+                    builder.append("(?=").append(Pattern.quote(str.substring(1))).append(')');
+                }
+            }
         }
 
         this.escapedStrings = builder.toString();
@@ -77,6 +86,12 @@ public class ParametersPrinter
     private void setEscapeChar(char escapeChar)
     {
         this.escapeChar = escapeChar;
+
+        StringBuilder replacementBuilder = new StringBuilder();
+        replacementBuilder.append(Matcher.quoteReplacement(String.valueOf(escapeChar)));
+        replacementBuilder.append("$0");
+        this.replacement = replacementBuilder.toString();
+
         this.escaped = Pattern.compile(Pattern.quote(String.valueOf(this.escapeChar)) + '|' + this.escapedStrings);
     }
 
@@ -152,19 +167,7 @@ public class ParametersPrinter
     public String print(String parameterName, String parameterValue)
     {
         // escape meaningfull strings
-        String value = this.escaped.matcher(parameterValue).replaceAll(matchResult -> {
-            // Prefix every character with the escape character as the character sequence to be escaped could
-            // continue after the match.
-            // For example, when escaping "]]", there could be another "]" after the match that would lead to a new
-            // unescaped match.
-            String group = matchResult.group();
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < group.length(); i++) {
-                result.append(this.escapeChar).append(group.charAt(i));
-            }
-            // Quote the replacement to avoid that \ and $ characters are interpreted as special characters.
-            return Matcher.quoteReplacement(result.toString());
-        });
+        String value = this.escaped.matcher(parameterValue).replaceAll(this.replacement);
 
         return parameterName + "=" + QUOTE + value + QUOTE;
     }
