@@ -377,4 +377,28 @@ class MacroTransformationTest
 
         assertTrue(macroBlock.getAttributes().isEmpty());
     }
+
+    @Test
+    void replacementMacro() throws Exception
+    {
+        String expected = """
+            beginDocument
+            beginMacroMarkerStandalone [testReplacement] [param1=newValue] [macroContent]
+            onWord [testReplacement]
+            onWord [macroContent]
+            onWord [newValue]
+            endMacroMarkerStandalone [testReplacement] [param1=newValue] [macroContent]
+            endDocument""";
+
+        MacroBlock macroBlock = new MacroBlock("testReplaceMe", Map.of("oldParameter", "oldValue"), "macroContent", false);
+        XDOM dom = new XDOM(List.of(macroBlock));
+
+        this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
+
+        WikiPrinter printer = new DefaultWikiPrinter();
+        BlockRenderer eventBlockRenderer =
+            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+        eventBlockRenderer.render(dom, printer);
+        assertEquals(expected, printer.toString());
+    }
 }
