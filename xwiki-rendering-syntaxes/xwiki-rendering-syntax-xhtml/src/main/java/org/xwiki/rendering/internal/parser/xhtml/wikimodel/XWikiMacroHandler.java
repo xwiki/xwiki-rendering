@@ -72,7 +72,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
     private String getSyntax(TagContext previousNodes, String macroType)
     {
         // if the type is not wiki content type, then we should parse the content as plain text.
-        if (!macroType.equals(WIKI_CONTENT_TYPE)) {
+        if (!WIKI_CONTENT_TYPE.equals(macroType)) {
             return Syntax.PLAIN_1_0.toIdString();
         } else if (previousNodes.getTagStack().getStackParameter(CURRENT_SYNTAX) != null) {
             return (String) previousNodes.getTagStack().popStackParameter(CURRENT_SYNTAX);
