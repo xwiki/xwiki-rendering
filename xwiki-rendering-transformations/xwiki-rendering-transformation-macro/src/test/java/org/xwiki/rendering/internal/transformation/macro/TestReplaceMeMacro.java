@@ -28,7 +28,6 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.CompositeBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
@@ -70,10 +69,6 @@ public class TestReplaceMeMacro extends AbstractNoParameterMacro
 
         // Replace the old macro block with the new macro block.
         oldMacroBlock.getParent().replaceChild(replacement, oldMacroBlock);
-
-        // Add a parent to the old macro block as otherwise the MacroTransformation fails.
-        Block mockParent = new CompositeBlock();
-        mockParent.addChild(oldMacroBlock);
 
         return List.of();
     }
