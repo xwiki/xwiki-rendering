@@ -29,8 +29,9 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
-import org.xwiki.rendering.macro.AbstractNoParameterMacro;
+import org.xwiki.rendering.macro.AbstractMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**
@@ -41,14 +42,17 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 @Component
 @Named("testReplaceMe")
 @Singleton
-public class TestReplaceMeMacro extends AbstractNoParameterMacro
+public class TestReplaceMeMacro extends AbstractMacro<TestMacroParameter>
 {
     /**
      * Default constructor.
      */
     public TestReplaceMeMacro()
     {
-        super("testReplaceMe");
+        // Declare content and parameters to support link refactoring and other analysis tasks that analyze macro
+        // parameters and content.
+        super("testReplaceMe", "Legacy macro to be replaced", new DefaultContentDescriptor("The content of the macro.",
+            false, Block.LIST_BLOCK_TYPE), TestMacroParameter.class);
     }
 
     @Override
@@ -58,7 +62,7 @@ public class TestReplaceMeMacro extends AbstractNoParameterMacro
     }
 
     @Override
-    public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
+    public List<Block> execute(TestMacroParameter parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
         // Construct a new macro block to replace the old macro block.
