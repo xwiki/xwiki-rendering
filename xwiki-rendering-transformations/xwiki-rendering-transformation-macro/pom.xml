@@ -80,6 +80,7 @@
                 <!-- Required since we're using test components in the integration test module  -->
                 <include>**/Test*Macro.class</include>
                 <include>**/Test*Macro$*.class</include>
+                <include>**/TestMacroParameter.class</include>
                 <include>**/components.txt</include>
               </includes>
             </configuration>
