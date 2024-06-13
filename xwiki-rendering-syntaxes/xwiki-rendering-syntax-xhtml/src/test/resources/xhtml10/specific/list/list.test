@@ -1,0 +1,57 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<ol>
+  <li><p>Hello</p></li>
+  <li><p>world</p>
+    <ol>
+      <li><p>Hello nested</p></li>
+      <li><p>world nested</p></li>
+    </ol>
+  </li>
+</ol>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginList [NUMBERED]
+beginListItem
+beginGroup
+beginParagraph
+onWord [Hello]
+endParagraph
+endGroup
+endListItem
+beginListItem
+beginGroup
+beginParagraph
+onWord [world]
+endParagraph
+beginList [NUMBERED]
+beginListItem
+beginGroup
+beginParagraph
+onWord [Hello]
+onSpace
+onWord [nested]
+endParagraph
+endGroup
+endListItem
+beginListItem
+beginGroup
+beginParagraph
+onWord [world]
+onSpace
+onWord [nested]
+endParagraph
+endGroup
+endListItem
+endList [NUMBERED]
+endGroup
+endListItem
+endList [NUMBERED]
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<ol><li><div><p>Hello</p></div></li><li><div><p>world</p><ol><li><div><p>Hello nested</p></div></li><li><div><p>world nested</p></div></li></ol></div></li></ol>
