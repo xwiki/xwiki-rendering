@@ -38,8 +38,9 @@ public class ListTagHandler extends TagHandler
         TagContext parent = context.getParent();
         // A new list is considered a block element only if the parent is not a
         // list item since nested lists
-        // are not new block elements
-        return !(parent.isTag("li") || parent.isTag("dd") || parent.isTag("dt"));
+        // are not new block elements - unless the parent got a nested document.
+        boolean isInListItem = parent.isTag("li") || parent.isTag("dd") || parent.isTag("dt");
+        return !isInListItem || parent == parent.getTagStack().getDocumentParent();
     }
 
     @Override
