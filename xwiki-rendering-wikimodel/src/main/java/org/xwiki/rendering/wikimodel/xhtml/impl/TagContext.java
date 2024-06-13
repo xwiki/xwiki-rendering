@@ -108,7 +108,7 @@ public class TagContext
     {
         // If my parent is not handled, I want it to be fully ignored, so I will go up the tree until I found
         // a handled parent, however I should not reach the root.
-        if (fParent.fHandler == null && fParent.fParent.fName != null) {
+        if (fParent.fHandler == null && fParent.fParent != null && fParent.fParent.fName != null) {
             return fParent.getParent();
         } else {
             return fParent;
