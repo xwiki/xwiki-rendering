@@ -1,0 +1,106 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test plain text content before a nested list starts.
+.#-----------------------------------------------------
+ <ol>
+   <li>
+     Paragraph 5
+     <ol>
+       <li>Paragraph 5.1
+         <ol>
+           <li>Paragraph 5.1.1
+           <p>Some text.</p>
+           </li>
+         </ol>
+       </li>
+       <li>Paragraph 5.2
+         <ol>
+           <li>Paragraph 5.2.1
+             <p>Example notes:</p>
+           </li>
+         </ol>
+       </li>
+     </ol>
+   </li>
+ </ol>
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+1. (((
+Paragraph 5
+
+1. Paragraph 5.1
+11. Paragraph 5.1.1(((
+Some text.
+)))
+1. Paragraph 5.2
+11. Paragraph 5.2.1(((
+Example notes:
+)))
+)))
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginList [NUMBERED]
+beginListItem
+onWord [Paragraph]
+onSpace
+onWord [5]
+beginList [NUMBERED]
+beginListItem
+onWord [Paragraph]
+onSpace
+onWord [5]
+onSpecialSymbol [.]
+onWord [1]
+beginList [NUMBERED]
+beginListItem
+onWord [Paragraph]
+onSpace
+onWord [5]
+onSpecialSymbol [.]
+onWord [1]
+onSpecialSymbol [.]
+onWord [1]
+beginGroup
+beginParagraph
+onWord [Some]
+onSpace
+onWord [text]
+onSpecialSymbol [.]
+endParagraph
+endGroup
+endListItem
+endList [NUMBERED]
+endListItem
+beginListItem
+onWord [Paragraph]
+onSpace
+onWord [5]
+onSpecialSymbol [.]
+onWord [2]
+beginList [NUMBERED]
+beginListItem
+onWord [Paragraph]
+onSpace
+onWord [5]
+onSpecialSymbol [.]
+onWord [2]
+onSpecialSymbol [.]
+onWord [1]
+beginGroup
+beginParagraph
+onWord [Example]
+onSpace
+onWord [notes]
+onSpecialSymbol [:]
+endParagraph
+endGroup
+endListItem
+endList [NUMBERED]
+endListItem
+endList [NUMBERED]
+endListItem
+endList [NUMBERED]
+endDocument
