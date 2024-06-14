@@ -907,6 +907,17 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
     private void print(String text, boolean isDelayed)
     {
+        // In principle, anything that's printed means that the first element has been rendered, e.g., at the start
+        // of a group syntax.
+        // However, newline handling is not consistent between rendering and parsing.
+        // At the start of a group syntax, the parser detects more empty lines than what the renderer produces if it
+        // prints both the empty lines and the line breaks produced by printEmptyLine() when isFirstElementRendered
+        // is true.
+        // To avoid that, don't set isFirstElementRendered to true when just line breaks are printed.
+        if (!StringUtils.containsOnly(text, '\n')) {
+            this.isFirstElementRendered = true;
+        }
+
         // Handle empty formatting parameters.
         handleEmptyParameters();
 
