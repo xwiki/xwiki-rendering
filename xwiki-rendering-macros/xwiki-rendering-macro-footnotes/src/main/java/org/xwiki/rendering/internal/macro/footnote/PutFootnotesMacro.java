@@ -41,6 +41,7 @@ import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.ListItemBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.NumberedListBlock;
+import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.SpaceBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.match.MacroMarkerBlockMatcher;
@@ -192,6 +193,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
         // Get the list of footnotes in the document
         macroMarkerBlocks.stream()
             .filter(macro -> FootnoteMacro.MACRO_NAME.equals(macro.getId()))
+            .map(PutFootnotesMacro::repairStandaloneFootnote)
             .map(Footnote::new)
             .forEach(footnote -> footnotes.put(
                 Objects.requireNonNullElseGet(footnote.id, () -> String.valueOf(temporaryId.getAndIncrement())),
@@ -226,6 +228,25 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
         }
 
         return result;
+    }
+
+    /**
+     * Repair a standalone footnote macro marker block by wrapping it in a paragraph if it is not already inline.
+     *
+     * @param macroMarkerBlock the macro marker block to repair
+     * @return the repaired macro marker block
+     */
+    private static MacroMarkerBlock repairStandaloneFootnote(MacroMarkerBlock macroMarkerBlock)
+    {
+        if (macroMarkerBlock.isInline()) {
+            return macroMarkerBlock;
+        } else {
+            // Wrap the macro marker block in a paragraph and make it inline.
+            MacroMarkerBlock result = new MacroMarkerBlock(macroMarkerBlock.getId(), macroMarkerBlock.getParameters(),
+                macroMarkerBlock.getContent(), macroMarkerBlock.getChildren(), true);
+            macroMarkerBlock.getParent().replaceChild(new ParagraphBlock(List.of(result)), macroMarkerBlock);
+            return result;
+        }
     }
 
     /**
