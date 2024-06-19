@@ -19,13 +19,40 @@
  */
 package org.xwiki.rendering.macro.descriptor;
 
+import java.util.Set;
+
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.DeclareParents;
+
 /**
  * Add a backward compatibility layer to {@link MacroDescriptor}.
  *
  * @version $Id$
  * @since 14.8RC1
  */
-public privileged aspect MacroDescriptorAspect
+@Aspect
+public class MacroDescriptorAspect
 {
-    declare parents : MacroDescriptor implements CompatibilityMacroDescriptor;
+    /**
+     * Add legacy APIs to {@link MacroDescriptor}.
+     */
+    @DeclareParents("MacroDescriptor")
+    public static CompatibilityMacroDescriptor compatibility;
+
+    /**
+     * Overwrite the default implementation of #getDefaultCategories based on the legacy #getDefaultCategory.
+     *
+     * @param descriptor the legacy descriptor API
+     * @return a set containing the default category
+     * @since 14.10.22
+     * @since 15.10.11
+     * @since 16.4.1
+     * @since 16.5.0
+     */
+    @Around("execution(Set<String> MacroDescriptor.getDefaultCategories()) && target(descriptor)")
+    public Set<String> aroundGetDefaultCategories(CompatibilityMacroDescriptor descriptor)
+    {
+        return Set.of(descriptor.getDefaultCategory());
+    }
 }
