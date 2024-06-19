@@ -46,10 +46,7 @@ public privileged aspect AbstractMacroDescriptorAspect
     public AbstractMacroDescriptor.new(String name, String description, ContentDescriptor contentDescriptor,
         BeanDescriptor parametersBeanDescriptor)
         {
-            this.name = name;
-            this.description = description;
-            this.contentDescriptor = contentDescriptor;
-            this.parametersBeanDescriptor = parametersBeanDescriptor;
+            this(null, name, description, contentDescriptor, parametersBeanDescriptor);
         }
     
     /**
