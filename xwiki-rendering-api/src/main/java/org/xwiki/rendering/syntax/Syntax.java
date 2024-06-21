@@ -75,9 +75,9 @@ public class Syntax implements Comparable<Syntax>
     /**
      * XWiki 1.0 syntax.
      * 
-     * @deprecated since 5.0, use {@link #XWIKI_2_1} instead
+     * @deprecated use {@link #XWIKI_2_1} instead
      */
-    @Deprecated
+    @Deprecated(since = "5.0")
     public static final Syntax XWIKI_1_0 = new Syntax(SyntaxType.XWIKI, "1.0");
 
     /**
@@ -118,8 +118,9 @@ public class Syntax implements Comparable<Syntax>
     /**
      * Old MediaWiki syntax.
      * 
-     * @deprecated since 8.2RC1, use {@link #MEDIAWIKI_1_6} instead
+     * @deprecated use {@link #MEDIAWIKI_1_6} instead
      */
+    @Deprecated(since = "8.2RC1")
     public static final Syntax MEDIAWIKI_1_0 = new Syntax(SyntaxType.MEDIAWIKI, "1.0");
 
     /**
@@ -237,9 +238,9 @@ public class Syntax implements Comparable<Syntax>
      * @return the parsed syntax as a Syntax object
      * @throws ParseException in case the string doesn't represent a valid syntax
      * @since 9.8RC1
-     * @deprecated since 13.3RC1, use {@link SyntaxRegistry#getSyntax(String)}
+     * @deprecated use {@link SyntaxRegistry#getSyntax(String)}
      */
-    @Deprecated
+    @Deprecated(since = "13.3RC1")
     public static Syntax valueOf(String syntaxIdAsString) throws ParseException
     {
         if (syntaxIdAsString == null) {

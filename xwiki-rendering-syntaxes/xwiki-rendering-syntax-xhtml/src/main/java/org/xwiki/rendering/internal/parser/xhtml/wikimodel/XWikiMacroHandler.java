@@ -72,7 +72,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
     private String getSyntax(TagContext previousNodes, String macroType)
     {
         // if the type is not wiki content type, then we should parse the content as plain text.
-        if (!macroType.equals(WIKI_CONTENT_TYPE)) {
+        if (!WIKI_CONTENT_TYPE.equals(macroType)) {
             return Syntax.PLAIN_1_0.toIdString();
         } else if (previousNodes.getTagStack().getStackParameter(CURRENT_SYNTAX) != null) {
             return (String) previousNodes.getTagStack().popStackParameter(CURRENT_SYNTAX);
@@ -133,7 +133,11 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                 context.getTagStack().pushStackParameter(CURRENT_SYNTAX, currentSyntax);
             }
 
-            if (metaData.contains(MetaData.NON_GENERATED_CONTENT)) {
+            // Ignore non-generated content if we have no macro info. This most likely means that due to HTML
+            // "fixing" by the browser, the content of the macro is not inside the macro markers anymore. This will
+            // most likely result in broken and/or duplicated content, but we can't really fix this at this point, so
+            // continue parsing as if there was no metadata.
+            if (macroInfo != null && metaData.contains(MetaData.NON_GENERATED_CONTENT)) {
                 String currentSyntaxParameter =
                     this.getSyntax(context, (String) metaData.getMetaData(MetaData.NON_GENERATED_CONTENT));
                 try {
