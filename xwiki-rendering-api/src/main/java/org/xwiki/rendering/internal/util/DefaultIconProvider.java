@@ -17,34 +17,33 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.macro.message;
-
-import java.util.Set;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
+package org.xwiki.rendering.internal.util;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.ImageBlock;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.util.IconProvider;
+
+import javax.inject.Singleton;
 
 /**
- * Displays an info message.
+ * Default component to provide an icon from its name.
  *
  * @version $Id$
- * @since 2.0M3
+ * @since 16.6.0RC1
  */
 @Component
-@Named("info")
 @Singleton
-public class InfoMessageMacro extends AbstractMessageMacro
+public class DefaultIconProvider implements IconProvider
 {
-    /**
-     * Create and initialize the descriptor of the macro.
-     */
-    public InfoMessageMacro()
+    @Override
+    public Block get(String iconName)
     {
-        super("Info Message", "Displays an info message note.");
-        setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
-        this.iconName = "information";
-        this.iconPrettyName = "Information";
+        Block icon = new ImageBlock(new ResourceReference(iconName, ResourceType.ICON), true);
+        // By default, the icon is presentation only, we say that by setting its alt to an empty string.
+        icon.setAttribute("alt", "");
+        return icon;
     }
 }

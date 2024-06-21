@@ -44,5 +44,7 @@ public class SuccessMessageMacro extends AbstractMessageMacro
     {
         super("Success Message", "Displays a success message note.");
         setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
+        this.iconName = "accept";
+        this.iconPrettyName = "Success";
     }
 }
