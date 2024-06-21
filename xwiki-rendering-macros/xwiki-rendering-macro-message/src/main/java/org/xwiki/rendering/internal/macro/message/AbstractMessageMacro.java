@@ -19,10 +19,12 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
+import java.io.StringReader;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.CompositeBlock;
@@ -31,14 +33,14 @@ import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.ImageBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
-import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
-import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.parser.ParseException;
+import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.util.IconProvider;
 
@@ -59,6 +61,10 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
      */
     @Inject
     private IconProvider iconProvider;
+
+    @Inject
+    @Named("plain/1.0")
+    private Parser plainTextParser;
 
     /**
      * Create and initialize the descriptor of the macro.
@@ -107,16 +113,23 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
                 defaultBox.setChildren(List.of(boxTextContent));
             }
             // Enhance the default box with an icon as the first element.
-            Block iconBlock = iconProvider.get(iconName);
+            Block iconBlock = this.iconProvider.get(this.iconName);
             // Provide an accessible name besides this icon
             // This is the responsibility of the message macro and not the iconProvider which should only provide
             // icons without any semantics
             if (iconBlock.getClass() == ImageBlock.class) {
-                iconBlock.setAttribute("alt", iconPrettyName);
-            } else if (!iconPrettyName.equals("")) {
-                Block iconAlternative = new FormatBlock(List.of(new RawBlock(iconPrettyName, Syntax.PLAIN_1_0)),
-                    Format.NONE);
-                iconBlock = new CompositeBlock(List.of(iconBlock, iconAlternative));
+                iconBlock.setAttribute("alt", this.iconPrettyName);
+            } else if (!this.iconPrettyName.isEmpty()) {
+                try {
+                    Block iconAlternative = new FormatBlock(
+                        this.plainTextParser.parse(new StringReader(this.iconPrettyName)).getChildren(), 
+                        Format.NONE);
+                    iconBlock = new CompositeBlock(List.of(iconBlock, iconAlternative));
+                } catch (ParseException e) {
+                    // This shouldn't happen since the parser cannot throw an exception since the source is a memory
+                    // String.
+                    throw new RuntimeException("Failed to parse text alternative for the icon", e);
+                }
             }
             
             // Add the icon block at the start of the box block.
