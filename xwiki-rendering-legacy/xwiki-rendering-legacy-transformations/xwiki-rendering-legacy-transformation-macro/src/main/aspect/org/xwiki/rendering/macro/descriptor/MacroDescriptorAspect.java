@@ -50,7 +50,9 @@ public class MacroDescriptorAspect
      * @since 16.4.1
      * @since 16.5.0
      */
-    @Around("execution(Set<String> MacroDescriptor.getDefaultCategories()) && target(descriptor)")
+    @Around("execution(Set<String> MacroDescriptor.getDefaultCategories()) "
+        + "&& within(org.xwiki.rendering.macro.descriptor.MacroDescriptor) "
+        + "&& target(descriptor)")
     public Set<String> aroundGetDefaultCategories(CompatibilityMacroDescriptor descriptor)
     {
         String category = descriptor.getDefaultCategory();
