@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class DeprecatedMacroDescriptorTest
 {
-    private static class TestMacroDescriptor implements MacroDescriptor
+    private static class TestCategoryMacroDescriptor implements MacroDescriptor
     {
         @Override
         public MacroId getId()
@@ -79,11 +79,64 @@ class DeprecatedMacroDescriptorTest
         }
     }
 
-    @Test
-    void getDefaultCategory()
+    private static class TestNoCategoryMacroDescriptor implements MacroDescriptor
     {
-        TestMacroDescriptor descriptor = new TestMacroDescriptor();
+        @Override
+        public MacroId getId()
+        {
+            return null;
+        }
+
+        @Override
+        public String getName()
+        {
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            return null;
+        }
+
+        @Override
+        public Class<?> getParametersBeanClass()
+        {
+            return null;
+        }
+
+        @Override
+        public ContentDescriptor getContentDescriptor()
+        {
+            return null;
+        }
+
+        @Override
+        public Map<String, ParameterDescriptor> getParameterDescriptorMap()
+        {
+            return null;
+        }
+
+        @Override
+        public String getDefaultCategory()
+        {
+            return null;
+        }
+    }
+
+    @Test
+    void getDefaultCategoryWithCategory()
+    {
+        TestCategoryMacroDescriptor descriptor = new TestCategoryMacroDescriptor();
 
         assertEquals(Set.of("deprecatedcategory"), descriptor.getDefaultCategories());
+    }
+
+    @Test
+    void getDefaultCategoryWithoutCategory()
+    {
+        TestNoCategoryMacroDescriptor descriptor = new TestNoCategoryMacroDescriptor();
+
+        assertEquals(Set.of(), descriptor.getDefaultCategories());
     }
 }

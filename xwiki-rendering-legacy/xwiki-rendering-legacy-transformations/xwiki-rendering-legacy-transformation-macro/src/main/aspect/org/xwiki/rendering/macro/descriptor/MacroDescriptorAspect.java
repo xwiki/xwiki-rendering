@@ -53,6 +53,8 @@ public class MacroDescriptorAspect
     @Around("execution(Set<String> MacroDescriptor.getDefaultCategories()) && target(descriptor)")
     public Set<String> aroundGetDefaultCategories(CompatibilityMacroDescriptor descriptor)
     {
-        return Set.of(descriptor.getDefaultCategory());
+        String category = descriptor.getDefaultCategory();
+
+        return category != null ? Set.of(category) : Set.of();
     }
 }
