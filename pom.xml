@@ -275,7 +275,22 @@
                    </differences>
                  </revapi.differences>
             -->
-            
+            <revapi.differences>
+              <justification>Does not cause any retro compatibiility breakage, it actually fixes one</justification>
+              <criticality>allowed</criticality>
+              <differences>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.annotation.attributeValueChanged</code>
+                  <old>method java.util.Set&lt;java.lang.String&gt; org.xwiki.rendering.macro.descriptor.MacroDescriptorAspect::aroundGetDefaultCategories(org.xwiki.rendering.macro.descriptor.CompatibilityMacroDescriptor)</old>
+                  <new>method java.util.Set&lt;java.lang.String&gt; org.xwiki.rendering.macro.descriptor.MacroDescriptorAspect::aroundGetDefaultCategories(org.xwiki.rendering.macro.descriptor.CompatibilityMacroDescriptor)</new>
+                  <annotationType>org.aspectj.lang.annotation.Around</annotationType>
+                  <attribute>value</attribute>
+                  <oldValue>"execution(Set&lt;String&gt; MacroDescriptor.getDefaultCategories()) &amp;&amp; target(descriptor)"</oldValue>
+                  <newValue>"execution(Set&lt;String&gt; MacroDescriptor.getDefaultCategories()) &amp;&amp; within(org.xwiki.rendering.macro.descriptor.MacroDescriptor) &amp;&amp; target(descriptor)"</newValue>
+                </item>
+              </differences>
+            </revapi.differences>
           </analysisConfiguration>
         </configuration>
       </plugin>
