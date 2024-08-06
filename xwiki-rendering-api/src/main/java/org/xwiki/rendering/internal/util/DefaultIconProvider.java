@@ -32,7 +32,7 @@ import javax.inject.Singleton;
  * Default component to provide an icon from its name.
  *
  * @version $Id$
- * @since 16.6.0RC1
+ * @since 16.7.0RC1
  */
 @Component
 @Singleton
