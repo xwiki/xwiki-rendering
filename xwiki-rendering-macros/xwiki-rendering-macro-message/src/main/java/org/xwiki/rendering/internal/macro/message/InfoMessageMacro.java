@@ -45,6 +45,5 @@ public class InfoMessageMacro extends AbstractMessageMacro
         super("Info Message", "Displays an info message note.");
         setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
         this.iconName = "information";
-        this.iconPrettyName = "Information";
     }
 }

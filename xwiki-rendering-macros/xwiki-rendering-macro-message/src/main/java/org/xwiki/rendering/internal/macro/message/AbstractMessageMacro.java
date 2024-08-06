@@ -54,13 +54,14 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
 {
     protected String iconName;
 
-    protected String iconPrettyName = "";
-
     /**
-     * Used to get the icon representation.
+     * Used to get the icon representations.
      */
     @Inject
     private IconProvider iconProvider;
+
+    @Inject
+    private MacroIconPrettyNameProvider iconPrettyNameProvider;
 
     @Inject
     @Named("plain/1.0")
@@ -117,12 +118,13 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
             // Provide an accessible name besides this icon
             // This is the responsibility of the message macro and not the iconProvider which should only provide
             // icons without any semantics
+            String iconPrettyName = iconPrettyNameProvider.getIconPrettyName(this.iconName);
             if (iconBlock.getClass() == ImageBlock.class) {
-                iconBlock.setAttribute("alt", this.iconPrettyName);
-            } else if (!this.iconPrettyName.isEmpty()) {
+                iconBlock.setAttribute("alt", iconPrettyName);
+            } else if (!iconPrettyName.isEmpty()) {
                 try {
                     Block iconAlternative = new FormatBlock(
-                        this.plainTextParser.parse(new StringReader(this.iconPrettyName)).getChildren(), 
+                        this.plainTextParser.parse(new StringReader(iconPrettyName)).getChildren(), 
                         Format.NONE);
                     iconBlock = new CompositeBlock(List.of(iconBlock, iconAlternative));
                 } catch (ParseException e) {

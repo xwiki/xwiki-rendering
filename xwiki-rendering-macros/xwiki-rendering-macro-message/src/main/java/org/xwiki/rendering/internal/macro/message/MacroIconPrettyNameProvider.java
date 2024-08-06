@@ -19,31 +19,21 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
-import java.util.Set;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import org.xwiki.component.annotation.Component;
 
-/**
- * Displays an error message.
- *
- * @version $Id$
- * @since 2.0M3
- */
+import javax.inject.Singleton;
+import java.util.Map;
+
 @Component
-@Named("error")
 @Singleton
-public class ErrorMessageMacro extends AbstractMessageMacro
-{
-    /**
-     * Create and initialize the descriptor of the macro.
-     */
-    public ErrorMessageMacro()
-    {
-        super("Error Message", "Displays an error message note.");
-        setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
-        this.iconName = "exclamation";
-    }
+class MacroIconPrettyNameProvider {
+  private static final Map<String, String> PRETTYNAME_MAPPING = Map.of(
+    "exclamation", "Error",
+    "information", "Information",
+    "accept", "Success",
+    "error", "Warning"
+  );
+  String getIconPrettyName(String iconName) {
+    return PRETTYNAME_MAPPING.get(iconName);
+  }
 }
