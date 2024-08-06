@@ -35,6 +35,7 @@ public interface IconProvider
 {
     /**
      * Provides an icon from its name.
+     * E.g. an ImageBlock, a RawBlock with the HTML of the icon
      * @param iconName the name of the icon needed
      * @return the block containing the icon
      */
