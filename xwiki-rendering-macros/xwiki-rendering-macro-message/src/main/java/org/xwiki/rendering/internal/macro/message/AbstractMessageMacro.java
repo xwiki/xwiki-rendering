@@ -124,8 +124,9 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
             } else if (!iconPrettyName.isEmpty()) {
                 try {
                     Block iconAlternative = new FormatBlock(
-                        this.plainTextParser.parse(new StringReader(iconPrettyName)).getChildren(), 
-                        Format.NONE);
+                        this.plainTextParser.parse(
+                            new StringReader(iconPrettyName)).getChildren().get(0).getChildren(), 
+                            Format.NONE);
                     iconAlternative.setParameter("class", "sr-only");
                     iconBlock = new CompositeBlock(List.of(iconBlock, iconAlternative));
                 } catch (ParseException e) {
