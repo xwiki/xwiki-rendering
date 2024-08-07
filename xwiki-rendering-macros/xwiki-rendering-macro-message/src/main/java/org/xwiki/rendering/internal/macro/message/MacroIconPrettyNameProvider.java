@@ -20,9 +20,9 @@
 package org.xwiki.rendering.internal.macro.message;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.text.StringUtils;
 
 import javax.inject.Singleton;
-import java.util.Map;
 
 /**
  * Default component to provide an alternative text for an icon.
@@ -34,12 +34,6 @@ import java.util.Map;
 @Component(roles = MacroIconPrettyNameProvider.class)
 public class MacroIconPrettyNameProvider
 {
-    private static final Map<String, String> PRETTYNAME_MAPPING = Map.of(
-        "error", "Error",
-        "info", "Information",
-        "success", "Success",
-        "warning", "Warning"
-    );
 
     /**
      * @param macroId the id of the macro whose icon needs an alternative text
@@ -47,6 +41,6 @@ public class MacroIconPrettyNameProvider
      */
     String getIconPrettyName(String macroId) 
     {
-        return PRETTYNAME_MAPPING.get(macroId);
+        return StringUtils.capitalize(macroId);
     }
 }
