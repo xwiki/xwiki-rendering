@@ -35,18 +35,18 @@ import java.util.Map;
 public class MacroIconPrettyNameProvider
 {
     private static final Map<String, String> PRETTYNAME_MAPPING = Map.of(
-        "exclamation", "Error",
-        "information", "Information",
-        "accept", "Success",
-        "error", "Warning"
+        "error", "Error",
+        "info", "Information",
+        "success", "Success",
+        "warning", "Warning"
     );
 
     /**
      * @param iconName the name of the icon that needs an alternative text
      * @return the alternative text associated to the provided icon
      */
-    String getIconPrettyName(String iconName) 
+    String getIconPrettyName(String macroId) 
     {
-        return PRETTYNAME_MAPPING.get(iconName);
+        return PRETTYNAME_MAPPING.get(macroId);
     }
 }

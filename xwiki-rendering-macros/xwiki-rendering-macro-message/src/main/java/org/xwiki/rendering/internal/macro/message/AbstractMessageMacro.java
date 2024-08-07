@@ -118,7 +118,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
             // Provide an accessible name besides this icon
             // This is the responsibility of the message macro and not the iconProvider which should only provide
             // icons without any semantics
-            String iconPrettyName = iconPrettyNameProvider.getIconPrettyName(this.iconName);
+            String iconPrettyName = iconPrettyNameProvider.getIconPrettyName(this.getDescriptor().getId().getId());
             if (iconBlock.getClass() == ImageBlock.class) {
                 iconBlock.setAttribute("alt", iconPrettyName);
             } else if (!iconPrettyName.isEmpty()) {
