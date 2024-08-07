@@ -42,7 +42,7 @@ public class MacroIconPrettyNameProvider
     );
 
     /**
-     * @param iconName the name of the icon that needs an alternative text
+     * @param macroId the id of the macro whose icon needs an alternative text
      * @return the alternative text associated to the provided icon
      */
     String getIconPrettyName(String macroId) 
