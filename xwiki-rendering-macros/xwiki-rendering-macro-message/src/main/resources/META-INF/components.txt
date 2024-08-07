@@ -1,5 +1,5 @@
+org.xwiki.rendering.internal.macro.message.DefaultMacroIconPrettyNameProvider
 org.xwiki.rendering.internal.macro.message.InfoMessageMacro
 org.xwiki.rendering.internal.macro.message.WarningMessageMacro
 org.xwiki.rendering.internal.macro.message.ErrorMessageMacro
 org.xwiki.rendering.internal.macro.message.SuccessMessageMacro
-org.xwiki.rendering.internal.macro.message.MacroIconPrettyNameProvider

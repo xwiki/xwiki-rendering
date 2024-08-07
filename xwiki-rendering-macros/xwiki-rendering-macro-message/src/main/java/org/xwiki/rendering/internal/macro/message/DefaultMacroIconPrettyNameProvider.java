@@ -19,18 +19,34 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
-import org.xwiki.component.annotation.Role;
-import org.xwiki.stability.Unstable;
+import org.xwiki.component.annotation.Component;
+
+import javax.inject.Singleton;
+import java.util.Map;
 
 /**
- * Provide an alternative text for an icon.
+ * Default component to provide an alternative text for an icon.
  *
  * @version $Id$
  * @since 16.7.0RC1
  */
-@Role
-@Unstable
-interface MacroIconPrettyNameProvider 
+@Singleton
+@Component
+public class DefaultMacroIconPrettyNameProvider implements MacroIconPrettyNameProvider 
 {
-    String getIconPrettyName(String iconName);
+    private static final Map<String, String> PRETTYNAME_MAPPING = Map.of(
+        "exclamation", "Error",
+        "information", "Information",
+        "accept", "Success",
+        "error", "Warning"
+    );
+
+    /**
+     * @param iconName the name of the icon that needs an alternative text
+     * @return the alternative text associated to the provided icon
+     */
+    public String getIconPrettyName(String iconName) 
+    {
+        return PRETTYNAME_MAPPING.get(iconName);
+    }
 }
