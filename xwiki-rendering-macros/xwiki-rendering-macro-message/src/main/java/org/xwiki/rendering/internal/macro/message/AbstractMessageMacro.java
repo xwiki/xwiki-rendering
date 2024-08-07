@@ -126,6 +126,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
                     Block iconAlternative = new FormatBlock(
                         this.plainTextParser.parse(new StringReader(iconPrettyName)).getChildren(), 
                         Format.NONE);
+                    iconAlternative.setParameter("class", "sr-only");
                     iconBlock = new CompositeBlock(List.of(iconBlock, iconAlternative));
                 } catch (ParseException e) {
                     // This shouldn't happen since the parser cannot throw an exception since the source is a memory
