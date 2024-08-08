@@ -19,31 +19,28 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
-import java.util.Set;
+import org.xwiki.component.annotation.Component;
+import org.xwiki.text.StringUtils;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.xwiki.component.annotation.Component;
-
 /**
- * Displays an error message.
+ * Default component to provide an alternative text for an icon.
  *
  * @version $Id$
- * @since 2.0M3
+ * @since 16.7.0RC1
  */
-@Component
-@Named("error")
 @Singleton
-public class ErrorMessageMacro extends AbstractMessageMacro
+@Component(roles = MacroIconPrettyNameProvider.class)
+public class MacroIconPrettyNameProvider
 {
+
     /**
-     * Create and initialize the descriptor of the macro.
+     * @param macroId the id of the macro whose icon needs an alternative text
+     * @return the alternative text associated to the provided icon
      */
-    public ErrorMessageMacro()
+    String getIconPrettyName(String macroId) 
     {
-        super("Error Message", "Displays an error message note.");
-        setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
-        this.iconName = "exclamation";
+        return StringUtils.capitalize(macroId);
     }
 }

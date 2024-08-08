@@ -41,5 +41,10 @@
       <artifactId>xwiki-rendering-macro-box</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+        <groupId>org.xwiki.rendering</groupId>
+        <artifactId>xwiki-rendering-api</artifactId>
+        <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>
