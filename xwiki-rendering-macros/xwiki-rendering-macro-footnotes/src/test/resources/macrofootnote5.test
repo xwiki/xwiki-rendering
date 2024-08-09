@@ -24,6 +24,7 @@ endMacroMarkerInline [footnote] [] [content]
 endParagraph
 beginMacroMarkerStandalone [info] [] [{{putFootnotes/}}]
 beginGroup [[class]=[box infomessage]]
+onImage [Typed = [true] Type = [icon] Reference = [information]] [true]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginMacroMarkerStandalone [putFootnotes] []
 beginList [NUMBERED] [[class]=[footnotes]]
