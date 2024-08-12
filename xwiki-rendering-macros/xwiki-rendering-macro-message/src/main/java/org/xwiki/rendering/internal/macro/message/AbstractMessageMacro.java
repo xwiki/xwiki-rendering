@@ -52,7 +52,7 @@ import org.xwiki.rendering.util.IconProvider;
  */
 public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroParameters>
 {
-    protected String iconName;
+    private String iconName;
 
     /**
      * Used to get the icon representations.
@@ -89,6 +89,22 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
         return Collections.singletonList(new MetaDataBlock(macroContent, this.getNonGeneratedContentMetaData()));
     }
 
+    /**
+     * @param iconName see {@link #getIconName()}
+     */
+    protected void setIconName(String iconName)
+    {
+        this.iconName = iconName;
+    }
+
+    /**
+     * @return the icon name to use for this message macro
+     */
+    protected String getIconName()
+    {
+        return this.iconName;
+
+    }
     @Override
     protected String getClassProperty()
     {
@@ -106,7 +122,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
         throws MacroExecutionException 
     {
         List<Block> boxFoundation = super.execute(parameters, content, context);
-        if (!boxFoundation.isEmpty() && this.iconName != null) {
+        if (!boxFoundation.isEmpty() && getIconName() != null) {
             Block defaultBox = boxFoundation.get(0);
             // For an easier styling, we wrap the content and title together if they are non-empty and visible
             if (defaultBox.getChildren().size() > 1) {
@@ -114,31 +130,36 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
                 defaultBox.setChildren(List.of(boxTextContent));
             }
             // Enhance the default box with an icon as the first element.
-            Block iconBlock = this.iconProvider.get(this.iconName);
-            // Provide an accessible name besides this icon
-            // This is the responsibility of the message macro and not the iconProvider which should only provide
-            // icons without any semantics
-            String iconPrettyName = iconPrettyNameProvider.getIconPrettyName(this.getDescriptor().getId().getId());
-            if (iconBlock.getClass() == ImageBlock.class) {
-                iconBlock.setAttribute("alt", iconPrettyName);
-            } else if (!iconPrettyName.isEmpty()) {
-                try {
-                    Block iconAlternative = new FormatBlock(
-                        this.plainTextParser.parse(
-                            new StringReader(iconPrettyName)).getChildren().get(0).getChildren(), 
-                            Format.NONE);
-                    iconAlternative.setParameter("class", "sr-only");
-                    iconBlock = new CompositeBlock(List.of(iconBlock, iconAlternative));
-                } catch (ParseException e) {
-                    // This shouldn't happen since the parser cannot throw an exception since the source is a memory
-                    // String.
-                    throw new RuntimeException("Failed to parse text alternative for the icon", e);
-                }
-            }
-            
+            Block iconBlock = getIconBlock();
             // Add the icon block at the start of the box block.
             defaultBox.insertChildBefore(iconBlock, defaultBox.getChildren().get(0));
         }
         return boxFoundation;
+    }
+
+    private Block getIconBlock() throws MacroExecutionException
+    {
+        Block iconBlock = this.iconProvider.get(getIconName());
+        // Provide an accessible name besides this icon.
+        // This is the responsibility of the message macro and not the iconProvider, which should only provide
+        // icons without any semantics.
+        String iconPrettyName = this.iconPrettyNameProvider.getIconPrettyName(this.getDescriptor().getId().getId());
+        if (iconBlock.getClass() == ImageBlock.class) {
+            iconBlock.setAttribute("alt", iconPrettyName);
+        } else if (!iconPrettyName.isEmpty()) {
+            try {
+                Block iconAlternativeBlock = new FormatBlock(this.plainTextParser.parse(
+                    new StringReader(iconPrettyName)).getChildren().get(0).getChildren(), Format.NONE);
+                iconAlternativeBlock.setParameter("class", "sr-only");
+                iconBlock = new CompositeBlock(List.of(iconBlock, iconAlternativeBlock));
+            } catch (ParseException e) {
+                // This shouldn't happen since the source is a memory String and the icon pretty name is supposed to be
+                // simple.
+                throw new MacroExecutionException(
+                    String.format("Failed to parse icon pretty name [%s] to compute a text alternative",
+                        iconPrettyName), e);
+            }
+        }
+        return iconBlock;
     }
 }

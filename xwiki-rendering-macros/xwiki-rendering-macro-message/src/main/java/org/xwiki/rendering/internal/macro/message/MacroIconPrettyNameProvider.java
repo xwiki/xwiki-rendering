@@ -34,7 +34,6 @@ import javax.inject.Singleton;
 @Component(roles = MacroIconPrettyNameProvider.class)
 public class MacroIconPrettyNameProvider
 {
-
     /**
      * @param macroId the id of the macro whose icon needs an alternative text
      * @return the alternative text associated to the provided icon
