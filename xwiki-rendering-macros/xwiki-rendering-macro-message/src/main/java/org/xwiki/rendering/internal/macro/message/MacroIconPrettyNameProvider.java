@@ -28,7 +28,7 @@ import javax.inject.Singleton;
  * Default component to provide an alternative text for an icon.
  *
  * @version $Id$
- * @since 16.7.0RC1
+ * @since 16.7.0
  */
 @Singleton
 @Component(roles = MacroIconPrettyNameProvider.class)
