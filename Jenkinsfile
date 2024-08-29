@@ -119,5 +119,7 @@ private void buildInternal(map)
       // Keep builds for 7 days since we want to be able to see all builds if there are a lot at a given time, to be
       // able to identify flickers, etc.
       daysToKeepStr = '7'
+      // We don't need to trigger xwiki-rendering monthly since it's already the case of xwiki-commons
+      monthlyTrigger = false
     }
 }
