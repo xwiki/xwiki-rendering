@@ -1,0 +1,22 @@
+.#-----------------------------------------------------
+.input|html/5.0
+.#-----------------------------------------------------
+<!--startwikilink:xwiki:XWiki.npetrenko-->
+<span+class="wikilink">
+<a+id="XWiki-npetrenko-vmfpml"+class="xwiki-mention+user+self"+href="/xwiki/bin/view/XWiki/npetrenko">@Nikita+Petrenko</a>
+</span>
+<!--stopwikilink-->
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onSpecialSymbol [@]
+onWord [Nikita]
+onSpecialSymbol [+]
+onWord [Petrenko]
+onSpace
+beginLink [Typed = [false] Type = [doc] Reference = [xwiki:XWiki.npetrenko]] [false]
+endLink [Typed = [false] Type = [doc] Reference = [xwiki:XWiki.npetrenko]] [false]
+endParagraph
+endDocument
