@@ -19,10 +19,12 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
@@ -47,13 +49,26 @@ public class XHTMLMarkerResourceReferenceParser implements ResourceReferencePars
      */
     private static final String COMMENT_SEPARATOR = "|-|";
 
+    @Inject
+    private Logger logger;
+
     @Override
     public ResourceReference parse(String rawReference)
     {
         String[] tokens = StringUtils.splitByWholeSeparatorPreserveAllTokens(rawReference, COMMENT_SEPARATOR);
-        boolean isTyped = "true".equalsIgnoreCase(tokens[0]);
-        ResourceType type = new ResourceType(tokens[1]);
-        String reference = tokens[2];
+        boolean isTyped;
+        ResourceType type;
+        String reference;
+        if (tokens.length < 3) {
+            this.logger.warn("Comment resource [{}] is missing resource type, falling back to document.", rawReference);
+            isTyped = false;
+            type = ResourceType.DOCUMENT;
+            reference = rawReference;
+        } else {
+            isTyped = "true".equalsIgnoreCase(tokens[0]);
+            type = new ResourceType(tokens[1]);
+            reference = tokens[2];
+        }
 
         ResourceReference resourceReference = new ResourceReference(reference, type);
         resourceReference.setTyped(isTyped);
