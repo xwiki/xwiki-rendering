@@ -19,8 +19,8 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
-import org.xwiki.text.StringUtils;
 
 import javax.inject.Singleton;
 
