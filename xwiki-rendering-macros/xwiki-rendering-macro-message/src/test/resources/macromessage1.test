@@ -8,6 +8,10 @@ Failed to do this action. The correct possibilities are:
 * you don't have right
 * another possibility
 {{/info}}
+
+{{info title="title"}}
+Hello world
+{{/info}}
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -71,4 +75,23 @@ endMacroMarkerStandalone [info] [] [Failed to do this action. The correct possib
 * use another value
 * you don't have right
 * another possibility]
+beginMacroMarkerStandalone [info] [title=title] [Hello world]
+beginGroup [[class]=[box infomessage]]
+onImage [Typed = [true] Type = [icon] Reference = [information]] [true]
+beginGroup
+beginGroup [[class]=[box-title]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>][parameter-name]=[title]]
+onWord [title]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>][parameter-name]=[title]]
+endGroup [[class]=[box-title]]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+beginParagraph
+onWord [Hello]
+onSpace
+onWord [world]
+endParagraph
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+endGroup
+endGroup [[class]=[box infomessage]]
+endMacroMarkerStandalone [info] [title=title] [Hello world]
 endDocument

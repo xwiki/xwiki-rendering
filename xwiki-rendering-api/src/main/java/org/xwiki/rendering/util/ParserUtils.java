@@ -59,8 +59,8 @@ public class ParserUtils
     }
 
     /**
-     * Make its best to convert a passed block to its inline version. Sometime it's simply impossible to convert an
-     * inline block, in which case it will just be returned as is.
+     * Best effort to convert a passed block to its inline version. Sometimes, it's simply impossible to
+     * convert to an inline block, in which case it will just be returned as is.
      * 
      * @param rootBlock the block to convert
      * @param preserveXDOM true of the XDOM should be returned
@@ -90,8 +90,8 @@ public class ParserUtils
     }
 
     /**
-     * Make its best to convert a passed blocks to their inline version. Sometime it's simply impossible to convert an
-     * inline block, in which case it will just be returned as is.
+     * Best effort to convert passed blocks to their inline versions. Sometimes, it's simply impossible to convert an
+     * to an inline block, in which case it will just be returned as is.
      * 
      * @param blocks the blocks to convert
      * @since 14.0RC1
