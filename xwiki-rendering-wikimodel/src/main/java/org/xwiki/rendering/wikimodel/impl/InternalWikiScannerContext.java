@@ -329,6 +329,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
         beginListItem(item, listParams, WikiParameters.EMPTY);
     }
 
+    @Override
     public void beginListItem(String item, WikiParameters listParams, WikiParameters itemParams)
     {
         beginList();
