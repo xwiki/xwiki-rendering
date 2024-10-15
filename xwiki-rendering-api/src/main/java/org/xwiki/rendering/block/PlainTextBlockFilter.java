@@ -42,7 +42,7 @@ public class PlainTextBlockFilter implements BlockFilter
     /**
      * The set of valid Block classes as plain text content.
      */
-    private static final Set<Class<? extends Block>> VALID_PLAINTEXT_BLOCKS = new HashSet<Class<? extends Block>>();
+    private static final Set<Class<? extends Block>> VALID_PLAINTEXT_BLOCKS = new HashSet<>();
 
     static {
         VALID_PLAINTEXT_BLOCKS.add(WordBlock.class);
