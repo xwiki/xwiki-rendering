@@ -75,37 +75,42 @@ public class PlainTextBlockFilter implements BlockFilter
     @Override
     public List<Block> filter(Block block)
     {
+        List<Block> result;
+
         if (VALID_PLAINTEXT_BLOCKS.contains(block.getClass())) {
-            return Collections.singletonList(block);
+            result = Collections.singletonList(block);
+        } else if ((block instanceof LinkBlock linkBlock) && block.getChildren().isEmpty()) {
+            ResourceReference reference = linkBlock.getReference();
+            result = filterLinkBlock(reference);
+        } else {
+            result = Collections.emptyList();
         }
 
-        if (LinkBlock.class.isAssignableFrom(block.getClass()) && block.getChildren().isEmpty()) {
-            ResourceReference reference = ((LinkBlock) block).getReference();
-            return filterLinkBlock(reference);
-        }
-
-        return Collections.emptyList();
+        return result;
     }
 
     private List<Block> filterLinkBlock(ResourceReference reference)
     {
+        String label;
+        ResourceType resourceType = reference.getType();
+
+        if (ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType)
+            || ResourceType.PAGE.equals(resourceType)) {
+            label = this.linkLabelGenerator.generate(reference);
+        } else {
+            label = reference.getReference();
+        }
+
+        List<Block> labelBlocks;
         try {
-            String label;
-            ResourceType resourceType = reference.getType();
-
-            if (ResourceType.DOCUMENT.equals(resourceType) || ResourceType.SPACE.equals(resourceType)
-                || ResourceType.PAGE.equals(resourceType)) {
-                label = this.linkLabelGenerator.generate(reference);
-            } else {
-                label = reference.getReference();
-            }
-
-            List<Block> labelBlocks = this.plainTextParser.parse(new StringReader(label)).getChildren();
-            return labelBlocks.isEmpty() ? labelBlocks : labelBlocks.get(0).getChildren();
+            labelBlocks = this.plainTextParser.parse(new StringReader(label)).getChildren();
         } catch (ParseException e) {
             // This shouldn't happen since the parser cannot throw an exception since the source is a memory
             // String.
-            throw new RuntimeException("Failed to parse link label as plain text", e);
+            throw new RuntimeException(String.format("Failed to parse link label [%s] as plain text for reference [%s]",
+                label, reference), e);
         }
+
+        return labelBlocks.isEmpty() ? labelBlocks : labelBlocks.get(0).getChildren();
     }
 }
