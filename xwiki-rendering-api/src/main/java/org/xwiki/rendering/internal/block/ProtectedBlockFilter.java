@@ -42,7 +42,7 @@ public class ProtectedBlockFilter implements BlockFilter
     @Override
     public List<Block> filter(Block block)
     {
-        List<Block> blocks = new ArrayList<Block>();
+        List<Block> blocks = new ArrayList<>();
         if (!isProtectedBlock(block)) {
             blocks.add(block);
         }
@@ -55,7 +55,7 @@ public class ProtectedBlockFilter implements BlockFilter
      */
     public List<Block> filter(List<Block> blocks)
     {
-        List<Block> filteredBlocks = new ArrayList<Block>();
+        List<Block> filteredBlocks = new ArrayList<>();
         for (Block block : blocks) {
             filteredBlocks.addAll(filter(block));
         }
@@ -84,7 +84,7 @@ public class ProtectedBlockFilter implements BlockFilter
      */
     public <T extends Block> List<T> getChildrenByType(Block block, Class<T> blockClass, boolean recurse)
     {
-        List<T> typedBlocks = new ArrayList<T>();
+        List<T> typedBlocks = new ArrayList<>();
         for (Block child : filter(block.getChildren())) {
             if (blockClass.isAssignableFrom(child.getClass())) {
                 typedBlocks.add(blockClass.cast(child));
@@ -103,7 +103,7 @@ public class ProtectedBlockFilter implements BlockFilter
      */
     private boolean isProtectedBlock(Block block)
     {
-        return (block instanceof MacroMarkerBlock)
-            && "code".equals(((MacroMarkerBlock) block).getId());
+        return (block instanceof MacroMarkerBlock mmBlock)
+            && "code".equals(mmBlock.getId());
     }
 }
