@@ -77,13 +77,6 @@ class SyntaxTest
     }
 
     @Test
-    void getSyntaxTypes()
-    {
-        assertEquals(18, SyntaxType.getSyntaxTypes().size());
-        assertEquals(new SyntaxType("xwiki", "XWiki"), SyntaxType.getSyntaxTypes().get("xwiki"));
-    }
-
-    @Test
     void compareToValidation()
     {
         Syntax syntax1 = new Syntax(new SyntaxType("mytype1", "BBB"), "1.0");

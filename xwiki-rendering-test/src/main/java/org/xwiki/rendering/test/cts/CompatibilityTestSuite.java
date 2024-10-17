@@ -121,7 +121,7 @@ public class CompatibilityTestSuite extends Suite
         super(RenderingTest.class, Collections.emptyList());
 
         try {
-            this.testInstance = klass.newInstance();
+            this.testInstance = klass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new RuntimeException(String.format("Failed to construct instance of [%s]", klass.getName()), e);
         }

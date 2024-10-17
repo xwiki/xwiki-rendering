@@ -53,7 +53,7 @@ public interface SyntaxRegistry
     void unregisterSyntaxes(Syntax... syntaxes);
 
     /**
-     * @return the list of available Syntaxes
+     * @return the available Syntaxes
      */
     Map<String, Syntax> getSyntaxes();
 
