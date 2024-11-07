@@ -141,12 +141,22 @@ class DeprecatedMacroDescriptorTest
     }
 
     @Test
-    void getCategories()
+    void getDefaultCategories()
     {
         DefaultMacroDescriptor descriptor = new DefaultMacroDescriptor(new MacroId("test"), "name");
 
         descriptor.setDefaultCategories(Set.of("category1", "category2"));
 
         assertEquals(Set.of("category1", "category2"), descriptor.getDefaultCategories());
+    }
+
+    @Test
+    void getDefaultCategory()
+    {
+        DefaultMacroDescriptor descriptor = new DefaultMacroDescriptor(new MacroId("test"), "name");
+
+        descriptor.setDefaultCategories(Set.of("category1", "category2"));
+
+        assertEquals("category1", descriptor.getDefaultCategory());
     }
 }
