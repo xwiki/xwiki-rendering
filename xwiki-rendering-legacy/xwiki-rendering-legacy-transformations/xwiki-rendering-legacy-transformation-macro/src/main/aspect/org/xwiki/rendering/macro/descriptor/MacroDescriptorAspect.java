@@ -59,4 +59,29 @@ public class MacroDescriptorAspect
 
         return category != null ? Set.of(category) : Set.of();
     }
+
+    /**
+     * Overwrite the default implementation of legacy #getDefaultCategory based on the legacy #getDefaultCategories.
+     *
+     * @param descriptor the legacy descriptor API
+     * @return a set containing the default category
+     * @since 15.10.14
+     * @since 16.10.0RC1
+     * @since 16.4.6
+     */
+    @Around("execution(String MacroDescriptor.getDefaultCategory()) "
+        + "&& within(org.xwiki.rendering.macro.descriptor.MacroDescriptor) "
+        + "&& target(descriptor)")
+    public String aroundGetDefaultCategory(MacroDescriptor descriptor)
+    {
+        Set<String> categories = descriptor.getDefaultCategories();
+
+        // Takes any category if defaultCategories is not empty, to have a value to return when this method is called.
+        // Note that there is no guarantee of which category will be returned.
+        if (categories == null) {
+            return null;
+        }
+
+        return categories.stream().findFirst().orElse(null);
+    }
 }
