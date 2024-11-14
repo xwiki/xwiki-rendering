@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.macro.descriptor;
 
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -155,7 +156,7 @@ class DeprecatedMacroDescriptorTest
     {
         DefaultMacroDescriptor descriptor = new DefaultMacroDescriptor(new MacroId("test"), "name");
 
-        descriptor.setDefaultCategories(Set.of("category1", "category2"));
+        descriptor.setDefaultCategories(new LinkedHashSet<>(Set.of("category1", "category2")));
 
         assertEquals("category1", descriptor.getDefaultCategory());
     }
