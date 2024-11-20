@@ -23,7 +23,6 @@ import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.listener.chaining.ChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.stability.Unstable;
 
 /**
  * Allows to access listener instances.
@@ -33,7 +32,6 @@ import org.xwiki.stability.Unstable;
  * @since 14.10.8
  */
 @Role
-@Unstable
 public interface ListenerProvider
 {
     /**

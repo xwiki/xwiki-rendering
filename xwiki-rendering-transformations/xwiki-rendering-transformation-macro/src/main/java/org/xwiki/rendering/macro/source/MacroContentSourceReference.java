@@ -22,7 +22,6 @@ package org.xwiki.rendering.macro.source;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.xwiki.stability.Unstable;
 
 /**
  * The reference of a wiki content to use as macro content.
@@ -31,7 +30,6 @@ import org.xwiki.stability.Unstable;
  * @since 15.1RC1
  * @since 14.10.5
  */
-@Unstable
 public class MacroContentSourceReference
 {
     /**

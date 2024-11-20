@@ -29,7 +29,6 @@ import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.stability.Unstable;
 
 /**
  * Represents an element of a XWiki Document's content. For example there are Blocks for Paragraphs, Bold parts,
@@ -288,7 +287,6 @@ public interface Block extends Cloneable
      * @return all attributes
      * @since 15.9RC1
      */
-    @Unstable
     default Map<String, Object> getAttributes()
     {
         return Map.of();
@@ -306,7 +304,6 @@ public interface Block extends Cloneable
      * @return the attribute or null if the attribute doesn't exist
      * @since 15.9RC1
      */
-    @Unstable
     default Object getAttribute(String name)
     {
         return null;
@@ -319,7 +316,6 @@ public interface Block extends Cloneable
      * @param value the attribute's value
      * @since 15.9RC1
      */
-    @Unstable
     void setAttribute(String name, Object value);
 
     /**
@@ -329,7 +325,6 @@ public interface Block extends Cloneable
      * @see #getAttribute(String)
      * @since 15.9RC1
      */
-    @Unstable
     void setAttributes(Map<String, Object> attributes);
 
     /**
@@ -360,7 +355,6 @@ public interface Block extends Cloneable
      * @return the syntax of the block or null of none could be found
      * @since 15.9RC1
      */
-    @Unstable
     default Optional<Syntax> getSyntaxMetadata()
     {
         return Optional.empty();
@@ -375,7 +369,6 @@ public interface Block extends Cloneable
      * @return the value found in the provided block axes
      * @since 15.9RC1
      */
-    @Unstable
     default <T> Optional<T> get(Function<Block, Optional<T>> searcher, Axes axes)
     {
         return Optional.empty();
