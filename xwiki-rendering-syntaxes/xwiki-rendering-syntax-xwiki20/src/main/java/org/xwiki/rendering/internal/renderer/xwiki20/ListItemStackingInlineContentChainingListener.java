@@ -43,6 +43,24 @@ public class ListItemStackingInlineContentChainingListener extends AbstractStack
     }
 
     @Override
+    protected void startStandaloneElement()
+    {
+        // Only consider standalone elements inside this specific list item, not those inside nested ones as
+        // nested list items will wrap them already.
+        if (this.listItemDepth == 0) {
+            super.startStandaloneElement();
+        }
+    }
+
+    @Override
+    protected void endStandaloneElement()
+    {
+        if (this.listItemDepth == 0) {
+            super.endStandaloneElement();
+        }
+    }
+
+    @Override
     public void beginListItem(Map<String, String> parameters)
     {
         handleBeginListItem();

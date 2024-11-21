@@ -24,19 +24,16 @@
    </li>
  </ol>
 .#-----------------------------------------------------
-.expect|xwiki/2.1
+.inputexpect|xwiki/2.1
 .#-----------------------------------------------------
-1. (((
-Paragraph 5
-
-1. Paragraph 5.1
-11. Paragraph 5.1.1(((
+1. Paragraph 5
+11. Paragraph 5.1
+111. Paragraph 5.1.1(((
 Some text.
 )))
-1. Paragraph 5.2
-11. Paragraph 5.2.1(((
+11. Paragraph 5.2
+111. Paragraph 5.2.1(((
 Example notes:
-)))
 )))
 .#-----------------------------------------------------
 .expect|event/1.0
