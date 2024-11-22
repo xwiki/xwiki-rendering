@@ -105,7 +105,6 @@
                 org/xwiki/rendering/test/integration/AbstractRenderingTest.java,
                 org/xwiki/rendering/test/integration/RenderingTest.java,
                 org/xwiki/rendering/test/integration/junit5/RenderingTest.java,
-                org/xwiki/rendering/test/integration/RenderingTestSuite.java,
                 org/xwiki/rendering/test/integration/TestData.java,
                 org/xwiki/rendering/test/integration/TestDataGenerator.java,
                 org/xwiki/rendering/test/integration/TestDataParser.java

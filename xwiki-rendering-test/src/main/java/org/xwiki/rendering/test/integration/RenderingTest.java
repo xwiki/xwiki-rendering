@@ -27,8 +27,8 @@ import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
 
 /**
- * A generic JUnit Test used by {@link RenderingTestSuite} to parse some passed content and verify it matches some
- * passed expectation. The format of the input/expectation is specified in {@link TestDataParser}.
+ * A generic JUnit 4 Test to parse some passed content and verify it matches some passed expectation.
+ * The format of the input/expectation is specified in {@link TestDataParser}.
  *
  * @version $Id$
  * @since 3.0RC1
