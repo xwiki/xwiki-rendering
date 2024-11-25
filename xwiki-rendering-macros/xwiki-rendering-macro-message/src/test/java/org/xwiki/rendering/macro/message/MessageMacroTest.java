@@ -99,7 +99,8 @@ class MessageMacroTest
         renderer.render(blocks, printer);
         assertEquals("(% class=\"box infomessage\" %)\n"
             + "(((\n"
-            + "(% class=\"sr-only\" %)Info(%%)content\n"
+            + "(% class=\"sr-only\" %)Info(%%)\n\n"
+            + "content\n"
             + ")))", printer.toString());
     }
 
