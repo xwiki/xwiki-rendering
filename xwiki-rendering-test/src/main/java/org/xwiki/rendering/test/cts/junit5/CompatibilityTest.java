@@ -62,9 +62,10 @@ import org.xwiki.test.mockito.MockitoComponentManager;
  *
  * <p>Usage Example</p>
  * <pre><code>
+ * &#064;AllComponents
  * &#064;Syntax("xwiki/2.0")
  * &#064;Scope("simple")
- * public class XXXCompatibilityTest implements CompatibilityTests
+ * class XXXCompatibilityTest extends CompatibilityTest
  * {
  * }
  * </code></pre>
@@ -73,9 +74,10 @@ import org.xwiki.test.mockito.MockitoComponentManager;
  * Mock implementations of components. For example:
  * </p>
  * <pre><code>
+ * &#064;AllComponents
  * &#064;Syntax("xwiki/2.0")
  * &#064;Scope("simple")
- * public class XXXCompatibilityTest implements CompatibilityTests
+ * class XXXCompatibilityTest extends CompatibilityTest
  * {
  *     &#064;Initialized
  *     public void initialize(MockitoComponentManager componentManager)
@@ -167,7 +169,7 @@ public class CompatibilityTest
         // Generate tests to execute
         String finalMetadataSyntaxId = metadataSyntaxId;
         ThrowingConsumer<TestData> testExecutor = (input) -> {
-            new RenderingTest(input, finalMetadataSyntaxId, this.componentManager).execute();
+            new InternalRenderingTest(input, finalMetadataSyntaxId, this.componentManager).execute();
         };
 
         // Return the dynamically created tests

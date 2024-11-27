@@ -43,7 +43,6 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxRegistry;
-import org.xwiki.rendering.test.cts.junit5.RenderingTest;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.xml.XMLUtils;
 
@@ -81,17 +80,17 @@ public abstract class AbstractRenderingTest
     private static final String SPECIAL_SYNTAX_END = "}}}";
 
     /**
-     * @see org.xwiki.rendering.test.cts.junit5.RenderingTest
+     * @see AbstractRenderingTest#AbstractRenderingTest
      */
     private TestData testData;
 
     /**
-     * @see org.xwiki.rendering.test.cts.junit5.RenderingTest
+     * @see AbstractRenderingTest#AbstractRenderingTest
      */
     private ComponentManager componentManager;
 
     /**
-     * @see RenderingTest
+     * @see AbstractRenderingTest#AbstractRenderingTest
      */
     private String metadataSyntaxId;
 
