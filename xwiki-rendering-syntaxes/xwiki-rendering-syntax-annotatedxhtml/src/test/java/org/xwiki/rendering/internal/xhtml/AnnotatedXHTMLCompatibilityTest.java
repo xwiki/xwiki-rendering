@@ -19,9 +19,9 @@
  */
 package org.xwiki.rendering.internal.xhtml;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
 import org.xwiki.rendering.test.cts.Syntax;
+import org.xwiki.rendering.test.cts.junit5.CompatibilityTest;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Run all CTS tests for the Annotated XHTML syntax.
@@ -29,8 +29,8 @@ import org.xwiki.rendering.test.cts.Syntax;
  * @version $Id$
  * @since 4.5M1
  */
-@RunWith(CompatibilityTestSuite.class)
+@AllComponents
 @Syntax("annotatedxhtml/1.0")
-public class AnnotatedXHTMLCompatibilityTest
+class AnnotatedXHTMLCompatibilityTest extends CompatibilityTest
 {
 }

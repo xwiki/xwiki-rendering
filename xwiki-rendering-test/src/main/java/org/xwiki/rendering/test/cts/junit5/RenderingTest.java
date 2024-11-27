@@ -25,6 +25,8 @@ import org.xwiki.rendering.test.cts.AbstractRenderingTest;
 import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
 import org.xwiki.rendering.test.cts.TestData;
 
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+
 /**
  * A generic JUnit Test used by {@link CompatibilityTestSuite} to run a single CTS test.
  *
@@ -47,5 +49,12 @@ public class RenderingTest extends AbstractRenderingTest
     protected void throwAssertionException(String message, String expected, String result)
     {
         throw new AssertionFailedError(message, expected, result);
+    }
+
+    @Override
+    public void execute() throws Exception
+    {
+        assumeFalse(getTestData().isIgnored(), "Missing");
+        super.execute();
     }
 }

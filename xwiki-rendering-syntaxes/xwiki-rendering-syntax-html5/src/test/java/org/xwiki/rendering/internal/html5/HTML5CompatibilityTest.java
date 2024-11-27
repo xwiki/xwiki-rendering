@@ -19,9 +19,9 @@
  */
 package org.xwiki.rendering.internal.html5;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
 import org.xwiki.rendering.test.cts.Syntax;
+import org.xwiki.rendering.test.cts.junit5.CompatibilityTest;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Run all CTS tests for the HTML 5.0 syntax.
@@ -29,8 +29,8 @@ import org.xwiki.rendering.test.cts.Syntax;
  * @version $Id$
  * @since 7.1M1
  */
-@RunWith(CompatibilityTestSuite.class)
+@AllComponents
 @Syntax("html/5.0")
-public class HTML5CompatibilityTest
+class HTML5CompatibilityTest extends CompatibilityTest
 {
 }
