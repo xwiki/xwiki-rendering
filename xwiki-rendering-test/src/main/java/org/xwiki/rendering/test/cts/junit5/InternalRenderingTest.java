@@ -22,13 +22,12 @@ package org.xwiki.rendering.test.cts.junit5;
 import org.opentest4j.AssertionFailedError;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.test.cts.AbstractRenderingTest;
-import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
 import org.xwiki.rendering.test.cts.TestData;
 
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 /**
- * A generic JUnit Test used by {@link CompatibilityTestSuite} to run a single CTS test.
+ * A generic JUnit Test used by {@link CompatibilityTest} to run a single CTS test.
  *
  * @version $Id$
  * @since 13.0
