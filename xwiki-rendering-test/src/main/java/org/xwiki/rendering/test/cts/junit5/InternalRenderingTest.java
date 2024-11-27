@@ -33,14 +33,14 @@ import static org.junit.jupiter.api.Assumptions.assumeFalse;
  * @version $Id$
  * @since 13.0
  */
-public class RenderingTest extends AbstractRenderingTest
+public class InternalRenderingTest extends AbstractRenderingTest
 {
     /**
      * @param testData the data for a single test
      * @param metadataSyntaxId the Syntax id of the syntax used as Metadata in the generated XDOM for parsers
      * @param componentManager the component manager used to find Parser and Renderers
      */
-    public RenderingTest(TestData testData, String metadataSyntaxId, ComponentManager componentManager)
+    public InternalRenderingTest(TestData testData, String metadataSyntaxId, ComponentManager componentManager)
     {
         super(testData, metadataSyntaxId, componentManager);
     }
