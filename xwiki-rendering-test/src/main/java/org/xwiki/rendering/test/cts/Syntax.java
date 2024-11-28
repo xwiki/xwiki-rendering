@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  *
  * @version $Id$
  * @since 4.1M1
- * @see CompatibilityTestSuite
+ * @see org.xwiki.rendering.test.cts.junit5.CompatibilityTest
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

@@ -49,12 +49,12 @@ import org.xwiki.xml.XMLUtils;
 import static org.xwiki.rendering.syntax.Syntax.XDOMXML_CURRENT;
 
 /**
- * A generic JUnit Test used by {@link CompatibilityTestSuite} to run a single CTS test.
+ * A generic JUnit Test used by {@link org.xwiki.rendering.test.cts.junit5.CompatibilityTest} to run a single CTS test.
  *
  * @version $Id$
  * @since 13.0
  */
-public abstract class AbstractRenderingTest
+public abstract class AbstractInternalRenderingTest
 {
     /**
      * The Syntax id corresponding to the syntax in which the CTS tests are written in.
@@ -80,17 +80,17 @@ public abstract class AbstractRenderingTest
     private static final String SPECIAL_SYNTAX_END = "}}}";
 
     /**
-     * @see AbstractRenderingTest#AbstractRenderingTest
+     * @see AbstractInternalRenderingTest#AbstractInternalRenderingTest
      */
     private TestData testData;
 
     /**
-     * @see AbstractRenderingTest#AbstractRenderingTest
+     * @see AbstractInternalRenderingTest#AbstractInternalRenderingTest
      */
     private ComponentManager componentManager;
 
     /**
-     * @see AbstractRenderingTest#AbstractRenderingTest
+     * @see AbstractInternalRenderingTest#AbstractInternalRenderingTest
      */
     private String metadataSyntaxId;
 
@@ -99,7 +99,7 @@ public abstract class AbstractRenderingTest
      * @param metadataSyntaxId the Syntax id of the syntax used as Metadata in the generated XDOM for parsers
      * @param componentManager see {@link #getComponentManager()}
      */
-    public AbstractRenderingTest(TestData testData, String metadataSyntaxId, ComponentManager componentManager)
+    public AbstractInternalRenderingTest(TestData testData, String metadataSyntaxId, ComponentManager componentManager)
     {
         this.testData = testData;
         this.componentManager = componentManager;

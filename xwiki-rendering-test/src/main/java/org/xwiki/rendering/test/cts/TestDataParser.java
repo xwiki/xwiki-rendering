@@ -43,11 +43,11 @@ import org.reflections.util.FilterBuilder;
 
 /**
  * Finds all test files in the current classloader, read them and return test data to represent them. See
- * {@link CompatibilityTestSuite} for a description of the algorithm.
+ * {@link org.xwiki.rendering.test.cts.junit5.CompatibilityTest} for a description of the algorithm.
  *
  * @version $Id$
  * @since 4.1M1
- * @see CompatibilityTestSuite
+ * @see org.xwiki.rendering.test.cts.junit5.CompatibilityTest
  */
 public class TestDataParser
 {
@@ -62,7 +62,8 @@ public class TestDataParser
     private static final String DOT = ".";
 
     /**
-     * Read all test data. See {@link CompatibilityTestSuite} for a detailed explanation of the algorithm.
+     * Read all test data. See {@link org.xwiki.rendering.test.cts.junit5.CompatibilityTest} for a detailed explanation
+     * of the algorithm.
      *
      * @param syntaxId the id of the syntax for which to parse data for
      * @param ctsRootPackageName the root of the CTS resources

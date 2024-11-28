@@ -19,7 +19,9 @@
  */
 package org.xwiki.rendering.internal.html5;
 
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+import org.xwiki.rendering.test.integration.Scope;
+import org.xwiki.rendering.test.integration.junit5.RenderingTest;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Run all specific tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow
@@ -28,7 +30,8 @@ import org.xwiki.rendering.test.integration.junit5.RenderingTests;
  * @version $Id$
  * @since 10.1
  */
-@RenderingTests.Scope(value = "html50.specific")
-public class HTML5SpecificTest implements RenderingTests
+@AllComponents
+@Scope(value = "html50.specific")
+class HTML5SpecificTest extends RenderingTest
 {
 }

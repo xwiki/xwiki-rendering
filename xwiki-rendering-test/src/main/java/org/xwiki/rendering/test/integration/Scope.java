@@ -17,19 +17,40 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.macro.comment;
+package org.xwiki.rendering.test.integration;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 import org.xwiki.rendering.test.integration.junit5.RenderingTest;
-import org.xwiki.test.annotation.AllComponents;
 
 /**
- * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
- * conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
+ * Annotation to use to indicate the resources directory containing the tests to execute.
  *
  * @version $Id$
- * @since 3.0RC1
+ * @since 17.0.0RC1
+ * @see RenderingTest
  */
-@AllComponents
-class IntegrationTests extends RenderingTest
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Documented
+public @interface Scope
 {
+    /**
+     * The default pattern matching the tests to execute.
+     */
+    String DEFAULT_PATTERN = ".*\\.test";
+
+    /**
+     * @return the classpath prefix to search in
+     */
+    String value() default "";
+
+    /**
+     * @return the regex pattern to filter *.test files to execute
+     */
+    String pattern() default DEFAULT_PATTERN;
 }

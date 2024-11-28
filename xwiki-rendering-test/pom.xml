@@ -99,12 +99,10 @@
             <id>default</id>
             <configuration>
               <excludes>
-                org/xwiki/rendering/test/cts/AbstractRenderingTest.java,
-                org/xwiki/rendering/test/cts/RenderingTest.java,
-                org/xwiki/rendering/test/cts/junit5/RenderingTest.java,
+                org/xwiki/rendering/test/cts/AbstractInternalRenderingTest.java,
                 org/xwiki/rendering/test/integration/AbstractRenderingTest.java,
-                org/xwiki/rendering/test/integration/RenderingTest.java,
-                org/xwiki/rendering/test/integration/junit5/RenderingTest.java,
+                org/xwiki/rendering/test/integration/AbstractInternalRenderingTest.java,
+                org/xwiki/rendering/test/integration/junit5/InternalRenderingTest.java,
                 org/xwiki/rendering/test/integration/TestData.java,
                 org/xwiki/rendering/test/integration/TestDataGenerator.java,
                 org/xwiki/rendering/test/integration/TestDataParser.java

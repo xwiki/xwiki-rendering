@@ -22,7 +22,9 @@ package org.xwiki.rendering;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.internal.configuration.DefaultRenderingConfiguration;
 import org.xwiki.rendering.test.MockWikiModel;
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+import org.xwiki.rendering.test.integration.Initialized;
+import org.xwiki.rendering.test.integration.Scope;
+import org.xwiki.rendering.test.integration.junit5.RenderingTest;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.mockito.MockitoComponentManager;
 
@@ -33,11 +35,11 @@ import org.xwiki.test.mockito.MockitoComponentManager;
  * @version $Id$
  * @since 3.0RC1
  */
-@RenderingTests.Scope(value = "wiki")
 @AllComponents
-public class WikiIntegrationTests implements RenderingTests
+@Scope(value = "wiki")
+public class WikiIntegrationTests extends RenderingTest
 {
-    @RenderingTests.Initialized
+    @Initialized
     public void initialize(MockitoComponentManager componentManager) throws Exception
     {
         componentManager.registerComponent(MockWikiModel.getComponentDescriptor());

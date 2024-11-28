@@ -25,7 +25,9 @@ import java.util.List;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.WordBlock;
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+import org.xwiki.rendering.test.integration.Initialized;
+import org.xwiki.rendering.test.integration.Scope;
+import org.xwiki.rendering.test.integration.junit5.RenderingTest;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.mockito.MockitoComponentManager;
 
@@ -40,8 +42,8 @@ import static org.mockito.Mockito.when;
  * @version $Id$
  */
 @AllComponents
-@RenderingTests.Scope("tocextensions")
-public class ToCExtensionsIntegrationTests implements RenderingTests
+@Scope("tocextensions")
+public class ToCExtensionsIntegrationTests extends RenderingTest
 {
     @Initialized
     public void initialize(MockitoComponentManager componentManager) throws Exception

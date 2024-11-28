@@ -20,7 +20,9 @@
 package org.xwiki.rendering.macro.toc;
 
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+import org.xwiki.rendering.test.integration.Initialized;
+import org.xwiki.rendering.test.integration.Scope;
+import org.xwiki.rendering.test.integration.junit5.RenderingTest;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.mockito.MockitoComponentManager;
 
@@ -31,8 +33,8 @@ import org.xwiki.test.mockito.MockitoComponentManager;
  * @since 9.6RC1
  */
 @AllComponents
-@RenderingTests.Scope("nowikimodel")
-public class NoWikiModelIntegrationTests implements RenderingTests
+@Scope("nowikimodel")
+public class NoWikiModelIntegrationTests extends RenderingTest
 {
     @Initialized
     public void initialize(MockitoComponentManager componentManager) throws Exception
