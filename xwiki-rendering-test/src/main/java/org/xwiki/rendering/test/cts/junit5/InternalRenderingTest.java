@@ -21,7 +21,7 @@ package org.xwiki.rendering.test.cts.junit5;
 
 import org.opentest4j.AssertionFailedError;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.rendering.test.cts.AbstractRenderingTest;
+import org.xwiki.rendering.test.cts.AbstractInternalRenderingTest;
 import org.xwiki.rendering.test.cts.TestData;
 
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assumptions.assumeFalse;
  * @version $Id$
  * @since 13.0
  */
-public class InternalRenderingTest extends AbstractRenderingTest
+public class InternalRenderingTest extends AbstractInternalRenderingTest
 {
     /**
      * @param testData the data for a single test

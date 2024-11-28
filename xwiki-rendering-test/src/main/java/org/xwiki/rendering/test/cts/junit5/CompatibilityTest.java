@@ -19,24 +19,18 @@
  */
 package org.xwiki.rendering.test.cts.junit5;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.function.ThrowingConsumer;
-import org.opentest4j.IncompleteExecutionException;
-import org.xwiki.rendering.test.cts.Initialized;
 import org.xwiki.rendering.test.cts.Scope;
 import org.xwiki.rendering.test.cts.Syntax;
 import org.xwiki.rendering.test.cts.TestData;
-import org.xwiki.test.mockito.MockitoComponentManager;
+import org.xwiki.rendering.test.integration.AbstractRenderingTest;
 
 /**
  * Run all tests found in resources files located in the classpath, for a given Syntax.
@@ -90,44 +84,8 @@ import org.xwiki.test.mockito.MockitoComponentManager;
  * @version $Id$
  * @since 17.0.0RC1
  */
-public class CompatibilityTest
+public class CompatibilityTest extends AbstractRenderingTest
 {
-    private MockitoComponentManager componentManager;
-
-    @BeforeEach
-    void initializeComponentManager()
-    {
-        // Initialize a component manager used to locate parsers and renderers to decide what tests to execute in
-        // TestDataGenerator and also used in RenderingTestExecutor to execute the tests.
-        if (this.componentManager == null) {
-            this.componentManager = new MockitoComponentManager();
-            try {
-                this.componentManager.initializeTest(this);
-                this.componentManager.registerMemoryConfigurationSource();
-            } catch (Exception e) {
-                throw new IncompleteExecutionException("Failed to initialize Component Manager", e);
-            }
-        }
-    }
-
-    @BeforeEach
-    void callInitializers()
-    {
-        callAnnotatedMethods(Initialized.class);
-    }
-
-    @AfterEach
-    void shutdownComponentManager()
-    {
-        if (this.componentManager != null) {
-            try {
-                this.componentManager.shutdownTest();
-            } catch (Exception e) {
-                throw new IncompleteExecutionException("Failed to shutdown Component Manager", e);
-            }
-        }
-    }
-
     /**
      * @return the dynamic list of tests to execute
      */
@@ -157,7 +115,7 @@ public class CompatibilityTest
         }
 
         // Get all the data for the tests to execute
-        TestDataGenerator generator = new TestDataGenerator(this.componentManager);
+        TestDataGenerator generator = new TestDataGenerator(getComponentManager());
         List<TestData> testDataList = generator.generate(syntaxId, packageFilter, pattern);
 
         // Generate test names
@@ -169,26 +127,10 @@ public class CompatibilityTest
         // Generate tests to execute
         String finalMetadataSyntaxId = metadataSyntaxId;
         ThrowingConsumer<TestData> testExecutor = (input) -> {
-            new InternalRenderingTest(input, finalMetadataSyntaxId, this.componentManager).execute();
+            new InternalRenderingTest(input, finalMetadataSyntaxId, getComponentManager()).execute();
         };
 
         // Return the dynamically created tests
         return DynamicTest.stream(testDataList.iterator(), displayNameGenerator, testExecutor);
-    }
-
-    private void callAnnotatedMethods(Class<? extends Annotation> annotationClass)
-    {
-        try {
-            for (Method klassMethod : getClass().getDeclaredMethods()) {
-                Annotation componentManagerAnnotation = klassMethod.getAnnotation(annotationClass);
-                if (componentManagerAnnotation != null) {
-                    // Call it!
-                    klassMethod.invoke(this, this.componentManager);
-                }
-            }
-        } catch (Exception e) {
-            throw new IncompleteExecutionException(String.format("Failed to call test methods annotated with [%s]",
-                annotationClass.getCanonicalName()), e);
-        }
     }
 }

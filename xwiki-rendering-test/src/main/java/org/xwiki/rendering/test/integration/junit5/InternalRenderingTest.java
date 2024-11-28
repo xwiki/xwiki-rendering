@@ -17,40 +17,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.test.integration;
+package org.xwiki.rendering.test.integration.junit5;
 
 import java.util.List;
 import java.util.Map;
 
-import org.junit.ComparisonFailure;
-import org.junit.Test;
 import org.xwiki.component.manager.ComponentManager;
+import org.xwiki.rendering.test.integration.AbstractInternalRenderingTest;
+import org.xwiki.rendering.test.integration.TestDataParser;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * A generic JUnit 4 Test to parse some passed content and verify it matches some passed expectation.
- * The format of the input/expectation is specified in {@link TestDataParser}.
+ * A generic JUnit Test used by {@link RenderingTest} to parse some passed content and verify it matches some
+ * passed expectation. The format of the input/expectation is specified in {@link TestDataParser}.
  *
  * @version $Id$
- * @since 3.0RC1
+ * @since 13.0
  */
-public class RenderingTest extends AbstractRenderingTest
+public class InternalRenderingTest extends AbstractInternalRenderingTest
 {
-    public RenderingTest(String input, String expected, String parserId, String targetSyntaxId,
+    public InternalRenderingTest(String input, String expected, String parserId, String targetSyntaxId,
         boolean streaming, List<String> transformations, Map<String, ?> configuration,
         ComponentManager componentManager)
     {
         super(input, expected, parserId, targetSyntaxId, streaming, transformations, configuration, componentManager);
     }
 
-    @Test
-    public void execute() throws Exception
-    {
-        super.execute();
-    }
-
     @Override
     protected void throwAssertionException(String message, String expected, String result)
     {
-        throw new ComparisonFailure(message, expected, result);
+        assertEquals(expected, result, message);
     }
 }

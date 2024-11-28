@@ -19,7 +19,9 @@
  */
 package org.xwiki.rendering.internal.xwiki20;
 
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+import org.xwiki.rendering.test.integration.Scope;
+import org.xwiki.rendering.test.integration.junit5.RenderingTest;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Run all specific tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow
@@ -28,7 +30,8 @@ import org.xwiki.rendering.test.integration.junit5.RenderingTests;
  * @version $Id$
  * @since 4.5M1
  */
-@RenderingTests.Scope(value = "xwiki20.specific"/*, pattern = "escaping4.test"*/)
-public class XWiki20SpecificTest implements RenderingTests
+@AllComponents
+@Scope(value = "xwiki20.specific"/*, pattern = "escaping4.test"*/)
+class XWiki20SpecificTest extends RenderingTest
 {
 }

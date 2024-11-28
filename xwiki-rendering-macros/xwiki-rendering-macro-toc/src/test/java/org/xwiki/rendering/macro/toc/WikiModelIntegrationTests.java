@@ -28,7 +28,9 @@ import org.xwiki.rendering.block.SectionBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+import org.xwiki.rendering.test.integration.Initialized;
+import org.xwiki.rendering.test.integration.Scope;
+import org.xwiki.rendering.test.integration.junit5.RenderingTest;
 import org.xwiki.rendering.wiki.WikiModel;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.mockito.MockitoComponentManager;
@@ -43,10 +45,10 @@ import static org.mockito.Mockito.when;
  * @since 9.6RC1
  */
 @AllComponents
-@RenderingTests.Scope("wikimodel")
-public class WikiModelIntegrationTests implements RenderingTests
+@Scope("wikimodel")
+public class WikiModelIntegrationTests extends RenderingTest
 {
-    @RenderingTests.Initialized
+    @Initialized
     public void initialize(MockitoComponentManager componentManager) throws Exception
     {
         componentManager.registerComponent(ComponentManager.class, "context",

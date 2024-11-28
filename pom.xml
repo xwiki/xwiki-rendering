@@ -106,7 +106,6 @@
         <configuration>
           <includes>
             <include>**/*Test.java</include>
-            <include>**/*RenderingTests.java</include>
             <include>**/*IntegrationTests.java</include>
           </includes>
           <!-- Verify that unit tests don't output anything to stdout/stderr -->
