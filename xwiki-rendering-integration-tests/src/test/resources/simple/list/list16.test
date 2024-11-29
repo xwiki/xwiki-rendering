@@ -1,0 +1,104 @@
+.#-----------------------------------------------------
+.input|xdom+xml/current
+.# Test block content inside nested lists. Use XDOM+XML as input to avoid WikiModel adding groups already.
+.#-----------------------------------------------------
+<document metadata="">
+<list type="NUMBERED">
+<listItem><word>Paragraph</word><space/><word>5</word>
+<list type="NUMBERED">
+<listItem><word>Paragraph</word><space/><word>5</word><specialSymbol>.</specialSymbol><word>1</word>
+<list type="NUMBERED">
+<listItem>
+<header id="HHeading5.1.1" level="2"><word>Heading</word><space/><word>5</word>
+<specialSymbol>.</specialSymbol><word>1</word><specialSymbol>.</specialSymbol><word>1</word>
+</header>
+</listItem>
+</list>
+</listItem>
+<listItem><word>Paragraph</word><space></space><word>5</word><specialSymbol>.</specialSymbol><word>2</word>
+<list type="NUMBERED">
+<listItem>
+<table>
+<tableRow>
+<tableCell><word>cell</word><space></space><word>1</word></tableCell>
+<tableCell><word>cell</word><space></space><word>2</word></tableCell>
+</tableRow>
+</table>
+</listItem>
+</list>
+</listItem>
+</list>
+</listItem>
+</list>
+</document>
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+1. Paragraph 5
+11. Paragraph 5.1
+111. (((
+== Heading 5.1.1 ==
+)))
+11. Paragraph 5.2
+111. (((
+|cell 1|cell 2
+)))
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginList [NUMBERED]
+beginListItem
+onWord [Paragraph]
+onSpace
+onWord [5]
+beginList [NUMBERED]
+beginListItem
+onWord [Paragraph]
+onSpace
+onWord [5]
+onSpecialSymbol [.]
+onWord [1]
+beginList [NUMBERED]
+beginListItem
+beginHeader [2, HHeading5.1.1]
+onWord [Heading]
+onSpace
+onWord [5]
+onSpecialSymbol [.]
+onWord [1]
+onSpecialSymbol [.]
+onWord [1]
+endHeader [2, HHeading5.1.1]
+endListItem
+endList [NUMBERED]
+endListItem
+beginListItem
+onWord [Paragraph]
+onSpace
+onWord [5]
+onSpecialSymbol [.]
+onWord [2]
+beginList [NUMBERED]
+beginListItem
+beginTable
+beginTableRow
+beginTableCell
+onWord [cell]
+onSpace
+onWord [1]
+endTableCell
+beginTableCell
+onWord [cell]
+onSpace
+onWord [2]
+endTableCell
+endTableRow
+endTable
+endListItem
+endList [NUMBERED]
+endListItem
+endList [NUMBERED]
+endListItem
+endList [NUMBERED]
+endDocument
