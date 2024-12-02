@@ -19,7 +19,9 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
+import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
+import org.xwiki.properties.annotation.PropertyDisplayType;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.stability.Unstable;
 
@@ -51,6 +53,7 @@ public class MessageMacroParameters extends BoxMacroParameters
      * @param isStatus refers to {@link #isStatus()}
      */
     @PropertyDescription("Whether or not this message should be announced as a status.")
+    @PropertyAdvanced
     @Unstable
     public void setStatus(boolean isStatus)
     {
