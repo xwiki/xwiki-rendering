@@ -37,7 +37,6 @@ import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
-import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
@@ -50,7 +49,7 @@ import org.xwiki.rendering.util.IconProvider;
  * @version $Id$
  * @since 2.0M3
  */
-public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroParameters>
+public abstract class AbstractMessageMacro extends AbstractBoxMacro<MessageMacroParameters>
 {
     private String iconName;
 
@@ -77,11 +76,10 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     {
         super(macroName, macroDescription,
             new DefaultContentDescriptor("Content of the message", true, Block.LIST_BLOCK_TYPE),
-            BoxMacroParameters.class);
+            MessageMacroParameters.class);
     }
-
-    @Override
-    protected List<Block> parseContent(BoxMacroParameters parameters, String content,
+    
+    protected List<Block> parseContent(MessageMacroParameters parameters, String content,
         MacroTransformationContext context) throws MacroExecutionException
     {
         List<Block> macroContent = getMacroContentParser().parse(content, context, false, context.isInline())
@@ -118,12 +116,15 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     }
 
     @Override
-    public List<Block> execute(BoxMacroParameters parameters, String content, MacroTransformationContext context) 
+    public List<Block> execute(MessageMacroParameters parameters, String content, MacroTransformationContext context) 
         throws MacroExecutionException 
     {
         List<Block> boxFoundation = super.execute(parameters, content, context);
         if (!boxFoundation.isEmpty() && getIconName() != null) {
             Block defaultBox = boxFoundation.get(0);
+            if (parameters.isAlert()) {
+                defaultBox.setParameter("role", "alert");
+            }
             // For an easier styling, we wrap the content and title together if they are non-empty and visible
             if (defaultBox.getChildren().size() > 1) {
                 Block boxTextContent = new GroupBlock(defaultBox.getChildren());
