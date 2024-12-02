@@ -48,9 +48,9 @@ public class MessageMacroParameters extends BoxMacroParameters
 
     /**
      * @since 17.0.0RC1
-     * @param isAlert refers to {@link #isAlert()}
+     * @param isStatus refers to {@link #isStatus()}
      */
-    @PropertyDescription("Whether or not this message should be announced as an status.")
+    @PropertyDescription("Whether or not this message should be announced as a status.")
     @Unstable
     public void setStatus(boolean isStatus)
     {
