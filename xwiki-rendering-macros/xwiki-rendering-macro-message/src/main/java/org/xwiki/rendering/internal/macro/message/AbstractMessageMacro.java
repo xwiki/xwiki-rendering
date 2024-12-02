@@ -122,8 +122,8 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<MessageMacro
         List<Block> boxFoundation = super.execute(parameters, content, context);
         if (!boxFoundation.isEmpty() && getIconName() != null) {
             Block defaultBox = boxFoundation.get(0);
-            if (parameters.isAlert()) {
-                defaultBox.setParameter("role", "alert");
+            if (parameters.isStatus()) {
+                defaultBox.setParameter("role", "status");
             }
             // For an easier styling, we wrap the content and title together if they are non-empty and visible
             if (defaultBox.getChildren().size() > 1) {

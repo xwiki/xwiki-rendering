@@ -32,28 +32,28 @@ import org.xwiki.stability.Unstable;
 public class MessageMacroParameters extends BoxMacroParameters 
 {
     /**
-     * @see #isAlert()
+     * @see #isStatus()
      */
-    private boolean isAlert;
+    private boolean isStatus;
 
     /**
      * @since 17.0.0RC1
-     * @return whether or not the current message is an alert.
+     * @return whether or not the current message is a status.
      */
     @Unstable
-    public boolean isAlert()
+    public boolean isStatus()
     {
-        return this.isAlert;
+        return this.isStatus;
     }
 
     /**
      * @since 17.0.0RC1
      * @param isAlert refers to {@link #isAlert()}
      */
-    @PropertyDescription("Whether or not this message should be announced as an alert.")
+    @PropertyDescription("Whether or not this message should be announced as an status.")
     @Unstable
-    public void setAlert(boolean isAlert)
+    public void setStatus(boolean isStatus)
     {
-        this.isAlert = isAlert;
+        this.isStatus = isStatus;
     }
 }
