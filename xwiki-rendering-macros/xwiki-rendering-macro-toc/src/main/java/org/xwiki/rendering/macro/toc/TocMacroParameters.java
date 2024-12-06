@@ -19,7 +19,7 @@
  */
 package org.xwiki.rendering.macro.toc;
 
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 
 import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
