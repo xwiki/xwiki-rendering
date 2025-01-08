@@ -21,7 +21,6 @@ package org.xwiki.rendering.internal.macro.message;
 
 import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
-import org.xwiki.properties.annotation.PropertyDisplayType;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.stability.Unstable;
 
