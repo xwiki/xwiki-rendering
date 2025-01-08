@@ -100,9 +100,7 @@ class MessageMacroTest
         assertEquals("(% class=\"box infomessage\" %)\n"
             + "(((\n"
             + "(% class=\"sr-only\" %)Info(%%)\n\n"
-            + "(((\n"
             + "content\n"
-            + ")))\n"
             + ")))", printer.toString());
     }
 
