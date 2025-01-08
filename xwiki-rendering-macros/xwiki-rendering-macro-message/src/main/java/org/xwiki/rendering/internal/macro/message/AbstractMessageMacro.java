@@ -125,7 +125,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
         if (!boxFoundation.isEmpty() && getIconName() != null) {
             Block defaultBox = boxFoundation.get(0);
             if (!context.isInline()) {
-                // For an easier styling, we always wrap the content of standalone blocks in a div.
+                // For an easier styling, we always wrap the content of standalone blocks in a group.
                 Block boxTextContent = new GroupBlock(defaultBox.getChildren());
                 defaultBox.setChildren(List.of(boxTextContent));
             }
