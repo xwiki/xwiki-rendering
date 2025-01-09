@@ -36,10 +36,7 @@
   <packaging>pom</packaging>
   <description>XWiki Rendering - Parent POM</description>
   <scm>
-    <connection>scm:git:git://github.com/xwiki/xwiki-rendering.git</connection>
-    <developerConnection>scm:git:git@github.com:xwiki/xwiki-rendering.git</developerConnection>
-    <url>https://github.com/xwiki/xwiki-rendering/tree/master/</url>
-    <tag>stable-15.10.x</tag>
+    <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -69,6 +66,9 @@
       org.xwiki.rendering:.*/[${rendering.version}]
     </xwiki.extension.recommendedVersions.rendering>
     <xwiki.extension.recommendedVersions>${xwiki.extension.recommendedVersions.rendering}</xwiki.extension.recommendedVersions>
+
+    <!-- GitHub related metadata -->
+    <xwiki.github.repository>xwiki-rendering</xwiki.github.repository>
   </properties>
   <build>
     <pluginManagement>
