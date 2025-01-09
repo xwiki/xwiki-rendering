@@ -23,7 +23,6 @@ endDocument
 .#-----------------------------------------------------
 (% id="idname1" %)
 (((
-
 )))
 
 before{{id name="idname2"/}}after
