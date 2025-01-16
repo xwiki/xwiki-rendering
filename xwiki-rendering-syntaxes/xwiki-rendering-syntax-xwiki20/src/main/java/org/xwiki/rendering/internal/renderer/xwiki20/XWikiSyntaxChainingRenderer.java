@@ -547,7 +547,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             int newLinesToPrint = count;
             // After tables and lists, we need an extra newline for newlines to be recognized.
             BlockStateChainingListener.Event previousEvent = this.getBlockState().getPreviousEvent();
-            if ((previousEvent != null && NEWLINE_HIDING_ELEMENTS.contains(previousEvent))) {
+            if (previousEvent != null && NEWLINE_HIDING_ELEMENTS.contains(previousEvent)) {
                 newLinesToPrint += 1;
             }
 
