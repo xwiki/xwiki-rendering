@@ -1,0 +1,167 @@
+.#-------------------------------------------------------------------------------------------------------
+.input|xwiki/2.0
+.# Test limitations regarding empty line handling in group syntax. It is impossible to have a single empty line at the
+.# end of a group (or as only content).
+.#-------------------------------------------------------------------------------------------------------
+
+
+
+(((
+)))
+
+(((
+
+)))
+
+(((
+
+
+)))
+
+(((
+
+
+
+)))
+
+(((
+Content
+)))
+
+(((
+
+Content
+
+)))
+
+* List
+
+(((
+
+
+Content
+
+
+* List
+
+
+
+)))
+
+(((
+
+
+= heading =
+
+
+)))
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|xwiki/2.0
+.# Changes compared to input:
+.# * Inside a group there is always at least an empty line (which is the same as no empty line)
+.# * A single empty line at the start and end of the group is the same as no empty line
+.#-------------------------------------------------------------------------------------------------------
+
+
+
+(((
+
+)))
+
+(((
+
+)))
+
+(((
+
+
+)))
+
+(((
+
+
+
+)))
+
+(((
+Content
+)))
+
+(((
+Content
+)))
+
+* List
+
+(((
+
+
+Content
+
+
+* List
+
+
+
+)))
+
+(((
+
+
+= heading =
+
+
+)))
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onEmptyLines [1]
+beginGroup
+endGroup
+beginGroup
+endGroup
+beginGroup
+onEmptyLines [2]
+endGroup
+beginGroup
+onEmptyLines [3]
+endGroup
+beginGroup
+beginParagraph
+onWord [Content]
+endParagraph
+endGroup
+beginGroup
+beginParagraph
+onWord [Content]
+endParagraph
+endGroup
+beginList [BULLETED]
+beginListItem
+onWord [List]
+endListItem
+endList [BULLETED]
+beginGroup
+onEmptyLines [1]
+beginParagraph
+onWord [Content]
+endParagraph
+onEmptyLines [1]
+beginList [BULLETED]
+beginListItem
+onWord [List]
+endListItem
+endList [BULLETED]
+onEmptyLines [2]
+endGroup
+beginGroup
+onEmptyLines [1]
+beginSection
+beginHeader [1, Hheading]
+onWord [heading]
+endHeader [1, Hheading]
+onEmptyLines [2]
+endSection
+endGroup
+endDocument
