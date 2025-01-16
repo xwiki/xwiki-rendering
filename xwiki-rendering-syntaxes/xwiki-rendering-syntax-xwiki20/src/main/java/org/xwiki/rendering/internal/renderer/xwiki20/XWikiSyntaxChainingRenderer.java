@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.renderer.xwiki20;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -53,6 +54,13 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer implements StackableChainingListener
 {
     private static final String EMPTY_PARAMETERS = "(%%)";
+
+    /**
+     * Elements for which the parser ignores a newline after them.
+     */
+    private static final EnumSet<BlockStateChainingListener.Event> NEWLINE_HIDING_ELEMENTS =
+        EnumSet.of(BlockStateChainingListener.Event.TABLE, BlockStateChainingListener.Event.LIST,
+            BlockStateChainingListener.Event.DEFINITION_LIST);
 
     private XWikiSyntaxResourceRenderer linkResourceRenderer;
 
@@ -535,7 +543,28 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     @Override
     public void onEmptyLines(int count)
     {
-        print(StringUtils.repeat('\n', count));
+        if (count > 0) {
+            int newLinesToPrint = count;
+            // After tables and lists, we need an extra newline for newlines to be recognized.
+            BlockStateChainingListener.Event previousEvent = this.getBlockState().getPreviousEvent();
+            if ((previousEvent != null && NEWLINE_HIDING_ELEMENTS.contains(previousEvent))) {
+                newLinesToPrint += 1;
+            }
+
+            // If a newline shall be recognized at the start of a document/group, we need an extra newline.
+            // At the start of a document, we need another newline.
+            // However, if the newline is the only content of a group, we actually need one newline less.
+            QueueListener.Event nextEvent = getXWikiSyntaxListenerChain().getLookaheadChainingListener().getNextEvent();
+            if (previousEvent == BlockStateChainingListener.Event.NONE && nextEvent != null) {
+                newLinesToPrint += nextEvent.eventType == EventType.END_GROUP ? -1 : 1;
+
+                if (getListenerChain().getStackingDepth() == 0) {
+                    newLinesToPrint += 1;
+                }
+            }
+
+            print(StringUtils.repeat('\n', newLinesToPrint));
+        }
     }
 
     /**
