@@ -25,9 +25,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.RawBlock;
+import org.xwiki.rendering.internal.macro.message.MessageMacroParameters;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroExecutionException;
-import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
@@ -88,7 +88,7 @@ class MessageMacroTest
         IconProvider iconProvider = this.componentManager.registerMockComponent(IconProvider.class);
         when(iconProvider.get("information")).thenReturn(new RawBlock("some html", Syntax.HTML_4_01));
         Macro messageMacro = this.componentManager.getInstance(Macro.class, "info");
-        BoxMacroParameters parameters = new BoxMacroParameters();
+        MessageMacroParameters parameters = new MessageMacroParameters();
         when(this.context.getSyntax()).thenReturn(Syntax.XWIKI_2_1);
 
         List<Block> blocks = messageMacro.execute(parameters, "content", this.context);
@@ -112,7 +112,7 @@ class MessageMacroTest
         Parser plainTextParser = this.componentManager.registerMockComponent(Parser.class, "plain/1.0");
         doThrow(new ParseException("error")).when(plainTextParser).parse(any(Reader.class));
         Macro messageMacro = this.componentManager.getInstance(Macro.class, "info");
-        BoxMacroParameters parameters = new BoxMacroParameters();
+        MessageMacroParameters parameters = new MessageMacroParameters();
         when(this.context.getSyntax()).thenReturn(Syntax.XWIKI_2_1);
 
         Throwable exception = assertThrows(MacroExecutionException.class,
