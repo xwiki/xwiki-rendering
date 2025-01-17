@@ -543,26 +543,43 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     @Override
     public void onEmptyLines(int count)
     {
-        if (count > 0) {
-            int newLinesToPrint = count;
-            // After tables and lists, we need an extra newline for newlines to be recognized.
-            BlockStateChainingListener.Event previousEvent = this.getBlockState().getPreviousEvent();
-            if (previousEvent != null && NEWLINE_HIDING_ELEMENTS.contains(previousEvent)) {
-                newLinesToPrint += 1;
-            }
+        int newLinesToPrint = count;
+        // After tables and lists, we need an extra newline for newlines to be recognized.
+        BlockStateChainingListener.Event previousEvent = this.getBlockState().getPreviousEvent();
+        if (previousEvent != null && NEWLINE_HIDING_ELEMENTS.contains(previousEvent)) {
+            ++newLinesToPrint;
+        }
 
-            // If a newline shall be recognized at the start of a document/group, we need an extra newline.
-            // At the start of a document, we need another newline.
-            // However, if the newline is the only content of a group, we actually need one newline less.
-            QueueListener.Event nextEvent = getXWikiSyntaxListenerChain().getLookaheadChainingListener().getNextEvent();
-            if (previousEvent == BlockStateChainingListener.Event.NONE && nextEvent != null) {
-                newLinesToPrint += nextEvent.eventType == EventType.END_GROUP ? -1 : 1;
-
-                if (getListenerChain().getStackingDepth() == 0) {
-                    newLinesToPrint += 1;
+        // If an empty line shall be recognized at the start of a group or document, or at the end of a document, we
+        // need an extra newline.
+        // However, if the empty lines are the only content of a group, we actually need one newline less.
+        // At the start of a document, we actually need two extra newlines unless the newlines are the only content.
+        QueueListener.Event nextEvent = getXWikiSyntaxListenerChain().getLookaheadChainingListener().getNextEvent();
+        // It should never happen that the next event is null; this check is only to be safe.
+        if (nextEvent != null) {
+            // Previous event NONE means either start of document or group.
+            if (previousEvent == BlockStateChainingListener.Event.NONE) {
+                if (nextEvent.eventType == EventType.END_GROUP) {
+                    // Case 1: Empty line is only content of a group. Remove one newline.
+                    --newLinesToPrint;
+                } else {
+                    // Case 2: At the start of a non-empty group or document. Add one newline.
+                    ++newLinesToPrint;
                 }
-            }
 
+                if (getListenerChain().getStackingDepth() == 0 && nextEvent.eventType != EventType.END_DOCUMENT) {
+                    // Stacking depth 0 and next event not end means that we're at the start of a non-empty document,
+                    // need to add another newline.
+                    ++newLinesToPrint;
+                }
+            } else if (nextEvent.eventType == EventType.END_DOCUMENT) {
+                // At the end of a document not only consisting of empty lines an additional newline needs
+                // to be printed.
+                ++newLinesToPrint;
+            }
+        }
+
+        if (newLinesToPrint > 0) {
             print(StringUtils.repeat('\n', newLinesToPrint));
         }
     }
