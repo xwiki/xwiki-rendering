@@ -21,11 +21,13 @@ package org.xwiki.rendering.listener.chaining;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.apache.commons.text.CaseUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.stubbing.Stubber;
 import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.Listener;
@@ -34,6 +36,7 @@ import org.xwiki.rendering.listener.MetaData;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -186,6 +189,49 @@ class BlockStateChainingListenerTest
         assertEquals(method.getName(), "on" + eventCamelCaseName, "Previous event " + previousEventName + " "
             + "does not match method name " + method.getName());
 
+        this.listener.endDocument(MetaData.EMPTY);
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = { true, false })
+    void testListItemWithoutParent(boolean withParameter) throws Exception
+    {
+        Class<?>[] parameterTypes = withParameter ? new Class<?>[] { Map.class } : new Class<?>[0];
+        Method beginMethod = BlockStateChainingListener.class.getDeclaredMethod("beginListItem", parameterTypes);
+        Method endMethod = BlockStateChainingListener.class.getDeclaredMethod("endListItem", parameterTypes);
+        Object[] parameters = withParameter ? new Object[] { Listener.EMPTY_PARAMETERS } : new Object[0];
+
+        this.listener.beginDocument(MetaData.EMPTY);
+        beginMethod.invoke(this.listener, parameters);
+        assertEquals(0, this.listener.getListItemIndex());
+        assertTrue(this.listener.isInList());
+        assertEquals(1, this.listener.getListDepth());
+        endMethod.invoke(this.listener, parameters);
+        beginMethod.invoke(this.listener, parameters);
+        assertEquals(1, this.listener.getListItemIndex());
+        assertTrue(this.listener.isInList());
+        assertEquals(1, this.listener.getListDepth());
+        endMethod.invoke(this.listener, parameters);
+        this.listener.endDocument(MetaData.EMPTY);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "Term", "Description" })
+    void testDefinitionListItemWithoutParent(String methodSuffix) throws Exception
+    {
+        Method beginMethod = BlockStateChainingListener.class.getDeclaredMethod("beginDefinition" + methodSuffix);
+        Method endMethod = BlockStateChainingListener.class.getDeclaredMethod("endDefinition" + methodSuffix);
+        this.listener.beginDocument(MetaData.EMPTY);
+        beginMethod.invoke(this.listener);
+        assertTrue(this.listener.isInDefinitionList());
+        assertEquals(0, this.listener.getDefinitionListItemIndex());
+        assertEquals(1, this.listener.getDefinitionListDepth());
+        endMethod.invoke(this.listener);
+        beginMethod.invoke(this.listener);
+        assertTrue(this.listener.isInDefinitionList());
+        assertEquals(1, this.listener.getDefinitionListItemIndex());
+        assertEquals(1, this.listener.getDefinitionListDepth());
+        endMethod.invoke(this.listener);
         this.listener.endDocument(MetaData.EMPTY);
     }
 }
