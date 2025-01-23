@@ -278,6 +278,10 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     public void beginDefinitionDescription()
     {
         ++this.inlineDepth;
+        if (this.definitionListDepth.isEmpty()) {
+            // Avoid a null pointer exception. The result might be wrong but at least it won't break.
+            this.definitionListDepth.push(new DefinitionListState());
+        }
         ++this.definitionListDepth.peek().definitionListItemIndex;
 
         super.beginDefinitionDescription();
@@ -304,6 +308,10 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     public void beginDefinitionTerm()
     {
         ++this.inlineDepth;
+        if (this.definitionListDepth.isEmpty()) {
+            // Avoid a null pointer exception. The result might be wrong but at least it won't break.
+            this.definitionListDepth.push(new DefinitionListState());
+        }
         ++this.definitionListDepth.peek().definitionListItemIndex;
 
         super.beginDefinitionTerm();
@@ -340,6 +348,10 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     public void beginListItem()
     {
         ++this.inlineDepth;
+        if (this.listDepth.isEmpty()) {
+            // Avoid a null pointer exception. The result might be wrong but at least it won't break.
+            this.listDepth.push(new ListState());
+        }
         ++this.listDepth.peek().listItemIndex;
 
         super.beginListItem();
@@ -351,6 +363,10 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     public void beginListItem(Map<String, String> parameters)
     {
         ++this.inlineDepth;
+        if (this.listDepth.isEmpty()) {
+            // Avoid a null pointer exception. The result might be wrong but at least it won't break.
+            this.listDepth.push(new ListState());
+        }
         ++this.listDepth.peek().listItemIndex;
 
         super.beginListItem(parameters);
