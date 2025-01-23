@@ -149,7 +149,7 @@ public class ImageBlock extends AbstractBlock
     public ImageBlock clone(BlockFilter blockFilter)
     {
         ImageBlock clone = (ImageBlock) super.clone(blockFilter);
-        clone.reference = getReference().clone();
+        clone.reference = (getReference() != null) ? getReference().clone() : null;
         clone.freestanding = isFreeStandingURI();
         clone.id = getId();
         return clone;
