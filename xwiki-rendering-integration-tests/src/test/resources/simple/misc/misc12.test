@@ -1,11 +1,13 @@
 .#-----------------------------------------------------------------------------------------------
 .inputexpect|xwiki/2.0
-.# Verify that 3 empty lines at beginning and 4 at the end of the document are taken into account
+.# Verify that 3 empty lines at beginning and 5 at the end of the document are taken into account
+.# if the last element is a list
 .#-----------------------------------------------------------------------------------------------
 
 
 
-paragraph
+* list
+
 
 
 
@@ -14,16 +16,18 @@ paragraph
 .#-----------------------------------------------------
 beginDocument
 onEmptyLines [1]
-beginParagraph
-onWord [paragraph]
-endParagraph
+beginList [BULLETED]
+beginListItem
+onWord [list]
+endListItem
+endList [BULLETED]
 onEmptyLines [2]
 endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<div class="wikimodel-emptyline"></div><p>paragraph</p><div class="wikimodel-emptyline"></div><div class="wikimodel-emptyline"></div>
+<div class="wikimodel-emptyline"></div><ul><li>list</li></ul><div class="wikimodel-emptyline"></div><div class="wikimodel-emptyline"></div>
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<html><div class="wikimodel-emptyline"></div><p>paragraph</p><div class="wikimodel-emptyline"></div><div class="wikimodel-emptyline"></div></html>
+<html><div class="wikimodel-emptyline"></div><ul><li>list</li></ul><div class="wikimodel-emptyline"></div><div class="wikimodel-emptyline"></div></html>

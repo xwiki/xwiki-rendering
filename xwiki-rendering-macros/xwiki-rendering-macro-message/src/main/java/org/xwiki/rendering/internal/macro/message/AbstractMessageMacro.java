@@ -126,8 +126,8 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<MessageMacro
             if (parameters.isStatus()) {
                 defaultBox.setParameter("role", "status");
             }
-            // For an easier styling, we wrap the content and title together if they are non-empty and visible
-            if (defaultBox.getChildren().size() > 1) {
+            if (!context.isInline()) {
+                // For an easier styling, we always wrap the content of standalone blocks in a group.
                 Block boxTextContent = new GroupBlock(defaultBox.getChildren());
                 defaultBox.setChildren(List.of(boxTextContent));
             }

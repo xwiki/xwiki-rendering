@@ -112,7 +112,7 @@ public class LinkBlock extends AbstractBlock
     public LinkBlock clone(BlockFilter blockFilter)
     {
         LinkBlock clone = (LinkBlock) super.clone(blockFilter);
-        clone.reference = getReference().clone();
+        clone.reference = (getReference() != null) ? getReference().clone() : null;
         return clone;
     }
 

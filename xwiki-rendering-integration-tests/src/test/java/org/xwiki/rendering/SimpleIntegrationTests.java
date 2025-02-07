@@ -31,7 +31,7 @@ import org.xwiki.test.annotation.AllComponents;
  * @since 3.0RC1
  */
 @AllComponents
-@Scope(value = "simple", pattern = "macro12.test")
+@Scope(value = "simple"/*, pattern = "macro12.test"*/)
 class SimpleIntegrationTests extends RenderingTest
 {
 }

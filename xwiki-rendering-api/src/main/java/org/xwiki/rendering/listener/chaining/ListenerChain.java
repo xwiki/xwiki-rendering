@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * Stores information about the listeners in the chain and the order in which they need to be called. Also sports a
  * feature that allows pushing and popping listeners that are stackable. This feature is useful since listeners can hold
@@ -49,6 +51,8 @@ public class ListenerChain
      * class object and then the instance can be found in {@link #listeners}.
      */
     private List<Class<? extends ChainingListener>> nextListeners = new ArrayList<>();
+
+    private int stackingDepth;
 
     /**
      * @param listener the chaining listener to add to the chain. If an instance of that listener is already present
@@ -168,6 +172,8 @@ public class ListenerChain
         for (Class<? extends ChainingListener> listenerClass : this.listeners.keySet()) {
             pushListener(listenerClass);
         }
+
+        ++this.stackingDepth;
     }
 
     /**
@@ -178,6 +184,22 @@ public class ListenerChain
         for (Class<? extends ChainingListener> listenerClass : this.listeners.keySet()) {
             popListener(listenerClass);
         }
+
+        --this.stackingDepth;
+    }
+
+    /**
+     * @return the depth of the listener stack. The depth is the number of times
+     * {@link ListenerChain#pushAllStackableListeners()} has been called minus the number of times
+     * {@link ListenerChain#popAllStackableListeners()} has been called.
+     * @since 16.4.7
+     * @since 16.10.3
+     * @since 17.0.0RC1
+     */
+    @Unstable
+    public int getStackingDepth()
+    {
+        return this.stackingDepth;
     }
 
     /**

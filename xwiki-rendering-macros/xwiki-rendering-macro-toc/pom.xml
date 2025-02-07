@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-macros</artifactId>
-    <version>17.0.0-SNAPSHOT</version>
+    <version>17.1.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-macro-toc</artifactId>
   <name>XWiki Rendering - Macro - Toc</name>
@@ -42,9 +42,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.mortbay.jasper</groupId>
-      <artifactId>apache-el</artifactId>
-      <scope>runtime</scope>
+      <groupId>org.glassfish.expressly</groupId>
+      <artifactId>expressly</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
