@@ -38,6 +38,7 @@ import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.MacroPreparationException;
 import org.xwiki.rendering.macro.box.AbstractBoxMacro;
 import org.xwiki.rendering.macro.descriptor.DefaultContentDescriptor;
+import org.xwiki.rendering.macro.message.MessageMacroParameters;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.transformation.MacroTransformationContext;

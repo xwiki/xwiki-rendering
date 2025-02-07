@@ -25,7 +25,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.RawBlock;
-import org.xwiki.rendering.internal.macro.message.MessageMacroParameters;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.parser.ParseException;
