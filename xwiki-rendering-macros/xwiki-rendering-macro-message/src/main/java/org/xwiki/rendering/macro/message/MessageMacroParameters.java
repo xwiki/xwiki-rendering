@@ -17,11 +17,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.internal.macro.message;
+package org.xwiki.rendering.macro.message;
 
 import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
-import org.xwiki.properties.annotation.PropertyDisplayType;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.stability.Unstable;
 
@@ -29,34 +28,39 @@ import org.xwiki.stability.Unstable;
  * Parameters for the Message macro.
  *
  * @version $Id$
- * @since 17.0.0RC1
+ * @since 17.1.0RC1
  */
+
+@Unstable
 public class MessageMacroParameters extends BoxMacroParameters 
 {
     /**
      * @see #isStatus()
      */
-    private boolean isStatus;
+    private boolean status;
 
     /**
-     * @since 17.0.0RC1
-     * @return whether or not the current message is a status.
+     * Set your macro as a status message when you use it to display temporary feedback. The status role will make sure 
+     * that users of assistive technologies will take notice of the content of the message 
+     * even if they cannot see it appear. 
+     * @since 17.1.0RC1
+     * @return whether the current message is a status.
      */
     @Unstable
     public boolean isStatus()
     {
-        return this.isStatus;
+        return this.status;
     }
 
     /**
      * @since 17.0.0RC1
-     * @param isStatus refers to {@link #isStatus()}
+     * @param status refers to {@link #isStatus()}
      */
     @PropertyDescription("Whether or not this message should be announced as a status.")
     @PropertyAdvanced
     @Unstable
-    public void setStatus(boolean isStatus)
+    public void setStatus(boolean status)
     {
-        this.isStatus = isStatus;
+        this.status = status;
     }
 }
