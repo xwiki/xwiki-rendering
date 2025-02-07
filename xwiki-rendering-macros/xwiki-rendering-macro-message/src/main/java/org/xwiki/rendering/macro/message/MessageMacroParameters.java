@@ -44,7 +44,7 @@ public class MessageMacroParameters extends BoxMacroParameters
      * that users of assistive technologies will take notice of the content of the message 
      * even if they cannot see it appear. 
      * @since 17.1.0RC1
-     * @return whether the current message is a status.
+     * @return whether the current message is an ARIA status.
      */
     @Unstable
     public boolean isStatus()
@@ -56,7 +56,7 @@ public class MessageMacroParameters extends BoxMacroParameters
      * @since 17.0.0RC1
      * @param status refers to {@link #isStatus()}
      */
-    @PropertyDescription("Whether or not this message should be announced as a status.")
+    @PropertyDescription("Whether or not this message should be set as an ARIA status.")
     @PropertyAdvanced
     @Unstable
     public void setStatus(boolean status)
