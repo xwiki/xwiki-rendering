@@ -56,7 +56,7 @@ public class MessageMacroParameters extends BoxMacroParameters
      * @since 17.0.0RC1
      * @param status refers to {@link #isStatus()}
      */
-    @PropertyDescription("Whether or not this message should be set as an ARIA status.")
+    @PropertyDescription("Whether this message should be set as an ARIA status.")
     @PropertyAdvanced
     @Unstable
     public void setStatus(boolean status)
