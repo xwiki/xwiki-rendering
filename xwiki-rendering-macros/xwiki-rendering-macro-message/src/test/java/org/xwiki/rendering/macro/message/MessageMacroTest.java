@@ -27,7 +27,6 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.macro.MacroExecutionException;
-import org.xwiki.rendering.macro.box.BoxMacroParameters;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.renderer.BlockRenderer;
@@ -43,6 +42,7 @@ import org.xwiki.test.junit5.mockito.MockComponent;
 import org.xwiki.test.mockito.MockitoComponentManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -88,7 +88,7 @@ class MessageMacroTest
         IconProvider iconProvider = this.componentManager.registerMockComponent(IconProvider.class);
         when(iconProvider.get("information")).thenReturn(new RawBlock("some html", Syntax.HTML_4_01));
         Macro messageMacro = this.componentManager.getInstance(Macro.class, "info");
-        BoxMacroParameters parameters = new BoxMacroParameters();
+        MessageMacroParameters parameters = new MessageMacroParameters();
         when(this.context.getSyntax()).thenReturn(Syntax.XWIKI_2_1);
 
         List<Block> blocks = messageMacro.execute(parameters, "content", this.context);
@@ -114,11 +114,29 @@ class MessageMacroTest
         Parser plainTextParser = this.componentManager.registerMockComponent(Parser.class, "plain/1.0");
         doThrow(new ParseException("error")).when(plainTextParser).parse(any(Reader.class));
         Macro messageMacro = this.componentManager.getInstance(Macro.class, "info");
-        BoxMacroParameters parameters = new BoxMacroParameters();
+        MessageMacroParameters parameters = new MessageMacroParameters();
         when(this.context.getSyntax()).thenReturn(Syntax.XWIKI_2_1);
 
         Throwable exception = assertThrows(MacroExecutionException.class,
             () -> messageMacro.execute(parameters, "content", this.context));
         assertEquals("Failed to parse icon pretty name [Info] to compute a text alternative", exception.getMessage());
+    }
+    @Test
+    void executeWithStatusRole() throws Exception
+    {
+        IconProvider iconProvider = this.componentManager.registerMockComponent(IconProvider.class);
+        when(iconProvider.get("information")).thenReturn(new RawBlock("some html", Syntax.HTML_4_01));
+        Macro messageMacro = this.componentManager.getInstance(Macro.class, "info");
+        MessageMacroParameters parameters = new MessageMacroParameters();
+        // We want to test the macro behaviour when this parameter is ON.
+        parameters.setStatus(true);
+        when(this.context.getSyntax()).thenReturn(Syntax.XWIKI_2_1);
+        List<Block> blocks = messageMacro.execute(parameters, "Update alert.", this.context);
+
+        // Assert the result by rendering it in xwiki/2.1 syntax for easy assertion.
+        BlockRenderer renderer = this.componentManager.getInstance(BlockRenderer.class, "xwiki/2.1");
+        WikiPrinter printer = new DefaultWikiPrinter();
+        renderer.render(blocks, printer);
+        assertTrue(printer.toString().contains("role=\"status\""));
     }
 }
