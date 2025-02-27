@@ -23,6 +23,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.ListType;
@@ -38,6 +40,8 @@ import org.xwiki.rendering.syntax.Syntax;
  */
 public class BlockStateChainingListener extends AbstractChainingListener implements StackableChainingListener
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BlockStateChainingListener.class);
+
     public enum Event
     {
         NONE,
@@ -278,11 +282,12 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     public void beginDefinitionDescription()
     {
         ++this.inlineDepth;
-        if (this.definitionListDepth.isEmpty()) {
-            // Avoid a null pointer exception. The result might be wrong but at least it won't break.
-            this.definitionListDepth.push(new DefinitionListState());
+        if (!this.definitionListDepth.isEmpty()) {
+            ++this.definitionListDepth.peek().definitionListItemIndex;
+        } else if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Invalid nesting: definition description outside definition list.",
+                new IllegalStateException());
         }
-        ++this.definitionListDepth.peek().definitionListItemIndex;
 
         super.beginDefinitionDescription();
 
@@ -308,11 +313,11 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     public void beginDefinitionTerm()
     {
         ++this.inlineDepth;
-        if (this.definitionListDepth.isEmpty()) {
-            // Avoid a null pointer exception. The result might be wrong but at least it won't break.
-            this.definitionListDepth.push(new DefinitionListState());
+        if (!this.definitionListDepth.isEmpty()) {
+            ++this.definitionListDepth.peek().definitionListItemIndex;
+        } else if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Invalid nesting: definition term outside definition list.", new IllegalStateException());
         }
-        ++this.definitionListDepth.peek().definitionListItemIndex;
 
         super.beginDefinitionTerm();
 
@@ -348,11 +353,11 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     public void beginListItem()
     {
         ++this.inlineDepth;
-        if (this.listDepth.isEmpty()) {
-            // Avoid a null pointer exception. The result might be wrong but at least it won't break.
-            this.listDepth.push(new ListState());
+        if (!this.listDepth.isEmpty()) {
+            ++this.listDepth.peek().listItemIndex;
+        } else if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Invalid nesting: list item outside list.", new IllegalStateException());
         }
-        ++this.listDepth.peek().listItemIndex;
 
         super.beginListItem();
 
@@ -363,11 +368,11 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
     public void beginListItem(Map<String, String> parameters)
     {
         ++this.inlineDepth;
-        if (this.listDepth.isEmpty()) {
-            // Avoid a null pointer exception. The result might be wrong but at least it won't break.
-            this.listDepth.push(new ListState());
+        if (!this.listDepth.isEmpty()) {
+            ++this.listDepth.peek().listItemIndex;
+        } else if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Invalid nesting: list item with parameters outside list.", new IllegalStateException());
         }
-        ++this.listDepth.peek().listItemIndex;
 
         super.beginListItem(parameters);
 

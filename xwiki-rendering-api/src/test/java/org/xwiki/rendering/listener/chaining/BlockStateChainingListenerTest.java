@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.text.CaseUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -32,11 +33,13 @@ import org.mockito.stubbing.Stubber;
 import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
+import org.xwiki.test.LogLevel;
+import org.xwiki.test.junit5.LogCaptureExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -52,6 +55,9 @@ class BlockStateChainingListenerTest
     private BlockStateChainingListener listener;
 
     private ChainingListener mockListener;
+
+    @RegisterExtension
+    private LogCaptureExtension logCaptureExtension = new LogCaptureExtension(LogLevel.DEBUG);
 
     @BeforeEach
     void setUpChain()
@@ -203,16 +209,23 @@ class BlockStateChainingListenerTest
 
         this.listener.beginDocument(MetaData.EMPTY);
         beginMethod.invoke(this.listener, parameters);
-        assertEquals(0, this.listener.getListItemIndex());
-        assertTrue(this.listener.isInList());
-        assertEquals(1, this.listener.getListDepth());
+        assertEquals(-1, this.listener.getListItemIndex());
+        assertFalse(this.listener.isInList());
+        assertEquals(0, this.listener.getListDepth());
         endMethod.invoke(this.listener, parameters);
         beginMethod.invoke(this.listener, parameters);
-        assertEquals(1, this.listener.getListItemIndex());
-        assertTrue(this.listener.isInList());
-        assertEquals(1, this.listener.getListDepth());
+        assertEquals(-1, this.listener.getListItemIndex());
+        assertFalse(this.listener.isInList());
+        assertEquals(0, this.listener.getListDepth());
         endMethod.invoke(this.listener, parameters);
         this.listener.endDocument(MetaData.EMPTY);
+
+        assertEquals(2, this.logCaptureExtension.size());
+        String expectedMessage =
+            "Invalid nesting: list item" + (withParameter ? " with parameters" : "") + " outside list.";
+        for (int i = 0; i < 2; ++i) {
+            assertEquals(expectedMessage, this.logCaptureExtension.getLogEvent(i).getMessage());
+        }
     }
 
     @ParameterizedTest
@@ -223,15 +236,22 @@ class BlockStateChainingListenerTest
         Method endMethod = BlockStateChainingListener.class.getDeclaredMethod("endDefinition" + methodSuffix);
         this.listener.beginDocument(MetaData.EMPTY);
         beginMethod.invoke(this.listener);
-        assertTrue(this.listener.isInDefinitionList());
-        assertEquals(0, this.listener.getDefinitionListItemIndex());
-        assertEquals(1, this.listener.getDefinitionListDepth());
+        assertFalse(this.listener.isInDefinitionList());
+        assertEquals(-1, this.listener.getDefinitionListItemIndex());
+        assertEquals(0, this.listener.getDefinitionListDepth());
         endMethod.invoke(this.listener);
         beginMethod.invoke(this.listener);
-        assertTrue(this.listener.isInDefinitionList());
-        assertEquals(1, this.listener.getDefinitionListItemIndex());
-        assertEquals(1, this.listener.getDefinitionListDepth());
+        assertFalse(this.listener.isInDefinitionList());
+        assertEquals(-1, this.listener.getDefinitionListItemIndex());
+        assertEquals(0, this.listener.getDefinitionListDepth());
         endMethod.invoke(this.listener);
         this.listener.endDocument(MetaData.EMPTY);
+
+        assertEquals(2, this.logCaptureExtension.size());
+        String expectedMessage =
+            "Invalid nesting: definition " + methodSuffix.toLowerCase() + " outside definition list.";
+        for (int i = 0; i < 2; ++i) {
+            assertEquals(expectedMessage, this.logCaptureExtension.getLogEvent(i).getMessage());
+        }
     }
 }
