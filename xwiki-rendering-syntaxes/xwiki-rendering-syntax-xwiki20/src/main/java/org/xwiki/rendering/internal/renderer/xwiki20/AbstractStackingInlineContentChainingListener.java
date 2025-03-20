@@ -159,6 +159,20 @@ public abstract class AbstractStackingInlineContentChainingListener extends Look
         endStandaloneElement();
     }
 
+    @Override
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
+    {
+        if (!inline) {
+            startStandaloneElement();
+        }
+
+        super.onVerbatim(content, inline, parameters);
+
+        if (!inline) {
+            endStandaloneElement();
+        }
+    }
+
     /**
      * Handle start of a standalone element and update states.
      */
