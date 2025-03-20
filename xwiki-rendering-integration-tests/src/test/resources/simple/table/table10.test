@@ -1,0 +1,29 @@
+.#-----------------------------------------------------
+.input|html/5.0
+.# Table cell with pre element.
+.#-----------------------------------------------------
+
+<table>
+  <tr>
+    <td>Line continuations</td>
+    <td><pre>
+let example = Rx.Observable
+        .combineLatest(obs1)
+        .subscribe(...);</pre>
+    </td>
+  </tr>
+  <tr>
+    <td>Array Initialiser</td>
+    <td>var numbers = [1, 2, 3];</td>
+  </tr>
+</table>
+.#-----------------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------------
+|Line continuations|(((
+{{{
+let example = Rx.Observable
+        .combineLatest(obs1)
+        .subscribe(...);}}}
+)))
+|Array Initialiser|var numbers = [1, 2, 3];
