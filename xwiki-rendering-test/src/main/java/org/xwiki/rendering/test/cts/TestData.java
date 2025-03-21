@@ -108,6 +108,14 @@ public class TestData
     }
 
     /**
+     * @return true if the test should not be executed and ignored
+     */
+    public boolean isIgnored()
+    {
+        return !(this.syntaxData != null && !isFailingTest());
+    }
+
+    /**
      * @param regexes the list of regexes to match against
      * @return true if the current test matches at least one of the passed regexes or false otherwise
      */

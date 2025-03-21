@@ -25,13 +25,13 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-macros</artifactId>
-    <version>16.3.0-SNAPSHOT</version>
+    <version>17.2.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-macro-message</artifactId>
   <name>XWiki Rendering - Macro - Message</name>
   <description>Displays information, warning, error and success messages in a styled box format, using different icons</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.84</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.93</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Message Macros</xwiki.extension.name>
   </properties>
@@ -40,6 +40,18 @@
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-box</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.xwiki.rendering</groupId>
+        <artifactId>xwiki-rendering-api</artifactId>
+        <version>${project.version}</version>
+    </dependency>
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-syntax-xwiki21</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

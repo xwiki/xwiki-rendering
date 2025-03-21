@@ -68,7 +68,14 @@ public class ParametersPrinter
         builder.append(Pattern.quote(QUOTE));
         for (String str : escapedStrings) {
             builder.append('|');
-            builder.append(Pattern.quote(str));
+            // Only match the first character directly and use the rest as a lookahead as escaping only applies to
+            // the first character, and there might be further matches starting at later characters.
+            if (!str.isEmpty()) {
+                builder.append(Pattern.quote(str.substring(0, 1)));
+                if (str.length() > 1) {
+                    builder.append("(?=").append(Pattern.quote(str.substring(1))).append(')');
+                }
+            }
         }
 
         this.escapedStrings = builder.toString();

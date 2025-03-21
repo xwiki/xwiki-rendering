@@ -19,7 +19,9 @@
  */
 package org.xwiki.rendering.internal.plain;
 
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+import org.xwiki.rendering.test.integration.Scope;
+import org.xwiki.rendering.test.integration.junit5.RenderingTest;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Run all specific tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow
@@ -27,7 +29,8 @@ import org.xwiki.rendering.test.integration.junit5.RenderingTests;
  *
  * @version $Id$
  */
-@RenderingTests.Scope("plain10.specific")
-public class PlainSpecificTest implements RenderingTests
+@AllComponents
+@Scope("plain10.specific")
+class PlainSpecificTest extends RenderingTest
 {
 }

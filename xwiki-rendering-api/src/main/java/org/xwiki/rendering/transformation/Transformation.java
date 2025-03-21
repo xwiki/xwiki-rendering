@@ -23,7 +23,6 @@ import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.stability.Unstable;
 
 /**
  * Performs a transformation on a XDOM (i.e. a tree of {@link org.xwiki.rendering.block.Block}. This used for example
@@ -73,7 +72,6 @@ public interface Transformation extends Comparable<Transformation>
      * @param block the block to prepare (can be an {@link XDOM})
      * @since 15.9RC1
      */
-    @Unstable
     default void prepare(Block block)
     {
         // Do nothing by default

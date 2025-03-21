@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering</artifactId>
-    <version>16.3.0-SNAPSHOT</version>
+    <version>17.2.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-syntaxes</artifactId>
   <name>XWiki Rendering - Syntaxes - Parent POM</name>
@@ -47,16 +47,12 @@
     <!-- Sorted Alphabetically -->
     <module>xwiki-rendering-syntax-annotatedhtml5</module>
     <module>xwiki-rendering-syntax-annotatedxhtml</module>
-    <module>xwiki-rendering-syntax-apt</module>
     <module>xwiki-rendering-syntax-creole</module>
-    <module>xwiki-rendering-syntax-docbook</module>
-    <module>xwiki-rendering-syntax-doxia</module>
     <module>xwiki-rendering-syntax-event</module>
     <module>xwiki-rendering-syntax-html</module>
     <module>xwiki-rendering-syntax-html5</module>
     <module>xwiki-rendering-syntax-jspwiki</module>
     <module>xwiki-rendering-syntax-plain</module>
-    <module>xwiki-rendering-syntax-twiki</module>
     <module>xwiki-rendering-syntax-wikimodel</module>
     <module>xwiki-rendering-syntax-xdomxml10</module>
     <module>xwiki-rendering-syntax-xdomxmlcurrent</module>

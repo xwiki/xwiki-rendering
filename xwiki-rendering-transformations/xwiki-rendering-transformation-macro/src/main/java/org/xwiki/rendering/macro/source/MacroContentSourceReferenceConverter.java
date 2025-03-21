@@ -20,7 +20,6 @@
 package org.xwiki.rendering.macro.source;
 
 import org.xwiki.component.annotation.Role;
-import org.xwiki.stability.Unstable;
 
 /**
  * Convert an object into a {@link MacroContentSourceReference}.
@@ -31,7 +30,6 @@ import org.xwiki.stability.Unstable;
  * @since 14.10.5
  */
 @Role
-@Unstable
 public interface MacroContentSourceReferenceConverter<T>
 {
     /**

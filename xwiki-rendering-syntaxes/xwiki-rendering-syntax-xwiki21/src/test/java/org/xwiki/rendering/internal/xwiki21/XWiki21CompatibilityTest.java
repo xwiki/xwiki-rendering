@@ -19,9 +19,9 @@
  */
 package org.xwiki.rendering.internal.xwiki21;
 
-import org.junit.runner.RunWith;
-import org.xwiki.rendering.test.cts.CompatibilityTestSuite;
 import org.xwiki.rendering.test.cts.Syntax;
+import org.xwiki.rendering.test.cts.junit5.CompatibilityTest;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Run all CTS tests for the XWiki Syntax 2.1.
@@ -29,8 +29,8 @@ import org.xwiki.rendering.test.cts.Syntax;
  * @version $Id$
  * @since 4.1M1
  */
-@RunWith(CompatibilityTestSuite.class)
+@AllComponents
 @Syntax("xwiki/2.1")
-public class XWiki21CompatibilityTest
+class XWiki21CompatibilityTest extends CompatibilityTest
 {
 }

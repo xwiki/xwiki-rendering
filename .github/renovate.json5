@@ -26,6 +26,14 @@
   "separateMajorMinor": true,
   "separateMultipleMajor": true,
 
+  // Set a "dependencies" label on all pull requests created by Renovate
+  "labels": ["dependencies"],
+
+  // Assign all upgrade pull requests by default to the one in charge of dispatching them
+  assignees: [
+    "tmortagne"
+  ],
+
   // There is no point trying to find update for commons and rendering dependencies
   "packageRules": [
     {

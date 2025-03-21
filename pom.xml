@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.xwiki.commons</groupId>
     <artifactId>xwiki-commons-pom</artifactId>
-    <version>16.3.0-SNAPSHOT</version>
+    <version>17.2.0-SNAPSHOT</version>
     <!-- Note: Do not modify the <relativePath> tag here as this can cause issues. See the pom.xml for xwiki-platform
          for more details. By using an empty value we force Maven to resolve the parent from the Maven repositories,
          see http://maven.apache.org/ref/3.2.3/maven-model/maven.html#class_parent -->
@@ -31,14 +31,11 @@
   </parent>
   <groupId>org.xwiki.rendering</groupId>
   <artifactId>xwiki-rendering</artifactId>
-  <version>16.3.0-SNAPSHOT</version>
+  <version>17.2.0-SNAPSHOT</version>
   <name>XWiki Rendering - Parent POM</name>
   <packaging>pom</packaging>
   <description>XWiki Rendering - Parent POM</description>
   <scm>
-    <connection>scm:git:git://github.com/xwiki/xwiki-rendering.git</connection>
-    <developerConnection>scm:git:git@github.com:xwiki/xwiki-rendering.git</developerConnection>
-    <url>https://github.com/xwiki/xwiki-rendering/tree/master/</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
@@ -69,6 +66,9 @@
       org.xwiki.rendering:.*/[${rendering.version}]
     </xwiki.extension.recommendedVersions.rendering>
     <xwiki.extension.recommendedVersions>${xwiki.extension.recommendedVersions.rendering}</xwiki.extension.recommendedVersions>
+
+    <!-- GitHub related metadata -->
+    <xwiki.github.repository>xwiki-rendering</xwiki.github.repository>
   </properties>
   <build>
     <pluginManagement>
@@ -106,7 +106,6 @@
         <configuration>
           <includes>
             <include>**/*Test.java</include>
-            <include>**/*RenderingTests.java</include>
             <include>**/*IntegrationTests.java</include>
           </includes>
           <!-- Verify that unit tests don't output anything to stdout/stderr -->

@@ -178,6 +178,19 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
     {
         if (stack.getStackParameter(MACRO_INFO) != null) {
             MacroInfo macroInfo = (MacroInfo) stack.popStackParameter(MACRO_INFO);
+
+            // Check if we're still in the context of the macro's content or one of its parameters.
+            // If this is the case, it could be that the comment was duplicated as part of "fixing" wrong HTML output
+            // in the browser.
+            // In this case, we should ignore the comment.
+            String parameterName = (String) stack.getStackParameter(PARAMETER_CONTENT_NAME);
+            if (macroInfo.getContentScannerContext() != null
+                || (parameterName != null && macroInfo.getParameterScannerContext(parameterName) != null))
+            {
+                stack.pushStackParameter(MACRO_INFO, macroInfo);
+                return;
+            }
+
             IgnoreElementRule ignoreElementRule = stack.popIgnoreElementRule();
 
             // if we were ignoring all we don't want to output the macro

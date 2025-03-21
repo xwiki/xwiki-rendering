@@ -17,6 +17,8 @@ beginMacroMarkerStandalone [warning] [] [Failed to do this action. The correct p
 * you don't have right
 * another possibility]
 beginGroup [[class]=[box warningmessage]]
+onImage [Typed = [true] Type = [icon] Reference = [error]] [true]
+beginGroup
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 beginParagraph
 onWord [Failed]
@@ -65,6 +67,7 @@ onWord [possibility]
 endListItem
 endList [BULLETED]
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+endGroup
 endGroup [[class]=[box warningmessage]]
 endMacroMarkerStandalone [warning] [] [Failed to do this action. The correct possibilities are:
 * use another value

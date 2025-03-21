@@ -40,5 +40,8 @@ public interface CompatibilityMacroDescriptor
      * @deprecated since 14.6RC1, use {@link MacroDescriptor#getDefaultCategories()} instead
      */
     @Deprecated(since = "14.6RC1")
-    String getDefaultCategory();
+    default String getDefaultCategory()
+    {
+        return null;
+    }
 }

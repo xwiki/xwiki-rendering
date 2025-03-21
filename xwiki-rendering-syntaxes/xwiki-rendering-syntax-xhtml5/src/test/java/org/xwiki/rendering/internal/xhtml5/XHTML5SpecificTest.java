@@ -19,8 +19,10 @@
  */
 package org.xwiki.rendering.internal.xhtml5;
 
+import org.xwiki.rendering.test.integration.Scope;
 import org.xwiki.rendering.test.integration.TestDataParser;
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+import org.xwiki.rendering.test.integration.junit5.RenderingTest;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Run all specific tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow
@@ -28,7 +30,8 @@ import org.xwiki.rendering.test.integration.junit5.RenderingTests;
  *
  * @version $Id$
  */
-@RenderingTests.Scope(value = "xhtml5.specific")
-public class XHTML5SpecificTest implements RenderingTests
+@AllComponents
+@Scope(value = "xhtml5.specific")
+class XHTML5SpecificTest extends RenderingTest
 {
 }

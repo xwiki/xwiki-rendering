@@ -44,5 +44,6 @@ public class ErrorMessageMacro extends AbstractMessageMacro
     {
         super("Error Message", "Displays an error message note.");
         setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
+        setIconName("exclamation");
     }
 }

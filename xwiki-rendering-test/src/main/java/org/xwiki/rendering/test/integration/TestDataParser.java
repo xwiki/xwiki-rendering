@@ -135,7 +135,7 @@ public class TestDataParser
                 saveBuffer(buffer, data.expectations, keyName);
             } else if ("inputexpect".equalsIgnoreCase(action)) {
                 saveBuffer(buffer, data.inputs, keyName);
-                saveBuffer(buffer, data.expectations, keyName);
+                data.expectations.put(keyName, data.inputs.get(keyName));
             }
         }
     }

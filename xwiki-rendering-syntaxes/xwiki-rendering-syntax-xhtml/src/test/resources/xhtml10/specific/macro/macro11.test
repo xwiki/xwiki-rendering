@@ -1,0 +1,170 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Test that metadata attributes are removed even when two metadata spans are nested directly in each other which leads
+.# to two classes of the same name in the output. This also again tests a more complex example of HTML where the
+.# macro content was moved out of the begin/end comments by the browser.
+.#-----------------------------------------------------
+<!--startmacro:layout|-||-|\{\{layout-section ac:type="single"}}
+\{\{layout-cell}}
+\{\{section}}
+\{\{column width="60%"}}
+\{\{section}}
+\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 1(%%) ==
+
+(% style="color:#ccffff" %)Sub-text 1
+\{\{/panel}}
+\{\{/column}}
+\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 2(%%) ==
+\{\{/panel}}
+\{\{/column}}
+\{\{/section}}
+\{\{/layout-cell}}
+\{\{/layout-section}}--><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><!--startmacro:layout-section|-|ac:type="single"|-|\{\{layout-cell}}
+\{\{section}}
+\{\{column width="60%"}}
+\{\{section}}
+\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 1(%%) ==
+
+(% style="color:#ccffff" %)Sub-text 1
+\{\{/panel}}
+\{\{/column}}
+\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 2(%%) ==
+\{\{/panel}}
+\{\{/column}}
+\{\{/section}}
+\{\{/layout-cell}}--><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><!--startmacro:layout-cell|-||-|\{\{section}}
+\{\{column width="60%"}}
+\{\{section}}
+\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 1(%%) ==
+
+(% style="color:#ccffff" %)Sub-text 1
+\{\{/panel}}
+\{\{/column}}
+\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 2(%%) ==
+\{\{/panel}}
+\{\{/column}}
+\{\{/section}}--><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><!--startmacro:section|-||-|\{\{column width="60%"}}
+\{\{section}}
+\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 1(%%) ==
+
+(% style="color:#ccffff" %)Sub-text 1
+\{\{/panel}}
+\{\{/column}}
+\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 2(%%) ==
+\{\{/panel}}
+\{\{/column}}
+\{\{/section}}--><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><!--startmacro:column|-|width="60%"|-|\{\{section}}
+\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 1(%%) ==
+
+(% style="color:#ccffff" %)Sub-text 1
+\{\{/panel}}
+\{\{/column}}
+\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 2(%%) ==
+\{\{/panel}}
+\{\{/column}}
+\{\{/section}}--><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><!--startmacro:section|-||-|\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 1(%%) ==
+
+(% style="color:#ccffff" %)Sub-text 1
+\{\{/panel}}
+\{\{/column}}
+\{\{column width="50%"}}
+\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 2(%%) ==
+\{\{/panel}}
+\{\{/column}}--><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><p><!--startmacro:column|-|width="50%"|-|\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 1(%%) ==
+
+(% style="color:#ccffff" %)Sub-text 1
+\{\{/panel}}--><!--stopmacro--></p><div data-width="50%" style="" class="macro-column"><span data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><!--startmacro:panel|-|borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"|-|(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 1(%%) ==
+
+(% style="color:#ccffff" %)Sub-text 1--><!--stopmacro--></span><div style="border: solid; border-color: #ffffff; border-width: 1px; border-radius: 4px 4px 4px 4px; " class="macro-border macro-panel"><div style="background-color: #0292ba; " class="macro-panel-content"><h2 id="HText1" style="text-align: center;" class="wikigeneratedid wikigeneratedheader"><span data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><span data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><span><span style="color:#ccffff">Text 1</span></span></span></span></h2><p><span data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><span data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><span style="color:#ccffff">Sub-text 1</span></span></span></p></div></div><span data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-wikimacrocontent="true" class="xwiki-metadata-container"><!--stopmacro--></span></div><!--stopmacro--><!--startmacro:column|-|width="50%"|-|\{\{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 2(%%) ==
+\{\{/panel}}--><!--stopmacro--><p>&nbsp;</p></div><!--stopmacro--></div><!--stopmacro--></div><!--stopmacro--></div><!--stopmacro--></div><!--stopmacro--></div><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{layout}}
+{{layout-section ac:type="single"}}
+{{layout-cell}}
+{{section}}
+{{column width="60%"}}
+{{section}}
+{{column width="50%"}}{{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 1(%%) ==
+
+(% style="color:#ccffff" %)Sub-text 1
+{{/panel}}{{/column}}
+
+(% data-width="50%" style="" class="macro-column" %)
+(((
+{{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 1(%%) ==
+
+(% style="color:#ccffff" %)Sub-text 1
+{{/panel}}
+
+(% style="border: solid; border-color: #ffffff; border-width: 1px; border-radius: 4px 4px 4px 4px; " class="macro-border macro-panel" %)
+(((
+(% style="background-color: #0292ba; " class="macro-panel-content" %)
+(((
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 1(%%) ==
+
+(% style="color:#ccffff" %)Sub-text 1
+)))
+)))
+)))
+
+{{column width="50%"}}
+{{panel borderColor="#ffffff" borderStyle="solid" bgColor="#0292ba" borderRadius="4px 4px 4px 4px"}}
+(% style="text-align: center;" %)
+== (% style="color:#ccffff" %)Text 2(%%) ==
+{{/panel}}
+{{/column}}
+
+ 
+{{/section}}
+{{/column}}
+{{/section}}
+{{/layout-cell}}
+{{/layout-section}}
+{{/layout}}

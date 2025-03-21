@@ -44,7 +44,6 @@ import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.macro.descriptor.ContentDescriptor;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.xwiki.stability.Unstable;
 
 /**
  * Draw a box around provided content.
@@ -59,6 +58,9 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      * Predefined error message.
      */
     public static final String CONTENT_MISSING_ERROR = "The required content is missing.";
+
+    /** CSS Class attribute name. */
+    private static final String CLASS_ATTRIBUTE_NAME = "class";
 
     /**
      * The parser used to parse box content and box title parameter.
@@ -151,11 +153,11 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
         // Use a linked hashmap to keep the parameters in the same order as we create them when they are retrieved
         // by renderers. This is useful for example in the Event renderer to control the order in which the params
         // are displayed.
-        Map<String, String> boxParameters = new LinkedHashMap<String, String>();
+        Map<String, String> boxParameters = new LinkedHashMap<>();
         String classParameter = parameters.getCssClass();
         String cssClass =
             StringUtils.isEmpty(classParameter) ? getClassProperty() : getClassProperty() + " " + classParameter;
-        boxParameters.put("class", cssClass);
+        boxParameters.put(CLASS_ATTRIBUTE_NAME, cssClass);
 
         if (!StringUtils.isEmpty(parameters.getWidth())) {
             boxParameters.put("style", "width:" + parameters.getWidth());
@@ -172,10 +174,10 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
             .setParameters(parameters)
             .setContent(content)
             .setContext(context)
-            .setBoxParameters(this.getBoxParameters(parameters, content, context))
-            .setImageReference(this.getImageReference(parameters, content, context))
-            .setTitleParameter(this.getTitle(parameters, content, context))
-            .setTitleBlockList(this.getBlockTitle(parameters, content, context))
+            .setBoxParameters(getBoxParameters(parameters, content, context))
+            .setImageReference(getImageReference(parameters, content, context))
+            .setTitleParameter(getTitle(parameters, content, context))
+            .setTitleBlockList(getBlockTitle(parameters, content, context))
             .build();
 
         if (boxBlock == null) {
@@ -248,7 +250,7 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
             Block ret = null;
 
             // if the content is empty but yet mandatory, we throw an exception
-            if (StringUtils.isEmpty(content)
+            if (StringUtils.isEmpty(this.content)
                 && AbstractBoxMacro.this.getDescriptor().getContentDescriptor().isMandatory()) {
                 throw new MacroExecutionException(CONTENT_MISSING_ERROR);
             }
@@ -256,43 +258,45 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
             if (isContentChecked()) {
                 // if it's null but not mandatory we return null
                 // if it's only empty we continue the processing
-                if (content == null) {
+                if (this.content == null) {
                     return ret;
                 }
             }
 
-            List<Block> contentBlocks = parseContent(parameters, content, context);
+            List<Block> contentBlocks = parseContent(this.parameters, this.content, this.context);
 
             // If the result of the execution is null, return null
             if (contentBlocks == null) {
                 return null;
             }
 
-            if (context.isInline()) {
+            if (this.context.isInline()) {
                 FormatBlock spanBlock = new FormatBlock(contentBlocks, Format.NONE);
-                spanBlock.setParameters(boxParameters);
+                spanBlock.setParameters(this.boxParameters);
                 ret = spanBlock;
             } else {
-                ret = new GroupBlock(boxParameters);
+                ret = new GroupBlock(this.boxParameters);
 
                 // we add the image, if there is one
-                if (imageReference != null) {
-                    Block imageBlock = new ImageBlock(imageReference, true);
+                if (this.imageReference != null) {
+                    Block imageBlock = new ImageBlock(this.imageReference, true);
                     ret.addChild(imageBlock);
                     ret.addChild(new NewLineBlock());
                 }
                 // we add the title, if there is one
-                if (!StringUtils.isEmpty(titleParameter)) {
+                if (!StringUtils.isEmpty(this.titleParameter)) {
                     // Don't execute transformations explicitly. They'll be executed on the generated content later on.
-                    List<? extends Block> titleBlock = AbstractBoxMacro.this.contentParser.parse(
-                        titleParameter, context, false, true).getChildren();
-
-                    // put the right metadata around it
-                    ret.addChildren(Collections.singletonList(new MetaDataBlock(titleBlock,
-                        AbstractBoxMacro.this.getNonGeneratedContentMetaData("title"))));
+                    List<Block> titleContentBlock = AbstractBoxMacro.this.contentParser.parse(
+                        this.titleParameter, this.context, false, true).getChildren();
+                    // Put metadata around it so that it's inplace editable
+                    List<Block> titleMetadata = List.of(new MetaDataBlock(titleContentBlock,
+                            AbstractBoxMacro.this.getNonGeneratedContentMetaData("title")));
+                    GroupBlock titleBlock = new GroupBlock(titleMetadata);
+                    titleBlock.setParameter(CLASS_ATTRIBUTE_NAME, "box-title");
+                    ret.addChildren(List.of(titleBlock));
                 }
-                if (titleBlockList != null) {
-                    ret.addChildren(titleBlockList);
+                if (this.titleBlockList != null) {
+                    ret.addChildren(this.titleBlockList);
                 }
                 ret.addChildren(contentBlocks);
             }
@@ -321,7 +325,6 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      * @since 15.0RC1
      * @since 14.10.2
      */
-    @Unstable
     protected boolean isContentChecked()
     {
         return true;

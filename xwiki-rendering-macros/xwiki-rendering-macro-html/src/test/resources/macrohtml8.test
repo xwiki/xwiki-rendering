@@ -37,16 +37,16 @@ endDocument
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<!--startmacro:html|-||-|<!-\- comment1 -\->
-<p>hello</p>
-<!-\- comment2 -\->--><!-- comment1 -->
+<!--startmacro:html|-||-|<\!-\- comment1 -\->
+<\p>hello<\/p>
+<\!-\- comment2 -\->--><!-- comment1 -->
 <p>hello</p>
 <!-- comment2 --><!--stopmacro-->
 .#-----------------------------------------------------
 .expect|annotatedhtml/5.0
 .#-----------------------------------------------------
-<!--startmacro:html|-||-|<!-\- comment1 -\->
-<p>hello</p>
-<!-\- comment2 -\->--><!-- comment1 -->
+<!--startmacro:html|-||-|<\!-\- comment1 -\->
+<\p>hello<\/p>
+<\!-\- comment2 -\->--><!-- comment1 -->
 <p>hello</p>
 <!-- comment2 --><!--stopmacro-->

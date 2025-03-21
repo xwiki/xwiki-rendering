@@ -82,8 +82,10 @@ public class DefaultSyntaxRegistry implements SyntaxRegistry
     @Override
     public Syntax resolveSyntax(String syntaxId) throws ParseException
     {
-        // Try to find the syntax in the registered list and if not there, fallback to parsing the syntax id string.
-        // However note that this means that the returned syntax's name type will default to the syntax id type.
+        // Try to find the syntax in the registered list and if not there, fallback to parsing the syntax id string and
+        // looking into well-known syntaxes.
+        // However, note that this means that the returned syntax's name type will default to the syntax id type, and
+        // not a nice human-readable value.
         return getSyntax(syntaxId).orElse(valueOf(syntaxId));
     }
 
@@ -102,7 +104,7 @@ public class DefaultSyntaxRegistry implements SyntaxRegistry
         String version = matcher.group(2);
 
         // For well-known syntaxes, get the Syntax Name from the registered SyntaxType, otherwise use the id as both
-        // the human readable name and the technical id (since the syntax string doesn't contain any information about
+        // the human-readable name and the technical id (since the syntax string doesn't contain any information about
         // the pretty name of a syntax type).
         SyntaxType syntaxType = SyntaxType.getSyntaxTypes().get(syntaxId);
         if (syntaxType == null) {

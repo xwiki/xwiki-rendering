@@ -1,5 +1,5 @@
 .#-----------------------------------------------------------------------------------------------
-.input|xwiki/2.0
+.inputexpect|xwiki/2.0
 .# Verify that 3 empty lines at beginning and 4 at the end of the document are taken into account
 .#-----------------------------------------------------------------------------------------------
 
@@ -23,13 +23,6 @@ endDocument
 .expect|xhtml/1.0
 .#-----------------------------------------------------
 <div class="wikimodel-emptyline"></div><p>paragraph</p><div class="wikimodel-emptyline"></div><div class="wikimodel-emptyline"></div>
-.#-----------------------------------------------------
-.expect|xwiki/2.0
-.#-----------------------------------------------------
-
-paragraph
-
-
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------

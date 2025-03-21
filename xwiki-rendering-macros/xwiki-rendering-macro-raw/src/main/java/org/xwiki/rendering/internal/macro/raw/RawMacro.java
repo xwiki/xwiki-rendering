@@ -43,7 +43,7 @@ import org.xwiki.rendering.transformation.macro.RawBlockFilterParameters;
 /**
  * Directly output content in a target syntax (this generates a {@link org.xwiki.rendering.block.RawBlock}). This is
  * useful when wanting to output some content directly in a target syntax (for example you're writing content in a UIX
- * wiki page and you wish to output LaTeX content since the corresponding UIXP is expecting LaTeX content).
+ * wiki page, and you wish to output LaTeX content since the corresponding UIXP is expecting LaTeX content).
  *
  * @version $Id$
  * @since 13.1RC1

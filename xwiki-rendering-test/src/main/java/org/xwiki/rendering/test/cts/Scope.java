@@ -32,10 +32,9 @@ import java.lang.annotation.Target;
  * For example:
  * </p>
  * <pre><code>
- * &#064;RunWith(CompatibilityTestSuite.class)
  * &#064;Syntax("xwiki/2.0")
  * &#064;Scope("simple")
- * public class MySyntaxTest
+ * class MySyntaxTest extends CompatibilityTest
  * {
  * ...
  * }
@@ -43,7 +42,7 @@ import java.lang.annotation.Target;
  *
  * @version $Id$
  * @since 4.1M1
- * @see CompatibilityTestSuite
+ * @see org.xwiki.rendering.test.cts.junit5.CompatibilityTest
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -51,7 +50,7 @@ import java.lang.annotation.Target;
 public @interface Scope
 {
     /**
-     * The default regex to locate test data files, see {@link CompatibilityTestSuite}.
+     * The default regex to locate test data files, see {@link org.xwiki.rendering.test.cts.junit5.CompatibilityTest}.
      */
     String DEFAULT_PATTERN = ".*\\.xml";
 
@@ -61,7 +60,8 @@ public @interface Scope
     String value() default "";
 
     /**
-     * @return the regex pattern to filter files to execute, see {@link CompatibilityTestSuite}.
+     * @return the regex pattern to filter files to execute,
+     *         see {@link org.xwiki.rendering.test.cts.junit5.CompatibilityTest}.
      */
     String pattern() default DEFAULT_PATTERN;
 }

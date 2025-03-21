@@ -20,13 +20,13 @@ world</p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<!--startmacro:html|-|wiki="true"|-|<p>hello</p>
+<!--startmacro:html|-|wiki="true"|-|<\p>hello<\/p>
 \{\{html}}world\{\{/html}}--><p>hello</p><p>
 world</p><!--stopmacro-->
 .#-----------------------------------------------------
 .expect|annotatedhtml/5.0
 .#-----------------------------------------------------
-<!--startmacro:html|-|wiki="true"|-|<p>hello</p>
+<!--startmacro:html|-|wiki="true"|-|<\p>hello<\/p>
 \{\{html}}world\{\{/html}}--><p>hello</p><p>
 world</p><!--stopmacro-->
 .#-----------------------------------------------------

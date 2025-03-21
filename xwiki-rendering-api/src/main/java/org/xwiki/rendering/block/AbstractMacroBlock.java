@@ -96,11 +96,11 @@ public abstract class AbstractMacroBlock extends AbstractBlock
             return true;
         }
 
-        if (!super.equals(obj)) {
-            return false;
+        if (super.equals(obj) && obj instanceof AbstractMacroBlock macroBlock) {
+            return equals(macroBlock);
         }
 
-        return equals((AbstractMacroBlock) obj);
+        return false;
     }
 
     private boolean equals(AbstractMacroBlock obj)

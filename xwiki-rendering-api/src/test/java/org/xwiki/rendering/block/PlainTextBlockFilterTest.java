@@ -42,12 +42,12 @@ import org.xwiki.rendering.syntax.Syntax;
  *
  * @version $Id$
  */
-public class PlainTextBlockFilterTest
+class PlainTextBlockFilterTest
 {
     private PlainTextBlockFilter filter;
 
     @BeforeEach
-    public void setUp()
+    void setUp()
     {
         Parser plainTextParser = new Parser()
         {
@@ -66,12 +66,11 @@ public class PlainTextBlockFilterTest
                 } catch (IOException ioe) {
                     throw new ParseException("this should not happen", ioe);
                 }
-                List<Block> childrenBlocks = new ArrayList<Block>();
+                List<Block> childrenBlocks = new ArrayList<>();
                 if (!"".equals(content)) {
                     childrenBlocks.add(new ParagraphBlock(Collections.singletonList(new WordBlock(content))));
                 }
-                XDOM xdom = new XDOM(childrenBlocks);
-                return xdom;
+                return new XDOM(childrenBlocks);
             }
 
             @Override
@@ -82,75 +81,75 @@ public class PlainTextBlockFilterTest
             }
         };
 
-        filter = new PlainTextBlockFilter(plainTextParser, null);
+        this.filter = new PlainTextBlockFilter(plainTextParser, null);
     }
 
     @Test
-    public void filterWord()
+    void filterWord()
     {
         WordBlock wordBlock = new WordBlock("text");
 
-        List<Block> result = filter.filter(wordBlock);
+        List<Block> result = this.filter.filter(wordBlock);
 
         assertIterableEquals(Collections.singletonList(wordBlock), result);
     }
 
     @Test
-    public void filterHeader()
+    void filterHeader()
     {
-        List<Block> headerContent = new ArrayList<Block>();
+        List<Block> headerContent = new ArrayList<>();
         headerContent.add(new WordBlock("header"));
         HeaderBlock headerBlock = new HeaderBlock(headerContent, HeaderLevel.LEVEL1);
 
-        List<Block> result = filter.filter(headerBlock);
+        List<Block> result = this.filter.filter(headerBlock);
 
         assertIterableEquals(Collections.emptyList(), result);
     }
 
     @Test
-    public void filterLinkWithLabel()
+    void filterLinkWithLabel()
     {
         Block labelBlock = new WordBlock("label");
         ResourceReference reference = new ResourceReference("file name.txt", ResourceType.ATTACHMENT);
         LinkBlock labeledLink = new LinkBlock(Collections.singletonList(labelBlock), reference, false);
 
-        List<Block> result = filter.filter(labeledLink);
+        List<Block> result = this.filter.filter(labeledLink);
         // in this case the result is empty, as recursive application of the filter to all blocks
         // will return the label block later
         assertIterableEquals(Collections.emptyList(), result);
     }
 
     @Test
-    public void filterLinkWithoutLabel()
+    void filterLinkWithoutLabel()
     {
         ResourceReference reference = new ResourceReference("file name.txt", ResourceType.ATTACHMENT);
         LinkBlock emptyLink = new LinkBlock(Collections.emptyList(), reference, false);
 
-        List<Block> result = filter.filter(emptyLink);
+        List<Block> result = this.filter.filter(emptyLink);
         assertIterableEquals(Collections.singletonList(new WordBlock("file name.txt")), result);
     }
 
     @Test
-    public void filterEmptyLink()
+    void filterEmptyLink()
     {
         ResourceReference reference = new ResourceReference("", ResourceType.ATTACHMENT);
         LinkBlock emptyLink = new LinkBlock(Collections.emptyList(), reference, false);
 
-        List<Block> result = filter.filter(emptyLink);
+        List<Block> result = this.filter.filter(emptyLink);
         // here the result is empty due to lack of contents
         assertIterableEquals(Collections.emptyList(), result);
     }
 
     @Test
-    public void simpleTextHeader()
+    void simpleTextHeader()
     {
-        List<Block> headerContent = new ArrayList<Block>();
+        List<Block> headerContent = new ArrayList<>();
         headerContent.add(new WordBlock("some"));
         headerContent.add(new SpaceBlock());
         headerContent.add(new WordBlock("text"));
         HeaderBlock headerBlock = new HeaderBlock(headerContent, HeaderLevel.LEVEL1);
 
-        List<Block> result = headerBlock.clone(filter).getChildren();
+        List<Block> result = headerBlock.clone(this.filter).getChildren();
 
         assertIterableEquals(headerContent, result);
     }

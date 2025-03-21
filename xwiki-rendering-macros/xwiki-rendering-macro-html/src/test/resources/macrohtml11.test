@@ -20,12 +20,12 @@
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<!--startmacro:html|-|clean="false"|-|<meta name="hello" content="world">
-<open>not closed--><meta name="hello" content="world">
+<!--startmacro:html|-|clean="false"|-|<\meta name="hello" content="world">
+<\open>not closed--><meta name="hello" content="world">
 <open>not closed<!--stopmacro-->
 .#-----------------------------------------------------
 .expect|annotatedhtml/5.0
 .#-----------------------------------------------------
-<!--startmacro:html|-|clean="false"|-|<meta name="hello" content="world">
-<open>not closed--><meta name="hello" content="world">
+<!--startmacro:html|-|clean="false"|-|<\meta name="hello" content="world">
+<\open>not closed--><meta name="hello" content="world">
 <open>not closed<!--stopmacro-->

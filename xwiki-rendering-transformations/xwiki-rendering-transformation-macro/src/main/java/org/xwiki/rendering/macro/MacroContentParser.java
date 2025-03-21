@@ -25,7 +25,6 @@ import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.xwiki.stability.Unstable;
 
 /**
  * Parses content of a macro field (parameter, macro content) in a given syntax.
@@ -41,7 +40,6 @@ public interface MacroContentParser
      * 
      * @since 15.9RC1
      */
-    @Unstable
     String ATTRIBUTE_PREPARE_CONTENT_XDOM = "prepare.content.xdom";
 
     /**
@@ -89,7 +87,6 @@ public interface MacroContentParser
      * @since 15.1RC1
      * @since 14.10.5
      */
-    @Unstable
     default XDOM parse(String content, Syntax syntax, MacroTransformationContext macroContext, boolean transform,
         MetaData metadata, boolean inline) throws MacroExecutionException
     {
@@ -112,7 +109,6 @@ public interface MacroContentParser
      * @throws MacroPreparationException when failing to prepare the content
      * @since 15.9RC1
      */
-    @Unstable
     default void prepareContentWiki(MacroBlock macroBlock) throws MacroPreparationException
     {
         prepareContentWiki(macroBlock, null);
@@ -127,7 +123,6 @@ public interface MacroContentParser
      * @throws MacroPreparationException when failing to prepare the content
      * @since 15.9RC1
      */
-    @Unstable
     default void prepareContentWiki(MacroBlock macroBlock, Syntax syntax) throws MacroPreparationException
     {
         

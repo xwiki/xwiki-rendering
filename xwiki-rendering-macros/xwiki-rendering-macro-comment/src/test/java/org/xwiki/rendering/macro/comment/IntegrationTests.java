@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering.macro.comment;
 
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+import org.xwiki.rendering.test.integration.junit5.RenderingTest;
+import org.xwiki.test.annotation.AllComponents;
 
 /**
  * Run all tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow the
@@ -28,6 +29,7 @@ import org.xwiki.rendering.test.integration.junit5.RenderingTests;
  * @version $Id$
  * @since 3.0RC1
  */
-public class IntegrationTests implements RenderingTests
+@AllComponents
+class IntegrationTests extends RenderingTest
 {
 }

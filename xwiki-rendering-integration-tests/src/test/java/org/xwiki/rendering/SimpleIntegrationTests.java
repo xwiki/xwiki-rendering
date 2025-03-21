@@ -19,7 +19,8 @@
  */
 package org.xwiki.rendering;
 
-import org.xwiki.rendering.test.integration.junit5.RenderingTests;
+import org.xwiki.rendering.test.integration.Scope;
+import org.xwiki.rendering.test.integration.junit5.RenderingTest;
 import org.xwiki.test.annotation.AllComponents;
 
 /**
@@ -29,8 +30,8 @@ import org.xwiki.test.annotation.AllComponents;
  * @version $Id$
  * @since 3.0RC1
  */
-@RenderingTests.Scope(value = "simple"/*, pattern = "macro35.test"*/)
 @AllComponents
-public class SimpleIntegrationTests implements RenderingTests
+@Scope(value = "simple"/*, pattern = "macro12.test"*/)
+class SimpleIntegrationTests extends RenderingTest
 {
 }
