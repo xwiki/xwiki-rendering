@@ -69,4 +69,10 @@ public class TestReplacementMacro extends AbstractMacro<TestMacroParameter>
         String parameter1 = parameters.getParam1();
         return List.of(new WordBlock(NAME), new WordBlock(content), new WordBlock(parameter1));
     }
+
+    @Override
+    public boolean isExecutionIsolated(TestMacroParameter parameters, String content)
+    {
+        return true;
+    }
 }

@@ -142,4 +142,10 @@ public class ContentMacro extends AbstractMacro<ContentMacroParameters>
 
         this.macroContentParser.prepareContentWiki(macroBlock, syntax);
     }
+
+    @Override
+    public boolean isExecutionIsolated(ContentMacroParameters parameters, String content)
+    {
+        return true;
+    }
 }

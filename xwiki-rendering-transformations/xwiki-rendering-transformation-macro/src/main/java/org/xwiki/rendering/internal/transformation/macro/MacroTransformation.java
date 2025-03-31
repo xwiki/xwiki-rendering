@@ -19,10 +19,12 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -103,13 +105,52 @@ public class MacroTransformation extends AbstractTransformation implements Initi
         }
     }
 
+    private record MacroItem(MacroBlock block, Macro<?> macro, int[] index) implements Comparable<MacroItem>
+    {
+        @Override
+        public int compareTo(MacroItem macroItem)
+        {
+            // Compare first by macro priority, then by index.
+            int macroComparison = this.macro.compareTo(macroItem.macro);
+            if (macroComparison == 0) {
+                return Arrays.compare(this.index, macroItem.index);
+            } else {
+                return macroComparison;
+            }
+        }
+    }
+
     private class PriorityMacroBlockMatcher implements BlockMatcher
     {
+        private class ChildrenMatcher implements BlockMatcher
+        {
+            private final int[] prefix;
+
+            ChildrenMatcher(MacroItem parentMacro)
+            {
+                this.prefix = parentMacro.index();
+            }
+
+            @Override
+            public boolean match(Block block)
+            {
+                PriorityMacroBlockMatcher.this.matchBlock(block, this.prefix);
+
+                return false;
+            }
+        }
+
         private final Syntax syntax;
 
-        private MacroBlock block;
+        private boolean needsScan = true;
 
-        private Macro<?> blockMacro;
+        private int currentIndex;
+
+        private PriorityQueue<MacroItem> priorityQueue;
+
+        // The list of blocks to add to the priority queue, collected in a simple list to add them all at once in one
+        // efficient heap construction.
+        private final List<MacroItem> nextBlocks;
 
         private List<MacroLookupExceptionElement> errors;
 
@@ -119,28 +160,70 @@ public class MacroTransformation extends AbstractTransformation implements Initi
         PriorityMacroBlockMatcher(Syntax syntax)
         {
             this.syntax = syntax;
+            this.nextBlocks = new ArrayList<>();
         }
 
-        public MacroBlock getBlock()
+        public MacroItem getNextBlock()
         {
-            return block;
+            if (this.priorityQueue == null) {
+                if (this.nextBlocks.isEmpty()) {
+                    return null;
+                }
+                // Construct the priority queue here where we actually need it.
+                this.priorityQueue = new PriorityQueue<>(this.nextBlocks);
+                this.nextBlocks.clear();
+            }
+            MacroItem item = this.priorityQueue.poll();
+            // When the priority queue becomes empty, replace it by null so we don't need to check both for empty and
+            // null.
+            if (this.priorityQueue.isEmpty()) {
+                this.priorityQueue = null;
+            }
+            return item;
         }
 
-        public Macro<?> getBlockMacro()
+        /**
+         * @return if a full scan of the whole XDOM is needed (due to reset having been called)
+         */
+        public boolean isFullScanNeeded()
         {
-            return blockMacro;
+            return this.needsScan;
         }
 
         public List<MacroLookupExceptionElement> getErrors()
         {
-            return errors;
+            return this.errors;
+        }
+
+        public BlockMatcher getChildrenMatcher(MacroItem parentMacro)
+        {
+            return new ChildrenMatcher(parentMacro);
+        }
+
+        public void reset()
+        {
+            this.needsScan = true;
+            this.currentIndex = 0;
+            this.priorityQueue = null;
+            this.nextBlocks.clear();
+            this.errors = null;
         }
 
         @Override
         public boolean match(Block block)
         {
-            if (block instanceof MacroBlock) {
-                MacroBlock macroBlock = (MacroBlock) block;
+            matchBlock(block, new int[0]);
+
+            return false;
+        }
+
+        private void matchBlock(Block block, int[] prefix)
+        {
+            // Record that a scan has happened. The caller is responsible for making sure that this method is only
+            // called as part of a full scan when one is required.
+            this.needsScan = false;
+
+            if (block instanceof MacroBlock macroBlock) {
 
                 try {
                     // Try to find a known macros
@@ -155,21 +238,27 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                         this.knownMacros.put(macroBlock.getId(), macro);
                     }
 
-                    // Find higher priority macro
-                    if (this.block == null || this.blockMacro.compareTo(macro) > 0) {
-                        this.block = macroBlock;
-                        this.blockMacro = macro;
+                    // Combine prefix and the currentIndex
+                    int[] macroIndex = new int[prefix.length + 1];
+                    System.arraycopy(prefix, 0, macroIndex, 0, prefix.length);
+                    macroIndex[prefix.length] = this.currentIndex++;
+
+                    MacroItem item = new MacroItem(macroBlock, macro, macroIndex);
+                    // If we have a priority queue, add it directly to it, otherwise first collect everything for a
+                    // more efficient priority queue construction.
+                    if (this.priorityQueue == null) {
+                        this.nextBlocks.add(item);
+                    } else {
+                        this.priorityQueue.add(item);
                     }
                 } catch (MacroLookupException e) {
                     if (this.errors == null) {
-                        this.errors = new LinkedList<MacroLookupExceptionElement>();
+                        this.errors = new ArrayList<>();
                     }
 
                     this.errors.add(new MacroLookupExceptionElement(macroBlock, e));
                 }
             }
-
-            return false;
         }
     }
 
@@ -232,37 +321,28 @@ public class MacroTransformation extends AbstractTransformation implements Initi
         MacroTransformationContext macroContext = new MacroTransformationContext(context);
         macroContext.setTransformation(this);
 
+        PriorityMacroBlockMatcher priorityMacroBlockMatcher = new PriorityMacroBlockMatcher(context.getSyntax());
+
         // Counter to prevent infinite recursion if a macro generates the same macro for example.
         for (int recursions = 0; recursions < this.maxRecursions;) {
-            // 1) Get highest priority macro
-            PriorityMacroBlockMatcher priorityMacroBlockMatcher = new PriorityMacroBlockMatcher(context.getSyntax());
-            rootBlock.getFirstBlock(priorityMacroBlockMatcher, Block.Axes.DESCENDANT);
+            // 1) Get highest priority macros.
+            if (priorityMacroBlockMatcher.isFullScanNeeded()) {
+                priorityMacroBlockMatcher.reset();
+                rootBlock.getFirstBlock(priorityMacroBlockMatcher, Block.Axes.DESCENDANT);
 
-            // 2) Apply macros lookup errors
-            if (priorityMacroBlockMatcher.getErrors() != null) {
-                for (MacroLookupExceptionElement error : priorityMacroBlockMatcher.getErrors()) {
-                    if (error.getException() instanceof MacroNotFoundException) {
-                        // Macro cannot be found. Generate an error message instead of the macro execution result.
-                        this.macroErrorManager.generateError(error.getMacroBlock(), TM_UNKNOWNMACRO,
-                            "Unknown macro: {}.",
-                            "The [{}] macro is not in the list of registered macros. Verify the spelling or "
-                                + "contact your administrator.",
-                            error.getMacroBlock().getId());
-                    } else {
-                        this.macroErrorManager.generateError(error.getMacroBlock(), TM_INVALIDMACRO,
-                            "Invalid macro: {}.", null, error.getMacroBlock().getId(), error.getException());
-                    }
-                }
+                // 2) Apply macros lookup errors
+                processErrors(priorityMacroBlockMatcher);
             }
 
-            MacroBlock macroBlock = priorityMacroBlockMatcher.getBlock();
+            MacroItem macroItem = priorityMacroBlockMatcher.getNextBlock();
 
-            if (macroBlock == null) {
+            if (macroItem == null) {
                 // Nothing left to do
                 return;
             }
 
-            Macro<?> macro = priorityMacroBlockMatcher.getBlockMacro();
+            MacroBlock macroBlock = macroItem.block();
+            Macro<?> macro = macroItem.macro();
 
             boolean incrementRecursions = macroBlock.getParent() instanceof MacroMarkerBlock;
 
@@ -308,6 +388,9 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                     continue;
                 }
 
+                if (!((Macro<Object>) macro).isExecutionIsolated(macroParameters, macroBlock.getContent())) {
+                    priorityMacroBlockMatcher.reset();
+                }
                 newBlocks = ((Macro) macro).execute(macroParameters, macroBlock.getContent(), macroContext);
             } catch (Throwable e) {
                 // The Macro failed to execute.
@@ -337,6 +420,13 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                 // the transformed XDOM.
                 Block resultBlock = wrapInMacroMarker(macroBlock, newBlocks);
 
+                if (!priorityMacroBlockMatcher.isFullScanNeeded()) {
+                    // Find descendant blocks.
+                    BlockMatcher childrenMatcher = priorityMacroBlockMatcher.getChildrenMatcher(macroItem);
+                    resultBlock.getFirstBlock(childrenMatcher, Block.Axes.DESCENDANT);
+                    processErrors(priorityMacroBlockMatcher);
+                }
+
                 // 5) Replace the MacroBlock by the Blocks generated by the execution of the Macro
                 macroBlock.getParent().replaceChild(resultBlock, macroBlock);
             }
@@ -344,6 +434,28 @@ public class MacroTransformation extends AbstractTransformation implements Initi
             if (incrementRecursions) {
                 ++recursions;
             }
+        }
+    }
+
+    private void processErrors(PriorityMacroBlockMatcher priorityMacroBlockMatcher)
+    {
+        if (priorityMacroBlockMatcher.getErrors() != null) {
+            for (MacroLookupExceptionElement error : priorityMacroBlockMatcher.getErrors()) {
+                if (error.getException() instanceof MacroNotFoundException) {
+                    // Macro cannot be found. Generate an error message instead of the macro execution result.
+                    this.macroErrorManager.generateError(error.getMacroBlock(), TM_UNKNOWNMACRO,
+                        "Unknown macro: {}.",
+                        "The [{}] macro is not in the list of registered macros. Verify the spelling or "
+                            + "contact your administrator.",
+                        error.getMacroBlock().getId());
+                } else {
+                    this.macroErrorManager.generateError(error.getMacroBlock(), TM_INVALIDMACRO,
+                        "Invalid macro: {}.", null, error.getMacroBlock().getId(), error.getException());
+                }
+            }
+
+            // Clear the errors so that we don't apply them again.
+            priorityMacroBlockMatcher.getErrors().clear();
         }
     }
 

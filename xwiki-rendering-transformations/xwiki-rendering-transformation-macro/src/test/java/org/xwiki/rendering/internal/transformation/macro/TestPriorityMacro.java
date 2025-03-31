@@ -58,4 +58,10 @@ public class TestPriorityMacro extends AbstractNoParameterMacro
     {
         return Arrays.<Block>asList(new ParagraphBlock(Arrays.<Block>asList(new WordBlock("word"))));
     }
+
+    @Override
+    public boolean isExecutionIsolated(Object parameters, String content)
+    {
+        return true;
+    }
 }

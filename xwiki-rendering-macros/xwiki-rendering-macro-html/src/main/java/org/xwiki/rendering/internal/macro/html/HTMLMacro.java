@@ -283,4 +283,10 @@ public class HTMLMacro extends AbstractMacro<HTMLMacroParameters>
             this.contentParser.prepareContentWiki(macroBlock);
         }
     }
+
+    @Override
+    public boolean isExecutionIsolated(HTMLMacroParameters parameters, String content)
+    {
+        return !parameters.getWiki();
+    }
 }

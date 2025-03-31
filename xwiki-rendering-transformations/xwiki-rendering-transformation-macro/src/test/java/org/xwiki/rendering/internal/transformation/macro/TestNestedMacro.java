@@ -58,4 +58,10 @@ public class TestNestedMacro extends AbstractNoParameterMacro
         return Arrays.asList((Block) new MacroBlock("testsimplemacro", Collections.<String, String>emptyMap(),
             false));
     }
+
+    @Override
+    public boolean isExecutionIsolated(Object parameters, String content)
+    {
+        return true;
+    }
 }

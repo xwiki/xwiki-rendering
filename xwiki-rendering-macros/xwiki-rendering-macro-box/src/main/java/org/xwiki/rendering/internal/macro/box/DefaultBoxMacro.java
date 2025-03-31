@@ -84,4 +84,10 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
     {
         this.contentParser.prepareContentWiki(macroBlock);
     }
+
+    @Override
+    public boolean isExecutionIsolated(P parameters, String content)
+    {
+        return true;
+    }
 }

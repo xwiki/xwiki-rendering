@@ -34,6 +34,7 @@ import org.mockito.stubbing.Answer;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.XDOM;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.macro.Macro;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
@@ -213,6 +214,75 @@ class MacroTransformationTest
         BlockRenderer eventBlockRenderer =
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
+        assertEquals(expected, printer.toString());
+    }
+
+    @Test
+    void transformWithSeveralNestedMacros() throws Exception
+    {
+        String expected = """
+            beginDocument
+            beginMacroMarkerStandalone [testsimplemacro] []
+            beginParagraph
+            onWord [simplemacro1]
+            endParagraph
+            endMacroMarkerStandalone [testsimplemacro] []
+            beginMacroMarkerStandalone [testprioritymacro] []
+            beginParagraph
+            onWord [word]
+            endParagraph
+            endMacroMarkerStandalone [testprioritymacro] []
+            beginMacroMarkerStandalone [testnestedmacro] []
+            beginMacroMarkerStandalone [testsimplemacro] []
+            beginParagraph
+            onWord [simplemacro2]
+            endParagraph
+            endMacroMarkerStandalone [testsimplemacro] []
+            endMacroMarkerStandalone [testnestedmacro] []
+            beginMacroMarkerStandalone [testsimplemacro] []
+            beginParagraph
+            onWord [simplemacro3]
+            endParagraph
+            endMacroMarkerStandalone [testsimplemacro] []
+            beginMacroMarkerStandalone [testtwonestedmacros] []
+            beginMacroMarkerStandalone [testsimplemacro] []
+            beginParagraph
+            onWord [simplemacro4]
+            endParagraph
+            endMacroMarkerStandalone [testsimplemacro] []
+            beginMacroMarkerStandalone [testnestedmacro] []
+            beginMacroMarkerStandalone [testsimplemacro] []
+            beginParagraph
+            onWord [simplemacro5]
+            endParagraph
+            endMacroMarkerStandalone [testsimplemacro] []
+            endMacroMarkerStandalone [testnestedmacro] []
+            endMacroMarkerStandalone [testtwonestedmacros] []
+            beginMacroMarkerStandalone [testsimplemacro] []
+            beginParagraph
+            onWord [simplemacro6]
+            endParagraph
+            endMacroMarkerStandalone [testsimplemacro] []
+            endDocument""";
+        XDOM dom = new XDOM(List.of(
+            new MacroBlock("testsimplemacro", Listener.EMPTY_PARAMETERS, false),
+            new MacroBlock("testprioritymacro", Listener.EMPTY_PARAMETERS, false),
+            new MacroBlock("testnestedmacro", Listener.EMPTY_PARAMETERS, false),
+            new MacroBlock("testsimplemacro", Listener.EMPTY_PARAMETERS, false),
+            new MacroBlock("testtwonestedmacros", Listener.EMPTY_PARAMETERS, false),
+            new MacroBlock("testsimplemacro", Listener.EMPTY_PARAMETERS, false)
+        ));
+
+        this.transformation.transform(dom, new
+
+            TransformationContext(dom, Syntax.XWIKI_2_0));
+
+        WikiPrinter printer = new DefaultWikiPrinter();
+
+        BlockRenderer eventBlockRenderer =
+            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+        eventBlockRenderer.render(dom, printer);
+
         assertEquals(expected, printer.toString());
     }
 
