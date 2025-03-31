@@ -295,6 +295,9 @@ public class MacroTransformation extends AbstractTransformation implements Initi
     @Inject
     private ErrorBlockGenerator errorBlockGenerator;
 
+    @Inject
+    private IsolatedExecutionConfiguration isolatedExecutionConfiguration;
+
     /**
      * Used to generate Macro error blocks when a Macro fails to execute.
      */
@@ -388,7 +391,9 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                     continue;
                 }
 
-                if (!((Macro<Object>) macro).isExecutionIsolated(macroParameters, macroBlock.getContent())) {
+                if (!((Macro<Object>) macro).isExecutionIsolated(macroParameters, macroBlock.getContent())
+                    && !this.isolatedExecutionConfiguration.isExecutionIsolated(macroBlock.getId()))
+                {
                     priorityMacroBlockMatcher.reset();
                 }
                 newBlocks = ((Macro) macro).execute(macroParameters, macroBlock.getContent(), macroContext);
