@@ -30,6 +30,7 @@ import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -497,8 +498,13 @@ class MacroTransformationTest
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = { true, false })
-    void isIsolated(boolean executionIsolated) throws Exception
+    @CsvSource({
+        "false, false, false",
+        "true, false, true",
+        "true, true, true",
+        "false, true, true"
+    })
+    void isIsolated(boolean macroIsolated, boolean configurationIsolated, boolean executionIsolated) throws Exception
     {
         StringBuilder expected = new StringBuilder("""
             beginDocument
@@ -528,13 +534,15 @@ class MacroTransformationTest
             context.getXDOM().addChild(new MacroBlock("testReplacement", Map.of("param1", "Hello"), "inside", false));
             return List.of(new WordBlock("isolated"));
         });
-        when(macro.isExecutionIsolated(any(), any())).thenReturn(executionIsolated);
+        when(macro.isExecutionIsolated(any(), any())).thenReturn(macroIsolated);
         MacroDescriptor macroDescriptor = new DefaultMacroDescriptor(new MacroId(macroId), macroId, macroId, null,
             new DefaultBeanDescriptor(Object.class));
         when(macro.getDescriptor()).thenReturn(macroDescriptor);
 
         MacroBlock macroBlock = new MacroBlock(macroId, Collections.emptyMap(), false);
         XDOM dom = new XDOM(List.of(macroBlock));
+
+        when(this.isolatedExecutionConfiguration.isExecutionIsolated(macroId)).thenReturn(configurationIsolated);
 
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
