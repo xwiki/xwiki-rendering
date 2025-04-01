@@ -29,34 +29,45 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.xwiki.properties.internal.DefaultBeanDescriptor;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
+import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.macro.Macro;
+import org.xwiki.rendering.macro.MacroId;
+import org.xwiki.rendering.macro.descriptor.DefaultMacroDescriptor;
+import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectComponentManager;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
+import org.xwiki.test.junit5.mockito.MockComponent;
 import org.xwiki.test.mockito.MockitoComponentManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link MacroTransformation}.
  *
  * @version $Id$
  */
-@AllComponents
+@AllComponents(excludes = IsolatedExecutionConfiguration.class)
 @ComponentTest
 class MacroTransformationTest
 {
@@ -66,6 +77,9 @@ class MacroTransformationTest
     @InjectMockComponents
     @Named("macro")
     private MacroTransformation transformation;
+
+    @MockComponent
+    private IsolatedExecutionConfiguration isolatedExecutionConfiguration;
 
     /**
      * Test that a simple macro is correctly evaluated.
@@ -356,7 +370,7 @@ class MacroTransformationTest
             + "endGroup [[class]=[xwikirenderingerror]]\n"
             + "beginGroup [[class]=[xwikirenderingerrordescription hidden]]\n"
             + "onVerbatim [The [notexisting] macro is not in the list of registered macros. "
-                + "Verify the spelling or contact your administrator.] [false]\n"
+            + "Verify the spelling or contact your administrator.] [false]\n"
             + "endGroup [[class]=[xwikirenderingerrordescription hidden]]\n"
             + "endMacroMarkerStandalone [notexisting] []\n"
             + "endDocument";
@@ -448,10 +462,17 @@ class MacroTransformationTest
         assertTrue(macroBlock.getAttributes().isEmpty());
     }
 
-    @Test
-    void replacementMacro() throws Exception
+    @ParameterizedTest
+    @ValueSource(booleans = { true, false })
+    void replacementMacro(boolean isIsolated) throws Exception
     {
-        String expected = """
+        // Expect that while the replacement happens, the new macro isn't executed as no new scan of macros happens when
+        // the macro is isolated.
+        String expected = isIsolated ? """
+            beginDocument
+            onMacroStandalone [testReplacement] [param1=newValue] [macroContent]
+            endDocument"""
+            : """
             beginDocument
             beginMacroMarkerStandalone [testReplacement] [param1=newValue] [macroContent]
             onWord [testReplacement]
@@ -460,8 +481,11 @@ class MacroTransformationTest
             endMacroMarkerStandalone [testReplacement] [param1=newValue] [macroContent]
             endDocument""";
 
-        MacroBlock macroBlock = new MacroBlock("testReplaceMe", Map.of("oldParameter", "oldValue"), "macroContent", false);
+        String macroID = "testReplaceMe";
+        MacroBlock macroBlock = new MacroBlock(macroID, Map.of("oldParameter", "oldValue"), "macroContent", false);
         XDOM dom = new XDOM(List.of(macroBlock));
+
+        when(this.isolatedExecutionConfiguration.isExecutionIsolated(macroID)).thenReturn(isIsolated);
 
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
@@ -470,5 +494,54 @@ class MacroTransformationTest
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
         assertEquals(expected, printer.toString());
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = { true, false })
+    void isIsolated(boolean executionIsolated) throws Exception
+    {
+        StringBuilder expected = new StringBuilder("""
+            beginDocument
+            beginMacroMarkerStandalone [isolatedMacro] []
+            onWord [isolated]
+            endMacroMarkerStandalone [isolatedMacro] []
+            """);
+        if (executionIsolated) {
+            expected.append("onMacroStandalone [testReplacement] [param1=Hello] [inside]\n");
+        } else {
+            expected.append("""
+                beginMacroMarkerStandalone [testReplacement] [param1=Hello] [inside]
+                onWord [testReplacement]
+                onWord [inside]
+                onWord [Hello]
+                endMacroMarkerStandalone [testReplacement] [param1=Hello] [inside]
+                """);
+        }
+        expected.append("endDocument");
+
+        // Create a mock macro to be able to dynamically change the return value of isExecutionIsolated.
+        String macroId = "isolatedMacro";
+        Macro<Object> macro = this.componentManager.registerMockComponent(Macro.class, macroId);
+        when(macro.getPriority()).thenReturn(100);
+        when(macro.execute(any(), any(), any())).thenAnswer(invocation -> {
+            MacroTransformationContext context = invocation.getArgument(2);
+            context.getXDOM().addChild(new MacroBlock("testReplacement", Map.of("param1", "Hello"), "inside", false));
+            return List.of(new WordBlock("isolated"));
+        });
+        when(macro.isExecutionIsolated(any(), any())).thenReturn(executionIsolated);
+        MacroDescriptor macroDescriptor = new DefaultMacroDescriptor(new MacroId(macroId), macroId, macroId, null,
+            new DefaultBeanDescriptor(Object.class));
+        when(macro.getDescriptor()).thenReturn(macroDescriptor);
+
+        MacroBlock macroBlock = new MacroBlock(macroId, Collections.emptyMap(), false);
+        XDOM dom = new XDOM(List.of(macroBlock));
+
+        this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
+
+        WikiPrinter printer = new DefaultWikiPrinter();
+        BlockRenderer eventBlockRenderer =
+            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
+        eventBlockRenderer.render(dom, printer);
+        assertEquals(expected.toString(), printer.toString());
     }
 }
