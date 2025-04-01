@@ -391,8 +391,8 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                     continue;
                 }
 
-                if (!((Macro<Object>) macro).isExecutionIsolated(macroParameters, macroBlock.getContent())
-                    && !this.isolatedExecutionConfiguration.isExecutionIsolated(macroBlock.getId()))
+                if (!this.isolatedExecutionConfiguration.isExecutionIsolated(macroBlock.getId(),
+                    ((Macro<Object>) macro).isExecutionIsolated(macroParameters, macroBlock.getContent())))
                 {
                     priorityMacroBlockMatcher.reset();
                 }

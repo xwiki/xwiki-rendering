@@ -28,6 +28,7 @@ import java.util.Map;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -60,7 +61,11 @@ import org.xwiki.test.mockito.MockitoComponentManager;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -81,6 +86,14 @@ class MacroTransformationTest
 
     @MockComponent
     private IsolatedExecutionConfiguration isolatedExecutionConfiguration;
+
+    @BeforeEach
+    void setUp()
+    {
+        // By default, return whatever the macro specified.
+        when(this.isolatedExecutionConfiguration.isExecutionIsolated(anyString(), anyBoolean()))
+            .thenAnswer(invocation -> invocation.getArgument(1));
+    }
 
     /**
      * Test that a simple macro is correctly evaluated.
@@ -486,7 +499,7 @@ class MacroTransformationTest
         MacroBlock macroBlock = new MacroBlock(macroID, Map.of("oldParameter", "oldValue"), "macroContent", false);
         XDOM dom = new XDOM(List.of(macroBlock));
 
-        when(this.isolatedExecutionConfiguration.isExecutionIsolated(macroID)).thenReturn(isIsolated);
+        when(this.isolatedExecutionConfiguration.isExecutionIsolated(macroID, false)).thenReturn(isIsolated);
 
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
@@ -499,12 +512,12 @@ class MacroTransformationTest
 
     @ParameterizedTest
     @CsvSource({
-        "false, false, false",
-        "true, false, true",
-        "true, true, true",
-        "false, true, true"
+        "false, false",
+        "true, false",
+        "true, true",
+        "false, true"
     })
-    void isIsolated(boolean macroIsolated, boolean configurationIsolated, boolean executionIsolated) throws Exception
+    void isIsolated(boolean macroIsolated, boolean executionIsolated) throws Exception
     {
         StringBuilder expected = new StringBuilder("""
             beginDocument
@@ -542,7 +555,8 @@ class MacroTransformationTest
         MacroBlock macroBlock = new MacroBlock(macroId, Collections.emptyMap(), false);
         XDOM dom = new XDOM(List.of(macroBlock));
 
-        when(this.isolatedExecutionConfiguration.isExecutionIsolated(macroId)).thenReturn(configurationIsolated);
+        when(this.isolatedExecutionConfiguration.isExecutionIsolated(eq(macroId), anyBoolean()))
+            .thenReturn(executionIsolated);
 
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
@@ -551,5 +565,7 @@ class MacroTransformationTest
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
         assertEquals(expected.toString(), printer.toString());
+
+        verify(this.isolatedExecutionConfiguration).isExecutionIsolated(macroId, macroIsolated);
     }
 }

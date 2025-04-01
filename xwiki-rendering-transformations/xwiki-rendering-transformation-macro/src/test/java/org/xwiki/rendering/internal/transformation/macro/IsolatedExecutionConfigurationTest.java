@@ -22,7 +22,7 @@ package org.xwiki.rendering.internal.transformation.macro;
 import javax.inject.Named;
 
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
@@ -31,6 +31,7 @@ import org.xwiki.test.junit5.mockito.MockComponent;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -46,25 +47,40 @@ class IsolatedExecutionConfigurationTest
     private IsolatedExecutionConfiguration isolatedExecutionConfiguration;
 
     @ParameterizedTest
-    @ValueSource(booleans = { true, false })
-    void isExecutionIsolated(boolean executionIsolated)
+    @CsvSource({
+        "false, false, false",
+        "true, false, false",
+        "true, true, true",
+        "false, true, true",
+        "true, , true",
+        "false, , false"
+    })
+    void isExecutionIsolated(boolean macroIsolated, Boolean configurationIsolated, boolean expected)
     {
-        when(this.configurationSource.getProperty(anyString(), any(Boolean.class))).thenReturn(executionIsolated);
+        when(this.configurationSource.getProperty(anyString(), any(), isNull())).thenReturn(configurationIsolated);
 
         String macroId = "test";
-        assertEquals(executionIsolated, this.isolatedExecutionConfiguration.isExecutionIsolated(macroId));
-
-        verify(this.configurationSource).getProperty("rendering.macro.test.executionIsolated", Boolean.FALSE);
+        assertEquals(expected,
+            this.isolatedExecutionConfiguration.isExecutionIsolated(macroId, macroIsolated));
+        verify(this.configurationSource).getProperty("rendering.macro.test.executionIsolated", Boolean.class, null);
 
         // Verify that on the second load the value is cached.
-        assertEquals(executionIsolated, this.isolatedExecutionConfiguration.isExecutionIsolated(macroId));
+        assertEquals(expected, this.isolatedExecutionConfiguration.isExecutionIsolated(macroId, macroIsolated));
 
         verifyNoMoreInteractions(this.configurationSource);
 
+        // Verify that despite the cache if the macro value changes, the change is reflected if the configuration
+        // isn't set.
+        if (configurationIsolated == null) {
+            assertEquals(!expected, this.isolatedExecutionConfiguration.isExecutionIsolated(macroId, !macroIsolated));
+        } else {
+            assertEquals(expected, this.isolatedExecutionConfiguration.isExecutionIsolated(macroId, !macroIsolated));
+        }
+
         // Verify that the cached value doesn't affect a second macro ID.
         String secondMacroId = "second";
-        when(this.configurationSource.getProperty("rendering.macro.second.executionIsolated", Boolean.FALSE))
-            .thenReturn(!executionIsolated);
-        assertEquals(!executionIsolated, this.isolatedExecutionConfiguration.isExecutionIsolated(secondMacroId));
+        when(this.configurationSource.getProperty("rendering.macro.second.executionIsolated", Boolean.class, null))
+            .thenReturn(!expected);
+        assertEquals(!expected, this.isolatedExecutionConfiguration.isExecutionIsolated(secondMacroId, macroIsolated));
     }
 }
