@@ -28,6 +28,7 @@ import java.util.Map;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -35,6 +36,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.properties.internal.DefaultBeanDescriptor;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
@@ -51,6 +53,7 @@ import org.xwiki.rendering.renderer.printer.WikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.TransformationContext;
+import org.xwiki.rendering.transformation.TransformationException;
 import org.xwiki.test.annotation.AllComponents;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectComponentManager;
@@ -156,16 +159,16 @@ class MacroTransformationTest
     void transformMacroWithInfiniteRecursion() throws Exception
     {
         String expected = "beginDocument\n"
-            + StringUtils.repeat("beginMacroMarkerStandalone [testrecursivemacro] []\n", 5)
+            + StringUtils.repeat("beginMacroMarkerStandalone [testrecursivemacro] []\n", 129)
             + "onMacroStandalone [testrecursivemacro] []\n"
-            + StringUtils.repeat("endMacroMarkerStandalone [testrecursivemacro] []\n", 5)
+            + StringUtils.repeat("endMacroMarkerStandalone [testrecursivemacro] []\n", 129)
             + "endDocument";
 
         XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("testrecursivemacro",
             Collections.<String, String>emptyMap(), false)));
 
-        // In order to have a fast test, set the max macro execution to 5 macros.
-        this.transformation.setMaxRecursions(4);
+        // To have a fast test, set the max macro execution to 128 macros.
+        this.transformation.setMaxRecursions(128);
 
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
@@ -392,13 +395,7 @@ class MacroTransformationTest
         XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("notexisting",
             Collections.<String, String>emptyMap(), false)));
 
-        this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
-
-        WikiPrinter printer = new DefaultWikiPrinter();
-        BlockRenderer eventBlockRenderer =
-            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
-        eventBlockRenderer.render(dom, printer);
-        assertEquals(expected, printer.toString());
+        assertEquals(expected, transformAndRenderEvents(dom));
     }
 
     @Test
@@ -501,13 +498,7 @@ class MacroTransformationTest
 
         when(this.isolatedExecutionConfiguration.isExecutionIsolated(macroID, false)).thenReturn(isIsolated);
 
-        this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
-
-        WikiPrinter printer = new DefaultWikiPrinter();
-        BlockRenderer eventBlockRenderer =
-            this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
-        eventBlockRenderer.render(dom, printer);
-        assertEquals(expected, printer.toString());
+        assertEquals(expected, transformAndRenderEvents(dom));
     }
 
     @ParameterizedTest
@@ -540,17 +531,11 @@ class MacroTransformationTest
 
         // Create a mock macro to be able to dynamically change the return value of isExecutionIsolated.
         String macroId = "isolatedMacro";
-        Macro<Object> macro = this.componentManager.registerMockComponent(Macro.class, macroId);
-        when(macro.getPriority()).thenReturn(100);
-        when(macro.execute(any(), any(), any())).thenAnswer(invocation -> {
+        createMockMacro(macroId, 100, macroIsolated, invocation -> {
             MacroTransformationContext context = invocation.getArgument(2);
             context.getXDOM().addChild(new MacroBlock("testReplacement", Map.of("param1", "Hello"), "inside", false));
             return List.of(new WordBlock("isolated"));
         });
-        when(macro.isExecutionIsolated(any(), any())).thenReturn(macroIsolated);
-        MacroDescriptor macroDescriptor = new DefaultMacroDescriptor(new MacroId(macroId), macroId, macroId, null,
-            new DefaultBeanDescriptor(Object.class));
-        when(macro.getDescriptor()).thenReturn(macroDescriptor);
 
         MacroBlock macroBlock = new MacroBlock(macroId, Collections.emptyMap(), false);
         XDOM dom = new XDOM(List.of(macroBlock));
@@ -558,14 +543,77 @@ class MacroTransformationTest
         when(this.isolatedExecutionConfiguration.isExecutionIsolated(eq(macroId), anyBoolean()))
             .thenReturn(executionIsolated);
 
+        assertEquals(expected.toString(), transformAndRenderEvents(dom));
+
+        verify(this.isolatedExecutionConfiguration).isExecutionIsolated(macroId, macroIsolated);
+    }
+
+    @Test
+    void testNestedPriorities() throws Exception
+    {
+        // Ensure that a macro nested in a high-priority macro gets inserted at the right position in the PQ - at the
+        // position of the parent macro.
+        String counterMacro = "testCounter";
+        String containerMacro = "testContainer";
+        MutableInt executionCounter = new MutableInt(0);
+
+        createMockMacro(counterMacro, 1000, true,
+            invocation -> List.of(new WordBlock("counter" + executionCounter.getAndIncrement())));
+        createMockMacro(containerMacro, 100, true,
+            invocation -> List.of(
+                new WordBlock("container" + executionCounter.getAndIncrement()),
+                new MacroBlock(counterMacro, Map.of(), false))
+        );
+
+        XDOM dom = new XDOM(List.of(
+            new MacroBlock(counterMacro, Map.of(), false),
+            new MacroBlock(containerMacro, Map.of(), false),
+            new MacroBlock(counterMacro, Map.of(), false)
+        ));
+
+        String expected = """
+            beginDocument
+            beginMacroMarkerStandalone [testCounter] []
+            onWord [counter1]
+            endMacroMarkerStandalone [testCounter] []
+            beginMacroMarkerStandalone [testContainer] []
+            onWord [container0]
+            beginMacroMarkerStandalone [testCounter] []
+            onWord [counter2]
+            endMacroMarkerStandalone [testCounter] []
+            endMacroMarkerStandalone [testContainer] []
+            beginMacroMarkerStandalone [testCounter] []
+            onWord [counter3]
+            endMacroMarkerStandalone [testCounter] []
+            endDocument""";
+
+        assertEquals(expected, transformAndRenderEvents(dom));
+    }
+
+    private void createMockMacro(String macroId, int priority, boolean macroIsolated, Answer<List<Block>> execute)
+        throws Exception
+    {
+        Macro<Object> macro = this.componentManager.registerMockComponent(Macro.class, macroId);
+        when(macro.getPriority()).thenReturn(priority);
+        when(macro.execute(any(), any(), any())).thenAnswer(execute);
+        when(macro.isExecutionIsolated(any(), any())).thenReturn(macroIsolated);
+        MacroDescriptor macroDescriptor = new DefaultMacroDescriptor(new MacroId(macroId), macroId, macroId, null,
+            new DefaultBeanDescriptor(Object.class));
+        when(macro.getDescriptor()).thenReturn(macroDescriptor);
+        when(macro.compareTo(any())).thenAnswer(invocation -> {
+            Macro<?> other = invocation.getArgument(0);
+            return priority - other.getPriority();
+        });
+    }
+
+    private String transformAndRenderEvents(XDOM dom) throws TransformationException, ComponentLookupException
+    {
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
         WikiPrinter printer = new DefaultWikiPrinter();
         BlockRenderer eventBlockRenderer =
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
-        assertEquals(expected.toString(), printer.toString());
-
-        verify(this.isolatedExecutionConfiguration).isExecutionIsolated(macroId, macroIsolated);
+        return printer.toString();
     }
 }

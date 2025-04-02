@@ -134,6 +134,7 @@ public class MacroTransformation extends AbstractTransformation implements Initi
             @Override
             public boolean match(Block block)
             {
+                // Add a prefix to all new blocks to ensure that they're directly after the current macro.
                 PriorityMacroBlockMatcher.this.matchBlock(block, this.prefix);
 
                 return false;
@@ -391,7 +392,12 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                     continue;
                 }
 
-                if (!this.isolatedExecutionConfiguration.isExecutionIsolated(macroBlock.getId(),
+                // Rescan if either the indexes of the macros get too long or the macro's execution isn't isolated.
+                // The value "64" was chosen because 64 ints should hardly cause any impact, but having a hierarchy of
+                // 64 nested macros seems already pretty unlikely.
+                // In the worst case, a very deep tree of macros, this could cause a re-scan every 63 macro executions.
+                if (macroItem.index().length >= 64
+                    || !this.isolatedExecutionConfiguration.isExecutionIsolated(macroBlock.getId(),
                     ((Macro<Object>) macro).isExecutionIsolated(macroParameters, macroBlock.getContent())))
                 {
                     priorityMacroBlockMatcher.reset();
@@ -426,7 +432,8 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                 Block resultBlock = wrapInMacroMarker(macroBlock, newBlocks);
 
                 if (!priorityMacroBlockMatcher.isFullScanNeeded()) {
-                    // Find descendant blocks.
+                    // Find descendant blocks if no full scann is needed. Those descendant blocks will be inserted
+                    // into the existing priority queue with indexes that are in the same position as the current macro.
                     BlockMatcher childrenMatcher = priorityMacroBlockMatcher.getChildrenMatcher(macroItem);
                     resultBlock.getFirstBlock(childrenMatcher, Block.Axes.DESCENDANT);
                     processErrors(priorityMacroBlockMatcher);
