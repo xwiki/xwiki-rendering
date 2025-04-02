@@ -124,4 +124,11 @@ public abstract class AbstractTocMacro<T extends TocMacroParameters> extends Abs
             throw new MacroExecutionException(String.format("Failed to get XDOM for [%s]", reference), e);
         }
     }
+
+    @Override
+    public boolean isExecutionIsolated(T parameters, String content)
+    {
+        // While the TOC macro accesses the XDOM, it doesn't modify it.
+        return true;
+    }
 }

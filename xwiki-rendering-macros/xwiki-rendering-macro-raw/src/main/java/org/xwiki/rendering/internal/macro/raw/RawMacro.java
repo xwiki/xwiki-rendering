@@ -99,4 +99,10 @@ public class RawMacro extends AbstractMacro<RawMacroParameters>
 
         return Collections.singletonList(rawBlock);
     }
+
+    @Override
+    public boolean isExecutionIsolated(RawMacroParameters parameters, String content)
+    {
+        return true;
+    }
 }

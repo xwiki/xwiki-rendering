@@ -56,4 +56,10 @@ public class TestRecursiveMacro extends AbstractNoParameterMacro
         return Arrays.asList((Block) new MacroBlock("testrecursivemacro", Collections
             .<String, String>emptyMap(), false));
     }
+
+    @Override
+    public boolean isExecutionIsolated(Object parameters, String content)
+    {
+        return true;
+    }
 }

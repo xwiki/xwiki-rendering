@@ -76,4 +76,10 @@ public class CommentMacro extends AbstractNoParameterMacro
     {
         return Collections.emptyList();
     }
+
+    @Override
+    public boolean isExecutionIsolated(Object parameters, String content)
+    {
+        return true;
+    }
 }
