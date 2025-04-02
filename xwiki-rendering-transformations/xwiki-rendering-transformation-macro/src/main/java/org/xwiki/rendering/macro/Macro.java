@@ -26,6 +26,7 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
+import org.xwiki.stability.Unstable;
 
 /**
  * Represents a Macro, ie a mechanism to generate Rendering {@link Block}s, that we use as a way to either generate
@@ -85,5 +86,20 @@ public interface Macro<P> extends Comparable<Macro<?>>
     default void prepare(MacroBlock macroBlock) throws MacroPreparationException
     {
         // Do nothing by default
+    }
+
+    /**
+     * @param parameters the parameters with which the macro would be executed
+     * @param content the content with which the macro would be executed
+     * @return {@code true}, if executing the macro with the parameters definitely won't modify the XDOM,
+     * {@code false}, otherwise.
+     * A macro needs to return {@code false} if it executes macro transformations with macros it doesn't know
+     * (e.g., parsed from its content or another page) with the XDOM or the macro block accessible for these macros.
+     * @since 17.3.0RC1
+     */
+    @Unstable
+    default boolean isExecutionIsolated(P parameters, String content)
+    {
+        return false;
     }
 }

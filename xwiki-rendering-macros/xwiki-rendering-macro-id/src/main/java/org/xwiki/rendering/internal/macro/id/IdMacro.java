@@ -79,4 +79,10 @@ public class IdMacro extends AbstractMacro<IdMacroParameters>
 
         return Collections.singletonList((Block) idBlock);
     }
+
+    @Override
+    public boolean isExecutionIsolated(IdMacroParameters parameters, String content)
+    {
+        return true;
+    }
 }

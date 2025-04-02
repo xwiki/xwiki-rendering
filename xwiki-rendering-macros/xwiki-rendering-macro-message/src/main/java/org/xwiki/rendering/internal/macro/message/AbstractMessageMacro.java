@@ -162,4 +162,10 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
         }
         return iconBlock;
     }
+
+    @Override
+    public boolean isExecutionIsolated(MessageMacroParameters parameters, String content)
+    {
+        return true;
+    }
 }

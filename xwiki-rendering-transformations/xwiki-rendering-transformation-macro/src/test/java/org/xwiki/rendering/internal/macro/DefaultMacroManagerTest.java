@@ -226,7 +226,8 @@ class DefaultMacroManagerTest
             new MacroId("testsimpleinlinemacro"),
             new MacroId("testfailingmacro"),
             new MacroId("testReplaceMe"),
-            new MacroId("testReplacement")
+            new MacroId("testReplacement"),
+            new MacroId("testtwonestedmacros")
         ), this.macroManager.getMacroIds());
     }
 }

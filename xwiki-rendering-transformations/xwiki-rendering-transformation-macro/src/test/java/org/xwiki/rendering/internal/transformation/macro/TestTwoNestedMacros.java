@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Named;
@@ -27,21 +26,20 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.ParagraphBlock;
-import org.xwiki.rendering.block.WordBlock;
-import org.xwiki.rendering.block.match.ClassBlockMatcher;
+import org.xwiki.rendering.block.MacroBlock;
+import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.macro.AbstractNoParameterMacro;
 import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 @Component
-@Named("testsimplemacro")
+@Named("testtwonestedmacros")
 @Singleton
-public class TestSimpleMacro extends AbstractNoParameterMacro
+public class TestTwoNestedMacros extends AbstractNoParameterMacro
 {
-    public TestSimpleMacro()
+    public TestTwoNestedMacros()
     {
-        super("Simple Macro");
+        super("Two Nested Macros");
     }
 
     @Override
@@ -54,10 +52,8 @@ public class TestSimpleMacro extends AbstractNoParameterMacro
     public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
-        int wordCount = context.getXDOM().getBlocks(
-            new ClassBlockMatcher(WordBlock.class), Block.Axes.DESCENDANT).size();
-        return Arrays.<Block>asList(new ParagraphBlock(Arrays.<Block>asList(new WordBlock("simplemacro"
-            + wordCount))));
+        return List.of(new MacroBlock("testsimplemacro", Listener.EMPTY_PARAMETERS, false),
+            new MacroBlock("testnestedmacro", Listener.EMPTY_PARAMETERS, false));
     }
 
     @Override
