@@ -432,7 +432,7 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                 Block resultBlock = wrapInMacroMarker(macroBlock, newBlocks);
 
                 if (!priorityMacroBlockMatcher.isFullScanNeeded()) {
-                    // Find descendant blocks if no full scann is needed. Those descendant blocks will be inserted
+                    // Find descendant blocks if no full scan is needed. Those descendant blocks will be inserted
                     // into the existing priority queue with indexes that are in the same position as the current macro.
                     BlockMatcher childrenMatcher = priorityMacroBlockMatcher.getChildrenMatcher(macroItem);
                     resultBlock.getFirstBlock(childrenMatcher, Block.Axes.DESCENDANT);
