@@ -66,7 +66,7 @@ class PlainTextChainingRendererTest
     }
 
     @Test
-    void beginLinkWhenExternalLink() throws Exception
+    void beginLinkWhenExternalLink()
     {
         DefaultWikiPrinter printer = new DefaultWikiPrinter();
         this.renderer.setPrinter(printer);
