@@ -19,29 +19,32 @@
  */
 package org.xwiki.rendering.wikimodel.test;
 
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiReferenceParser;
 
-import org.junit.Assert;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @version $Id$
  * @since 4.0M1
  */
-public class XWikiReferenceParserTest extends TestCase
+class XWikiReferenceParserTest
 {
-    public void testParseReferenceWhenReferenceOnly()
+    @Test
+    void parseReferenceWhenReferenceOnly()
     {
         XWikiReferenceParser parser = new XWikiReferenceParser();
         WikiReference reference = parser.parse("reference");
         assertNull(reference.getLabel());
-        Assert.assertEquals(WikiParameters.EMPTY, reference.getParameters());
+        assertEquals(WikiParameters.EMPTY, reference.getParameters());
         assertEquals("reference", reference.getLink());
     }
 
-    public void testParseReferenceWhenLabelSpecified()
+    @Test
+    void parseReferenceWhenLabelSpecified()
     {
         XWikiReferenceParser parser = new XWikiReferenceParser();
         WikiReference reference = parser.parse("label>>reference");
@@ -50,7 +53,8 @@ public class XWikiReferenceParserTest extends TestCase
         assertEquals("reference", reference.getLink());
     }
 
-    public void testParseReferenceWhenParametersSpecified()
+    @Test
+    void parseReferenceWhenParametersSpecified()
     {
 
         XWikiReferenceParser parser = new XWikiReferenceParser();
@@ -69,7 +73,8 @@ public class XWikiReferenceParserTest extends TestCase
         assertEquals("reference", reference.getLink());
     }
 
-    public void testParseReferenceWhenLabelAndParametersSpecified()
+    @Test
+    void parseReferenceWhenLabelAndParametersSpecified()
     {
         XWikiReferenceParser parser = new XWikiReferenceParser();
         WikiReference reference = parser.parse("label>>reference||param=value");
@@ -81,7 +86,8 @@ public class XWikiReferenceParserTest extends TestCase
         assertEquals("reference", reference.getLink());
     }
 
-    public void testParseReferenceWithGreaterThanSymbolInLabel()
+    @Test
+    void parseReferenceWithGreaterThanSymbolInLabel()
     {
         XWikiReferenceParser parser = new XWikiReferenceParser();
         WikiReference reference = parser
@@ -90,7 +96,8 @@ public class XWikiReferenceParserTest extends TestCase
         assertEquals("reference", reference.getLink());
     }
 
-    public void testParseReferenceWithPipeSymbolInLink()
+    @Test
+    void parseReferenceWithPipeSymbolInLink()
     {
         XWikiReferenceParser parser = new XWikiReferenceParser();
         WikiReference reference = parser.parse("reference|||param=value");
@@ -101,7 +108,8 @@ public class XWikiReferenceParserTest extends TestCase
             .getValue());
     }
 
-    public void testParseReferenceWhenLabelAndParametersSpecifiedWithSomeEscaping()
+    @Test
+    void parseReferenceWhenLabelAndParametersSpecifiedWithSomeEscaping()
     {
         XWikiReferenceParser parser = new XWikiReferenceParser();
         WikiReference reference = parser
@@ -114,7 +122,8 @@ public class XWikiReferenceParserTest extends TestCase
         assertEquals("refe||rence", reference.getLink());
     }
 
-    public void testParseReferenceWhenLabelAndParametersSpecifiedWithSomeEscapingAndInternalLink()
+    @Test
+    void parseReferenceWhenLabelAndParametersSpecifiedWithSomeEscapingAndInternalLink()
     {
         XWikiReferenceParser parser = new XWikiReferenceParser();
         WikiReference reference = parser
