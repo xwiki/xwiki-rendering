@@ -21,15 +21,15 @@ package org.xwiki.rendering.internal.renderer.plain;
 
 import java.util.Collections;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for {@link PlainTextChainingRenderer} that cannot easily be performed using the Rendering Test framework.
@@ -37,23 +37,20 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
  * @version $Id$
  * @since 2.1M1
  */
-public class PlainTextChainingRendererTest extends AbstractComponentTestCase
+class PlainTextChainingRendererTest
 {
     private PlainTextRenderer renderer;
 
-    @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
-        super.setUp();
-
         // Force the link label generator to be null
         this.renderer = new PlainTextRenderer();
         this.renderer.initialize();
     }
 
     @Test
-    public void testBeginLinkWhenLinkLabelGeneratorIsNull() throws Exception
+    void beginLinkWhenLinkLabelGeneratorIsNull()
     {
         DefaultWikiPrinter printer = new DefaultWikiPrinter();
         this.renderer.setPrinter(printer);
@@ -62,33 +59,33 @@ public class PlainTextChainingRendererTest extends AbstractComponentTestCase
         reference.setAnchor("anchor");
         reference.setQueryString("param=value");
 
-        this.renderer.beginLink(reference, false, Collections.<String, String>emptyMap());
-        this.renderer.endLink(reference, false, Collections.<String, String>emptyMap());
+        this.renderer.beginLink(reference, false, Collections.emptyMap());
+        this.renderer.endLink(reference, false, Collections.emptyMap());
 
-        Assert.assertEquals("reference", printer.toString());
+        assertEquals("reference", printer.toString());
     }
 
     @Test
-    public void testBeginLinkWhenExternalLink() throws Exception
+    void beginLinkWhenExternalLink() throws Exception
     {
         DefaultWikiPrinter printer = new DefaultWikiPrinter();
         this.renderer.setPrinter(printer);
 
         ResourceReference reference = new ResourceReference("http://some/url", ResourceType.URL);
-        this.renderer.beginLink(reference, false, Collections.<String, String>emptyMap());
-        this.renderer.endLink(reference, false, Collections.<String, String>emptyMap());
+        this.renderer.beginLink(reference, false, Collections.emptyMap());
+        this.renderer.endLink(reference, false, Collections.emptyMap());
 
-        Assert.assertEquals("http://some/url", printer.toString());
+        assertEquals("http://some/url", printer.toString());
     }
 
     @Test
-    public void testRawBlock()
+    void rawBlock()
     {
         DefaultWikiPrinter printer = new DefaultWikiPrinter();
         this.renderer.setPrinter(printer);
 
         this.renderer.onRawText("raw content", Syntax.PLAIN_1_0);
 
-        Assert.assertEquals("raw content", printer.toString());
+        assertEquals("raw content", printer.toString());
     }
 }
