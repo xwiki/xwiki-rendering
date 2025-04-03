@@ -30,6 +30,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
@@ -55,6 +57,7 @@ import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
 import org.xwiki.rendering.util.ErrorBlockGenerator;
+import org.xwiki.text.XWikiToStringBuilder;
 
 /**
  * Look for all {@link org.xwiki.rendering.block.MacroBlock} blocks in the passed {@link Block} and iteratively execute
@@ -117,6 +120,39 @@ public class MacroTransformation extends AbstractTransformation implements Initi
             } else {
                 return macroComparison;
             }
+        }
+
+        @Override
+        public boolean equals(Object object)
+        {
+            if (this == object) {
+                return true;
+            }
+
+            if (!(object instanceof MacroItem macroItem)) {
+                return false;
+            }
+
+            return new EqualsBuilder().append(index(), macroItem.index())
+                .append(macro(), macroItem.macro())
+                .append(block(), macroItem.block())
+                .isEquals();
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return new HashCodeBuilder(17, 37).append(block()).append(macro()).append(index()).toHashCode();
+        }
+
+        @Override
+        public String toString()
+        {
+            return new XWikiToStringBuilder(this)
+                .append("block", block())
+                .append("macro", macro())
+                .append("index", index())
+                .toString();
         }
     }
 
