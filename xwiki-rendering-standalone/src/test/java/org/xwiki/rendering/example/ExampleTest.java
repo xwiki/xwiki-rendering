@@ -179,8 +179,8 @@ public class ExampleTest
             + "</div>"
             + "</div>"
             + "<p><strong>bold</strong></p>"
-            + "<sup><span id=\"x_footnote_ref_1\" class=\"footnoteRef\"><span class=\"wikilink\">"
-            + "<a href=\"#x_footnote_1\">1</a></span></span></sup>"
+            + "<p><sup><span id=\"x_footnote_ref_1\" class=\"footnoteRef\"><span class=\"wikilink\">"
+            + "<a href=\"#x_footnote_1\">1</a></span></span></sup></p>"
             + "<ol class=\"footnotes\"><li><span class=\"wikilink\">"
             + "<a id=\"x_footnote_1\" class=\"footnoteBackRef\" href=\"#x_footnote_ref_1\">^</a>"
             + "</span> footnote</li></ol>";
