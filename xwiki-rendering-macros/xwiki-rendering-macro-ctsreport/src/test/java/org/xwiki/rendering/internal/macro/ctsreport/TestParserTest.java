@@ -19,8 +19,11 @@
  */
 package org.xwiki.rendering.internal.macro.ctsreport;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link TestParser}.
@@ -28,41 +31,51 @@ import org.junit.Test;
  * @version $Id$
  * @since 4.1M2
  */
-public class TestParserTest
+class TestParserTest
 {
     @Test
-    public void parseOk()
+    void parseStateUnknown()
     {
         TestParser parser = new TestParser();
-        String input = "simple/bold/bold1 [xwiki/2.0, IN:bold1.in.txt, CTS:bold1.inout.xml]";
-        Result result = parser.parse(input);
-        Assert.assertEquals("simple/bold/bold1", result.test.prefix);
-        Assert.assertEquals("xwiki/2.0", result.syntaxId);
-        Assert.assertEquals("bold1.in.txt", result.test.syntaxExtension);
-        Assert.assertEquals("bold1.inout.xml", result.test.ctsExtension);
-        Assert.assertTrue(result.isSyntaxInputTest);
-        Assert.assertEquals(State.UNKNOWN, result.test.state);
-
-        result = parser.parse(input + " - Failing");
-        Assert.assertEquals(State.FAILING, result.test.state);
-
-        result = parser.parse(input + " - Missing");
-        Assert.assertEquals(State.MISSING, result.test.state);
-
-        result = parser.parse(input + " - Passed");
-        Assert.assertEquals(State.PASSED, result.test.state);
+        Result result = parser.parse("simple/bold/bold1 [xwiki/2.0, IN:bold1.in.txt, CTS:bold1.inout.xml]");
+        assertEquals("simple/bold/bold1", result.test.prefix);
+        assertEquals("xwiki/2.0", result.syntaxId);
+        assertEquals("bold1.in.txt", result.test.syntaxExtension);
+        assertEquals("bold1.inout.xml", result.test.ctsExtension);
+        assertTrue(result.isSyntaxInputTest);
+        assertEquals(State.UNKNOWN, result.test.state);
     }
 
     @Test
-    public void parseWithInvalidInput()
+    void parseStateFailing()
     {
         TestParser parser = new TestParser();
-        try {
-            parser.parse("invalid");
-            Assert.fail();
-        } catch (Exception expected) {
-            Assert.assertEquals("Invalid Syntax Test format for [invalid]", expected.getMessage());
-        }
+        String input = "simple/bold/bold1 [xwiki/2.0, IN:bold1.in.txt, CTS:bold1.inout.xml] - Failing";
+        Result result = parser.parse(input);
+        assertEquals(State.FAILING, result.test.state);
     }
 
+    @Test
+    void parseStateMissing()
+    {
+        TestParser parser = new TestParser();
+        Result result = parser.parse("simple/bold/bold1 [xwiki/2.0, IN:bold1.in.txt, CTS:bold1.inout.xml] - Missing");
+        assertEquals(State.MISSING, result.test.state);
+    }
+
+    @Test
+    void parseStatePassed()
+    {
+        TestParser parser = new TestParser();
+        Result result = parser.parse("simple/bold/bold1 [xwiki/2.0, IN:bold1.in.txt, CTS:bold1.inout.xml] - Passed");
+        assertEquals(State.PASSED, result.test.state);
+    }
+
+    @Test
+    void parseWithInvalidInput()
+    {
+        TestParser parser = new TestParser();
+        Exception exception = assertThrows(RuntimeException.class, () -> parser.parse("invalid"));
+        assertEquals("Invalid Syntax Test format for [invalid]", exception.getMessage());
+    }
 }
