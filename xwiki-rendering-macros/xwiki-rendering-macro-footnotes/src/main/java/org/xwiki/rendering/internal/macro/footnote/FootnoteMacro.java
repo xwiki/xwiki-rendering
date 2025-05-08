@@ -30,6 +30,7 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
+import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.match.BlockMatcher;
 import org.xwiki.rendering.block.match.MacroBlockMatcher;
 import org.xwiki.rendering.block.match.MacroMarkerBlockMatcher;
@@ -126,7 +127,13 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
             }
         }
 
-        return this.contentParser.parse(content, context, false, true).getChildren();
+        List<Block> blocks = this.contentParser.parse(content, context, false, true).getChildren();
+        if (!context.isInline()) {
+            // Wrap the content in a paragraph if the context is not inline. We still parse the footnote content as
+            // inline as footnote content should always be inline (and isn't displayed here).
+            blocks = List.of(new ParagraphBlock(blocks));
+        }
+        return blocks;
     }
 
     @Override

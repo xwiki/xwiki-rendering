@@ -41,6 +41,7 @@ import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.ListItemBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.NumberedListBlock;
+import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.SpaceBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.match.MacroMarkerBlockMatcher;
@@ -123,12 +124,23 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
         {
             this.macroMarkerBlock = macroMarkerBlock;
 
-            if (macroMarkerBlock.getChildren().size() == 1
-                && macroMarkerBlock.getChildren().get(0) instanceof FormatBlock
-                && StringUtils.startsWith(macroMarkerBlock.getChildren().get(0).getParameter(ID_ATTRIBUTE_NAME),
+            List<Block> footnoteContent = macroMarkerBlock.getChildren();
+
+            // If the footnote is standalone, its content should consist of a single paragraph block that wraps the
+            // actual footnote.
+            if (!macroMarkerBlock.isInline() && footnoteContent.size() == 1
+                && footnoteContent.get(0) instanceof ParagraphBlock) {
+                footnoteContent = footnoteContent.get(0).getChildren();
+            }
+
+            if (footnoteContent.size() == 1
+                && footnoteContent.get(0) instanceof FormatBlock
+                && StringUtils.startsWith(footnoteContent.get(0).getParameter(ID_ATTRIBUTE_NAME),
                 FOOTNOTE_REFERENCE_ID_PREFIX))
             {
-                Block formatBlock = macroMarkerBlock.getChildren().get(0);
+                // The footnote content has already been collected, we'll hopefully find it back later when looking at
+                // the footnote lists. Here, we just extract the ID of the footnote.
+                Block formatBlock = footnoteContent.get(0);
                 if (!formatBlock.getChildren().isEmpty() && formatBlock.getChildren().get(0) instanceof LinkBlock) {
                     LinkBlock linkBlock = (LinkBlock) formatBlock.getChildren().get(0);
                     ResourceReference reference = linkBlock.getReference();
@@ -138,7 +150,8 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
                 }
                 this.referenceId = formatBlock.getParameter(ID_ATTRIBUTE_NAME);
             } else {
-                this.content = new CompositeBlock(macroMarkerBlock.getChildren());
+                // Store the content of the footnote so it can be inserted into the list of footnotes later.
+                this.content = new CompositeBlock(footnoteContent);
             }
         }
     }
@@ -304,7 +317,11 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
     private void addFootnoteRef(MacroMarkerBlock footnoteMacro, Block footnoteRef)
     {
         footnoteMacro.getChildren().clear();
-        footnoteMacro.addChild(footnoteRef);
+        if (footnoteMacro.isInline()) {
+            footnoteMacro.addChild(footnoteRef);
+        } else {
+            footnoteMacro.addChild(new ParagraphBlock(List.of(footnoteRef)));
+        }
     }
 
     /**
