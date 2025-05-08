@@ -47,20 +47,24 @@ endMacroMarkerInline [footnote] [] [content 2]
 endParagraph
 beginMacroMarkerStandalone [executedcontent] [] [{{footnote}}Inner footnote{{/footnote}}]
 beginMacroMarkerStandalone [footnote] [] [Inner footnote]
+beginParagraph
 beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
 beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
 onWord [3]
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1]]] [false]
 endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1]]
+endParagraph
 endMacroMarkerStandalone [footnote] [] [Inner footnote]
 endMacroMarkerStandalone [executedcontent] [] [{{footnote}}Inner footnote{{/footnote}}]
 beginMacroMarkerStandalone [executedcontent] [] [{{footnote}}Second inner footnote{{/footnote}}]
 beginMacroMarkerStandalone [footnote] [] [Second inner footnote]
+beginParagraph
 beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1-1]]
 beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1-1]]] [false]
 onWord [4]
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_1-1]]] [false]
 endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_1-1]]
+endParagraph
 endMacroMarkerStandalone [footnote] [] [Second inner footnote]
 endMacroMarkerStandalone [executedcontent] [] [{{footnote}}Second inner footnote{{/footnote}}]
 onEmptyLines [1]
@@ -68,11 +72,13 @@ beginMacroMarkerStandalone [footnote] [] [These are the footnotes:
 
 {{putFootnotes/}}
 ]
+beginParagraph
 beginFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_5]]
 beginLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_5]]] [false]
 onWord [5]
 endLink [Typed = [true] Type = [doc] Parameters = [[anchor] = [x_footnote_5]]] [false]
 endFormat [SUPERSCRIPT] [[class]=[footnoteRef][id]=[x_footnote_ref_5]]
+endParagraph
 endMacroMarkerStandalone [footnote] [] [These are the footnotes:
 
 {{putFootnotes/}}
