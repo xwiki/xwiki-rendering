@@ -91,7 +91,8 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
     public void flush()
     {
         if (getBuffer().length() > 0) {
-            this.escapeHandler.escape(getBuffer(), this.listenerChain, this.escapeLastChar, this.escapeFirstIfMatching);
+            this.escapeHandler.escape(getBuffer(), this.listenerChain, this.escapeLastChar, this.escapeFirstIfMatching,
+                this.lastPrinted);
             super.flush();
         }
         this.escapeLastChar = false;

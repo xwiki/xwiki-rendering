@@ -43,6 +43,9 @@ public class XWikiSyntaxEscapeHandler
 
     private static final Pattern TABLE_PATTERN = Pattern.compile("\\p{Blank}*(\\||!!|!=)");
 
+    // This pattern closely follows the JavaCC grammar for parameters.
+    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\(%(?:~.|[^%~]|%[^)~]|%~.)*+%\\)");
+
     /**
      * Note that we take care to not match if the first character is preceded by an escape (i.e. '~).
      */
@@ -64,7 +67,7 @@ public class XWikiSyntaxEscapeHandler
     }
 
     public void escape(StringBuffer accumulatedBuffer, XWikiSyntaxListenerChain listenerChain, boolean escapeLastChar,
-        Pattern escapeFirstIfMatching)
+        Pattern escapeFirstIfMatching, String lastPrinted)
     {
         BlockStateChainingListener blockStateListener = listenerChain.getBlockStateChainingListener();
 
@@ -90,6 +93,12 @@ public class XWikiSyntaxEscapeHandler
 
             // Look for quote pattern at beginning of line and escape the first character only (it's enough)
             escapeFirstMatchedCharacter(QUOTE_PATTERN, accumulatedBuffer);
+        } else if (blockStateListener.isInLine() && lastPrinted != null
+            && PARAMETER_PATTERN.matcher(lastPrinted).matches())
+        {
+            // TODO: this might be escaping too much, we would only need to add the escaping when the parameters are at
+            //  the start of the line.
+            escapeFirstMatchedCharacter(TABLE_PATTERN, accumulatedBuffer);
         }
 
         // Escape table characters
