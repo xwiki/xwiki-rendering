@@ -1,0 +1,35 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|xwiki/2.0
+.# XRENDERING-786 - Test that tables with parameters are properly escaped at the beginning of a line.
+.#-------------------------------------------------------------------------------------------------------
+|(((
+(% style="color: rgb(6,125,23);" %)hello
+(%%)~!!!! same cell
+)))
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginTable
+beginTableRow
+beginTableCell
+beginGroup
+beginParagraph
+beginFormat [NONE] [[style]=[color: rgb(6,125,23);]]
+onWord [hello]
+onNewLine
+endFormat [NONE] [[style]=[color: rgb(6,125,23);]]
+onSpecialSymbol [!]
+onSpecialSymbol [!]
+onSpecialSymbol [!]
+onSpecialSymbol [!]
+onSpace
+onWord [same]
+onSpace
+onWord [cell]
+endParagraph
+endGroup
+endTableCell
+endTableRow
+endTable
+endDocument
