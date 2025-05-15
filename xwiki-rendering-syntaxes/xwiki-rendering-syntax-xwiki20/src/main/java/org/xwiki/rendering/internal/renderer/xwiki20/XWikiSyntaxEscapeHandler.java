@@ -43,6 +43,7 @@ public class XWikiSyntaxEscapeHandler
 
     private static final Pattern TABLE_PATTERN = Pattern.compile("\\p{Blank}*(\\||!!|!=)");
 
+    // This pattern closely follows the JavaCC grammar for parameters.
     private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\(%(?:~.|[^%~]|%[^)~]|%~.)*+%\\)");
 
     /**
