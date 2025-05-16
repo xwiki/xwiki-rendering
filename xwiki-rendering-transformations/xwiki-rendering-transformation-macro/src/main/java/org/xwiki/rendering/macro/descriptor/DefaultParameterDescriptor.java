@@ -126,4 +126,10 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
     {
         return this.propertyDescriptor.isDisplayHidden();
     }
+
+    @Override
+    public int getOrder()
+    {
+        return this.propertyDescriptor.getOrder();
+    }
 }
