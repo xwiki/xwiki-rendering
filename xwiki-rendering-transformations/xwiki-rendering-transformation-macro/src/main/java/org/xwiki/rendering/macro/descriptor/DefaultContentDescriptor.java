@@ -21,6 +21,8 @@ package org.xwiki.rendering.macro.descriptor;
 
 import java.lang.reflect.Type;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * The default implementation of {@link ContentDescriptor}.
  *
@@ -52,6 +54,8 @@ public class DefaultContentDescriptor implements ContentDescriptor
      * @since 10.10RC1
      */
     private Type type = DEFAULT_CONTENT_TYPE;
+
+    private int order = -1;
 
     /**
      * Default constructor.
@@ -115,5 +119,23 @@ public class DefaultContentDescriptor implements ContentDescriptor
     public Type getType()
     {
         return this.type;
+    }
+
+    @Override
+    public int getOrder()
+    {
+        return order;
+    }
+
+    /**
+     * @param order see {@link #getOrder()}.
+     * @return the current instance
+     * @since 17.5.0RC1
+     */
+    @Unstable
+    public DefaultContentDescriptor setOrder(int order)
+    {
+        this.order = order;
+        return this;
     }
 }

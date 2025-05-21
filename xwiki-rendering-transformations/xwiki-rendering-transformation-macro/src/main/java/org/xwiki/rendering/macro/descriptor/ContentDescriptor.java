@@ -21,6 +21,8 @@ package org.xwiki.rendering.macro.descriptor;
 
 import java.lang.reflect.Type;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * Define a macro content.
  *
@@ -48,5 +50,17 @@ public interface ContentDescriptor
     default Type getType()
     {
         return String.class;
+    }
+
+    /**
+     * @return the ordering value to use to display the property in the UI. The lower the value, the higher the
+     * priority. {@code -1} means no defined order.
+     * @since 17.5.0RC1
+     * @see ParameterDescriptor#getOrder()
+     */
+    @Unstable
+    default int getOrder()
+    {
+        return -1;
     }
 }
