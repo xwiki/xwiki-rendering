@@ -136,6 +136,8 @@ class DefaultMacroManagerTest
     {
         assertFalse(this.macroManager.exists(new MacroId("testsimplemacro",
             new Syntax(SyntaxType.XWIKI, "2.0"))));
+        assertTrue(this.macroManager.exists(new MacroId("testsimplemacro",
+            new Syntax(SyntaxType.XWIKI, "2.0")), true));
     }
 
     @Test

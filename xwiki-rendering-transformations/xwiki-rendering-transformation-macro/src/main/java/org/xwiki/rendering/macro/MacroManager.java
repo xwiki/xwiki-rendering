@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.stability.Unstable;
 
 /**
  * Allow retrieving and test the existence of macros. Macros can be available for all syntaxes or only available for
@@ -73,6 +74,21 @@ public interface MacroManager
      *         MacroId), false otherwise. Returns false if a macro with the given id exists but has been registered only
      *         for all syntaxes
      * @since 2.03M
+     * @see #exists(MacroId, boolean)
      */
     boolean exists(MacroId macroId);
+
+    /**
+     * @param macroId the id of the macro to lookup
+     * @param checkAllSyntaxes {@code true} if the method should check if the macro exists for all syntaxes.
+     * @return {@code true} if a macro with the given id and for the given syntax can be found (if any is specified in
+     *         the MacroId). The result is also true if {@param checkAllSyntaxes} is set to true and the macro exists
+     *         for all syntaxes. {@code false} otherwise.
+     * @since 17.5.0RC1
+     */
+    @Unstable
+    default boolean exists(MacroId macroId, boolean checkAllSyntaxes)
+    {
+        return exists(macroId);
+    }
 }

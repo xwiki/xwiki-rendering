@@ -141,12 +141,18 @@ public class DefaultMacroManager implements MacroManager
     @Override
     public boolean exists(MacroId macroId)
     {
+        return exists(macroId, false);
+    }
+
+    @Override
+    public boolean exists(MacroId macroId, boolean checkAllSyntaxes)
+    {
         String macroHint = macroId.toString();
-        boolean hasMacro = true;
-        try {
-            this.componentManager.get().getInstance(Macro.class, macroHint);
-        } catch (ComponentLookupException ex) {
-            hasMacro = false;
+        ComponentManager cm = this.componentManager.get();
+        boolean hasMacro = cm.hasComponent(Macro.class, macroHint);
+        if (!hasMacro && checkAllSyntaxes) {
+            // fallback on all syntaxes
+            hasMacro = cm.hasComponent(Macro.class, macroId.getId());
         }
         return hasMacro;
     }
