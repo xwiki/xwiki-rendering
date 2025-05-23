@@ -92,7 +92,6 @@
                 org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiReferenceTagHandler.java,
                 org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiCommentHandler.java,
                 org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiHeaderTagHandler.java,
-                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiSpanTagHandler.java,
                 org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXMLReaderFactory.java,
                 org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiWikiReference.java,
                 org/xwiki/rendering/internal/renderer/xhtml/link/DefaultXHTMLLinkRenderer.java,
