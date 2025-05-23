@@ -1,0 +1,38 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Formatting inside links. Also verify that when classes are combined due a bug, the ignored class is removed again.
+.#-----------------------------------------------------
+<p><!--startwikilink:true|-|path|-|/bin/view/Page--><span class="wikiinternallink"><a href="/bin/view/Page"><span
+class="test">Page</span></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:true|-|path|-|/bin/view/Page--><span class="wikiinternallink"><a href="/bin/view/Page"><span
+class="test wikiinternallink ">Page</span></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:true|-|path|-|/bin/view/Page--><span class="wikiinternallink"><a href="/bin/view/Page"
+>Page</a></span><!--stopwikilink--></p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [true] Type = [path] Reference = [/bin/view/Page]] [false]
+beginFormat [NONE] [[class]=[test]]
+onWord [Page]
+endFormat [NONE] [[class]=[test]]
+endLink [Typed = [true] Type = [path] Reference = [/bin/view/Page]] [false]
+endParagraph
+beginParagraph
+beginLink [Typed = [true] Type = [path] Reference = [/bin/view/Page]] [false]
+beginFormat [NONE] [[class]=[test]]
+onWord [Page]
+endFormat [NONE] [[class]=[test]]
+endLink [Typed = [true] Type = [path] Reference = [/bin/view/Page]] [false]
+endParagraph
+beginParagraph
+beginLink [Typed = [true] Type = [path] Reference = [/bin/view/Page]] [false]
+onWord [Page]
+endLink [Typed = [true] Type = [path] Reference = [/bin/view/Page]] [false]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p><span class="wikiinternallink"><a href="/bin/view/Page"><span class="test">Page</span></a></span></p><p><span class="wikiinternallink"><a href="/bin/view/Page"><span class="test">Page</span></a></span></p><p><span class="wikiinternallink"><a href="/bin/view/Page">Page</a></span></p>
