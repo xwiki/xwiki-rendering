@@ -36,6 +36,7 @@ import org.xwiki.configuration.ConfigurationSource;
  *
  * @version $Id$
  * @since 17.3.0RC1
+ * @since 16.10.9
  */
 @Component(roles = IsolatedExecutionConfiguration.class)
 @Singleton

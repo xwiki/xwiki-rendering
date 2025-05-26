@@ -96,6 +96,7 @@ public interface Macro<P> extends Comparable<Macro<?>>
      * A macro needs to return {@code false} if it executes macro transformations with macros it doesn't know
      * (e.g., parsed from its content or another page) with the XDOM or the macro block accessible for these macros.
      * @since 17.3.0RC1
+     * @since 16.10.9
      */
     @Unstable
     default boolean isExecutionIsolated(P parameters, String content)
