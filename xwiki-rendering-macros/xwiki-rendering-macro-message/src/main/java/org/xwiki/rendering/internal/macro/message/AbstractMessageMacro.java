@@ -164,7 +164,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<BoxMacroPara
     }
 
     @Override
-    public boolean isExecutionIsolated(MessageMacroParameters parameters, String content)
+    public boolean isExecutionIsolated(BoxMacroParameters parameters, String content)
     {
         return true;
     }
