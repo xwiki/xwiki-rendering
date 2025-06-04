@@ -133,8 +133,8 @@ public class XWikiSyntaxResourceRenderer
 
     private boolean isNonWhiteSpaceAndConsumed(boolean isLastSyntax, XWikiSyntaxEscapeWikiPrinter printer)
     {
-        return !isLastSyntax && !printer.isAfterWhiteSpace() && (!PlainTextStreamParser.SPECIALSYMBOL_PATTERN.matcher(
-            String.valueOf(printer.getLastPrinted().charAt(printer.getLastPrinted().length() - 1))).matches());
+        return !isLastSyntax && !printer.isAfterWhiteSpace() && (!PlainTextStreamParser.SPECIAL_SYMBOLS.get(
+            printer.getLastPrinted().charAt(printer.getLastPrinted().length() - 1)));
     }
 
     private boolean isNotAWhiteSpace(Event nextEvent)

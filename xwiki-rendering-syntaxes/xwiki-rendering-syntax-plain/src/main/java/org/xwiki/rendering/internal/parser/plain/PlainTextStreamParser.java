@@ -22,7 +22,7 @@ package org.xwiki.rendering.internal.parser.plain;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.regex.Pattern;
+import java.util.BitSet;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -49,7 +49,14 @@ public class PlainTextStreamParser implements StreamParser
      * The characters which are considered as "special" symbols for {@link org.xwiki.rendering.block.SpecialSymbolBlock}
      * .
      */
-    public static final Pattern SPECIALSYMBOL_PATTERN = Pattern.compile("[!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~]");
+    public static final BitSet SPECIAL_SYMBOLS = new BitSet();
+
+    static {
+        String specials = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+        for (char c : specials.toCharArray()) {
+            SPECIAL_SYMBOLS.set(c);
+        }
+    }
 
     @Override
     public Syntax getSyntax()
@@ -97,7 +104,7 @@ public class PlainTextStreamParser implements StreamParser
             parseChar(charAsInt, word, listener);
         }
 
-        if (word.length() > 0) {
+        if (!word.isEmpty()) {
             listener.onWord(word.toString());
         }
 
@@ -108,11 +115,11 @@ public class PlainTextStreamParser implements StreamParser
         listener.endDocument(MetaData.EMPTY);
     }
 
-    private void parseChar(int charAsInt, StringBuilder word, Listener listener) throws ParseException
+    private void parseChar(int charAsInt, StringBuilder word, Listener listener)
     {
         char c = (char) charAsInt;
         if (c == '\n') {
-            if (word.length() > 0) {
+            if (!word.isEmpty()) {
                 listener.onWord(word.toString());
             }
             listener.onNewLine();
@@ -121,14 +128,14 @@ public class PlainTextStreamParser implements StreamParser
         } else if (c == '\r') {
             // Do nothing, skip it
         } else if (c == ' ') {
-            if (word.length() > 0) {
+            if (!word.isEmpty()) {
                 listener.onWord(word.toString());
             }
             listener.onSpace();
 
             word.setLength(0);
-        } else if (SPECIALSYMBOL_PATTERN.matcher(String.valueOf(c)).matches()) {
-            if (word.length() > 0) {
+        } else if (SPECIAL_SYMBOLS.get(c)) {
+            if (!word.isEmpty()) {
                 listener.onWord(word.toString());
             }
             listener.onSpecialSymbol(c);
