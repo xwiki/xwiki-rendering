@@ -986,12 +986,12 @@ void inline():
     (
         <WORD>
         {
-            fContext.onWord(token.image.replaceAll("~", ""));
+            fContext.onWord(token.image.replace("~", ""));
         }
         |
         <XWIKI_SPACE>
         {
-            fContext.onSpace(token.image.replaceAll("~", ""));
+            fContext.onSpace(token.image.replace("~", ""));
         }
         |
         <XWIKI_SPECIAL_SYMBOL>
