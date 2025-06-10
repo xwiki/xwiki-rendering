@@ -1,0 +1,44 @@
+.#-----------------------------------------------------
+.input|plain/1.0
+.# Verify that all special characters are correctly recognized.
+.#-----------------------------------------------------
+!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onSpecialSymbol [!]
+onSpecialSymbol ["]
+onSpecialSymbol [#]
+onSpecialSymbol [$]
+onSpecialSymbol [%]
+onSpecialSymbol [&]
+onSpecialSymbol [']
+onSpecialSymbol [(]
+onSpecialSymbol [)]
+onSpecialSymbol [*]
+onSpecialSymbol [+]
+onSpecialSymbol [,]
+onSpecialSymbol [-]
+onSpecialSymbol [.]
+onSpecialSymbol [/]
+onSpecialSymbol [:]
+onSpecialSymbol [;]
+onSpecialSymbol [<]
+onSpecialSymbol [=]
+onSpecialSymbol [>]
+onSpecialSymbol [?]
+onSpecialSymbol [@]
+onSpecialSymbol [[]
+onSpecialSymbol [\]
+onSpecialSymbol []]
+onSpecialSymbol [^]
+onSpecialSymbol [_]
+onSpecialSymbol [`]
+onSpecialSymbol [{]
+onSpecialSymbol [|]
+onSpecialSymbol [}]
+onSpecialSymbol [~]
+endParagraph
+endDocument
