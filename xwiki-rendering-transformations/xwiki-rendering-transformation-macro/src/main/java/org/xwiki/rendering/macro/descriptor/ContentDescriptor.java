@@ -55,7 +55,7 @@ public interface ContentDescriptor
     /**
      * @return the ordering value to use to display the property in the UI. The lower the value, the higher the
      * priority. {@code -1} means no defined order.
-     * @since 17.5.0RC1
+     * @since 17.5.0
      * @see ParameterDescriptor#getOrder()
      */
     @Unstable

@@ -130,7 +130,7 @@ public class DefaultContentDescriptor implements ContentDescriptor
     /**
      * @param order see {@link #getOrder()}.
      * @return the current instance
-     * @since 17.5.0RC1
+     * @since 17.5.0
      */
     @Unstable
     public DefaultContentDescriptor setOrder(int order)
