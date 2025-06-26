@@ -84,7 +84,7 @@ public interface MacroManager
      * @return {@code true} if a macro with the given id and for the given syntax can be found (if any is specified in
      *         the MacroId). The result is also true if {@param checkAllSyntaxes} is set to true and the macro exists
      *         for all syntaxes. {@code false} otherwise.
-     * @since 17.5.0RC1
+     * @since 17.5.0
      */
     @Unstable
     default boolean exists(MacroId macroId, boolean checkAllSyntaxes)
