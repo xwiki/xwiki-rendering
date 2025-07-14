@@ -45,9 +45,11 @@ class XHTMLWikiPrinterTest
     @ParameterizedTest
     @CsvSource({
         "Closing the {{/html}} macro., Closing the &#123;&#123;/html}} macro.",
+        "{{html clean=\"false\"}} {{/html }}, &#123;&#123;html clean=\"false\"}} &#123;&#123;/html }}",
         "Starting a macro {, Starting a macro &#123;",
+        "Partial open: {{h, Partial open: {&#123;h",
         "Partial: {{/h, Partial: {&#123;/h",
-        "{{html}}, {{html}}"
+        "{{html}}, &#123;&#123;html}}"
     })
     void testRawEscaping(String input, String expected)
     {
