@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.renderer.printer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,6 +59,16 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
     private static final Pattern DATA_REPLACEMENT_PATTERN = Pattern.compile("[^A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6"
         + "\\u00F8-\\u02ff\\u0370-\\u037d\\u037f-\\u1fff\\u200c\\u200d\\u2070-\\u218f\\u2c00-\\u2fef\\u3001-\\ud7ff"
         + "\\uf900-\\ufdcf\\ufdf0-\\ufffd\\x{10000}-\\x{EFFFF}\\-.0-9\\u00b7\\u0300-\\u036f\\u203f-\\u2040]");
+
+    // Precomputed forbidden suffixes/prefixes to prevent the injection of opening or closing HTML macro syntaxes at
+    // the end of raw content.
+    private static final List<String> FORBIDDEN_RAW_SUFFIX_PREFIXES = computeForbiddenRawSuffixPrefixes();
+
+    // Forbidden substrings to prevent the injection of opening and closing HTML macro syntaxes in raw content to
+    // ensure that rendering output can be used safely in HTML macros.
+    private static final String[] FORBIDDEN_RAW_STRINGS = new String[] { "{{html", "{{/html" };
+
+    private static final String[] FORBIDDEN_RAW_REPLACEMENTS = new String[] { "&#123;&#123;html", "&#123;&#123;/html" };
 
     /**
      * The sanitizer used to restrict allowed elements and attributes, can be null (no restrictions).
@@ -230,17 +241,17 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
     public void printRaw(String raw)
     {
         handleSpaceWhenStartElement();
-        // Prevent injecting {{/html}}. We escape {{/html}} as well as prefixes of {{/html}} at the end of the raw
-        // content to avoid that raw content and plain texts can be combined to construct the full {{/html}}. This may
-        // cause errors as we might not be using the right escaping for the context (e.g., JSON or HTML comments) but
-        // for this reason we also escape in JSON output and HTML comments.
-        String escapedRaw = raw.replace("{{/html}}", "&#123;&#123;/html}}");
+        // Prevent injecting {{/html}}. As there can be an arbitrary number of spaces before the }}, we actually
+        // escape {{/html. We escape {{/html as well as prefixes of {/html and {html at the end of the raw content to
+        // avoid that raw content and plain texts can be combined to construct the full {{/html}} or {{html}}. This may
+        // cause errors as we might not be using the right escaping for the context (e.g., JSON or HTML comments), but
+        // for this reason we also escape { in JSON output and HTML comments.
+        String escapedRaw = StringUtils.replaceEach(raw, FORBIDDEN_RAW_STRINGS, FORBIDDEN_RAW_REPLACEMENTS);
 
-        StringBuilder prefix = new StringBuilder();
-        for (Character nextChar : List.of('{', '/', 'h', 't', 'm', 'l', '}', '}')) {
-            prefix.append(nextChar);
-
-            if (escapedRaw.endsWith(prefix.toString())) {
+        // Check all prefixes, they are pre-computed to ensure that this code is as efficient as possible in
+        // particular in the very likely case that no such suffix actually exists.
+        for (String prefix : FORBIDDEN_RAW_SUFFIX_PREFIXES) {
+            if (escapedRaw.endsWith(prefix)) {
                 escapedRaw =
                     escapedRaw.substring(0, escapedRaw.length() - prefix.length()) + "&#123;" + prefix.substring(1);
                 break;
@@ -248,6 +259,19 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         }
         super.printRaw(escapedRaw);
         this.elementEnded = true;
+    }
+
+    private static List<String> computeForbiddenRawSuffixPrefixes()
+    {
+        List<String> forbidden = new ArrayList<>(12);
+        // Add the common { prefix separately such that we won't add it twice in the loop below.
+        forbidden.add("{");
+        for (String suffix : List.of("{/html", "{html")) {
+            for (int i = 2; i <= suffix.length(); i++) {
+                forbidden.add(suffix.substring(0, i));
+            }
+        }
+        return forbidden;
     }
 
     private void handleSpaceWhenInText()
