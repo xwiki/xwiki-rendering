@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.test.cts;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -36,10 +35,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @version $Id$
  * @since 4.1M1
  */
-public class TestDataParserTest
+class TestDataParserTest
 {
     @Test
-    public void findRelativeTestDirectoryNames()
+    void findRelativeTestDirectoryNames()
     {
         TestDataParser parser = new TestDataParser();
         Set<String> prefixes = parser.findRelativeTestDirectoryNames("ctstest", "type", ".*\\.xml");
@@ -48,7 +47,7 @@ public class TestDataParserTest
     }
 
     @Test
-    public void readTestData() throws Exception
+    void readTestData() throws Exception
     {
         TestDataParser parser = new TestDataParser();
         List<TestData> data = parser.parseTestData("syntax/1.0", "ctstest", "type", ".*\\.xml");
@@ -58,8 +57,8 @@ public class TestDataParserTest
         Properties properties = new Properties();
         properties.setProperty("type/test/test1", "Description1");
         configuration.testDescriptions = properties;
-        configuration.failingTests = Arrays.asList("failingregex");
-        configuration.notApplicableTests = Arrays.asList("notapplicableregex");
+        configuration.failingTests = List.of("failingregex");
+        configuration.notApplicableTests = List.of("notapplicableregex");
 
         TestData test1 = new TestData();
         test1.isSyntaxInputTest = true;
