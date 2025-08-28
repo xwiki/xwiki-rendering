@@ -120,16 +120,17 @@ class DefaultTransformationManagerTest
                 new TransformationContext(XDOM.EMPTY, Syntax.XWIKI_2_0));
         });
 
-        String expected = "\\QThe following transformations failed to execute properly: [\\E\n"
-            + "\\Q- Transformation: "
-                + "[org.xwiki.rendering.internal.transformation.DefaultTransformationManagerTest$Transformation2]\\E\n"
-            + "\\Qorg.xwiki.rendering.transformation.TransformationException: error\\E\n"
-            + "(.*\n)+"
-            + "\\Q- Transformation: "
-                + "[org.xwiki.rendering.internal.transformation.DefaultTransformationManagerTest$Transformation1]\\E\n"
-            + "\\Qorg.xwiki.rendering.transformation.TransformationException: error\\E\n"
-            + "(.*\n)+"
-            + "]";
+        String expected = """
+            \\QThe following transformations failed to execute properly: [\\E
+            \\Q- Transformation: \
+            [org.xwiki.rendering.internal.transformation.DefaultTransformationManagerTest$Transformation2]\\E
+            \\Qorg.xwiki.rendering.transformation.TransformationException: error\\E
+            (.*\\n)+\
+            \\Q- Transformation: \
+            [org.xwiki.rendering.internal.transformation.DefaultTransformationManagerTest$Transformation1]\\E
+            \\Qorg.xwiki.rendering.transformation.TransformationException: error\\E
+            (.*\\n)+]\
+            """;
         assertThat(exception.getMessage(), matchesPattern(expected));
     }
 }
