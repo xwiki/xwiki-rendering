@@ -19,12 +19,11 @@
  */
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,17 +34,20 @@ import java.util.regex.Pattern;
 
 import javax.inject.Provider;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.xwiki.component.util.DefaultParameterizedType;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.xwiki.component.util.ReflectionUtils;
 import org.xwiki.observation.ObservationManager;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerThreadInitializer;
 import org.xwiki.rendering.transformation.linkchecker.LinkCheckerTransformationConfiguration;
 import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
+import org.xwiki.test.LogLevel;
 import org.xwiki.test.annotation.BeforeComponent;
-import org.xwiki.test.mockito.MockitoComponentMockingRule;
+import org.xwiki.test.junit5.LogCaptureExtension;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
+import org.xwiki.test.junit5.mockito.MockComponent;
 
 /**
  * Unit tests for {@link DefaultLinkCheckerThread}. Note that the Link Checker Thread is also tested indirectly by
@@ -54,75 +56,81 @@ import org.xwiki.test.mockito.MockitoComponentMockingRule;
  * @version $Id$
  * @since 4.0M2
  */
-public class LinkCheckerThreadTest
+@ComponentTest
+class LinkCheckerThreadTest
 {
-    @Rule
-    public MockitoComponentMockingRule<DefaultLinkCheckerThread> componentManager =
-        new MockitoComponentMockingRule<>(DefaultLinkCheckerThread.class);
+    @RegisterExtension
+    private static final LogCaptureExtension logCapture = new LogCaptureExtension(LogLevel.WARN);
 
+    @InjectMockComponents
+    private DefaultLinkCheckerThread thread;
+
+    @MockComponent
+    private ObservationManager observationManager;
+
+    @MockComponent
     private Provider<ObservationManager> observationManagerProvider;
 
+    @MockComponent
+    private LinkCheckerTransformationConfiguration configuration;
+
+    @MockComponent
+    private HTTPChecker httpChecker;
+
+    @MockComponent
+    private LinkStateManager linkStateManager;
+
+    @MockComponent
+    private LinkCheckerThreadInitializer initializer;
+
     @BeforeComponent
-    public void setUpComponents() throws Exception
+    public void setUpComponents()
     {
-        ObservationManager observationManager = mock(ObservationManager.class);
-        this.observationManagerProvider = this.componentManager.registerMockComponent(
-             new DefaultParameterizedType(null, Provider.class, ObservationManager.class));
-        when(this.observationManagerProvider.get()).thenReturn(observationManager);
+        when(this.observationManagerProvider.get()).thenReturn(this.observationManager);
     }
 
     /**
      * Just verify that we can register a LinkCheckerThreadInitializer and it'll be called.
      */
     @Test
-    public void runWithInitializer() throws Exception
+    void runWithInitializer()
     {
-        LinkCheckerThreadInitializer initializer =
-            this.componentManager.registerMockComponent(LinkCheckerThreadInitializer.class);
-
         Queue<LinkQueueItem> queue = new ConcurrentLinkedQueue<>();
 
-        DefaultLinkCheckerThread thread = this.componentManager.getComponentUnderTest();
-
         // Make sure the thread is stopped quickly
-        ReflectionUtils.setFieldValue(thread, "shouldStop", true);
+        ReflectionUtils.setFieldValue(this.thread, "shouldStop", true);
 
-        thread.run(queue);
+        this.thread.run(queue);
 
         // This is the test, we verify that the registered Link Checker Initializer is called.
-        verify(initializer).initialize();
+        verify(this.initializer).initialize();
     }
 
     @Test
-    public void runWithExclusion() throws Exception
+    void runWithExclusion()
     {
-        LinkCheckerTransformationConfiguration configuration =
-            this.componentManager.getInstance(LinkCheckerTransformationConfiguration.class);
-        when(configuration.getCheckTimeout()).thenReturn(3600000L);
-        when(configuration.getExcludedReferencePatterns()).thenReturn(
+        when(this.configuration.getCheckTimeout()).thenReturn(3600000L);
+        when(this.configuration.getExcludedReferencePatterns()).thenReturn(
             Collections.singletonList(Pattern.compile(".*:excludedspace\\.excludedpage")));
 
-        HTTPChecker httpChecker = this.componentManager.getInstance(HTTPChecker.class);
-        when(httpChecker.check("linkreference1")).thenReturn(200);
-        when(httpChecker.check("linkreference2")).thenReturn(200);
+        when(this.httpChecker.check("linkreference1")).thenReturn(200);
+        when(this.httpChecker.check("linkreference2")).thenReturn(200);
 
-        LinkStateManager linkStateManager = this.componentManager.getInstance(LinkStateManager.class);
         Map<String, Map<String, LinkState>> states = new HashMap<>();
-        when(linkStateManager.getLinkStates()).thenReturn(states);
+        when(this.linkStateManager.getLinkStates()).thenReturn(states);
 
         Queue<LinkQueueItem> queue = new ConcurrentLinkedQueue<>();
         queue.add(new LinkQueueItem("linkreference1", "excludedwiki:excludedspace.excludedpage",
-            Collections.<String, Object>emptyMap()));
-        queue.add(new LinkQueueItem("linkreference2", "someotherpage", Collections.<String, Object>emptyMap()));
+            Collections.emptyMap()));
+        queue.add(new LinkQueueItem("linkreference2", "someotherpage", Collections.emptyMap()));
 
-        DefaultLinkCheckerThread thread = this.componentManager.getComponentUnderTest();
-        ReflectionUtils.setFieldValue(thread, "linkQueue", queue);
+        ReflectionUtils.setFieldValue(this.thread, "linkQueue", queue);
 
         // Process first element in queue
-        thread.processLinkQueue();
+        this.thread.processLinkQueue();
 
         // Process second element in queue
-        thread.processLinkQueue();
+        this.thread.processLinkQueue();
 
         assertEquals(1, states.size());
         assertNull(states.get("linkreference1"));
@@ -130,22 +138,20 @@ public class LinkCheckerThreadTest
     }
 
     @Test
-    public void sendEventWhenNoObservationManager() throws Exception
+    void sendEventWhenNoObservationManager()
     {
-        HTTPChecker httpChecker = this.componentManager.getInstance(HTTPChecker.class);
-        when(httpChecker.check("linkreference")).thenReturn(404);
+        when(this.httpChecker.check("linkreference")).thenReturn(404);
 
         Queue<LinkQueueItem> queue = new ConcurrentLinkedQueue<>();
-        queue.add(new LinkQueueItem("linkreference", "someref", Collections.<String, Object>emptyMap()));
+        queue.add(new LinkQueueItem("linkreference", "someref", Collections.emptyMap()));
 
-        DefaultLinkCheckerThread thread = this.componentManager.getComponentUnderTest();
-        ReflectionUtils.setFieldValue(thread, "linkQueue", queue);
+        ReflectionUtils.setFieldValue(this.thread, "linkQueue", queue);
 
         when(this.observationManagerProvider.get()).thenThrow(new RuntimeException("error"));
 
-        thread.processLinkQueue();
+        this.thread.processLinkQueue();
 
-        verify(this.componentManager.getMockedLogger()).warn("The Invalid URL Event for URL [{}] (source [{}]) wasn't "
-            + "sent as no Observation Manager Component was found", "linkreference", "someref");
+        assertEquals("The Invalid URL Event for URL [linkreference] (source [someref]) wasn't sent as no Observation "
+            + "Manager Component was found", logCapture.getMessage(0));
     }
 }
