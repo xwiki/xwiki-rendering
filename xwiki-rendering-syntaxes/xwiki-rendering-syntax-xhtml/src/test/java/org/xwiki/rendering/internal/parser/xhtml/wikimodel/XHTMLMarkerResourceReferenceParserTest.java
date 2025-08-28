@@ -19,13 +19,18 @@
  */
 package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
 
-import org.junit.Assert;
-import org.junit.Test;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.internal.renderer.ParametersPrinter;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for {@link org.xwiki.rendering.internal.parser.xwiki20.XWiki20ImageReferenceParser}.
@@ -33,34 +38,31 @@ import org.xwiki.test.jmock.AbstractComponentTestCase;
  * @version $Id$
  * @since 2.5RC1
  */
-public class XHTMLMarkerResourceReferenceParserTest extends AbstractComponentTestCase
+@ComponentTest
+@AllComponents
+class XHTMLMarkerResourceReferenceParserTest
 {
+    @Inject
+    @Named("xhtmlmarker")
     private ResourceReferenceParser parser;
 
-    @Override
-    protected void registerComponents() throws Exception
-    {
-        this.parser = getComponentManager().getInstance(ResourceReferenceParser.class, "xhtmlmarker");
-    }
-
     @Test
-    public void testParse()
+    void parse()
     {
         ResourceReference expected = new ResourceReference("reference", ResourceType.DOCUMENT);
         expected.setParameter("param1", "value1");
         expected.setParameter("param2", "value2");
 
-        Assert.assertEquals(expected, this.parser.parse("true|-|doc|-|reference|-|param1=value1 param2=value2"));
+        assertEquals(expected, this.parser.parse("true|-|doc|-|reference|-|param1=value1 param2=value2"));
     }
 
     @Test
-    public void testParseWithEscapesInParameterValues()
+    void parseWithEscapesInParameterValues()
     {
         ResourceReference expected = new ResourceReference("reference", ResourceType.DOCUMENT);
         expected.setParameter("param", "va\"l\\=ue");
 
         ParametersPrinter printer = new ParametersPrinter('\\');
-        Assert.assertEquals(expected, this.parser.parse("true|-|doc|-|reference|-|"
-            + printer.print("param", "va\"l\\=ue")));
+        assertEquals(expected, this.parser.parse("true|-|doc|-|reference|-|" + printer.print("param", "va\"l\\=ue")));
     }
 }
