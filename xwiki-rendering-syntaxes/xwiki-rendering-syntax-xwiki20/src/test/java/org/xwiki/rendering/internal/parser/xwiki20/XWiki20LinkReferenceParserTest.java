@@ -19,13 +19,12 @@
  */
 package org.xwiki.rendering.internal.parser.xwiki20;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.rendering.internal.parser.reference.DefaultUntypedLinkReferenceParser;
 import org.xwiki.rendering.internal.parser.reference.type.AttachmentResourceReferenceTypeParser;
 import org.xwiki.rendering.internal.parser.reference.type.DocumentResourceReferenceTypeParser;
@@ -40,12 +39,15 @@ import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.wiki.WikiModel;
 import org.xwiki.test.annotation.BeforeComponent;
 import org.xwiki.test.annotation.ComponentList;
-import org.xwiki.test.mockito.MockitoComponentManagerRule;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectComponentManager;
+import org.xwiki.test.junit5.mockito.MockComponent;
+import org.xwiki.test.mockito.MockitoComponentManager;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 /**
@@ -54,6 +56,7 @@ import static org.mockito.Mockito.when;
  * @version $Id$
  * @since 2.5RC1
  */
+@ComponentTest
 //@formatter:off
 @ComponentList({
     XWiki20LinkReferenceParser.class,
@@ -65,12 +68,18 @@ import static org.mockito.Mockito.when;
     SpaceResourceReferenceTypeParser.class
 })
 //@formatter:on
-public class XWiki20LinkReferenceParserTest
+class XWiki20LinkReferenceParserTest
 {
-    @Rule
-    public MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
+    @InjectComponentManager
+    private MockitoComponentManager componentManager;
 
-    protected ResourceReferenceParser parser;
+    @MockComponent
+    @Named("context")
+    private Provider<ComponentManager> contextComponentManagerProvider;
+
+    @Inject
+    @Named("xwiki/2.0/link")
+    private ResourceReferenceParser parser;
 
     @BeforeComponent
     public void setUpComponents() throws Exception
@@ -78,19 +87,11 @@ public class XWiki20LinkReferenceParserTest
         // Create a Mock WikiModel implementation so that the link parser works in wiki mode
         this.componentManager.registerMockComponent(WikiModel.class);
 
-        Provider<ComponentManager> contextComponentManagerProvider = this.componentManager.registerMockComponent(
-            new DefaultParameterizedType(null, Provider.class, ComponentManager.class), "context");
-        when(contextComponentManagerProvider.get()).thenReturn(this.componentManager);
-    }
-
-    @Before
-    public void setUp() throws Exception
-    {
-        this.parser = this.componentManager.getInstance(ResourceReferenceParser.class, "xwiki/2.0/link");
+        when(this.contextComponentManagerProvider.get()).thenReturn(this.componentManager);
     }
 
     @Test
-    public void testParseLinksWhenInWikiModeCommon() throws Exception
+    void parseLinksWhenInWikiModeCommon()
     {
         ResourceReference reference = this.parser.parse("");
         assertEquals("", reference.getReference());
@@ -136,7 +137,7 @@ public class XWiki20LinkReferenceParserTest
     }
 
     @Test
-    public void testParseLinksWhenInWikiMode() throws Exception
+    void parseLinksWhenInWikiMode()
     {
         // Test Query Strings in links to document
         ResourceReference reference = this.parser.parse("Hello World?xredirect=../whatever");
@@ -189,7 +190,7 @@ public class XWiki20LinkReferenceParserTest
     }
 
     @Test
-    public void testParseLinksWithEscapes() throws Exception
+    void parseLinksWithEscapes()
     {
         ResourceReference reference = this.parser.parse("\\.\\#notanchor");
         assertEquals(ResourceType.DOCUMENT, reference.getType());

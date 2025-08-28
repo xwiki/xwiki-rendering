@@ -19,13 +19,12 @@
  */
 package org.xwiki.rendering.internal.parser.xwiki20;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xwiki.component.manager.ComponentManager;
-import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.rendering.internal.parser.reference.type.AttachmentResourceReferenceTypeParser;
 import org.xwiki.rendering.internal.parser.reference.type.URLResourceReferenceTypeParser;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -34,10 +33,13 @@ import org.xwiki.rendering.parser.ResourceReferenceParser;
 import org.xwiki.rendering.wiki.WikiModel;
 import org.xwiki.test.annotation.BeforeComponent;
 import org.xwiki.test.annotation.ComponentList;
-import org.xwiki.test.mockito.MockitoComponentManagerRule;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectComponentManager;
+import org.xwiki.test.junit5.mockito.MockComponent;
+import org.xwiki.test.mockito.MockitoComponentManager;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.when;
 
 /**
@@ -46,6 +48,7 @@ import static org.mockito.Mockito.when;
  * @version $Id$
  * @since 2.5RC1
  */
+@ComponentTest
 //@formatter:off
 @ComponentList({
     XWiki20ImageReferenceParser.class,
@@ -53,11 +56,17 @@ import static org.mockito.Mockito.when;
     AttachmentResourceReferenceTypeParser.class
 })
 //@formatter:on
-public class XWiki20ImageReferenceParserTest
+class XWiki20ImageReferenceParserTest
 {
-    @Rule
-    public MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
+    @InjectComponentManager
+    private MockitoComponentManager componentManager;
 
+    @MockComponent
+    @Named("context")
+    private Provider<ComponentManager> contextComponentManagerProvider;
+
+    @Inject
+    @Named("xwiki/2.0/image")
     private ResourceReferenceParser parser;
 
     @BeforeComponent
@@ -66,19 +75,11 @@ public class XWiki20ImageReferenceParserTest
         // Create a Mock WikiModel implementation so that the image parser works in wiki mode
         this.componentManager.registerMockComponent(WikiModel.class);
 
-        Provider<ComponentManager> contextComponentManagerProvider = this.componentManager.registerMockComponent(
-            new DefaultParameterizedType(null, Provider.class, ComponentManager.class), "context");
-        when(contextComponentManagerProvider.get()).thenReturn(this.componentManager);
-    }
-
-    @Before
-    public void setUp() throws Exception
-    {
-        this.parser = this.componentManager.getInstance(ResourceReferenceParser.class, "xwiki/2.0/image");
+        when(this.contextComponentManagerProvider.get()).thenReturn(this.componentManager);
     }
 
     @Test
-    public void testParseImagesCommon() throws Exception
+    void parseImagesCommon()
     {
         // Verify that non-typed image referencing an attachment works.
         ResourceReference reference = this.parser.parse("wiki:space.page@filename");
@@ -95,11 +96,10 @@ public class XWiki20ImageReferenceParserTest
         assertEquals("Typed = [false] Type = [url] Reference = [http://server/path/to/image]",
             reference.toString());
         assertFalse(reference.isTyped());
-
     }
 
     @Test
-    public void testParseImages() throws Exception
+    void parseImages()
     {
         // Verify that "attach:" prefix isn't taken into account in XWiki Syntax 2.0.
         ResourceReference reference = this.parser.parse("attach:wiki:space.page@filename");
