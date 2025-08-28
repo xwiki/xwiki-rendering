@@ -19,7 +19,9 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
-import org.junit.jupiter.api.BeforeEach;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
@@ -49,14 +51,10 @@ class DefaultLinkReferenceParserTest
 {
     @InjectComponentManager
     private MockitoComponentManager componentManager;
-    
-    private ResourceReferenceParser parser;
 
-    @BeforeEach
-    void setUp() throws Exception
-    {
-        this.parser = this.componentManager.getInstance(ResourceReferenceParser.class, "link");
-    }
+    @Inject
+    @Named("link")
+    private ResourceReferenceParser parser;
 
     @Test
     void parseWhenInWikiMode() throws Exception
