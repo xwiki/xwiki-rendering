@@ -19,34 +19,37 @@
  */
 package org.xwiki.rendering.transformation.linkchecker;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link LinkState}.
  *
  * @version $Id$
  */
-public class LinkStateTest
+class LinkStateTest
 {
     @Test
-    public void testEquals()
+    void testEquals()
     {
         LinkState linkState1 = new LinkState(0, 0);
         LinkState linkState2 = new LinkState(0, 0, null);
 
-        Assert.assertFalse(linkState1.equals(null));
-        Assert.assertTrue(linkState1.equals(linkState1));
-        Assert.assertFalse(linkState1.equals(""));
-        Assert.assertTrue(linkState1.equals(linkState2));
+        assertFalse(linkState1.equals(null));
+        assertTrue(linkState1.equals(linkState1));
+        assertFalse(linkState1.equals(""));
+        assertTrue(linkState1.equals(linkState2));
     }
 
     @Test
-    public void testHashCode()
+    void testHashCode()
     {
         LinkState linkState1 = new LinkState(0, 0);
         LinkState linkState2 = new LinkState(0, 0, null);
 
-        Assert.assertEquals(linkState1.hashCode(), linkState2.hashCode());
+        assertEquals(linkState1.hashCode(), linkState2.hashCode());
     }
 }
