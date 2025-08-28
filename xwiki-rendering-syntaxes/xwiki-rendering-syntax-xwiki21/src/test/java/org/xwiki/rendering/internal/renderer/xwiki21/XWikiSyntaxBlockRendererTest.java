@@ -19,38 +19,27 @@
  */
 package org.xwiki.rendering.internal.renderer.xwiki21;
 
-import java.util.Arrays;
+import java.util.List;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.xwiki.component.manager.ComponentLookupException;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
-import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
-import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.test.annotation.AllComponents;
-import org.xwiki.test.mockito.MockitoComponentManagerRule;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @AllComponents
-public class XWikiSyntaxBlockRendererTest
+@ComponentTest
+class XWikiSyntaxBlockRendererTest
 {
-    @Rule
-    public MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
-
-    private BlockRenderer renderer;
-
-    @Before
-    public void before() throws ComponentLookupException
-    {
-        this.renderer = this.componentManager.getInstance(BlockRenderer.class, Syntax.XWIKI_2_1.toIdString());
-    }
+    @InjectMockComponents
+    private XWikiSyntaxBlockRenderer renderer;
 
     private String render(Block block)
     {
@@ -63,27 +52,25 @@ public class XWikiSyntaxBlockRendererTest
     // Tests
 
     @Test
-    public void testInline()
+    void testInline()
     {
         assertEquals("word", render(new WordBlock("word")));
     }
 
     /**
-     * Proves that a link block with a query string parameter, located inside a Group Block, correctly renders the
-     * query string parameter.
+     * Proves that a link block with a query string parameter, located inside a Group Block, correctly renders the query
+     * string parameter.
      */
     @Test
-    public void renderLinkWithQueryStringParameterInsideGroupBlock()
+    void renderLinkWithQueryStringParameterInsideGroupBlock()
     {
         DocumentResourceReference reference = new DocumentResourceReference("reference");
         reference.setQueryString("a=b");
-        Block block = new GroupBlock(Arrays.asList((Block) new LinkBlock(
-            Arrays.asList((Block) new WordBlock("label")), reference, false)));
+        Block block = new GroupBlock(List.of(new LinkBlock(List.of(new WordBlock("label")), reference, false)));
 
-        String expected = "(((\n"
-            + "[[label>>doc:reference||queryString=\"a=b\"]]\n"
-            + ")))";
-
-        assertEquals(expected, render(block));
+        assertEquals("""
+            (((
+            [[label>>doc:reference||queryString="a=b"]]
+            )))""", render(block));
     }
 }
