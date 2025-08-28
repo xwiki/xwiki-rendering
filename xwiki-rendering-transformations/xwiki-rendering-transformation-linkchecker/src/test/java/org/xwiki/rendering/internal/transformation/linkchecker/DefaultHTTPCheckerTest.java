@@ -19,11 +19,11 @@
  */
 package org.xwiki.rendering.internal.transformation.linkchecker;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.xwiki.test.mockito.MockitoComponentMockingRule;
+import org.junit.jupiter.api.Test;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.findAll;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
@@ -31,7 +31,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.notFound;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.matching.RequestPatternBuilder.allRequests;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Integration tests for {@link org.xwiki.rendering.internal.transformation.linkchecker.DefaultHTTPChecker}.
@@ -39,22 +41,20 @@ import static org.junit.Assert.*;
  * @version $Id$
  * @since 6.1M2
  */
-public class DefaultHTTPCheckerTest
+@ComponentTest
+@WireMockTest(httpPort = 8888)
+class DefaultHTTPCheckerTest
 {
-    @Rule
-    public WireMockRule proxyWireMockRule = new WireMockRule(8888);
-
-    @Rule
-    public MockitoComponentMockingRule<DefaultHTTPChecker> mocker =
-        new MockitoComponentMockingRule<>(DefaultHTTPChecker.class);
+    @InjectMockComponents
+    private DefaultHTTPChecker checker;
 
     @Test
-    public void testProxy() throws Exception
+    void proxy()
     {
         // First call the link checker but since we haven't set up any proxy our Mock HTTP Server is not going to be
         // called (since http://unknownhostforxwikitest will lead to nowhere...
-        assertEquals(0, this.mocker.getComponentUnderTest().check("http://unknownhostforxwikitest"));
-        assertTrue("The HTTP server was not called by the link checker", findAll(allRequests()).isEmpty());
+        assertEquals(0, this.checker.check("http://unknownhostforxwikitest"));
+        assertTrue(findAll(allRequests()).isEmpty(), "The HTTP server was not called by the link checker");
 
         // Second, setup a proxy by using System Properties, then call again the checker and this time it should
         // succeed since http://host will go to the proxy which is pointing to our Mock HTTP Server!
@@ -63,7 +63,7 @@ public class DefaultHTTPCheckerTest
 
         stubFor(get(urlEqualTo("/")).willReturn(notFound()));
 
-        assertEquals(404, this.mocker.getComponentUnderTest().check("http://unknownhostforxwikitest"));
-        assertFalse("The HTTP server was called by the link checker", findAll(allRequests()).isEmpty());
+        assertEquals(404, this.checker.check("http://unknownhostforxwikitest"));
+        assertFalse(findAll(allRequests()).isEmpty(), "The HTTP server was called by the link checker");
     }
 }
