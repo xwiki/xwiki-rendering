@@ -21,13 +21,14 @@ package org.xwiki.rendering.internal.parser.xhtml;
 
 import java.io.StringReader;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.parser.Parser;
-import org.xwiki.test.mockito.MockitoComponentMockingRule;
+import javax.inject.Named;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import org.xwiki.rendering.block.XDOM;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link XHTMLParser}.
@@ -35,16 +36,17 @@ import static org.junit.Assert.*;
  * @version $Id$
  * @since 8.1M1
  */
-public class XHTMLParserTest
+@ComponentTest
+class XHTMLParserTest
 {
-    @Rule
-    public MockitoComponentMockingRule<XHTMLParser> mocker = new MockitoComponentMockingRule<>(XHTMLParser.class,
-        Parser.class, "xhtml/1.0");
+    @InjectMockComponents
+    @Named("xhtml/1.0")
+    private XHTMLParser parser;
 
     @Test
-    public void parseWithEmptyContent() throws Exception
+    void parseWithEmptyContent() throws Exception
     {
-        XDOM xdom = this.mocker.getComponentUnderTest().parse(new StringReader(""));
+        XDOM xdom = this.parser.parse(new StringReader(""));
         assertTrue(xdom.getChildren().isEmpty());
     }
 }
