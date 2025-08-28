@@ -135,7 +135,6 @@
       <groupId>org.slf4j</groupId>
       <artifactId>log4j-over-slf4j</artifactId>
     </dependency>
-
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>
@@ -170,7 +169,7 @@
               <goal>test</goal>
             </goals>
             <configuration>
-              <!-- Removed modules for which a Legacy module exist and wraps it -->
+              <!-- Removed modules for which a Legacy module exists and wraps it -->
               <classpathDependencyExcludes>
                 <classpathDependencyExcludes>org.xwiki.commons:xwiki-commons-component-api</classpathDependencyExcludes>
                 <classpathDependencyExcludes>org.xwiki.commons:xwiki-commons-component-default</classpathDependencyExcludes>
