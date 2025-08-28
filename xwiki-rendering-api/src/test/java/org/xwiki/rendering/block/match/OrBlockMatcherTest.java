@@ -22,13 +22,14 @@ package org.xwiki.rendering.block.match;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.xwiki.rendering.block.Block;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.listener.Format;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link OrBlockMatcher}.
@@ -36,29 +37,29 @@ import org.xwiki.rendering.listener.Format;
  * @version $Id$
  * @since 4.3M2
  */
-public class OrBlockMatcherTest
+class OrBlockMatcherTest
 {
     @Test
-    public void matchWhenUsingVarargConstructor()
+    void matchWhenUsingVarargConstructor()
     {
         OrBlockMatcher matcher = new OrBlockMatcher(
             new ClassBlockMatcher(GroupBlock.class),
             new ClassBlockMatcher(FormatBlock.class));
 
-        Assert.assertTrue(matcher.match(new GroupBlock()));
-        Assert.assertTrue(matcher.match(new FormatBlock(Collections.<Block>emptyList(), Format.BOLD)));
-        Assert.assertFalse(matcher.match(new WordBlock("test")));
+        assertTrue(matcher.match(new GroupBlock()));
+        assertTrue(matcher.match(new FormatBlock(Collections.emptyList(), Format.BOLD)));
+        assertFalse(matcher.match(new WordBlock("test")));
     }
 
     @Test
-    public void matchWhenUsingListConstructor()
+    void matchWhenUsingListConstructor()
     {
-        OrBlockMatcher matcher = new OrBlockMatcher(Arrays.<BlockMatcher>asList(
+        OrBlockMatcher matcher = new OrBlockMatcher(Arrays.asList(
             new ClassBlockMatcher(GroupBlock.class),
             new ClassBlockMatcher(FormatBlock.class)));
 
-        Assert.assertTrue(matcher.match(new GroupBlock()));
-        Assert.assertTrue(matcher.match(new FormatBlock(Collections.<Block>emptyList(), Format.BOLD)));
-        Assert.assertFalse(matcher.match(new WordBlock("test")));
+        assertTrue(matcher.match(new GroupBlock()));
+        assertTrue(matcher.match(new FormatBlock(Collections.emptyList(), Format.BOLD)));
+        assertFalse(matcher.match(new WordBlock("test")));
     }
 }

@@ -21,12 +21,12 @@ package org.xwiki.rendering.block.match;
 
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.WordBlock;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for {@link MacroMarkerBlockMatcher}.
@@ -34,10 +34,10 @@ import static org.junit.Assert.assertTrue;
  * @version $Id$
  * @since 11.4
  */
-public class MacroMarkerBlockMatcherTest
+class MacroMarkerBlockMatcherTest
 {
     @Test
-    public void match()
+    void match()
     {
         MacroMarkerBlockMatcher matcher = new MacroMarkerBlockMatcher("macro1", "macro2");
         MacroMarkerBlock macroMarkerBlock1 =

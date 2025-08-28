@@ -41,7 +41,7 @@ class MacroBlockTest
         assertEquals(block, block);
         assertEquals(block, new MacroBlock("id", Map.of(), "content", false));
 
-        assertNotEquals(block, null);
-        assertNotEquals(block, new WordBlock("word"));
+        assertNotEquals(null, block);
+        assertNotEquals(new WordBlock("word"), block);
     }
 }

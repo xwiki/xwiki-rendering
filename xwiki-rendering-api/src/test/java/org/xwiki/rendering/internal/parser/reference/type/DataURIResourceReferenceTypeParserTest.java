@@ -32,10 +32,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @version $Id$
  * @since 5.4RC1
  */
-public class DataURIResourceReferenceTypeParserTest
+class DataURIResourceReferenceTypeParserTest
 {
     @Test
-    public void validReferenceStartingWithImage()
+    void validReferenceStartingWithImage()
     {
         DataURIResourceReferenceTypeParser parser = new DataURIResourceReferenceTypeParser();
         ResourceReference resourceReference = parser.parse("image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA...");
@@ -44,7 +44,7 @@ public class DataURIResourceReferenceTypeParserTest
     }
 
     @Test
-    public void invalidReferenceNotStartingWithImage()
+    void invalidReferenceNotStartingWithImage()
     {
         DataURIResourceReferenceTypeParser parser = new DataURIResourceReferenceTypeParser();
         ResourceReference resourceReference = parser.parse("text/html;base64,iVBORw0KGgoAAAANSUhEUgAAA...");

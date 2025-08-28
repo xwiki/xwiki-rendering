@@ -29,10 +29,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
  *
  * @version $Id$
  */
-public class SpaceBlockTest
+class SpaceBlockTest
 {
     @Test
-    public void testEquals()
+    void testEquals()
     {
         assertEquals(new SpaceBlock(), new SpaceBlock());
         assertNotEquals(new SpaceBlock(), new WordBlock("toto"));

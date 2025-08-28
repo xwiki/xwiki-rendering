@@ -71,7 +71,7 @@ class DefaultTransformationManagerTest
     @Named("context")
     private Provider<ComponentManager> componentManagerProvider;
 
-    public class Transformation1 extends AbstractTransformation
+    public static class Transformation1 extends AbstractTransformation
     {
         @Override
         public void transform(Block block, TransformationContext context)
@@ -80,7 +80,7 @@ class DefaultTransformationManagerTest
         }
     }
 
-    public class Transformation2 extends AbstractTransformation
+    public static class Transformation2 extends AbstractTransformation
     {
         @Override
         public void transform(Block block, TransformationContext context)

@@ -59,9 +59,9 @@ class SyntaxRegistryListenerTest
     /**
      * Used to simulate a Syntax Provider brought by an extension, i.e registers in the CM after the initial
      * CM initialization. Note that the MySyntaxProvider component is registered in the CM during the initial CM
-     * initialization and this allows us to test the 2 use cases and verify they both work.
+     * initialization, and this allows us to test the 2 use cases and verify they both work.
      */
-    private final class MyExtensionSyntaxProvider implements Provider<List<Syntax>>
+    private static final class MyExtensionSyntaxProvider implements Provider<List<Syntax>>
     {
         @Override
         public List<Syntax> get()

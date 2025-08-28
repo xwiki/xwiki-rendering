@@ -29,7 +29,6 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.match.AnyBlockMatcher;
-import org.xwiki.rendering.block.match.BlockNavigatorTest;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -153,9 +152,9 @@ class BlockTest
         wb.setAttribute("att1", "value1");
         ImageBlock ib = new ImageBlock(new ResourceReference("document@attachment", ResourceType.ATTACHMENT), true);
         DocumentResourceReference linkReference = new DocumentResourceReference("reference");
-        LinkBlock lb = new LinkBlock(Arrays.asList((Block) new WordBlock("label")), linkReference, false);
-        Block pb = new ParagraphBlock(Arrays.<Block>asList(wb, ib, lb));
-        XDOM rootBlock = new XDOM(Arrays.<Block>asList(pb));
+        LinkBlock lb = new LinkBlock(List.of(new WordBlock("label")), linkReference, false);
+        Block pb = new ParagraphBlock(Arrays.asList(wb, ib, lb));
+        XDOM rootBlock = new XDOM(List.of(pb));
 
         XDOM newRootBlock = rootBlock.clone();
 
@@ -218,33 +217,33 @@ class BlockTest
     @Test
     void getBlocks()
     {
-        assertEquals(Arrays.asList(BlockNavigatorTest.parentBlock, BlockNavigatorTest.rootBlock),
-            BlockNavigatorTest.contextBlock.getBlocks(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
+        assertEquals(Arrays.asList(BlockTestHelper.parentBlock, BlockTestHelper.rootBlock),
+            BlockTestHelper.contextBlock.getBlocks(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
     }
 
     @Test
     void getFirstBlock()
     {
-        assertSame(BlockNavigatorTest.parentBlock,
-            BlockNavigatorTest.contextBlock.getFirstBlock(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
+        assertSame(BlockTestHelper.parentBlock,
+            BlockTestHelper.contextBlock.getFirstBlock(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
     }
 
     @Test
     void setChildren()
     {
-        ParagraphBlock paragraphBlock = new ParagraphBlock(Collections.EMPTY_LIST);
+        ParagraphBlock paragraphBlock = new ParagraphBlock(Collections.emptyList());
 
-        List<Block> blocks = Arrays.<Block>asList(new WordBlock("1"), new WordBlock("2"));
+        List<Block> blocks = Arrays.asList(new WordBlock("1"), new WordBlock("2"));
         paragraphBlock.setChildren(blocks);
 
         assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
 
-        blocks = Arrays.<Block>asList(new WordBlock("3"), new WordBlock("4"));
+        blocks = Arrays.asList(new WordBlock("3"), new WordBlock("4"));
         paragraphBlock.setChildren(blocks);
 
         assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
 
-        blocks = Arrays.<Block>asList();
+        blocks = List.of();
         paragraphBlock.setChildren(blocks);
 
         assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
@@ -269,7 +268,7 @@ class BlockTest
     {
         WordBlock wordBlock = new WordBlock("word");
 
-        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> parameters = new HashMap<>();
         parameters.put("param1", "value1");
         parameters.put("param2", "value2");
 
@@ -277,7 +276,7 @@ class BlockTest
 
         assertEquals(parameters, wordBlock.getParameters());
 
-        Map<String, String> parameters2 = new HashMap<String, String>();
+        Map<String, String> parameters2 = new HashMap<>();
         parameters.put("param21", "value21");
         parameters.put("param22", "value22");
 
@@ -325,10 +324,10 @@ class BlockTest
     @Test
     void getRoot()
     {
-        assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.rootBlock.getRoot());
-        assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlock.getRoot());
-        assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlockChild1.getRoot());
-        assertSame(BlockNavigatorTest.rootBlock, BlockNavigatorTest.contextBlockChild11.getRoot());
+        assertSame(BlockTestHelper.rootBlock, BlockTestHelper.rootBlock.getRoot());
+        assertSame(BlockTestHelper.rootBlock, BlockTestHelper.contextBlock.getRoot());
+        assertSame(BlockTestHelper.rootBlock, BlockTestHelper.contextBlockChild1.getRoot());
+        assertSame(BlockTestHelper.rootBlock, BlockTestHelper.contextBlockChild11.getRoot());
     }
 
     @Test
@@ -337,15 +336,15 @@ class BlockTest
         final String ID = "Test id";
         final String CONTENT = "Test content";
         final boolean IS_INLINE = true;
-        final Map<String, String> PARAMETERS = new HashMap<>();
+        final Map<String, String> parameters = new HashMap<>();
 
-        PARAMETERS.put("TestKey", "TestValue");
+        parameters.put("TestKey", "TestValue");
 
         AbstractMacroBlock macroBlock1, macroBlock2, macroBlock3;
 
-        macroBlock1 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
-        macroBlock2 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
-        macroBlock3 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
+        macroBlock1 = new MacroBlock(ID, parameters, CONTENT, IS_INLINE);
+        macroBlock2 = new MacroBlock(ID, parameters, CONTENT, IS_INLINE);
+        macroBlock3 = new MacroBlock(ID, parameters, CONTENT, IS_INLINE);
 
         // must be reflexive.
         assertEquals(macroBlock1, macroBlock1);
@@ -371,9 +370,9 @@ class BlockTest
 
         AbstractMacroBlock macroMarkerBlock1, macroMarkerBlock2, macroMarkerBlock3;
 
-        macroMarkerBlock1 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
-        macroMarkerBlock2 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
-        macroMarkerBlock3 = new MacroBlock(ID, PARAMETERS, CONTENT, IS_INLINE);
+        macroMarkerBlock1 = new MacroBlock(ID, parameters, CONTENT, IS_INLINE);
+        macroMarkerBlock2 = new MacroBlock(ID, parameters, CONTENT, IS_INLINE);
+        macroMarkerBlock3 = new MacroBlock(ID, parameters, CONTENT, IS_INLINE);
 
         // must be reflexive.
         assertEquals(macroMarkerBlock1, macroMarkerBlock1);

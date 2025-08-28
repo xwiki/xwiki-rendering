@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @ComponentTest
 @AllComponents
-public class DefaultImageReferenceParserTest
+class DefaultImageReferenceParserTest
 {
     private ResourceReferenceParser parser;
 
@@ -50,7 +50,7 @@ public class DefaultImageReferenceParserTest
     private MockitoComponentManager componentManager;
     
     @BeforeEach
-    protected void registerComponents() throws Exception
+    void registerComponents() throws Exception
     {
         // Create a Mock WikiModel implementation so that the link parser works in wiki mode
         this.componentManager.registerMockComponent(WikiModel.class);
@@ -59,7 +59,7 @@ public class DefaultImageReferenceParserTest
     }
 
     @Test
-    public void parseImagesCommon()
+    void parseImagesCommon()
     {
         // Verify that non-typed image referencing an attachment works.
         ResourceReference reference = this.parser.parse("wiki:space.page@filename");
@@ -79,7 +79,7 @@ public class DefaultImageReferenceParserTest
     }
 
     @Test
-    public void parseImages()
+    void parseImages()
     {
         ResourceReference reference = this.parser.parse("attach:wiki:space.page@filename");
         assertEquals(ResourceType.ATTACHMENT, reference.getType());

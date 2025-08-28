@@ -19,15 +19,16 @@
  */
 package org.xwiki.rendering.internal.parser.reference;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.xwiki.properties.converter.Converter;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ResourceReferenceParser;
-import org.xwiki.test.mockito.MockitoComponentMockingRule;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectMockComponents;
+import org.xwiki.test.junit5.mockito.MockComponent;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.when;
 
 /**
@@ -35,26 +36,28 @@ import static org.mockito.Mockito.when;
  *
  * @version $Id$
  */
-public class ResourceReferenceConverterTest
+@ComponentTest
+class ResourceReferenceConverterTest
 {
-    @Rule
-    public MockitoComponentMockingRule<Converter<ResourceReference>> mocker =
-        new MockitoComponentMockingRule<Converter<ResourceReference>>(ResourceReferenceConverter.class);
+    @InjectMockComponents
+    private ResourceReferenceConverter converter;
+
+    @MockComponent
+    private ResourceReferenceParser parser;
 
     @Test
-    public void convertToResourceReference() throws Exception
+    void convertToResourceReference()
     {
         ResourceReference reference = new ResourceReference("reference", ResourceType.DOCUMENT);
 
-        final ResourceReferenceParser parser = this.mocker.getInstance(ResourceReferenceParser.class);
-        when(parser.parse("reference")).thenReturn(reference);
+        when(this.parser.parse("reference")).thenReturn(reference);
 
-        Assert.assertSame(reference, this.mocker.getComponentUnderTest().convert(ResourceReference.class, "reference"));
+        assertSame(reference, this.converter.convert(ResourceReference.class, "reference"));
     }
 
     @Test
-    public void convertToResourceReferenceWhenNull() throws Exception
+    void convertToResourceReferenceWhenNull()
     {
-        Assert.assertNull(this.mocker.getComponentUnderTest().convert(ResourceReference.class, null));
+        assertNull(this.converter.convert(ResourceReference.class, null));
     }
 }
