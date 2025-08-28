@@ -19,11 +19,10 @@
  */
 package org.xwiki.rendering.internal.transformation.macro;
 
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.WordBlock;
@@ -35,26 +34,30 @@ import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * Unit tests for {@link MacroTransformationContext}.
  *
  * @version $Id$
  * @since 3.0M1
  */
-public class MacroTransformationContextTest
+class MacroTransformationContextTest
 {
     @Test
-    public void testClone()
+    void testCLone()
     {
         MacroTransformationContext context = new MacroTransformationContext();
         context.setId("id");
         context.setInline(true);
         context.setSyntax(Syntax.XWIKI_2_0);
 
-        XDOM xdom = new XDOM(Arrays.<Block>asList(new WordBlock("test1")));
+        XDOM xdom = new XDOM(List.of(new WordBlock("test1")));
         context.setXDOM(xdom);
 
-        MacroBlock macroBlock = new MacroBlock("testmacro", Collections.<String, String>emptyMap(), null, false);
+        MacroBlock macroBlock = new MacroBlock("testmacro", Collections.emptyMap(), null, false);
         context.setCurrentMacroBlock(macroBlock);
 
         Transformation transformation = new AbstractTransformation()
@@ -68,12 +71,12 @@ public class MacroTransformationContextTest
         context.setTransformation(transformation);
 
         MacroTransformationContext newContext = context.clone();
-        Assert.assertNotSame(context, newContext);
-        Assert.assertEquals("id", newContext.getId());
-        Assert.assertEquals(true, newContext.isInline());
-        Assert.assertEquals(Syntax.XWIKI_2_0, newContext.getSyntax());
-        Assert.assertEquals(xdom, newContext.getXDOM());
-        Assert.assertEquals(macroBlock, newContext.getCurrentMacroBlock());
-        Assert.assertEquals(transformation, newContext.getTransformation());
+        assertNotSame(context, newContext);
+        assertEquals("id", newContext.getId());
+        assertTrue(newContext.isInline());
+        assertEquals(Syntax.XWIKI_2_0, newContext.getSyntax());
+        assertEquals(xdom, newContext.getXDOM());
+        assertEquals(macroBlock, newContext.getCurrentMacroBlock());
+        assertEquals(transformation, newContext.getTransformation());
     }
 }
