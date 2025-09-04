@@ -24,7 +24,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.logging.Message;
-import org.xwiki.logging.marker.TranslationMarker;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.XDOM;
 
@@ -94,8 +93,8 @@ public interface ErrorBlockGenerator
     /**
      * Generates error blocks to render an error in a wiki page.
      * <p>
-     * If a {@link TranslationMarker} is provided, this message and description can be translated based on the current
-     * context depending on the implementation of this component.
+     * The {@code messageId} is used to try to find corresponding translations for the message ({@code <messageId>}) and
+     * the description ({@code <messageId>.description}).
      * 
      * @param inline whether the generated blocks should be inline or not
      * @param messageId an identifier associated to the message. It's generally used, among other things, to find a
