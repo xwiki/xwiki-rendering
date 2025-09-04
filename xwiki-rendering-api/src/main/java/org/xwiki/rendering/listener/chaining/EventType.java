@@ -230,6 +230,12 @@ public enum EventType
             listener.endHeader((HeaderLevel) eventParameters[0], (String) eventParameters[1],
                 (Map<String, String>) eventParameters[2]);
         }
+
+        @Override
+        public boolean isInlineEnd()
+        {
+            return true;
+        }
     },
     /**
      * @see Listener#beginLink(org.xwiki.rendering.listener.reference.ResourceReference, boolean, java.util.Map)
@@ -668,6 +674,12 @@ public enum EventType
         {
             listener.endFigure((Map<String, String>) eventParameters[0]);
         }
+
+        @Override
+        public boolean isInlineEnd()
+        {
+            return true;
+        }
     },
     /**
      * @see Listener#endFigureCaption(Map)
@@ -677,6 +689,12 @@ public enum EventType
         public void fireEvent(Listener listener, Object... eventParameters)
         {
             listener.endFigureCaption((Map<String, String>) eventParameters[0]);
+        }
+
+        @Override
+        public boolean isInlineEnd()
+        {
+            return true;
         }
     };
 
