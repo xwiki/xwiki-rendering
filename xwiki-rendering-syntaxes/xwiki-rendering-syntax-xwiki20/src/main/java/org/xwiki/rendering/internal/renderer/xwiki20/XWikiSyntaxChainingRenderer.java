@@ -355,12 +355,21 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         if (getBlockState().isInLine()) {
             if (getXWikiSyntaxListenerChain().getConsecutiveNewLineStateChainingListener().getNewLineCount() > 1) {
                 print("\\\\");
-            } else if (getXWikiSyntaxListenerChain().getLookaheadChainingListener().getNextEvent().eventType
-                .isInlineEnd())
-            {
-                print("\\\\");
             } else {
-                print("\n");
+                LookaheadChainingListener lookaheadListener =
+                    getXWikiSyntaxListenerChain().getLookaheadChainingListener();
+                QueueListener.Event nextEvent = lookaheadListener.getNextEvent();
+                if (nextEvent.eventType.isInlineEnd()
+                    // Format end events don't print anything for the none format at the end of inline elements as
+                    // the format is automatically reset. So consider that we're already at the end of an inline
+                    // element in that case.
+                    || (nextEvent.eventType == EventType.END_FORMAT && nextEvent.eventParameters[0] == Format.NONE
+                    && lookaheadListener.getNextEvent(2).eventType.isInlineEnd()))
+                {
+                    print("\\\\");
+                } else {
+                    print("\n");
+                }
             }
         } else {
             print("\n");
