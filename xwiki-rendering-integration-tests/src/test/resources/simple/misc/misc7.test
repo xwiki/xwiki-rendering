@@ -24,6 +24,10 @@ paragraph1\\
 paragraph2
 
 [[Caption\\>>image:img.png]]
+
+(% border="1" %)
+|var|(%%)(% style="color: #0000ff;" %)asdf\\
+|bar|function
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
@@ -105,5 +109,26 @@ onNewLine
 endParagraph
 endFigureCaption
 endFigure [[class]=[image]]
+beginTable [[border]=[1]]
+beginTableRow
+beginTableCell
+onWord [var]
+endTableCell
+beginTableCell
+beginFormat [NONE] [[style]=[color: #0000ff;]]
+onWord [asdf]
+onNewLine
+endFormat [NONE] [[style]=[color: #0000ff;]]
+endTableCell
+endTableRow
+beginTableRow
+beginTableCell
+onWord [bar]
+endTableCell
+beginTableCell
+onWord [function]
+endTableCell
+endTableRow
+endTable [[border]=[1]]
 endSection
 endDocument
