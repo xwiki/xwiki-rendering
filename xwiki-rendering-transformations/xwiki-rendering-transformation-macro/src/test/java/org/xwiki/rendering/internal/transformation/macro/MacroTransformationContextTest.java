@@ -47,7 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class MacroTransformationContextTest
 {
     @Test
-    void testCLone()
+    void testClone()
     {
         MacroTransformationContext context = new MacroTransformationContext();
         context.setId("id");
