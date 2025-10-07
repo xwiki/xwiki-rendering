@@ -36,6 +36,7 @@
   <packaging>pom</packaging>
   <description>XWiki Rendering - Parent POM</description>
   <scm>
+    <url>https://github.com/${xwiki.github.owner}/${xwiki.github.repository}/tree/master/</url>
     <tag>stable-17.4.x</tag>
   </scm>
   <issueManagement>
