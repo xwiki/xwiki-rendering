@@ -599,9 +599,12 @@ public class InternalWikiScannerContext implements IWikiScannerContext
             fMacroName = macroName;
             fVerbatimContent = verbatimContent;
         }
-        openFormat();
+        // First check if we encountered a verbatim or macro that we can now process as inline.
+        // Then open whatever format we encountered. If the format was before the verbatim or macro, we would have
+        // immediately recognized both as inline and processed them already.
         checkVerbatim(true);
         checkMacro(true);
+        openFormat();
     }
 
     private void checkTableCell()

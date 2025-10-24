@@ -1,0 +1,50 @@
+.#---------------------------------------------------------------------------------------------------------
+.input|xwiki/2.0
+.#---------------------------------------------------------------------------------------------------------
+{{{verbatim}}}(% id="test" %)hi
+
+(% id="test" %){{{verbatim}}}hi
+
+(% id="test" %){{{verbatim}}}
+
+{{{verbatim}}}(% id="test" %)
+
+Padding
+
+{{{verbatim1}}}(% id="test" %){{{verbatim2}}}
+.#---------------------------------------------------------------------------------------------------------
+.expect|event/1.0
+.#---------------------------------------------------------------------------------------------------------
+beginDocument
+beginParagraph
+onVerbatim [verbatim] [true]
+beginFormat [NONE] [[id]=[test]]
+onWord [hi]
+endFormat [NONE] [[id]=[test]]
+endParagraph
+beginParagraph
+beginFormat [NONE] [[id]=[test]]
+onVerbatim [verbatim] [true]
+onWord [hi]
+endFormat [NONE] [[id]=[test]]
+endParagraph
+beginParagraph
+beginFormat [NONE] [[id]=[test]]
+onVerbatim [verbatim] [true]
+endFormat [NONE] [[id]=[test]]
+endParagraph
+beginParagraph
+onVerbatim [verbatim] [true]
+beginFormat [NONE] [[id]=[test]]
+endFormat [NONE] [[id]=[test]]
+endParagraph
+beginParagraph
+onWord [Padding]
+endParagraph
+beginParagraph
+onVerbatim [verbatim1] [true]
+beginFormat [NONE] [[id]=[test]]
+onVerbatim [verbatim2] [true]
+endFormat [NONE] [[id]=[test]]
+endParagraph
+endDocument

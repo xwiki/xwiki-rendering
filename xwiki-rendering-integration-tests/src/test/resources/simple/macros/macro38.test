@@ -1,0 +1,62 @@
+.runTransformations
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.#-----------------------------------------------------
+{{testsimpleinlinemacro/}}(% id="test" %)hi
+
+(% id="test" %){{testsimpleinlinemacro/}}
+
+{{testsimpleinlinemacro/}}(% id="test" %)
+
+Padding
+
+{{testsimpleinlinemacro/}}(% id="test" %){{testsimpleinlinemacro/}}
+
+{{testsimpleinlinemacro/}}(% id="test" %)
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginMacroMarkerInline [testsimpleinlinemacro] []
+onWord [simpleinlinemacro2]
+endMacroMarkerInline [testsimpleinlinemacro] []
+beginFormat [NONE] [[id]=[test]]
+onWord [hi]
+endFormat [NONE] [[id]=[test]]
+endParagraph
+beginParagraph
+beginFormat [NONE] [[id]=[test]]
+beginMacroMarkerInline [testsimpleinlinemacro] []
+onWord [simpleinlinemacro3]
+endMacroMarkerInline [testsimpleinlinemacro] []
+endFormat [NONE] [[id]=[test]]
+endParagraph
+beginParagraph
+beginMacroMarkerInline [testsimpleinlinemacro] []
+onWord [simpleinlinemacro4]
+endMacroMarkerInline [testsimpleinlinemacro] []
+beginFormat [NONE] [[id]=[test]]
+endFormat [NONE] [[id]=[test]]
+endParagraph
+beginParagraph
+onWord [Padding]
+endParagraph
+beginParagraph
+beginMacroMarkerInline [testsimpleinlinemacro] []
+onWord [simpleinlinemacro5]
+endMacroMarkerInline [testsimpleinlinemacro] []
+beginFormat [NONE] [[id]=[test]]
+beginMacroMarkerInline [testsimpleinlinemacro] []
+onWord [simpleinlinemacro6]
+endMacroMarkerInline [testsimpleinlinemacro] []
+endFormat [NONE] [[id]=[test]]
+endParagraph
+beginParagraph
+beginMacroMarkerInline [testsimpleinlinemacro] []
+onWord [simpleinlinemacro7]
+endMacroMarkerInline [testsimpleinlinemacro] []
+beginFormat [NONE] [[id]=[test]]
+endFormat [NONE] [[id]=[test]]
+endParagraph
+endDocument

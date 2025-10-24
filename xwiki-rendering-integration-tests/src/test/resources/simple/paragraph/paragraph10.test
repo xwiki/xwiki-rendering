@@ -1,0 +1,31 @@
+.#---------------------------------------------------------------------------------------------------------
+.input|xwiki/2.0
+.#---------------------------------------------------------------------------------------------------------
+Paragraph1(% id="test" %)
+
+Paragraph2
+
+Paragraph3(% id="test" %)(%%)
+
+Paragraph4
+.#---------------------------------------------------------------------------------------------------------
+.expect|event/1.0
+.#---------------------------------------------------------------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Paragraph1]
+beginFormat [NONE] [[id]=[test]]
+endFormat [NONE] [[id]=[test]]
+endParagraph
+beginParagraph
+onWord [Paragraph2]
+endParagraph
+beginParagraph
+onWord [Paragraph3]
+beginFormat [NONE] [[id]=[test]]
+endFormat [NONE] [[id]=[test]]
+endParagraph
+beginParagraph
+onWord [Paragraph4]
+endParagraph
+endDocument
