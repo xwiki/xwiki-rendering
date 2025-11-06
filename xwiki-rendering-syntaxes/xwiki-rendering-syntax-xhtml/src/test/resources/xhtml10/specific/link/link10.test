@@ -1,0 +1,49 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# Stray stopmacro and stopwikilink comments
+.#-----------------------------------------------------
+<p><!--startwikilink:false|-|url|-|https://www.xwiki.org/xwiki/bin/view/Main/--><span class="wikiexternallink"><a
+href="https://www.xwiki.org/xwiki/bin/view/Main/"><!--startmacro:info|-||-|Type your information message here.--><!--stopmacro--></a></span><!--stopwikilink--></p><div
+ class="box infomessage"><a href="https://www.xwiki.org/xwiki/bin/view/Main/"><span class="sr-only">Information</span></a><p><a
+ href="https://www.xwiki.org/xwiki/bin/view/Main/"><span data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;"
+ class="xwiki-metadata-container">Type your information message here.</span></a></p></div><!--stopmacro--><!--stopwikilink--><p>&nbsp;</p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [false] Type = [url] Reference = [https://www.xwiki.org/xwiki/bin/view/Main/]] [false]
+onMacroInline [info] [] [Type your information message here.]
+endLink [Typed = [false] Type = [url] Reference = [https://www.xwiki.org/xwiki/bin/view/Main/]] [false]
+endParagraph
+beginGroup [[class]=[box infomessage]]
+beginParagraph
+beginLink [Typed = [true] Type = [url] Reference = [https://www.xwiki.org/xwiki/bin/view/Main/]] [false]
+beginFormat [NONE] [[class]=[sr-only]]
+onWord [Information]
+endFormat [NONE] [[class]=[sr-only]]
+endLink [Typed = [true] Type = [url] Reference = [https://www.xwiki.org/xwiki/bin/view/Main/]] [false]
+beginLink [Typed = [true] Type = [url] Reference = [https://www.xwiki.org/xwiki/bin/view/Main/]] [false]
+beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+onWord [Type]
+onSpace
+onWord [your]
+onSpace
+onWord [information]
+onSpace
+onWord [message]
+onSpace
+onWord [here]
+onSpecialSymbol [.]
+endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
+endLink [Typed = [true] Type = [url] Reference = [https://www.xwiki.org/xwiki/bin/view/Main/]] [false]
+endParagraph
+endGroup [[class]=[box infomessage]]
+beginParagraph
+onSpace
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xhtml/1.0
+.#-----------------------------------------------------
+<p><span class="wikiexternallink"><a href="https://www.xwiki.org/xwiki/bin/view/Main/"></a></span></p><div class="box infomessage"><p><span class="wikiexternallink"><a href="https://www.xwiki.org/xwiki/bin/view/Main/"><span class="sr-only">Information</span></a></span><span class="wikiexternallink"><a href="https://www.xwiki.org/xwiki/bin/view/Main/">Type your information message here.</a></span></p></div><p>&nbsp;</p>
