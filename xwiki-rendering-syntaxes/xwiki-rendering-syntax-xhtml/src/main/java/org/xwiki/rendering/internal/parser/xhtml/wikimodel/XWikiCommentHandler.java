@@ -234,6 +234,12 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
     private void handleLinkCommentStop(TagStack stack)
     {
+        // If there's no active link listener, it means we received a stopwikilink outside a link context
+        // (e.g., duplicated by the browser while fixing malformed HTML). In that case, ignore it.
+        if (stack.getStackParameter(LINK_LISTENER) == null) {
+            return;
+        }
+
         XWikiGeneratorListener xwikiListener =
             (XWikiGeneratorListener) stack.popStackParameter(LINK_LISTENER);
         XDOMGeneratorListener linkLabelRenderer = (XDOMGeneratorListener) xwikiListener.getListener();
@@ -269,6 +275,11 @@ public class XWikiCommentHandler extends CommentHandler implements XWikiWikiMode
 
     private void handleImageCommentStop(TagStack stack)
     {
+        // Ignore stray stopimage if there's no image context.
+        if (!Boolean.TRUE.equals(stack.getStackParameter(IS_IN_IMAGE))) {
+            return;
+        }
+
         boolean isFreeStandingImage = (Boolean) stack.getStackParameter(IS_FREE_STANDING_IMAGE);
 
         ResourceReference imageReference =
