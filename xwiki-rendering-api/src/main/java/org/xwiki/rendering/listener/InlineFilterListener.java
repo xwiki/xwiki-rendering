@@ -64,4 +64,11 @@ public class InlineFilterListener extends WrappingListener
     {
         // Disable this event
     }
+
+    @Override
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
+    {
+        // Force inline to true.
+        super.onMacro(id, parameters, content, true);
+    }
 }
