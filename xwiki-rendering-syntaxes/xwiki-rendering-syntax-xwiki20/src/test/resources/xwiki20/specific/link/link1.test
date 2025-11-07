@@ -1,0 +1,21 @@
+.#-------------------------------------------------------------------------------------------------------
+.input|xwiki/2.0
+.# Test a standalone macro nested inside a link
+.#-------------------------------------------------------------------------------------------------------
+[[
+
+{{info}}Type your information message here.{{/info}}>>https://www.xwiki.org/xwiki/bin/view/Main/]]
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+beginLink [Typed = [false] Type = [url] Reference = [https://www.xwiki.org/xwiki/bin/view/Main/]] [false]
+onMacroInline [info] [] [Type your information message here.]
+endLink [Typed = [false] Type = [url] Reference = [https://www.xwiki.org/xwiki/bin/view/Main/]] [false]
+endParagraph
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+[[{{info}}Type your information message here.{{/info}}>>https://www.xwiki.org/xwiki/bin/view/Main/]]
