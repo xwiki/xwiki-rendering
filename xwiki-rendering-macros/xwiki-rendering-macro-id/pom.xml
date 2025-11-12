@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.rendering</groupId>
     <artifactId>xwiki-rendering-macros</artifactId>
-    <version>17.10.0-SNAPSHOT</version>
+    <version>18.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-rendering-macro-id</artifactId>
   <name>XWiki Rendering - Macro - Id</name>
@@ -35,8 +35,4 @@
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Id Macro</xwiki.extension.name>
   </properties>
-
-  <scm>
-    <tag>stable-17.10.x</tag>
-  </scm>
 </project>
