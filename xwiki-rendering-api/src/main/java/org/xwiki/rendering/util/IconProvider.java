@@ -21,7 +21,6 @@ package org.xwiki.rendering.util;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.stability.Unstable;
 
 /**
  * Component to provide an icon from its name.
@@ -30,7 +29,6 @@ import org.xwiki.stability.Unstable;
  * @since 16.7.0
  */
 @Role
-@Unstable
 public interface IconProvider
 {
     /**
