@@ -24,7 +24,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.xwiki.observation.ObservationManager;
@@ -40,12 +42,22 @@ import org.xwiki.rendering.transformation.linkchecker.LinkState;
 import org.xwiki.rendering.transformation.linkchecker.LinkStateManager;
 import org.xwiki.rendering.transformation.linkchecker.script.LinkCheckerScriptService;
 import org.xwiki.script.service.ScriptService;
-import org.xwiki.test.LogRule;
+import org.xwiki.test.LogLevel;
 import org.xwiki.test.annotation.AllComponents;
-import org.xwiki.test.mockito.MockitoComponentManagerRule;
+import org.xwiki.test.junit5.LogCaptureExtension;
+import org.xwiki.test.junit5.mockito.ComponentTest;
+import org.xwiki.test.junit5.mockito.InjectComponentManager;
+import org.xwiki.test.mockito.MockitoComponentManager;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link LinkCheckerTransformation}.
@@ -54,28 +66,27 @@ import static org.mockito.Mockito.*;
  * @since 3.3M1
  */
 @AllComponents
-public class LinkCheckerTransformationTest
+@ComponentTest
+class LinkCheckerTransformationTest
 {
-    @Rule
-    public LogRule logRule = new LogRule() {{
-        record(LogLevel.ERROR);
-        recordLoggingForType(DefaultLinkCheckerThread.class);
-    }};
+    @RegisterExtension
+    private LogCaptureExtension logCapture = new LogCaptureExtension(LogLevel.ERROR);
 
-    @Rule
-    public MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
+    @InjectComponentManager
+    public MockitoComponentManager componentManager;
 
-    @After
-    public void cleanUp() throws Exception
+    @AfterEach
+    void cleanUp() throws Exception
     {
         // Make sure we stop the Link Checker thread after each test (since it's started automatically when looking
         // up the LinkCheckerTransformation component.
         Transformation transformation = this.componentManager.getInstance(Transformation.class, "linkchecker");
         ((LinkCheckerTransformation) transformation).stopLinkCheckerThread();
+        this.logCapture.ignoreAllMessages();
     }
 
     @Test
-    public void transform() throws Exception
+    void transform() throws Exception
     {
         String input = ""
             + "whatever"
@@ -105,7 +116,7 @@ public class LinkCheckerTransformationTest
      * expired (for performance reasons we only recheck links after a certain timeout).
      */
     @Test
-    public void transformWhenExistingLinkState() throws Exception
+    void transformWhenExistingLinkState() throws Exception
     {
         // Note: it's important that the first link in the input be the link that we're adding manually to the list
         // of states below since below we're waiting to get 2 states before stopping our test. If it were inverted
@@ -145,7 +156,7 @@ public class LinkCheckerTransformationTest
      * has expired.
      */
     @Test
-    public void transformWhenExistingLinkStateButAfterTimeoutHasExpired() throws Exception
+    void transformWhenExistingLinkStateButAfterTimeoutHasExpired() throws Exception
     {
         // Note: it's important that the first link in the input be the link that we're updating below since below
         // we're waiting to get 2 states before stopping our test. If it were inverted then we would get 2 states
@@ -186,7 +197,7 @@ public class LinkCheckerTransformationTest
     }
 
     @Test
-    public void transformWithSourceMetaData() throws Exception
+    void transformWithSourceMetaData() throws Exception
     {
         String input = "[[http://ok]]";
         Parser parser = this.componentManager.getInstance(Parser.class, "xwiki/2.0");
@@ -214,18 +225,18 @@ public class LinkCheckerTransformationTest
      * URL.
      */
     @Test
-    public void transformAndSendEvent() throws Exception
+    void transformAndSendEvent() throws Exception
     {
         ObservationManager observationManager = this.componentManager.registerMockComponent(ObservationManager.class);
         HTTPChecker httpChecker = this.componentManager.registerMockComponent(HTTPChecker.class);
         when(httpChecker.check("http://doesntexist")).thenReturn(404);
 
-        class StateAnswer implements Answer
+        class StateAnswer implements Answer<Void>
         {
             public boolean hasListenerBeenCalled;
 
             @Override
-            public Object answer(InvocationOnMock invocationOnMock) throws Throwable
+            public Void answer(InvocationOnMock invocationOnMock) throws Throwable
             {
                 this.hasListenerBeenCalled = true;
                 return null;
@@ -250,7 +261,7 @@ public class LinkCheckerTransformationTest
      * Verify that if a LinkContextDataProvider is available it's used to store context data in the LinkStateManager.
      */
     @Test
-    public void transformWithLinkContextDataProvider() throws Exception
+    void transformWithLinkContextDataProvider() throws Exception
     {
         String input = "[[http://ok]]";
 
@@ -275,7 +286,7 @@ public class LinkCheckerTransformationTest
      * Verify the anti-flooding mechanism.
      */
     @Test
-    public void transformWithAntiFloodKickingIn() throws Exception
+    void transformWithAntiFloodKickingIn() throws Exception
     {
         // Replace the Link checker Thread with a mock so that it doesn't remove any link item from the queue
         // Note that the LinkCheckerTransformation getInstance() below will automatically start the Link Checker
@@ -338,7 +349,7 @@ public class LinkCheckerTransformationTest
         while (linkStateManager.getLinkStates().size() != numberOfItemsToWaitFor) {
             Thread.sleep(100L);
             // Protect against infinite loop
-            assertTrue("Killed thread since it took too much time", System.currentTimeMillis() - time < 10000L);
+            assertTrue(System.currentTimeMillis() - time < 10000L, "Killed thread since it took too much time");
         }
     }
 }
