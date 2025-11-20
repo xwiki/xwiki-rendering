@@ -85,7 +85,7 @@ class DefaultMacroContentParserTest
     private MacroTransformationContext macroContext = new MacroTransformationContext();
 
     @BeforeEach
-    public void beforeEach() throws Exception
+    void beforeEach()
     {
         this.macroContext = new MacroTransformationContext();
         this.macroContext.setSyntax(TEST_SYNTAX_1);
@@ -186,10 +186,10 @@ class DefaultMacroContentParserTest
         xdom.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_1);
         this.macroContext.setCurrentMacroBlock(macroBlock);
 
-        XDOM parsedXDOM1 = new XDOM(List.of(new WordBlock("1")));
+        XDOM parsedXDOM1 = new XDOM(List.of(new ParagraphBlock(List.of(new WordBlock("1")))));
         parsedXDOM1.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_1);
         when(this.mockParser1.parse(any(), any())).thenReturn(parsedXDOM1);
-        XDOM parsedXDOM2 = new XDOM(List.of(new WordBlock("2")));
+        XDOM parsedXDOM2 = new XDOM(List.of(new ParagraphBlock(List.of(new WordBlock("2")))));
         parsedXDOM2.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_2);
         when(this.mockParser2.parse(any(), any())).thenReturn(parsedXDOM2);
 
@@ -200,9 +200,15 @@ class DefaultMacroContentParserTest
 
         assertEquals(parsedXDOM1, preparedContent1);
 
-        // Parse without custom syntax
+        // Parse with same syntax
         assertEquals(preparedContent1, this.macroContentParser.parse(macroBlock.getContent(), TEST_SYNTAX_1,
             this.macroContext, false, null, macroBlock.isInline()));
+
+        // Parse inline with same syntax
+        XDOM inlineXDOM1 = new XDOM(List.of(new WordBlock("1")));
+        inlineXDOM1.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_1);
+        assertEquals(inlineXDOM1, this.macroContentParser.parse(macroBlock.getContent(), TEST_SYNTAX_1,
+            this.macroContext, false, null, true));
 
         // Prepare with custom syntax
         this.macroContentParser.prepareContentWiki(macroBlock, TEST_SYNTAX_2);

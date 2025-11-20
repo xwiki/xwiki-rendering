@@ -27,6 +27,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
@@ -153,6 +154,13 @@ public class DefaultMacroContentParser implements MacroContentParser
         } else {
             // Clone the prepared content to be sure to not modify the potentially cached version
             result = result.clone();
+
+            // If an inline result is requested and the prepared content is not inline, convert it
+            Boolean preparedInline =
+                (Boolean) macroContext.getCurrentMacroBlock().getAttribute(ATTRIBUTE_PREPARE_CONTENT_XDOM_INLINE);
+            if (inline && BooleanUtils.isNotTrue(preparedInline)) {
+                result = convertToInline(result);
+            }
         }
 
         // Inject metadata
@@ -255,6 +263,7 @@ public class DefaultMacroContentParser implements MacroContentParser
 
                 // Store the prepared content as attribute
                 macroBlock.setAttribute(ATTRIBUTE_PREPARE_CONTENT_XDOM, result);
+                macroBlock.setAttribute(ATTRIBUTE_PREPARE_CONTENT_XDOM_INLINE, macroBlock.isInline());
             } catch (MacroExecutionException e) {
                 throw new MacroPreparationException("Failed to parse the content", e);
             }
