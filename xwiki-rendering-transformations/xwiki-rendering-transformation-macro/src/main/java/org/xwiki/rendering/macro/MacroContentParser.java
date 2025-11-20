@@ -45,6 +45,16 @@ public interface MacroContentParser
     String ATTRIBUTE_PREPARE_CONTENT_XDOM = "prepare.content.xdom";
 
     /**
+     * Indicate of the content was prepared inline or standalone.
+     * 
+     * @since 16.10.5
+     * @since 17.4.8
+     * @since 17.10.0
+     */
+    @Unstable
+    String ATTRIBUTE_PREPARE_CONTENT_XDOM_INLINE = "prepare.content.xdom.inline";
+
+    /**
      * Parses content of a macro field (parameter, macro content) in a given syntax and optionally remove the top level
      * paragraph.
      *
