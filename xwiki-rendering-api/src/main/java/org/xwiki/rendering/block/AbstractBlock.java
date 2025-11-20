@@ -657,4 +657,10 @@ public abstract class AbstractBlock implements Block
 
         return matcher.getValue();
     }
+
+    @Override
+    public String toString()
+    {
+        return getClass().getSimpleName() + ':' + getChildren().toString();
+    }
 }
