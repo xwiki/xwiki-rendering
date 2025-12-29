@@ -47,7 +47,7 @@ public class ParametersPrinter
     /**
      * Default constructor.
      * 
-     * @deprecated since 7.4.5 and 8.2RC1, use {@link #ParametersPrinter(char, String...) instead
+     * @deprecated since 7.4.5 and 8.2RC1, use {@link #ParametersPrinter(char, String...)} instead
      */
     @Deprecated
     public ParametersPrinter()
