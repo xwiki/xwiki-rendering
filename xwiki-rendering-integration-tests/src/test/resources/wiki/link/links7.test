@@ -29,11 +29,11 @@ endDocument
 .#-----------------------------------------------------
 .expect|xhtml/1.0
 .#-----------------------------------------------------
-<p><span class="wikicreatelink"><a href="editurl"><strong>hello</strong></a></span><br/><span class="wikicreatelink"><a href="editurl">= notheader</a></span><br/><span class="wikicreatelink"><a href="editurl"></a></span></p>
+<p><span class="wikicreatelink" title="Create resource: Page"><a href="editurl"><strong>hello</strong></a></span><br/><span class="wikicreatelink" title="Create resource: Page"><a href="editurl">= notheader</a></span><br/><span class="wikicreatelink" title="Create resource: Page"><a href="editurl"></a></span></p>
 .#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl"><strong>hello</strong></a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl">= notheader</a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl"><!--startmacro:testsimplemacro|-||-|label--><!--stopmacro--></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink" title="Create resource: Page"><a href="editurl"><strong>hello</strong></a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink" title="Create resource: Page"><a href="editurl">= notheader</a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink" title="Create resource: Page"><a href="editurl"><!--startmacro:testsimplemacro|-||-|label--><!--stopmacro--></a></span><!--stopwikilink--></p>
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
@@ -43,4 +43,4 @@ endDocument
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl"><strong>hello</strong></a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl">= notheader</a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink"><a href="editurl"><!--startmacro:testsimplemacro|-||-|label--><!--stopmacro--></a></span><!--stopwikilink--></p>
+<p><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink" title="Create resource: Page"><a href="editurl"><strong>hello</strong></a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink" title="Create resource: Page"><a href="editurl">= notheader</a></span><!--stopwikilink--><br/><!--startwikilink:false|-|doc|-|Page--><span class="wikicreatelink" title="Create resource: Page"><a href="editurl"><!--startmacro:testsimplemacro|-||-|label--><!--stopmacro--></a></span><!--stopwikilink--></p>
