@@ -26,7 +26,7 @@ import java.util.List;
 import javax.inject.Provider;
 
 import org.junit.jupiter.api.Test;
-import org.xwiki.component.internal.StackingComponentEventManager;
+import org.xwiki.component.internal.QueueComponentEventManager;
 import org.xwiki.component.util.DefaultParameterizedType;
 import org.xwiki.observation.ObservationManager;
 import org.xwiki.observation.event.ApplicationStartedEvent;
@@ -93,8 +93,8 @@ class SyntaxRegistryListenerTest
 
         // Note: We need to make sure that the CM has a ComponentEventManager set as otherwise the events won't be
         // sent by the Observation Manager. This is what happens at XWiki init, and that we need to simulate here.
-        StackingComponentEventManager componentEventManager = new StackingComponentEventManager();
-        componentEventManager.shouldStack(false);
+        QueueComponentEventManager componentEventManager = new QueueComponentEventManager();
+        componentEventManager.shouldQueue(false);
         componentEventManager.setObservationManager(observationManager);
         this.componentManager.setComponentEventManager(componentEventManager);
 
