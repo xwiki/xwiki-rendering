@@ -1,0 +1,24 @@
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "This is "
+    }, {
+      "type" : "text",
+      "styles" : {
+        "bold" : true
+      },
+      "content" : "bold and "
+    }, {
+      "type" : "text",
+      "styles" : {
+        "italic" : true,
+        "bold" : true
+      },
+      "content" : "italic"
+    } ]
+  } ]
+}

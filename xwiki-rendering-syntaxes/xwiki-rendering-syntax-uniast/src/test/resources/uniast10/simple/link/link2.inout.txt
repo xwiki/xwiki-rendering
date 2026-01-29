@@ -1,0 +1,18 @@
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "link",
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "label"
+      } ],
+      "target" : {
+        "type" : "external",
+        "url" : "reference"
+      }
+    } ]
+  } ]
+}

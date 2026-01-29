@@ -1,0 +1,165 @@
+.runTransformations
+.#-------------------------------------------------------------------------------------------------------
+.input|xwiki/2.1
+.# Verify the rendering of nested in-place editable macros.
+.#-------------------------------------------------------------------------------------------------------
+{{info title="== Note ==" image="info.png"}}
+This {{error title="The **Failure**" image="error.png"}}{{success title="//Done//" image="success.png"}}##stacktrace##{{/success}}{{/error}} is **expected**.
+
+* one
+* //two//
+{{/info}}
+.#-----------------------------------------------------
+.expect|uniast/1.0
+.#-----------------------------------------------------
+{
+  "blocks" : [ {
+    "type" : "macroBlock",
+    "output" : [ {
+      "type" : "image",
+      "styles" : { },
+      "target" : {
+        "type" : "internal",
+        "rawReference" : "icon:information"
+      }
+    }, {
+      "type" : "image",
+      "styles" : { },
+      "target" : {
+        "type" : "external",
+        "url" : "info.png"
+      }
+    }, {
+      "type" : "text",
+      "styles" : { },
+      "content" : "\n"
+    }, {
+      "type" : "macroBlockEditableArea",
+      "name" : "title"
+    }, {
+      "type" : "macroBlockEditableArea"
+    } ],
+    "call" : {
+      "id" : "info",
+      "params" : {
+        "title" : [ {
+          "type" : "heading",
+          "styles" : { },
+          "content" : [ {
+            "type" : "text",
+            "styles" : { },
+            "content" : "Note"
+          } ],
+          "level" : 2
+        } ],
+        "image" : "info.png"
+      },
+      "body" : {
+        "type" : "inlineContents",
+        "inlineContents" : [ {
+          "type" : "paragraph",
+          "styles" : { },
+          "content" : [ {
+            "type" : "text",
+            "styles" : { },
+            "content" : "This "
+          }, {
+            "type" : "inlineMacro",
+            "output" : [ {
+              "type" : "image",
+              "styles" : { },
+              "target" : {
+                "type" : "internal",
+                "rawReference" : "icon:exclamation"
+              }
+            }, {
+              "type" : "inlineMacroEditableArea"
+            } ],
+            "call" : {
+              "id" : "error",
+              "params" : {
+                "title" : "The **Failure**",
+                "image" : "error.png"
+              },
+              "body" : {
+                "type" : "inlineContent",
+                "inlineContent" : {
+                  "type" : "inlineMacro",
+                  "output" : [ {
+                    "type" : "image",
+                    "styles" : { },
+                    "target" : {
+                      "type" : "internal",
+                      "rawReference" : "icon:accept"
+                    }
+                  }, {
+                    "type" : "inlineMacroEditableArea"
+                  } ],
+                  "call" : {
+                    "id" : "success",
+                    "params" : {
+                      "title" : "//Done//",
+                      "image" : "success.png"
+                    },
+                    "body" : {
+                      "type" : "inlineContent",
+                      "inlineContent" : {
+                        "type" : "text",
+                        "styles" : {
+                          "code" : true
+                        },
+                        "content" : "stacktrace"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }, {
+            "type" : "text",
+            "styles" : { },
+            "content" : " is "
+          }, {
+            "type" : "text",
+            "styles" : {
+              "bold" : true
+            },
+            "content" : "expected"
+          }, {
+            "type" : "text",
+            "styles" : { },
+            "content" : "."
+          } ]
+        }, {
+          "type" : "list",
+          "styles" : { },
+          "items" : [ {
+            "styles" : { },
+            "content" : [ {
+              "type" : "paragraph",
+              "styles" : { },
+              "content" : [ {
+                "type" : "text",
+                "styles" : { },
+                "content" : "one"
+              } ]
+            } ]
+          }, {
+            "styles" : { },
+            "content" : [ {
+              "type" : "paragraph",
+              "styles" : { },
+              "content" : [ {
+                "type" : "text",
+                "styles" : {
+                  "italic" : true
+                },
+                "content" : "two"
+              } ]
+            } ]
+          } ]
+        } ]
+      }
+    }
+  } ]
+}

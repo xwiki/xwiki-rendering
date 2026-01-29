@@ -1,0 +1,26 @@
+{
+  "blocks" : [ {
+    "type" : "macroBlock",
+    "call" : {
+      "id" : "testsimplemacro",
+      "params" : {
+        "param1" : "value1",
+        "param2" : "value2"
+      },
+      "body" : {
+        "type" : "raw",
+        "content" : "content"
+      }
+    }
+  }, {
+    "type" : "macroBlock",
+    "call" : {
+      "id" : "testsimplemacro",
+      "params" : { },
+      "body" : {
+        "type" : "raw",
+        "content" : "content"
+      }
+    }
+  } ]
+}

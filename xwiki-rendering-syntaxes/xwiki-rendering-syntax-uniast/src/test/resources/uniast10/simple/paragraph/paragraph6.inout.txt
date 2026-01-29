@@ -1,0 +1,21 @@
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "hello"
+    } ]
+  }, {
+    "type" : "break"
+  }, {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "world"
+    } ]
+  } ]
+}

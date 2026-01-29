@@ -1,0 +1,19 @@
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "paragraph\n\nsame paragraph"
+    } ]
+  }, {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "paragraph\nsame paragraph"
+    } ]
+  } ]
+}

@@ -1,0 +1,62 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|uniast/1.0
+.# Test image alignment.
+.#-------------------------------------------------------------------------------------------------------
+{
+  "blocks" : [ {
+    "type" : "image",
+    "styles" : { },
+    "target" : {
+      "type" : "external",
+      "url" : "image.png"
+    }
+  }, {
+    "type" : "image",
+    "styles" : {
+      "alignment" : "left"
+    },
+    "target" : {
+      "type" : "external",
+      "url" : "image.png"
+    }
+  }, {
+    "type" : "image",
+    "styles" : {
+      "alignment" : "center"
+    },
+    "target" : {
+      "type" : "external",
+      "url" : "image.png"
+    }
+  }, {
+    "type" : "image",
+    "styles" : {
+      "alignment" : "right"
+    },
+    "target" : {
+      "type" : "external",
+      "url" : "image.png"
+    }
+  }, {
+    "type" : "image",
+    "styles" : {
+      "alignment" : "justify"
+    },
+    "target" : {
+      "type" : "external",
+      "url" : "image.png"
+    }
+  } ]
+}
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+image:image.png
+
+[[image:image.png||data-xwiki-image-style-alignment="start"]]
+
+[[image:image.png||data-xwiki-image-style-alignment="center"]]
+
+[[image:image.png||data-xwiki-image-style-alignment="end"]]
+
+[[image:image.png||data-xwiki-image-style-alignment="justify"]]

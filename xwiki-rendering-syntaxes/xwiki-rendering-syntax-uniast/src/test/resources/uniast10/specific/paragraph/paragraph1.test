@@ -1,0 +1,40 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|uniast/1.0
+.# Test paragraph styles.
+.#-------------------------------------------------------------------------------------------------------
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : {
+      "textColor" : "red",
+      "backgroundColor" : "yellow",
+      "textAlignment" : "justify"
+    },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "Some "
+    }, {
+      "type" : "text",
+      "styles" : {
+        "textColor" : "green",
+        "backgroundColor" : "blue",
+        "code" : true,
+        "strikethrough" : true,
+        "underline" : true,
+        "italic" : true,
+        "bold" : true
+      },
+      "content" : "styled"
+    }, {
+      "type" : "text",
+      "styles" : { },
+      "content" : " text."
+    } ]
+  } ]
+}
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% style="color:red;background-color:yellow;text-align:justify" %)
+Some (% style="color:green;background-color:blue" %)**//__--##styled##--__//**(%%) text.

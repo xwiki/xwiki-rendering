@@ -1,0 +1,41 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|uniast/1.0
+.# Test section styles.
+.#-------------------------------------------------------------------------------------------------------
+{
+  "blocks" : [ {
+    "type" : "heading",
+    "styles" : {
+      "textColor" : "red",
+      "backgroundColor" : "yellow",
+      "textAlignment" : "center"
+    },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "Some "
+    }, {
+      "type" : "text",
+      "styles" : {
+        "textColor" : "green",
+        "backgroundColor" : "blue",
+        "code" : true,
+        "strikethrough" : true,
+        "underline" : true,
+        "italic" : true,
+        "bold" : true
+      },
+      "content" : "styled"
+    }, {
+      "type" : "text",
+      "styles" : { },
+      "content" : " title"
+    } ],
+    "level" : 2
+  } ]
+}
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% style="color:red;background-color:yellow;text-align:center" %)
+== Some (% style="color:green;background-color:blue" %)**//__--##styled##--__//**(%%) title ==

@@ -1,0 +1,10 @@
+{
+  "blocks" : [ {
+    "type" : "image",
+    "styles" : { },
+    "target" : {
+      "type" : "external",
+      "url" : "image.png"
+    }
+  } ]
+}

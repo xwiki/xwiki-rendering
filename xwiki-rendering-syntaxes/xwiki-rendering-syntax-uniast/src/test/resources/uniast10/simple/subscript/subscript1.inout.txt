@@ -1,0 +1,17 @@
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "This is "
+    }, {
+      "type" : "text",
+      "styles" : {
+        "subscript" : true
+      },
+      "content" : "subscript"
+    } ]
+  } ]
+}

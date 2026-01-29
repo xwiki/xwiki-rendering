@@ -1,0 +1,13 @@
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "text",
+      "styles" : {
+        "code" : true
+      },
+      "content" : "monospace"
+    } ]
+  } ]
+}

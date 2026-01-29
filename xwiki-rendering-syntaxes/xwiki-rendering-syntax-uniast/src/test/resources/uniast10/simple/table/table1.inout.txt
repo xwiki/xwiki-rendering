@@ -1,0 +1,54 @@
+{
+  "blocks" : [ {
+    "type" : "table",
+    "styles" : { },
+    "rows" : [ [ {
+      "styles" : { },
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "cell11"
+      } ]
+    }, {
+      "styles" : { },
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "cell12"
+      } ]
+    } ], [ {
+      "styles" : { },
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "cell21"
+      } ]
+    }, {
+      "styles" : { },
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "cell22"
+      } ]
+    } ] ],
+    "columns" : [ {
+      "headerCell" : {
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "col1"
+        } ]
+      }
+    }, {
+      "headerCell" : {
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "col2"
+        } ]
+      }
+    } ]
+  } ]
+}

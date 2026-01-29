@@ -1,0 +1,122 @@
+{
+  "blocks" : [ {
+    "type" : "list",
+    "styles" : { },
+    "items" : [ {
+      "styles" : { },
+      "content" : [ {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "Item 1"
+        } ]
+      }, {
+        "type" : "list",
+        "styles" : { },
+        "items" : [ {
+          "styles" : { },
+          "content" : [ {
+            "type" : "paragraph",
+            "styles" : { },
+            "content" : [ {
+              "type" : "text",
+              "styles" : { },
+              "content" : "Item 2"
+            } ]
+          }, {
+            "type" : "list",
+            "styles" : { },
+            "items" : [ {
+              "styles" : { },
+              "content" : [ {
+                "type" : "paragraph",
+                "styles" : { },
+                "content" : [ {
+                  "type" : "text",
+                  "styles" : { },
+                  "content" : "Item 3"
+                } ]
+              }, {
+                "type" : "list",
+                "styles" : { },
+                "items" : [ {
+                  "styles" : { },
+                  "content" : [ {
+                    "type" : "paragraph",
+                    "styles" : { },
+                    "content" : [ {
+                      "type" : "text",
+                      "styles" : { },
+                      "content" : "Item 4"
+                    } ]
+                  }, {
+                    "type" : "list",
+                    "styles" : { },
+                    "items" : [ {
+                      "styles" : { },
+                      "content" : [ {
+                        "type" : "paragraph",
+                        "styles" : { },
+                        "content" : [ {
+                          "type" : "text",
+                          "styles" : { },
+                          "content" : "Item 5"
+                        } ]
+                      } ]
+                    } ]
+                  } ]
+                }, {
+                  "styles" : { },
+                  "content" : [ {
+                    "type" : "paragraph",
+                    "styles" : { },
+                    "content" : [ {
+                      "type" : "text",
+                      "styles" : { },
+                      "content" : "Item 6"
+                    } ]
+                  } ]
+                } ]
+              } ]
+            }, {
+              "styles" : { },
+              "content" : [ {
+                "type" : "paragraph",
+                "styles" : { },
+                "content" : [ {
+                  "type" : "text",
+                  "styles" : { },
+                  "content" : "Item 7"
+                } ]
+              } ]
+            } ]
+          } ]
+        }, {
+          "styles" : { },
+          "content" : [ {
+            "type" : "paragraph",
+            "styles" : { },
+            "content" : [ {
+              "type" : "text",
+              "styles" : { },
+              "content" : "Item 8"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "styles" : { },
+      "content" : [ {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "Item 9"
+        } ]
+      } ]
+    } ]
+  } ]
+}

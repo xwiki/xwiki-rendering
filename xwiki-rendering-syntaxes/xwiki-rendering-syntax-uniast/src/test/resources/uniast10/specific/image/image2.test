@@ -1,0 +1,35 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|uniast/1.0
+.# Test linked image support.
+.#-------------------------------------------------------------------------------------------------------
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "link",
+      "content" : [ {
+        "type" : "image",
+        "styles" : {
+          "alignment" : "center"
+        },
+        "target" : {
+          "type" : "external",
+          "url" : "image.png"
+        },
+        "alt" : "alternative text",
+        "widthPx" : 250,
+        "heightPx" : 175,
+        "caption" : "This is the caption"
+      } ],
+      "target" : {
+        "type" : "external",
+        "url" : "https://xwiki.org"
+      }
+    } ]
+  } ]
+}
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+[[~[~[image:image.png~|~|alt="alternative text" width="250" height="175" data-xwiki-image-style-alignment="center" data-xwiki-image-label="This is the caption"~]~]>>https://xwiki.org]]

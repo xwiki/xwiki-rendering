@@ -1,0 +1,77 @@
+{
+  "blocks" : [ {
+    "type" : "list",
+    "styles" : { },
+    "items" : [ {
+      "styles" : { },
+      "content" : [ {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "title1"
+        } ]
+      } ]
+    }, {
+      "styles" : { },
+      "content" : [ {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "definition1"
+        } ]
+      }, {
+        "type" : "list",
+        "styles" : { },
+        "items" : [ {
+          "styles" : { },
+          "content" : [ {
+            "type" : "paragraph",
+            "styles" : { },
+            "content" : [ {
+              "type" : "text",
+              "styles" : { },
+              "content" : "title2"
+            } ]
+          } ]
+        }, {
+          "styles" : { },
+          "content" : [ {
+            "type" : "paragraph",
+            "styles" : { },
+            "content" : [ {
+              "type" : "text",
+              "styles" : { },
+              "content" : "definition2"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "styles" : { },
+      "content" : [ {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "title3"
+        } ]
+      } ]
+    }, {
+      "styles" : { },
+      "content" : [ {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "definition3"
+        } ]
+      } ]
+    } ]
+  } ]
+}

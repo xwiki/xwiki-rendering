@@ -1,0 +1,63 @@
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "paragraph"
+    } ]
+  }, {
+    "type" : "quote",
+    "styles" : { },
+    "content" : [ {
+      "type" : "paragraph",
+      "styles" : { },
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "line1"
+      } ]
+    }, {
+      "type" : "quote",
+      "styles" : { },
+      "content" : [ {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "line2"
+        } ]
+      }, {
+        "type" : "quote",
+        "styles" : { },
+        "content" : [ {
+          "type" : "paragraph",
+          "styles" : { },
+          "content" : [ {
+            "type" : "text",
+            "styles" : { },
+            "content" : "line3"
+          } ]
+        } ]
+      }, {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "line4"
+        } ]
+      } ]
+    } ]
+  }, {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "paragraph"
+    } ]
+  } ]
+}

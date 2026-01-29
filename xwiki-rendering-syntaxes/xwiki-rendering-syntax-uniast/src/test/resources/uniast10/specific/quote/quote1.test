@@ -1,0 +1,114 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|uniast/1.0
+.# Verify the quote syntax conversion from UniAst to XWiki 2.1 syntax.
+.#-------------------------------------------------------------------------------------------------------
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "before"
+    } ]
+  }, {
+    "type" : "quote",
+    "styles" : { },
+    "content" : [ {
+      "type" : "paragraph",
+      "styles" : { },
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "line1"
+      } ]
+    }, {
+      "type" : "paragraph",
+      "styles" : { },
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "lineOne"
+      } ]
+    }, {
+      "type" : "quote",
+      "styles" : { },
+      "content" : [ {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "line2"
+        } ]
+      }, {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "lineTwo"
+        } ]
+      }, {
+        "type" : "quote",
+        "styles" : { },
+        "content" : [ {
+          "type" : "paragraph",
+          "styles" : { },
+          "content" : [ {
+            "type" : "text",
+            "styles" : { },
+            "content" : "line3"
+          } ]
+        }, {
+          "type" : "paragraph",
+          "styles" : { },
+          "content" : [ {
+            "type" : "text",
+            "styles" : { },
+            "content" : "lineThree"
+          } ]
+        } ]
+      }, {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "line4"
+        } ]
+      }, {
+        "type" : "paragraph",
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "lineFour"
+        } ]
+      } ]
+    } ]
+  }, {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "text",
+      "styles" : { },
+      "content" : "after"
+    } ]
+  } ]
+}
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+before
+
+>line1
+>lineOne
+>>line2
+>>lineTwo
+>>>line3
+>>>lineThree
+>>line4
+>>lineFour
+
+after

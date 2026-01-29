@@ -1,0 +1,14 @@
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "link",
+      "content" : [ ],
+      "target" : {
+        "type" : "external",
+        "url" : "mailto:john@doe.com"
+      }
+    } ]
+  } ]
+}

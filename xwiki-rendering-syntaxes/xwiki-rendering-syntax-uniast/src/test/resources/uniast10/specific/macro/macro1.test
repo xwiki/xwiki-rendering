@@ -1,0 +1,99 @@
+.#-------------------------------------------------------------------------------------------------------
+.input|uniast/1.0
+.# Verify the parsing of nested in-place editable macros.
+.#-------------------------------------------------------------------------------------------------------
+{
+  "blocks" : [ {
+    "type" : "macroBlock",
+    "call" : {
+      "id" : "info",
+      "params" : {
+        "title" : {
+          "type" : "heading",
+          "styles" : { },
+          "content" : [ {
+            "type" : "text",
+            "styles" : { },
+            "content" : "Note"
+          } ],
+          "level" : 2
+        },
+        "image" : "info.png"
+      },
+      "body" : {
+        "type" : "inlineContents",
+        "inlineContents" : [ {
+          "type" : "text",
+          "styles" : { },
+          "content" : "This "
+        }, {
+          "type" : "inlineMacro",
+          "call" : {
+            "id" : "error",
+            "params" : {
+              "title" : [ {
+                "type" : "text",
+                "styles" : {
+                  "bold" : true
+                },
+                "content" : "F"
+              }, {
+                "type" : "text",
+                "styles" : { },
+                "content" : "ailure"
+              } ],
+              "image" : "error.png"
+            },
+            "body" : {
+              "type" : "inlineContent",
+              "inlineContent" : {
+                "type" : "inlineMacro",
+                "call" : {
+                  "id" : "success",
+                  "params" : {
+                    "title" : {
+                      "type" : "text",
+                      "styles" : { },
+                      "content" : "Done"
+                    },
+                    "image" : "success.png"
+                  },
+                  "body" : {
+                    "type" : "inlineContent",
+                    "inlineContent" : {
+                      "type" : "text",
+                      "styles" : {
+                        "code" : true
+                      },
+                      "content" : "stacktrace"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, {
+          "type" : "text",
+          "styles" : { },
+          "content" : " is "
+        }, {
+          "type" : "text",
+          "styles" : {
+            "bold" : true
+          },
+          "content" : "expected"
+        }, {
+          "type" : "text",
+          "styles" : { },
+          "content" : "."
+        } ]
+      }
+    }
+  } ]
+}
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{info title="== Note ==" image="info.png"}}
+This {{error title="**F**ailure" image="error.png"}}{{success title="Done" image="success.png"}}##stacktrace##{{/success}}{{/error}} is **expected**.
+{{/info}}

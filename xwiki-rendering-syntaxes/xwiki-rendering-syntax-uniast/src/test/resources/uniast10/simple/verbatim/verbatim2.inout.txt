@@ -1,0 +1,6 @@
+{
+  "blocks" : [ {
+    "type" : "code",
+    "content" : "verbatim"
+  } ]
+}

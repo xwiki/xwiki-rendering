@@ -1,0 +1,114 @@
+.#-------------------------------------------------------------------------------------------------------
+.input|uniast/1.0
+.# Various link types.
+.#-------------------------------------------------------------------------------------------------------
+{
+  "blocks" : [ {
+    "type" : "paragraph",
+    "styles" : { },
+    "content" : [ {
+      "type" : "link",
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "typed URL"
+      } ],
+      "target" : {
+        "type" : "external",
+        "url" : "url:https://www.xwiki.org"
+      }
+    }, {
+      "type" : "link",
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "typed document"
+      } ],
+      "target" : {
+        "type" : "internal",
+        "rawReference" : "doc:Path.To.Page"
+      }
+    }, {
+      "type" : "link",
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "typed space"
+      } ],
+      "target" : {
+        "type" : "internal",
+        "rawReference" : "space:Path.To.Space"
+      }
+    }, {
+      "type" : "link",
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "interwiki"
+      } ],
+      "target" : {
+        "type" : "external",
+        "url" : "interwiki:wikipedia:XWiki"
+      }
+    }, {
+      "type" : "link",
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "typed attachment"
+      } ],
+      "target" : {
+        "type" : "internal",
+        "rawReference" : "attach:Path.To.Page@file.pdf"
+      }
+    }, {
+      "type" : "link",
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "mail"
+      } ],
+      "target" : {
+        "type" : "external",
+        "url" : "mailto:john@doe.com"
+      }
+    }, {
+      "type" : "link",
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "path"
+      } ],
+      "target" : {
+        "type" : "external",
+        "url" : "path:/one/two/three"
+      }
+    }, {
+      "type" : "link",
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "UNC"
+      } ],
+      "target" : {
+        "type" : "external",
+        "url" : "unc:home/user/somefile"
+      }
+    }, {
+      "type" : "link",
+      "content" : [ {
+        "type" : "text",
+        "styles" : { },
+        "content" : "untyped document"
+      } ],
+      "target" : {
+        "type" : "internal",
+        "rawReference" : "Path.To.Page"
+      }
+    } ]
+  } ]
+}
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+[[typed URL>>url:https://www.xwiki.org]][[typed document>>doc:Path.To.Page]][[typed space>>space:Path.To.Space]][[interwiki>>interwiki:wikipedia:XWiki]][[typed attachment>>attach:Path.To.Page@file.pdf]][[mail>>mailto:john@doe.com]][[path>>path:/one/two/three]][[UNC>>unc:home/user/somefile]][[untyped document>>Path.To.Page]]

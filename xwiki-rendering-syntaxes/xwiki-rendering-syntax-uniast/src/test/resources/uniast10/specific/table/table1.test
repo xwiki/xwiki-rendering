@@ -1,0 +1,100 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|uniast/1.0
+.# Table and cell properties.
+.#-------------------------------------------------------------------------------------------------------
+{
+  "blocks" : [ {
+    "type" : "table",
+    "styles" : {
+      "textColor" : "blue",
+      "backgroundColor" : "gray",
+      "textAlignment" : "center"
+    },
+    "rows" : [ [ {
+      "styles" : {
+        "textColor" : "red"
+      },
+      "content" : [ {
+        "type" : "text",
+        "styles" : {
+          "strikethrough" : true
+        },
+        "content" : "Before"
+      } ]
+    }, {
+      "styles" : {
+        "textColor" : "green"
+      },
+      "content" : [ {
+        "type" : "text",
+        "styles" : {
+          "code" : true
+        },
+        "content" : "After"
+      } ]
+    } ], [ {
+      "styles" : {
+        "textColor" : "black",
+        "backgroundColor" : "white",
+        "textAlignment" : "justify"
+      },
+      "content" : [ {
+        "type" : "text",
+        "styles" : {
+          "bold" : true
+        },
+        "content" : "Circle"
+      } ]
+    }, {
+      "styles" : {
+        "textColor" : "red"
+      },
+      "content" : [ {
+        "type" : "text",
+        "styles" : {
+          "italic" : true
+        },
+        "content" : "Red"
+      } ],
+      "colSpan" : 2
+    } ] ],
+    "columns" : [ {
+      "headerCell" : {
+        "styles" : {
+          "textColor" : "white",
+          "backgroundColor" : "black",
+          "textAlignment" : "right"
+        },
+        "content" : [ {
+          "type" : "text",
+          "styles" : {
+            "bold" : true
+          },
+          "content" : "Shape"
+        } ],
+        "rowSpan" : 2
+      },
+      "widthPx" : 300
+    }, {
+      "headerCell" : {
+        "styles" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : {
+            "underline" : true
+          },
+          "content" : "Colors"
+        } ],
+        "colSpan" : 2
+      },
+      "widthPx" : 200
+    } ]
+  } ]
+}
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% style="color:blue;background-color:gray;text-align:center" %)
+|=(% style="color:white;background-color:black;text-align:right" rowspan="2" width="300" %)**Shape**|=(% colspan="2" width="200" %)__Colors__
+|(% style="color:red" %)--Before--|(% style="color:green" %)##After##
+|(% style="color:black;background-color:white;text-align:justify" %)**Circle**|(% style="color:red" colspan="2" %)//Red//
