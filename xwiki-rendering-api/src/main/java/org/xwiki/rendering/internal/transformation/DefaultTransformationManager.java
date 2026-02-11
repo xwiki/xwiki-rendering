@@ -108,14 +108,9 @@ public class DefaultTransformationManager implements TransformationManager
 
     private List<Transformation> getTransformations(TransformationContext context)
     {
-        List<String> transformationNames = context.getTransformationNames();
-        if (transformationNames == null || transformationNames.isEmpty()) {
-            // Execute the transformations specified in the configuration.
-            return getTransformations();
-        } else {
-            // Execute the transformations specified on the transformation context.
-            return getTransformations(transformationNames);
-        }
+        // Execute the transformations specified on the transformation context, or else the transformations specified in
+        // the configuration.
+        return context.getTransformationNames().map(this::getTransformations).orElseGet(this::getTransformations);
     }
 
     /**
