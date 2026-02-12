@@ -175,6 +175,10 @@ public class UniAstChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
+        if (isPlainTextRendering()) {
+            return;
+        }
+
         JsonNode paragraph = endBlock();
         JsonNode children = paragraph.path(UniAstStreamParser.CONTENT);
         if (parameters.isEmpty() && children.size() == 1
@@ -232,8 +236,10 @@ public class UniAstChainingRenderer extends AbstractChainingPrintRenderer
     public void endListItem(Map<String, String> parameters)
     {
         ObjectNode listItem = (ObjectNode) endBlock();
-        // UniAst, unlike XWiki syntax, doesn't allow inline content directly under list items.
-        wrapInlineContent((ArrayNode) listItem.path(UniAstStreamParser.CONTENT));
+        if (listItem != null) {
+            // UniAst, unlike XWiki syntax, doesn't allow inline content directly under list items.
+            wrapInlineContent((ArrayNode) listItem.path(UniAstStreamParser.CONTENT));
+        }
     }
 
     private void wrapInlineContent(ArrayNode children)
