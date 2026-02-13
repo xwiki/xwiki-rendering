@@ -83,7 +83,7 @@ public class DefaultTransformationManager implements TransformationManager
     public void performTransformations(Block block, TransformationContext context) throws TransformationException
     {
         Map<String, String> transformationsInError = null;
-        for (Transformation transformation : getTransformations()) {
+        for (Transformation transformation : getTransformations(context)) {
             try {
                 ((MutableRenderingContext) this.renderingContext).transformInContext(transformation, context, block);
             } catch (Exception e) {
@@ -104,6 +104,13 @@ public class DefaultTransformationManager implements TransformationManager
             throw new TransformationException(String.format("The following transformations failed to execute "
                 + "properly: [\n%s]", builder.toString()));
         }
+    }
+
+    private List<Transformation> getTransformations(TransformationContext context)
+    {
+        // Execute the transformations specified on the transformation context, or else the transformations specified in
+        // the configuration.
+        return context.getTransformationNames().map(this::getTransformations).orElseGet(this::getTransformations);
     }
 
     /**

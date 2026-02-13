@@ -19,8 +19,12 @@
  */
 package org.xwiki.rendering.transformation;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.stability.Unstable;
 
 /**
  * The context of the transformation process. Contains information such as the current XWiki DOM for the parsed content.
@@ -54,6 +58,12 @@ public class TransformationContext implements Cloneable
      * @see #getTargetSyntax()
      */
     private Syntax targetSyntax;
+
+    /**
+     * @see #getTransformationNames()
+     * @since 18.1.0RC1
+     */
+    private Optional<List<String>> transformationNames = Optional.empty();
 
     /**
      * Default constructor that doesn't set the XDOM or the Syntax. This is because setting the XDOM and the Syntax is
@@ -164,6 +174,31 @@ public class TransformationContext implements Cloneable
     public Syntax getTargetSyntax()
     {
         return this.targetSyntax;
+    }
+
+    /**
+     * @return the list of transformations to execute; if not set, the configured list of transformations will be
+     *         executed; if empty, no transformations will be executed
+     * @see org.xwiki.rendering.configuration.RenderingConfiguration#getTransformationNames()
+     * @since 18.1.0RC1
+     */
+    @Unstable
+    public Optional<List<String>> getTransformationNames()
+    {
+        return this.transformationNames;
+    }
+
+    /**
+     * Set the list of transformations to execute. Use this to override the configured list of transformations.
+     *
+     * @param transformationNames the list of transformations to execute
+     * @see org.xwiki.rendering.configuration.RenderingConfiguration#getTransformationNames()
+     * @since 18.1.0RC1
+     */
+    @Unstable
+    public void setTransformationNames(Optional<List<String>> transformationNames)
+    {
+        this.transformationNames = transformationNames;
     }
 
     /**
