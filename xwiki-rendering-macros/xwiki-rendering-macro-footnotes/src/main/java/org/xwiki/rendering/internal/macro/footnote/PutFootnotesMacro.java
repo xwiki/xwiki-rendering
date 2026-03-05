@@ -31,7 +31,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
@@ -135,7 +135,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
 
             if (footnoteContent.size() == 1
                 && footnoteContent.get(0) instanceof FormatBlock
-                && StringUtils.startsWith(footnoteContent.get(0).getParameter(ID_ATTRIBUTE_NAME),
+                && Strings.CS.startsWith(footnoteContent.get(0).getParameter(ID_ATTRIBUTE_NAME),
                 FOOTNOTE_REFERENCE_ID_PREFIX))
             {
                 // The footnote content has already been collected, we'll hopefully find it back later when looking at
@@ -253,7 +253,7 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
             for (Block listItemBlock : macro.getChildren().get(0).getChildren()) {
                 if (listItemBlock.getChildren().size() == 3
                     && listItemBlock.getChildren().get(2) instanceof CompositeBlock
-                    && StringUtils.startsWith(listItemBlock.getChildren().get(0).getParameter(ID_ATTRIBUTE_NAME),
+                    && Strings.CS.startsWith(listItemBlock.getChildren().get(0).getParameter(ID_ATTRIBUTE_NAME),
                     FOOTNOTE_ID_PREFIX))
                 {
                     CompositeBlock footnoteContent = (CompositeBlock) listItemBlock.getChildren().get(2);
