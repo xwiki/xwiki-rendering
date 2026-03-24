@@ -25,6 +25,8 @@ package org.xwiki.rendering.internal.parser.xhtml.wikimodel;
  *
  * @version $Id$
  */
+// Old interface not describing a type, hard to remove for backward-compatibility reasons.
+@SuppressWarnings("checkstyle:InterfaceIsType")
 public interface XWikiWikiModelHandler
 {
     /**
