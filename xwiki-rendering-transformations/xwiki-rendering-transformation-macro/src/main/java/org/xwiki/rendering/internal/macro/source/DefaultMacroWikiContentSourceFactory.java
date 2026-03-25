@@ -54,7 +54,7 @@ public class DefaultMacroWikiContentSourceFactory implements MacroContentWikiSou
     {
         String type = reference.getType();
 
-        if (type != null && !type.isEmpty() && !type.equals("default")) {
+        if (type != null && !type.isEmpty() && !"default".equals(type)) {
             ComponentManager componentManager = this.componentManagerProvider.get();
 
             if (componentManager.hasComponent(MacroContentWikiSourceFactory.class, type)) {
