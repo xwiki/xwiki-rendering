@@ -19,27 +19,22 @@
  */
 package org.xwiki.rendering.wikimodel.test;
 
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerUtil;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @version $Id$
  * @since 4.0M1
  */
-public class WikiScannerUtilTest extends TestCase
+class WikiScannerUtilTest
 {
-    /**
-     * @param name
-     */
-    public WikiScannerUtilTest(String name)
-    {
-        super(name);
-    }
-
-    public void testParams()
+    @Test
+    void testParams()
     {
         testParams("a b c d", " ", "a", null, "b", null, "c", null, "d", null);
         testParams("a=b c=d", " ", "a", "b", "c", "d");
@@ -81,10 +76,8 @@ public class WikiScannerUtilTest extends TestCase
         }
     }
 
-    /**
-     *
-     */
-    public void testSubstringExtract()
+    @Test
+    void testSubstringExtract()
     {
         testSubstringExtract1("123", "");
         testSubstringExtract1("123()", "");
