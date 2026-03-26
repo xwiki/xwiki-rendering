@@ -30,9 +30,6 @@ import org.xwiki.rendering.wikimodel.xhtml.XhtmlParser;
  */
 public class XHtmlParserTest extends AbstractWikiParserTest
 {
-    /**
-     * @param name
-     */
     public XHtmlParserTest(String name)
     {
         super(name);
@@ -44,9 +41,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
         return new XhtmlParser();
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testDefinitionLists() throws WikiParserException
     {
         test("<html><dl><dt>term</dt><dd>definition</dd></dl></html>", ""
@@ -73,9 +67,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
             + "</dl>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testDocuments() throws WikiParserException
     {
         test("<html><p>before</p>\n"
@@ -213,16 +204,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
 
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testEscape() throws WikiParserException
-    {
-    }
-
-    /**
-     * @throws WikiParserException
-     */
     public void testFormats() throws WikiParserException
     {
         test("<html><b>bold</b></html>", "<p><strong>bold</strong></p>");
@@ -307,9 +288,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
                 "<span class='wikimodel-parameters'[class='class1']>word3</span></p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testHeaders() throws WikiParserException
     {
         test("<html><h1>header1</h1></html>");
@@ -322,9 +300,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
         test("<html>before<h1>header1</h1>after</html>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testHorLine() throws WikiParserException
     {
         test("<html>before<hr />after</html>", ""
@@ -349,17 +324,11 @@ public class XHtmlParserTest extends AbstractWikiParserTest
             "<p><img src='target' class='wikimodel-freestanding'/></p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testLineBreak() throws WikiParserException
     {
         test("<html>before<br />after</html>", "<p>before\nafter</p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testLists() throws WikiParserException
     {
         test(
@@ -403,9 +372,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
                 + "</ol>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testParagraphs() throws WikiParserException
     {
         test("<html><p>paragraph</p></html>", "<p>paragraph</p>");
@@ -414,9 +380,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
             "<p>hello <em><span class='wikimodel-parameters'[class='italic']>beautiful</span></em> <strong>world</strong></p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testQuot() throws WikiParserException
     {
         test(
@@ -452,9 +415,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
                 "</blockquote>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testReferences() throws WikiParserException
     {
         test("<html><a href=\"reference\">label</a></html>", "<p><a href='reference'>label</a></p>");
@@ -467,9 +427,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
         test("<html><a href='#foo'>test</a></html>", "<p><a href='#foo'>test</a></p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testTables() throws WikiParserException
     {
         test("<html><table><tr><td>first cell</td><td>second cell</td></tr></table></html>",
@@ -544,9 +501,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
                 + "</tbody></table>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testVerbatimBlocks() throws WikiParserException
     {
         test(
@@ -560,9 +514,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
             "<pre>one\ntwo</pre>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
     public void testVerbatimInline() throws WikiParserException
     {
         test(
@@ -608,7 +559,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
 
     /**
      * Test that unsupported tags, like HTML5 ones, are simply ignored
-     * @throws WikiParserException
      */
     public void testUnsupportedTags() throws WikiParserException
     {
@@ -644,7 +594,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
 
     /**
      * Test malformed constructs created by the HTML cleaner not supporting HTML5
-     * @throws WikiParserException
      */
     public void testUnsupportedHTML5Tags() throws WikiParserException
     {
@@ -674,7 +623,6 @@ public class XHtmlParserTest extends AbstractWikiParserTest
      * While invalid in XHTML 1.0, if these tags ever appear in the submitted content, it could cause some text nodes
      * to be merged, which is usually not nice from an end user POV. Therefore Wikimodel provide some minimal support
      * for them, by considering those tags as simple divs.
-     * @throws WikiParserException
      */
     public void testBasicHTML5Tags() throws WikiParserException
     {
