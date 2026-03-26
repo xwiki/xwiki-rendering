@@ -21,19 +21,21 @@ package org.xwiki.rendering.wikimodel.test;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.wikimodel.IWemConstants;
 import org.xwiki.rendering.wikimodel.WikiFormat;
 import org.xwiki.rendering.wikimodel.WikiStyle;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @version $Id$
  * @since 4.0M1
  */
-public class WikiFormatTest extends TestCase
+class WikiFormatTest
 {
-    public void testOrder()
+    @Test
+    void testOrder()
     {
         WikiFormat format = new WikiFormat(IWemConstants.STRONG);
         format = format.addStyle(IWemConstants.EM);

@@ -23,42 +23,45 @@ import java.io.StringReader;
 
 import javax.xml.parsers.SAXParserFactory;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xwiki.rendering.wikimodel.xhtml.filter.XHTMLWhitespaceXMLFilter;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @version $Id$
  * @since 4.0M1
  */
-public class XHTMLWhitespaceXMLFilterTest extends TestCase
+class XHTMLWhitespaceXMLFilterTest
 {
     private XMLWriter writerFilter;
 
     private XHTMLWhitespaceXMLFilter whitespaceFilter;
 
-    @Override
-    protected void setUp() throws Exception
+    @BeforeEach
+    void setUp() throws Exception
     {
         XMLReader xmlReader = SAXParserFactory
             .newInstance()
             .newSAXParser()
             .getXMLReader();
-        whitespaceFilter = new XHTMLWhitespaceXMLFilter(xmlReader);
-        writerFilter = new XMLWriter();
+        this.whitespaceFilter = new XHTMLWhitespaceXMLFilter(xmlReader);
+        this.writerFilter = new XMLWriter();
 
-        whitespaceFilter.setFeature(
+        this.whitespaceFilter.setFeature(
             "http://xml.org/sax/features/namespaces",
             true);
-        whitespaceFilter.setContentHandler(writerFilter);
-        whitespaceFilter.setProperty(
+        this.whitespaceFilter.setContentHandler(this.writerFilter);
+        this.whitespaceFilter.setProperty(
             "http://xml.org/sax/properties/lexical-handler",
-            writerFilter);
+            this.writerFilter);
     }
 
-    public void testWhiteSpaceStripping() throws Exception
+    @Test
+    void testWhiteSpaceStripping() throws Exception
     {
         assertCleanedHTML("<p>one two</p>", "<p>  one  two  </p>");
         assertCleanedHTML(
@@ -151,7 +154,8 @@ public class XHTMLWhitespaceXMLFilterTest extends TestCase
         assertCleanedHTML("one <img></img> two", "one <img/> two");
     }
 
-    public void testWhiteSpaceStrippingForBlockElements() throws Exception
+    @Test
+    void testWhiteSpaceStrippingForBlockElements() throws Exception
     {
         assertCleanedHTML("<p></p><p></p>", "<p></p>  \n\r\t<p></p>");
         assertCleanedHTML(
@@ -177,8 +181,8 @@ public class XHTMLWhitespaceXMLFilterTest extends TestCase
         }
 
         InputSource source = new InputSource(new StringReader(originalContent));
-        whitespaceFilter.parse(source);
-        assertEquals(expected, writerFilter.getBuffer());
-        writerFilter.reset();
+        this.whitespaceFilter.parse(source);
+        assertEquals(expected, this.writerFilter.getBuffer());
+        this.writerFilter.reset();
     }
 }
