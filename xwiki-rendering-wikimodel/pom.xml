@@ -36,8 +36,6 @@
     <!-- Skip checkstyle checks for now since aligning WikiModel code base to the XWiki coding style is going to take
          some time and this module is temporary anyway. -->
     <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
-    <!-- TODO: Remove once the tests have been fixed to not output anything to the console! -->
-    <xwiki.surefire.captureconsole.skip>true</xwiki.surefire.captureconsole.skip>
   </properties>
   <dependencies>
     <!-- For parsing the CSS from the style attribute. -->
@@ -55,13 +53,7 @@
       <artifactId>xwiki-rendering-xml</artifactId>
       <version>${project.version}</version>
     </dependency>
-
     <!-- Testing dependencies -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-tool-test-component</artifactId>

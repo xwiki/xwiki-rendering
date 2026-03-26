@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.wikimodel.test;
 
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.WikiParserException;
 import org.xwiki.rendering.wikimodel.gwiki.GWikiParser;
@@ -27,26 +28,16 @@ import org.xwiki.rendering.wikimodel.gwiki.GWikiParser;
  * @version $Id$
  * @since 4.0M1
  */
-public class GWikiParserTest extends AbstractWikiParserTest
+class GWikiParserTest extends AbstractWikiParserTest
 {
-    /**
-     * @param name
-     */
-    public GWikiParserTest(String name)
-    {
-        super(name);
-    }
-
     @Override
     protected IWikiParser newWikiParser()
     {
         return new GWikiParser();
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testFormats() throws WikiParserException
+    @Test
+    void testFormats() throws WikiParserException
     {
         test("*bold*");
         test("~~strike~~");
@@ -69,10 +60,8 @@ public class GWikiParserTest extends AbstractWikiParserTest
         test("subscript,,");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testHeaders() throws WikiParserException
+    @Test
+    void testHeaders() throws WikiParserException
     {
         test("===Header===");
         test("\n===Header===\n * list item");
@@ -81,10 +70,8 @@ public class GWikiParserTest extends AbstractWikiParserTest
         test("This is not a header: ===");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testLists() throws WikiParserException
+    @Test
+    void testLists() throws WikiParserException
     {
         test(" * item one\n"
             + " * item two\n"
@@ -97,10 +84,8 @@ public class GWikiParserTest extends AbstractWikiParserTest
             + "   lines");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testParagraphs() throws WikiParserException
+    @Test
+    void testParagraphs() throws WikiParserException
     {
         test("First paragraph.\n"
             + "Second line of the same paragraph.\n"
@@ -108,31 +93,31 @@ public class GWikiParserTest extends AbstractWikiParserTest
             + "The second paragraph");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testProperties() throws WikiParserException
+    @Test
+    void testProperties() throws WikiParserException
     {
         test(
             "#toto hello  world\n123",
             "<div class='wikimodel-property' url='toto'><p>hello  world</p>\n</div>\n<p>123</p>");
         test(
             "#prop1 value1\n#prop2 value2",
-            ""
-                + "<div class='wikimodel-property' url='prop1'><p>value1</p>\n</div>\n"
-                + "<div class='wikimodel-property' url='prop2'><p>value2</p>\n</div>");
+            """
+                <div class='wikimodel-property' url='prop1'><p>value1</p>
+                </div>
+                <div class='wikimodel-property' url='prop2'><p>value2</p>
+                </div>""");
         test(
             "#prop1 value1\nparagraph\n#prop2 value2",
-            ""
-                + "<div class='wikimodel-property' url='prop1'><p>value1</p>\n</div>\n"
-                + "<p>paragraph</p>\n"
-                + "<div class='wikimodel-property' url='prop2'><p>value2</p>\n</div>");
+            """
+                <div class='wikimodel-property' url='prop1'><p>value1</p>
+                </div>
+                <p>paragraph</p>
+                <div class='wikimodel-property' url='prop2'><p>value2</p>
+                </div>""");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testQuot() throws WikiParserException
+    @Test
+    void testQuot() throws WikiParserException
     {
         test("This is a paragraph\n"
             + "\n"
@@ -145,29 +130,23 @@ public class GWikiParserTest extends AbstractWikiParserTest
             + "      Third");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testReferences() throws WikiParserException
+    @Test
+    void testReferences() throws WikiParserException
     {
         test("before http://www.foo.bar/com after");
         test("before [toto] after");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testTables() throws WikiParserException
+    @Test
+    void testTables() throws WikiParserException
     {
         test("|| cell1.1 || cell1.2\n" + "|| cell 2.1 || cell 2.2");
         test("abc || cde");
         test("||a\nb\nc || c\nd\ne\n{{{\n Hello\n * World}}} \n x ");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testVerbatimBlocks() throws WikiParserException
+    @Test
+    void testVerbatimBlocks() throws WikiParserException
     {
         test("{{{verbatim}}}");
         test("{{{verbatim");

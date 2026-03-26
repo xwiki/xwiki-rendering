@@ -28,60 +28,28 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiParserException;
 import org.xwiki.rendering.wikimodel.xhtml.PrintListener;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @version $Id$
  * @since 4.0M1
  */
-public abstract class AbstractWikiParserTest extends TestCase
+public abstract class AbstractWikiParserTest
 {
-    private boolean fOutputEnabled;
-
     private boolean fShowSections;
 
-    private boolean supportImage;
+    protected boolean supportImage;
 
-    private boolean supportDownload;
+    protected boolean supportDownload;
 
-    /**
-     * @param name
-     */
-    public AbstractWikiParserTest(String name)
-    {
-        super(name);
-    }
-
-    public AbstractWikiParserTest(String name, boolean supportImage, boolean supportDownload)
-    {
-        super(name);
-
-        this.supportImage = supportImage;
-        this.supportDownload = supportDownload;
-    }
-
-    /**
-     * @param control
-     * @param test
-     */
     protected void checkResults(String control, String test)
     {
         if (control != null) {
-            control = "<div class='wikimodel-document'>\n" + control
-                + "\n</div>\n";
+            control = "<div class='wikimodel-document'>\n" + control + "\n</div>\n";
             assertEquals(control, test);
         }
     }
 
-    protected void enableOutput(boolean enable)
-    {
-        fOutputEnabled = enable;
-    }
-
-    /**
-     * @param buf
-     * @return
-     */
     protected IWemListener newParserListener(final StringBuffer buf)
     {
         IWikiPrinter printer = newPrinter(buf);
@@ -92,47 +60,36 @@ public abstract class AbstractWikiParserTest extends TestCase
             listener = new PrintListener(printer, this.supportImage, this.supportDownload)
             {
                 @Override
-                public void beginSection(int docLevel, int headerLevel,
-                    WikiParameters params)
+                public void beginSection(int docLevel, int headerLevel, WikiParameters params)
                 {
-                    println("<section-" + docLevel + "-" + headerLevel + params
-                        + ">");
+                    println("<section-" + docLevel + "-" + headerLevel + params + ">");
                 }
 
                 @Override
-                public void beginSectionContent(int docLevel, int headerLevel,
-                    WikiParameters params)
+                public void beginSectionContent(int docLevel, int headerLevel, WikiParameters params)
                 {
-                    println("<sectionContent-" + docLevel + "-" + headerLevel
-                        + params + ">");
+                    println("<sectionContent-" + docLevel + "-" + headerLevel + params + ">");
                 }
 
                 @Override
-                public void endSection(int docLevel, int headerLevel,
-                    WikiParameters params)
+                public void endSection(int docLevel, int headerLevel, WikiParameters params)
                 {
                     println("</section-" + docLevel + "-" + headerLevel + ">");
                 }
 
                 @Override
-                public void endSectionContent(int docLevel, int headerLevel,
-                    WikiParameters params)
+                public void endSectionContent(int docLevel, int headerLevel, WikiParameters params)
                 {
-                    println("</sectionContent-" + docLevel + "-" + headerLevel
-                        + ">");
+                    println("</sectionContent-" + docLevel + "-" + headerLevel + ">");
                 }
             };
         }
         return listener;
     }
 
-    /**
-     * @param buf
-     * @return
-     */
     protected IWikiPrinter newPrinter(final StringBuffer buf)
     {
-        IWikiPrinter printer = new IWikiPrinter()
+        return new IWikiPrinter()
         {
             public void print(String str)
             {
@@ -145,54 +102,28 @@ public abstract class AbstractWikiParserTest extends TestCase
                 buf.append("\n");
             }
         };
-        return printer;
     }
 
     protected abstract IWikiParser newWikiParser();
-
-    protected void println(String str)
-    {
-        if (fOutputEnabled) {
-            System.out.println(str);
-        }
-    }
-
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        enableOutput(true);
-    }
 
     protected void showSections(boolean b)
     {
         fShowSections = b;
     }
 
-    /**
-     * @param string
-     * @throws org.xwiki.rendering.wikimodel.WikiParserException
-     */
     protected void test(String string) throws WikiParserException
     {
         test(string, null);
     }
 
-    /**
-     * @param string
-     * @throws WikiParserException
-     */
-    protected void test(String string, String control)
-        throws WikiParserException
+    protected void test(String string, String control) throws WikiParserException
     {
-        println("==================================================");
         StringReader reader = new StringReader(string);
         IWikiParser parser = newWikiParser();
         final StringBuffer buf = new StringBuffer();
         IWemListener listener = newParserListener(buf);
         parser.parse(reader, listener);
         String test = buf.toString();
-        println(test);
         checkResults(control, test);
     }
 }

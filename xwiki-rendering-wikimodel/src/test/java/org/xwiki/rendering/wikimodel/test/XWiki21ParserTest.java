@@ -26,16 +26,8 @@ import org.xwiki.rendering.wikimodel.xwiki.xwiki21.XWikiParser;
  * @version $Id$
  * @since 4.0M1
  */
-public class XWiki21ParserTest extends XWiki20ParserTest
+class XWiki21ParserTest extends XWiki20ParserTest
 {
-    /**
-     * @param name
-     */
-    public XWiki21ParserTest(String name)
-    {
-        super(name);
-    }
-
     @Override
     protected IWikiParser newWikiParser()
     {

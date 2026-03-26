@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.wikimodel.test;
 
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.wikimodel.EventDumpListener;
 import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.IWikiParser;
@@ -30,31 +31,23 @@ import org.xwiki.rendering.wikimodel.common.CommonWikiParser;
  * @version $Id$
  * @since 4.0M1
  */
-public class EventDumpListenerTest extends AbstractWikiParserTest
+class EventDumpListenerTest extends AbstractWikiParserTest
 {
-    public EventDumpListenerTest(String name)
-    {
-        super(name);
-    }
-
     @Override
     protected IWikiParser newWikiParser()
     {
         return new CommonWikiParser();
     }
 
-    /**
-     * @param buf
-     * @return
-     */
+    @Override
     protected IWemListener newParserListener(final StringBuffer buf)
     {
         IWikiPrinter printer = newPrinter(buf);
-        IWemListener listener = new EventDumpListener(printer);
-        return listener;
+        return new EventDumpListener(printer);
     }
 
-    public void test() throws WikiParserException
+    @Test
+    void test() throws WikiParserException
     {
         test("%worksIn (((\n"
             + "   %type [Company]\n"
@@ -64,7 +57,7 @@ public class EventDumpListenerTest extends AbstractWikiParserTest
         /**
          * The trace, how it *should* be:
          *
-         * <pre>       
+         * <pre>
          beginDocument()
          beginPropertyBlock('worksIn',doc=true)
          beginPropertyBlock('type',doc=false)
@@ -89,6 +82,5 @@ public class EventDumpListenerTest extends AbstractWikiParserTest
          endDocument()
          </pre>
          */
-
     }
 }

@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.wikimodel.test;
 
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.WikiParserException;
 import org.xwiki.rendering.wikimodel.common.CommonWikiParser;
@@ -27,23 +28,22 @@ import org.xwiki.rendering.wikimodel.common.CommonWikiParser;
  * @version $Id$
  * @since 4.0M1
  */
-public class CommonWikiParserTest extends AbstractWikiParserTest
+class CommonWikiParserTest extends AbstractWikiParserTest
 {
-    /**
-     * @param name
-     */
-    public CommonWikiParserTest(String name)
-    {
-        super(name, true, true);
-    }
-
     @Override
     protected IWikiParser newWikiParser()
     {
         return new CommonWikiParser();
     }
 
-    public void test() throws Exception
+    public CommonWikiParserTest()
+    {
+        this.supportDownload = true;
+        this.supportImage = true;
+    }
+
+    @Test
+    void test() throws Exception
     {
         showSections(true);
         test("((()))", ""
@@ -77,7 +77,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
             + "</section-1-0>");
     }
 
-    public void testComplexFormatting() throws WikiParserException
+    @Test
+    void testComplexFormatting() throws WikiParserException
     {
         test("%rdf:type toto:Document\n"
             + "\n"
@@ -142,10 +143,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
             + "");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testDocuments() throws WikiParserException
+    @Test
+    void testDocuments() throws WikiParserException
     {
         test("before ((( inside ))) after ", "<p>before</p>\n"
             + "<div class='wikimodel-document'>\n"
@@ -217,7 +216,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
             + "</div>");
     }
 
-    public void testDocumentSections() throws WikiParserException
+    @Test
+    void testDocumentSections() throws WikiParserException
     {
         showSections(true);
         test("abc", ""
@@ -369,10 +369,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
             + "</section-1-0>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testEscape() throws WikiParserException
+    @Test
+    void testEscape() throws WikiParserException
     {
         test("[a reference]");
         test("\\[not a reference]");
@@ -385,10 +383,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
         test("= Heading =\n\\= Not a heading =\n= Heading again! =");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testExtensions() throws WikiParserException
+    @Test
+    void testExtensions() throws WikiParserException
     {
         // Inline extensions
         test(
@@ -437,10 +433,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
             + "<p>after</p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testFormats() throws WikiParserException
+    @Test
+    void testFormats() throws WikiParserException
     {
         test("*bold* ", "<p><strong>bold</strong> </p>");
         test(" **bold** ", "<p> <strong>bold</strong> </p>");
@@ -486,10 +480,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
         test("text~~", "<p>text</p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testHeaders() throws WikiParserException
+    @Test
+    void testHeaders() throws WikiParserException
     {
         test("=Header1=", "<h1>Header1</h1>");
         test("==Header2==", "<h2>Header2</h2>");
@@ -508,10 +500,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
         test("{{a=b}}\n=Header1", "<h1 a='b'>Header1</h1>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testHorLine() throws WikiParserException
+    @Test
+    void testHorLine() throws WikiParserException
     {
         test("----", "<hr />");
         test("-------", "<hr />");
@@ -524,10 +514,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
         test(" -----------", "<p> ---------</p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testInfo() throws WikiParserException
+    @Test
+    void testInfo() throws WikiParserException
     {
         test("/i\\ item {{{formatted block}}} {macro}123{/macro} after");
         test("before\n"
@@ -547,10 +535,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
         test("{{a=b}}\n/i\\info");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testLineBreak() throws WikiParserException
+    @Test
+    void testLineBreak() throws WikiParserException
     {
         test("abc\\\ndef");
         test("abc\\  \ndef");
@@ -558,9 +544,7 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
         test("abc x \ndef");
     }
 
-    /**
-     * @throws WikiParserException
-     */
+    @Test
     public void testLists() throws WikiParserException
     {
         test(
@@ -616,7 +600,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
         test("{{a='b'}}\n* item one");
     }
 
-    public void testMacro() throws WikiParserException
+    @Test
+    void testMacro() throws WikiParserException
     {
         test(
             "{toto}a{/toto}",
@@ -823,10 +808,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
             "<p>a {<span class='wikimodel-macro' macroName='x:'><![CDATA[}, {{y:}} b]]></span></p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testParagraphs() throws WikiParserException
+    @Test
+    void testParagraphs() throws WikiParserException
     {
         test("{{background='blue'}}", "<p background='blue'></p>");
         test(""
@@ -870,10 +853,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
         test("\n<toto");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testPropertiesBlock() throws WikiParserException
+    @Test
+    void testPropertiesBlock() throws WikiParserException
     {
         test(
             "%toto hello  world\n123",
@@ -975,7 +956,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
                 + "</div>");
     }
 
-    public void testPropertiesInline() throws WikiParserException
+    @Test
+    void testPropertiesInline() throws WikiParserException
     {
         test(
             "before %prop(value) after",
@@ -988,10 +970,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
             "<p>before <span class='wikimodel-property' url='prop'>before<strong>bold</strong><em>italic</em><sup>superscript</sup><sub>subscript</sub>value</span> after</p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testQuot() throws WikiParserException
+    @Test
+    void testQuot() throws WikiParserException
     {
         test("Q: Quotation", "<blockquote>\n Quotation\n</blockquote>");
 
@@ -1032,10 +1012,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
             + "  fourth");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testReferences() throws WikiParserException
+    @Test
+    void testReferences() throws WikiParserException
     {
         test(
             "Это (=ссылка=) на внешний документ...",
@@ -1142,18 +1120,14 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
             + "</div>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testSpecialSymbols() throws WikiParserException
+    @Test
+    void testSpecialSymbols() throws WikiParserException
     {
         test(":)");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testTables() throws WikiParserException
+    @Test
+    void testTables() throws WikiParserException
     {
         // "!!" and "::" markup
         test("!! Header :: Cell ", ""
@@ -1283,10 +1257,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
         test("{{a=b}}\n{{c=d}}::{{e=f}} cell ::{{g=h}}");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testVerbatimeBlocks() throws WikiParserException
+    @Test
+    void testVerbatimeBlocks() throws WikiParserException
     {
         test("{{{verbatim}}}", "<pre>verbatim</pre>");
         test("{{{ver\\}}}batim}}}", "<pre>ver}}}batim</pre>");
@@ -1355,7 +1327,8 @@ public class CommonWikiParserTest extends AbstractWikiParserTest
             + "");
     }
 
-    public void testVerbatimInlineElements() throws WikiParserException
+    @Test
+    void testVerbatimInlineElements() throws WikiParserException
     {
         test("`verbatim`", "<p><tt class=\"wikimodel-verbatim\">verbatim</tt></p>");
         test("before`verbatim`after", "<p>before<tt class=\"wikimodel-verbatim\">verbatim</tt>after</p>");

@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.wikimodel.test;
 
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.WikiParserException;
 import org.xwiki.rendering.wikimodel.creole.CreoleWikiParser;
@@ -27,26 +28,16 @@ import org.xwiki.rendering.wikimodel.creole.CreoleWikiParser;
  * @version $Id$
  * @since 4.0M1
  */
-public class CreoleWikiParserTest extends AbstractWikiParserTest
+class CreoleWikiParserTest extends AbstractWikiParserTest
 {
-    /**
-     * @param name
-     */
-    public CreoleWikiParserTest(String name)
-    {
-        super(name);
-    }
-
     @Override
     protected IWikiParser newWikiParser()
     {
         return new CreoleWikiParser();
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testFormats() throws WikiParserException
+    @Test
+    void testFormats() throws WikiParserException
     {
         test("**bold**", "<p><strong>bold</strong></p>");
         test("//italic//", "<p><em>italic</em></p>");
@@ -64,10 +55,8 @@ public class CreoleWikiParserTest extends AbstractWikiParserTest
             "<p><a href='http://www.foo.bar' class='wikimodel-freestanding'>http://www.foo.bar</a></p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testHeaders() throws WikiParserException
+    @Test
+    void testHeaders() throws WikiParserException
     {
         test("=Header1=", "<h1>Header1</h1>");
         test("==Header2==", "<h2>Header2</h2>");
@@ -84,161 +73,77 @@ public class CreoleWikiParserTest extends AbstractWikiParserTest
         test("== Header**bold** //italic// ==");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testLineBreaks() throws WikiParserException
+    @Test
+    void testLineBreaks() throws WikiParserException
     {
         test("line\\\\break");
         test("not\\a\\break");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testLists() throws WikiParserException
+    @Test
+    void testLists() throws WikiParserException
     {
         test("\n**item one**", "<p><strong>item one</strong></p>");
-        test("**item one**\n\n**item two**", ""
-            + "<p><strong>item one</strong></p>\n"
-            + "<p><strong>item two</strong></p>");
+        test("**item one**\n\n**item two**", """
+                <p><strong>item one</strong></p>
+                <p><strong>item two</strong></p>""");
 
         test(" * item one", "<ul>\n  <li>item one</li>\n</ul>");
-        test("* item one\n** item two", ""
-            + "<ul>\n"
-            + "  <li>item one<ul>\n"
-            + "  <li>item two</li>\n"
-            + "</ul>\n"
-            + "</li>\n"
-            + "</ul>");
+        test("* item one\n** item two", """
+                <ul>
+                  <li>item one<ul>
+                  <li>item two</li>
+                </ul>
+                </li>
+                </ul>""");
 
-        // test(" * item one\n ** item two", ""
-        // + "<ul>\n"
-        // + " <li>item one<ul>\n"
-        // + " <li>item two</li>\n"
-        // + "</ul>\n"
-        // + "</li>\n"
-        // + "</ul>");
-        // test(" * item one\n ** item two\n ** item three", ""
-        // + "<ul>\n"
-        // + " <li>item one<ul>\n"
-        // + " <li>item two</li>\n"
-        // + " <li>item three</li>\n"
-        // + "</ul>\n"
-        // + "</li>\n"
-        // + "</ul>");
+        test("** item one", """
+                <ul>
+                  <li><ul>
+                  <li>item one</li>
+                </ul>
+                </li>
+                </ul>""");
+        test("*** item one", """
+                <ul>
+                  <li><ul>
+                  <li><ul>
+                  <li>item one</li>
+                </ul>
+                </li>
+                </ul>
+                </li>
+                </ul>""");
+        test("*## item one", """
+                <ul>
+                  <li><ol>
+                  <li><ol>
+                  <li>item one</li>
+                </ol>
+                </li>
+                </ol>
+                </li>
+                </ul>""");
+        test("*##item one", """
+                <ul>
+                  <li><ol>
+                  <li><ol>
+                  <li>item one</li>
+                </ol>
+                </li>
+                </ol>
+                </li>
+                </ul>""");
 
-        // Ordered list in an unordered list
-        // test(" * item one\n *# item two\n *# item three", ""
-        // + "<ul>\n"
-        // + " <li>item one<ol>\n"
-        // + " <li>item two</li>\n"
-        // + " <li>item three</li>\n"
-        // + "</ol>\n"
-        // + "</li>\n"
-        // + "</ul>");
-
-        // test("##item one", ""
-        // + "<ol>\n"
-        // + " <li><ol>\n"
-        // + " <li>item one</li>\n"
-        // + "</ol>\n"
-        // + "</li>\n"
-        // + "</ol>");
-        // test(" ##item one", ""
-        // + "<ol>\n"
-        // + " <li><ol>\n"
-        // + " <li>item one</li>\n"
-        // + "</ol>\n"
-        // + "</li>\n"
-        // + "</ol>");
-        // test(" ## item one", ""
-        // + "<ol>\n"
-        // + " <li><ol>\n"
-        // + " <li>item one</li>\n"
-        // + "</ol>\n"
-        // + "</li>\n"
-        // + "</ol>");
-        test("** item one", ""
-            + "<ul>\n"
-            + "  <li><ul>\n"
-            + "  <li>item one</li>\n"
-            + "</ul>\n"
-            + "</li>\n"
-            + "</ul>");
-        test("*** item one", ""
-            + "<ul>\n"
-            + "  <li><ul>\n"
-            + "  <li><ul>\n"
-            + "  <li>item one</li>\n"
-            + "</ul>\n"
-            + "</li>\n"
-            + "</ul>\n"
-            + "</li>\n"
-            + "</ul>");
-        test("*## item one", ""
-            + "<ul>\n"
-            + "  <li><ol>\n"
-            + "  <li><ol>\n"
-            + "  <li>item one</li>\n"
-            + "</ol>\n"
-            + "</li>\n"
-            + "</ol>\n"
-            + "</li>\n"
-            + "</ul>");
-        test("*##item one", ""
-            + "<ul>\n"
-            + "  <li><ol>\n"
-            + "  <li><ol>\n"
-            + "  <li>item one</li>\n"
-            + "</ol>\n"
-            + "</li>\n"
-            + "</ol>\n"
-            + "</li>\n"
-            + "</ul>");
-
-        // Two "**" symbols at the beginning of the line are interpreted as a
-        // bold!!!
+        // Two "**" symbols at the beginning of the line are interpreted as a bold!!!
         test("**item one", "<p><strong>item one</strong></p>");
         test(
             " **item one",
             "<blockquote>\n<strong>item one</strong>\n</blockquote>");
-        // test("***item one", "<p><strong>*item one</strong></p>");
-
-        // test("*#item one", ""
-        // + "<ul>\n"
-        // + " <li><ol>\n"
-        // + " <li>item one</li>\n"
-        // + "</ol>\n"
-        // + "</li>\n"
-        // + "</ul>");
-        // test("*#;item one", ""
-        // + "<ul>\n"
-        // + " <li><ol>\n"
-        // + " <li><dl>\n"
-        // + " <dt>item one</dt>\n"
-        // + "</dl>\n"
-        // + "</li>\n"
-        // + "</ol>\n"
-        // + "</li>\n"
-        // + "</ul>");
-        //
-        // //
-        // test(" * item one\n"
-        // + " * item two\n"
-        // + " # item three\n"
-        // + " # item four\n"
-        // + " * item five - first line\n"
-        // + " item five - second line\n"
-        // + " * item six\n"
-        // + " is on multiple\n"
-        // + " lines");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testParagraphs() throws WikiParserException
+    @Test
+    void testParagraphs() throws WikiParserException
     {
         test("First paragraph.\n"
             + "Second line of the same paragraph.\n"
@@ -246,26 +151,21 @@ public class CreoleWikiParserTest extends AbstractWikiParserTest
             + "The second paragraph");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testProperties() throws WikiParserException
+    @Test
+    void testProperties() throws WikiParserException
     {
         test("#toto hello  world\n123");
         test("#prop1 value1\n#prop2 value2");
     }
 
-    /**
-     */
-    public void testQuot() throws WikiParserException
+    @Test
+    void testQuot() throws WikiParserException
     {
         test("This is a paragraph\n\n and this is a quotations\n the second line");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testReferences() throws WikiParserException
+    @Test
+    void testReferences() throws WikiParserException
     {
         test(
             "before http://www.foo.bar/com after",
@@ -277,9 +177,6 @@ public class CreoleWikiParserTest extends AbstractWikiParserTest
             "before [[toto]] after",
             "<p>before <a href='toto' class='wikimodel-freestanding'>toto</a> after</p>");
 
-        // Tests from
-        // http://wikicreole.org/wiki/Creole1.0#section-Creole1.0-
-        // LinksInternalExternalAndInterwiki
         test("[[link]]", "<p><a href='link' class='wikimodel-freestanding'>link</a></p>");
         test(
             "[[MyBigPage|Go to my page]]",
@@ -293,9 +190,6 @@ public class CreoleWikiParserTest extends AbstractWikiParserTest
         test(
             "[[http://www.wikicreole.org/|Visit the WikiCreole website]]",
             "<p><a href='http://www.wikicreole.org/'>Visit the WikiCreole website</a></p>");
-        // test(
-        // "[[Weird Stuff|**Weird** // Stuff//]]",
-        // "<p><a href='Weird Stuff'>**Weird** // Stuff//</a></p>");
         test("[[Weird Stuff|**Weird** // Stuff//]]");
         test(
             "[[Ohana:WikiFamily]]",
@@ -316,26 +210,22 @@ public class CreoleWikiParserTest extends AbstractWikiParserTest
         test("Bad reference: http:|sdf after");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testTables() throws WikiParserException
+    @Test
+    void testTables() throws WikiParserException
     {
         test("|= Header 1.1 |= Header 1.2\n"
             + "| Cell 2.1 | Cell 2.2\n"
-            + "| Cell 3.1 |= Head 3.2", ""
-            + "<table><tbody>\n"
-            + "  <tr><th> Header 1.1 </th><th> Header 1.2</th></tr>\n"
-            + "  <tr><td> Cell 2.1 </td><td> Cell 2.2</td></tr>\n"
-            + "  <tr><td> Cell 3.1 </td><th> Head 3.2</th></tr>\n"
-            + "</tbody></table>");
+            + "| Cell 3.1 |= Head 3.2", """
+                <table><tbody>
+                  <tr><th> Header 1.1 </th><th> Header 1.2</th></tr>
+                  <tr><td> Cell 2.1 </td><td> Cell 2.2</td></tr>
+                  <tr><td> Cell 3.1 </td><th> Head 3.2</th></tr>
+                </tbody></table>""");
         test("abc || cde");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testVerbatimeBlocks() throws WikiParserException
+    @Test
+    void testVerbatimeBlocks() throws WikiParserException
     {
         test("abc \n{{{ 123\n  CDE\n   345 }}} efg");
         test("abc {{{ 123\n  CDE\n   345 }}} efg");

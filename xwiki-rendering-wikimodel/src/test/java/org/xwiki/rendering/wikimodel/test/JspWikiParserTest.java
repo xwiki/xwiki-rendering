@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.wikimodel.test;
 
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.WikiParserException;
 import org.xwiki.rendering.wikimodel.jspwiki.JspWikiParser;
@@ -27,26 +28,16 @@ import org.xwiki.rendering.wikimodel.jspwiki.JspWikiParser;
  * @version $Id$
  * @since 4.0M1
  */
-public class JspWikiParserTest extends AbstractWikiParserTest
+class JspWikiParserTest extends AbstractWikiParserTest
 {
-    /**
-     * @param name
-     */
-    public JspWikiParserTest(String name)
-    {
-        super(name);
-    }
-
     @Override
     protected IWikiParser newWikiParser()
     {
         return new JspWikiParser();
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testEscape() throws WikiParserException
+    @Test
+    void testEscape() throws WikiParserException
     {
         test("[a reference]");
         test("[[not a reference]");
@@ -59,10 +50,8 @@ public class JspWikiParserTest extends AbstractWikiParserTest
         test("!Heading\n~!Not a heading\n!Heading again!");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testFormats() throws WikiParserException
+    @Test
+    void testFormats() throws WikiParserException
     {
         test("__bold__");
         test("''italic''");
@@ -73,10 +62,8 @@ public class JspWikiParserTest extends AbstractWikiParserTest
         test("not an italic''");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testHeaders() throws WikiParserException
+    @Test
+    void testHeaders() throws WikiParserException
     {
         test("!!!Header");
         test("\n!!!Header\n* list item");
@@ -85,10 +72,8 @@ public class JspWikiParserTest extends AbstractWikiParserTest
         test("This is not a header: !!");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testHorLine() throws WikiParserException
+    @Test
+    void testHorLine() throws WikiParserException
     {
         test("----");
         test("-------");
@@ -97,18 +82,14 @@ public class JspWikiParserTest extends AbstractWikiParserTest
         test("---abc");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testLineBreak() throws WikiParserException
+    @Test
+    void testLineBreak() throws WikiParserException
     {
         test("abc\\\\def");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testLists() throws WikiParserException
+    @Test
+    void testLists() throws WikiParserException
     {
         test("*first");
         test("* first");
@@ -143,10 +124,8 @@ public class JspWikiParserTest extends AbstractWikiParserTest
             + "----toto");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testParagraphs() throws WikiParserException
+    @Test
+    void testParagraphs() throws WikiParserException
     {
         test("First paragraph.\n"
             + "Second line of the same paragraph.\n"
@@ -156,18 +135,14 @@ public class JspWikiParserTest extends AbstractWikiParserTest
         test("\n<toto");
     }
 
-    /**
-     * @throws ParseException
-     */
-    public void testQuot() throws WikiParserException
+    @Test
+    void testQuot() throws WikiParserException
     {
         test("This is a paragraph\n\n and this is a quotations\n the second line");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testReferences() throws WikiParserException
+    @Test
+    void testReferences() throws WikiParserException
     {
         test("before http://www.foo.bar/com after");
         test("before [toto] after");
@@ -178,18 +153,14 @@ public class JspWikiParserTest extends AbstractWikiParserTest
         test("not [[a reference] at all!");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testSpecialSymbols() throws WikiParserException
+    @Test
+    void testSpecialSymbols() throws WikiParserException
     {
         test(":)");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testTables() throws WikiParserException
+    @Test
+    void testTables() throws WikiParserException
     {
         test("|| cell 1.1 || cell 1.2\n" + "|| cell 2.1|| cell 2.2");
         test("|| Head 1.1 || Head 1.2\n" + "| cell 2.1| cell 2.2");
@@ -201,10 +172,8 @@ public class JspWikiParserTest extends AbstractWikiParserTest
             + "| ''Italic cell'' | __Bold cell__\n");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testVerbatimeBlocks() throws WikiParserException
+    @Test
+    void testVerbatimeBlocks() throws WikiParserException
     {
         test("abc \n{{{ 123\n  CDE\n   345 }}} efg");
         test("abc {{{ 123\n  CDE\n   345 }}} efg");

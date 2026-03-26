@@ -21,6 +21,7 @@ package org.xwiki.rendering.wikimodel.test;
 
 import java.io.StringReader;
 
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.wikimodel.IWemListener;
 import org.xwiki.rendering.wikimodel.IWikiParser;
 import org.xwiki.rendering.wikimodel.IWikiPrinter;
@@ -32,24 +33,10 @@ import org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiParser;
  * @version $Id$
  * @since 4.0M1
  */
-public class XWiki20ParserTest extends AbstractWikiParserTest
+class XWiki20ParserTest extends AbstractWikiParserTest
 {
-    /**
-     * @param name
-     */
-    public XWiki20ParserTest(String name)
-    {
-        super(name);
-    }
-
-    /**
-     * @param string
-     * @param control
-     * @throws WikiParserException
-     */
     protected void doCustomTest(String string, String control) throws WikiParserException
     {
-        println("==================================================");
         StringReader reader = new StringReader(string);
         IWikiParser parser = newWikiParser();
         final StringBuffer buf = new StringBuffer();
@@ -71,7 +58,6 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         };
         parser.parse(reader, listener);
         String test = buf.toString();
-        println(test);
         checkResults(control, test);
     }
 
@@ -81,7 +67,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         return new XWikiParser();
     }
 
-    public void test() throws Exception
+    @Test
+    void test() throws Exception
     {
         test("before **bold** after", "<p>before <strong>bold</strong> after</p>");
 
@@ -90,10 +77,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
             + "</ul>" + "");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testDefinitionLists() throws WikiParserException
+    @Test
+    void testDefinitionLists() throws WikiParserException
     {
         test("; term: definition", "<dl>\n  <dt>term: definition</dt>\n</dl>");
         test(";: just definition", "<dl>\n  <dd>just definition</dd>\n</dl>");
@@ -116,10 +101,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
             + "<p>tam-tam, pam-pam...</p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testDocuments() throws WikiParserException
+    @Test
+    void testDocuments() throws WikiParserException
     {
         test("before ((( inside ))) after ", "<p>before</p>\n" + "<div class='wikimodel-document'>\n"
             + "<p>inside</p>\n" + "</div>\n" + "<p>after </p>");
@@ -180,10 +163,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("((({{{verbatim}}})))", "<div class='wikimodel-document'>\n<pre>verbatim</pre>\n</div>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testEscape() throws WikiParserException
+    @Test
+    void testEscape() throws WikiParserException
     {
         test("~First letter is escaped", "<p>First letter is escaped</p>");
         test("~ A space just after a tilda the tilda should desapear",
@@ -192,7 +173,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("tilda at the end~", "<p>tilda at the end</p>");
     }
 
-    public void testFormat() throws Exception
+    @Test
+    void testFormat() throws Exception
     {
         // test("**bold**", "<p><strong>bold</strong></p>");
         test("before **bold** after", "<p>before <strong>bold</strong> after</p>");
@@ -204,10 +186,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("before ##mono## after", "<p>before <mono>mono</mono> after</p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testFormats() throws WikiParserException
+    @Test
+    void testFormats() throws WikiParserException
     {
         test("(% param1='value1' param2='value2' %)");
         test("xxx (% param1='value1' param2='value2' %) xxx ");
@@ -223,10 +203,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("##mono##", "<p><mono>mono</mono></p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testHeaders() throws WikiParserException
+    @Test
+    void testHeaders() throws WikiParserException
     {
         test("= Heading 1", "<h1>Heading 1</h1>");
         test("== Heading 2", "<h2>Heading 2</h2>");
@@ -265,7 +243,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("(% param='vale' %)\n= header =", "<h1 param='vale'>header</h1>");
     }
 
-    public void testImages() throws WikiParserException
+    @Test
+    void testImages() throws WikiParserException
     {
         test("image:reference", "<p><img src='reference' class='wikimodel-freestanding'/></p>");
         test("image:reference ", "<p><img src='reference' class='wikimodel-freestanding'/> </p>");
@@ -276,7 +255,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("[[image:reference]]", "<p><img src='reference'/></p>");
     }
 
-    public void testAttach() throws WikiParserException
+    @Test
+    void testAttach() throws WikiParserException
     {
         test("attach:reference",
             "<p><a href='attach:reference' class='wikimodel-freestanding'>attach:reference</a></p>");
@@ -286,10 +266,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
             "<p><a href='attach:wiki:space.page@file.ext' class='wikimodel-freestanding'>attach:wiki:space.page@file.ext</a></p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testHorLine() throws WikiParserException
+    @Test
+    void testHorLine() throws WikiParserException
     {
         test("----");
         test("-------");
@@ -299,18 +277,14 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("(%a=b%)\n----", "<hr a='b' />");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testLineBreak() throws WikiParserException
+    @Test
+    void testLineBreak() throws WikiParserException
     {
         test("abc\\\\def");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testLists() throws WikiParserException
+    @Test
+    void testLists() throws WikiParserException
     {
         test("* first", "<ul>\n" + "  <li>first</li>\n" + "</ul>");
         test("** second", "<ul>\n" + "  <li><ul>\n" + "  <li>second</li>\n" + "</ul>\n" + "</li>\n" + "</ul>");
@@ -347,9 +321,9 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
             + "<p>group</p>\n" + "</div>\n" + "</li>\n" + "  <li>item</li>\n" + "</ul>");
     }
 
-    public void testMacro() throws WikiParserException
+    @Test
+    void testMacro() throws WikiParserException
     {
-
         test("{{macro/}}{{macro/}}",
             "<p><span class='wikimodel-macro' macroName='macro'/><span class='wikimodel-macro' macroName='macro'/></p>");
 
@@ -511,7 +485,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
              "<pre class='wikimodel-macro' macroName='macro' param1='val1' param2='val2'><![CDATA[foo]]></pre>");
     }
 
-    public void testMacroParameterEscaping() throws WikiParserException
+    @Test
+    void testMacroParameterEscaping() throws WikiParserException
     {
         test("{{macro a={{b /}}  /}}", "<p><span class='wikimodel-macro' macroName='macro' a='{{b'/>  /}}</p>");
 
@@ -544,10 +519,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("{{box title =  \"1~\"2|-|3=~~~\"4~~\" }}=~\"|-|~~{{/box}}", "<pre class='wikimodel-macro' macroName='box' title='1&#x22;2|-|3=~&#x22;4~'><![CDATA[=~\"|-|~~]]></pre>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testParagraphs() throws WikiParserException
+    @Test
+    void testParagraphs() throws WikiParserException
     {
         test("First paragraph.\n" + "Second line of the same paragraph.\n" + "\n" + "The second paragraph");
         test("(% a='b' %)\nparagraph1\n\nparagraph2", "<p a='b'>paragraph1</p>\n<p>paragraph2</p>");
@@ -574,9 +547,7 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("toto\n(% param='value' %)\ntiti", "<p>toto</p>\n<p param='value'>titi</p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
+    @Test
     public void testQuot() throws WikiParserException
     {
         test(">line", "<blockquote>\nline\n</blockquote>");
@@ -586,10 +557,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
                 + "</blockquote>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testReferences() throws WikiParserException
+    @Test
+    void testReferences() throws WikiParserException
     {
         test("before [[xx[[image:img.gif]]yy]] after",
             "<p>before <a href='xx[[image:img.gif]]yy' class='wikimodel-freestanding'>xx[[image:img.gif]]yy</a> after</p>");
@@ -611,10 +580,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("before [#local ancor] after", "<p>before [#local ancor] after</p>");
     }
 
-    /**
-     * @throws WikiParserException
-     */
-    public void testTables() throws WikiParserException
+    @Test
+    void testTables() throws WikiParserException
     {
         // "!=" and "!!" markup
         test("!= Header !! Cell ", "" + "<table><tbody>\n" + "  <tr><th> Header </th><td> Cell </td></tr>\n"
@@ -700,7 +667,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
             "<p parm='value'>Bla Bla</p>");
     }
 
-    public void testVerbatim() throws WikiParserException
+    @Test
+    void testVerbatim() throws WikiParserException
     {
 
         test("{{{verbatim}}}\n* not really", "<pre>verbatim</pre>\n<ul>\n  <li>not really</li>\n</ul>");
@@ -741,7 +709,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
         test("{{{ ~}~}~}", "<pre> }}}</pre>");
     }
 
-    public void testLink() throws WikiParserException
+    @Test
+    void testLink() throws WikiParserException
     {
         test("[[label>>reference||param=\"value ~\"value~\"\"]]",
             "<p><a href='reference' param='value &#x22;value&#x22;'>label</a></p>");
@@ -753,7 +722,8 @@ public class XWiki20ParserTest extends AbstractWikiParserTest
 
     }
 
-    public void testEmptyLine() throws WikiParserException
+    @Test
+    void testEmptyLine() throws WikiParserException
     {
         test("paragraph\n\nparagraph", "<p>paragraph</p>\n<p>paragraph</p>");
         // The following doe snot seems right
