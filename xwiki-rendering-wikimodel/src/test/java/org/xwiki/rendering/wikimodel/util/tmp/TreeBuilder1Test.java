@@ -19,48 +19,32 @@
  */
 package org.xwiki.rendering.wikimodel.util.tmp;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.wikimodel.util.tmp.TreeBuilder1.ITreeBuilderListener;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @version $Id$
  * @since 4.0M1
  */
-public class TreeBuilder1Test extends TestCase
+class TreeBuilder1Test
 {
     final StringBuffer fBuf = new StringBuffer();
 
     TreeBuilder1<String> fBuilder;
 
-    /**
-     *
-     */
-    public TreeBuilder1Test()
-    {
-    }
-
-    /**
-     * @param name
-     */
-    public TreeBuilder1Test(String name)
-    {
-        super(name);
-    }
-
-    /**
-     * @param control
-     */
     private void check(String control)
     {
-        assertEquals(control, fBuf.toString());
-        fBuf.delete(0, fBuf.length());
+        assertEquals(control, this.fBuf.toString());
+        this.fBuf.delete(0, this.fBuf.length());
     }
 
-    @Override
-    protected void setUp() throws Exception
+    @BeforeEach
+    void setUp()
     {
-        ITreeBuilderListener<String> listener = new ITreeBuilderListener<String>()
+        ITreeBuilderListener<String> listener = new ITreeBuilderListener<>()
         {
             public void beginItem(int depth, String data)
             {
@@ -82,10 +66,11 @@ public class TreeBuilder1Test extends TestCase
                 fBuf.append("</level>");
             }
         };
-        fBuilder = new TreeBuilder1<String>(listener);
+        this.fBuilder = new TreeBuilder1<>(listener);
     }
 
-    public void test() throws Exception
+    @Test
+    void test()
     {
         test(0, "a", "<level><a>");
         test(30, "b", "<level><b>");
@@ -96,22 +81,17 @@ public class TreeBuilder1Test extends TestCase
         test(8, "f", "</e></level></c><f>");
         test(8, "g", "</f><g>");
 
-        fBuilder.trim(10);
+        this.fBuilder.trim(10);
         check("");
-        fBuilder.trim(8, false);
+        this.fBuilder.trim(8, false);
         check("");
-        fBuilder.finish();
+        this.fBuilder.finish();
         check("</g></level></a></level>");
     }
 
-    /**
-     * @param value
-     * @param control
-     * @param string
-     */
     private void test(int value, String data, String control)
     {
-        fBuilder.align(value, data);
+        this.fBuilder.align(value, data);
         check(control);
     }
 }

@@ -19,23 +19,18 @@
  */
 package org.xwiki.rendering.wikimodel.util;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @version $Id$
  * @since 4.0M1
  */
-public class ListBuilderTest extends TestCase
+class ListBuilderTest
 {
-    /**
-     * @param name
-     */
-    public ListBuilderTest(String name)
-    {
-        super(name);
-    }
-
-    public void testTwo() throws Exception
+    @Test
+    void testTwo()
     {
         testTwo("a", "<A><a></a></A>");
         testTwo("a\na", "<A><a></a><a></a></A>");
@@ -204,7 +199,6 @@ public class ListBuilderTest extends TestCase
             builder.alignContext(s);
         }
         builder.alignContext("");
-        // builder.finish();
         assertEquals(control, buf.toString());
     }
 }

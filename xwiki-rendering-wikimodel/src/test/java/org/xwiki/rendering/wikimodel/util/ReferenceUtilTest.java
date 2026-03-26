@@ -19,24 +19,21 @@
  */
 package org.xwiki.rendering.wikimodel.util;
 
+import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.WikiReferenceParser;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @version $Id$
  * @since 4.0M1
  */
-public class ReferenceUtilTest extends TestCase
+class ReferenceUtilTest
 {
-    public ReferenceUtilTest(String name)
-    {
-        super(name);
-    }
-
-    public void test()
+    @Test
+    void test()
     {
         test("a", "a");
         test("   a   ", "a");
