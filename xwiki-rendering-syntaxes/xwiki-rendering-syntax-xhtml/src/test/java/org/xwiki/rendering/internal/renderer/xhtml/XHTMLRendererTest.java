@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.renderer.xhtml;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class XHTMLRendererTest extends AbstractComponentTestCase
         // Register a mock implementation of WikiModel in order to perform expectations on the generation of
         // document and image URLs.
         this.mockWikiModel = getMockery().mock(WikiModel.class);
-        DefaultComponentDescriptor<WikiModel> cd = new DefaultComponentDescriptor<WikiModel>();
+        DefaultComponentDescriptor<WikiModel> cd = new DefaultComponentDescriptor<>();
         cd.setRoleType(WikiModel.class);
         getComponentManager().registerComponent(cd, this.mockWikiModel);
 
@@ -70,14 +69,14 @@ public class XHTMLRendererTest extends AbstractComponentTestCase
     public void testBeginLinkHasBaseResourceReferencePassedWhenSourceMetaDataAdded()
     {
         final ResourceReference blockReference = new ResourceReference("reference", ResourceType.DOCUMENT);
-        List<Block> linkBlocks = Arrays.asList((Block) new LinkBlock(Arrays.asList((Block) new WordBlock("label")),
+        List<Block> linkBlocks = List.of(new LinkBlock(List.of(new WordBlock("label")),
             blockReference, true));
         MetaData metaData1 = new MetaData();
         metaData1.addMetaData(MetaData.BASE, "base1");
         MetaData metaData2 = new MetaData();
         metaData2.addMetaData(MetaData.BASE, "base2");
-        XDOM xdom = new XDOM(Arrays.asList((Block) new MetaDataBlock(
-            Arrays.asList((Block) new MetaDataBlock(linkBlocks, metaData2)), metaData1)));
+        XDOM xdom = new XDOM(List.of((Block) new MetaDataBlock(
+            List.of((Block) new MetaDataBlock(linkBlocks, metaData2)), metaData1)));
 
         getMockery().checking(new Expectations() {{
             // This is the part of the test verification: we verify that the passed Resource Reference has its base
@@ -105,11 +104,11 @@ public class XHTMLRendererTest extends AbstractComponentTestCase
         final ResourceReference blockReference = new ResourceReference("reference", ResourceType.DOCUMENT);
         blockReference.addBaseReference("original base");
 
-        List<Block> linkBlocks = Arrays.asList((Block) new LinkBlock(Arrays.asList((Block) new WordBlock("label")),
+        List<Block> linkBlocks = List.of(new LinkBlock(List.of(new WordBlock("label")),
             blockReference, true));
         MetaData metaData = new MetaData();
         metaData.addMetaData(MetaData.BASE, "base");
-        XDOM xdom = new XDOM(Arrays.asList((Block) new MetaDataBlock(linkBlocks, metaData)));
+        XDOM xdom = new XDOM(List.of((Block) new MetaDataBlock(linkBlocks, metaData)));
 
         getMockery().checking(new Expectations() {{
             // This is the part of the test verification: we verify that the passed Resource Reference has its base
@@ -134,17 +133,17 @@ public class XHTMLRendererTest extends AbstractComponentTestCase
     public void testOnImageHasBaseResourceReferencePassedWhenSourceMetaDataAdded()
     {
         final ResourceReference blockReference = new ResourceReference("reference", ResourceType.ATTACHMENT);
-        List<Block> imageBlocks = Arrays.asList((Block) new ImageBlock(blockReference, true));
+        List<Block> imageBlocks = List.of(new ImageBlock(blockReference, true));
         MetaData metaData = new MetaData();
         metaData.addMetaData(MetaData.BASE, "base");
-        XDOM xdom = new XDOM(Arrays.asList((Block) new MetaDataBlock(imageBlocks, metaData)));
+        XDOM xdom = new XDOM(List.of((Block) new MetaDataBlock(imageBlocks, metaData)));
 
         getMockery().checking(new Expectations() {{
             // This is the part of the test verification: we verify that the passed Resource Reference has its base
             // reference set.
             ResourceReference reference = new ResourceReference("reference", ResourceType.ATTACHMENT);
             reference.addBaseReference("base");
-            oneOf(mockWikiModel).getImageURL(reference, Collections.<String, String>emptyMap());
+            oneOf(mockWikiModel).getImageURL(reference, Collections.emptyMap());
             will(returnValue("imageurl"));
         }});
 
@@ -162,17 +161,17 @@ public class XHTMLRendererTest extends AbstractComponentTestCase
         final ResourceReference blockReference = new ResourceReference("reference", ResourceType.ATTACHMENT);
         blockReference.addBaseReference("original base");
 
-        List<Block> imageBlocks = Arrays.asList((Block) new ImageBlock(blockReference, true));
+        List<Block> imageBlocks = List.of(new ImageBlock(blockReference, true));
         MetaData metaData = new MetaData();
         metaData.addMetaData(MetaData.BASE, "base");
-        XDOM xdom = new XDOM(Arrays.asList((Block) new MetaDataBlock(imageBlocks, metaData)));
+        XDOM xdom = new XDOM(List.of((Block) new MetaDataBlock(imageBlocks, metaData)));
 
         getMockery().checking(new Expectations() {{
             // This is the part of the test verification: we verify that the passed Resource Reference has its base
             // reference set.
             ResourceReference reference = new ResourceReference("reference", ResourceType.ATTACHMENT);
             reference.addBaseReference("original base");
-            oneOf(mockWikiModel).getImageURL(reference, Collections.<String, String>emptyMap());
+            oneOf(mockWikiModel).getImageURL(reference, Collections.emptyMap());
             will(returnValue("imageurl"));
         }});
 
