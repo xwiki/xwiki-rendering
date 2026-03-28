@@ -36,7 +36,7 @@ class CommonWikiParserTest extends AbstractWikiParserTest
         return new CommonWikiParser();
     }
 
-    public CommonWikiParserTest()
+    CommonWikiParserTest()
     {
         this.supportDownload = true;
         this.supportImage = true;
@@ -46,35 +46,35 @@ class CommonWikiParserTest extends AbstractWikiParserTest
     void test() throws Exception
     {
         showSections(true);
-        test("((()))", ""
-            + "<section-1-0>\n"
-            + "<sectionContent-1-0>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<section-2-0>\n"
-            + "<sectionContent-2-0>\n"
-            + "</sectionContent-2-0>\n"
-            + "</section-2-0>\n"
-            + "</div>\n"
-            + "</sectionContent-1-0>\n"
-            + "</section-1-0>");
-        test("=Header1=\nabc((()))\ncde", ""
-            + "<section-1-0>\n"
-            + "<sectionContent-1-0>\n"
-            + "<section-1-1>\n"
-            + "<h1>Header1</h1>\n"
-            + "<sectionContent-1-1>\n"
-            + "<p>abc</p>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<section-2-0>\n"
-            + "<sectionContent-2-0>\n"
-            + "</sectionContent-2-0>\n"
-            + "</section-2-0>\n"
-            + "</div>\n"
-            + "<p>cde</p>\n"
-            + "</sectionContent-1-1>\n"
-            + "</section-1-1>\n"
-            + "</sectionContent-1-0>\n"
-            + "</section-1-0>");
+        test("((()))", """
+            <section-1-0>
+            <sectionContent-1-0>
+            <div class='wikimodel-document'>
+            <section-2-0>
+            <sectionContent-2-0>
+            </sectionContent-2-0>
+            </section-2-0>
+            </div>
+            </sectionContent-1-0>
+            </section-1-0>""");
+        test("=Header1=\nabc((()))\ncde", """
+            <section-1-0>
+            <sectionContent-1-0>
+            <section-1-1>
+            <h1>Header1</h1>
+            <sectionContent-1-1>
+            <p>abc</p>
+            <div class='wikimodel-document'>
+            <section-2-0>
+            <sectionContent-2-0>
+            </sectionContent-2-0>
+            </section-2-0>
+            </div>
+            <p>cde</p>
+            </sectionContent-1-1>
+            </section-1-1>
+            </sectionContent-1-0>
+            </section-1-0>""");
     }
 
     @Test
@@ -119,254 +119,228 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             + "))) The text goes after the embedded\n"
             + " document\n"
             + ":: Cell 3.1 :: Cell 3.2");
-        test("----------------------------------------------\n"
-            + "= Example1 =\n"
-            + "\n"
-            + "The table below contains an embedded document.\n"
-            + "Using such embedded documents you can insert table\n"
-            + "in a list or a list in a table. And embedded documents\n"
-            + "can contain their own embedded documents!!!\n"
-            + "\n"
-            + "!! Header 1.1 !! Header 1.2\n"
-            + ":: Cell 2.1 :: Cell 2.2 with an embedded document: (((\n"
-            + "== This is an embedded document! ==\n"
-            + "* list item one\n"
-            + "* list item two\n"
-            + "  * sub-item A\n"
-            + "  * sub-item B\n"
-            + "* list item three\n"
-            + ")))\n"
-            + ":: Cell 3.1 :: Cell 3.2\n"
-            + "\n"
-            + "This is a paragraphs after the table...\n"
-            + "----------------------------------------------\n"
-            + "");
+        test("""
+            ----------------------------------------------
+            = Example1 =
+
+            The table below contains an embedded document.
+            Using such embedded documents you can insert table
+            in a list or a list in a table. And embedded documents
+            can contain their own embedded documents!!!
+
+            !! Header 1.1 !! Header 1.2
+            :: Cell 2.1 :: Cell 2.2 with an embedded document: (((
+            == This is an embedded document! ==
+            * list item one
+            * list item two
+              * sub-item A
+              * sub-item B
+            * list item three
+            )))
+            :: Cell 3.1 :: Cell 3.2
+
+            This is a paragraphs after the table...
+            ----------------------------------------------
+            """);
     }
 
     @Test
     void testDocuments() throws WikiParserException
     {
-        test("before ((( inside ))) after ", "<p>before</p>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<p>inside</p>\n"
-            + "</div>\n"
-            + "<p>after </p>");
-        test("before inside ))) after ", "<p>before inside</p>\n"
-            + "<p>after </p>");
-        test("before (((\ninside ))) after ", "<p>before</p>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<p>inside</p>\n"
-            + "</div>\n"
-            + "<p>after </p>");
-        test("before (((\n inside ))) after ", "<p>before</p>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<p> inside</p>\n"
-            + "</div>\n"
-            + "<p>after </p>");
+        test("before ((( inside ))) after ", """
+            <p>before</p>
+            <div class='wikimodel-document'>
+            <p>inside</p>
+            </div>
+            <p>after </p>""");
+        test("before inside ))) after ", """
+            <p>before inside</p>
+            <p>after </p>""");
+        test("before (((\ninside ))) after ", """
+            <p>before</p>
+            <div class='wikimodel-document'>
+            <p>inside</p>
+            </div>
+            <p>after </p>""");
+        test("before (((\n inside ))) after ", """
+            <p>before</p>
+            <div class='wikimodel-document'>
+            <p> inside</p>
+            </div>
+            <p>after </p>""");
         test(
             "| Line One | First doc: (((\n inside ))) after \n"
                 + "|Line Two | Second doc: (((lkjlj))) skdjg",
-            ""
-                + "<table><tbody>\n"
-                + "  <tr><td> Line One </td><td> First doc:<div class='wikimodel-document'>\n"
-                + "<p> inside</p>\n"
-                + "</div>\n"
-                + "after </td></tr>\n"
-                + "  <tr><td>Line Two </td><td> Second doc:<div class='wikimodel-document'>\n"
-                + "<p>lkjlj</p>\n"
-                + "</div>\n"
-                + "skdjg</td></tr>\n"
-                + "</tbody></table>");
+            """
+            <table><tbody>
+              <tr><td> Line One </td><td> First doc:<div class='wikimodel-document'>
+            <p> inside</p>
+            </div>
+            after </td></tr>
+              <tr><td>Line Two </td><td> Second doc:<div class='wikimodel-document'>
+            <p>lkjlj</p>
+            </div>
+            skdjg</td></tr>
+            </tbody></table>""");
         test(
             "| This is a table: | (((* item one\n"
                 + "* item two\n"
                 + " * subitem 1\n"
                 + " * subitem 2\n"
                 + "* item three))) ",
-            ""
-                + "<table><tbody>\n"
-                + "  <tr><td> This is a table: </td><td><div class='wikimodel-document'>\n"
-                + "<ul>\n"
-                + "  <li>item one</li>\n"
-                + "  <li>item two<ul>\n"
-                + "  <li>subitem 1</li>\n"
-                + "  <li>subitem 2</li>\n"
-                + "</ul>\n"
-                + "</li>\n"
-                + "  <li>item three</li>\n"
-                + "</ul>\n"
-                + "</div>\n"
-                + "</td></tr>\n"
-                + "</tbody></table>");
-        test("before ((( opened and not closed", ""
-            + "<p>before</p>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<p>opened and not closed</p>\n"
-            + "</div>");
-        test("before ((( one ((( two ((( three ", ""
-            + "<p>before</p>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<p>one</p>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<p>two</p>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<p>three </p>\n"
-            + "</div>\n"
-            + "</div>\n"
-            + "</div>");
+            """
+            <table><tbody>
+              <tr><td> This is a table: </td><td><div class='wikimodel-document'>
+            <ul>
+              <li>item one</li>
+              <li>item two<ul>
+              <li>subitem 1</li>
+              <li>subitem 2</li>
+            </ul>
+            </li>
+              <li>item three</li>
+            </ul>
+            </div>
+            </td></tr>
+            </tbody></table>""");
+        test("before ((( opened and not closed", """
+            <p>before</p>
+            <div class='wikimodel-document'>
+            <p>opened and not closed</p>
+            </div>""");
+        test("before ((( one ((( two ((( three ", """
+            <p>before</p>
+            <div class='wikimodel-document'>
+            <p>one</p>
+            <div class='wikimodel-document'>
+            <p>two</p>
+            <div class='wikimodel-document'>
+            <p>three </p>
+            </div>
+            </div>
+            </div>""");
     }
 
     @Test
     void testDocumentSections() throws WikiParserException
     {
         showSections(true);
-        test("abc", ""
-            + "<section-1-0>\n"
-            + "<sectionContent-1-0>\n"
-            + "<p>abc</p>\n"
-            + "</sectionContent-1-0>\n"
-            + "</section-1-0>");
-        test("=Header=\n" + "abc", ""
-            + "<section-1-0>\n"
-            + "<sectionContent-1-0>\n"
-            + "<section-1-1>\n"
-            + "<h1>Header</h1>\n"
-            + "<sectionContent-1-1>\n"
-            + "<p>abc</p>\n"
-            + "</sectionContent-1-1>\n"
-            + "</section-1-1>\n"
-            + "</sectionContent-1-0>\n"
-            + "</section-1-0>");
-        test("=Header 1=\nabc\n=Header 2=\ncde", ""
-            + "<section-1-0>\n"
-            + "<sectionContent-1-0>\n"
-            + ""
-            // The first section is formed by the first header
-            + "<section-1-1>\n"
-            + "<h1>Header 1</h1>\n"
-            + "<sectionContent-1-1>\n"
-            + "<p>abc</p>\n"
-            + "</sectionContent-1-1>\n"
-            + "</section-1-1>\n"
-            + ""
-            // The section section
-            + "<section-1-1>\n"
-            + "<h1>Header 2</h1>\n"
-            + "<sectionContent-1-1>\n"
-            + "<p>cde</p>\n"
-            + "</sectionContent-1-1>\n"
-            + "</section-1-1>\n"
-            + ""
-            + "</sectionContent-1-0>\n"
-            + "</section-1-0>");
-        test(""
-            + "=Header 1=\nabc\n"
-            + "==Header 1.1==\ncde\n"
-            + "==Header 1.2==\nefg\n"
-            + "=Header 2=\nghk", ""
-            + "<section-1-0>\n"
-            + "<sectionContent-1-0>\n"
-            + ""
-            // The first section is formed by the first header
-            + "<section-1-1>\n"
-            + "<h1>Header 1</h1>\n"
-            + "<sectionContent-1-1>\n"
-            // First section of the second level
-            + "<p>abc</p>\n"
-            + "<section-1-2>\n"
-            + "<h2>Header 1.1</h2>\n"
-            + "<sectionContent-1-2>\n"
-            + "<p>cde</p>\n"
-            + "</sectionContent-1-2>\n"
-            + "</section-1-2>\n"
-            // Second section of the second level
-            + "<section-1-2>\n"
-            + "<h2>Header 1.2</h2>\n"
-            + "<sectionContent-1-2>\n"
-            + "<p>efg</p>\n"
-            + "</sectionContent-1-2>\n"
-            + "</section-1-2>\n"
-            + ""
-            + "</sectionContent-1-1>\n"
-            + "</section-1-1>\n"
-            + ""
-            // The section section on the first level
-            + "<section-1-1>\n"
-            + "<h1>Header 2</h1>\n"
-            + "<sectionContent-1-1>\n"
-            + "<p>ghk</p>\n"
-            + "</sectionContent-1-1>\n"
-            + "</section-1-1>\n"
-            + ""
-            + "</sectionContent-1-0>\n"
-            + "</section-1-0>");
+        test("abc", """
+            <section-1-0>
+            <sectionContent-1-0>
+            <p>abc</p>
+            </sectionContent-1-0>
+            </section-1-0>""");
+        test("=Header=\nabc", """
+            <section-1-0>
+            <sectionContent-1-0>
+            <section-1-1>
+            <h1>Header</h1>
+            <sectionContent-1-1>
+            <p>abc</p>
+            </sectionContent-1-1>
+            </section-1-1>
+            </sectionContent-1-0>
+            </section-1-0>""");
+        // section-1-1 for Header 1, section-1-1 for Header 2
+        test("=Header 1=\nabc\n=Header 2=\ncde", """
+            <section-1-0>
+            <sectionContent-1-0>
+            <section-1-1>
+            <h1>Header 1</h1>
+            <sectionContent-1-1>
+            <p>abc</p>
+            </sectionContent-1-1>
+            </section-1-1>
+            <section-1-1>
+            <h1>Header 2</h1>
+            <sectionContent-1-1>
+            <p>cde</p>
+            </sectionContent-1-1>
+            </section-1-1>
+            </sectionContent-1-0>
+            </section-1-0>""");
+        // section-1-1 for Header 1 (with sub-sections 1.1 and 1.2), section-1-1 for Header 2
+        test("=Header 1=\nabc\n==Header 1.1==\ncde\n==Header 1.2==\nefg\n=Header 2=\nghk", """
+            <section-1-0>
+            <sectionContent-1-0>
+            <section-1-1>
+            <h1>Header 1</h1>
+            <sectionContent-1-1>
+            <p>abc</p>
+            <section-1-2>
+            <h2>Header 1.1</h2>
+            <sectionContent-1-2>
+            <p>cde</p>
+            </sectionContent-1-2>
+            </section-1-2>
+            <section-1-2>
+            <h2>Header 1.2</h2>
+            <sectionContent-1-2>
+            <p>efg</p>
+            </sectionContent-1-2>
+            </section-1-2>
+            </sectionContent-1-1>
+            </section-1-1>
+            <section-1-1>
+            <h1>Header 2</h1>
+            <sectionContent-1-1>
+            <p>ghk</p>
+            </sectionContent-1-1>
+            </section-1-1>
+            </sectionContent-1-0>
+            </section-1-0>""");
 
         // Embedded document
 
-        test("((()))", ""
-            + "<section-1-0>\n"
-            + "<sectionContent-1-0>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<section-2-0>\n"
-            + "<sectionContent-2-0>\n"
-            + "</sectionContent-2-0>\n"
-            + "</section-2-0>\n"
-            + "</div>\n"
-            + "</sectionContent-1-0>\n"
-            + "</section-1-0>");
-        test(""
-            + "=Header 1=\nabc\n"
-            + "((("
-            + "=Header 1.1=\ncde\n"
-            + "=Header 1.2=\nefg\n"
-            + ")))\n"
-            + "xyz\n"
-            + "=Header 2=\nghk", ""
-            + ""
-            + "<section-1-0>\n"
-            + "<sectionContent-1-0>\n"
-            // The first section is formed by the first header
-            + "<section-1-1>\n"
-            + "<h1>Header 1</h1>\n"
-            + "<sectionContent-1-1>\n"
-            + "<p>abc</p>\n"
-            + ""
-            // Embedded document
-            + "<div class='wikimodel-document'>\n"
-            + "<section-2-0>\n"
-            + "<sectionContent-2-0>\n"
-            // Headers in the embedded document
-            + "<section-2-1>\n"
-            + "<h1>Header 1.1</h1>\n"
-            + "<sectionContent-2-1>\n"
-            + "<p>cde</p>\n"
-            + "</sectionContent-2-1>\n"
-            + "</section-2-1>\n"
-            // The second embedded header
-            + "<section-2-1>\n"
-            + "<h1>Header 1.2</h1>\n"
-            + "<sectionContent-2-1>\n"
-            + "<p>efg</p>\n"
-            + "</sectionContent-2-1>\n"
-            + "</section-2-1>\n"
-            // End of the embedded document
-            + "</sectionContent-2-0>\n"
-            + "</section-2-0>\n"
-            + "</div>\n"
-            + "<p>xyz</p>\n"
-            + "</sectionContent-1-1>\n"
-            + "</section-1-1>\n"
-            + ""
-            // The section section at the first level
-            + "<section-1-1>\n"
-            + "<h1>Header 2</h1>\n"
-            + "<sectionContent-1-1>\n"
-            + "<p>ghk</p>\n"
-            + "</sectionContent-1-1>\n"
-            + "</section-1-1>\n"
-            + ""
-            + "</sectionContent-1-0>\n"
-            + "</section-1-0>");
+        test("((()))", """
+            <section-1-0>
+            <sectionContent-1-0>
+            <div class='wikimodel-document'>
+            <section-2-0>
+            <sectionContent-2-0>
+            </sectionContent-2-0>
+            </section-2-0>
+            </div>
+            </sectionContent-1-0>
+            </section-1-0>""");
+        // section-1-1 for Header 1 with embedded doc (section-2-1 for 1.1 and 1.2), section-1-1 for Header 2
+        test("=Header 1=\nabc\n(((=Header 1.1=\ncde\n=Header 1.2=\nefg\n)))\nxyz\n=Header 2=\nghk", """
+            <section-1-0>
+            <sectionContent-1-0>
+            <section-1-1>
+            <h1>Header 1</h1>
+            <sectionContent-1-1>
+            <p>abc</p>
+            <div class='wikimodel-document'>
+            <section-2-0>
+            <sectionContent-2-0>
+            <section-2-1>
+            <h1>Header 1.1</h1>
+            <sectionContent-2-1>
+            <p>cde</p>
+            </sectionContent-2-1>
+            </section-2-1>
+            <section-2-1>
+            <h1>Header 1.2</h1>
+            <sectionContent-2-1>
+            <p>efg</p>
+            </sectionContent-2-1>
+            </section-2-1>
+            </sectionContent-2-0>
+            </section-2-0>
+            </div>
+            <p>xyz</p>
+            </sectionContent-1-1>
+            </section-1-1>
+            <section-1-1>
+            <h1>Header 2</h1>
+            <sectionContent-1-1>
+            <p>ghk</p>
+            </sectionContent-1-1>
+            </section-1-1>
+            </sectionContent-1-0>
+            </section-1-0>""");
     }
 
     @Test
@@ -413,24 +387,22 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             "$abc(a)",
             "<div class='wikimodel-extension' extension='abc' a=''/>");
 
-        test("before\n$abc after", ""
-            + "<p>before</p>\n"
-            + "<div class='wikimodel-extension' extension='abc'/>\n"
-            + "<p> after</p>");
-        test("before\n$abc() after", ""
-            + "<p>before</p>\n"
-            + "<div class='wikimodel-extension' extension='abc'/>\n"
-            + "<p> after</p>");
-        test(
-            "before\n$abc(a=b c=d) after",
-            ""
-                + "<p>before</p>\n"
-                + "<div class='wikimodel-extension' extension='abc' a='b' c='d'/>\n"
-                + "<p> after</p>");
-        test("before\n$abc(hello)after", ""
-            + "<p>before</p>\n"
-            + "<div class='wikimodel-extension' extension='abc' hello=''/>\n"
-            + "<p>after</p>");
+        test("before\n$abc after", """
+            <p>before</p>
+            <div class='wikimodel-extension' extension='abc'/>
+            <p> after</p>""");
+        test("before\n$abc() after", """
+            <p>before</p>
+            <div class='wikimodel-extension' extension='abc'/>
+            <p> after</p>""");
+        test("before\n$abc(a=b c=d) after", """
+            <p>before</p>
+            <div class='wikimodel-extension' extension='abc' a='b' c='d'/>
+            <p> after</p>""");
+        test("before\n$abc(hello)after", """
+            <p>before</p>
+            <div class='wikimodel-extension' extension='abc' hello=''/>
+            <p>after</p>""");
     }
 
     @Test
@@ -491,9 +463,10 @@ class CommonWikiParserTest extends AbstractWikiParserTest
         test("==Header2", "<h2>Header2</h2>");
         test("===Header3", "<h3>Header3</h3>");
         test("====Header4", "<h4>Header4</h4>");
-        test("before\n= Header =\nafter", "<p>before</p>\n"
-            + "<h1>Header </h1>\n"
-            + "<p>after</p>");
+        test("before\n= Header =\nafter", """
+            <p>before</p>
+            <h1>Header </h1>
+            <p>after</p>""");
 
         test("This is not a header: ==", "<p>This is not a header: ==</p>");
 
@@ -545,7 +518,7 @@ class CommonWikiParserTest extends AbstractWikiParserTest
     }
 
     @Test
-    public void testLists() throws WikiParserException
+    void testLists() throws WikiParserException
     {
         test(
             "*this is a bold, and not a list",
@@ -579,7 +552,9 @@ class CommonWikiParserTest extends AbstractWikiParserTest
         test(";:just definition");
         test(":just definition");
         test(";:");
-        test(": Indenting is stripped out.\n" + " : Includes double indenting");
+        test("""
+            : Indenting is stripped out.
+             : Includes double indenting""");
 
         test(";term one: definition one\n"
             + ";term two: definition two\n"
@@ -611,16 +586,16 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             "<pre class='wikimodel-macro' macroName='toto'><![CDATA[a{toto}b{/toto}c]]></pre>");
         test(
             "before\n{toto}a{/toto}\nafter",
-            ""
-                + "<p>before</p>\n"
-                + "<pre class='wikimodel-macro' macroName='toto'><![CDATA[a]]></pre>\n"
-                + "<p>after</p>");
+            """
+            <p>before</p>
+            <pre class='wikimodel-macro' macroName='toto'><![CDATA[a]]></pre>
+            <p>after</p>""");
         test(
             "before\n{toto}a{/toto}after",
-            ""
-                + "<p>before</p>\n"
-                + "<pre class='wikimodel-macro' macroName='toto'><![CDATA[a]]></pre>\n"
-                + "<p>after</p>");
+            """
+            <p>before</p>
+            <pre class='wikimodel-macro' macroName='toto'><![CDATA[a]]></pre>
+            <p>after</p>""");
 
         // URIs as macro names
         test(
@@ -631,16 +606,16 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             "<pre class='wikimodel-macro' macroName='x:toto'><![CDATA[a{x:toto}b{/x:toto}c]]></pre>");
         test(
             "before\n{x:toto}a{/x:toto}\nafter",
-            ""
-                + "<p>before</p>\n"
-                + "<pre class='wikimodel-macro' macroName='x:toto'><![CDATA[a]]></pre>\n"
-                + "<p>after</p>");
+            """
+            <p>before</p>
+            <pre class='wikimodel-macro' macroName='x:toto'><![CDATA[a]]></pre>
+            <p>after</p>""");
         test(
             "before\n{x:toto}a{/x:toto}after",
-            ""
-                + "<p>before</p>\n"
-                + "<pre class='wikimodel-macro' macroName='x:toto'><![CDATA[a]]></pre>\n"
-                + "<p>after</p>");
+            """
+            <p>before</p>
+            <pre class='wikimodel-macro' macroName='x:toto'><![CDATA[a]]></pre>
+            <p>after</p>""");
 
         // Empty macros
         test(
@@ -651,16 +626,16 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             "<pre class='wikimodel-macro' macroName='x:toto' a='b' c='d'><![CDATA[]]></pre>");
         test(
             "before\n{x:toto  a=b c=d/}\nafter",
-            ""
-                + "<p>before</p>\n"
-                + "<pre class='wikimodel-macro' macroName='x:toto' a='b' c='d'><![CDATA[]]></pre>\n"
-                + "<p>after</p>");
+            """
+            <p>before</p>
+            <pre class='wikimodel-macro' macroName='x:toto' a='b' c='d'><![CDATA[]]></pre>
+            <p>after</p>""");
         test(
             "before\n{x:toto  a='b' c='d'/}after",
-            ""
-                + "<p>before</p>\n"
-                + "<pre class='wikimodel-macro' macroName='x:toto' a='b' c='d'><![CDATA[]]></pre>\n"
-                + "<p>after</p>");
+            """
+            <p>before</p>
+            <pre class='wikimodel-macro' macroName='x:toto' a='b' c='d'><![CDATA[]]></pre>
+            <p>after</p>""");
         test(
             "before{x:toto /}after",
             "<p>before<span class='wikimodel-macro' macroName='x:toto'><![CDATA[]]></span>after</p>");
@@ -717,23 +692,25 @@ class CommonWikiParserTest extends AbstractWikiParserTest
 
         // Macro and its usage
         test(
-            "This is a macro: {toto x:a=b x:c=d}\n"
-                + "<table>\n"
-                + "#foreach ($x in $table)\n"
-                + "  <tr>hello, $x</tr>\n"
-                + "#end\n"
-                + "</table>\n"
-                + "{/toto}\n\n"
-                + "And this is a usage of this macro: $toto(a=x b=y)",
-            "<p>This is a macro: <span class='wikimodel-macro' macroName='toto' x:a='b' x:c='d'><![CDATA[\n"
-                + "<table>\n"
-                + "#foreach ($x in $table)\n"
-                + "  <tr>hello, $x</tr>\n"
-                + "#end\n"
-                + "</table>\n"
-                + "]]></span></p>\n"
-                +
-                "<p>And this is a usage of this macro: <span class='wikimodel-extension' extension='toto' a='x' b='y'/></p>");
+            """
+            This is a macro: {toto x:a=b x:c=d}
+            <table>
+            #foreach ($x in $table)
+              <tr>hello, $x</tr>
+            #end
+            </table>
+            {/toto}
+
+            And this is a usage of this macro: $toto(a=x b=y)""",
+            """
+            <p>This is a macro: <span class='wikimodel-macro' macroName='toto' x:a='b' x:c='d'><![CDATA[
+            <table>
+            #foreach ($x in $table)
+              <tr>hello, $x</tr>
+            #end
+            </table>
+            ]]></span></p>
+            <p>And this is a usage of this macro: <span class='wikimodel-extension' extension='toto' a='x' b='y'/></p>""");
 
         test(
             "!!Header:: Cell with a macro: \n"
@@ -776,15 +753,15 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             "<p>before<span class='wikimodel-macro' macroName='x:y' a='b' c='d'><![CDATA[macro content]]></span></p>");
         test(
             "before\n{x:y a=b c=d}macro content",
-            ""
-                + "<p>before</p>\n"
-                + "<pre class='wikimodel-macro' macroName='x:y' a='b' c='d'><![CDATA[macro content]]></pre>");
+            """
+            <p>before</p>
+            <pre class='wikimodel-macro' macroName='x:y' a='b' c='d'><![CDATA[macro content]]></pre>""");
         test(
             "before\n{x:y a=b c=d/}\nafter",
-            ""
-                + "<p>before</p>\n"
-                + "<pre class='wikimodel-macro' macroName='x:y' a='b' c='d'><![CDATA[]]></pre>\n"
-                + "<p>after</p>");
+            """
+            <p>before</p>
+            <pre class='wikimodel-macro' macroName='x:y' a='b' c='d'><![CDATA[]]></pre>
+            <p>after</p>""");
 
         // Not closed and bad-formed macros
         test(
@@ -835,20 +812,22 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             + "<p background='green'>third</p>");
 
         test("{{background='blue'}}hello", "<p background='blue'>hello</p>");
-        test("{{background='blue'}}\n"
-            + "First paragraph\n"
-            + "\n"
-            + "\n"
-            + "\n"
-            + "", ""
-            + "<p background='blue'>First paragraph</p>\n"
-            + "<div style='height:3em;'></div>");
+        test("""
+            {{background='blue'}}
+            First paragraph
 
-        test("First paragraph\n" + "\n" + "\n" + "\n" + "");
-        test("First paragraph.\n"
-            + "Second line of the same paragraph.\n"
-            + "\n"
-            + "The second paragraph");
+
+
+            """, """
+            <p background='blue'>First paragraph</p>
+            <div style='height:3em;'></div>""");
+
+        test("First paragraph\n\n\n\n");
+        test("""
+            First paragraph.
+            Second line of the same paragraph.
+
+            The second paragraph""");
 
         test("\n<toto");
     }
@@ -861,99 +840,103 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             "<div class='wikimodel-property' url='toto'><p>hello  world</p>\n</div>\n<p>123</p>");
         test(
             "%prop1 value1\n%prop2 value2",
-            ""
-                + "<div class='wikimodel-property' url='prop1'><p>value1</p>\n</div>\n"
-                + "<div class='wikimodel-property' url='prop2'><p>value2</p>\n</div>");
+            """
+            <div class='wikimodel-property' url='prop1'><p>value1</p>
+            </div>
+            <div class='wikimodel-property' url='prop2'><p>value2</p>
+            </div>""");
         test(
             "%prop1 value1\nparagraph\n%prop2 value2",
-            ""
-                + "<div class='wikimodel-property' url='prop1'><p>value1</p>\n</div>\n"
-                + "<p>paragraph</p>\n"
-                + "<div class='wikimodel-property' url='prop2'><p>value2</p>\n</div>");
+            """
+            <div class='wikimodel-property' url='prop1'><p>value1</p>
+            </div>
+            <p>paragraph</p>
+            <div class='wikimodel-property' url='prop2'><p>value2</p>
+            </div>""");
 
-        test("%prop1 (((embedded)))next paragraph\n%prop2 value2", ""
-            + "<div class='wikimodel-property' url='prop1'>\n"
-            + "<p>embedded</p>\n"
-            + "</div>\n"
-            + "<p>next paragraph</p>\n"
-            + "<div class='wikimodel-property' url='prop2'><p>value2</p>\n"
-            + "</div>");
+        test("%prop1 (((embedded)))next paragraph\n%prop2 value2", """
+            <div class='wikimodel-property' url='prop1'>
+            <p>embedded</p>
+            </div>
+            <p>next paragraph</p>
+            <div class='wikimodel-property' url='prop2'><p>value2</p>
+            </div>""");
         test(
             "%prop1 (((=Header\n- item 1\n- item 2)))next paragraph\n%prop2 value2",
-            ""
-                + "<div class='wikimodel-property' url='prop1'>\n"
-                + "<h1>Header</h1>\n"
-                + "<ul>\n"
-                + "  <li>item 1</li>\n"
-                + "  <li>item 2</li>\n"
-                + "</ul>\n"
-                + "</div>\n"
-                + "<p>next paragraph</p>\n"
-                + "<div class='wikimodel-property' url='prop2'><p>value2</p>\n"
-                + "</div>");
+            """
+            <div class='wikimodel-property' url='prop1'>
+            <h1>Header</h1>
+            <ul>
+              <li>item 1</li>
+              <li>item 2</li>
+            </ul>
+            </div>
+            <p>next paragraph</p>
+            <div class='wikimodel-property' url='prop2'><p>value2</p>
+            </div>""");
 
         test(
-            "before\n"
-                + "\n"
-                + "%company (((\n"
-                + "    %name Cognium Systems\n"
-                + "    %addr (((\n"
-                + "        %country [France]\n"
-                + "        %city [Paris]\n"
-                + "        %street Cité Nollez\n"
-                + "        This is just a description...\n"
-                + "    )))\n"
-                + ")))\n"
-                + "\n"
-                + "after",
-            ""
-                + "<p>before</p>\n"
-                + "<div class='wikimodel-property' url='company'>\n"
-                + "<div class='wikimodel-property' url='name'><p>Cognium Systems</p>\n"
-                + "</div>\n"
-                + "<div class='wikimodel-property' url='addr'>\n"
-                +
-                "<div class='wikimodel-property' url='country'><p><a href='France' class='wikimodel-freestanding'>France</a></p>\n"
-                + "</div>\n"
-                +
-                "<div class='wikimodel-property' url='city'><p><a href='Paris' class='wikimodel-freestanding'>Paris</a></p>\n"
-                + "</div>\n"
-                + "<div class='wikimodel-property' url='street'><p>Cité Nollez</p>\n"
-                + "</div>\n"
-                + "<p>        This is just a description...</p>\n"
-                + "</div>\n"
-                + "</div>\n"
-                + "<p>after</p>");
+            """
+            before
+
+            %company (((
+                %name Cognium Systems
+                %addr (((
+                    %country [France]
+                    %city [Paris]
+                    %street Cité Nollez
+                    This is just a description...
+                )))
+            )))
+
+            after""",
+            """
+            <p>before</p>
+            <div class='wikimodel-property' url='company'>
+            <div class='wikimodel-property' url='name'><p>Cognium Systems</p>
+            </div>
+            <div class='wikimodel-property' url='addr'>
+            <div class='wikimodel-property' url='country'><p><a href='France' class='wikimodel-freestanding'>France</a></p>
+            </div>
+            <div class='wikimodel-property' url='city'><p><a href='Paris' class='wikimodel-freestanding'>Paris</a></p>
+            </div>
+            <div class='wikimodel-property' url='street'><p>Cité Nollez</p>
+            </div>
+            <p>        This is just a description...</p>
+            </div>
+            </div>
+            <p>after</p>""");
         // Bad formed block properties
 
         // No closing brackets
         test(
-            "before\n"
-                + "\n"
-                + "%company (((\n"
-                + "    %name Cognium Systems\n"
-                + "    %addr (((\n"
-                + "        %country [France]\n"
-                + "        %city Paris\n"
-                + "        %street Cité Nollez\n"
-                + "        This is just a description...\n"
-                + "after",
-            "<p>before</p>\n"
-                + "<div class='wikimodel-property' url='company'>\n"
-                + "<div class='wikimodel-property' url='name'><p>Cognium Systems</p>\n"
-                + "</div>\n"
-                + "<div class='wikimodel-property' url='addr'>\n"
-                +
-                "<div class='wikimodel-property' url='country'><p><a href='France' class='wikimodel-freestanding'>France</a></p>\n"
-                + "</div>\n"
-                + "<div class='wikimodel-property' url='city'><p>Paris</p>\n"
-                + "</div>\n"
-                + "<div class='wikimodel-property' url='street'><p>Cité Nollez</p>\n"
-                + "</div>\n"
-                + "<p>        This is just a description...\n"
-                + "after</p>\n"
-                + "</div>\n"
-                + "</div>");
+            """
+            before
+
+            %company (((
+                %name Cognium Systems
+                %addr (((
+                    %country [France]
+                    %city Paris
+                    %street Cité Nollez
+                    This is just a description...
+            after""",
+            """
+            <p>before</p>
+            <div class='wikimodel-property' url='company'>
+            <div class='wikimodel-property' url='name'><p>Cognium Systems</p>
+            </div>
+            <div class='wikimodel-property' url='addr'>
+            <div class='wikimodel-property' url='country'><p><a href='France' class='wikimodel-freestanding'>France</a></p>
+            </div>
+            <div class='wikimodel-property' url='city'><p>Paris</p>
+            </div>
+            <div class='wikimodel-property' url='street'><p>Cité Nollez</p>
+            </div>
+            <p>        This is just a description...
+            after</p>
+            </div>
+            </div>""");
     }
 
     @Test
@@ -990,26 +973,28 @@ class CommonWikiParserTest extends AbstractWikiParserTest
 
         test("This is a paragraph\n"
             + ">and this is a quotations\n"
-            + "> the second line", "<p>This is a paragraph</p>\n"
-            + "<blockquote>\n"
-            + "and this is a quotations\n"
-            + " the second line\n"
-            + "</blockquote>");
+            + "> the second line", """
+            <p>This is a paragraph</p>
+            <blockquote>
+            and this is a quotations
+             the second line
+            </blockquote>""");
 
         test("        This is just a description...\n" + "    \n" + "\n" + "\n");
-        test("> first\n"
-            + ">> second\n"
-            + ">> third\n"
-            + ">>> subquot1\n"
-            + ">>> subquot2\n"
-            + ">> fourth");
-        test("{{a='b'}}\n"
-            + "  first\n"
-            + "  second\n"
-            + "  third\n"
-            + "    subquot1\n"
-            + "    subquot2"
-            + "  fourth");
+        test("""
+            > first
+            >> second
+            >> third
+            >>> subquot1
+            >>> subquot2
+            >> fourth""");
+        test("""
+            {{a='b'}}
+              first
+              second
+              third
+                subquot1
+                subquot2  fourth""");
     }
 
     @Test
@@ -1083,41 +1068,41 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             "before [#local ancor] after",
             "<p>before <a href='#local'>ancor</a> after</p>");
 
-        test("before (((doc-before(=toto=)doc-after))) after", ""
-            + "<p>before</p>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<p>doc-before<a href='toto' class='wikimodel-freestanding'>toto</a>doc-after</p>\n"
-            + "</div>\n"
-            + "<p>after</p>");
-        test("before ((((=toto=)))) after", ""
-            + "<p>before</p>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<p><a href='toto' class='wikimodel-freestanding'>toto</a></p>\n"
-            + "</div>\n"
-            + "<p>after</p>");
-        test(" ((((=toto=))))", ""
-            + "<div class='wikimodel-document'>\n"
-            + "<p><a href='toto' class='wikimodel-freestanding'>toto</a></p>\n"
-            + "</div>");
-        test("((((=toto=))))", ""
-            + "<div class='wikimodel-document'>\n"
-            + "<p><a href='toto' class='wikimodel-freestanding'>toto</a></p>\n"
-            + "</div>");
+        test("before (((doc-before(=toto=)doc-after))) after", """
+            <p>before</p>
+            <div class='wikimodel-document'>
+            <p>doc-before<a href='toto' class='wikimodel-freestanding'>toto</a>doc-after</p>
+            </div>
+            <p>after</p>""");
+        test("before ((((=toto=)))) after", """
+            <p>before</p>
+            <div class='wikimodel-document'>
+            <p><a href='toto' class='wikimodel-freestanding'>toto</a></p>
+            </div>
+            <p>after</p>""");
+        test(" ((((=toto=))))", """
+            <div class='wikimodel-document'>
+            <p><a href='toto' class='wikimodel-freestanding'>toto</a></p>
+            </div>""");
+        test("((((=toto=))))", """
+            <div class='wikimodel-document'>
+            <p><a href='toto' class='wikimodel-freestanding'>toto</a></p>
+            </div>""");
 
-        test("((((((toto))))))", ""
-            + "<div class='wikimodel-document'>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<p>toto</p>\n"
-            + "</div>\n"
-            + "</div>");
-        test("(((a(((toto)))b)))", ""
-            + "<div class='wikimodel-document'>\n"
-            + "<p>a</p>\n"
-            + "<div class='wikimodel-document'>\n"
-            + "<p>toto</p>\n"
-            + "</div>\n"
-            + "<p>b</p>\n"
-            + "</div>");
+        test("((((((toto))))))", """
+            <div class='wikimodel-document'>
+            <div class='wikimodel-document'>
+            <p>toto</p>
+            </div>
+            </div>""");
+        test("(((a(((toto)))b)))", """
+            <div class='wikimodel-document'>
+            <p>a</p>
+            <div class='wikimodel-document'>
+            <p>toto</p>
+            </div>
+            <p>b</p>
+            </div>""");
     }
 
     @Test
@@ -1130,79 +1115,87 @@ class CommonWikiParserTest extends AbstractWikiParserTest
     void testTables() throws WikiParserException
     {
         // "!!" and "::" markup
-        test("!! Header :: Cell ", ""
-            + "<table><tbody>\n"
-            + "  <tr><th> Header </th><td> Cell </td></tr>\n"
-            + "</tbody></table>");
-        test("!!   Header    ::    Cell    ", ""
-            + "<table><tbody>\n"
-            + "  <tr><th>   Header    </th><td>    Cell    </td></tr>\n"
-            + "</tbody></table>");
-        test("!! Header 1.1 !! Header 1.2\n"
-            + ":: Cell 2.1 :: Cell 2.2\n"
-            + ":: Cell 3.1 !! Head 3.2", ""
-            + "<table><tbody>\n"
-            + "  <tr><th> Header 1.1 </th><th> Header 1.2</th></tr>\n"
-            + "  <tr><td> Cell 2.1 </td><td> Cell 2.2</td></tr>\n"
-            + "  <tr><td> Cell 3.1 </td><th> Head 3.2</th></tr>\n"
-            + "</tbody></table>");
+        test("!! Header :: Cell ", """
+            <table><tbody>
+              <tr><th> Header </th><td> Cell </td></tr>
+            </tbody></table>""");
+        test("!!   Header    ::    Cell    ", """
+            <table><tbody>
+              <tr><th>   Header    </th><td>    Cell    </td></tr>
+            </tbody></table>""");
+        test("""
+            !! Header 1.1 !! Header 1.2
+            :: Cell 2.1 :: Cell 2.2
+            :: Cell 3.1 !! Head 3.2""", """
+            <table><tbody>
+              <tr><th> Header 1.1 </th><th> Header 1.2</th></tr>
+              <tr><td> Cell 2.1 </td><td> Cell 2.2</td></tr>
+              <tr><td> Cell 3.1 </td><th> Head 3.2</th></tr>
+            </tbody></table>""");
 
-        test("::Cell 1 :: Cell 2", "<table><tbody>\n"
-            + "  <tr><td>Cell 1 </td><td> Cell 2</td></tr>\n"
-            + "</tbody></table>");
+        test("::Cell 1 :: Cell 2", """
+            <table><tbody>
+              <tr><td>Cell 1 </td><td> Cell 2</td></tr>
+            </tbody></table>""");
         test("Not a Header :: Not a Cell", "<p>Not a Header :: Not a Cell</p>");
         test("Not a Header::Not a Cell", "<p>Not a Header::Not a Cell</p>");
 
         // Creole syntax
-        test("|= Header 1.1 |= Header 1.2\n"
-            + "| Cell 2.1 | Cell 2.2\n"
-            + "| Cell 3.1 |= Head 3.2", ""
-            + "<table><tbody>\n"
-            + "  <tr><th> Header 1.1 </th><th> Header 1.2</th></tr>\n"
-            + "  <tr><td> Cell 2.1 </td><td> Cell 2.2</td></tr>\n"
-            + "  <tr><td> Cell 3.1 </td><th> Head 3.2</th></tr>\n"
-            + "</tbody></table>");
-        test("|={{a=b}} Header 1.1 |= Header 1.2\n"
-            + "| Cell 2.1 | Cell 2.2\n"
-            + "| Cell 3.1 |={{c=d}} Head 3.2", ""
-            + "<table><tbody>\n"
-            + "  <tr><th a='b'> Header 1.1 </th><th> Header 1.2</th></tr>\n"
-            + "  <tr><td> Cell 2.1 </td><td> Cell 2.2</td></tr>\n"
-            + "  <tr><td> Cell 3.1 </td><th c='d'> Head 3.2</th></tr>\n"
-            + "</tbody></table>");
+        test("""
+            |= Header 1.1 |= Header 1.2
+            | Cell 2.1 | Cell 2.2
+            | Cell 3.1 |= Head 3.2""", """
+            <table><tbody>
+              <tr><th> Header 1.1 </th><th> Header 1.2</th></tr>
+              <tr><td> Cell 2.1 </td><td> Cell 2.2</td></tr>
+              <tr><td> Cell 3.1 </td><th> Head 3.2</th></tr>
+            </tbody></table>""");
+        test("""
+            |={{a=b}} Header 1.1 |= Header 1.2
+            | Cell 2.1 | Cell 2.2
+            | Cell 3.1 |={{c=d}} Head 3.2""", """
+            <table><tbody>
+              <tr><th a='b'> Header 1.1 </th><th> Header 1.2</th></tr>
+              <tr><td> Cell 2.1 </td><td> Cell 2.2</td></tr>
+              <tr><td> Cell 3.1 </td><th c='d'> Head 3.2</th></tr>
+            </tbody></table>""");
         test(
             "{{x=y}}|={{a=b}} Header 1.1 |={{n=m}} Header 1.2",
-            ""
-                + "<table><tbody>\n"
-                + "  <tr x='y'><th a='b'> Header 1.1 </th><th n='m'> Header 1.2</th></tr>\n"
-                + "</tbody></table>");
+            """
+            <table><tbody>
+              <tr x='y'><th a='b'> Header 1.1 </th><th n='m'> Header 1.2</th></tr>
+            </tbody></table>""");
         test(
             "{{A=B}}\n{{x=y}}|={{a=b}} Header 1.1 |={{n=m}} Header 1.2",
-            ""
-                + "<table A='B'><tbody>\n"
-                + "  <tr x='y'><th a='b'> Header 1.1 </th><th n='m'> Header 1.2</th></tr>\n"
-                + "</tbody></table>");
+            """
+            <table A='B'><tbody>
+              <tr x='y'><th a='b'> Header 1.1 </th><th n='m'> Header 1.2</th></tr>
+            </tbody></table>""");
 
         // "||" and "|" markup
-        test("|| Header | Cell ", ""
-            + "<table><tbody>\n"
-            + "  <tr><th> Header </th><td> Cell </td></tr>\n"
-            + "</tbody></table>");
-        test("||   Header    |    Cell    ", ""
-            + "<table><tbody>\n"
-            + "  <tr><th>   Header    </th><td>    Cell    </td></tr>\n"
-            + "</tbody></table>");
+        test("|| Header | Cell ", """
+            <table><tbody>
+              <tr><th> Header </th><td> Cell </td></tr>
+            </tbody></table>""");
+        test("||   Header    |    Cell    ", """
+            <table><tbody>
+              <tr><th>   Header    </th><td>    Cell    </td></tr>
+            </tbody></table>""");
 
-        test("|| cell 1.1 || cell 1.2\n" + "|| cell 2.1|| cell 2.2", ""
-            + "<table><tbody>\n"
-            + "  <tr><th> cell 1.1 </th><th> cell 1.2</th></tr>\n"
-            + "  <tr><th> cell 2.1</th><th> cell 2.2</th></tr>\n"
-            + "</tbody></table>");
-        test("|| Head 1.1 || Head 1.2\n" + "| cell 2.1| cell 2.2", ""
-            + "<table><tbody>\n"
-            + "  <tr><th> Head 1.1 </th><th> Head 1.2</th></tr>\n"
-            + "  <tr><td> cell 2.1</td><td> cell 2.2</td></tr>\n"
-            + "</tbody></table>");
+        test("""
+            || cell 1.1 || cell 1.2
+            || cell 2.1|| cell 2.2""", """
+            <table><tbody>
+              <tr><th> cell 1.1 </th><th> cell 1.2</th></tr>
+              <tr><th> cell 2.1</th><th> cell 2.2</th></tr>
+            </tbody></table>""");
+        test("""
+            || Head 1.1 || Head 1.2
+            | cell 2.1| cell 2.2""", """
+            <table><tbody>
+              <tr><th> Head 1.1 </th><th> Head 1.2</th></tr>
+              <tr><td> cell 2.1</td><td> cell 2.2</td></tr>
+            </tbody></table>""");
         test("|| Multi \nline  \nheader \n"
             + "| Multi\nline\ncell\n"
             + "\n"
@@ -1215,39 +1208,41 @@ class CommonWikiParserTest extends AbstractWikiParserTest
         test("this is not || a table", "<p>this is not || a table</p>");
         test("this is not | a table", "<p>this is not | a table</p>");
         test(
-            "|| __Italic header__ || *Bold header*\n"
-                + "| __Italic cell__ | *Bold cell*\n",
-            ""
-                + "<table><tbody>\n"
-                + "  <tr><th> <em>Italic header</em> </th><th> <strong>Bold header</strong></th></tr>\n"
-                + "  <tr><td> <em>Italic cell</em> </td><td> <strong>Bold cell</strong></td></tr>\n"
-                + "</tbody></table>");
+            """
+            || __Italic header__ || *Bold header*
+            | __Italic cell__ | *Bold cell*
+            """,
+            """
+            <table><tbody>
+              <tr><th> <em>Italic header</em> </th><th> <strong>Bold header</strong></th></tr>
+              <tr><td> <em>Italic cell</em> </td><td> <strong>Bold cell</strong></td></tr>
+            </tbody></table>""");
         test(
             "|| __Italic header || *Bold header \n"
                 + "| __Italic cell | *Bold cell \n",
-            ""
-                + "<table><tbody>\n"
-                + "  <tr><th> <em>Italic header </em></th><th> <strong>Bold header </strong></th></tr>\n"
-                + "  <tr><td> <em>Italic cell </em></td><td> <strong>Bold cell </strong></td></tr>\n"
-                + "</tbody></table>");
+            """
+            <table><tbody>
+              <tr><th> <em>Italic header </em></th><th> <strong>Bold header </strong></th></tr>
+              <tr><td> <em>Italic cell </em></td><td> <strong>Bold cell </strong></td></tr>
+            </tbody></table>""");
 
         // Table parameters
-        test("{{a=b}}\n|| Header ", ""
-            + "<table a='b'><tbody>\n"
-            + "  <tr><th> Header </th></tr>\n"
-            + "</tbody></table>");
-        test("{{a=b}}\n!! Header ", ""
-            + "<table a='b'><tbody>\n"
-            + "  <tr><th> Header </th></tr>\n"
-            + "</tbody></table>");
-        test("{{a=b}}\n| cell ", ""
-            + "<table a='b'><tbody>\n"
-            + "  <tr><td> cell </td></tr>\n"
-            + "</tbody></table>");
-        test("{{a=b}}\n:: cell ", ""
-            + "<table a='b'><tbody>\n"
-            + "  <tr><td> cell </td></tr>\n"
-            + "</tbody></table>");
+        test("{{a=b}}\n|| Header ", """
+            <table a='b'><tbody>
+              <tr><th> Header </th></tr>
+            </tbody></table>""");
+        test("{{a=b}}\n!! Header ", """
+            <table a='b'><tbody>
+              <tr><th> Header </th></tr>
+            </tbody></table>""");
+        test("{{a=b}}\n| cell ", """
+            <table a='b'><tbody>
+              <tr><td> cell </td></tr>
+            </tbody></table>""");
+        test("{{a=b}}\n:: cell ", """
+            <table a='b'><tbody>
+              <tr><td> cell </td></tr>
+            </tbody></table>""");
 
         // Row parameters
         test("{{a=b}}||cell");
@@ -1275,8 +1270,9 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             "<pre>before{{{123{{{verbatim}}}456}}}after</pre>");
         test(
             "{{{verbatim}}}}}} - the three last symbols should be in a paragraph",
-            "<pre>verbatim</pre>\n"
-                + "<p>}}} - the three last symbols should be in a paragraph</p>");
+            """
+            <pre>verbatim</pre>
+            <p>}}} - the three last symbols should be in a paragraph</p>""");
 
         // inline verbatim blocks
         test(" {{{abc}}}", "<p> <tt class=\"wikimodel-verbatim\">abc</tt></p>");
@@ -1309,22 +1305,23 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             "<p>before`xxx<tt class=\"wikimodel-verbatim\">verbatim</tt>after</p>");
 
         // Complex formatting
-        test("!! Syntax !! Results\n"
-            + ":: {{{\n"
-            + "!! Header 1 !! Header 2\n"
-            + ":: Cell 1 :: Cell 2\n"
-            + "}}} :: (((\n"
-            + "!! Header 1 !! Header 2\n"
-            + ":: Cell 1 :: Cell 2\n"
-            + ")))\n"
-            + ":: {{{\n"
-            + "|| Header 1 || Header 2\n"
-            + "| Cell 1 | Cell 2\n"
-            + "}}} :: (((\n"
-            + "|| Header 1 || Header 2\n"
-            + "| Cell 1 | Cell 2\n"
-            + ")))\n"
-            + "");
+        test("""
+            !! Syntax !! Results
+            :: {{{
+            !! Header 1 !! Header 2
+            :: Cell 1 :: Cell 2
+            }}} :: (((
+            !! Header 1 !! Header 2
+            :: Cell 1 :: Cell 2
+            )))
+            :: {{{
+            || Header 1 || Header 2
+            | Cell 1 | Cell 2
+            }}} :: (((
+            || Header 1 || Header 2
+            | Cell 1 | Cell 2
+            )))
+            """);
     }
 
     @Test

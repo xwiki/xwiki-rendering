@@ -65,10 +65,12 @@ class EventsChainingRendererTest
         this.renderer.endFigureCaption(Collections.emptyMap());
         this.renderer.endFigure(Collections.emptyMap());
 
-        String expected = "beginFigure\n"
-            + "beginFigureCaption\n"
-            + "endFigureCaption\n"
-            + "endFigure\n";
+        String expected = """
+            beginFigure
+            beginFigureCaption
+            endFigureCaption
+            endFigure
+            """;
 
         assertEquals(expected, this.wikiPrinter.toString());
     }

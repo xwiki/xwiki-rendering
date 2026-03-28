@@ -150,7 +150,12 @@ class ListBuilderTest
             + "</a></A>"
             + "<E><e></e></E>");
 
-        testTwo("" + "    a\n" + "  b\n" + " c\n" + "cd\n" + "", ""
+        testTwo("""
+                    a
+                  b
+                 c
+                cd
+                """, ""
             + "<A><a></a></A>"
             + "<B><b></b></B>"
             + "<C><c>"

@@ -130,17 +130,26 @@ public class ExampleTest
         cm.initialize(this.getClass().getClassLoader());
 
         // Content containing all bundled macros
-        String content = "{{toc/}}\n\n"
-            + "{{id name=\"header1\"/}}\n"
-            + "= header =\n"
-            + "{{box}}content{{/box}}\n\n"
-            + "{{info}}info{{/info}}\n\n"
-            + "{{warning}}warning{{/warning}}\n\n"
-            + "{{error}}error{{/error}}\n\n"
-            + "{{html}}<strong>bold</strong>{{/html}}\n\n"
-            + "{{footnote}}footnote{{/footnote}}\n\n"
-            + "{{putFootnotes/}}\n\n"
-            + "{{comment}}comment{{/comment}}";
+        String content = """
+            {{toc/}}
+
+            {{id name="header1"/}}
+            = header =
+            {{box}}content{{/box}}
+
+            {{info}}info{{/info}}
+
+            {{warning}}warning{{/warning}}
+
+            {{error}}error{{/error}}
+
+            {{html}}<strong>bold</strong>{{/html}}
+
+            {{footnote}}footnote{{/footnote}}
+
+            {{putFootnotes/}}
+
+            {{comment}}comment{{/comment}}""";
 
         Parser parser = cm.getInstance(Parser.class, Syntax.XWIKI_2_1.toIdString());
         XDOM xdom = parser.parse(new StringReader(content));

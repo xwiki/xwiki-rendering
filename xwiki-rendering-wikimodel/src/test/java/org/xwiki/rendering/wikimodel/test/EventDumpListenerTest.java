@@ -49,11 +49,12 @@ class EventDumpListenerTest extends AbstractWikiParserTest
     @Test
     void test() throws WikiParserException
     {
-        test("%worksIn (((\n"
-            + "   %type [Company]\n"
-            + "   %name Cognium *Systems*\n"
-            + "   %address (((\n"
-            + "   )))");
+        test("""
+            %worksIn (((
+               %type [Company]
+               %name Cognium *Systems*
+               %address (((
+               )))""");
         /**
          * The trace, how it *should* be:
          *

@@ -73,24 +73,26 @@ class GWikiParserTest extends AbstractWikiParserTest
     @Test
     void testLists() throws WikiParserException
     {
-        test(" * item one\n"
-            + " * item two\n"
-            + "   # item three\n"
-            + "   # item four\n"
-            + " * item five - first line\n"
-            + "   item five - second line\n"
-            + " * item six\n"
-            + "   is on multiple\n"
-            + "   lines");
+        test("""
+             * item one
+             * item two
+               # item three
+               # item four
+             * item five - first line
+               item five - second line
+             * item six
+               is on multiple
+               lines""");
     }
 
     @Test
     void testParagraphs() throws WikiParserException
     {
-        test("First paragraph.\n"
-            + "Second line of the same paragraph.\n"
-            + "\n"
-            + "The second paragraph");
+        test("""
+            First paragraph.
+            Second line of the same paragraph.
+
+            The second paragraph""");
     }
 
     @Test
@@ -119,11 +121,15 @@ class GWikiParserTest extends AbstractWikiParserTest
     @Test
     void testQuot() throws WikiParserException
     {
-        test("This is a paragraph\n"
-            + "\n"
-            + " and this is a quotations\n"
-            + " the second line");
-        test(" First\n" + "  Second\n" + "   Third");
+        test("""
+            This is a paragraph
+
+             and this is a quotations
+             the second line""");
+        test("""
+             First
+              Second
+               Third""");
         test("             \n\n"
             + "      First\n"
             + "      Second\n"
@@ -140,7 +146,9 @@ class GWikiParserTest extends AbstractWikiParserTest
     @Test
     void testTables() throws WikiParserException
     {
-        test("|| cell1.1 || cell1.2\n" + "|| cell 2.1 || cell 2.2");
+        test("""
+            || cell1.1 || cell1.2
+            || cell 2.1 || cell 2.2""");
         test("abc || cde");
         test("||a\nb\nc || c\nd\ne\n{{{\n Hello\n * World}}} \n x ");
     }

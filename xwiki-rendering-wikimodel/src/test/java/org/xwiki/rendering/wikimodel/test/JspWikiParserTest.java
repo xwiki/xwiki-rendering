@@ -94,43 +94,56 @@ class JspWikiParserTest extends AbstractWikiParserTest
         test("*first");
         test("* first");
         test("** second");
-        test("*item one\n"
-            + "* item two\n"
-            + "*#item three\n"
-            + "*# item four\n"
-            + "* item five - first line\n"
-            + "   item five - second line\n"
-            + "* item six\n"
-            + "  is on multiple\n"
-            + " lines");
+        test("""
+            *item one
+            * item two
+            *#item three
+            *# item four
+            * item five - first line
+               item five - second line
+            * item six
+              is on multiple
+             lines""");
 
         test(";term:  definition");
         test(";:just definition");
         test(";just term");
         test(";:");
 
-        test(";term one: definition one\n"
-            + ";term two: definition two\n"
-            + ";term three: definition three");
+        test("""
+            ;term one: definition one
+            ;term two: definition two
+            ;term three: definition three""");
 
-        test(";One,\ntwo,\nbucle my shoes...:\n"
-            + "...Three\nfour,\nClose the door\n"
-            + ";Five,\nSix: Pick up\n sticks\n\ntam-tam, pam-pam...");
+        test("""
+            ;One,
+            two,
+            bucle my shoes...:
+            ...Three
+            four,
+            Close the door
+            ;Five,
+            Six: Pick up
+             sticks
+
+            tam-tam, pam-pam...""");
 
         test(";__term__: ''definition''");
 
-        test("this is not a definition --\n"
-            + " ;__not__ a term: ''not'' a definition\n"
-            + "----toto");
+        test("""
+            this is not a definition --
+             ;__not__ a term: ''not'' a definition
+            ----toto""");
     }
 
     @Test
     void testParagraphs() throws WikiParserException
     {
-        test("First paragraph.\n"
-            + "Second line of the same paragraph.\n"
-            + "\n"
-            + "The second paragraph");
+        test("""
+            First paragraph.
+            Second line of the same paragraph.
+
+            The second paragraph""");
 
         test("\n<toto");
     }
@@ -162,14 +175,20 @@ class JspWikiParserTest extends AbstractWikiParserTest
     @Test
     void testTables() throws WikiParserException
     {
-        test("|| cell 1.1 || cell 1.2\n" + "|| cell 2.1|| cell 2.2");
-        test("|| Head 1.1 || Head 1.2\n" + "| cell 2.1| cell 2.2");
+        test("""
+            || cell 1.1 || cell 1.2
+            || cell 2.1|| cell 2.2""");
+        test("""
+            || Head 1.1 || Head 1.2
+            | cell 2.1| cell 2.2""");
         test("|| Multi \nline  \nheader \n"
             + "| Multi\nline\ncell\n\nOne,two,three...");
         test("this is not || a table");
         test("this is not | a table");
-        test("|| ''Italic header'' || __Bold header__\n"
-            + "| ''Italic cell'' | __Bold cell__\n");
+        test("""
+            || ''Italic header'' || __Bold header__
+            | ''Italic cell'' | __Bold cell__
+            """);
     }
 
     @Test

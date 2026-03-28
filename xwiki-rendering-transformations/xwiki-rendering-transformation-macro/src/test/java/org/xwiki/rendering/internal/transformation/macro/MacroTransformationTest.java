@@ -34,7 +34,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.properties.internal.DefaultBeanDescriptor;
@@ -104,16 +103,16 @@ class MacroTransformationTest
     @Test
     void transformSimpleMacro() throws Exception
     {
-        String expected = "beginDocument\n"
-            + "beginMacroMarkerStandalone [testsimplemacro] []\n"
-            + "beginParagraph\n"
-            + "onWord [simplemacro0]\n"
-            + "endParagraph\n"
-            + "endMacroMarkerStandalone [testsimplemacro] []\n"
-            + "endDocument";
+        String expected = """
+            beginDocument
+            beginMacroMarkerStandalone [testsimplemacro] []
+            beginParagraph
+            onWord [simplemacro0]
+            endParagraph
+            endMacroMarkerStandalone [testsimplemacro] []
+            endDocument""";
 
-        XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("testsimplemacro",
-            Collections.<String, String>emptyMap(), false)));
+        XDOM dom = new XDOM(List.of((Block) new MacroBlock("testsimplemacro", Collections.emptyMap(), false)));
 
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
@@ -130,18 +129,18 @@ class MacroTransformationTest
     @Test
     void transformNestedMacro() throws Exception
     {
-        String expected = "beginDocument\n"
-            + "beginMacroMarkerStandalone [testnestedmacro] []\n"
-            + "beginMacroMarkerStandalone [testsimplemacro] []\n"
-            + "beginParagraph\n"
-            + "onWord [simplemacro0]\n"
-            + "endParagraph\n"
-            + "endMacroMarkerStandalone [testsimplemacro] []\n"
-            + "endMacroMarkerStandalone [testnestedmacro] []\n"
-            + "endDocument";
+        String expected = """
+            beginDocument
+            beginMacroMarkerStandalone [testnestedmacro] []
+            beginMacroMarkerStandalone [testsimplemacro] []
+            beginParagraph
+            onWord [simplemacro0]
+            endParagraph
+            endMacroMarkerStandalone [testsimplemacro] []
+            endMacroMarkerStandalone [testnestedmacro] []
+            endDocument""";
 
-        XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("testnestedmacro",
-            Collections.<String, String>emptyMap(), false)));
+        XDOM dom = new XDOM(List.of((Block) new MacroBlock("testnestedmacro", Collections.emptyMap(), false)));
 
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
@@ -164,8 +163,7 @@ class MacroTransformationTest
             + StringUtils.repeat("endMacroMarkerStandalone [testrecursivemacro] []\n", 129)
             + "endDocument";
 
-        XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("testrecursivemacro",
-            Collections.<String, String>emptyMap(), false)));
+        XDOM dom = new XDOM(List.of((Block) new MacroBlock("testrecursivemacro", Collections.emptyMap(), false)));
 
         // To have a fast test, set the max macro execution to 128 macros.
         this.transformation.setMaxRecursions(128);
@@ -182,19 +180,19 @@ class MacroTransformationTest
     @Test
     void transformWhenLotsOfMacrosButNoInfiniteRecursion() throws Exception
     {
-        String expected = "beginDocument\n";
+        StringBuilder expected = new StringBuilder("beginDocument\n");
         for (int i = 0; i < 10; i++) {
-            expected += "beginMacroMarkerStandalone [testsimplemacro] []\n"
-                + "beginParagraph\n"
-                + "onWord [simplemacro" + i + "]\n"
-                + "endParagraph\n"
-                + "endMacroMarkerStandalone [testsimplemacro] []\n";
+            expected.append("beginMacroMarkerStandalone [testsimplemacro] []\n")
+                .append("beginParagraph\n")
+                .append("onWord [simplemacro").append(i).append("]\n")
+                .append("endParagraph\n")
+                .append("endMacroMarkerStandalone [testsimplemacro] []\n");
         }
-        expected += "endDocument";
+        expected.append("endDocument");
 
-        List<Block> macroBlocks = new ArrayList<Block>();
+        List<Block> macroBlocks = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            macroBlocks.add(new MacroBlock("testsimplemacro", Collections.<String, String>emptyMap(), false));
+            macroBlocks.add(new MacroBlock("testsimplemacro", Collections.emptyMap(), false));
         }
         XDOM dom = new XDOM(macroBlocks);
 
@@ -208,7 +206,7 @@ class MacroTransformationTest
         BlockRenderer eventBlockRenderer =
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
-        assertEquals(expected, printer.toString());
+        assertEquals(expected.toString(), printer.toString());
     }
 
     /**
@@ -217,18 +215,19 @@ class MacroTransformationTest
     @Test
     void transformMacrosWithPriorities() throws Exception
     {
-        String expected = "beginDocument\n"
-            + "beginMacroMarkerStandalone [testsimplemacro] []\n"
-            + "beginParagraph\n"
-            + "onWord [simplemacro1]\n"
-            + "endParagraph\n"
-            + "endMacroMarkerStandalone [testsimplemacro] []\n"
-            + "beginMacroMarkerStandalone [testprioritymacro] []\n"
-            + "beginParagraph\n"
-            + "onWord [word]\n"
-            + "endParagraph\n"
-            + "endMacroMarkerStandalone [testprioritymacro] []\n"
-            + "endDocument";
+        String expected = """
+            beginDocument
+            beginMacroMarkerStandalone [testsimplemacro] []
+            beginParagraph
+            onWord [simplemacro1]
+            endParagraph
+            endMacroMarkerStandalone [testsimplemacro] []
+            beginMacroMarkerStandalone [testprioritymacro] []
+            beginParagraph
+            onWord [word]
+            endParagraph
+            endMacroMarkerStandalone [testprioritymacro] []
+            endDocument""";
 
         // "testprioritymacro" has a highest priority than "testsimplemacro" and will be executed first.
         // This is verified as follows:
@@ -236,8 +235,8 @@ class MacroTransformationTest
         // - "testsimplemacro" outputs "simplemacro" followed by the number of WordBlocks that exist in the document
         // Thus if "testsimplemacro" is executed before "testprioritymacro" it would print "simplemacro0"
         XDOM dom = new XDOM(Arrays.<Block>asList(
-            new MacroBlock("testsimplemacro", Collections.<String, String>emptyMap(), false),
-            new MacroBlock("testprioritymacro", Collections.<String, String>emptyMap(), false)));
+            new MacroBlock("testsimplemacro", Collections.emptyMap(), false),
+            new MacroBlock("testprioritymacro", Collections.emptyMap(), false)));
 
         this.transformation.transform(dom, new TransformationContext(dom, Syntax.XWIKI_2_0));
 
@@ -323,11 +322,11 @@ class MacroTransformationTest
     @Test
     void macroWithSamePriorityExecuteOnPageOrder() throws Exception
     {
-        // Both macros have the same priorities and thus "testsimplemacro" should be executed first and generate
+        // Both macros have the same priorities, and thus "testsimplemacro" should be executed first and generate
         // "simplemacro0".
         XDOM dom = new XDOM(Arrays.<Block>asList(
-            new MacroBlock("testsimplemacro", Collections.<String, String>emptyMap(), false),
-            new MacroBlock("testcontentmacro", Collections.<String, String>emptyMap(), "content", false)));
+            new MacroBlock("testsimplemacro", Collections.emptyMap(), false),
+            new MacroBlock("testcontentmacro", Collections.emptyMap(), "content", false)));
 
         TransformationContext context = new TransformationContext(dom, Syntax.XWIKI_2_0);
         this.transformation.transform(dom, context);
@@ -337,23 +336,24 @@ class MacroTransformationTest
             this.componentManager.getInstance(BlockRenderer.class, Syntax.EVENT_1_0.toIdString());
         eventBlockRenderer.render(dom, printer);
 
-        String expected = "beginDocument\n"
-            + "beginMacroMarkerStandalone [testsimplemacro] []\n"
-            + "beginParagraph\n"
-            + "onWord [simplemacro0]\n"
-            + "endParagraph\n"
-            + "endMacroMarkerStandalone [testsimplemacro] []\n"
-            + "beginMacroMarkerStandalone [testcontentmacro] [] [content]\n"
-            + "onWord [content]\n"
-            + "endMacroMarkerStandalone [testcontentmacro] [] [content]\n"
-            + "endDocument";
+        String expected = """
+            beginDocument
+            beginMacroMarkerStandalone [testsimplemacro] []
+            beginParagraph
+            onWord [simplemacro0]
+            endParagraph
+            endMacroMarkerStandalone [testsimplemacro] []
+            beginMacroMarkerStandalone [testcontentmacro] [] [content]
+            onWord [content]
+            endMacroMarkerStandalone [testcontentmacro] [] [content]
+            endDocument""";
         assertEquals(expected, printer.toString());
 
-        // We must also test the other order ("testcontentmacro" before "testsimplemacro") to ensure for example that
-        // there's no lexical order on Macro class names for example.
+        // We must also test the other order ("testcontentmacro" before "testsimplemacro"), to ensure, for example that
+        // there's no lexical order on Macro class names, for example.
         dom = new XDOM(Arrays.<Block>asList(
-            new MacroBlock("testcontentmacro", Collections.<String, String>emptyMap(), "content", false),
-            new MacroBlock("testsimplemacro", Collections.<String, String>emptyMap(), false)));
+            new MacroBlock("testcontentmacro", Collections.emptyMap(), "content", false),
+            new MacroBlock("testsimplemacro", Collections.emptyMap(), false)));
 
         context.setXDOM(dom);
         this.transformation.transform(dom, context);
@@ -361,16 +361,17 @@ class MacroTransformationTest
         printer = new DefaultWikiPrinter();
         eventBlockRenderer.render(dom, printer);
 
-        expected = "beginDocument\n"
-            + "beginMacroMarkerStandalone [testcontentmacro] [] [content]\n"
-            + "onWord [content]\n"
-            + "endMacroMarkerStandalone [testcontentmacro] [] [content]\n"
-            + "beginMacroMarkerStandalone [testsimplemacro] []\n"
-            + "beginParagraph\n"
-            + "onWord [simplemacro1]\n"
-            + "endParagraph\n"
-            + "endMacroMarkerStandalone [testsimplemacro] []\n"
-            + "endDocument";
+        expected = """
+            beginDocument
+            beginMacroMarkerStandalone [testcontentmacro] [] [content]
+            onWord [content]
+            endMacroMarkerStandalone [testcontentmacro] [] [content]
+            beginMacroMarkerStandalone [testsimplemacro] []
+            beginParagraph
+            onWord [simplemacro1]
+            endParagraph
+            endMacroMarkerStandalone [testsimplemacro] []
+            endDocument""";
         assertEquals(expected, printer.toString());
     }
 
@@ -380,20 +381,19 @@ class MacroTransformationTest
     @Test
     void transformNotExistingMacro() throws Exception
     {
-        String expected = "beginDocument\n"
-            + "beginMacroMarkerStandalone [notexisting] []\n"
-            + "beginGroup [[class]=[xwikirenderingerror]]\n"
-            + "onWord [Unknown macro: notexisting. Click on this message for details.]\n"
-            + "endGroup [[class]=[xwikirenderingerror]]\n"
-            + "beginGroup [[class]=[xwikirenderingerrordescription hidden]]\n"
-            + "onVerbatim [The [notexisting] macro is not in the list of registered macros. "
-            + "Verify the spelling or contact your administrator.] [false]\n"
-            + "endGroup [[class]=[xwikirenderingerrordescription hidden]]\n"
-            + "endMacroMarkerStandalone [notexisting] []\n"
-            + "endDocument";
+        String expected = """
+            beginDocument
+            beginMacroMarkerStandalone [notexisting] []
+            beginGroup [[class]=[xwikirenderingerror]]
+            onWord [Unknown macro: notexisting. Click on this message for details.]
+            endGroup [[class]=[xwikirenderingerror]]
+            beginGroup [[class]=[xwikirenderingerrordescription hidden]]
+            onVerbatim [The [notexisting] macro is not in the list of registered macros. Verify the spelling or contact your administrator.] [false]
+            endGroup [[class]=[xwikirenderingerrordescription hidden]]
+            endMacroMarkerStandalone [notexisting] []
+            endDocument""";
 
-        XDOM dom = new XDOM(Arrays.asList((Block) new MacroBlock("notexisting",
-            Collections.<String, String>emptyMap(), false)));
+        XDOM dom = new XDOM(List.of((Block) new MacroBlock("notexisting", Collections.emptyMap(), false)));
 
         assertEquals(expected, transformAndRenderEvents(dom));
     }
@@ -401,19 +401,13 @@ class MacroTransformationTest
     @Test
     void prepareSimpleMacro() throws Exception
     {
-        MacroBlock macroBlock = new MacroBlock("testmacro",
-            Collections.<String, String>emptyMap(), false);
+        MacroBlock macroBlock = new MacroBlock("testmacro", Collections.emptyMap(), false);
 
-        Macro testMacro = this.componentManager.registerMockComponent(Macro.class, macroBlock.getId());
-        doAnswer(new Answer<Void>()
-        {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable
-            {
-                invocation.<MacroBlock>getArgument(0).setAttribute("test", "prepared");
+        Macro<?> testMacro = this.componentManager.registerMockComponent(Macro.class, macroBlock.getId());
+        doAnswer((Answer<Void>) invocation -> {
+            invocation.<MacroBlock>getArgument(0).setAttribute("test", "prepared");
 
-                return null;
-            }
+            return null;
         }).when(testMacro).prepare(macroBlock);
 
         this.transformation.prepare(macroBlock);
@@ -424,34 +418,22 @@ class MacroTransformationTest
     @Test
     void prepareSimpleMacros() throws Exception
     {
-        MacroBlock macroBlock1 = new MacroBlock("testmacro1",
-            Collections.<String, String>emptyMap(), false);
-        MacroBlock macroBlock2 = new MacroBlock("testmacro2",
-            Collections.<String, String>emptyMap(), false);
+        MacroBlock macroBlock1 = new MacroBlock("testmacro1", Collections.emptyMap(), false);
+        MacroBlock macroBlock2 = new MacroBlock("testmacro2", Collections.emptyMap(), false);
 
-        Macro testMacro1 = this.componentManager.registerMockComponent(Macro.class, macroBlock1.getId());
-        Macro testMacro2 = this.componentManager.registerMockComponent(Macro.class, macroBlock2.getId());
-        doAnswer(new Answer<Void>()
-        {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable
-            {
-                MacroBlock block = invocation.getArgument(0);
-                block.setAttribute("test", "prepared1");
+        Macro<?> testMacro1 = this.componentManager.registerMockComponent(Macro.class, macroBlock1.getId());
+        Macro<?> testMacro2 = this.componentManager.registerMockComponent(Macro.class, macroBlock2.getId());
+        doAnswer((Answer<Void>) invocation -> {
+            MacroBlock block = invocation.getArgument(0);
+            block.setAttribute("test", "prepared1");
 
-                return null;
-            }
+            return null;
         }).when(testMacro1).prepare(macroBlock1);
-        doAnswer(new Answer<Void>()
-        {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable
-            {
-                MacroBlock block = invocation.getArgument(0);
-                block.setAttribute("test", "prepared2");
+        doAnswer((Answer<Void>) invocation -> {
+            MacroBlock block = invocation.getArgument(0);
+            block.setAttribute("test", "prepared2");
 
-                return null;
-            }
+            return null;
         }).when(testMacro2).prepare(macroBlock2);
 
         this.transformation.prepare(new XDOM(List.of(macroBlock1, macroBlock2)));
@@ -463,7 +445,7 @@ class MacroTransformationTest
     @Test
     void prepareNotExistingMacro()
     {
-        MacroBlock macroBlock = new MacroBlock("notexisting", Collections.<String, String>emptyMap(), false);
+        MacroBlock macroBlock = new MacroBlock("notexisting", Collections.emptyMap(), false);
         XDOM dom = new XDOM(List.of(macroBlock));
 
         assertTrue(macroBlock.getAttributes().isEmpty());

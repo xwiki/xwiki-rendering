@@ -72,7 +72,7 @@ class MessageMacroTest
     @Test
     void macroContentDescriptorIsNotNull() throws Exception
     {
-        Macro messageMacro = this.componentManager.getInstance(Macro.class, "info");
+        Macro<MessageMacroParameters> messageMacro = this.componentManager.getInstance(Macro.class, "info");
         assertNotNull(messageMacro.getDescriptor().getContentDescriptor());
         messageMacro = this.componentManager.getInstance(Macro.class, "warning");
         assertNotNull(messageMacro.getDescriptor().getContentDescriptor());
@@ -87,7 +87,7 @@ class MessageMacroTest
     {
         IconProvider iconProvider = this.componentManager.registerMockComponent(IconProvider.class);
         when(iconProvider.get("information")).thenReturn(new RawBlock("some html", Syntax.HTML_4_01));
-        Macro messageMacro = this.componentManager.getInstance(Macro.class, "info");
+        Macro<MessageMacroParameters> messageMacro = this.componentManager.getInstance(Macro.class, "info");
         MessageMacroParameters parameters = new MessageMacroParameters();
         when(this.context.getSyntax()).thenReturn(Syntax.XWIKI_2_1);
 
@@ -97,13 +97,15 @@ class MessageMacroTest
         BlockRenderer renderer = this.componentManager.getInstance(BlockRenderer.class, "xwiki/2.1");
         WikiPrinter printer = new DefaultWikiPrinter();
         renderer.render(blocks, printer);
-        assertEquals("(% class=\"box infomessage\" %)\n"
-            + "(((\n"
-            + "(% class=\"sr-only\" %)Info(%%)\n\n"
-            + "(((\n"
-            + "content\n"
-            + ")))\n"
-            + ")))", printer.toString());
+        assertEquals("""
+            (% class="box infomessage" %)
+            (((
+            (% class="sr-only" %)Info(%%)
+    
+            (((
+            content
+            )))
+            )))""", printer.toString());
     }
 
     @Test
@@ -113,7 +115,7 @@ class MessageMacroTest
         when(iconProvider.get("information")).thenReturn(new RawBlock("some html", Syntax.HTML_4_01));
         Parser plainTextParser = this.componentManager.registerMockComponent(Parser.class, "plain/1.0");
         doThrow(new ParseException("error")).when(plainTextParser).parse(any(Reader.class));
-        Macro messageMacro = this.componentManager.getInstance(Macro.class, "info");
+        Macro<MessageMacroParameters> messageMacro = this.componentManager.getInstance(Macro.class, "info");
         MessageMacroParameters parameters = new MessageMacroParameters();
         when(this.context.getSyntax()).thenReturn(Syntax.XWIKI_2_1);
 
@@ -126,7 +128,7 @@ class MessageMacroTest
     {
         IconProvider iconProvider = this.componentManager.registerMockComponent(IconProvider.class);
         when(iconProvider.get("information")).thenReturn(new RawBlock("some html", Syntax.HTML_4_01));
-        Macro messageMacro = this.componentManager.getInstance(Macro.class, "info");
+        Macro<MessageMacroParameters> messageMacro = this.componentManager.getInstance(Macro.class, "info");
         MessageMacroParameters parameters = new MessageMacroParameters();
         // We want to test the macro behaviour when this parameter is ON.
         parameters.setStatus(true);
