@@ -80,45 +80,46 @@ class CommonWikiParserTest extends AbstractWikiParserTest
     @Test
     void testComplexFormatting() throws WikiParserException
     {
-        test("%rdf:type toto:Document\n"
-            + "\n"
-            + "%title Hello World\n"
-            + "\n"
-            + "%summary This is a short description\n"
-            + "%locatedIn (((\n"
-            + "    %type [City]\n"
-            + "    %name [Paris]\n"
-            + "    %address (((\n"
-            + "      %building 10\n"
-            + "      %street Cité Nollez\n"
-            + "    ))) \n"
-            + ")))\n"
-            + "= Hello World =\n"
-            + "\n"
-            + "* item one\n"
-            + "  * sub-item a\n"
-            + "  * sub-item b\n"
-            + "    + ordered X \n"
-            + "    + ordered Y\n"
-            + "  * sub-item c\n"
-            + "* item two\n"
-            + "\n"
-            + "\n"
-            + "The table below contains \n"
-            + "an %seeAlso(embedded document). \n"
-            + "It can contain the same formatting \n"
-            + "elements as the root document.\n"
-            + "\n"
-            + "\n"
-            + "!! Table Header 1.1 !! Table Header 1.2\n"
-            + ":: Cell 2.1 :: Cell 2.2 (((\n"
-            + "== Embedded document ==\n"
-            + "This is an embedded document:\n"
-            + "* item X\n"
-            + "* item Y\n"
-            + "))) The text goes after the embedded\n"
-            + " document\n"
-            + ":: Cell 3.1 :: Cell 3.2");
+        test("""
+            %rdf:type toto:Document
+
+            %title Hello World
+
+            %summary This is a short description
+            %locatedIn (((
+                %type [City]
+                %name [Paris]
+                %address (((
+                  %building 10
+                  %street Cité Nollez
+                )))\s
+            )))
+            = Hello World =
+
+            * item one
+              * sub-item a
+              * sub-item b
+                + ordered X\s
+                + ordered Y
+              * sub-item c
+            * item two
+
+
+            The table below contains\s
+            an %seeAlso(embedded document).\s
+            It can contain the same formatting\s
+            elements as the root document.
+
+
+            !! Table Header 1.1 !! Table Header 1.2
+            :: Cell 2.1 :: Cell 2.2 (((
+            == Embedded document ==
+            This is an embedded document:
+            * item X
+            * item Y
+            ))) The text goes after the embedded
+             document
+            :: Cell 3.1 :: Cell 3.2""");
         test("""
             ----------------------------------------------
             = Example1 =
@@ -168,9 +169,10 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             <p> inside</p>
             </div>
             <p>after </p>""");
-        test(
-            "| Line One | First doc: (((\n inside ))) after \n"
-                + "|Line Two | Second doc: (((lkjlj))) skdjg",
+        test("""
+            | Line One | First doc: (((
+             inside ))) after\s
+            |Line Two | Second doc: (((lkjlj))) skdjg""",
             """
             <table><tbody>
               <tr><td> Line One </td><td> First doc:<div class='wikimodel-document'>
@@ -183,11 +185,12 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             skdjg</td></tr>
             </tbody></table>""");
         test(
-            "| This is a table: | (((* item one\n"
-                + "* item two\n"
-                + " * subitem 1\n"
-                + " * subitem 2\n"
-                + "* item three))) ",
+            """
+            | This is a table: | (((* item one
+            * item two
+             * subitem 1
+             * subitem 2
+            * item three)))\s""",
             """
             <table><tbody>
               <tr><td> This is a table: </td><td><div class='wikimodel-document'>
@@ -491,19 +494,22 @@ class CommonWikiParserTest extends AbstractWikiParserTest
     void testInfo() throws WikiParserException
     {
         test("/i\\ item {{{formatted block}}} {macro}123{/macro} after");
-        test("before\n"
-            + "/i\\Information block:\n"
-            + "{{{pre\n"
-            + "  formatted\n"
-            + " block}}} sdlkgj\n"
-            + "qsdg\n\n"
-            + "after");
+        test("""
+            before
+            /i\\Information block:
+            {{{pre
+              formatted
+             block}}} sdlkgj
+            qsdg
+
+            after""");
         test("/!\\");
         test("/i\\info");
-        test("/i\\Information block:\n"
-            + "first line\n"
-            + "second line\n"
-            + "third  line");
+        test("""
+            /i\\Information block:
+            first line
+            second line
+            third  line""");
         test("{{a=b}}\n/!\\");
         test("{{a=b}}\n/i\\info");
     }
@@ -530,21 +536,24 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             "** second",
             "<ul>\n  <li><ul>\n  <li>second</li>\n</ul>\n</li>\n</ul>");
 
-        test("* item one\n"
-            + "* item two\n"
-            + "*+item three\n"
-            + "*+ item four\n"
-            + "* item five - first line\n"
-            + "   item five - second line\n"
-            + "* item six\n"
-            + "  is on multiple\n"
-            + " lines");
+        test("""
+            * item one
+            * item two
+            *+item three
+            *+ item four
+            * item five - first line
+               item five - second line
+            * item six
+              is on multiple
+             lines""");
 
         test(
             "* item {{{formatted block}}} {macro}123{/macro} after",
-            "<ul>\n"
-                + "  <li>item <tt class=\"wikimodel-verbatim\">formatted block</tt>"
-                + " <span class='wikimodel-macro' macroName='macro'><![CDATA[123]]></span> after</li>\n</ul>");
+            """
+            <ul>
+              <li>item <tt class="wikimodel-verbatim">formatted block</tt> \
+            <span class='wikimodel-macro' macroName='macro'><![CDATA[123]]></span> after</li>
+            </ul>""");
 
         test("? term:  definition");
         test("?just term");
@@ -556,21 +565,32 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             : Indenting is stripped out.
              : Includes double indenting""");
 
-        test(";term one: definition one\n"
-            + ";term two: definition two\n"
-            + ";term three: definition three");
+        test("""
+            ;term one: definition one
+            ;term two: definition two
+            ;term three: definition three""");
         test(":Term definition");
         test(";:Term definition");
 
-        test(";One,\ntwo,\nbucle my shoes...:\n"
-            + "...Three\nfour,\nClose the door\n"
-            + ";Five,\nSix: Pick up\n sticks\n\ntam-tam, pam-pam...");
+        test("""
+            ;One,
+            two,
+            bucle my shoes...:
+            ...Three
+            four,
+            Close the door
+            ;Five,
+            Six: Pick up
+             sticks
+
+            tam-tam, pam-pam...""");
 
         test(";__term__: *definition*");
 
-        test("this is not a definition --\n"
-            + " ;__not__ a term: ''not'' a definition\n"
-            + "----toto");
+        test("""
+            this is not a definition --
+             ;__not__ a term: ''not'' a definition
+            ----toto""");
 
         test("{{a='b'}}\n* item one");
     }
@@ -658,34 +678,29 @@ class CommonWikiParserTest extends AbstractWikiParserTest
 
         test(
             "before{toto a=b c=d}toto macro tata {/toto}after",
-            ""
-                + "<p>before<span class='wikimodel-macro' macroName='toto' a='b' c='d'>"
-                + "<![CDATA[toto macro tata ]]>"
-                + "</span>after</p>");
+            "<p>before<span class='wikimodel-macro' macroName='toto' a='b' c='d'>"
+                + "<![CDATA[toto macro tata ]]></span>after</p>");
 
         test(
             "before{toto a=b c=d}toto {x qsdk} macro {sd} tata {/toto}after",
-            ""
-                + "<p>before<span class='wikimodel-macro' macroName='toto' a='b' c='d'>"
-                + "<![CDATA[toto {x qsdk} macro {sd} tata ]]>"
-                + "</span>after</p>");
+            "<p>before<span class='wikimodel-macro' macroName='toto' a='b' c='d'>"
+                + "<![CDATA[toto {x qsdk} macro {sd} tata ]]></span>after</p>");
 
         // Macros in other block elements (tables and lists)
         test(
             "- before\n{code a=b c=d}this is a code{/code}after",
-            ""
-                + "<ul>\n"
-                + "  <li>before<pre class='wikimodel-macro' macroName='code' a='b' c='d'>"
-                + "<![CDATA[this is a code]]></pre>\n"
-                + "after</li>\n"
-                + "</ul>");
+            """
+            <ul>
+              <li>before<pre class='wikimodel-macro' macroName='code' a='b' c='d'><![CDATA[this is a code]]></pre>
+            after</li>
+            </ul>""");
         test(
             "- before{code a=b c=d}this is a code{/code}after",
-            ""
-                + "<ul>\n"
-                + "  <li>before<span class='wikimodel-macro' macroName='code' a='b' c='d'>"
-                + "<![CDATA[this is a code]]></span>after</li>\n"
-                + "</ul>");
+            """
+            <ul>
+              <li>before<span class='wikimodel-macro' macroName='code' a='b' c='d'>\
+            <![CDATA[this is a code]]></span>after</li>
+            </ul>""");
 
         // Not a macro
         test("{ toto a=b c=d}", "<p>{ toto a=b c=d}</p>");
@@ -712,37 +727,35 @@ class CommonWikiParserTest extends AbstractWikiParserTest
             ]]></span></p>
             <p>And this is a usage of this macro: <span class='wikimodel-extension' extension='toto' a='x' b='y'/></p>""");
 
-        test(
-            "!!Header:: Cell with a macro: \n"
-                + "{code}this is a code{/code} \n"
-                + " this is afer the code...",
-            ""
-                + "<table><tbody>\n"
-                + "  <tr><th>Header</th><td> Cell with a macro: "
-                + "<pre class='wikimodel-macro' macroName='code'><![CDATA[this is a code]]></pre>\n \n"
-                + " this is afer the code...</td></tr>\n"
-                + "</tbody></table>");
-        test(
-            ""
-                + "* item one\n"
-                + "* item two\n"
-                + "  * subitem with a macro:\n"
-                + "  {code} this is a code{/code} \n"
-                + "  the same item (continuation)\n"
-                + "  * subitem two\n"
-                + "* item three",
-            ""
-                + "<ul>\n"
-                + "  <li>item one</li>\n"
-                + "  <li>item two<ul>\n"
-                + "  <li>subitem with a macro:\n"
-                + "  <span class='wikimodel-macro' macroName='code'><![CDATA[ this is a code]]></span> \n"
-                + "  the same item (continuation)</li>\n"
-                + "  <li>subitem two</li>\n"
-                + "</ul>\n"
-                + "</li>\n"
-                + "  <li>item three</li>\n"
-                + "</ul>");
+        test("""
+            !!Header:: Cell with a macro:\s
+            {code}this is a code{/code}\s
+             this is afer the code...""", """
+            <table><tbody>
+              <tr><th>Header</th><td> Cell with a macro: <pre class='wikimodel-macro' macroName='code'>\
+            <![CDATA[this is a code]]></pre>
+            \s
+             this is afer the code...</td></tr>
+            </tbody></table>""");
+        test("""
+            * item one
+            * item two
+              * subitem with a macro:
+              {code} this is a code{/code}\s
+              the same item (continuation)
+              * subitem two
+            * item three""", """
+            <ul>
+              <li>item one</li>
+              <li>item two<ul>
+              <li>subitem with a macro:
+              <span class='wikimodel-macro' macroName='code'><![CDATA[ this is a code]]></span>\s
+              the same item (continuation)</li>
+              <li>subitem two</li>
+            </ul>
+            </li>
+              <li>item three</li>
+            </ul>""");
 
         // Macros with URIs as names
         test(
@@ -789,27 +802,30 @@ class CommonWikiParserTest extends AbstractWikiParserTest
     void testParagraphs() throws WikiParserException
     {
         test("{{background='blue'}}", "<p background='blue'></p>");
-        test(""
-            + "{{background='blue'}}\n"
-            + "{{background='red'}}\n"
-            + "{{background='green'}}", ""
-            + "<p background='blue'></p>\n"
-            + "<p background='red'></p>\n"
-            + "<p background='green'></p>");
-        test(""
-            + "{{background='blue'}}first\n"
-            + "{{background='red'}}second\n"
-            + "{{background='green'}}third", ""
-            + "<p background='blue'>first</p>\n"
-            + "<p background='red'>second</p>\n"
-            + "<p background='green'>third</p>");
-        test(""
-            + "{{background='blue'}}\nfirst\n"
-            + "{{background='red'}}\nsecond\n"
-            + "{{background='green'}}\nthird", ""
-            + "<p background='blue'>first</p>\n"
-            + "<p background='red'>second</p>\n"
-            + "<p background='green'>third</p>");
+        test("""
+            {{background='blue'}}
+            {{background='red'}}
+            {{background='green'}}""", """
+            <p background='blue'></p>
+            <p background='red'></p>
+            <p background='green'></p>""");
+        test("""
+            {{background='blue'}}first
+            {{background='red'}}second
+            {{background='green'}}third""", """
+            <p background='blue'>first</p>
+            <p background='red'>second</p>
+            <p background='green'>third</p>""");
+        test("""
+            {{background='blue'}}
+            first
+            {{background='red'}}
+            second
+            {{background='green'}}
+            third""", """
+            <p background='blue'>first</p>
+            <p background='red'>second</p>
+            <p background='green'>third</p>""");
 
         test("{{background='blue'}}hello", "<p background='blue'>hello</p>");
         test("""
@@ -958,29 +974,34 @@ class CommonWikiParserTest extends AbstractWikiParserTest
     {
         test("Q: Quotation", "<blockquote>\n Quotation\n</blockquote>");
 
-        test(">This is a message\n"
-            + ">>and this is a response to the message \n"
-            + "> This is a continuation of the same message", ""
-            + ""
-            + "<blockquote>\n"
-            + "This is a message"
-            + "<blockquote>\n"
-            + "and this is a response to the message \n"
-            + "</blockquote>\n" // The new line of the blockquote element
-            + "\n" // The new line from the end of the previous quoteline
-            + " This is a continuation of the same message\n"
-            + "</blockquote>");
+        test("""
+            >This is a message
+            >>and this is a response to the message\s
+            > This is a continuation of the same message""", """
+            <blockquote>
+            This is a message<blockquote>
+            and this is a response to the message\s
+            </blockquote>
 
-        test("This is a paragraph\n"
-            + ">and this is a quotations\n"
-            + "> the second line", """
+             This is a continuation of the same message
+            </blockquote>""");
+
+        test("""
+            This is a paragraph
+            >and this is a quotations
+            > the second line""", """
             <p>This is a paragraph</p>
             <blockquote>
             and this is a quotations
              the second line
             </blockquote>""");
 
-        test("        This is just a description...\n" + "    \n" + "\n" + "\n");
+        test("""
+                        This is just a description...
+               \s
+
+
+            """);
         test("""
             > first
             >> second
@@ -1196,15 +1217,24 @@ class CommonWikiParserTest extends AbstractWikiParserTest
               <tr><th> Head 1.1 </th><th> Head 1.2</th></tr>
               <tr><td> cell 2.1</td><td> cell 2.2</td></tr>
             </tbody></table>""");
-        test("|| Multi \nline  \nheader \n"
-            + "| Multi\nline\ncell\n"
-            + "\n"
-            + "One,two,three", ""
-            + "<table><tbody>\n"
-            + "  <tr><th> Multi \nline  \nheader </th></tr>\n"
-            + "  <tr><td> Multi\nline\ncell</td></tr>\n"
-            + "</tbody></table>\n"
-            + "<p>One,two,three</p>");
+        test("""
+            || Multi\s
+            line \s
+            header\s
+            | Multi
+            line
+            cell
+
+            One,two,three""", """
+            <table><tbody>
+              <tr><th> Multi\s
+            line \s
+            header </th></tr>
+              <tr><td> Multi
+            line
+            cell</td></tr>
+            </tbody></table>
+            <p>One,two,three</p>""");
         test("this is not || a table", "<p>this is not || a table</p>");
         test("this is not | a table", "<p>this is not | a table</p>");
         test(
@@ -1217,9 +1247,10 @@ class CommonWikiParserTest extends AbstractWikiParserTest
               <tr><th> <em>Italic header</em> </th><th> <strong>Bold header</strong></th></tr>
               <tr><td> <em>Italic cell</em> </td><td> <strong>Bold cell</strong></td></tr>
             </tbody></table>""");
-        test(
-            "|| __Italic header || *Bold header \n"
-                + "| __Italic cell | *Bold cell \n",
+        test("""
+            || __Italic header || *Bold header\s
+            | __Italic cell | *Bold cell\s
+            """,
             """
             <table><tbody>
               <tr><th> <em>Italic header </em></th><th> <strong>Bold header </strong></th></tr>
