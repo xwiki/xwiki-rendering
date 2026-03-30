@@ -152,6 +152,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                         context.getTagStack().pushStackParameter(PARAMETER_CONTENT_NAME, parameterName);
                         context.getTagStack().pushScannerContext(
                             new WikiScannerContext(createMacroListener(context, currentSyntaxParameter)));
+                        context.getTagStack().resetEmptyLinesCount();
                         context.getTagStack().getScannerContext().beginDocument();
                         macroInfo.setParameterScannerContext(parameterName, context.getScannerContext());
                     } else if (parameterName == null && macroInfo.getContentScannerContext() == null) {
