@@ -1,8 +1,11 @@
-.#-------------------------------------------------------------------
+.#-------------------------------------------------------------------------
 .input|xhtml/1.0
-.# Make sure XHTML comment representing a standalone block is taking care of
-.# trailing empty lines
-.#-------------------------------------------------------------------
+.# Verify that empty lines before and after a macro without non-generated
+.# content (i.e. no editable parameters or content) are preserved as
+.# onEmptyLines events at the document level. See also emptyline2.test for
+.# the case where the macro has non-generated content (editable parameters
+.# or content rendered in-place).
+.#-------------------------------------------------------------------------
 <h1>Foo</h1>
 <div class="wikimodel-emptyline"></div>
 <!--startmacro:toc|-|--><!--stopmacro-->

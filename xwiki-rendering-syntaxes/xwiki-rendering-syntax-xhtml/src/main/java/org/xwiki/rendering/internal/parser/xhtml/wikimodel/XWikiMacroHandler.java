@@ -36,6 +36,7 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.impl.WikiScannerContext;
+import org.xwiki.rendering.wikimodel.xhtml.handler.TagHandler;
 import org.xwiki.rendering.wikimodel.xhtml.impl.MacroInfo;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
 
@@ -150,19 +151,13 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
                         // It is a non-generated div for a specific parameter and we did not already
                         // created a scanner context for it: we create the scanner and push it in the context.
                         context.getTagStack().pushStackParameter(PARAMETER_CONTENT_NAME, parameterName);
-                        context.getTagStack().pushScannerContext(
-                            new WikiScannerContext(createMacroListener(context, currentSyntaxParameter)));
-                        context.getTagStack().resetEmptyLinesCount();
-                        context.getTagStack().getScannerContext().beginDocument();
+                        pushScannerContext(context, currentSyntaxParameter);
                         macroInfo.setParameterScannerContext(parameterName, context.getScannerContext());
                     } else if (parameterName == null && macroInfo.getContentScannerContext() == null) {
                         // It is a non-generated content div and we did not already
                         // created a scanner context for it: we create the scanner and push it in the context.
-                        context.getTagStack().pushScannerContext(
-                            new WikiScannerContext(createMacroListener(context, currentSyntaxParameter)));
-                        macroInfo.setContentScannerContext(context.getTagStack().getScannerContext());
-                        context.getTagStack().resetEmptyLinesCount();
-                        context.getTagStack().getScannerContext().beginDocument();
+                        pushScannerContext(context, currentSyntaxParameter);
+                        macroInfo.setContentScannerContext(context.getScannerContext());
                     }
                 } catch (ComponentLookupException e) {
                     LOGGER.error("Error while getting the appropriate renderer for syntax [{}]",
@@ -173,6 +168,16 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
 
         context.getTagStack().pushStackParameter(NON_GENERATED_CONTENT_STACK, withNonGeneratedContent);
         return withNonGeneratedContent;
+    }
+
+    private void pushScannerContext(TagContext context, String syntaxId) throws ComponentLookupException
+    {
+        // Forward any accumulated empty lines to the outer (document-level) scanner context before switching to the
+        // new one, so they are not lost or incorrectly included in the parameter/content value.
+        TagHandler.sendEmptyLines(context);
+        context.getTagStack().pushScannerContext(
+            new WikiScannerContext(createMacroListener(context, syntaxId)));
+        context.getTagStack().getScannerContext().beginDocument();
     }
 
     private String getRenderedContentFromMacro(TagContext context)

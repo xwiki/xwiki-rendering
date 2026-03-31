@@ -17,6 +17,7 @@
 foo
 {{/box}}
 
+
 {{box}}
 bar
 {{/box}}
