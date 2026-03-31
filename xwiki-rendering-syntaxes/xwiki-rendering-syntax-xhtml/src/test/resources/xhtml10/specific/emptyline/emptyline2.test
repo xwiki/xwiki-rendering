@@ -1,0 +1,42 @@
+.#-------------------------------------------------------------------------------
+.input|xhtml/1.0
+.# Verify that an empty line before a macro with non-generated content (editable
+.# parameters and/or content rendered in-place) is preserved as an onEmptyLines
+.# event at the document level and is not included in the parameter or content
+.# value (XRENDERING-806). The difference with emptyline1.test is that the macro
+.# here uses data-xwiki-non-generated-content divs, which push new scanner
+.# contexts. The fix ensures empty lines are forwarded to the outer context
+.# before those new contexts are pushed.
+.#-------------------------------------------------------------------------------
+<p>Text</p><div class="wikimodel-emptyline"></div><!--startmacro:info|-|--><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" data-xwiki-parameter-name="title" class="xwiki-metadata-container"><p>my title</p></div><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p>my content</p></div><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Text]
+endParagraph
+onEmptyLines [1]
+onMacroStandalone [info] [title=beginDocument [[syntax]=[XHTML 1.0]]
+beginParagraph
+onWord [my]
+onSpace
+onWord [title]
+endParagraph
+endDocument [[syntax]=[XHTML 1.0]]] [beginDocument [[syntax]=[XHTML 1.0]]
+beginParagraph
+onWord [my]
+onSpace
+onWord [content]
+endParagraph
+endDocument [[syntax]=[XHTML 1.0]]]
+endDocument
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+Text
+
+
+{{info title="my title"}}
+my content
+{{/info}}
