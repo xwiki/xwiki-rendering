@@ -41,7 +41,6 @@ public class EmptyLinesBlock extends AbstractBlock
      */
     public EmptyLinesBlock(int count)
     {
-        super();
         setEmptyLinesCount(count);
     }
 

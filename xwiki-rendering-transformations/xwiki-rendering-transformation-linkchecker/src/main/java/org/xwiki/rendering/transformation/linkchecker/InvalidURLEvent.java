@@ -43,7 +43,7 @@ public class InvalidURLEvent extends AbstractFilterableEvent
      */
     public InvalidURLEvent()
     {
-        super();
+        // Nothing to do.
     }
 
     /**
