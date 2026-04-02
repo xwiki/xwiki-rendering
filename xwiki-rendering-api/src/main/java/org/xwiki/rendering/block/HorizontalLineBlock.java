@@ -32,6 +32,14 @@ import org.xwiki.rendering.listener.Listener;
 public class HorizontalLineBlock extends AbstractBlock
 {
     /**
+     * Construct a Horizontal Line Block with no parameters.
+     */
+    public HorizontalLineBlock()
+    {
+        // Nothing to do.
+    }
+
+    /**
      * Construct a Horizontal Line Block with parameters.
      *
      * @param parameters see {@link org.xwiki.rendering.block.AbstractBlock#getParameter(String)} for more details on
