@@ -142,25 +142,16 @@ public class DefaultMacroContentParser implements MacroContentParser
     {
         XDOM result = getPreparedXDOM(content, macroContext, syntax);
 
-        // Parse the content if not already prepared
+        IdGenerator idGenerator = null;
+        if (macroContext.getXDOM() != null) {
+            idGenerator = macroContext.getXDOM().getIdGenerator();
+        }
+
+        // Parse the content if not already prepared.
         if (result == null) {
-            IdGenerator idGenerator = null;
-            if (macroContext.getXDOM() != null) {
-                idGenerator = macroContext.getXDOM().getIdGenerator();
-            } else {
-                idGenerator = null;
-            }
             result = parse(content, syntax, inline, idGenerator);
         } else {
-            // Clone the prepared content to be sure to not modify the potentially cached version
-            result = result.clone();
-
-            // If an inline result is requested and the prepared content is not inline, convert it
-            Boolean preparedInline =
-                (Boolean) macroContext.getCurrentMacroBlock().getAttribute(ATTRIBUTE_PREPARE_CONTENT_XDOM_INLINE);
-            if (inline && BooleanUtils.isNotTrue(preparedInline)) {
-                result = convertToInline(result);
-            }
+            result = adaptPreparedXDOM(result, macroContext, idGenerator, inline);
         }
 
         // Inject metadata
@@ -208,6 +199,29 @@ public class DefaultMacroContentParser implements MacroContentParser
         } catch (Exception e) {
             throw new MacroExecutionException("Failed to parse content [" + content + "]", e);
         }
+    }
+
+    private XDOM adaptPreparedXDOM(XDOM preparedXDOM, MacroTransformationContext macroContext, IdGenerator idGenerator,
+        boolean inline)
+    {
+        // Clone the prepared content to be sure to not modify the potentially cached version.
+        XDOM result = preparedXDOM.clone();
+
+        // If an inline result is requested and the prepared content is not inline, convert it.
+        Boolean preparedInline =
+            (Boolean) macroContext.getCurrentMacroBlock().getAttribute(ATTRIBUTE_PREPARE_CONTENT_XDOM_INLINE);
+        if (inline && BooleanUtils.isNotTrue(preparedInline)) {
+            result = convertToInline(result);
+        }
+
+        if (idGenerator != null) {
+            // The clone of the prepared macro content XDOM is going to be inserted in the document where the macro is
+            // called. We need to make sure the ids from the macro content are unique in the scope of that document. We
+            // do this by reusing the id generator of that document and adapting the existing ids.
+            result.setIdGenerator(idGenerator, true);
+        }
+
+        return result;
     }
 
     /**

@@ -19,10 +19,10 @@
  */
 package org.xwiki.rendering.util;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -82,5 +82,25 @@ class IdGeneratorTest
         });
         assertEquals("The prefix [a-b] should only contain alphanumerical characters and not be empty.",
             exception.getMessage());
+    }
+
+    @Test
+    void adaptId()
+    {
+        // Blank id.
+        assertNull(this.idGenerator.adaptId(null));
+        assertEquals("", this.idGenerator.adaptId(""));
+        assertEquals("", this.idGenerator.adaptId(""));
+        assertEquals("   ", this.idGenerator.adaptId("   "));
+        assertEquals("   ", this.idGenerator.adaptId("   "));
+
+        // Id that is already unique.
+        assertEquals("test", this.idGenerator.adaptId("test"));
+        assertEquals("t", this.idGenerator.adaptId("t"));
+
+        // Id that is not unique.
+        assertEquals("test-1", this.idGenerator.adaptId("test"));
+        assertEquals("test-2", this.idGenerator.adaptId("test"));
+        assertEquals("t-1", this.idGenerator.adaptId("t"));
     }
 }
