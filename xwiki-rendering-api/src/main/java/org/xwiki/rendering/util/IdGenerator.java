@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.xwiki.stability.Unstable;
 
 /**
  * Stateful generator of id attributes. It's stateful since it remembers the generated ids. Thus a new instance of it
@@ -136,6 +137,26 @@ public class IdGenerator
             id = idPrefix + "-" + occurence;
         }
 
+        return id;
+    }
+
+    /**
+     * Adapts the given id to make it unique in the scope of this id generator. Use this method to make existing ids
+     * unique after setting a new id generator.
+     *
+     * @param id the id to adapt to make it unique
+     * @return a unique id, in the scope of this id generator; it returns the same id if it's already unique
+     * @since 17.10.6
+     * @since 18.3.0RC1
+     */
+    @Unstable
+    public String adaptId(String id)
+    {
+        if (StringUtils.isNotBlank(id)) {
+            String prefix = id.substring(0, 1);
+            String suffix = id.substring(1);
+            return generateUniqueId(prefix, suffix);
+        }
         return id;
     }
 

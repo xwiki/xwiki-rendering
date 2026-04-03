@@ -30,6 +30,7 @@ import javax.inject.Named;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.ImageBlock;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.WordBlock;
@@ -47,17 +48,20 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 import org.xwiki.rendering.transformation.RenderingContext;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
+import org.xwiki.rendering.util.IdGenerator;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectMockComponents;
 import org.xwiki.test.junit5.mockito.MockComponent;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -186,7 +190,9 @@ class DefaultMacroContentParserTest
         xdom.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_1);
         this.macroContext.setCurrentMacroBlock(macroBlock);
 
-        XDOM parsedXDOM1 = new XDOM(List.of(new ParagraphBlock(List.of(new WordBlock("1")))));
+        ImageBlock image = new ImageBlock(null, false);
+        image.setId("logo");
+        XDOM parsedXDOM1 = new XDOM(List.of(new ParagraphBlock(List.of(new WordBlock("1"), image))));
         parsedXDOM1.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_1);
         when(this.mockParser1.parse(any(), any())).thenReturn(parsedXDOM1);
         XDOM parsedXDOM2 = new XDOM(List.of(new ParagraphBlock(List.of(new WordBlock("2")))));
@@ -200,12 +206,21 @@ class DefaultMacroContentParserTest
 
         assertEquals(parsedXDOM1, preparedContent1);
 
-        // Parse with same syntax
-        assertEquals(preparedContent1, this.macroContentParser.parse(macroBlock.getContent(), TEST_SYNTAX_1,
-            this.macroContext, false, null, macroBlock.isInline()));
+        // Parse with same syntax. Verify that the id generator from the macro context is passed to the created XDOM.
+        IdGenerator macroContextIdGenerator = spy(IdGenerator.class);
+        XDOM macroContextXDOM = new XDOM(List.of());
+        macroContextXDOM.setIdGenerator(macroContextIdGenerator);
+        this.macroContext.setXDOM(macroContextXDOM);
+        XDOM actualContent = this.macroContentParser.parse(macroBlock.getContent(), TEST_SYNTAX_1, this.macroContext,
+            false, null, macroBlock.isInline());
+        assertEquals(preparedContent1, actualContent);
+        assertSame(macroContextIdGenerator, actualContent.getIdGenerator());
+        // Verify existing ids are adapted to make them unique in the scope of the macro context id generator.
+        verify(macroContextIdGenerator).adaptId("logo");
+        macroContext.setXDOM(null);
 
         // Parse inline with same syntax
-        XDOM inlineXDOM1 = new XDOM(List.of(new WordBlock("1")));
+        XDOM inlineXDOM1 = new XDOM(List.of(new WordBlock("1"), image));
         inlineXDOM1.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_1);
         assertEquals(inlineXDOM1, this.macroContentParser.parse(macroBlock.getContent(), TEST_SYNTAX_1,
             this.macroContext, false, null, true));
