@@ -30,7 +30,7 @@ import org.xwiki.properties.annotation.PropertyGroup;
 import org.xwiki.properties.annotation.PropertyHidden;
 import org.xwiki.properties.annotation.PropertyMandatory;
 
-public class ParametersTests
+public class TestMacroParameters
 {
     private String lowerparam;
 

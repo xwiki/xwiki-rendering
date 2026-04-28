@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version $Id$
  */
 @ComponentTest
-public class DefaultMacroDescriptorTest
+class DefaultMacroDescriptorTest
 {
     private DefaultMacroDescriptor macroDescriptor;
 
@@ -51,15 +51,15 @@ public class DefaultMacroDescriptorTest
     private DefaultBeanManager propertiesManager;
 
     @BeforeEach
-    public void setUp()
+    void setUp()
     {
         this.macroDescriptor =
             new DefaultMacroDescriptor(new MacroId("Id"), "Name", "Description", new DefaultContentDescriptor(),
-                this.propertiesManager.getBeanDescriptor(ParametersTests.class));
+                this.propertiesManager.getBeanDescriptor(TestMacroParameters.class));
     }
 
     @Test
-    public void parameterDescriptor()
+    void parameterDescriptor()
     {
         Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
 
@@ -100,7 +100,7 @@ public class DefaultMacroDescriptorTest
     }
 
     @Test
-    public void parameterDescriptorWithUpperCase()
+    void parameterDescriptorWithUpperCase()
     {
         Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
 
@@ -114,7 +114,7 @@ public class DefaultMacroDescriptorTest
     }
 
     @Test
-    public void parameterDescriptorWithDescription()
+    void parameterDescriptorWithDescription()
     {
         Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
 
@@ -128,7 +128,7 @@ public class DefaultMacroDescriptorTest
     }
 
     @Test
-    public void parameterDescriptorWithDescriptionAndMandatory()
+    void parameterDescriptorWithDescriptionAndMandatory()
     {
         Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
 
@@ -142,7 +142,7 @@ public class DefaultMacroDescriptorTest
     }
 
     @Test
-    public void parameterDescriptorWithDescriptionAndMandatoryOnSetter()
+    void parameterDescriptorWithDescriptionAndMandatoryOnSetter()
     {
         Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
 
@@ -156,7 +156,7 @@ public class DefaultMacroDescriptorTest
     }
 
     @Test
-    public void parameterDescriptorWithBackwardCompatible()
+    void parameterDescriptorWithBackwardCompatible()
     {
         Map<String, ParameterDescriptor> map = this.macroDescriptor.getParameterDescriptorMap();
 
