@@ -44,6 +44,7 @@ import org.xwiki.test.mockito.MockitoComponentManager;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -90,10 +91,12 @@ class DefaultTransformationManagerTest
     }
 
     @Test
-    void performTransformationsWhenNoTransformation() throws Exception
+    void performTransformationsWhenNoTransformation()
     {
-        this.transformationManager.performTransformations(XDOM.EMPTY,
-            new TransformationContext(XDOM.EMPTY, Syntax.XWIKI_2_0));
+        assertDoesNotThrow(() ->
+            this.transformationManager.performTransformations(XDOM.EMPTY,
+                new TransformationContext(XDOM.EMPTY, Syntax.XWIKI_2_0))
+        );
     }
 
     @BeforeComponent("performTransformationsWhenErrorsInTransformations")
