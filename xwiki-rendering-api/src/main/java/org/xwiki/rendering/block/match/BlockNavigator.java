@@ -96,7 +96,7 @@ public class BlockNavigator
                 // DESCENDANT
                 case CHILD:
                     if (!block.getChildren().isEmpty()) {
-                        nextBlock = block.getChildren().get(0);
+                        nextBlock = block.getChildren().getFirst();
                         axes = Axes.FOLLOWING_SIBLING;
                         addBlock(nextBlock, blocks);
                     }
@@ -222,7 +222,7 @@ public class BlockNavigator
         while (block != null) {
             Block nextBlock = null;
             switch (axes) {
-            // SELF
+                // SELF
                 case SELF:
                     if (this.matcher.match(block)) {
                         return (T) block;
@@ -233,6 +233,7 @@ public class BlockNavigator
                     if (this.matcher.match(block)) {
                         return (T) block;
                     }
+                    // fallthrough
                 case ANCESTOR:
                 case PARENT:
                     axes = axes == Axes.PARENT ? Axes.SELF : Axes.ANCESTOR_OR_SELF;
@@ -253,6 +254,7 @@ public class BlockNavigator
                     if (this.matcher.match(block)) {
                         return (T) block;
                     }
+                    // fallthrough
                 case DESCENDANT:
                     for (Block child : block.getChildren()) {
                         Block matchedBlock = getFirstBlock(child, Axes.DESCENDANT_OR_SELF);
