@@ -273,7 +273,7 @@ public abstract class AbstractInternalRenderingTest
         ExecutionContext executionContext = new ExecutionContext();
         ExecutionContextManager executionContextManager =
             getComponentManager().getInstance(ExecutionContextManager.class);
-        executionContextManager.initialize(executionContext);
+        executionContextManager.pushContext(executionContext, true);
         // Set TargetSyntax for Macro tests
         SyntaxRegistry syntaxRegistry = getComponentManager().getInstance(SyntaxRegistry.class);
         RenderingContext renderingContext = getComponentManager().getInstance(RenderingContext.class);
@@ -295,7 +295,7 @@ public abstract class AbstractInternalRenderingTest
         } finally {
             ((MutableRenderingContext) renderingContext).pop();
             Execution execution = getComponentManager().getInstance(Execution.class);
-            execution.removeContext();
+            execution.popContext();
         }
         return result;
     }
