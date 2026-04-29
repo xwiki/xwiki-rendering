@@ -147,7 +147,7 @@ public abstract class AbstractInternalRenderingTest
 
         ExecutionContext executionContext = new ExecutionContext();
         ExecutionContextManager executionContextManager = componentManager.getInstance(ExecutionContextManager.class);
-        executionContextManager.initialize(executionContext);
+        executionContextManager.pushContext(executionContext, true);
 
         // Set TargetSyntax for Macro tests
         RenderingContext renderingContext = componentManager.getInstance(RenderingContext.class);
@@ -185,7 +185,7 @@ public abstract class AbstractInternalRenderingTest
         } finally {
             ((MutableRenderingContext) renderingContext).pop();
             Execution execution = componentManager.getInstance(Execution.class);
-            execution.removeContext();
+            execution.popContext();
         }
 
         // Verify the expected result against the result we got.
