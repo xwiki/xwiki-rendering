@@ -25,6 +25,7 @@ import java.util.List;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.util.IdGenerator;
+import org.xwiki.stability.Unstable;
 
 /**
  * Contains the full tree of {@link Block} that represent a XWiki Document's content.
@@ -101,7 +102,54 @@ public class XDOM extends MetaDataBlock
      */
     public void setIdGenerator(IdGenerator idGenerator)
     {
+        setIdGenerator(idGenerator, false);
+    }
+
+    /**
+     * Sets a new id generator for this document and optionally adapts the existing ids to make them unique in the scope
+     * of the new id generator. Adapting the existing ids is needed if you plan to insert this document in a larger one,
+     * in which case you will have to reuse the id generator of the larger document for this document. On the other
+     * hand, if this document is a clone of another document, and you plan to use it alone then you don't need to adapt
+     * the existing ids. In this case, even if the id generator is different, it was created as a copy of the original
+     * id generator, so the existing ids are already unique.
+     *
+     * @param idGenerator a stateful id generator for the whole document
+     * @param adaptExistingIds whether to adapt the existing ids to make them unique in the scope of the new id
+     *            generator; pass true if the new id generator is from a another document where you plan to insert this
+     *            document; pass false if this document is a clone and the new id generator is a copy of the original id
+     *            generator
+     * @since 17.10.6
+     * @since 18.3.0RC1
+     */
+    @Unstable
+    public void setIdGenerator(IdGenerator idGenerator, boolean adaptExistingIds)
+    {
+        boolean changed = this.idGenerator != idGenerator;
         this.idGenerator = idGenerator;
+        if (this.idGenerator != null && changed && adaptExistingIds) {
+            // Make sure the existing ids are unique in the scope of the new id generator.
+            makeIdsUnique();
+        }
+    }
+
+    /**
+     * Make sure heading and image blocks have unique ids in the scope of the provided id generator. We target only
+     * heading and image blocks because these are currently the only blocks that can have generated ids. The ids of
+     * macro blocks are not generated.
+     */
+    private void makeIdsUnique()
+    {
+        // Traverse the XDOM and adapt all image and heading blocks.
+        this.getBlocks(block -> {
+            // Would be nice to have an interface that marks blocks with generated ids, but for now we just check the
+            // known block types.
+            if (block instanceof ImageBlock imageBlock) {
+                imageBlock.setId(this.idGenerator.adaptId(imageBlock.getId()));
+            } else if (block instanceof HeaderBlock headerBlock) {
+                headerBlock.setId(this.idGenerator.adaptId(headerBlock.getId()));
+            }
+            return false;
+        }, Block.Axes.DESCENDANT);
     }
 
     @Override
