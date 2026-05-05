@@ -20,9 +20,6 @@
 package org.xwiki.rendering.block;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +34,7 @@ import org.xwiki.rendering.syntax.Syntax;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -57,7 +54,7 @@ class BlockTest
     {
         Block wb1 = new WordBlock("block1");
         Block wb2 = new WordBlock("block2");
-        ParagraphBlock pb = new ParagraphBlock(Arrays.asList(wb1, wb2));
+        ParagraphBlock pb = new ParagraphBlock(List.of(wb1, wb2));
 
         Block wb = new WordBlock("block");
 
@@ -81,9 +78,7 @@ class BlockTest
         Block wb1 = new WordBlock("block1");
         Block wb2 = new WordBlock("block2");
 
-        List<Block> children = new ArrayList<Block>();
-        children.add(wb1);
-        children.add(wb2);
+        List<Block> children = List.of(wb1, wb2);
 
         ParagraphBlock pb = new ParagraphBlock(children);
 
@@ -105,7 +100,7 @@ class BlockTest
         Block word2 = new WordBlock("block2");
         Block word3 = new WordBlock("block3");
 
-        Block parentBlock = new ParagraphBlock(Arrays.asList(word1, word2));
+        Block parentBlock = new ParagraphBlock(List.of(word1, word2));
 
         // replace by one
         parentBlock.replaceChild(word3, word1);
@@ -117,15 +112,15 @@ class BlockTest
         assertSame(word3, word2.getPreviousSibling());
 
         // replace by nothing
-        parentBlock.replaceChild(Collections.<Block>emptyList(), word2);
+        parentBlock.replaceChild(List.of(), word2);
 
         assertEquals(1, parentBlock.getChildren().size());
-        assertSame(word3, parentBlock.getChildren().get(0));
+        assertSame(word3, parentBlock.getChildren().getFirst());
         assertNull(word3.getNextSibling());
         assertNull(word3.getPreviousSibling());
 
         // replace by several
-        parentBlock.replaceChild(Arrays.asList(word1, word2), word3);
+        parentBlock.replaceChild(List.of(word1, word2), word3);
 
         assertEquals(2, parentBlock.getChildren().size());
         assertSame(word1, parentBlock.getChildren().get(0));
@@ -134,9 +129,9 @@ class BlockTest
         assertSame(word1, word2.getPreviousSibling());
 
         // replace by empty block the top level one
-        parentBlock.replaceChild(Collections.<Block>emptyList(), word1);
+        parentBlock.replaceChild(List.of(), word1);
         assertEquals(1, parentBlock.getChildren().size());
-        assertSame(word2, parentBlock.getChildren().get(0));
+        assertSame(word2, parentBlock.getChildren().getFirst());
         assertNull(word2.getNextSibling());
         assertNull(word2.getPreviousSibling());
 
@@ -146,14 +141,14 @@ class BlockTest
     }
 
     @Test
-    void testClone()
+    void cloneBlock()
     {
         WordBlock wb = new WordBlock("block");
         wb.setAttribute("att1", "value1");
         ImageBlock ib = new ImageBlock(new ResourceReference("document@attachment", ResourceType.ATTACHMENT), true);
         DocumentResourceReference linkReference = new DocumentResourceReference("reference");
         LinkBlock lb = new LinkBlock(List.of(new WordBlock("label")), linkReference, false);
-        Block pb = new ParagraphBlock(Arrays.asList(wb, ib, lb));
+        Block pb = new ParagraphBlock(List.of(wb, ib, lb));
         XDOM rootBlock = new XDOM(List.of(pb));
 
         XDOM newRootBlock = rootBlock.clone();
@@ -161,7 +156,7 @@ class BlockTest
         assertNotSame(rootBlock, newRootBlock);
         assertNotSame(rootBlock.getMetaData(), newRootBlock.getMetaData());
 
-        Block newPB = newRootBlock.getChildren().get(0);
+        Block newPB = newRootBlock.getChildren().getFirst();
 
         assertNotSame(pb, newPB);
 
@@ -170,7 +165,7 @@ class BlockTest
         assertNotSame(lb, newPB.getChildren().get(2));
 
         assertEquals(wb.getWord(), ((WordBlock) newPB.getChildren().get(0)).getWord());
-        assertEquals(wb.getAttributes(), ((WordBlock) newPB.getChildren().get(0)).getAttributes());
+        assertEquals(wb.getAttributes(), (newPB.getChildren().get(0)).getAttributes());
         assertNotSame(ib.getReference(), ((ImageBlock) newPB.getChildren().get(1)).getReference());
         assertNotSame(lb.getReference(), ((LinkBlock) newPB.getChildren().get(2)).getReference());
     }
@@ -180,12 +175,12 @@ class BlockTest
     {
         WordBlock b1 = new WordBlock("b1");
         WordBlock b2 = new WordBlock("b2");
-        ParagraphBlock p = new ParagraphBlock(Arrays.<Block>asList(b1, b2));
+        ParagraphBlock p = new ParagraphBlock(List.of(b1, b2));
 
         assertSame(b2, b1.getNextSibling());
         assertNull(b2.getNextSibling());
         assertNull(p.getNextSibling());
-        assertNull(new ParagraphBlock(Collections.<Block>emptyList()).getNextSibling());
+        assertNull(new ParagraphBlock(List.of()).getNextSibling());
     }
 
     @Test
@@ -194,7 +189,7 @@ class BlockTest
         WordBlock b1 = new WordBlock("b1");
         WordBlock b1bis = new WordBlock("b1");
         WordBlock b2 = new WordBlock("b2");
-        ParagraphBlock p1 = new ParagraphBlock(Arrays.<Block>asList(b1, b1bis, b2));
+        ParagraphBlock p1 = new ParagraphBlock(List.of(b1, b1bis, b2));
 
         p1.removeBlock(b1bis);
         assertEquals(2, p1.getChildren().size());
@@ -203,7 +198,7 @@ class BlockTest
 
         p1.removeBlock(b1);
         assertEquals(1, p1.getChildren().size());
-        assertSame(b2, p1.getChildren().get(0));
+        assertSame(b2, p1.getChildren().getFirst());
         assertNull(b1.getPreviousSibling());
         assertNull(b1.getNextSibling());
         assertNull(b2.getPreviousSibling());
@@ -217,7 +212,7 @@ class BlockTest
     @Test
     void getBlocks()
     {
-        assertEquals(Arrays.asList(BlockTestHelper.parentBlock, BlockTestHelper.rootBlock),
+        assertEquals(List.of(BlockTestHelper.parentBlock, BlockTestHelper.rootBlock),
             BlockTestHelper.contextBlock.getBlocks(AnyBlockMatcher.ANYBLOCKMATCHER, Block.Axes.ANCESTOR));
     }
 
@@ -231,14 +226,14 @@ class BlockTest
     @Test
     void setChildren()
     {
-        ParagraphBlock paragraphBlock = new ParagraphBlock(Collections.emptyList());
+        ParagraphBlock paragraphBlock = new ParagraphBlock(List.of());
 
-        List<Block> blocks = Arrays.asList(new WordBlock("1"), new WordBlock("2"));
+        List<Block> blocks = List.of(new WordBlock("1"), new WordBlock("2"));
         paragraphBlock.setChildren(blocks);
 
         assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
 
-        blocks = Arrays.asList(new WordBlock("3"), new WordBlock("4"));
+        blocks = List.of(new WordBlock("3"), new WordBlock("4"));
         paragraphBlock.setChildren(blocks);
 
         assertArrayEquals(blocks.toArray(), paragraphBlock.getChildren().toArray());
@@ -331,7 +326,7 @@ class BlockTest
     }
 
     @Test
-    void testAbstractBlockEquals()
+    void abstractBlockEquals()
     {
         final String ID = "Test id";
         final String CONTENT = "Test content";
@@ -361,9 +356,9 @@ class BlockTest
         // must be consistent (already checked).
 
         // equals(null) == false.
-        assertFalse(macroBlock1.equals(null));
-        assertFalse(macroBlock2.equals(null));
-        assertFalse(macroBlock3.equals(null));
+        assertNotEquals(null, macroBlock1);
+        assertNotEquals(null, macroBlock2);
+        assertNotEquals(null, macroBlock3);
 
         // hashCode must be equal.
         assertEquals(macroBlock1.hashCode(), macroBlock2.hashCode());
@@ -389,9 +384,9 @@ class BlockTest
         // must be consistent (already checked).
 
         // equals(null) == false.
-        assertFalse(macroMarkerBlock1.equals(null));
-        assertFalse(macroMarkerBlock2.equals(null));
-        assertFalse(macroMarkerBlock3.equals(null));
+        assertNotEquals(null, macroMarkerBlock1);
+        assertNotEquals(null, macroMarkerBlock2);
+        assertNotEquals(null, macroMarkerBlock3);
 
         // hashCode must be equal.
         assertEquals(macroMarkerBlock1.hashCode(), macroMarkerBlock2.hashCode());
@@ -402,7 +397,7 @@ class BlockTest
     {
         Block wb1 = new WordBlock("block1");
         Block wb2 = new WordBlock("block2");
-        ParagraphBlock pb = new ParagraphBlock(Arrays.asList(wb1, wb2));
+        ParagraphBlock pb = new ParagraphBlock(List.of(wb1, wb2));
 
         assertEquals(0, pb.indexOf(pb));
         assertEquals(1, pb.indexOf(wb1));
