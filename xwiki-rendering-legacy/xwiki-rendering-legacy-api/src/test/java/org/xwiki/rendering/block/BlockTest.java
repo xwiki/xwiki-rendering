@@ -19,68 +19,69 @@
  */
 package org.xwiki.rendering.block;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
-import org.xwiki.rendering.listener.HeaderLevel;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * Unit tests for Block manipulation, testing {@link AbstractBlock}.
- * 
+ *
  * @version $Id$
  * @since 4.1M1
  */
-public class BlockTest
+class BlockTest
 {
     @Test
-    public void testGetPreviousBlockByType()
+    void getPreviousBlockByType()
     {
         WordBlock lw = new WordBlock("linkword");
         SpecialSymbolBlock ls = new SpecialSymbolBlock('$');
 
         DocumentResourceReference linkReference = new DocumentResourceReference("reference");
-        LinkBlock pl = new LinkBlock(Arrays.<Block> asList(lw, ls), linkReference, false);
+        LinkBlock pl = new LinkBlock(List.of(lw, ls), linkReference, false);
 
         ImageBlock pi = new ImageBlock(new ResourceReference("document@attachment", ResourceType.ATTACHMENT), true);
 
-        ParagraphBlock rootBlock = new ParagraphBlock(Arrays.<Block> asList(pi, pl));
+        ParagraphBlock rootBlock = new ParagraphBlock(List.of(pi, pl));
 
-        Assert.assertSame(lw, ls.getPreviousBlockByType(WordBlock.class, false));
-        Assert.assertNull(ls.getPreviousBlockByType(ImageBlock.class, false));
-        Assert.assertSame(pl, ls.getPreviousBlockByType(LinkBlock.class, true));
-        Assert.assertSame(pi, ls.getPreviousBlockByType(ImageBlock.class, true));
-        Assert.assertSame(rootBlock, ls.getPreviousBlockByType(ParagraphBlock.class, true));
+        assertSame(lw, ls.getPreviousBlockByType(WordBlock.class, false));
+        assertNull(ls.getPreviousBlockByType(ImageBlock.class, false));
+        assertSame(pl, ls.getPreviousBlockByType(LinkBlock.class, true));
+        assertSame(pi, ls.getPreviousBlockByType(ImageBlock.class, true));
+        assertSame(rootBlock, ls.getPreviousBlockByType(ParagraphBlock.class, true));
     }
 
     @Test
-    public void testGetChildrenByType()
+    void getChildrenByType()
     {
         ParagraphBlock pb1 =
-            new ParagraphBlock(Arrays.<Block> asList(new HeaderBlock(Arrays.<Block> asList(new WordBlock("title1")),
+            new ParagraphBlock(List.of(new HeaderBlock(List.of(new WordBlock("title1")),
                     HeaderLevel.LEVEL1)));
         ParagraphBlock pb2 =
-            new ParagraphBlock(Arrays.<Block> asList(new HeaderBlock(Arrays.<Block> asList(new WordBlock("title2")),
+            new ParagraphBlock(List.of(new HeaderBlock(List.of(new WordBlock("title2")),
                     HeaderLevel.LEVEL2)));
         ParagraphBlock pb3 =
-            new ParagraphBlock(Arrays.<Block> asList(pb1, pb2, new HeaderBlock(Collections.<Block> emptyList(),
+            new ParagraphBlock(List.of(pb1, pb2, new HeaderBlock(List.of(),
                     HeaderLevel.LEVEL1)));
 
         List<HeaderBlock> results = pb1.getChildrenByType(HeaderBlock.class, true);
-        Assert.assertEquals(1, results.size());
+        assertEquals(1, results.size());
 
         results = pb1.getChildrenByType(HeaderBlock.class, false);
-        Assert.assertEquals(1, results.size());
+        assertEquals(1, results.size());
 
         results = pb3.getChildrenByType(HeaderBlock.class, true);
-        Assert.assertEquals(3, results.size());
+        assertEquals(3, results.size());
 
         results = pb3.getChildrenByType(HeaderBlock.class, false);
-        Assert.assertEquals(1, results.size());
+        assertEquals(1, results.size());
     }
 }
