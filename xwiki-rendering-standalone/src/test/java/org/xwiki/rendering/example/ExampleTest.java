@@ -20,11 +20,11 @@
 package org.xwiki.rendering.example;
 
 import java.io.StringReader;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.xwiki.component.embed.EmbeddableComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
@@ -51,10 +51,10 @@ import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
  * @version $Id$
  * @since 2.0M1
  */
-public class ExampleTest
+class ExampleTest
 {
     @Test
-    public void renderXWiki20SyntaxAsXHTML() throws Exception
+    void renderXWiki20SyntaxAsXHTML() throws Exception
     {
         // Initialize Rendering components and allow getting instances
         EmbeddableComponentManager cm = new EmbeddableComponentManager();
@@ -67,11 +67,11 @@ public class ExampleTest
         WikiPrinter printer = new DefaultWikiPrinter();
         converter.convert(new StringReader("This is **bold**"), Syntax.XWIKI_2_1, Syntax.XHTML_1_0, printer);
 
-        Assert.assertEquals("<p>This is <strong>bold</strong></p>", printer.toString());
+        assertEquals("<p>This is <strong>bold</strong></p>", printer.toString());
     }
 
     @Test
-    public void makeAllLinksItalic() throws Exception
+    void makeAllLinksItalic() throws Exception
     {
         // Initialize Rendering components and allow getting instances
         EmbeddableComponentManager cm = new EmbeddableComponentManager();
@@ -84,7 +84,7 @@ public class ExampleTest
         // Find all links and make them italic by manipulating the XDOM
         for (Block block : xdom.getBlocks(new ClassBlockMatcher(LinkBlock.class), Block.Axes.DESCENDANT)) {
             Block parentBlock = block.getParent();
-            Block newBlock = new FormatBlock(Collections.<Block>singletonList(block), Format.ITALIC);
+            Block newBlock = new FormatBlock(List.of(block), Format.ITALIC);
             parentBlock.replaceChild(newBlock, block);
         }
 
@@ -93,14 +93,14 @@ public class ExampleTest
         BlockRenderer renderer = cm.getInstance(BlockRenderer.class, Syntax.XWIKI_2_1.toIdString());
         renderer.render(xdom, printer);
 
-        Assert.assertEquals("This a //[[link>>MyPage]]//", printer.toString());
+        assertEquals("This a //[[link>>MyPage]]//", printer.toString());
     }
 
     @Test
-    public void executeMacroTransformation() throws Exception
+    void executeMacroTransformation() throws Exception
     {
         // Initialize Rendering components and allow getting instances
-        final EmbeddableComponentManager cm = new EmbeddableComponentManager();
+        EmbeddableComponentManager cm = new EmbeddableComponentManager();
         cm.initialize(this.getClass().getClassLoader());
 
         Parser parser = cm.getInstance(Parser.class, Syntax.XWIKI_2_1.toIdString());
@@ -116,17 +116,17 @@ public class ExampleTest
         BlockRenderer renderer = cm.getInstance(BlockRenderer.class, Syntax.XHTML_1_0.toIdString());
         renderer.render(xdom, printer);
 
-        Assert.assertEquals("<div id=\"test\"></div>", printer.toString());
+        assertEquals("<div id=\"test\"></div>", printer.toString());
     }
 
     /**
      * Verifies that all bundled macro work fine (this is to verify we bundle all their required dependencies).
      */
     @Test
-    public void executeAllBundledMacros() throws Exception
+    void executeAllBundledMacros() throws Exception
     {
         // Initialize Rendering components and allow getting instances
-        final EmbeddableComponentManager cm = new EmbeddableComponentManager();
+        EmbeddableComponentManager cm = new EmbeddableComponentManager();
         cm.initialize(this.getClass().getClassLoader());
 
         // Content containing all bundled macros
@@ -164,51 +164,51 @@ public class ExampleTest
         BlockRenderer renderer = cm.getInstance(BlockRenderer.class, Syntax.XHTML_1_0.toIdString());
         renderer.render(xdom, printer);
 
-        String expected = "<ul class=\"wikitoc\">"
-            + "<li><span class=\"wikilink\"><a href=\"#Hheader\">header</a></span></li></ul>"
-            + "<div id=\"header1\"></div>"
-            + "<h1 id=\"Hheader\" class=\"wikigeneratedid\"><span>header</span></h1>"
-            + "<div class=\"box\"><p>content</p></div>"
-            + "<div class=\"box infomessage\">"
-            + "<img src=\"icon:information\" class=\"wikimodel-freestanding\" alt=\"information\"/>"
-            + "<div>"
-            + "<p>info</p>"
-            + "</div>"
-            + "</div>"
-            + "<div class=\"box warningmessage\">"
-            + "<img src=\"icon:error\" class=\"wikimodel-freestanding\" alt=\"error\"/>"
-            + "<div>"
-            + "<p>warning</p>"
-            + "</div>"
-            + "</div>"
-            + "<div class=\"box errormessage\">"
-            + "<img src=\"icon:exclamation\" class=\"wikimodel-freestanding\" alt=\"exclamation\"/>"
-            + "<div>"
-            + "<p>error</p>"
-            + "</div>"
-            + "</div>"
-            + "<p><strong>bold</strong></p>"
-            + "<p><sup><span id=\"x_footnote_ref_1\" class=\"footnoteRef\"><span class=\"wikilink\">"
-            + "<a href=\"#x_footnote_1\">1</a></span></span></sup></p>"
-            + "<ol class=\"footnotes\"><li><span class=\"wikilink\">"
-            + "<a id=\"x_footnote_1\" class=\"footnoteBackRef\" href=\"#x_footnote_ref_1\">^</a>"
-            + "</span> footnote</li></ol>";
+        String expected = """
+            <ul class="wikitoc"><li><span class="wikilink"><a href="#Hheader">header</a></span></li></ul>\
+            <div id="header1"></div>\
+            <h1 id="Hheader" class="wikigeneratedid"><span>header</span></h1>\
+            <div class="box"><p>content</p></div>\
+            <div class="box infomessage">\
+            <img src="icon:information" class="wikimodel-freestanding" alt="information"/>\
+            <div>\
+            <p>info</p>\
+            </div>\
+            </div>\
+            <div class="box warningmessage">\
+            <img src="icon:error" class="wikimodel-freestanding" alt="error"/>\
+            <div>\
+            <p>warning</p>\
+            </div>\
+            </div>\
+            <div class="box errormessage">\
+            <img src="icon:exclamation" class="wikimodel-freestanding" alt="exclamation"/>\
+            <div>\
+            <p>error</p>\
+            </div>\
+            </div>\
+            <p><strong>bold</strong></p>\
+            <p><sup><span id="x_footnote_ref_1" class="footnoteRef"><span class="wikilink">\
+            <a href="#x_footnote_1">1</a></span></span></sup></p>\
+            <ol class="footnotes"><li><span class="wikilink">\
+            <a id="x_footnote_1" class="footnoteBackRef" href="#x_footnote_ref_1">^</a>\
+            </span> footnote</li></ol>""";
 
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 
     /**
      * Verifies that the WikiWord Transformation is bundled and working.
      */
     @Test
-    public void executeWikiWordTransformation() throws Exception
+    void executeWikiWordTransformation() throws Exception
     {
         // Initialize Rendering components and allow getting instances
-        final EmbeddableComponentManager cm = new EmbeddableComponentManager();
+        EmbeddableComponentManager cm = new EmbeddableComponentManager();
         cm.initialize(this.getClass().getClassLoader());
 
         XDOM xdom = new XDOM(
-            Arrays.<Block>asList(new ParagraphBlock(Arrays.asList((Block) new WordBlock("WikiWord")))));
+            List.of(new ParagraphBlock(List.of(new WordBlock("WikiWord")))));
 
         Transformation transformation = cm.getInstance(Transformation.class, "wikiword");
         TransformationContext txContext = new TransformationContext();
@@ -220,20 +220,20 @@ public class ExampleTest
 
         String expected = "[[doc:WikiWord]]";
 
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 
     /**
      * Verifies that the Icon Transformation is bundled and working.
      */
     @Test
-    public void executeIconTransformation() throws Exception
+    void executeIconTransformation() throws Exception
     {
         // Initialize Rendering components and allow getting instances
-        final EmbeddableComponentManager cm = new EmbeddableComponentManager();
+        EmbeddableComponentManager cm = new EmbeddableComponentManager();
         cm.initialize(this.getClass().getClassLoader());
 
-        XDOM xdom = new XDOM(Arrays.<Block>asList(new ParagraphBlock(Arrays.asList((Block) new SpecialSymbolBlock(':'),
+        XDOM xdom = new XDOM(List.of(new ParagraphBlock(List.of(new SpecialSymbolBlock(':'),
             new SpecialSymbolBlock(':')))));
 
         // Test adding a new Icon Mapping.
@@ -250,6 +250,6 @@ public class ExampleTest
 
         String expected = "image:icon:something";
 
-        Assert.assertEquals(expected, printer.toString());
+        assertEquals(expected, printer.toString());
     }
 }
