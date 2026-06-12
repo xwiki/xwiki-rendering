@@ -1,0 +1,22 @@
+[ {
+  "type" : "xwiki:macroBlock",
+  "props" : {
+    "call" : {
+      "name" : "testsimplemacro",
+      "parameters" : { }
+    },
+    "output" : [ ]
+  }
+}, {
+  "type" : "xwiki:macroBlock",
+  "props" : {
+    "call" : {
+      "name" : "testsimplemacro",
+      "parameters" : {
+        "param1" : "value1",
+        "param2" : "value2"
+      }
+    },
+    "output" : [ ]
+  }
+} ]

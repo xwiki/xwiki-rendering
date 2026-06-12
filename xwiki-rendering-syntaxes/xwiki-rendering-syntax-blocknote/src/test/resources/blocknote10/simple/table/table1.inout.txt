@@ -1,0 +1,16 @@
+[ {
+  "type" : "table",
+  "props" : { },
+  "content" : {
+    "type" : "tableContent",
+    "columnWidths" : [ ],
+    "headerRows" : 1,
+    "rows" : [ {
+      "cells" : [ "col1", "col2" ]
+    }, {
+      "cells" : [ "cell11", "cell12" ]
+    }, {
+      "cells" : [ "cell21", "cell22" ]
+    } ]
+  }
+} ]

@@ -1,0 +1,30 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test paragraph styles.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "paragraph",
+  "props" : {
+    "textColor" : "red",
+    "backgroundColor" : "yellow",
+    "textAlignment" : "justify"
+  },
+  "content" : [ "Some ", {
+    "type" : "text",
+    "styles" : {
+      "textColor" : "green",
+      "backgroundColor" : "blue",
+      "code" : true,
+      "strike" : true,
+      "underline" : true,
+      "italic" : true,
+      "bold" : true
+    },
+    "text" : "styled"
+  }, " text." ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% style="color:red;background-color:yellow;text-align:justify" %)
+Some (% style="color:green;background-color:blue" %)**//__--##styled##--__//**(%%) text.

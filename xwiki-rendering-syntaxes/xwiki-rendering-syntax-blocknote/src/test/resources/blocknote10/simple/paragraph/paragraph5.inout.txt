@@ -1,0 +1,9 @@
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : "paragraph\n\nsame paragraph"
+}, {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : "paragraph\nsame paragraph"
+} ]

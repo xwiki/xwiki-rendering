@@ -1,0 +1,13 @@
+[ {
+  "type" : "image",
+  "props" : {
+    "url" : {
+      "reference" : "image.png",
+      "type" : {
+        "scheme" : "url"
+      },
+      "typed" : false,
+      "parameters" : { }
+    }
+  }
+} ]

@@ -1,0 +1,68 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Verify the quote syntax conversion from BlockNote to XWiki 2.1 syntax.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : "before"
+}, {
+  "type" : "quote",
+  "props" : { },
+  "content" : "line1",
+  "children" : [ ]
+}, {
+  "type" : "quote",
+  "props" : { },
+  "content" : "lineOne",
+  "children" : [ {
+    "type" : "quote",
+    "props" : { },
+    "content" : "line2",
+    "children" : [ ]
+  }, {
+    "type" : "quote",
+    "props" : { },
+    "content" : "lineTwo",
+    "children" : [ {
+      "type" : "quote",
+      "props" : { },
+      "content" : "line3",
+      "children" : [ ]
+    }, {
+      "type" : "quote",
+      "props" : { },
+      "content" : "lineThree",
+      "children" : [ ]
+    } ]
+  }, {
+    "type" : "quote",
+    "props" : { },
+    "content" : "line4",
+    "children" : [ ]
+  }, {
+    "type" : "quote",
+    "props" : { },
+    "content" : "lineFour",
+    "children" : [ ]
+  } ]
+}, {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : "after"
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+before
+
+>line1
+>lineOne
+>>line2
+>>lineTwo
+>>>line3
+>>>lineThree
+>>line4
+>>lineFour
+
+after

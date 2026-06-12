@@ -1,0 +1,47 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test all image properties.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ "Some ", {
+    "type" : "image",
+    "props" : {
+      "textAlignment" : "center",
+      "name" : "alternative text",
+      "url" : {
+        "reference" : "image.png",
+        "type" : {
+          "scheme" : "url"
+        },
+        "typed" : false,
+        "parameters" : { }
+      },
+      "previewWidth" : 250,
+      "caption" : "This is the caption"
+    }
+  } ]
+}, {
+  "type" : "image",
+  "props" : {
+    "textAlignment" : "right",
+    "name" : "my logo",
+    "url" : {
+      "reference" : "logo.png",
+      "type" : {
+        "scheme" : "url"
+      },
+      "typed" : false,
+      "parameters" : { }
+    },
+    "previewWidth" : 100,
+    "caption" : "Caption for my logo"
+  }
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+Some [[image:image.png||alt="alternative text" width="250" data-xwiki-image-style-alignment="center" data-xwiki-image-label="This is the caption"]]
+
+[[Caption for my logo>>image:logo.png||alt="my logo" width="100" data-xwiki-image-style-alignment="end"]]

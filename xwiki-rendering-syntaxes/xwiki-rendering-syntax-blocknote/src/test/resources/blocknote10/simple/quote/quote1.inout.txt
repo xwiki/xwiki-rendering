@@ -1,0 +1,29 @@
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : "paragraph"
+}, {
+  "type" : "quote",
+  "props" : { },
+  "content" : "line1",
+  "children" : [ {
+    "type" : "quote",
+    "props" : { },
+    "content" : "line2",
+    "children" : [ {
+      "type" : "quote",
+      "props" : { },
+      "content" : "line3",
+      "children" : [ ]
+    } ]
+  }, {
+    "type" : "quote",
+    "props" : { },
+    "content" : "line4",
+    "children" : [ ]
+  } ]
+}, {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : "paragraph"
+} ]

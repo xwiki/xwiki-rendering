@@ -1,0 +1,109 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Table and cell properties.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "table",
+  "props" : {
+    "textColor" : "blue",
+    "backgroundColor" : "gray",
+    "textAlignment" : "center"
+  },
+  "content" : {
+    "type" : "tableContent",
+    "columnWidths" : [ 300, 200 ],
+    "headerRows" : 1,
+    "rows" : [ {
+      "cells" : [ {
+        "type" : "tableCell",
+        "props" : {
+          "textColor" : "white",
+          "backgroundColor" : "black",
+          "textAlignment" : "right",
+          "rowspan" : 2
+        },
+        "content" : [ {
+          "type" : "text",
+          "styles" : {
+            "bold" : true
+          },
+          "text" : "Shape"
+        } ]
+      }, {
+        "type" : "tableCell",
+        "props" : {
+          "colspan" : 2
+        },
+        "content" : [ {
+          "type" : "text",
+          "styles" : {
+            "underline" : true
+          },
+          "text" : "Colors"
+        } ]
+      } ]
+    }, {
+      "cells" : [ {
+        "type" : "tableCell",
+        "props" : {
+          "textColor" : "red"
+        },
+        "content" : [ {
+          "type" : "text",
+          "styles" : {
+            "strike" : true
+          },
+          "text" : "Before"
+        } ]
+      }, {
+        "type" : "tableCell",
+        "props" : {
+          "textColor" : "green"
+        },
+        "content" : [ {
+          "type" : "text",
+          "styles" : {
+            "code" : true
+          },
+          "text" : "After"
+        } ]
+      } ]
+    }, {
+      "cells" : [ {
+        "type" : "tableCell",
+        "props" : {
+          "textColor" : "black",
+          "backgroundColor" : "white",
+          "textAlignment" : "justify"
+        },
+        "content" : [ {
+          "type" : "text",
+          "styles" : {
+            "bold" : true
+          },
+          "text" : "Circle"
+        } ]
+      }, {
+        "type" : "tableCell",
+        "props" : {
+          "textColor" : "red",
+          "colspan" : 2
+        },
+        "content" : [ {
+          "type" : "text",
+          "styles" : {
+            "italic" : true
+          },
+          "text" : "Red"
+        } ]
+      } ]
+    } ]
+  }
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% style="color:blue;background-color:gray;text-align:center" %)
+|=(% style="color:white;background-color:black;text-align:right;width:300px" rowspan="2" %)**Shape**|=(% style="width:200px" colspan="2" %)__Colors__
+|(% style="color:red" %)--Before--|(% style="color:green" %)##After##
+|(% style="color:black;background-color:white;text-align:justify" %)**Circle**|(% style="color:red" colspan="2" %)//Red//

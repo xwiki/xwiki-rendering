@@ -30,6 +30,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.xwiki.text.XWikiToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Represents a reference to a Resource (document, image, attachment, mail, etc).
  * Note that this representation is independent of any wiki syntax.
@@ -74,7 +76,7 @@ public class ResourceReference implements Cloneable
      * @param reference see {@link #getReference()}
      * @param type see {@link #getType()}
      */
-    public ResourceReference(String reference, ResourceType type)
+    public ResourceReference(@JsonProperty("reference") String reference, @JsonProperty("type") ResourceType type)
     {
         setReference(reference);
         setType(type);

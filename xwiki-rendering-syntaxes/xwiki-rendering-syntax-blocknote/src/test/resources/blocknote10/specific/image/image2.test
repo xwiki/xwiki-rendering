@@ -1,0 +1,41 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test linked image support.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ {
+    "type" : "link",
+    "props" : { },
+    "content" : [ {
+      "type" : "image",
+      "props" : {
+        "textAlignment" : "center",
+        "name" : "alternative text",
+        "url" : {
+          "reference" : "image.png",
+          "type" : {
+            "scheme" : "url"
+          },
+          "typed" : false,
+          "parameters" : { }
+        },
+        "previewWidth" : 250,
+        "caption" : "This is the caption"
+      }
+    } ],
+    "href" : {
+      "reference" : "https://xwiki.org",
+      "type" : {
+        "scheme" : "url"
+      },
+      "typed" : false,
+      "parameters" : { }
+    }
+  } ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+[[~[~[image:image.png~|~|alt="alternative text" width="250" data-xwiki-image-style-alignment="center" data-xwiki-image-label="This is the caption"~]~]>>https://xwiki.org]]

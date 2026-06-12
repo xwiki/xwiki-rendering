@@ -1,0 +1,19 @@
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ {
+    "type" : "link",
+    "props" : {
+      "xwiki:freestanding" : true
+    },
+    "content" : [ ],
+    "href" : {
+      "reference" : "john@doe.com",
+      "type" : {
+        "scheme" : "mailto"
+      },
+      "typed" : true,
+      "parameters" : { }
+    }
+  } ]
+} ]
