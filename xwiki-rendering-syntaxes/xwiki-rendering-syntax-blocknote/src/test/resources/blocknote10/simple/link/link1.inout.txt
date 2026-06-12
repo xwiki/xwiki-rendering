@@ -1,0 +1,17 @@
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ {
+    "type" : "link",
+    "props" : { },
+    "content" : [ ],
+    "href" : {
+      "reference" : "reference",
+      "type" : {
+        "scheme" : "url"
+      },
+      "typed" : false,
+      "parameters" : { }
+    }
+  } ]
+} ]

@@ -1,0 +1,19 @@
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ {
+    "type" : "link",
+    "props" : {
+      "xwiki:freestanding" : true
+    },
+    "content" : [ ],
+    "href" : {
+      "reference" : "attach:attach.ext",
+      "type" : {
+        "scheme" : "url"
+      },
+      "typed" : false,
+      "parameters" : { }
+    }
+  } ]
+} ]

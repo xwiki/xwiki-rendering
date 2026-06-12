@@ -1,0 +1,12 @@
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ {
+    "type" : "text",
+    "styles" : {
+      "code" : true,
+      "xwiki:parameter:a": "b"
+    },
+    "text" : "monospace"
+  } ]
+} ]

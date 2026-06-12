@@ -1,0 +1,123 @@
+/*
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.xwiki.rendering.internal.parser.blocknote.blocks;
+
+import java.util.Deque;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
+
+import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.internal.parser.blocknote.Context;
+import org.xwiki.rendering.listener.Listener;
+import org.xwiki.rendering.listener.reference.ResourceReference;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.LinkBlockParser.FREE_STANDING;
+
+/**
+ * Image block parser.
+ *
+ * @version $Id$
+ * @since 18.5.0RC1
+ */
+@Component
+@Named(ImageBlockParser.IMAGE)
+@Singleton
+public class ImageBlockParser extends AbstractEmbedBlockParser
+{
+    /**
+     * This component's role hint. Also the type of blocks handled by this parser.
+     */
+    public static final String IMAGE = "image";
+
+    /**
+     * The mapping between BlockNote image alignments and XWiki Rendering image alignment styles.
+     */
+    public static final Map<String, String> IMAGE_ALIGNMENT = Map.of("left", "start", "right", "end");
+
+    /**
+     * The parameter used to denote the alignment style of an image.
+     */
+    public static final String IMAGE_ALIGNMENT_PARAMETER = "data-xwiki-image-style-alignment";
+
+    /**
+     * The parameter used to denote the label (caption) of an inline image.
+     */
+    public static final String IMAGE_LABEL_PARAMETER = "data-xwiki-image-label";
+
+    @Override
+    protected String getEmbedType()
+    {
+        return IMAGE;
+    }
+
+    @Override
+    protected void visitEmbedBlock(ObjectNode imageBlock, Deque<Context> contextStack)
+    {
+        ResourceReference imageReference = asResourceReference(imageBlock.path(PROPS).path(URL));
+        String id = contextStack.peek().idGenerator().generateUniqueId("I", imageReference.getReference());
+        Map<String, String> parameters = getImageParameters(imageBlock, contextStack);
+        boolean inline = contextStack.peek().inline();
+        boolean freeStanding = imageBlock.path(PROPS).path(FREE_STANDING).asBoolean(false);
+
+        if (!inline) {
+            // Wrap the image in a paragraph when not inline, because XDOM treats images as inline content.
+            contextStack.peek().listener().beginParagraph(Listener.EMPTY_PARAMETERS);
+        }
+
+        contextStack.peek().listener().onImage(imageReference, freeStanding, id, parameters);
+
+        if (!inline) {
+            contextStack.peek().listener().endParagraph(Listener.EMPTY_PARAMETERS);
+        }
+    }
+
+    @Override
+    protected Map<String, String> getBlockStyles()
+    {
+        Map<String, String> imageStyles = new LinkedHashMap<>(super.getBlockStyles());
+        // We handle text alignment separately, as an image parameter.
+        imageStyles.remove(TEXT_ALIGNMENT);
+        return imageStyles;
+    }
+
+    private Map<String, String> getImageParameters(ObjectNode imageBlock, Deque<Context> contextStack)
+    {
+        Map<String, String> parameters = getEmbedParameters(imageBlock);
+
+        JsonNode imageProperties = imageBlock.path(PROPS);
+        JsonNode alignment = imageProperties.path(TEXT_ALIGNMENT);
+        if (alignment.isTextual()) {
+            String value = IMAGE_ALIGNMENT.getOrDefault(alignment.asText().toLowerCase(), alignment.asText());
+            parameters.put(IMAGE_ALIGNMENT_PARAMETER, value);
+        }
+
+        if (parameters.containsKey(CAPTION) && contextStack.peek().inline()) {
+            parameters.put(IMAGE_LABEL_PARAMETER, parameters.remove(CAPTION));
+        }
+
+        return parameters;
+    }
+}

@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.listener.reference;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * The Resource type. It can be one of:
  * <ul>
@@ -128,7 +130,7 @@ public class ResourceType
     /**
      * @param scheme see {@link #getScheme()}
      */
-    public ResourceType(String scheme)
+    public ResourceType(@JsonProperty("scheme") String scheme)
     {
         this.scheme = scheme;
     }

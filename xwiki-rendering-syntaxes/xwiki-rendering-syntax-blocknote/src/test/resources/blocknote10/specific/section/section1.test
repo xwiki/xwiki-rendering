@@ -1,0 +1,31 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test section styles.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "heading",
+  "props" : {
+    "textColor" : "red",
+    "backgroundColor" : "yellow",
+    "textAlignment" : "center",
+    "level" : 2
+  },
+  "content" : [ "Some ", {
+    "type" : "text",
+    "styles" : {
+      "textColor" : "green",
+      "backgroundColor" : "blue",
+      "code" : true,
+      "strike" : true,
+      "underline" : true,
+      "italic" : true,
+      "bold" : true
+    },
+    "text" : "styled"
+  }, " title" ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% style="color:red;background-color:yellow;text-align:center" %)
+== Some (% style="color:green;background-color:blue" %)**//__--##styled##--__//**(%%) title ==

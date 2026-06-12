@@ -1,0 +1,37 @@
+[ {
+  "type" : "heading",
+  "props" : {
+    "level" : 1
+  },
+  "content" : "Title level 1"
+}, {
+  "type" : "heading",
+  "props" : {
+    "level" : 2
+  },
+  "content" : "Title level 2"
+}, {
+  "type" : "heading",
+  "props" : {
+    "level" : 3
+  },
+  "content" : "Title level 3"
+}, {
+  "type" : "heading",
+  "props" : {
+    "level" : 4
+  },
+  "content" : "Title level 4"
+}, {
+  "type" : "heading",
+  "props" : {
+    "level" : 5
+  },
+  "content" : "Title level 5"
+}, {
+  "type" : "heading",
+  "props" : {
+    "level" : 6
+  },
+  "content" : "Title level 6"
+} ]

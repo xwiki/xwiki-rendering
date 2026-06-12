@@ -1,0 +1,165 @@
+.runTransformations
+.#-------------------------------------------------------------------------------------------------------
+.input|xwiki/2.1
+.# Verify the rendering of nested in-place editable macros.
+.#-------------------------------------------------------------------------------------------------------
+{{info title="== Note ==" image="info.png"}}
+This {{error title="The **Failure**" image="error.png"}}{{success title="//Done//" image="success.png"}}##stacktrace##{{/success}}{{/error}} is **expected**.
+
+* one
+* //two//
+{{/info}}
+.#-----------------------------------------------------
+.expect|blocknote/1.0
+.#-----------------------------------------------------
+[ {
+  "type" : "xwiki:macroBlock",
+  "props" : {
+    "call" : {
+      "name" : "info",
+      "parameters" : {
+        "title" : [ {
+          "type" : "heading",
+          "props" : {
+            "level" : 2
+          },
+          "content" : "Note"
+        } ],
+        "image" : "info.png"
+      },
+      "content" : [ {
+        "type" : "paragraph",
+        "props" : { },
+        "content" : [ "This ", {
+          "type" : "xwiki:inlineMacro",
+          "props" : {
+            "call" : {
+              "name" : "error",
+              "parameters" : {
+                "title" : "The **Failure**",
+                "image" : "error.png"
+              },
+              "content" : [ {
+                "type" : "xwiki:inlineMacro",
+                "props" : {
+                  "call" : {
+                    "name" : "success",
+                    "parameters" : {
+                      "title" : "//Done//",
+                      "image" : "success.png"
+                    },
+                    "content" : [ {
+                      "type" : "text",
+                      "styles" : {
+                        "code" : true
+                      },
+                      "text" : "stacktrace"
+                    } ]
+                  },
+                  "output" : [ {
+                    "type" : "image",
+                    "props" : {
+                      "url" : {
+                        "reference" : "accept",
+                        "type" : {
+                          "scheme" : "icon"
+                        },
+                        "typed" : true,
+                        "parameters" : { }
+                      },
+                      "xwiki:freestanding" : true
+                    }
+                  }, {
+                    "type" : "xwiki:editable"
+                  } ]
+                }
+              } ]
+            },
+            "output" : [ {
+              "type" : "image",
+              "props" : {
+                "url" : {
+                  "reference" : "exclamation",
+                  "type" : {
+                    "scheme" : "icon"
+                  },
+                  "typed" : true,
+                  "parameters" : { }
+                },
+                "xwiki:freestanding" : true
+              }
+            }, {
+              "type" : "xwiki:editable"
+            } ]
+          }
+        }, " is ", {
+          "type" : "text",
+          "styles" : {
+            "bold" : true
+          },
+          "text" : "expected"
+        }, "." ]
+      }, {
+        "type" : "bulletListItem",
+        "props" : { },
+        "content" : "one",
+        "children" : [ ]
+      }, {
+        "type" : "bulletListItem",
+        "props" : { },
+        "content" : [ {
+          "type" : "text",
+          "styles" : {
+            "italic" : true
+          },
+          "text" : "two"
+        } ],
+        "children" : [ ]
+      } ]
+    },
+    "output" : [ {
+      "type" : "xwiki:group",
+      "props" : { },
+      "children" : [ {
+        "type" : "image",
+        "props" : {
+          "url" : {
+            "reference" : "information",
+            "type" : {
+              "scheme" : "icon"
+            },
+            "typed" : true,
+            "parameters" : { }
+          },
+          "xwiki:freestanding" : true
+        }
+      }, {
+        "type" : "xwiki:group",
+        "props" : { },
+        "children" : [ {
+          "type" : "image",
+          "props" : {
+            "url" : {
+              "reference" : "info.png",
+              "type" : {
+                "scheme" : "url"
+              },
+              "typed" : false,
+              "parameters" : { }
+            },
+            "xwiki:freestanding" : true
+          }
+        }, "\n", {
+          "type" : "xwiki:group",
+          "props" : { },
+          "children" : [ {
+            "type" : "xwiki:editable",
+            "name" : "title"
+          } ]
+        }, {
+          "type" : "xwiki:editable"
+        } ]
+      } ]
+    } ]
+  }
+} ]

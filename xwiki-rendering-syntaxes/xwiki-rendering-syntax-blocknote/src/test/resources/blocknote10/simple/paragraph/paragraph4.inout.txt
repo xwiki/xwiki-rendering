@@ -1,0 +1,5 @@
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : "verify    spaces are honored"
+} ]

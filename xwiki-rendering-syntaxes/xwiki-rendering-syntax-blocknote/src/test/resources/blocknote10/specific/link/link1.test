@@ -1,0 +1,49 @@
+.#-------------------------------------------------------------------------------------------------------
+.input|blocknote/1.0
+.# Various link types.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "paragraph",
+  "styles" : { },
+  "content" : [ {
+    "type" : "link",
+    "content" : "typed URL",
+    "href" : "url:https://www.xwiki.org"
+  }, {
+    "type" : "link",
+    "content" : "typed document",
+    "href" : "doc:Path.To.Page"
+  }, {
+    "type" : "link",
+    "content" : "typed space",
+    "href" : "space:Path.To.Space"
+  }, {
+    "type" : "link",
+    "content" : "interwiki",
+    "href" : "interwiki:wikipedia:XWiki"
+  }, {
+    "type" : "link",
+    "content" : "typed attachment",
+    "href" : "attach:Path.To.Page@file.pdf"
+  }, {
+    "type" : "link",
+    "content" : "mail",
+    "href" : "mailto:john@doe.com"
+  }, {
+    "type" : "link",
+    "content" : "path",
+    "href" : "path:/one/two/three"
+  }, {
+    "type" : "link",
+    "content" : "UNC",
+    "href" : "unc:home/user/somefile"
+  }, {
+    "type" : "link",
+    "content" : "untyped document",
+    "href" : "Path.To.Page"
+  } ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+[[typed URL>>url:https://www.xwiki.org]][[typed document>>doc:Path.To.Page]][[typed space>>space:Path.To.Space]][[interwiki>>interwiki:wikipedia:XWiki]][[typed attachment>>attach:Path.To.Page@file.pdf]][[mail>>mailto:john@doe.com]][[path>>path:/one/two/three]][[UNC>>unc:home/user/somefile]][[untyped document>>Path.To.Page]]
