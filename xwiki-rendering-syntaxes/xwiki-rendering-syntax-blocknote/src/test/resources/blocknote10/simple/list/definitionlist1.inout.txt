@@ -1,0 +1,37 @@
+[ {
+  "type" : "xwiki:definitionListItem",
+  "props" : {
+    "term" : true
+  },
+  "content" : "title1",
+  "children" : [ ]
+}, {
+  "type" : "xwiki:definitionListItem",
+  "props" : { },
+  "content" : "definition1",
+  "children" : [ {
+    "type" : "xwiki:definitionListItem",
+    "props" : {
+      "term" : true
+    },
+    "content" : "title2",
+    "children" : [ ]
+  }, {
+    "type" : "xwiki:definitionListItem",
+    "props" : { },
+    "content" : "definition2",
+    "children" : [ ]
+  } ]
+}, {
+  "type" : "xwiki:definitionListItem",
+  "props" : {
+    "term" : true
+  },
+  "content" : "title3",
+  "children" : [ ]
+}, {
+  "type" : "xwiki:definitionListItem",
+  "props" : { },
+  "content" : "definition3",
+  "children" : [ ]
+} ]

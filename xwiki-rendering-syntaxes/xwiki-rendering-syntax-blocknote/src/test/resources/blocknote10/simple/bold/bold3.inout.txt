@@ -1,0 +1,18 @@
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ "This is ", {
+    "type" : "text",
+    "styles" : {
+      "bold" : true
+    },
+    "text" : "bold and "
+  }, {
+    "type" : "text",
+    "styles" : {
+      "italic" : true,
+      "bold" : true
+    },
+    "text" : "italic"
+  } ]
+} ]

@@ -1,0 +1,9 @@
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : "paragraph1 on\nmultiple\nlines"
+}, {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : "paragraph2"
+} ]

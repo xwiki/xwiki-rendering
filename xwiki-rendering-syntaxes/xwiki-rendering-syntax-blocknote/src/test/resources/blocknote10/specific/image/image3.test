@@ -1,0 +1,82 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test image alignment.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "image",
+  "props" : {
+    "url" : {
+      "reference" : "image.png",
+      "type" : {
+        "scheme" : "url"
+      },
+      "typed" : false,
+      "parameters" : { }
+    },
+    "xwiki:freestanding" : true
+  }
+}, {
+  "type" : "image",
+  "props" : {
+    "textAlignment" : "left",
+    "url" : {
+      "reference" : "image.png",
+      "type" : {
+        "scheme" : "url"
+      },
+      "typed" : false,
+      "parameters" : { }
+    }
+  }
+}, {
+  "type" : "image",
+  "props" : {
+    "textAlignment" : "center",
+    "url" : {
+      "reference" : "image.png",
+      "type" : {
+        "scheme" : "url"
+      },
+      "typed" : false,
+      "parameters" : { }
+    }
+  }
+}, {
+  "type" : "image",
+  "props" : {
+    "textAlignment" : "right",
+    "url" : {
+      "reference" : "image.png",
+      "type" : {
+        "scheme" : "url"
+      },
+      "typed" : false,
+      "parameters" : { }
+    }
+  }
+}, {
+  "type" : "image",
+  "props" : {
+    "textAlignment" : "justify",
+    "url" : {
+      "reference" : "image.png",
+      "type" : {
+        "scheme" : "url"
+      },
+      "typed" : false,
+      "parameters" : { }
+    }
+  }
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+image:image.png
+
+[[image:image.png||data-xwiki-image-style-alignment="start"]]
+
+[[image:image.png||data-xwiki-image-style-alignment="center"]]
+
+[[image:image.png||data-xwiki-image-style-alignment="end"]]
+
+[[image:image.png||data-xwiki-image-style-alignment="justify"]]

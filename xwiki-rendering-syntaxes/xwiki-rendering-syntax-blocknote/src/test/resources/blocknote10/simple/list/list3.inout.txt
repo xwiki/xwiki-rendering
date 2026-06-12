@@ -1,0 +1,61 @@
+[ {
+  "type" : "numberedListItem",
+  "props" : { },
+  "content" : "Item 1",
+  "children" : [ {
+    "type" : "numberedListItem",
+    "props" : { },
+    "content" : "Item 2",
+    "children" : [ {
+      "type" : "bulletListItem",
+      "props" : { },
+      "content" : "Item 3",
+      "children" : [ ]
+    } ]
+  }, {
+    "type" : "numberedListItem",
+    "props" : { },
+    "content" : "Item 4",
+    "children" : [ ]
+  } ]
+}, {
+  "type" : "numberedListItem",
+  "props" : { },
+  "content" : "Item 5",
+  "children" : [ ]
+}, {
+  "type" : "bulletListItem",
+  "props" : { },
+  "content" : "Item 1",
+  "children" : [ {
+    "type" : "bulletListItem",
+    "props" : { },
+    "content" : "Item 2",
+    "children" : [ {
+      "type" : "bulletListItem",
+      "props" : { },
+      "content" : "Item 3",
+      "children" : [ {
+        "type" : "numberedListItem",
+        "props" : { },
+        "content" : "Item 4",
+        "children" : [ ]
+      } ]
+    } ]
+  }, {
+    "type" : "bulletListItem",
+    "props" : { },
+    "content" : "Item 5",
+    "children" : [ ]
+  } ]
+}, {
+  "type" : "bulletListItem",
+  "props" : { },
+  "content" : "Item 6",
+  "children" : [ ]
+}, {
+  "type" : "bulletListItem",
+  "props" : { },
+  "content" : "Item 7",
+  "children" : [ ]
+} ]

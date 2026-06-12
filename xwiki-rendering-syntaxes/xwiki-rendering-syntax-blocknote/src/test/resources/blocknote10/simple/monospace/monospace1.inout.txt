@@ -1,0 +1,11 @@
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ "This is ", {
+    "type" : "text",
+    "styles" : {
+      "code" : true
+    },
+    "text" : "monospace"
+  } ]
+} ]

@@ -66,6 +66,10 @@
       <artifactId>xwiki-commons-context</artifactId>
       <version>${commons.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+    </dependency>
     <!-- Testing Dependencies -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>
