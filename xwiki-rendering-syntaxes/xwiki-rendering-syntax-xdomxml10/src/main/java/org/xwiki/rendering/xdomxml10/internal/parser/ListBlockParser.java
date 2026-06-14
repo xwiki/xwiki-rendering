@@ -29,15 +29,25 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.ListTypeConverter;
 
+/**
+ * Parses a list block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("list")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class ListBlockParser extends DefaultBlockParser
 {
+    private static final String TYPE = "type";
+
     private static final ListTypeConverter LISTTYPECONVERTER = new ListTypeConverter();
 
-    private static final Set<String> NAMES = Collections.singleton("type");
+    private static final Set<String> NAMES = Collections.singleton(TYPE);
 
+    /**
+     * Default constructor.
+     */
     public ListBlockParser()
     {
         super(NAMES);
@@ -47,12 +57,12 @@ public class ListBlockParser extends DefaultBlockParser
     protected void beginBlock()
     {
         getListener()
-            .beginList(LISTTYPECONVERTER.toFormat(getParameterAsString("type", null)), getCustomParameters());
+            .beginList(LISTTYPECONVERTER.toFormat(getParameterAsString(TYPE, null)), getCustomParameters());
     }
 
     @Override
     protected void endBlock()
     {
-        getListener().endList(LISTTYPECONVERTER.toFormat(getParameterAsString("type", null)), getCustomParameters());
+        getListener().endList(LISTTYPECONVERTER.toFormat(getParameterAsString(TYPE, null)), getCustomParameters());
     }
 }

@@ -21,7 +21,16 @@ package org.xwiki.rendering.xdomxml10.internal.parser.parameter;
 
 import org.xml.sax.ContentHandler;
 
+/**
+ * Parses an XDOM+XML parameter value of a given type.
+ *
+ * @param <T> the type of the parsed value
+ * @version $Id$
+ */
 public interface ValueParser<T> extends ContentHandler
 {
+    /**
+     * @return the parsed value
+     */
     T getValue();
 }

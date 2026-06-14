@@ -26,13 +26,18 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * Parses a group of custom parameters into a {@link Map}.
+ *
+ * @version $Id$
+ */
 public class CustomParametersParser extends DefaultHandler implements ValueParser<Map<String, String>>
 {
     private Map<String, String> parameters = new LinkedHashMap<String, String>();
 
     private StringBuffer value = new StringBuffer();
 
-    private int level = 0;
+    private int level;
 
     private String currentEntry;
 

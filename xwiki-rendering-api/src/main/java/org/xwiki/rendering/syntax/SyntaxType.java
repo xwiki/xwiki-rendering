@@ -56,36 +56,36 @@ import org.xwiki.text.StringUtils;
 public class SyntaxType implements Comparable<SyntaxType>
 {
     /**
-     * Well-known Syntax types.
-     */
-    private static final Map<String, SyntaxType> KNOWN_SYNTAX_TYPES = new HashMap<>();
-
-    /**
      * XWiki wiki syntax.
      */
-    public static final SyntaxType XWIKI = register("xwiki", "XWiki");
+    public static final SyntaxType XWIKI = new SyntaxType("xwiki", "XWiki");
 
     /**
      * Confluence wiki syntax.
      */
-    public static final SyntaxType CONFLUENCE = register("confluence", "Confluence");
+    public static final SyntaxType CONFLUENCE = new SyntaxType("confluence", "Confluence");
+
+    /**
+     * XHTML syntax.
+     */
+    public static final SyntaxType XHTML = new SyntaxType("xhtml", "XHTML");
 
     /**
      * Confluence XHTML based syntax.
      *
      * @since 5.3M1
      */
-    public static final SyntaxType CONFLUENCEXHTML = register("confluence", Arrays.asList("xhtml"),
-        "Confluence (XHTML)");
+    public static final SyntaxType CONFLUENCEXHTML =
+        new SyntaxType(CONFLUENCE.getId(), Arrays.asList(XHTML.getId()), "Confluence (XHTML)");
 
     /**
      * MediaWiki wiki syntax.
      */
-    public static final SyntaxType MEDIAWIKI = register("mediawiki", "MediaWiki");
+    public static final SyntaxType MEDIAWIKI = new SyntaxType("mediawiki", "MediaWiki");
 
     /**
      * DokuWiki wiki syntax.
-     * 
+     *
      * @since 9.8RC1
      */
     public static final SyntaxType DOKUWIKI = new SyntaxType("dokuwiki", "DokuWiki");
@@ -93,37 +93,32 @@ public class SyntaxType implements Comparable<SyntaxType>
     /**
      * Creole wiki syntax.
      */
-    public static final SyntaxType CREOLE = register("creole", "Creole");
+    public static final SyntaxType CREOLE = new SyntaxType("creole", "Creole");
 
     /**
      * JSPWiki wiki syntax.
      */
-    public static final SyntaxType JSPWIKI = register("jspwiki", "JSPWiki");
+    public static final SyntaxType JSPWIKI = new SyntaxType("jspwiki", "JSPWiki");
 
     /**
      * TWiki wiki syntax.
      */
-    public static final SyntaxType TWIKI = register("twiki", "TWiki");
-
-    /**
-     * XHTML syntax.
-     */
-    public static final SyntaxType XHTML = register("xhtml", "XHTML");
+    public static final SyntaxType TWIKI = new SyntaxType("twiki", "TWiki");
 
     /**
      * Annotated XHTML syntax.
      */
-    public static final SyntaxType ANNOTATED_XHTML = register("annotatedxhtml", "Annotated XHTML");
+    public static final SyntaxType ANNOTATED_XHTML = new SyntaxType("annotatedxhtml", "Annotated XHTML");
 
     /**
      * Annotated HTML syntax.
      */
-    public static final SyntaxType ANNOTATED_HTML = register("annotatedhtml", "Annotated HTML");
+    public static final SyntaxType ANNOTATED_HTML = new SyntaxType("annotatedhtml", "Annotated HTML");
 
     /**
      * HTML syntaxes.
      */
-    public static final SyntaxType HTML = register("html", "HTML");
+    public static final SyntaxType HTML = new SyntaxType("html", "HTML");
 
     /**
      * Syntaxes that are from the HTML family.
@@ -131,48 +126,75 @@ public class SyntaxType implements Comparable<SyntaxType>
      * @since 13.9RC1
      */
     public static final Set<SyntaxType> HTML_FAMILY_TYPES = SetUtils.hashSet(XHTML, HTML, ANNOTATED_XHTML,
-			ANNOTATED_HTML);
+        ANNOTATED_HTML);
 
     /**
      * Plain text syntax.
      */
-    public static final SyntaxType PLAIN = register("plain", "Plain");
+    public static final SyntaxType PLAIN = new SyntaxType("plain", "Plain");
 
     /**
      * Events syntax.
      */
-    public static final SyntaxType EVENT = register("event", "Event");
+    public static final SyntaxType EVENT = new SyntaxType("event", "Event");
 
     /**
      * TEX syntax.
      */
-    public static final SyntaxType TEX = register("tex", "TeX");
+    public static final SyntaxType TEX = new SyntaxType("tex", "TeX");
 
     /**
      * DoxBook syntax.
      */
-    public static final SyntaxType DOCBOOK = register("docbook", "DocBook");
+    public static final SyntaxType DOCBOOK = new SyntaxType("docbook", "DocBook");
 
     /**
      * XML based XWiki DOM syntax.
-     * 
+     *
      * @since 3.3M1
      */
-    public static final SyntaxType XDOMXML = register("xdom", Arrays.asList("xml"), "XDOM (XML)");
+    public static final SyntaxType XDOMXML = new SyntaxType("xdom", Arrays.asList("xml"), "XDOM (XML)");
 
     /**
      * MarkDown wiki syntax.
-     * 
+     *
      * @since 3.4M1
      */
-    public static final SyntaxType MARKDOWN = register("markdown", "Markdown");
+    public static final SyntaxType MARKDOWN = new SyntaxType("markdown", "Markdown");
 
     /**
      * APT syntax.
-     * 
+     *
      * @since 4.3M1
      */
-    public static final SyntaxType APT = register("apt", "APT");
+    public static final SyntaxType APT = new SyntaxType("apt", "APT");
+
+    /**
+     * Well-known Syntax types.
+     */
+    private static final Map<String, SyntaxType> KNOWN_SYNTAX_TYPES = new HashMap<>();
+
+    static {
+        // Register all the well-known Syntax types (DOKUWIKI is intentionally not registered).
+        register(XWIKI);
+        register(CONFLUENCE);
+        register(XHTML);
+        register(CONFLUENCEXHTML);
+        register(MEDIAWIKI);
+        register(CREOLE);
+        register(JSPWIKI);
+        register(TWIKI);
+        register(ANNOTATED_XHTML);
+        register(ANNOTATED_HTML);
+        register(HTML);
+        register(PLAIN);
+        register(EVENT);
+        register(TEX);
+        register(DOCBOOK);
+        register(XDOMXML);
+        register(MARKDOWN);
+        register(APT);
+    }
 
     /**
      * @see #getName()
@@ -221,30 +243,13 @@ public class SyntaxType implements Comparable<SyntaxType>
     }
 
     /**
-     * Register a Syntax Type.
+     * Register a well-known Syntax Type.
      *
-     * @param id see {@link SyntaxType#getId()}
-     * @param name see {@link SyntaxType#getName()}
-     * @return the created Syntax Type object
+     * @param syntaxType the Syntax Type to register
      */
-    private static SyntaxType register(String id, String name)
+    private static void register(SyntaxType syntaxType)
     {
-        return register(id, Collections.emptyList(), name);
-    }
-
-    /**
-     * Register a Syntax Type.
-     *
-     * @param id see {@link SyntaxType#getId()}
-     * @param variants the variants (can be empty)
-     * @param name see {@link SyntaxType#getName()}
-     * @return the created Syntax Type object
-     */
-    private static SyntaxType register(String id, List<String> variants, String name)
-    {
-        SyntaxType syntaxType = new SyntaxType(id, variants, name);
-        KNOWN_SYNTAX_TYPES.put(computeIdString(id, variants), syntaxType);
-        return syntaxType;
+        KNOWN_SYNTAX_TYPES.put(syntaxType.toIdString(), syntaxType);
     }
 
     /**

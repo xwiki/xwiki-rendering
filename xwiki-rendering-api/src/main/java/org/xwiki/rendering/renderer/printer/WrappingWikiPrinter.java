@@ -29,6 +29,9 @@ public class WrappingWikiPrinter implements WikiPrinter
 {
     private WikiPrinter printer;
 
+    /**
+     * @param printer the wiki printer to wrap
+     */
     public WrappingWikiPrinter(WikiPrinter printer)
     {
         this.printer = printer;
@@ -46,6 +49,9 @@ public class WrappingWikiPrinter implements WikiPrinter
         getWrappedPrinter().println(text);
     }
 
+    /**
+     * @return the wrapped wiki printer
+     */
     public WikiPrinter getWrappedPrinter()
     {
         return this.printer;

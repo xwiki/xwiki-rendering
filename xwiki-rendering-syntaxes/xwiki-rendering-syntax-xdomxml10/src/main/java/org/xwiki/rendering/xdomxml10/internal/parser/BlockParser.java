@@ -23,14 +23,31 @@ import org.xml.sax.ContentHandler;
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.listener.Listener;
 
+/**
+ * Parses an XDOM+XML block element and forwards the corresponding events to a {@link Listener}.
+ *
+ * @version $Id$
+ */
 @Role
 public interface BlockParser extends ContentHandler
 {
+    /**
+     * @return the listener to send the parsed events to
+     */
     Listener getListener();
 
+    /**
+     * @param listener the listener to send the parsed events to
+     */
     void setListener(Listener listener);
 
+    /**
+     * @return the version of the XDOM+XML syntax being parsed
+     */
     String getVersion();
 
+    /**
+     * @param version the version of the XDOM+XML syntax being parsed
+     */
     void setVersion(String version);
 }

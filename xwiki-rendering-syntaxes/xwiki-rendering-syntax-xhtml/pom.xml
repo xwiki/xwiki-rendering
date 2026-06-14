@@ -93,18 +93,10 @@
             <id>default</id>
             <configuration>
               <excludes>
+                <!-- The following files have structural checkstyle issues (high complexity or fan-out) that would
+                     require refactoring to fix, hence they are still excluded for now. -->
                 org/xwiki/rendering/internal/parser/xhtml/XHTMLParser.java,
-                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXHTMLWhitespaceXMLFilter.java,
-                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiImageTagHandler.java,
-                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiReferenceTagHandler.java,
-                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiCommentHandler.java,
-                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiHeaderTagHandler.java,
-                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiXMLReaderFactory.java,
-                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiWikiReference.java,
-                org/xwiki/rendering/internal/renderer/xhtml/link/DefaultXHTMLLinkRenderer.java,
-                org/xwiki/rendering/internal/renderer/xhtml/XHTMLChainingRenderer.java,
-                org/xwiki/rendering/internal/renderer/xhtml/XHTMLBlockRenderer.java,
-                org/xwiki/rendering/internal/renderer/xhtml/image/DefaultXHTMLImageRenderer.java
+                org/xwiki/rendering/internal/parser/xhtml/wikimodel/XWikiCommentHandler.java
               </excludes>
             </configuration>
           </execution>

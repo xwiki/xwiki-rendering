@@ -21,17 +21,44 @@ package org.xwiki.rendering.xdomxml10.internal;
 
 import java.util.regex.Pattern;
 
-public interface XDOMXMLConstants
+/**
+ * Constants used by the XDOM+XML 1.0 syntax parsers and renderers.
+ *
+ * @version $Id$
+ */
+public final class XDOMXMLConstants
 {
-    String ELEM_BLOCK = "block";
+    /**
+     * Name of the XML element representing a block.
+     */
+    public static final String ELEM_BLOCK = "block";
 
-    String ATT_BLOCK_NAME = "name";
+    /**
+     * Name of the XML attribute holding the block name.
+     */
+    public static final String ATT_BLOCK_NAME = "name";
 
-    String ATT_BLOCK_VERSION = "version";
+    /**
+     * Name of the XML attribute holding the block version.
+     */
+    public static final String ATT_BLOCK_VERSION = "version";
 
-    String ELEM_PARAMETERS = "parameters";
+    /**
+     * Name of the XML element representing a group of parameters.
+     */
+    public static final String ELEM_PARAMETERS = "parameters";
 
-    String ELEM_PARAMETER = "parameter";
+    /**
+     * Name of the XML element representing a single parameter.
+     */
+    public static final String ELEM_PARAMETER = "parameter";
 
-    Pattern VALID_ELEMENTNAME = Pattern.compile("[A-Za-z][A-Za-z0-9:_.-]*");
+    /**
+     * Pattern matching valid XML element names.
+     */
+    public static final Pattern VALID_ELEMENTNAME = Pattern.compile("[A-Za-z][A-Za-z0-9:_.-]*");
+
+    private XDOMXMLConstants()
+    {
+    }
 }

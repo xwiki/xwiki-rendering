@@ -42,42 +42,80 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(BlockStateChainingListener.class);
 
+    /**
+     * The various events that can be encountered while traversing the blocks.
+     */
     public enum Event
     {
+        /** No event. */
         NONE,
+        /** A definition description event. */
         DEFINITION_DESCRIPTION,
+        /** A definition term event. */
         DEFINITION_TERM,
+        /** A definition list event. */
         DEFINITION_LIST,
+        /** A document event. */
         DOCUMENT,
+        /** A format event. */
         FORMAT,
+        /** A header event. */
         HEADER,
+        /** A link event. */
         LINK,
+        /** A list event. */
         LIST,
+        /** A list item event. */
         LIST_ITEM,
+        /** A macro marker event. */
         MACRO_MARKER,
+        /** A paragraph event. */
         PARAGRAPH,
+        /** A quotation event. */
         QUOTATION,
+        /** A quotation line event. */
         QUOTATION_LINE,
+        /** A section event. */
         SECTION,
+        /** A table event. */
         TABLE,
+        /** A table cell event. */
         TABLE_CELL,
+        /** A table head cell event. */
         TABLE_HEAD_CELL,
+        /** A table row event. */
         TABLE_ROW,
+        /** A raw text event. */
         RAW_TEXT,
+        /** An empty lines event. */
         EMPTY_LINES,
+        /** A horizontal line event. */
         HORIZONTAL_LINE,
+        /** An id event. */
         ID,
+        /** An image event. */
         IMAGE,
+        /** A new line event. */
         NEW_LINE,
+        /** A space event. */
         SPACE,
+        /** A special symbol event. */
         SPECIAL_SYMBOL,
+        /** A macro event. */
         MACRO,
+        /** An inline verbatim event. */
         VERBATIM_INLINE,
+        /** A standalone verbatim event. */
         VERBATIM_STANDALONE,
+        /** A word event. */
         WORD,
+        /** A figure event. */
         FIGURE,
+        /** A figure caption event. */
         FIGURE_CAPTION,
+        /** A metadata event. */
         META_DATA,
+        /** A group event. */
         GROUP
     }
 
@@ -113,6 +151,9 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
     private int cellCol = -1;
 
+    /**
+     * @param listenerChain the chain of listeners this listener is part of
+     */
     public BlockStateChainingListener(ListenerChain listenerChain)
     {
         setListenerChain(listenerChain);
@@ -124,131 +165,209 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
         return new BlockStateChainingListener(getListenerChain());
     }
 
+    /**
+     * @return the event that was fired just before the current one
+     */
     public Event getPreviousEvent()
     {
         return this.previousEvent;
     }
 
+    /**
+     * @return the number of inline elements we are currently inside
+     */
     public int getInlineDepth()
     {
         return this.inlineDepth;
     }
 
+    /**
+     * @return {@code true} if we are currently inside an inline element
+     */
     public boolean isInLine()
     {
         return getInlineDepth() > 0;
     }
 
+    /**
+     * @return {@code true} if we are currently inside a paragraph
+     */
     public boolean isInParagraph()
     {
         return this.isInParagraph;
     }
 
+    /**
+     * @return {@code true} if we are currently inside a header
+     */
     public boolean isInHeader()
     {
         return this.isInHeader;
     }
 
+    /**
+     * @return {@code true} if we are currently inside a table
+     */
     public boolean isInTable()
     {
         return this.isInTable;
     }
 
+    /**
+     * @return {@code true} if we are currently inside a table cell
+     */
     public boolean isInTableCell()
     {
         return this.isInTableCell;
     }
 
+    /**
+     * @return the column index of the current table cell (zero-based)
+     */
     public int getCellCol()
     {
         return this.cellCol;
     }
 
+    /**
+     * @return the row index of the current table cell (zero-based)
+     */
     public int getCellRow()
     {
         return this.cellRow;
     }
 
+    /**
+     * @return the number of definition lists we are currently inside
+     */
     public int getDefinitionListDepth()
     {
         return this.definitionListDepth.size();
     }
 
+    /**
+     * @return {@code true} if we are currently inside a definition list
+     */
     public boolean isInDefinitionList()
     {
         return getDefinitionListDepth() > 0;
     }
 
+    /**
+     * @return the index of the current definition list item, or {@code -1} if not inside a definition list
+     */
     public int getDefinitionListItemIndex()
     {
         return isInDefinitionList() ? this.definitionListDepth.peek().definitionListItemIndex : -1;
     }
 
+    /**
+     * @return the number of lists we are currently inside
+     */
     public int getListDepth()
     {
         return this.listDepth.size();
     }
 
+    /**
+     * @return {@code true} if we are currently inside a list
+     */
     public boolean isInList()
     {
         return getListDepth() > 0;
     }
 
+    /**
+     * @return the index of the current list item, or {@code -1} if not inside a list
+     */
     public int getListItemIndex()
     {
         return isInList() ? this.listDepth.peek().listItemIndex : -1;
     }
 
+    /**
+     * Increments the link depth counter.
+     */
     public void pushLinkDepth()
     {
         ++this.linkDepth;
     }
 
+    /**
+     * Decrements the link depth counter.
+     */
     public void popLinkDepth()
     {
         --this.linkDepth;
     }
 
+    /**
+     * @return the number of links we are currently inside
+     */
     public int getLinkDepth()
     {
         return this.linkDepth;
     }
 
+    /**
+     * @return {@code true} if we are currently inside a link
+     */
     public boolean isInLink()
     {
         return getLinkDepth() > 0;
     }
 
+    /**
+     * @return the number of quotations we are currently inside
+     */
     public int getQuotationDepth()
     {
         return this.quotationDepth;
     }
 
+    /**
+     * @return {@code true} if we are currently inside a quotation
+     */
     public boolean isInQuotation()
     {
         return getQuotationDepth() > 0;
     }
 
+    /**
+     * @return the number of quotation lines we are currently inside
+     */
     public int getQuotationLineDepth()
     {
         return this.quotationLineDepth;
     }
 
+    /**
+     * @return {@code true} if we are currently inside a quotation line
+     */
     public boolean isInQuotationLine()
     {
         return getQuotationLineDepth() > 0;
     }
 
+    /**
+     * @return the index of the current quotation line
+     */
     public int getQuotationLineIndex()
     {
         return this.quotationLineIndex;
     }
 
+    /**
+     * @return the number of macros we are currently inside
+     */
     public int getMacroDepth()
     {
         return this.macroDepth;
     }
 
+    /**
+     * @return {@code true} if we are currently inside a macro
+     */
     public boolean isInMacro()
     {
         return getMacroDepth() > 0;
@@ -952,11 +1071,13 @@ public class BlockStateChainingListener extends AbstractChainingListener impleme
 
     private static final class ListState
     {
+        /** The index of the current item in the list. */
         public int listItemIndex = -1;
     }
 
     private static final class DefinitionListState
     {
+        /** The index of the current item in the definition list. */
         public int definitionListItemIndex = -1;
     }
 }

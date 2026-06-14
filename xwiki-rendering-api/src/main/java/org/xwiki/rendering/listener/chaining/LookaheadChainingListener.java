@@ -43,6 +43,10 @@ public class LookaheadChainingListener extends AbstractChainingListener
 
     private int lookaheadDepth;
 
+    /**
+     * @param listenerChain the chain of listeners this listener belongs to
+     * @param lookaheadDepth the number of events to look ahead
+     */
     public LookaheadChainingListener(ListenerChain listenerChain, int lookaheadDepth)
     {
         setListenerChain(listenerChain);
@@ -69,11 +73,18 @@ public class LookaheadChainingListener extends AbstractChainingListener
         return this.previousEvents;
     }
 
+    /**
+     * @return the next stacked event, or {@code null} if there's none
+     */
     public Event getNextEvent()
     {
         return getNextEvent(1);
     }
 
+    /**
+     * @param depth the depth at which to look for the event (1 being the next event)
+     * @return the stacked event at the passed depth, or {@code null} if there's none
+     */
     public Event getNextEvent(int depth)
     {
         return this.previousEvents.getEvent(depth);

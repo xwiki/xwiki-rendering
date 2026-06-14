@@ -31,8 +31,17 @@ import org.xwiki.rendering.internal.renderer.ParametersPrinter;
  */
 public class XWikiSyntaxMacroRenderer
 {
+    private static final String CLOSING_MARKER = "}}";
+
     private static final ParametersPrinter PARAMETERS_PRINTER = new ParametersPrinter('~');
 
+    /**
+     * @param id the macro id (i.e. the macro name)
+     * @param parameters the macro parameters
+     * @param content the macro content
+     * @param isInline whether the macro is used inline or as a standalone block
+     * @return the XWiki Syntax representation of the macro
+     */
     public String renderMacro(String id, Map<String, String> parameters, String content, boolean isInline)
     {
         StringBuffer buffer = new StringBuffer();
@@ -51,7 +60,7 @@ public class XWikiSyntaxMacroRenderer
         if (content == null) {
             buffer.append("/}}");
         } else {
-            buffer.append("}}");
+            buffer.append(CLOSING_MARKER);
             if (content.length() > 0) {
                 if (!isInline) {
                     buffer.append('\n');
@@ -61,14 +70,18 @@ public class XWikiSyntaxMacroRenderer
                     buffer.append('\n');
                 }
             }
-            buffer.append("{{/").append(id).append("}}");
+            buffer.append("{{/").append(id).append(CLOSING_MARKER);
         }
 
         return buffer.toString();
     }
 
+    /**
+     * @param parameters the macro parameters
+     * @return the XWiki Syntax representation of the passed macro parameters
+     */
     public String renderMacroParameters(Map<String, String> parameters)
     {
-        return PARAMETERS_PRINTER.print(parameters).replace("}}", "~}~}");
+        return PARAMETERS_PRINTER.print(parameters).replace(CLOSING_MARKER, "~}~}");
     }
 }

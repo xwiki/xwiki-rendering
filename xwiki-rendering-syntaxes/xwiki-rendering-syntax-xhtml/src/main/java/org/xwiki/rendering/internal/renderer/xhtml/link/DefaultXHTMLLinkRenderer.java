@@ -47,11 +47,11 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 public class DefaultXHTMLLinkRenderer implements XHTMLLinkRenderer
 {
     @Inject
-    private XHTMLLinkTypeRenderer defaultLinkTypeRenderer;
-
-    @Inject
     @Named("context")
     protected Provider<ComponentManager> componentManagerProvider;
+
+    @Inject
+    private XHTMLLinkTypeRenderer defaultLinkTypeRenderer;
 
     @Inject
     private Logger logger;

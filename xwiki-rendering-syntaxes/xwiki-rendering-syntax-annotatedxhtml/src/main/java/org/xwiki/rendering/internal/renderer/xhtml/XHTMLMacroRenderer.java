@@ -39,12 +39,28 @@ public class XHTMLMacroRenderer
 
     private static final ParametersPrinter PARAMETERS_PRINTER = new ParametersPrinter('\\');
 
+    /**
+     * Render a macro as an Annotated XHTML comment (both the start and stop macro comments).
+     *
+     * @param printer the printer to write the macro XHTML comments to
+     * @param name the name (id) of the macro
+     * @param parameters the macro parameters
+     * @param content the macro content
+     */
     public void render(XHTMLWikiPrinter printer, String name, Map<String, String> parameters, String content)
     {
         beginRender(printer, name, parameters, content);
         endRender(printer);
     }
 
+    /**
+     * Render the start macro comment of an Annotated XHTML macro.
+     *
+     * @param printer the printer to write the macro XHTML comment to
+     * @param name the name (id) of the macro
+     * @param parameters the macro parameters
+     * @param content the macro content
+     */
     public void beginRender(XHTMLWikiPrinter printer, String name, Map<String, String> parameters, String content)
     {
         StringBuilder buffer = new StringBuilder("startmacro:");
@@ -67,6 +83,11 @@ public class XHTMLMacroRenderer
         printer.printXMLComment(buffer.toString(), true);
     }
 
+    /**
+     * Render the stop macro comment of an Annotated XHTML macro.
+     *
+     * @param printer the printer to write the macro XHTML comment to
+     */
     public void endRender(XHTMLWikiPrinter printer)
     {
         printer.printXMLComment("stopmacro");

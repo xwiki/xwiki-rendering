@@ -28,13 +28,23 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
+/**
+ * Parses a special symbol block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("specialsymbol")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class SpecialSymbolBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = Collections.singleton("symbol");
+    private static final String SYMBOL = "symbol";
 
+    private static final Set<String> NAMES = Collections.singleton(SYMBOL);
+
+    /**
+     * Default constructor.
+     */
     public SpecialSymbolBlockParser()
     {
         super(NAMES);
@@ -43,6 +53,6 @@ public class SpecialSymbolBlockParser extends DefaultBlockParser
     @Override
     protected void endBlock()
     {
-        getListener().onSpecialSymbol(getParameterAsChar("symbol", (char) 0));
+        getListener().onSpecialSymbol(getParameterAsChar(SYMBOL, (char) 0));
     }
 }

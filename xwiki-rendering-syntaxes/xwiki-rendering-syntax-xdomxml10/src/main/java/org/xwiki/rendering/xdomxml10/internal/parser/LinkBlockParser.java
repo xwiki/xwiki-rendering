@@ -31,15 +31,25 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.xdomxml10.internal.parser.parameter.ResourceReferenceParser;
 
+/**
+ * Parses a link block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("link")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class LinkBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = Collections.singleton("freestanding");
+    private static final String FREESTANDING = "freestanding";
+
+    private static final Set<String> NAMES = Collections.singleton(FREESTANDING);
 
     private ResourceReferenceParser referenceParser = new ResourceReferenceParser();
 
+    /**
+     * Default constructor.
+     */
     public LinkBlockParser()
     {
         super(NAMES);
@@ -60,13 +70,13 @@ public class LinkBlockParser extends DefaultBlockParser
     protected void beginBlock()
     {
         getListener().beginLink(this.referenceParser.getValue(),
-            getParameterAsBoolean("freestanding", false), getCustomParameters());
+            getParameterAsBoolean(FREESTANDING, false), getCustomParameters());
     }
 
     @Override
     protected void endBlock()
     {
         getListener().endLink(this.referenceParser.getValue(),
-            getParameterAsBoolean("freestanding", false), getCustomParameters());
+            getParameterAsBoolean(FREESTANDING, false), getCustomParameters());
     }
 }

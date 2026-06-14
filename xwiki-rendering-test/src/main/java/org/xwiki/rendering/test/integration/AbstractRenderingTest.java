@@ -31,7 +31,7 @@ import org.xwiki.test.mockito.MockitoComponentManager;
  * @version $Id$
  * @since 17.0.0RC1
  */
-public class AbstractRenderingTest
+public abstract class AbstractRenderingTest
 {
     private MockitoComponentManager componentManager;
 

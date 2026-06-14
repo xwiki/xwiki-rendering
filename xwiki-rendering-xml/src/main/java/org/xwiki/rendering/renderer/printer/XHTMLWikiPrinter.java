@@ -70,6 +70,8 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
 
     private static final String[] FORBIDDEN_RAW_REPLACEMENTS = new String[] { "&#123;&#123;html", "&#123;&#123;/html" };
 
+    private static final String NON_BREAKING_SPACE_ENTITY = "&nbsp;";
+
     /**
      * The sanitizer used to restrict allowed elements and attributes, can be null (no restrictions).
      *
@@ -392,12 +394,12 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
                 // in that case we want a non-breaking space so it won't be stripped.
                 // Any supplementary space will be printed as non-breaking spaces so we keep them too.
                 if (this.isStandalone && !this.hasTextBeenPrinted) {
-                    printEntity("&nbsp;");
+                    printEntity(NON_BREAKING_SPACE_ENTITY);
                 } else {
                     super.printXML(" ");
                 }
                 for (int i = 0; i < this.spaceCount - 1; i++) {
-                    printEntity("&nbsp;");
+                    printEntity(NON_BREAKING_SPACE_ENTITY);
                 }
             } else {
                 super.printXML(StringUtils.repeat(' ', this.spaceCount));
@@ -415,7 +417,7 @@ public class XHTMLWikiPrinter extends XMLWikiPrinter
         // All spaces are &nbsp; spaces since otherwise they'll be all stripped by browsers
         if (!this.isInCData && !this.isInPreserveElement) {
             for (int i = 0; i < this.spaceCount; i++) {
-                printEntity("&nbsp;");
+                printEntity(NON_BREAKING_SPACE_ENTITY);
             }
         } else {
             super.printXML(StringUtils.repeat(' ', this.spaceCount));

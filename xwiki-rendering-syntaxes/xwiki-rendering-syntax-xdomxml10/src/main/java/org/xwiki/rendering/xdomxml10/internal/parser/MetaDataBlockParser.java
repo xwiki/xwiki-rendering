@@ -34,18 +34,28 @@ import org.xwiki.properties.ConverterManager;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.xdomxml10.internal.parser.parameter.MetaDataParser;
 
+/**
+ * Parses a metadata block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("metadata")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class MetaDataBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = Collections.singleton("metaData");
+    private static final String METADATA = "metaData";
+
+    private static final Set<String> NAMES = Collections.singleton(METADATA);
 
     @Inject
     protected ConverterManager converter;
 
     protected MetaDataParser metaDataParser;
 
+    /**
+     * Default constructor.
+     */
     public MetaDataBlockParser()
     {
         super(NAMES);
@@ -55,7 +65,7 @@ public class MetaDataBlockParser extends DefaultBlockParser
     protected void startElementInternal(String uri, String localName, String qName, Attributes attributes)
         throws SAXException
     {
-        if ("metaData".equals(qName)) {
+        if (METADATA.equals(qName)) {
             this.metaDataParser = new MetaDataParser(this.converter);
             setCurrentHandler(this.metaDataParser);
         } else {

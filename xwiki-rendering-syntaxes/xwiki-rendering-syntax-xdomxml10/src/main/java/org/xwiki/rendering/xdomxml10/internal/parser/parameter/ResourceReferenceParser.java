@@ -32,13 +32,30 @@ import org.xwiki.rendering.xdomxml10.internal.parser.DefaultBlockParser;
 // be one. This is a bad design since a non-component should not extend a component (it's dangerous - @Inject-ed
 // component will not be injected, and the extending class will inherit the @Component annotation, which is bad -
 // imagine for example that in the future we auto-generate components.txt based on the @Component annotation).
+/**
+ * Parses a resource reference parameter.
+ *
+ * @version $Id$
+ */
 @Component(staticRegistration = false)
 public class ResourceReferenceParser extends DefaultBlockParser implements ValueParser<ResourceReference>
 {
-    private static final Set<String> NAMES = Stream.of("type", "reference", "typed").collect(Collectors.toSet());
+    private static final String TYPE = "type";
 
+    private static final String REFERENCE = "reference";
+
+    private static final String TYPED = "typed";
+
+    private static final Set<String> NAMES = Stream.of(TYPE, REFERENCE, TYPED).collect(Collectors.toSet());
+
+    /**
+     * The parsed resource reference.
+     */
     public ResourceReference reference;
 
+    /**
+     * Default constructor.
+     */
     public ResourceReferenceParser()
     {
         super(NAMES);
@@ -54,9 +71,9 @@ public class ResourceReferenceParser extends DefaultBlockParser implements Value
     protected void endBlock()
     {
         this.reference =
-            new ResourceReference(getParameterAsString("reference", null), new ResourceType(getParameterAsString(
-                "type", "path")));
-        this.reference.setTyped(getParameterAsBoolean("typed", true));
+            new ResourceReference(getParameterAsString(REFERENCE, null), new ResourceType(getParameterAsString(
+                TYPE, "path")));
+        this.reference.setTyped(getParameterAsBoolean(TYPED, true));
         this.reference.setParameters(getCustomParameters());
     }
 }

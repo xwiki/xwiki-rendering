@@ -89,12 +89,13 @@
             <id>default</id>
             <configuration>
               <excludes>
+                <!-- The following files have structural checkstyle issues (high complexity, fan-out or boolean
+                     expression complexity) that would require refactoring to fix, hence they are still excluded
+                     for now. -->
                 org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxEscapeWikiPrinter.java,
-                org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxMacroRenderer.java,
                 org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxChainingRenderer.java,
                 org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxEscapeHandler.java,
-                org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxImageRenderer.java,
-                org/xwiki/rendering/internal/renderer/xwiki20/reference/XWikiSyntaxResourceRenderer.java,
+                org/xwiki/rendering/internal/renderer/xwiki20/reference/XWikiSyntaxResourceRenderer.java
               </excludes>
             </configuration>
           </execution>

@@ -39,6 +39,9 @@ public class XHTMLWriter extends XMLWriter
         DEFAULT_XHTML_FORMAT.setXHTML(true);
     }
 
+    /**
+     * @param writer the writer to which to write the formatted XHTML output
+     */
     public XHTMLWriter(Writer writer)
     {
         super(writer, DEFAULT_XHTML_FORMAT);

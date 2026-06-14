@@ -26,6 +26,11 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.listener.MetaData;
 
+/**
+ * Parses a document block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("document")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)

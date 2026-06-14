@@ -29,13 +29,23 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
+/**
+ * Parses a verbatim block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("verbatim")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class VerbatimBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = Stream.of("count", "inline").collect(Collectors.toSet());
+    private static final String INLINE = "inline";
 
+    private static final Set<String> NAMES = Stream.of("count", INLINE).collect(Collectors.toSet());
+
+    /**
+     * Default constructor.
+     */
     public VerbatimBlockParser()
     {
         super(NAMES);
@@ -44,7 +54,7 @@ public class VerbatimBlockParser extends DefaultBlockParser
     @Override
     protected void endBlock()
     {
-        getListener().onVerbatim(getParameterAsString("content", ""), getParameterAsBoolean("inline", false),
+        getListener().onVerbatim(getParameterAsString("content", ""), getParameterAsBoolean(INLINE, false),
             getCustomParameters());
     }
 }

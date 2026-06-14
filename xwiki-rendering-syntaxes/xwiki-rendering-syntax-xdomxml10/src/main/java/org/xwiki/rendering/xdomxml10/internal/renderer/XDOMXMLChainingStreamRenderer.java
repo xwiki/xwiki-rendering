@@ -51,6 +51,26 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
 
     private static final String VERSION = "1.0";
 
+    private static final String METADATA = "metaData";
+
+    private static final String FORMAT = "format";
+
+    private static final String FREESTANDING = "freestanding";
+
+    private static final String ID = "id";
+
+    private static final String TYPE = "type";
+
+    private static final String LISTITEM = "listItem";
+
+    private static final String CONTENT = "content";
+
+    private static final String INLINE = "inline";
+
+    private static final String WORD = "word";
+
+    private static final String IMAGE = "image";
+
     private FormatConverter formatConverter = new FormatConverter();
 
     private HeaderLevelConverter headerLevelConverter = new HeaderLevelConverter();
@@ -59,8 +79,11 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
 
     private ResourceReferenceSerializer linkSerializer = new ResourceReferenceSerializer();
 
-    private boolean versionSerialized = false;
+    private boolean versionSerialized;
 
+    /**
+     * @param listenerChain the chain of listeners this renderer is part of
+     */
     public XDOMXMLChainingStreamRenderer(ListenerChain listenerChain)
     {
         setListenerChain(listenerChain);
@@ -80,7 +103,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         startBlock("document");
 
         if (!metadata.getMetaData().isEmpty()) {
-            serializeParameter("metaData", metadata, false);
+            serializeParameter(METADATA, metadata, false);
         }
     }
 
@@ -93,9 +116,9 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
-        startBlock("format", parameters);
+        startBlock(FORMAT, parameters);
 
-        serializeParameter("format", this.formatConverter.toString(format), false);
+        serializeParameter(FORMAT, this.formatConverter.toString(format), false);
     }
 
     @Override
@@ -111,7 +134,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
 
         this.linkSerializer.serialize(reference, getContentHandler());
         if (freestanding) {
-            serializeParameter("freestanding", freestanding, false);
+            serializeParameter(FREESTANDING, freestanding, false);
         }
     }
 
@@ -127,7 +150,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         startBlock("header", parameters);
 
         serializeParameter("level", this.headerLevelConverter.toString(level), false);
-        serializeParameter("id", id, false);
+        serializeParameter(ID, id, false);
     }
 
     @Override
@@ -135,19 +158,19 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("list", parameters);
 
-        serializeParameter("type", this.listTypeConverter.toString(type), false);
+        serializeParameter(TYPE, this.listTypeConverter.toString(type), false);
     }
 
     @Override
     public void beginListItem()
     {
-        startBlock("listItem");
+        startBlock(LISTITEM);
     }
 
     @Override
     public void beginListItem(Map<String, String> parameters)
     {
-        startBlock("listItem", parameters);
+        startBlock(LISTITEM, parameters);
     }
 
     @Override
@@ -197,12 +220,12 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("macroMarker", parameters);
 
-        serializeParameter("id", id, false);
+        serializeParameter(ID, id, false);
         if (content != null) {
-            serializeParameter("content", content, false);
+            serializeParameter(CONTENT, content, false);
         }
         if (isInline) {
-            serializeParameter("inline", isInline, false);
+            serializeParameter(INLINE, isInline, false);
         }
     }
 
@@ -221,10 +244,10 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     @Override
     public void beginMetaData(MetaData metadata)
     {
-        startBlock("metaData");
+        startBlock(METADATA);
 
         if (!metadata.getMetaData().isEmpty()) {
-            serializeParameter("metaData", metadata, false);
+            serializeParameter(METADATA, metadata, false);
         }
     }
 
@@ -365,12 +388,12 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("macro", parameters);
 
-        serializeParameter("id", id, false);
+        serializeParameter(ID, id, false);
         if (content != null) {
-            serializeParameter("content", content, false);
+            serializeParameter(CONTENT, content, false);
         }
         if (inline) {
-            serializeParameter("inline", inline, false);
+            serializeParameter(INLINE, inline, false);
         }
 
         endBlock();
@@ -379,9 +402,9 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     @Override
     public void onWord(String word)
     {
-        startBlock("word");
+        startBlock(WORD);
 
-        serializeParameter("word", word, false);
+        serializeParameter(WORD, word, false);
 
         endBlock();
     }
@@ -407,7 +430,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("rawText");
 
-        serializeParameter("content", text, false);
+        serializeParameter(CONTENT, text, false);
         serializeParameter("syntax", syntax.toIdString(), false);
 
         endBlock();
@@ -416,7 +439,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     @Override
     public void onId(String name)
     {
-        startBlock("id");
+        startBlock(ID);
 
         serializeParameter("name", name, false);
 
@@ -446,9 +469,9 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     {
         startBlock("verbatim");
 
-        serializeParameter("content", content, false);
+        serializeParameter(CONTENT, content, false);
         if (inline) {
-            serializeParameter("inline", inline, false);
+            serializeParameter(INLINE, inline, false);
         }
 
         endBlock();
@@ -457,9 +480,9 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        startBlock("image", parameters);
+        startBlock(IMAGE, parameters);
 
-        serializeParameter("freestanding", freestanding, false);
+        serializeParameter(FREESTANDING, freestanding, false);
         this.linkSerializer.serialize(reference, getContentHandler());
 
         endBlock();
@@ -468,10 +491,10 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
     {
-        startBlock("image", parameters);
+        startBlock(IMAGE, parameters);
 
-        serializeParameter("freestanding", freestanding, false);
-        serializeParameter("id", id, false);
+        serializeParameter(FREESTANDING, freestanding, false);
+        serializeParameter(ID, id, false);
         this.linkSerializer.serialize(reference, getContentHandler());
 
         endBlock();
@@ -524,18 +547,28 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         }
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param map the map value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, Map<?, ?> map, boolean type)
     {
         SERIALIZER.serializeParameter(name, map, type, getContentHandler());
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param metadata the metadata value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, MetaData metadata, boolean type)
     {
         Attributes attributes;
 
         if (type) {
             AttributesImpl attributesImpl = new AttributesImpl();
-            attributesImpl.addAttribute(null, null, "type", null, "MetaData");
+            attributesImpl.addAttribute(null, null, TYPE, null, "MetaData");
             attributes = attributesImpl;
         } else {
             attributes = DefaultSerializer.EMPTY_ATTRIBUTES;
@@ -548,51 +581,91 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         endElement(name);
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the boolean value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, boolean value, boolean type)
     {
         SERIALIZER.serializeParameter(name, value, type, getContentHandler());
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the char value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, char value, boolean type)
     {
         SERIALIZER.serializeParameter(name, value, type, getContentHandler());
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the int value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, int value, boolean type)
     {
         SERIALIZER.serializeParameter(name, value, type, getContentHandler());
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the String value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, String value, boolean type)
     {
         SERIALIZER.serializeParameter(name, value, null, getContentHandler());
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the format value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, Format value, boolean type)
     {
         SERIALIZER.serializeParameter(name, this.formatConverter.toString(value), type ? "Format" : null,
             getContentHandler());
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the header level value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, HeaderLevel value, boolean type)
     {
         SERIALIZER.serializeParameter(name, this.headerLevelConverter.toString(value), type ? "HeaderLevel" : null,
             getContentHandler());
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the list type value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, ListType value, boolean type)
     {
         SERIALIZER.serializeParameter(name, this.listTypeConverter.toString(value), type ? "ListType" : null,
             getContentHandler());
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the resource reference value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, ResourceReference value, boolean type)
     {
         Attributes attributes;
 
         if (type) {
             AttributesImpl attributesImpl = new AttributesImpl();
-            attributesImpl.addAttribute(null, null, "type", null, "ResourceReference");
+            attributesImpl.addAttribute(null, null, TYPE, null, "ResourceReference");
             attributes = attributesImpl;
         } else {
             attributes = DefaultSerializer.EMPTY_ATTRIBUTES;
@@ -603,12 +676,22 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
         endElement(name);
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the number value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, Number value, boolean type)
     {
         SERIALIZER.serializeParameter(name, value.toString(), type ? value.getClass().getSimpleName() : null,
             getContentHandler());
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the value to serialize, dispatched to the matching typed overload
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     */
     public void serializeParameter(String name, Object value, boolean type)
     {
         if (value instanceof String) {

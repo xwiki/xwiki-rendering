@@ -33,16 +33,28 @@ import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.syntax.SyntaxRegistry;
 
+/**
+ * Parses a raw text block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("rawtext")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class RawTextBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = Stream.of("content", "syntax").collect(Collectors.toSet());
+    private static final String CONTENT = "content";
+
+    private static final String SYNTAX = "syntax";
+
+    private static final Set<String> NAMES = Stream.of(CONTENT, SYNTAX).collect(Collectors.toSet());
 
     @Inject
     private SyntaxRegistry syntaxRegistry;
 
+    /**
+     * Default constructor.
+     */
     public RawTextBlockParser()
     {
         super(NAMES);
@@ -52,8 +64,8 @@ public class RawTextBlockParser extends DefaultBlockParser
     protected void endBlock() throws SAXException
     {
         try {
-            getListener().onRawText(getParameterAsString("content", ""),
-                this.syntaxRegistry.resolveSyntax(getParameterAsString("syntax", null)));
+            getListener().onRawText(getParameterAsString(CONTENT, ""),
+                this.syntaxRegistry.resolveSyntax(getParameterAsString(SYNTAX, null)));
         } catch (ParseException e) {
             throw new SAXException("Failed to parse [syntax] parameter in rw block", e);
         }

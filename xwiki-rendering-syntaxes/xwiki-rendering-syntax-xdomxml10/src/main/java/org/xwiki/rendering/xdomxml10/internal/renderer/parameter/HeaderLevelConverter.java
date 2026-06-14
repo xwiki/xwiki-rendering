@@ -26,6 +26,11 @@ import java.util.stream.Stream;
 
 import org.xwiki.rendering.listener.HeaderLevel;
 
+/**
+ * Converts a {@link HeaderLevel} to and from its XDOM+XML String representation.
+ *
+ * @version $Id$
+ */
 public class HeaderLevelConverter
 {
     private static final Map<String, HeaderLevel> STRINGTOHEADERLEVEL = Stream.of(
@@ -46,11 +51,19 @@ public class HeaderLevelConverter
         new AbstractMap.SimpleImmutableEntry<>(HeaderLevel.LEVEL6, "6"))
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
+    /**
+     * @param str the String representation of the header level
+     * @return the matching {@link HeaderLevel}, defaulting to {@link HeaderLevel#LEVEL1}
+     */
     public HeaderLevel toFormat(String str)
     {
         return STRINGTOHEADERLEVEL.containsKey(str) ? STRINGTOHEADERLEVEL.get(str) : HeaderLevel.LEVEL1;
     }
 
+    /**
+     * @param headerLevel the header level
+     * @return the String representation of the passed header level
+     */
     public String toString(HeaderLevel headerLevel)
     {
         return HEADERLEVELTOSTRING.containsKey(headerLevel) ? HEADERLEVELTOSTRING.get(headerLevel)

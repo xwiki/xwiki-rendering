@@ -108,17 +108,11 @@
             <id>default</id>
             <configuration>
               <excludes>
+                <!-- The following files have structural checkstyle issues that would require refactoring to fix, hence
+                     they are still excluded for now:
+                     - BlockNavigator and XDOMGeneratorListener: high complexity / class fan-out. -->
                 org/xwiki/rendering/block/match/BlockNavigator.java,
-                org/xwiki/rendering/internal/parser/XDOMGeneratorListener.java,
-                org/xwiki/rendering/listener/chaining/LookaheadChainingListener.java,
-                org/xwiki/rendering/listener/chaining/TextOnNewLineStateChainingListener.java,
-                org/xwiki/rendering/listener/chaining/EmptyBlockChainingListener.java,
-                org/xwiki/rendering/listener/chaining/BlockStateChainingListener.java,
-                org/xwiki/rendering/listener/chaining/GroupStateChainingListener.java,
-                org/xwiki/rendering/renderer/printer/LookaheadWikiPrinter.java,
-                org/xwiki/rendering/renderer/printer/WrappingWikiPrinter.java,
-                org/xwiki/rendering/syntax/Syntax.java,
-                org/xwiki/rendering/syntax/SyntaxType.java
+                org/xwiki/rendering/internal/parser/XDOMGeneratorListener.java
               </excludes>
             </configuration>
           </execution>

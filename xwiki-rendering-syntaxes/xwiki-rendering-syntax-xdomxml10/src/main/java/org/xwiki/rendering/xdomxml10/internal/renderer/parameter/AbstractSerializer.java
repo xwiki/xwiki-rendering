@@ -27,25 +27,43 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xwiki.rendering.xdomxml10.internal.XDOMXMLConstants;
 
+/**
+ * Base class for XDOM+XML parameter serializers, providing helpers to send SAX events.
+ *
+ * @version $Id$
+ */
 public abstract class AbstractSerializer
 {
+    /**
+     * Empty XML attributes, used when an element has no attribute.
+     */
     public static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
 
+    private static final String TYPE = "type";
+
+    private static final String FAILED_TO_SEND_SAX_EVENT = "Failed to send sax event";
+
+    /**
+     * @param name the name of the parameter
+     * @param map the map of values to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     * @param contentHandler the content handler to send the SAX events to
+     */
     // TODO: support more than strings
-    public void serializeParameter(String name, Map< ? , ? > map, boolean type, ContentHandler contentHandler)
+    public void serializeParameter(String name, Map<?, ?> map, boolean type, ContentHandler contentHandler)
     {
         Attributes attributes;
 
         if (type) {
             AttributesImpl attributesImpl = new AttributesImpl();
-            attributesImpl.addAttribute(null, null, "type", null, "stringmap");
+            attributesImpl.addAttribute(null, null, TYPE, null, "stringmap");
             attributes = attributesImpl;
         } else {
             attributes = EMPTY_ATTRIBUTES;
         }
 
         startElement(name, attributes, contentHandler);
-        for (Map.Entry< ? , ? > entry : map.entrySet()) {
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
             if (entry.getValue() != null && entry.getKey() != null) {
                 serializeParameter(entry.getKey().toString(), entry.getValue().toString(), null, contentHandler);
             }
@@ -53,21 +71,45 @@ public abstract class AbstractSerializer
         endElement(name, contentHandler);
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the char value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     * @param contentHandler the content handler to send the SAX events to
+     */
     public void serializeParameter(String name, char value, boolean type, ContentHandler contentHandler)
     {
         serializeParameter(name, String.valueOf(value), "char", contentHandler);
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the int value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     * @param contentHandler the content handler to send the SAX events to
+     */
     public void serializeParameter(String name, int value, boolean type, ContentHandler contentHandler)
     {
         serializeParameter(name, String.valueOf(value), "int", contentHandler);
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the boolean value to serialize
+     * @param type {@code true} to serialize the type information, {@code false} otherwise
+     * @param contentHandler the content handler to send the SAX events to
+     */
     public void serializeParameter(String name, boolean value, boolean type, ContentHandler contentHandler)
     {
         serializeParameter(name, String.valueOf(value), "bool", contentHandler);
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param value the String value to serialize
+     * @param type the type of the value, or {@code null} when no type information should be serialized
+     * @param contentHandler the content handler to send the SAX events to
+     */
     public void serializeParameter(String name, String value, String type, ContentHandler contentHandler)
     {
         String nodeName;
@@ -79,7 +121,7 @@ public abstract class AbstractSerializer
                 attributes = EMPTY_ATTRIBUTES;
             } else {
                 AttributesImpl attributesImpl = new AttributesImpl();
-                attributesImpl.addAttribute(null, null, "type", null, type);
+                attributesImpl.addAttribute(null, null, TYPE, null, type);
                 attributes = attributesImpl;
             }
         } else {
@@ -94,35 +136,52 @@ public abstract class AbstractSerializer
         endElement(nodeName, contentHandler);
     }
 
+    /**
+     * @param name the name to check
+     * @return {@code true} if the passed name is a valid XML element name, {@code false} otherwise
+     */
     public boolean isValidNodeName(String name)
     {
         return XDOMXMLConstants.VALID_ELEMENTNAME.matcher(name).matches();
     }
 
+    /**
+     * @param elementName the name of the element to start
+     * @param attributes the attributes of the element
+     * @param contentHandler the content handler to send the SAX event to
+     */
     public void startElement(String elementName, Attributes attributes, ContentHandler contentHandler)
     {
         try {
             contentHandler.startElement("", elementName, elementName, attributes);
         } catch (SAXException e) {
-            throw new RuntimeException("Failed to send sax event", e);
+            throw new RuntimeException(FAILED_TO_SEND_SAX_EVENT, e);
         }
     }
 
+    /**
+     * @param str the characters to send
+     * @param contentHandler the content handler to send the SAX event to
+     */
     public void characters(String str, ContentHandler contentHandler)
     {
         try {
             contentHandler.characters(str.toCharArray(), 0, str.length());
         } catch (SAXException e) {
-            throw new RuntimeException("Failed to send sax event", e);
+            throw new RuntimeException(FAILED_TO_SEND_SAX_EVENT, e);
         }
     }
 
+    /**
+     * @param elementName the name of the element to end
+     * @param contentHandler the content handler to send the SAX event to
+     */
     public void endElement(String elementName, ContentHandler contentHandler)
     {
         try {
             contentHandler.endElement("", elementName, elementName);
         } catch (SAXException e) {
-            throw new RuntimeException("Failed to send sax event", e);
+            throw new RuntimeException(FAILED_TO_SEND_SAX_EVENT, e);
         }
     }
 }

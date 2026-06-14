@@ -32,6 +32,9 @@ public class LookaheadWikiPrinter extends WrappingWikiPrinter
 {
     private StringBuffer buffer = new StringBuffer();
 
+    /**
+     * @param printer the wiki printer to wrap
+     */
     public LookaheadWikiPrinter(WikiPrinter printer)
     {
         super(printer);
@@ -61,21 +64,38 @@ public class LookaheadWikiPrinter extends WrappingWikiPrinter
         printlnInternal(text);
     }
 
+    /**
+     * Save the passed text in the internal buffer so that it's printed only when the printer is flushed.
+     *
+     * @param text the text to print in a delayed manner
+     */
     public void printDelayed(String text)
     {
         getBuffer().append(text);
     }
 
+    /**
+     * Save the passed text followed by an end of line in the internal buffer so that it's printed only when the printer
+     * is flushed.
+     *
+     * @param text the text to print in a delayed manner
+     */
     public void printlnDelayed(String text)
     {
         getBuffer().append(text).append(getEOL());
     }
 
+    /**
+     * @return the internal buffer holding the not-yet-flushed content
+     */
     public StringBuffer getBuffer()
     {
         return this.buffer;
     }
 
+    /**
+     * Print the content currently held in the internal buffer and empty that buffer.
+     */
     public void flush()
     {
         if (getBuffer().length() > 0) {

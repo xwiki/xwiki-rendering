@@ -19,6 +19,11 @@
  */
 package org.xwiki.rendering.xdomxml10.internal.renderer.parameter;
 
+/**
+ * Default XDOM+XML parameter serializer.
+ *
+ * @version $Id$
+ */
 public class DefaultSerializer extends AbstractSerializer
 {
 

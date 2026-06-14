@@ -28,13 +28,23 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
+/**
+ * Parses a word block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("word")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class WordBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = Collections.singleton("word");
+    private static final String WORD = "word";
 
+    private static final Set<String> NAMES = Collections.singleton(WORD);
+
+    /**
+     * Default constructor.
+     */
     public WordBlockParser()
     {
         super(NAMES);
@@ -43,6 +53,6 @@ public class WordBlockParser extends DefaultBlockParser
     @Override
     protected void endBlock()
     {
-        getListener().onWord(getParameterAsString("word", ""));
+        getListener().onWord(getParameterAsString(WORD, ""));
     }
 }

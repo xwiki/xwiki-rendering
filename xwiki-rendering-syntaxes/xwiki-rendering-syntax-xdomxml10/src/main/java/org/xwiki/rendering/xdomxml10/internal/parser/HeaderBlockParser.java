@@ -30,15 +30,27 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.HeaderLevelConverter;
 
+/**
+ * Parses a header block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("header")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class HeaderBlockParser extends DefaultBlockParser
 {
+    private static final String LEVEL = "level";
+
+    private static final String ID = "id";
+
     private static final HeaderLevelConverter HEADERLEVELCONVERTER = new HeaderLevelConverter();
 
-    private static final Set<String> NAMES = Stream.of("level", "id").collect(Collectors.toSet());
+    private static final Set<String> NAMES = Stream.of(LEVEL, ID).collect(Collectors.toSet());
 
+    /**
+     * Default constructor.
+     */
     public HeaderBlockParser()
     {
         super(NAMES);
@@ -47,14 +59,14 @@ public class HeaderBlockParser extends DefaultBlockParser
     @Override
     protected void beginBlock()
     {
-        getListener().beginHeader(HEADERLEVELCONVERTER.toFormat(getParameterAsString("level", null)),
-            getParameterAsString("id", null), getCustomParameters());
+        getListener().beginHeader(HEADERLEVELCONVERTER.toFormat(getParameterAsString(LEVEL, null)),
+            getParameterAsString(ID, null), getCustomParameters());
     }
 
     @Override
     protected void endBlock()
     {
-        getListener().endHeader(HEADERLEVELCONVERTER.toFormat(getParameterAsString("level", null)),
-            getParameterAsString("id", null), getCustomParameters());
+        getListener().endHeader(HEADERLEVELCONVERTER.toFormat(getParameterAsString(LEVEL, null)),
+            getParameterAsString(ID, null), getCustomParameters());
     }
 }

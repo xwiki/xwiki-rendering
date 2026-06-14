@@ -34,16 +34,25 @@ public class GroupStateChainingListener extends AbstractChainingListener
 {
     private int groupDepth;
 
+    /**
+     * @param listenerChain the chain of listeners this listener belongs to
+     */
     public GroupStateChainingListener(ListenerChain listenerChain)
     {
         setListenerChain(listenerChain);
     }
 
+    /**
+     * @return the current group nesting depth
+     */
     public int getDocumentDepth()
     {
         return this.groupDepth;
     }
 
+    /**
+     * @return {@code true} if the listener is currently inside a group
+     */
     public boolean isInGroup()
     {
         return this.groupDepth > 0;

@@ -47,11 +47,11 @@ import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 public class DefaultXHTMLImageRenderer implements XHTMLImageRenderer
 {
     @Inject
-    private XHTMLImageTypeRenderer defaultImageTypeRenderer;
-
-    @Inject
     @Named("context")
     protected Provider<ComponentManager> componentManagerProvider;
+
+    @Inject
+    private XHTMLImageTypeRenderer defaultImageTypeRenderer;
 
     /**
      * The XHTML printer to use to output images as XHTML.

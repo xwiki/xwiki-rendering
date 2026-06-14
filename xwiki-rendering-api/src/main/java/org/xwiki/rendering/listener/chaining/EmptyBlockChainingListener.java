@@ -40,11 +40,17 @@ public class EmptyBlockChainingListener extends AbstractChainingListener
 {
     private Deque<Boolean> containerBlockStates = new ArrayDeque<Boolean>();
 
+    /**
+     * @param listenerChain the chain of listeners this listener belongs to
+     */
     public EmptyBlockChainingListener(ListenerChain listenerChain)
     {
         setListenerChain(listenerChain);
     }
 
+    /**
+     * @return {@code true} if the current container block has no children yet
+     */
     public boolean isCurrentContainerBlockEmpty()
     {
         return this.containerBlockStates.peek();

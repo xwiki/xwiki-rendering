@@ -31,15 +31,25 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.xdomxml10.internal.parser.parameter.ResourceReferenceParser;
 
+/**
+ * Parses an image block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("image")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class ImageBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = Collections.singleton("freestanding");
+    private static final String FREESTANDING = "freestanding";
+
+    private static final Set<String> NAMES = Collections.singleton(FREESTANDING);
 
     private ResourceReferenceParser referenceParser = new ResourceReferenceParser();
 
+    /**
+     * Default constructor.
+     */
     public ImageBlockParser()
     {
         super(NAMES);
@@ -59,7 +69,7 @@ public class ImageBlockParser extends DefaultBlockParser
     @Override
     protected void beginBlock()
     {
-        getListener().onImage(this.referenceParser.getValue(), getParameterAsBoolean("freestanding", false),
+        getListener().onImage(this.referenceParser.getValue(), getParameterAsBoolean(FREESTANDING, false),
             getParameterAsString("id", null), getCustomParameters());
     }
 }

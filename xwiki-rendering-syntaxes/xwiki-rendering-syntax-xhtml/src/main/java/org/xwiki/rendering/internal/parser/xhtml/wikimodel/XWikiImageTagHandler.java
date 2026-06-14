@@ -36,6 +36,8 @@ import org.xwiki.rendering.wikimodel.xhtml.impl.TagStack;
  */
 public class XWikiImageTagHandler extends ImgTagHandler implements XWikiWikiModelHandler
 {
+    private static final String SRC_ATTRIBUTE = "src";
+
     @Override
     public void initialize(TagStack stack)
     {
@@ -71,10 +73,10 @@ public class XWikiImageTagHandler extends ImgTagHandler implements XWikiWikiMode
         boolean isInImage = (Boolean) context.getTagStack().getStackParameter(IS_IN_IMAGE);
 
         if (!isInImage) {
-            WikiParameter src = context.getParams().getParameter("src");
+            WikiParameter src = context.getParams().getParameter(SRC_ATTRIBUTE);
 
             if (src != null) {
-                WikiParameters parameters = context.getParams().remove("src");
+                WikiParameters parameters = context.getParams().remove(SRC_ATTRIBUTE);
 
                 if (isFreeStandingReference(context)) {
                     context.getScannerContext().onImage(src.getValue());
@@ -101,7 +103,7 @@ public class XWikiImageTagHandler extends ImgTagHandler implements XWikiWikiMode
 
         boolean isFreeStanding = containsFreeStandingClass(result);
         result = removeFreestanding(result);
-        result = result.remove("src");
+        result = result.remove(SRC_ATTRIBUTE);
 
         if (isFreeStanding) {
             result = result.remove("alt");

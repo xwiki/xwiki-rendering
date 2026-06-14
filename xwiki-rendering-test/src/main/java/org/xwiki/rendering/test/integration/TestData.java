@@ -29,8 +29,14 @@ import java.util.Map;
  */
 public class TestData
 {
+    /**
+     * The test inputs, keyed by the syntax id of each input.
+     */
     public Map<String, String> inputs = new LinkedHashMap<String, String>();
 
+    /**
+     * The expected results, keyed by the syntax id of each expectation.
+     */
     public Map<String, String> expectations = new LinkedHashMap<String, String>();
 
     /**

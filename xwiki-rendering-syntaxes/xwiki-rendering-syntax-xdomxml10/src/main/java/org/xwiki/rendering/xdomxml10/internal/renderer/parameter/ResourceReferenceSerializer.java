@@ -23,14 +23,25 @@ import org.xml.sax.ContentHandler;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.xdomxml10.internal.XDOMXMLConstants;
 
+/**
+ * Serializes a resource reference into XDOM+XML.
+ *
+ * @version $Id$
+ */
 public class ResourceReferenceSerializer extends AbstractSerializer
 {
+    private static final String REFERENCE = "reference";
+
+    /**
+     * @param reference the resource reference to serialize
+     * @param contentHandler the content handler to send the SAX events to
+     */
     public void serialize(ResourceReference reference, ContentHandler contentHandler)
     {
-        startElement("reference", EMPTY_ATTRIBUTES, contentHandler);
+        startElement(REFERENCE, EMPTY_ATTRIBUTES, contentHandler);
 
         serializeParameter("type", reference.getType().getScheme(), null, contentHandler);
-        serializeParameter("reference", reference.getReference(), null, contentHandler);
+        serializeParameter(REFERENCE, reference.getReference(), null, contentHandler);
         if (!reference.isTyped()) {
             serializeParameter("typed", reference.isTyped(), false, contentHandler);
         }
@@ -38,6 +49,6 @@ public class ResourceReferenceSerializer extends AbstractSerializer
             serializeParameter(XDOMXMLConstants.ELEM_PARAMETERS, reference.getParameters(), false, contentHandler);
         }
 
-        endElement("reference", contentHandler);
+        endElement(REFERENCE, contentHandler);
     }
 }

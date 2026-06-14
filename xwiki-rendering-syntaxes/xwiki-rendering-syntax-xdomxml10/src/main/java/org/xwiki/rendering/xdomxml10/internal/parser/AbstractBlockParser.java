@@ -30,6 +30,11 @@ import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.xdomxml10.internal.XDOMXMLConstants;
 
+/**
+ * Base class for {@link BlockParser} implementations, handling the common SAX event dispatching logic.
+ *
+ * @version $Id$
+ */
 public abstract class AbstractBlockParser extends DefaultHandler implements BlockParser
 {
     @Inject
@@ -41,7 +46,7 @@ public abstract class AbstractBlockParser extends DefaultHandler implements Bloc
 
     private int currentHandlerLevel;
 
-    private int level = 0;
+    private int level;
 
     private String blockVersion;
 
@@ -49,11 +54,17 @@ public abstract class AbstractBlockParser extends DefaultHandler implements Bloc
 
     private Listener listener;
 
+    /**
+     * @param componentManager the component manager used to look up child block parsers
+     */
     public void setComponentManager(ComponentManager componentManager)
     {
         this.componentManager = componentManager;
     }
 
+    /**
+     * @return the component manager used to look up child block parsers
+     */
     public ComponentManager getComponentManager()
     {
         return componentManager;
@@ -83,11 +94,17 @@ public abstract class AbstractBlockParser extends DefaultHandler implements Bloc
         this.blockVersion = version;
     }
 
+    /**
+     * @return the name of the block being parsed
+     */
     public String getBlockName()
     {
         return this.blockName;
     }
 
+    /**
+     * @return the current nesting level in the XML document
+     */
     public int getLevel()
     {
         return this.level;
@@ -212,6 +229,9 @@ public abstract class AbstractBlockParser extends DefaultHandler implements Bloc
         this.currentHandlerLevel = this.level;
     }
 
+    /**
+     * @return the content handler currently in charge of parsing, or {@code null} if none
+     */
     public ContentHandler getCurrentHandler()
     {
         return this.currentHandler;

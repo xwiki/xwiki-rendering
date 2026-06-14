@@ -29,13 +29,29 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
+/**
+ * Parses a macro marker block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("macromarker")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class MacroMarkerBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = Stream.of("id", "content", "inline").collect(Collectors.toSet());
+    private static final String ID = "id";
 
+    private static final String CONTENT = "content";
+
+    private static final String INLINE = "inline";
+
+    private static final String MACRO = "macro";
+
+    private static final Set<String> NAMES = Stream.of(ID, CONTENT, INLINE).collect(Collectors.toSet());
+
+    /**
+     * Default constructor.
+     */
     public MacroMarkerBlockParser()
     {
         super(NAMES);
@@ -44,14 +60,14 @@ public class MacroMarkerBlockParser extends DefaultBlockParser
     @Override
     protected void beginBlock()
     {
-        getListener().beginMacroMarker(getParameterAsString("id", "macro"), getCustomParameters(),
-            getParameterAsString("content", null), getParameterAsBoolean("inline", false));
+        getListener().beginMacroMarker(getParameterAsString(ID, MACRO), getCustomParameters(),
+            getParameterAsString(CONTENT, null), getParameterAsBoolean(INLINE, false));
     }
 
     @Override
     protected void endBlock()
     {
-        getListener().endMacroMarker(getParameterAsString("id", "macro"), getCustomParameters(),
-            getParameterAsString("content", null), getParameterAsBoolean("inline", false));
+        getListener().endMacroMarker(getParameterAsString(ID, MACRO), getCustomParameters(),
+            getParameterAsString(CONTENT, null), getParameterAsBoolean(INLINE, false));
     }
 }

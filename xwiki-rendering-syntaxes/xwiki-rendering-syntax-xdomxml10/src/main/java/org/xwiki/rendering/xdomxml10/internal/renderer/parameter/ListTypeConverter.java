@@ -26,23 +26,40 @@ import java.util.stream.Stream;
 
 import org.xwiki.rendering.listener.ListType;
 
+/**
+ * Converts a {@link ListType} to and from its XDOM+XML String representation.
+ *
+ * @version $Id$
+ */
 public class ListTypeConverter
 {
+    private static final String BULLETED = "bulleted";
+
+    private static final String NUMBERED = "numbered";
+
     private static final Map<String, ListType> STRINGTOLISTTYPE = Stream.of(
-        new AbstractMap.SimpleImmutableEntry<>("bulleted", ListType.BULLETED),
-        new AbstractMap.SimpleImmutableEntry<>("numbered", ListType.NUMBERED))
+        new AbstractMap.SimpleImmutableEntry<>(BULLETED, ListType.BULLETED),
+        new AbstractMap.SimpleImmutableEntry<>(NUMBERED, ListType.NUMBERED))
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     private static final Map<ListType, String> LISTTYPETOSTRING = Stream.of(
-        new AbstractMap.SimpleImmutableEntry<>(ListType.BULLETED, "bulleted"),
-        new AbstractMap.SimpleImmutableEntry<>(ListType.NUMBERED, "numbered"))
+        new AbstractMap.SimpleImmutableEntry<>(ListType.BULLETED, BULLETED),
+        new AbstractMap.SimpleImmutableEntry<>(ListType.NUMBERED, NUMBERED))
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
+    /**
+     * @param str the String representation of the list type
+     * @return the matching {@link ListType}, defaulting to {@link ListType#BULLETED}
+     */
     public ListType toFormat(String str)
     {
         return STRINGTOLISTTYPE.containsKey(str) ? STRINGTOLISTTYPE.get(str) : ListType.BULLETED;
     }
 
+    /**
+     * @param type the list type
+     * @return the String representation of the passed list type
+     */
     public String toString(ListType type)
     {
         return LISTTYPETOSTRING.containsKey(type) ? LISTTYPETOSTRING.get(type) : LISTTYPETOSTRING

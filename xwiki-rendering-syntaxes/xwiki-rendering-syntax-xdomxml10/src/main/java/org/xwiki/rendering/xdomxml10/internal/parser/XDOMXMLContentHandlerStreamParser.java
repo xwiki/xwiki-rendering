@@ -38,22 +38,27 @@ import org.xwiki.rendering.xdomxml10.internal.XDOMXMLConstants;
 
 import static org.xwiki.rendering.xdomxml10.internal.XDOMXML10SyntaxProvider.XDOMXML_1_0;
 
+/**
+ * Parses an XDOM+XML 1.0 stream and forwards the corresponding events to a {@link Listener}.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("xdom+xml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class XDOMXMLContentHandlerStreamParser extends DefaultHandler implements ContentHandlerStreamParser
 {
+    /**
+     * Avoid create a new SAXContentHandler for each block when the same can be used for all.
+     */
+    public SAXContentHandler currentDOMBuilder = new SAXContentHandler();
+
     private Listener listener;
 
     private BlockParser documentParser;
 
     @Inject
     private ComponentManager componentManager;
-
-    /**
-     * Avoid create a new SAXContentHandler for each block when the same can be used for all.
-     */
-    public SAXContentHandler currentDOMBuilder = new SAXContentHandler();
 
     @Override
     public Syntax getSyntax()

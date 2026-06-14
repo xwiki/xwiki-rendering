@@ -26,35 +26,64 @@ import java.util.stream.Stream;
 
 import org.xwiki.rendering.listener.Format;
 
+/**
+ * Converts a {@link Format} to and from its XDOM+XML String representation.
+ *
+ * @version $Id$
+ */
 public class FormatConverter
 {
+    private static final String BOLD = "bold";
+
+    private static final String ITALIC = "italic";
+
+    private static final String UNDERLINED = "underlined";
+
+    private static final String STRIKEOUT = "strikeout";
+
+    private static final String SUPERSCRIPT = "superscript";
+
+    private static final String SUBSCRIPT = "subscript";
+
+    private static final String MONOSPACE = "monospace";
+
+    private static final String NONE = "none";
+
     private static final Map<String, Format> STRINGTOFORMAT = Stream.of(
-        new AbstractMap.SimpleImmutableEntry<>("bold", Format.BOLD),
-        new AbstractMap.SimpleImmutableEntry<>("italic", Format.ITALIC),
-        new AbstractMap.SimpleImmutableEntry<>("underlined", Format.UNDERLINED),
-        new AbstractMap.SimpleImmutableEntry<>("strikeout", Format.STRIKEDOUT),
-        new AbstractMap.SimpleImmutableEntry<>("superscript", Format.SUPERSCRIPT),
-        new AbstractMap.SimpleImmutableEntry<>("subscript", Format.SUBSCRIPT),
-        new AbstractMap.SimpleImmutableEntry<>("monospace", Format.MONOSPACE),
-        new AbstractMap.SimpleImmutableEntry<>("none", Format.NONE))
+        new AbstractMap.SimpleImmutableEntry<>(BOLD, Format.BOLD),
+        new AbstractMap.SimpleImmutableEntry<>(ITALIC, Format.ITALIC),
+        new AbstractMap.SimpleImmutableEntry<>(UNDERLINED, Format.UNDERLINED),
+        new AbstractMap.SimpleImmutableEntry<>(STRIKEOUT, Format.STRIKEDOUT),
+        new AbstractMap.SimpleImmutableEntry<>(SUPERSCRIPT, Format.SUPERSCRIPT),
+        new AbstractMap.SimpleImmutableEntry<>(SUBSCRIPT, Format.SUBSCRIPT),
+        new AbstractMap.SimpleImmutableEntry<>(MONOSPACE, Format.MONOSPACE),
+        new AbstractMap.SimpleImmutableEntry<>(NONE, Format.NONE))
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     private static final Map<Format, String> FORMATTOSTRING = Stream.of(
-        new AbstractMap.SimpleImmutableEntry<>(Format.BOLD, "bold"),
-        new AbstractMap.SimpleImmutableEntry<>(Format.ITALIC, "italic"),
-        new AbstractMap.SimpleImmutableEntry<>(Format.UNDERLINED, "underlined"),
-        new AbstractMap.SimpleImmutableEntry<>(Format.STRIKEDOUT, "strikeout"),
-        new AbstractMap.SimpleImmutableEntry<>(Format.SUPERSCRIPT, "superscript"),
-        new AbstractMap.SimpleImmutableEntry<>(Format.SUBSCRIPT, "subscript"),
-        new AbstractMap.SimpleImmutableEntry<>(Format.MONOSPACE, "monospace"),
-        new AbstractMap.SimpleImmutableEntry<>(Format.NONE, "none"))
+        new AbstractMap.SimpleImmutableEntry<>(Format.BOLD, BOLD),
+        new AbstractMap.SimpleImmutableEntry<>(Format.ITALIC, ITALIC),
+        new AbstractMap.SimpleImmutableEntry<>(Format.UNDERLINED, UNDERLINED),
+        new AbstractMap.SimpleImmutableEntry<>(Format.STRIKEDOUT, STRIKEOUT),
+        new AbstractMap.SimpleImmutableEntry<>(Format.SUPERSCRIPT, SUPERSCRIPT),
+        new AbstractMap.SimpleImmutableEntry<>(Format.SUBSCRIPT, SUBSCRIPT),
+        new AbstractMap.SimpleImmutableEntry<>(Format.MONOSPACE, MONOSPACE),
+        new AbstractMap.SimpleImmutableEntry<>(Format.NONE, NONE))
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
+    /**
+     * @param str the String representation of the format
+     * @return the matching {@link Format}, defaulting to {@link Format#NONE}
+     */
     public Format toFormat(String str)
     {
         return STRINGTOFORMAT.containsKey(str) ? STRINGTOFORMAT.get(str) : Format.NONE;
     }
 
+    /**
+     * @param format the format
+     * @return the String representation of the passed format
+     */
     public String toString(Format format)
     {
         return FORMATTOSTRING.containsKey(format) ? FORMATTOSTRING.get(format) : FORMATTOSTRING.get(Format.NONE);

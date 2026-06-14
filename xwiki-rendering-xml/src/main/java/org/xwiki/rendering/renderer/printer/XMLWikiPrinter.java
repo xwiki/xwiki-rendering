@@ -56,11 +56,17 @@ public class XMLWikiPrinter
         this.xmlWriter = new XHTMLWriter(this.wikiWriter);
     }
 
+    /**
+     * @return the {@link XMLWriter} used to write the XML output
+     */
     public XMLWriter getXMLWriter()
     {
         return this.xmlWriter;
     }
 
+    /**
+     * @param printer the object to which to write the XHTML output to
+     */
     public void setWikiPrinter(WikiPrinter printer)
     {
         this.wikiWriter.setWikiPrinter(printer);
@@ -252,6 +258,11 @@ public class XMLWikiPrinter
         }
     }
 
+    /**
+     * Print the provided entity.
+     *
+     * @param entity the entity to print
+     */
     public void printEntity(String entity)
     {
         try {

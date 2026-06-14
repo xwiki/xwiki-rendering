@@ -62,6 +62,18 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
      */
     public static final String GENERATEDIDCLASS = "wikigeneratedid";
 
+    private static final String TAG_SUP = "sup";
+
+    private static final String TAG_SUB = "sub";
+
+    private static final String TAG_DT = "dt";
+
+    private static final String TAG_DD = "dd";
+
+    private static final String TAG_HEADER_PREFIX = "h";
+
+    private static final String ATTRIBUTE_SCOPE = "scope";
+
     private XHTMLLinkRenderer linkRenderer;
 
     private XHTMLImageRenderer imageRenderer;
@@ -144,13 +156,13 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         Map<String, String> clonedParameters = new LinkedHashMap<String, String>();
         clonedParameters.putAll(parameters);
         getXHTMLWikiPrinter().setStandalone();
-        getXHTMLWikiPrinter().printXMLStartElement("div", clonedParameters);
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_DIV, clonedParameters);
     }
 
     @Override
     public void endGroup(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLEndElement("div");
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_DIV);
     }
 
     @Override
@@ -158,25 +170,25 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     {
         switch (format) {
             case BOLD:
-                getXHTMLWikiPrinter().printXMLStartElement("strong");
+                getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_STRONG);
                 break;
             case ITALIC:
-                getXHTMLWikiPrinter().printXMLStartElement("em");
+                getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_EM);
                 break;
             case STRIKEDOUT:
-                getXHTMLWikiPrinter().printXMLStartElement("del");
+                getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_DEL);
                 break;
             case UNDERLINED:
-                getXHTMLWikiPrinter().printXMLStartElement("ins");
+                getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_INS);
                 break;
             case SUPERSCRIPT:
-                getXHTMLWikiPrinter().printXMLStartElement("sup");
+                getXHTMLWikiPrinter().printXMLStartElement(TAG_SUP);
                 break;
             case SUBSCRIPT:
-                getXHTMLWikiPrinter().printXMLStartElement("sub");
+                getXHTMLWikiPrinter().printXMLStartElement(TAG_SUB);
                 break;
             case MONOSPACE:
-                getXHTMLWikiPrinter().printXMLStartElement("tt");
+                getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_TT);
                 break;
             case NONE:
                 break;
@@ -185,7 +197,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
                 break;
         }
         if (!parameters.isEmpty()) {
-            getXHTMLWikiPrinter().printXMLStartElement("span", parameters);
+            getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_SPAN, parameters);
         }
     }
 
@@ -193,29 +205,29 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     public void endFormat(Format format, Map<String, String> parameters)
     {
         if (!parameters.isEmpty()) {
-            getXHTMLWikiPrinter().printXMLEndElement("span");
+            getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_SPAN);
         }
         switch (format) {
             case BOLD:
-                getXHTMLWikiPrinter().printXMLEndElement("strong");
+                getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_STRONG);
                 break;
             case ITALIC:
-                getXHTMLWikiPrinter().printXMLEndElement("em");
+                getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_EM);
                 break;
             case STRIKEDOUT:
-                getXHTMLWikiPrinter().printXMLEndElement("del");
+                getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_DEL);
                 break;
             case UNDERLINED:
-                getXHTMLWikiPrinter().printXMLEndElement("ins");
+                getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_INS);
                 break;
             case SUPERSCRIPT:
-                getXHTMLWikiPrinter().printXMLEndElement("sup");
+                getXHTMLWikiPrinter().printXMLEndElement(TAG_SUP);
                 break;
             case SUBSCRIPT:
-                getXHTMLWikiPrinter().printXMLEndElement("sub");
+                getXHTMLWikiPrinter().printXMLEndElement(TAG_SUB);
                 break;
             case MONOSPACE:
-                getXHTMLWikiPrinter().printXMLEndElement("tt");
+                getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_TT);
                 break;
             case NONE:
                 break;
@@ -229,13 +241,13 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     public void beginParagraph(Map<String, String> parameters)
     {
         getXHTMLWikiPrinter().setStandalone();
-        getXHTMLWikiPrinter().printXMLStartElement("p", parameters);
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_P, parameters);
     }
 
     @Override
     public void endParagraph(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLEndElement("p");
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_P);
     }
 
     @Override
@@ -273,12 +285,12 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     {
         Map<String, String> attributes = new LinkedHashMap<String, String>();
 
-        attributes.put("id", id);
+        attributes.put(HTMLConstants.ATTRIBUTE_ID, id);
 
         // Indicate that the id is generated. This is to differentiate from ids added as parameters.
         // Note that we add this only if the user hasn't specified an id as an override in a parameter.
-        if (!parameters.containsKey("id")) {
-            addClassValue("class", GENERATEDIDCLASS, attributes);
+        if (!parameters.containsKey(HTMLConstants.ATTRIBUTE_ID)) {
+            addClassValue(HTMLConstants.ATTRIBUTE_CLASS, GENERATEDIDCLASS, attributes);
         }
 
         attributes.putAll(parameters);
@@ -290,21 +302,21 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         // TODO: In the future it's possible that we'll want this kind of behavior implemented using a Transformation.
         // If we decide this then remove this code.
         if (getBlockState().isInMacro()) {
-            addClassValue("class", GENERATEDHEADERCLASS, attributes);
+            addClassValue(HTMLConstants.ATTRIBUTE_CLASS, GENERATEDHEADERCLASS, attributes);
         }
 
         getXHTMLWikiPrinter().setStandalone();
-        getXHTMLWikiPrinter().printXMLStartElement("h" + level.getAsInt(), attributes);
+        getXHTMLWikiPrinter().printXMLStartElement(TAG_HEADER_PREFIX + level.getAsInt(), attributes);
         // We generate a span so that CSS rules have a hook to perform some magic that wouldn't work on just a H
         // element. Like some IE6 magic and others.
-        getXHTMLWikiPrinter().printXMLStartElement("span");
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_SPAN);
     }
 
     @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLEndElement("span");
-        getXHTMLWikiPrinter().printXMLEndElement("h" + level.getAsInt());
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_SPAN);
+        getXHTMLWikiPrinter().printXMLEndElement(TAG_HEADER_PREFIX + level.getAsInt());
     }
 
     @Override
@@ -330,9 +342,9 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     public void beginList(ListType type, Map<String, String> parameters)
     {
         if (type == ListType.BULLETED) {
-            getXHTMLWikiPrinter().printXMLStartElement("ul", parameters);
+            getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_UL, parameters);
         } else {
-            getXHTMLWikiPrinter().printXMLStartElement("ol", parameters);
+            getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_OL, parameters);
         }
     }
 
@@ -340,29 +352,29 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     public void beginListItem()
     {
         getXHTMLWikiPrinter().setStandalone();
-        getXHTMLWikiPrinter().printXMLStartElement("li");
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_LI);
     }
 
     @Override
     public void beginListItem(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLStartElement("li", parameters);
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_LI, parameters);
     }
 
     @Override
     public void endList(ListType type, Map<String, String> parameters)
     {
         if (type == ListType.BULLETED) {
-            getXHTMLWikiPrinter().printXMLEndElement("ul");
+            getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_UL);
         } else {
-            getXHTMLWikiPrinter().printXMLEndElement("ol");
+            getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_OL);
         }
     }
 
     @Override
     public void endListItem()
     {
-        getXHTMLWikiPrinter().printXMLEndElement("li");
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_LI);
     }
 
     @Override
@@ -380,11 +392,13 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         if (getBlockState().isInLine()) {
             // Note: We're using <span><span/> and not <span/> since some browsers do not support the
             // <span/> syntax (FF3) when the content type is set to HTML instead of XHTML.
-            getXHTMLWikiPrinter().printXMLStartElement("span", new String[][] { { "id", name } });
-            getXHTMLWikiPrinter().printXMLEndElement("span");
+            getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_SPAN,
+                new String[][] { { HTMLConstants.ATTRIBUTE_ID, name } });
+            getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_SPAN);
         } else {
-            getXHTMLWikiPrinter().printXMLStartElement("div", new String[][] { { "id", name } });
-            getXHTMLWikiPrinter().printXMLEndElement("div");
+            getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_DIV,
+                new String[][] { { HTMLConstants.ATTRIBUTE_ID, name } });
+            getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_DIV);
         }
     }
 
@@ -403,13 +417,14 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
             // tt is the closest to pre for inline.
             // The class is what is expected by wikimodel to understand the tt as meaning a verbatim and not a Monospace
             // element.
-            getXHTMLWikiPrinter().printXMLStartElement("tt", new String[][] { { "class", "wikimodel-verbatim" } });
+            getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_TT,
+                new String[][] { { HTMLConstants.ATTRIBUTE_CLASS, "wikimodel-verbatim" } });
             getXHTMLWikiPrinter().printXML(content);
-            getXHTMLWikiPrinter().printXMLEndElement("tt");
+            getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_TT);
         } else {
-            getXHTMLWikiPrinter().printXMLStartElement("pre", parameters);
+            getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_PRE, parameters);
             getXHTMLWikiPrinter().printXML(content);
-            getXHTMLWikiPrinter().printXMLEndElement("pre");
+            getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_PRE);
         }
     }
 
@@ -421,8 +436,9 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         // Note: We're using <div><div/> and not <div/> since some browsers do not support the <div/> syntax (FF3)
         // when the content type is set to HTML instead of XHTML.
         for (int i = 0; i < count; ++i) {
-            getXHTMLWikiPrinter().printXMLStartElement("div", new String[][] { { "class", "wikimodel-emptyline" } });
-            getXHTMLWikiPrinter().printXMLEndElement("div");
+            getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_DIV,
+                new String[][] { { HTMLConstants.ATTRIBUTE_CLASS, "wikimodel-emptyline" } });
+            getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_DIV);
         }
     }
 
@@ -434,7 +450,7 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginDefinitionList(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLStartElement("dl", parameters);
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_DL, parameters);
     }
 
     /**
@@ -445,54 +461,54 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void endDefinitionList(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLEndElement("dl");
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_DL);
     }
 
     @Override
     public void beginDefinitionTerm()
     {
-        getXHTMLWikiPrinter().printXMLStartElement("dt");
+        getXHTMLWikiPrinter().printXMLStartElement(TAG_DT);
     }
 
     @Override
     public void beginDefinitionDescription()
     {
-        getXHTMLWikiPrinter().printXMLStartElement("dd");
+        getXHTMLWikiPrinter().printXMLStartElement(TAG_DD);
     }
 
     @Override
     public void endDefinitionTerm()
     {
-        getXHTMLWikiPrinter().printXMLEndElement("dt");
+        getXHTMLWikiPrinter().printXMLEndElement(TAG_DT);
     }
 
     @Override
     public void endDefinitionDescription()
     {
-        getXHTMLWikiPrinter().printXMLEndElement("dd");
+        getXHTMLWikiPrinter().printXMLEndElement(TAG_DD);
     }
 
     @Override
     public void beginQuotation(Map<String, String> parameters)
     {
         if (getBlockState().isInQuotationLine()) {
-            getXHTMLWikiPrinter().printXMLEndElement("p");
+            getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_P);
         }
 
-        getXHTMLWikiPrinter().printXMLStartElement("blockquote", parameters);
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_BLOCKQUOTE, parameters);
         getXHTMLWikiPrinter().setStandalone();
-        getXHTMLWikiPrinter().printXMLStartElement("p");
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_P);
     }
 
     @Override
     public void endQuotation(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLEndElement("p");
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_P);
 
-        getXHTMLWikiPrinter().printXMLEndElement("blockquote");
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_BLOCKQUOTE);
 
         if (getBlockState().isInQuotationLine()) {
-            getXHTMLWikiPrinter().printXMLStartElement("p");
+            getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_P);
         }
     }
 
@@ -509,20 +525,20 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginTable(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLStartElement("table", parameters);
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_TABLE, parameters);
     }
 
     @Override
     public void beginTableRow(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLStartElement("tr", parameters);
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_TR, parameters);
     }
 
     @Override
     public void beginTableCell(Map<String, String> parameters)
     {
         getXHTMLWikiPrinter().setStandalone();
-        getXHTMLWikiPrinter().printXMLStartElement("td", parameters);
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_TD, parameters);
     }
 
     @Override
@@ -531,44 +547,44 @@ public class XHTMLChainingRenderer extends AbstractChainingPrintRenderer
         getXHTMLWikiPrinter().setStandalone();
         // Find proper scope attribute value
         Map<String, String> parametersWithScope;
-        if (!parameters.containsKey("scope")) {
+        if (!parameters.containsKey(ATTRIBUTE_SCOPE)) {
             parametersWithScope = new LinkedHashMap<String, String>(parameters);
 
             if (getBlockState().getCellRow() == 0 || getBlockState().getCellCol() > 0) {
-                parametersWithScope.put("scope", "col");
+                parametersWithScope.put(ATTRIBUTE_SCOPE, "col");
             } else {
-                parametersWithScope.put("scope", "row");
+                parametersWithScope.put(ATTRIBUTE_SCOPE, "row");
             }
         } else {
             parametersWithScope = parameters;
         }
 
         // Write th element
-        getXHTMLWikiPrinter().printXMLStartElement("th", parametersWithScope);
+        getXHTMLWikiPrinter().printXMLStartElement(HTMLConstants.TAG_TH, parametersWithScope);
     }
 
     @Override
     public void endTable(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLEndElement("table");
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_TABLE);
     }
 
     @Override
     public void endTableRow(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLEndElement("tr");
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_TR);
     }
 
     @Override
     public void endTableCell(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLEndElement("td");
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_TD);
     }
 
     @Override
     public void endTableHeadCell(Map<String, String> parameters)
     {
-        getXHTMLWikiPrinter().printXMLEndElement("th");
+        getXHTMLWikiPrinter().printXMLEndElement(HTMLConstants.TAG_TH);
     }
 
     /**

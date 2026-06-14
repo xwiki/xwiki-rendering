@@ -28,13 +28,23 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
+/**
+ * Parses an id block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("id")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class IdBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = Collections.singleton("id");
+    private static final String ID = "id";
 
+    private static final Set<String> NAMES = Collections.singleton(ID);
+
+    /**
+     * Default constructor.
+     */
     public IdBlockParser()
     {
         super(NAMES);
@@ -43,6 +53,6 @@ public class IdBlockParser extends DefaultBlockParser
     @Override
     protected void endBlock()
     {
-        getListener().onId(getParameterAsString("id", "id"));
+        getListener().onId(getParameterAsString(ID, ID));
     }
 }

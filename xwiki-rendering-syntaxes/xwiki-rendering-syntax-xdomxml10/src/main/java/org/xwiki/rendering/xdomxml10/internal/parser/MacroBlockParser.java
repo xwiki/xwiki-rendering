@@ -29,13 +29,27 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
+/**
+ * Parses a macro block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("macro")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class MacroBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = Stream.of("id", "content", "inline").collect(Collectors.toSet());
+    private static final String ID = "id";
 
+    private static final String CONTENT = "content";
+
+    private static final String INLINE = "inline";
+
+    private static final Set<String> NAMES = Stream.of(ID, CONTENT, INLINE).collect(Collectors.toSet());
+
+    /**
+     * Default constructor.
+     */
     public MacroBlockParser()
     {
         super(NAMES);
@@ -44,7 +58,7 @@ public class MacroBlockParser extends DefaultBlockParser
     @Override
     protected void endBlock()
     {
-        getListener().onMacro(getParameterAsString("id", "macro"), getCustomParameters(),
-            getParameterAsString("content", null), getParameterAsBoolean("inline", false));
+        getListener().onMacro(getParameterAsString(ID, "macro"), getCustomParameters(),
+            getParameterAsString(CONTENT, null), getParameterAsBoolean(INLINE, false));
     }
 }

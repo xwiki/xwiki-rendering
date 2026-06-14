@@ -31,6 +31,11 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xml.internal.renderer.AbstractChainingContentHandlerStreamRenderer;
 
+/**
+ * Renders an XDOM as an XDOM+XML 1.0 stream.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("xdom+xml/1.0")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)

@@ -68,11 +68,17 @@ public class XWikiWikiReference extends WikiReference
         return this.labelXDOM;
     }
 
+    /**
+     * @return {@code true} if the link is freestanding
+     */
     public boolean isFreeStanding()
     {
         return this.freeStanding;
     }
 
+    /**
+     * @return the reference the link points to
+     */
     public ResourceReference getReference()
     {
         return this.reference;

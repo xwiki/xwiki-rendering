@@ -56,6 +56,10 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
      */
     private static final String MAILTO_PREFIX = "mailto:";
 
+    private static final String HREF_ATTRIBUTE = "href";
+
+    private static final String NAME_ATTRIBUTE = "name";
+
     private WikiModelStreamParser parser;
 
     /**
@@ -100,7 +104,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
 
             setAccumulateContent(false);
         } else if (!isFreeStandingReference(context)) {
-            WikiParameter ref = context.getParams().getParameter("href");
+            WikiParameter ref = context.getParams().getParameter(HREF_ATTRIBUTE);
 
             if (ref != null) {
                 XWikiGeneratorListener xwikiListener =
@@ -113,11 +117,11 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
                 WikiParameter idName = context.getParams().getParameter("id");
 
                 if (idName == null) {
-                    idName = context.getParams().getParameter("name");
+                    idName = context.getParams().getParameter(NAME_ATTRIBUTE);
                 }
 
                 if (idName != null) {
-                    WikiParameter parameter = new WikiParameter("name", idName.getValue());
+                    WikiParameter parameter = new WikiParameter(NAME_ATTRIBUTE, idName.getValue());
                     WikiParameters parameters = new WikiParameters(Collections.singletonList(parameter));
                     context.getScannerContext().onExtensionBlock(DefaultXWikiGeneratorListener.EXT_ID, parameters);
                 }
@@ -139,7 +143,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
         } else if (!isFreeStandingReference(context)) {
             WikiParameters parameters = context.getParams();
 
-            WikiParameter ref = parameters.getParameter("href");
+            WikiParameter ref = parameters.getParameter(HREF_ATTRIBUTE);
 
             if (ref != null) {
                 // Ensure we simulate a document parsing end

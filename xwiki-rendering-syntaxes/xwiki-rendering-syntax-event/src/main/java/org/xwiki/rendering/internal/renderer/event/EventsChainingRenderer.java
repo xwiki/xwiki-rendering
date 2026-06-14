@@ -41,6 +41,21 @@ import org.xwiki.rendering.syntax.Syntax;
  */
 public class EventsChainingRenderer extends AbstractChainingPrintRenderer
 {
+    private static final String SEPARATOR = "] [";
+
+    private static final String OPEN_BRACKET = " [";
+
+    private static final String HEADER_PARAMETER_SEPARATOR = ", ";
+
+    private static final String BEGIN_LIST_ITEM_EVENT = "beginListItem";
+
+    private static final String END_LIST_ITEM_EVENT = "endListItem";
+
+    private static final String ON_IMAGE_EVENT = "onImage [";
+
+    /**
+     * @param listenerChain the chain of listeners this renderer belongs to
+     */
     public EventsChainingRenderer(ListenerChain listenerChain)
     {
         setListenerChain(listenerChain);
@@ -115,13 +130,15 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getPrinter().println("beginLink [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
+        getPrinter().println(
+            "beginLink [" + reference + SEPARATOR + freestanding + "]" + serializeParameters(parameters));
     }
 
     @Override
     public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getPrinter().println("endLink [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
+        getPrinter().println(
+            "endLink [" + reference + SEPARATOR + freestanding + "]" + serializeParameters(parameters));
     }
 
     @Override
@@ -139,7 +156,8 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        getPrinter().println("beginHeader [" + level + ", " + id + "]" + serializeParameters(parameters));
+        getPrinter().println(
+            "beginHeader [" + level + HEADER_PARAMETER_SEPARATOR + id + "]" + serializeParameters(parameters));
     }
 
     @Override
@@ -151,7 +169,8 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void endHeader(HeaderLevel level, String id, Map<String, String> parameters)
     {
-        getPrinter().println("endHeader [" + level + ", " + id + "]" + serializeParameters(parameters));
+        getPrinter().println(
+            "endHeader [" + level + HEADER_PARAMETER_SEPARATOR + id + "]" + serializeParameters(parameters));
     }
 
     @Override
@@ -169,13 +188,13 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void beginListItem()
     {
-        getPrinter().println("beginListItem");
+        getPrinter().println(BEGIN_LIST_ITEM_EVENT);
     }
 
     @Override
     public void beginListItem(Map<String, String> parameters)
     {
-        getPrinter().println("beginListItem" + serializeParameters(parameters));
+        getPrinter().println(BEGIN_LIST_ITEM_EVENT + serializeParameters(parameters));
     }
 
     @Override
@@ -187,13 +206,13 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void endListItem()
     {
-        getPrinter().println("endListItem");
+        getPrinter().println(END_LIST_ITEM_EVENT);
     }
 
     @Override
     public void endListItem(Map<String, String> parameters)
     {
-        getPrinter().println("endListItem" + serializeParameters(parameters));
+        getPrinter().println(END_LIST_ITEM_EVENT + serializeParameters(parameters));
     }
 
     @Override
@@ -211,7 +230,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void onRawText(String text, Syntax syntax)
     {
-        getPrinter().println("onRawText [" + text + "] [" + syntax.toIdString() + "]");
+        getPrinter().println("onRawText [" + text + SEPARATOR + syntax.toIdString() + "]");
     }
 
     @Override
@@ -269,7 +288,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
     {
-        getPrinter().println("onVerbatim [" + content + "] [" + inline + "]" + serializeParameters(parameters));
+        getPrinter().println("onVerbatim [" + content + SEPARATOR + inline + "]" + serializeParameters(parameters));
     }
 
     /**
@@ -422,16 +441,24 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getPrinter().println("onImage [" + reference + "] [" + freestanding + "]" + serializeParameters(parameters));
+        getPrinter().println(
+            ON_IMAGE_EVENT + reference + SEPARATOR + freestanding + "]" + serializeParameters(parameters));
     }
 
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
     {
         getPrinter().println(
-            "onImage [" + reference + "] [" + freestanding + "] [" + id + "]" + serializeParameters(parameters));
+            ON_IMAGE_EVENT + reference + SEPARATOR + freestanding + SEPARATOR + id + "]"
+                + serializeParameters(parameters));
     }
 
+    /**
+     * Escape non-ASCII-printable characters in the passed string so that the event output is readable and stable.
+     *
+     * @param str the string to escape
+     * @return the escaped string, or {@code null} if the passed string is {@code null}
+     */
     public String getEscaped(String str)
     {
         String printableStr;
@@ -473,16 +500,16 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
         macroBuffer.append(eventName);
         macroBuffer.append(isInline ? "Inline" : "Standalone");
 
-        macroBuffer.append(" [");
+        macroBuffer.append(OPEN_BRACKET);
         macroBuffer.append(name);
         macroBuffer.append(']');
 
-        macroBuffer.append(" [");
+        macroBuffer.append(OPEN_BRACKET);
         macroBuffer.append(parametersBuffer);
         macroBuffer.append(']');
 
         if (content != null) {
-            macroBuffer.append(" [");
+            macroBuffer.append(OPEN_BRACKET);
             macroBuffer.append(content);
             macroBuffer.append(']');
         }

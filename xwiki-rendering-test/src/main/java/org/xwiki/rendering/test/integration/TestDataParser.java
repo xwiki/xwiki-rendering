@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Parses test data defined using the following syntax, shown with this example:
@@ -51,8 +53,20 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class TestDataParser
 {
-    private final static String TRANSFORMATION_PREFIX = ".runTransformations";
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestDataParser.class);
 
+    private static final String TRANSFORMATION_PREFIX = ".runTransformations";
+
+    private static final String CONFIGURATION_PREFIX = ".configuration";
+
+    /**
+     * Parse the passed test data resource into a {@link TestData} object.
+     *
+     * @param source the stream containing the test data to parse
+     * @param resourceName the name of the resource being parsed (used for logging)
+     * @return the parsed test data
+     * @throws IOException in case of an error reading the test data
+     */
     public TestData parse(InputStream source, String resourceName) throws IOException
     {
         TestData data = new TestData();
@@ -76,8 +90,9 @@ public class TestDataParser
                         data.streaming = true;
                     } else if (line.startsWith(TRANSFORMATION_PREFIX)) {
                         data.transformations = parseTransformationDirective(line);
-                    } else if (line.startsWith(".configuration")) {
-                        StringTokenizer st = new StringTokenizer(line.substring(".configuration".length() + 1), "=");
+                    } else if (line.startsWith(CONFIGURATION_PREFIX)) {
+                        StringTokenizer st =
+                            new StringTokenizer(line.substring(CONFIGURATION_PREFIX.length() + 1), "=");
                         data.configuration.put(st.nextToken(), st.nextToken());
                     } else {
                         if (!skip) {
@@ -96,9 +111,8 @@ public class TestDataParser
                         skip = false;
                         if (st.hasMoreTokens()) {
                             skip = true;
-                            System.out.println("[WARNING] Skipping test for [" + keyName + "] in resource ["
-                                + resourceName + "] since it has been marked as skipped in the test. This needs to be "
-                                + "reviewed and fixed.");
+                            LOGGER.warn("Skipping test for [{}] in resource [{}] since it has been marked as skipped "
+                                + "in the test. This needs to be reviewed and fixed.", keyName, resourceName);
                         }
                     }
                 } else {

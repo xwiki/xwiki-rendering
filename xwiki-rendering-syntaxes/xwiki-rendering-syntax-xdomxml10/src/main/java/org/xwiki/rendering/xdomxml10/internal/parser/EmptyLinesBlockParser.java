@@ -28,13 +28,23 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 
+/**
+ * Parses an empty lines block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("emptylines")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class EmptyLinesBlockParser extends DefaultBlockParser
 {
-    private static final Set<String> NAMES = Collections.singleton("count");
+    private static final String COUNT = "count";
 
+    private static final Set<String> NAMES = Collections.singleton(COUNT);
+
+    /**
+     * Default constructor.
+     */
     public EmptyLinesBlockParser()
     {
         super(NAMES);
@@ -43,6 +53,6 @@ public class EmptyLinesBlockParser extends DefaultBlockParser
     @Override
     protected void endBlock()
     {
-        getListener().onEmptyLines(getParameterAsInt("count", 1));
+        getListener().onEmptyLines(getParameterAsInt(COUNT, 1));
     }
 }

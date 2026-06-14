@@ -27,6 +27,11 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.renderer.AbstractBlockRenderer;
 import org.xwiki.rendering.renderer.PrintRendererFactory;
 
+/**
+ * Renders {@link org.xwiki.rendering.block.Block}s into events, using the {@code event/1.0} renderer factory.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("event/1.0")
 @Singleton

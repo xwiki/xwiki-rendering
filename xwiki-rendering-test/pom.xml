@@ -90,13 +90,12 @@
             <id>default</id>
             <configuration>
               <excludes>
+                <!-- The following files have structural checkstyle issues (high complexity, fan-out or parameter
+                     count) that would require refactoring to fix, hence they are still excluded for now. -->
                 org/xwiki/rendering/test/cts/AbstractInternalRenderingTest.java,
-                org/xwiki/rendering/test/integration/AbstractRenderingTest.java,
                 org/xwiki/rendering/test/integration/AbstractInternalRenderingTest.java,
                 org/xwiki/rendering/test/integration/junit5/InternalRenderingTest.java,
-                org/xwiki/rendering/test/integration/TestData.java,
-                org/xwiki/rendering/test/integration/TestDataGenerator.java,
-                org/xwiki/rendering/test/integration/TestDataParser.java
+                org/xwiki/rendering/test/integration/TestDataGenerator.java
               </excludes>
             </configuration>
           </execution>

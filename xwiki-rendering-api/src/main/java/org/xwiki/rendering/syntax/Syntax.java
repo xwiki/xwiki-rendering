@@ -78,7 +78,7 @@ public class Syntax implements Comparable<Syntax>
      * @deprecated use {@link #XWIKI_2_1} instead
      */
     @Deprecated(since = "5.0")
-    public static final Syntax XWIKI_1_0 = new Syntax(SyntaxType.XWIKI, "1.0");
+    public static final Syntax XWIKI_1_0 = new Syntax(SyntaxType.XWIKI, XHTML_1_0.getVersion());
 
     /**
      * XWiki 2.0 syntax.
@@ -93,27 +93,27 @@ public class Syntax implements Comparable<Syntax>
     /**
      * Plain text syntax.
      */
-    public static final Syntax PLAIN_1_0 = new Syntax(SyntaxType.PLAIN, "1.0");
+    public static final Syntax PLAIN_1_0 = new Syntax(SyntaxType.PLAIN, XHTML_1_0.getVersion());
 
     /**
      * Events syntax.
      */
-    public static final Syntax EVENT_1_0 = new Syntax(SyntaxType.EVENT, "1.0");
+    public static final Syntax EVENT_1_0 = new Syntax(SyntaxType.EVENT, XHTML_1_0.getVersion());
 
     /**
      * TEX syntax.
      */
-    public static final Syntax TEX_1_0 = new Syntax(SyntaxType.TEX, "1.0");
+    public static final Syntax TEX_1_0 = new Syntax(SyntaxType.TEX, XHTML_1_0.getVersion());
 
     /**
      * Creole syntax.
      */
-    public static final Syntax CREOLE_1_0 = new Syntax(SyntaxType.CREOLE, "1.0");
+    public static final Syntax CREOLE_1_0 = new Syntax(SyntaxType.CREOLE, XHTML_1_0.getVersion());
 
     /**
      * JSPWiki syntax.
      */
-    public static final Syntax JSPWIKI_1_0 = new Syntax(SyntaxType.JSPWIKI, "1.0");
+    public static final Syntax JSPWIKI_1_0 = new Syntax(SyntaxType.JSPWIKI, XHTML_1_0.getVersion());
 
     /**
      * Old MediaWiki syntax.
@@ -121,7 +121,7 @@ public class Syntax implements Comparable<Syntax>
      * @deprecated use {@link #MEDIAWIKI_1_6} instead
      */
     @Deprecated(since = "8.2RC1")
-    public static final Syntax MEDIAWIKI_1_0 = new Syntax(SyntaxType.MEDIAWIKI, "1.0");
+    public static final Syntax MEDIAWIKI_1_0 = new Syntax(SyntaxType.MEDIAWIKI, XHTML_1_0.getVersion());
 
     /**
      * New MediaWiki syntax.
@@ -133,12 +133,12 @@ public class Syntax implements Comparable<Syntax>
      * 
      * @since 9.8RC1
      */
-    public static final Syntax DOKUWIKI_1_0 = new Syntax(SyntaxType.DOKUWIKI, "1.0");
+    public static final Syntax DOKUWIKI_1_0 = new Syntax(SyntaxType.DOKUWIKI, XHTML_1_0.getVersion());
 
     /**
      * TWiki syntax.
      */
-    public static final Syntax TWIKI_1_0 = new Syntax(SyntaxType.TWIKI, "1.0");
+    public static final Syntax TWIKI_1_0 = new Syntax(SyntaxType.TWIKI, XHTML_1_0.getVersion());
 
     /**
      * Docbook 4.4 syntax.
@@ -148,14 +148,14 @@ public class Syntax implements Comparable<Syntax>
     /**
      * Confluence wiki syntax.
      */
-    public static final Syntax CONFLUENCE_1_0 = new Syntax(SyntaxType.CONFLUENCE, "1.0");
+    public static final Syntax CONFLUENCE_1_0 = new Syntax(SyntaxType.CONFLUENCE, XHTML_1_0.getVersion());
 
     /**
      * Confluence XHTML based syntax.
      *
      * @since 5.3M1
      */
-    public static final Syntax CONFLUENCEXHTML_1_0 = new Syntax(SyntaxType.CONFLUENCEXHTML, "1.0");
+    public static final Syntax CONFLUENCEXHTML_1_0 = new Syntax(SyntaxType.CONFLUENCEXHTML, XHTML_1_0.getVersion());
 
     /**
      * @since 3.3M1
@@ -165,12 +165,12 @@ public class Syntax implements Comparable<Syntax>
     /**
      * @since 3.3M1
      */
-    public static final Syntax XDOMXML_1_0 = new Syntax(SyntaxType.XDOMXML, "1.0");
+    public static final Syntax XDOMXML_1_0 = new Syntax(SyntaxType.XDOMXML, XHTML_1_0.getVersion());
 
     /**
      * @since 3.4M1
      */
-    public static final Syntax MARKDOWN_1_0 = new Syntax(SyntaxType.MARKDOWN, "1.0");
+    public static final Syntax MARKDOWN_1_0 = new Syntax(SyntaxType.MARKDOWN, XHTML_1_0.getVersion());
 
     /**
      * @since 5.2M1
@@ -180,7 +180,7 @@ public class Syntax implements Comparable<Syntax>
     /**
      * @since 4.3M1
      */
-    public static final Syntax APT_1_0 = new Syntax(SyntaxType.APT, "1.0");
+    public static final Syntax APT_1_0 = new Syntax(SyntaxType.APT, XHTML_1_0.getVersion());
 
     /**
      * This is HTML with annotations (comments) in order to allow round tripping between for example the WYSIWYG editor

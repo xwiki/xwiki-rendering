@@ -29,15 +29,25 @@ import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.FormatConverter;
 
+/**
+ * Parses a format block.
+ *
+ * @version $Id$
+ */
 @Component
 @Named("format")
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class FormatBlockParser extends DefaultBlockParser
 {
+    private static final String FORMAT = "format";
+
     private static final FormatConverter FORMATCONVERTER = new FormatConverter();
 
-    private static final Set<String> NAMES = Collections.singleton("format");
+    private static final Set<String> NAMES = Collections.singleton(FORMAT);
 
+    /**
+     * Default constructor.
+     */
     public FormatBlockParser()
     {
         super(NAMES);
@@ -47,12 +57,12 @@ public class FormatBlockParser extends DefaultBlockParser
     protected void beginBlock()
     {
         getListener()
-            .beginFormat(FORMATCONVERTER.toFormat(getParameterAsString("format", null)), getCustomParameters());
+            .beginFormat(FORMATCONVERTER.toFormat(getParameterAsString(FORMAT, null)), getCustomParameters());
     }
 
     @Override
     protected void endBlock()
     {
-        getListener().endFormat(FORMATCONVERTER.toFormat(getParameterAsString("format", null)), getCustomParameters());
+        getListener().endFormat(FORMATCONVERTER.toFormat(getParameterAsString(FORMAT, null)), getCustomParameters());
     }
 }

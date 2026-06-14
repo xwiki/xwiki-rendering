@@ -39,6 +39,12 @@ import org.xwiki.rendering.listener.descriptor.ListenerElement;
 import org.xwiki.rendering.xdomxml10.internal.XDOMXMLConstants;
 import org.xwiki.rendering.xdomxml10.internal.parser.parameter.CustomParametersParser;
 
+/**
+ * Default {@link BlockParser} implementation, reflectively sending the listener events corresponding to the parsed
+ * block.
+ *
+ * @version $Id$
+ */
 @Component
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class DefaultBlockParser extends AbstractBlockParser
@@ -79,16 +85,27 @@ public class DefaultBlockParser extends AbstractBlockParser
         this.descriptor = this.descriptorManager.getListenerDescriptor(listener.getClass());
     }
 
+    /**
+     * @return the parsed block parameters
+     */
     public Map<String, String> getParameters()
     {
         return this.parameters;
     }
 
+    /**
+     * @return the parsed custom parameters
+     */
     public Map<String, String> getCustomParameters()
     {
         return this.customParameters;
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param defaultValue the value to return when the parameter is not set
+     * @return the parameter value as an int, or the default value when the parameter is not set
+     */
     public int getParameterAsInt(String name, int defaultValue)
     {
         String str = getParameters().get(name);
@@ -96,6 +113,11 @@ public class DefaultBlockParser extends AbstractBlockParser
         return str != null ? Integer.valueOf(str) : defaultValue;
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param defaultValue the value to return when the parameter is not set
+     * @return the parameter value as a boolean, or the default value when the parameter is not set
+     */
     public boolean getParameterAsBoolean(String name, boolean defaultValue)
     {
         String str = getParameters().get(name);
@@ -103,6 +125,11 @@ public class DefaultBlockParser extends AbstractBlockParser
         return str != null ? Boolean.valueOf(str) : defaultValue;
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param defaultValue the value to return when the parameter is not set
+     * @return the parameter value as a char, or the default value when the parameter is not set
+     */
     public char getParameterAsChar(String name, char defaultValue)
     {
         String str = getParameters().get(name);
@@ -110,6 +137,11 @@ public class DefaultBlockParser extends AbstractBlockParser
         return str != null && str.length() > 0 ? str.charAt(0) : defaultValue;
     }
 
+    /**
+     * @param name the name of the parameter
+     * @param defaultValue the value to return when the parameter is not set
+     * @return the parameter value as a String, or the default value when the parameter is not set
+     */
     public String getParameterAsString(String name, String defaultValue)
     {
         String str = getParameters().get(name);

@@ -51,17 +51,17 @@ import org.xwiki.xml.XMLReaderFactory;
 public class XWikiXMLReaderFactory implements XMLReaderFactory
 {
     /**
+     * In order to speed up DTD loading/validation we use an entity resolver that can resolve DTDs locally.
+     */
+    @Inject
+    protected EntityResolver entityResolver;
+
+    /**
      * Used to create an optimized SAX XML Reader. In general SAX parsers don't cache DTD grammars and as a consequence
      * parsing a document with a grammar such as the XHTML DTD takes a lot more time than required.
      */
     @Inject
     private XMLReaderFactory xmlReaderFactory;
-
-    /**
-     * In order to speed up DTD loading/validation we use an entity resolver that can resolve DTDs locally.
-     */
-    @Inject
-    protected EntityResolver entityResolver;
 
     @Override
     public XMLReader createXMLReader() throws SAXException, ParserConfigurationException
