@@ -19,10 +19,10 @@
  */
 package org.xwiki.rendering.util;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -30,32 +30,26 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  *
  * @version $Id$
  */
-public class IdGeneratorTest
+class IdGeneratorTest
 {
-    private IdGenerator idGenerator;
-
-    @BeforeEach
-    public void setUp()
-    {
-        this.idGenerator = new IdGenerator();
-    }
+    private IdGenerator idGenerator = new IdGenerator();
 
     @Test
-    public void generateUniqueId()
+    void generateUniqueId()
     {
         assertEquals("Itext", this.idGenerator.generateUniqueId("text"));
         assertEquals("Itext-1", this.idGenerator.generateUniqueId("te xt"));
     }
 
     @Test
-    public void generateUniqueIdWithPrefix()
+    void generateUniqueIdWithPrefix()
     {
         assertEquals("prefixtext", this.idGenerator.generateUniqueId("prefix", "text"));
         assertEquals("prefixtext-1", this.idGenerator.generateUniqueId("prefix", "te xt"));
     }
 
     @Test
-    public void generateUniqueIdFromNonAlphaNum()
+    void generateUniqueIdFromNonAlphaNum()
     {
         assertEquals("I:_.-", this.idGenerator.generateUniqueId(":_.-"));
         assertEquals("Iwithspace", this.idGenerator.generateUniqueId("with space"));
@@ -65,7 +59,7 @@ public class IdGeneratorTest
     }
 
     @Test
-    public void generateUniqueIdWhenInvalidEmptyPrefix()
+    void generateUniqueIdWhenInvalidEmptyPrefix()
     {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
             this.idGenerator.generateUniqueId("", "whatever");
@@ -75,12 +69,32 @@ public class IdGeneratorTest
     }
 
     @Test
-    public void generateUniqueIdWhenInvalidNonAlphaPrefix()
+    void generateUniqueIdWhenInvalidNonAlphaPrefix()
     {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
             this.idGenerator.generateUniqueId("a-b", "whatever");
         });
         assertEquals("The prefix [a-b] should only contain alphanumerical characters and not be empty.",
             exception.getMessage());
+    }
+
+    @Test
+    void adaptId()
+    {
+        // Blank id.
+        assertNull(this.idGenerator.adaptId(null));
+        assertEquals("", this.idGenerator.adaptId(""));
+        assertEquals("", this.idGenerator.adaptId(""));
+        assertEquals("   ", this.idGenerator.adaptId("   "));
+        assertEquals("   ", this.idGenerator.adaptId("   "));
+
+        // Id that is already unique.
+        assertEquals("test", this.idGenerator.adaptId("test"));
+        assertEquals("t", this.idGenerator.adaptId("t"));
+
+        // Id that is not unique.
+        assertEquals("test-1", this.idGenerator.adaptId("test"));
+        assertEquals("test-2", this.idGenerator.adaptId("test"));
+        assertEquals("t-1", this.idGenerator.adaptId("t"));
     }
 }
