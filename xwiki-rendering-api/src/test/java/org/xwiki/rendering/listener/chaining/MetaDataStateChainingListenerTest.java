@@ -31,10 +31,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @version $Id$
  * @since 3.0M2
  */
-public class MetaDataStateChainingListenerTest
+class MetaDataStateChainingListenerTest
 {
     @Test
-    public void getMetaData()
+    void getMetaData()
     {
         MetaDataStateChainingListener listener = new MetaDataStateChainingListener(new ListenerChain());
 

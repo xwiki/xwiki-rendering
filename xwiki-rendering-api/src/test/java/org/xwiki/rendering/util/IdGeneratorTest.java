@@ -30,32 +30,32 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  *
  * @version $Id$
  */
-public class IdGeneratorTest
+class IdGeneratorTest
 {
     private IdGenerator idGenerator;
 
     @BeforeEach
-    public void setUp()
+    void setUp()
     {
         this.idGenerator = new IdGenerator();
     }
 
     @Test
-    public void generateUniqueId()
+    void generateUniqueId()
     {
         assertEquals("Itext", this.idGenerator.generateUniqueId("text"));
         assertEquals("Itext-1", this.idGenerator.generateUniqueId("te xt"));
     }
 
     @Test
-    public void generateUniqueIdWithPrefix()
+    void generateUniqueIdWithPrefix()
     {
         assertEquals("prefixtext", this.idGenerator.generateUniqueId("prefix", "text"));
         assertEquals("prefixtext-1", this.idGenerator.generateUniqueId("prefix", "te xt"));
     }
 
     @Test
-    public void generateUniqueIdFromNonAlphaNum()
+    void generateUniqueIdFromNonAlphaNum()
     {
         assertEquals("I:_.-", this.idGenerator.generateUniqueId(":_.-"));
         assertEquals("Iwithspace", this.idGenerator.generateUniqueId("with space"));
@@ -65,7 +65,7 @@ public class IdGeneratorTest
     }
 
     @Test
-    public void generateUniqueIdWhenInvalidEmptyPrefix()
+    void generateUniqueIdWhenInvalidEmptyPrefix()
     {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
             this.idGenerator.generateUniqueId("", "whatever");
@@ -75,7 +75,7 @@ public class IdGeneratorTest
     }
 
     @Test
-    public void generateUniqueIdWhenInvalidNonAlphaPrefix()
+    void generateUniqueIdWhenInvalidNonAlphaPrefix()
     {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
             this.idGenerator.generateUniqueId("a-b", "whatever");

@@ -42,7 +42,7 @@ class PlainTextChainingRendererTest
     private PlainTextRenderer renderer;
 
     @BeforeEach
-    public void setUp() throws Exception
+    void setUp() throws Exception
     {
         // Force the link label generator to be null
         this.renderer = new PlainTextRenderer();

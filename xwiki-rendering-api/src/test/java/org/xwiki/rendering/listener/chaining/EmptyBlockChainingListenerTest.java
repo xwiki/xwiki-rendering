@@ -34,14 +34,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version $Id$
  * @since 2.0M3
  */
-public class EmptyBlockChainingListenerTest
+class EmptyBlockChainingListenerTest
 {
     private ListenerChain chain;
 
     private EmptyBlockChainingListener listener;
 
     @BeforeEach
-    public void setUp()
+    void setUp()
     {
         this.chain = new ListenerChain();
         this.listener = new EmptyBlockChainingListener(this.chain);
@@ -52,7 +52,7 @@ public class EmptyBlockChainingListenerTest
      * Verify that isCurrentContainerBlockEmpty return true if there's no children inside a paragraph container block.
      */
     @Test
-    public void testEmptyParagraphContainer()
+    void testEmptyParagraphContainer()
     {
         this.chain.addListener(new AbstractChainingListener()
         {
@@ -77,7 +77,7 @@ public class EmptyBlockChainingListenerTest
      * Verify that isCurrentContainerBlockEmpty return false if there are children inside a paragraph container block.
      */
     @Test
-    public void testNonEmptyParagraphContainer()
+    void testNonEmptyParagraphContainer()
     {
         this.chain.addListener(new AbstractChainingListener()
         {

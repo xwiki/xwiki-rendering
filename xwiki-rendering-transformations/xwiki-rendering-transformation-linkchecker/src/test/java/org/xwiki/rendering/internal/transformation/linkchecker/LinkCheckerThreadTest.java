@@ -84,7 +84,7 @@ class LinkCheckerThreadTest
     private LinkCheckerThreadInitializer initializer;
 
     @BeforeComponent
-    public void setUpComponents()
+    void setUpComponents()
     {
         when(this.observationManagerProvider.get()).thenReturn(this.observationManager);
     }

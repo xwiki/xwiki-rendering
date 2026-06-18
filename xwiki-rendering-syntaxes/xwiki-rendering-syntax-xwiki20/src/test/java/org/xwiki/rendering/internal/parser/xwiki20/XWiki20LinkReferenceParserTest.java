@@ -82,7 +82,7 @@ class XWiki20LinkReferenceParserTest
     private ResourceReferenceParser parser;
 
     @BeforeComponent
-    public void setUpComponents() throws Exception
+    void setUpComponents() throws Exception
     {
         // Create a Mock WikiModel implementation so that the link parser works in wiki mode
         this.componentManager.registerMockComponent(WikiModel.class);

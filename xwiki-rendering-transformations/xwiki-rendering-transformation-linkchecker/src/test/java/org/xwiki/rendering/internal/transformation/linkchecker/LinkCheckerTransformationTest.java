@@ -73,7 +73,7 @@ class LinkCheckerTransformationTest
     private LogCaptureExtension logCapture = new LogCaptureExtension(LogLevel.ERROR);
 
     @InjectComponentManager
-    public MockitoComponentManager componentManager;
+    private MockitoComponentManager componentManager;
 
     @AfterEach
     void cleanUp() throws Exception

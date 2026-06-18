@@ -45,7 +45,7 @@ class DefaultTocEntriesResolverTest
     @InjectMockComponents
     private DefaultTocEntriesResolver resolver;
 
-    public static Stream<Arguments> getBlocksSource()
+    static Stream<Arguments> getBlocksSource()
     {
         return Stream.of(
             Arguments.of(

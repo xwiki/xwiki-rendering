@@ -51,12 +51,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ComponentTest
 @AllComponents
-public class XWikiSyntaxBlockRendererTest
+class XWikiSyntaxBlockRendererTest
 {
     private BlockRenderer renderer;
 
     @BeforeEach
-    public void before(ComponentManager componentManager) throws Exception
+    void before(ComponentManager componentManager) throws Exception
     {
         this.renderer = componentManager.getInstance(BlockRenderer.class, Syntax.XWIKI_2_0.toIdString());
     }
@@ -70,13 +70,13 @@ public class XWikiSyntaxBlockRendererTest
     }
 
     @Test
-    public void inline()
+    void inline()
     {
         assertEquals("word", render(new WordBlock("word")));
     }
 
     @Test
-    public void tableCellsWithInlineContentOnly()
+    void tableCellsWithInlineContentOnly()
     {
         // Use case: simple word in cell
         Block tableBlock = new TableBlock(
@@ -87,7 +87,7 @@ public class XWikiSyntaxBlockRendererTest
     }
 
     @Test
-    public void tableCellsWithStandaloneContent()
+    void tableCellsWithStandaloneContent()
     {
         // Use case: Header in a table cell
         Block tableBlock = new TableBlock(
@@ -127,7 +127,7 @@ public class XWikiSyntaxBlockRendererTest
     }
 
     @Test
-    public void tableHeadCellsWithInlineContentOnly()
+    void tableHeadCellsWithInlineContentOnly()
     {
         // Use case: simple word in head cell
         Block block = new TableBlock(
@@ -138,7 +138,7 @@ public class XWikiSyntaxBlockRendererTest
     }
 
     @Test
-    public void tableHeadCellsWithStandaloneContent()
+    void tableHeadCellsWithStandaloneContent()
     {
         // Use case: Header in a table head cell
         Block block = new TableBlock(
@@ -178,7 +178,7 @@ public class XWikiSyntaxBlockRendererTest
     }
 
     @Test
-    public void listItemWithInlineContentOnly()
+    void listItemWithInlineContentOnly()
     {
         // Use case: List in a list item
         Block block = new BulletedListBlock(
@@ -207,7 +207,7 @@ public class XWikiSyntaxBlockRendererTest
     }
 
     @Test
-    public void listItemWithStandaloneContent()
+    void listItemWithStandaloneContent()
     {
         // Use case: Header in a list item
         Block block = new BulletedListBlock(

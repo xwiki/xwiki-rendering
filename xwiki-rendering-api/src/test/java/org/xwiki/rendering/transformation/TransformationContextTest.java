@@ -36,10 +36,10 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
  * @version $Id$
  * @since 3.0M1
  */
-public class TransformationContextTest
+class TransformationContextTest
 {
     @Test
-    public void testClone()
+    void testClone()
     {
         TransformationContext context = new TransformationContext();
         context.setId("id");

@@ -36,12 +36,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @version $Id$
  * @since 6.1RC1
  */
-public class BlockMatcherConverterTest
+class BlockMatcherConverterTest
 {
     private BlockMatcherConverter converter = new BlockMatcherConverter();
 
     @Test
-    public void convertFromString()
+    void convertFromString()
     {
         BlockMatcher wordMatcher =
             this.converter.convert(BlockMatcher.class, "class:org.xwiki.rendering.block.WordBlock");
@@ -55,7 +55,7 @@ public class BlockMatcherConverterTest
     }
 
     @Test
-    public void convertFromStringFailures()
+    void convertFromStringFailures()
     {
         assertConversionException("class:does.not.exist.FantasyBlock");
         assertConversionException("class:java.lang.String");

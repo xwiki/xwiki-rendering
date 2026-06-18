@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @ComponentTest
 @AllComponents
-public class AbstractMacroTest
+class AbstractMacroTest
 {
     @InjectMockComponents
     private TestSimpleMacro macro1;
@@ -54,7 +54,7 @@ public class AbstractMacroTest
     private TestInlineEditingMacroParameter macro3;
 
     @Test
-    public void getNonGeneratedMetadataDefault()
+    void getNonGeneratedMetadataDefault()
     {
         assertNull(macro1.getDescriptor().getContentDescriptor());
         MetaData nonGeneratedContentMetaData = macro1.getNonGeneratedContentMetaData();
@@ -65,7 +65,7 @@ public class AbstractMacroTest
     }
 
     @Test
-    public void getNonGeneratedMetadataCustomDescriptor()
+    void getNonGeneratedMetadataCustomDescriptor()
     {
         assertNotNull(macro2.getDescriptor().getContentDescriptor());
         MetaData nonGeneratedContentMetaData = macro2.getNonGeneratedContentMetaData();
@@ -76,7 +76,7 @@ public class AbstractMacroTest
     }
 
     @Test
-    public void getNonGeneratedMetadataForParameterCustomDescriptor()
+    void getNonGeneratedMetadataForParameterCustomDescriptor()
     {
         MetaData nonGeneratedContentMetaData = macro3.getNonGeneratedContentMetaData("param1");
 
@@ -101,7 +101,7 @@ public class AbstractMacroTest
     }
 
     @Test
-    public void supportsInlineMode()
+    void supportsInlineMode()
     {
         assertFalse(macro1.supportsInlineMode());
         assertEquals(macro1.supportsInlineMode(), macro1.getDescriptor().supportsInlineMode());

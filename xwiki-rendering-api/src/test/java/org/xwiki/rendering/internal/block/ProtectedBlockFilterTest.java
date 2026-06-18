@@ -36,10 +36,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @version $Id$
  * @since 2.6
  */
-public class ProtectedBlockFilterTest
+class ProtectedBlockFilterTest
 {
     @Test
-    public void testGetNextSibling()
+    void testGetNextSibling()
     {
         ProtectedBlockFilter pbf = new ProtectedBlockFilter();
         Block b1 = new ParagraphBlock(Collections.emptyList());

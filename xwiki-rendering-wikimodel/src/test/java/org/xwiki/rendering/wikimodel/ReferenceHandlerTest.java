@@ -108,7 +108,7 @@ class ReferenceHandlerTest
         /**
          * @return the imgRef
          */
-        public String getImgRef()
+        String getImgRef()
         {
             return imgRef;
         }
@@ -116,7 +116,7 @@ class ReferenceHandlerTest
         /**
          * @return the imgLabel
          */
-        public String getImgLabel()
+        String getImgLabel()
         {
             return imgLabel;
         }
