@@ -96,6 +96,7 @@ public class TextBlockParser extends AbstractBlockParser
 
             JsonNode textStyles = siblingTextBlock.path(STYLES);
             Map<String, String> parameters = new LinkedHashMap<>();
+            maybeSetCustomParameters(parameters, textStyles);
             maybeSetStyleParameter(parameters, textStyles);
             List<Format> formats = getFormats(textStyles);
             StringBuilder plainText = new StringBuilder(siblingTextBlock.path(TEXT).asText(""));

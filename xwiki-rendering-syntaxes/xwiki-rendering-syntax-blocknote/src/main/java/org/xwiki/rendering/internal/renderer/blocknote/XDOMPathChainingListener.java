@@ -29,24 +29,35 @@ import org.xwiki.rendering.block.BulletedListBlock;
 import org.xwiki.rendering.block.DefinitionDescriptionBlock;
 import org.xwiki.rendering.block.DefinitionListBlock;
 import org.xwiki.rendering.block.DefinitionTermBlock;
+import org.xwiki.rendering.block.EmptyLinesBlock;
 import org.xwiki.rendering.block.FigureBlock;
 import org.xwiki.rendering.block.FigureCaptionBlock;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.HeaderBlock;
+import org.xwiki.rendering.block.HorizontalLineBlock;
+import org.xwiki.rendering.block.IdBlock;
+import org.xwiki.rendering.block.ImageBlock;
 import org.xwiki.rendering.block.LinkBlock;
 import org.xwiki.rendering.block.ListItemBlock;
+import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.NewLineBlock;
 import org.xwiki.rendering.block.NumberedListBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.QuotationBlock;
 import org.xwiki.rendering.block.QuotationLineBlock;
+import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.block.SectionBlock;
+import org.xwiki.rendering.block.SpaceBlock;
+import org.xwiki.rendering.block.SpecialSymbolBlock;
 import org.xwiki.rendering.block.TableBlock;
 import org.xwiki.rendering.block.TableCellBlock;
 import org.xwiki.rendering.block.TableHeadCellBlock;
 import org.xwiki.rendering.block.TableRowBlock;
+import org.xwiki.rendering.block.VerbatimBlock;
+import org.xwiki.rendering.block.WordBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.HeaderLevel;
@@ -55,6 +66,7 @@ import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.syntax.Syntax;
 
 /**
  * Records the path of XDOM blocks from the root to the current block being rendered.
@@ -417,6 +429,102 @@ public class XDOMPathChainingListener extends AbstractChainingListener
     public void endTableCell(Map<String, String> parameters)
     {
         super.endTableCell(parameters);
+        this.path.pop();
+    }
+
+    @Override
+    public void onEmptyLines(int count)
+    {
+        this.path.push(new EmptyLinesBlock(count));
+        super.onEmptyLines(count);
+        this.path.pop();
+    }
+
+    @Override
+    public void onHorizontalLine(Map<String, String> parameters)
+    {
+        this.path.push(new HorizontalLineBlock(parameters));
+        super.onHorizontalLine(parameters);
+        this.path.pop();
+    }
+
+    @Override
+    public void onId(String name)
+    {
+        this.path.push(new IdBlock(name));
+        super.onId(name);
+        this.path.pop();
+    }
+
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
+    {
+        this.path.push(new ImageBlock(reference, freestanding, parameters));
+        super.onImage(reference, freestanding, parameters);
+        this.path.pop();
+    }
+
+    @Override
+    public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
+    {
+        this.path.push(new ImageBlock(reference, freestanding, id, parameters));
+        super.onImage(reference, freestanding, id, parameters);
+        this.path.pop();
+    }
+
+    @Override
+    public void onMacro(String id, Map<String, String> parameters, String content, boolean inline)
+    {
+        this.path.push(new MacroBlock(id, parameters, content, inline));
+        super.onMacro(id, parameters, content, inline);
+        this.path.pop();
+    }
+
+    @Override
+    public void onNewLine()
+    {
+        this.path.push(new NewLineBlock());
+        super.onNewLine();
+        this.path.pop();
+    }
+
+    @Override
+    public void onRawText(String text, Syntax syntax)
+    {
+        this.path.push(new RawBlock(text, syntax));
+        super.onRawText(text, syntax);
+        this.path.pop();
+    }
+
+    @Override
+    public void onSpace()
+    {
+        this.path.push(new SpaceBlock());
+        super.onSpace();
+        this.path.pop();
+    }
+
+    @Override
+    public void onSpecialSymbol(char symbol)
+    {
+        this.path.push(new SpecialSymbolBlock(symbol));
+        super.onSpecialSymbol(symbol);
+        this.path.pop();
+    }
+
+    @Override
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
+    {
+        this.path.push(new VerbatimBlock(content, parameters, inline));
+        super.onVerbatim(content, inline, parameters);
+        this.path.pop();
+    }
+
+    @Override
+    public void onWord(String word)
+    {
+        this.path.push(new WordBlock(word));
+        super.onWord(word);
         this.path.pop();
     }
 }
