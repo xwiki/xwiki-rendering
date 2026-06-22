@@ -1,0 +1,44 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test check list.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "checkListItem",
+  "props" : {
+    "checked" : false
+  },
+  "content" : "eat",
+  "children" : [ {
+    "type" : "checkListItem",
+    "props" : {
+      "checked" : true
+    },
+    "content" : "pineapple",
+    "children" : [ ]
+  } ]
+}, {
+  "type" : "checkListItem",
+  "props" : {
+    "checked" : true
+  },
+  "content" : "pray",
+  "children" : [ ]
+}, {
+  "type" : "checkListItem",
+  "props" : {
+    "checked" : true
+  },
+  "content" : "love",
+  "children" : [ ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% data-xwiki-list-type="check" data-xwiki-checklist-checked="false" %)
+* eat
+(% data-xwiki-list-type="check" data-xwiki-checklist-checked="true" %)
+** pineapple
+
+(% data-xwiki-list-type="check" data-xwiki-checklist-checked="true" %)
+* pray
+* love

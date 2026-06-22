@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.parser.blocknote.blocks;
 import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
@@ -30,6 +31,7 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.blocknote.Context;
 import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.parser.ParseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -45,7 +47,7 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.LinkBlockPars
 @Component
 @Named(ImageBlockParser.IMAGE)
 @Singleton
-public class ImageBlockParser extends AbstractEmbedBlockParser
+public class ImageBlockParser extends AbstractBlockParser
 {
     /**
      * This component's role hint. Also the type of blocks handled by this parser.
@@ -67,14 +69,59 @@ public class ImageBlockParser extends AbstractEmbedBlockParser
      */
     public static final String IMAGE_LABEL_PARAMETER = "data-xwiki-image-label";
 
-    @Override
-    protected String getEmbedType()
-    {
-        return IMAGE;
-    }
+    /**
+     * The name of the property holding the URL of an image block.
+     */
+    public static final String URL = "url";
+
+    /**
+     * The name of the property holding the caption of an image block.
+     */
+    public static final String CAPTION = "caption";
+
+    /**
+     * The parameter used to store the alternative text for an image block.
+     */
+    public static final String ALT = "alt";
+
+    /**
+     * The name of the property holding the alternative text (or resource name) of an image block.
+     */
+    public static final String NAME = "name";
+
+    /**
+     * The parameter used to store the width of an image block.
+     */
+    public static final String WIDTH = "width";
+
+    /**
+     * The name of the property holding the width of an image block preview.
+     */
+    public static final String PREVIEW_WIDTH = "previewWidth";
 
     @Override
-    protected void visitEmbedBlock(ObjectNode imageBlock, Deque<Context> contextStack)
+    public void parse(ObjectNode imageBlock, Deque<Context> contextStack) throws ParseException
+    {
+        JsonNode caption = imageBlock.path(PROPS).path(CAPTION);
+        if (caption.isTextual() && !contextStack.peek().inline()) {
+            // Avoid storing the caption in the image parameters, as we do for inline images.
+            ((ObjectNode) imageBlock.path(PROPS)).remove(CAPTION);
+            Map<String, String> figureParameters = Map.of("class", IMAGE);
+            Listener listener = contextStack.peek().listener();
+            listener.beginFigure(figureParameters);
+            contextStack.push(contextStack.peek().withInline(true));
+            visitImageBlock(imageBlock, contextStack);
+            listener.beginFigureCaption(Listener.EMPTY_PARAMETERS);
+            parsePlainText(caption.asText(), contextStack);
+            listener.endFigureCaption(Listener.EMPTY_PARAMETERS);
+            contextStack.pop();
+            listener.endFigure(figureParameters);
+        } else {
+            visitImageBlock(imageBlock, contextStack);
+        }
+    }
+
+    private void visitImageBlock(ObjectNode imageBlock, Deque<Context> contextStack)
     {
         ResourceReference imageReference = asResourceReference(imageBlock.path(PROPS).path(URL));
         String id = contextStack.peek().idGenerator().generateUniqueId("I", imageReference.getReference());
@@ -105,9 +152,24 @@ public class ImageBlockParser extends AbstractEmbedBlockParser
 
     private Map<String, String> getImageParameters(ObjectNode imageBlock, Deque<Context> contextStack)
     {
-        Map<String, String> parameters = getEmbedParameters(imageBlock);
-
+        Map<String, String> parameters = getBlockParameters(imageBlock);
         JsonNode imageProperties = imageBlock.path(PROPS);
+
+        JsonNode name = imageProperties.path(NAME);
+        if (name.isTextual()) {
+            parameters.put(ALT, name.asText());
+        }
+
+        JsonNode width = imageProperties.path(PREVIEW_WIDTH);
+        if (width.isNumber()) {
+            parameters.put(WIDTH, width.asText());
+        }
+
+        JsonNode caption = imageProperties.path(CAPTION);
+        if (caption.isTextual()) {
+            parameters.put(CAPTION, caption.asText());
+        }
+
         JsonNode alignment = imageProperties.path(TEXT_ALIGNMENT);
         if (alignment.isTextual()) {
             String value = IMAGE_ALIGNMENT.getOrDefault(alignment.asText().toLowerCase(), alignment.asText());
@@ -119,5 +181,12 @@ public class ImageBlockParser extends AbstractEmbedBlockParser
         }
 
         return parameters;
+    }
+
+    @Override
+    public void traverse(ObjectNode embedBlock, Consumer<ObjectNode> blockConsumer)
+    {
+        // Image blocks don't have child blocks, so we don't need to traverse them.
+        blockConsumer.accept(embedBlock);
     }
 }

@@ -24,10 +24,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import org.xwiki.rendering.internal.parser.blocknote.Context;
-import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.parser.ParseException;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
@@ -39,67 +37,21 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public abstract class AbstractEmbedBlockParser extends AbstractBlockParser
 {
     /**
-     * The name of the property holding the caption of an embed block.
+     * The prefix used for the macro name when parsing an embed block as a macro call.
      */
-    public static final String CAPTION = "caption";
-
-    /**
-     * The name of the property holding the URL of an embed block (indicates the resource that is being embedded).
-     */
-    public static final String URL = "url";
-
-    /**
-     * The parameter used to store the alternative text for an embed block.
-     */
-    public static final String ALT = "alt";
-
-    /**
-     * The name of the property holding the alternative text (or resource name) of an embed block.
-     */
-    public static final String NAME = "name";
-
-    /**
-     * The parameter used to store the width of an embed block.
-     */
-    public static final String WIDTH = "width";
-
-    /**
-     * The name of the property holding the width of an embed block preview.
-     */
-    public static final String PREVIEW_WIDTH = "previewWidth";
+    public static final String EMBED_MACRO_PREFIX = "blocknote:";
 
     @Override
     public void parse(ObjectNode embedBlock, Deque<Context> contextStack) throws ParseException
     {
-        JsonNode caption = embedBlock.path(PROPS).path(CAPTION);
-        if (caption.isTextual() && !contextStack.peek().inline()) {
-            // Avoid storing the caption in the embed parameters, as we do for inline embeds.
-            ((ObjectNode) embedBlock.path(PROPS)).remove(CAPTION);
-            Map<String, String> figureParameters = Map.of("class", getEmbedType());
-            Listener listener = contextStack.peek().listener();
-            listener.beginFigure(figureParameters);
-            contextStack.push(contextStack.peek().withInline(true));
-            visitEmbedBlock(embedBlock, contextStack);
-            listener.beginFigureCaption(Listener.EMPTY_PARAMETERS);
-            parsePlainText(caption.asText(), contextStack);
-            listener.endFigureCaption(Listener.EMPTY_PARAMETERS);
-            contextStack.pop();
-            listener.endFigure(figureParameters);
-        } else {
-            visitEmbedBlock(embedBlock, contextStack);
-        }
+        Map<String, String> parameters = getEmbedParameters(embedBlock);
+
+        // We use a macro block because XDOM doesn't have dedicated blocks for file, video and audio embeds.
+        contextStack.peek().listener().onMacro(EMBED_MACRO_PREFIX + getEmbedType(), parameters, null,
+            contextStack.peek().inline());
     }
 
     protected abstract String getEmbedType();
-
-    protected void visitEmbedBlock(ObjectNode embedBlock, Deque<Context> contextStack)
-    {
-        Map<String, String> parameters = getEmbedParameters(embedBlock);
-        parameters.put("reference", embedBlock.path(PROPS).path(URL).asText(""));
-
-        // We use a macro block because XDOM doesn't have dedicated blocks for file, video and audio embeds.
-        contextStack.peek().listener().onMacro(getEmbedType(), parameters, null, contextStack.peek().inline());
-    }
 
     @Override
     public void traverse(ObjectNode embedBlock, Consumer<ObjectNode> blockConsumer)
@@ -108,25 +60,15 @@ public abstract class AbstractEmbedBlockParser extends AbstractBlockParser
         blockConsumer.accept(embedBlock);
     }
 
-    protected Map<String, String> getEmbedParameters(ObjectNode embedBlock)
+    private Map<String, String> getEmbedParameters(ObjectNode embedBlock)
     {
         Map<String, String> parameters = getBlockParameters(embedBlock);
-        JsonNode embedProperties = embedBlock.path(PROPS);
-
-        JsonNode name = embedProperties.path(NAME);
-        if (name.isTextual()) {
-            parameters.put(ALT, name.asText());
-        }
-
-        JsonNode width = embedProperties.path(PREVIEW_WIDTH);
-        if (width.isNumber()) {
-            parameters.put(WIDTH, width.asText());
-        }
-
-        JsonNode caption = embedProperties.path(CAPTION);
-        if (caption.isTextual()) {
-            parameters.put(CAPTION, caption.asText());
-        }
+        ObjectNode embedProperties = (ObjectNode) embedBlock.path(PROPS);
+        embedProperties.forEachEntry((property, value) -> {
+            if (!BLOCK_STYLES.containsKey(property)) {
+                parameters.put(property, value.asText());
+            }
+        });
 
         return parameters;
     }
