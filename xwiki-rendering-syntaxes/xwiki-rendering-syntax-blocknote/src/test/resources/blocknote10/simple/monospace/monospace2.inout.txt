@@ -4,8 +4,10 @@
   "content" : [ {
     "type" : "text",
     "styles" : {
-      "code" : true,
-      "xwiki:parameter:a": "b"
+      "xwiki:parameters" : {
+        "a" : "b"
+      },
+      "code" : true
     },
     "text" : "monospace"
   } ]

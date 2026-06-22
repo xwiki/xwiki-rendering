@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.renderer.blocknote;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.xwiki.rendering.block.ListBLock;
@@ -30,6 +31,7 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PARAMETERS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PROPS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractListBlockParser.LIST_TYPE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.BulletListBlockParser.BULLETED_LIST_ITEM;
@@ -83,6 +85,9 @@ public class ListChainingListener extends AbstractChainingListener
     {
         ObjectNode listItem = this.context.getBlockNoteState().beginBlock(getListItemType(), true, true, true, true);
         ObjectNode listItemProperties = (ObjectNode) listItem.path(PROPS);
+
+        ObjectNode unknownParameters = (ObjectNode) listItemProperties.path(PARAMETERS);
+        unknownParameters.remove(List.of(START, CHECKED_PARAMETER));
 
         // Merge the list item parameters with the list parameters.
         Map<String, String> listItemParameters = new LinkedHashMap<>();

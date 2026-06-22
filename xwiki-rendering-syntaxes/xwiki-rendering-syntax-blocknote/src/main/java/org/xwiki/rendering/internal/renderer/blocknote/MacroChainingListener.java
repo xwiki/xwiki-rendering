@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.renderer.blocknote;
 import java.util.List;
 import java.util.Map;
 
+import org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
@@ -83,6 +84,7 @@ public class MacroChainingListener extends AbstractChainingListener
             ObjectNode macro =
                 this.context.getBlockNoteState().beginBlock(inline ? INLINE_MACRO : MACRO, true, false, false, !inline);
             ObjectNode macroProperties = (ObjectNode) macro.path(PROPS);
+            macroProperties.remove(AbstractBlockParser.PARAMETERS);
             macroProperties.set(CALL, getMacroCall(id, parameters, content));
             ArrayNode output = this.context.getBlockNoteState().getObjectMapper().createArrayNode();
             macroProperties.set("output", output);

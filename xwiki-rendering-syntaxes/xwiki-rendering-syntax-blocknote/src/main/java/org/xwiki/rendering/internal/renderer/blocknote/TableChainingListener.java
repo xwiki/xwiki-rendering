@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.renderer.blocknote;
 
 import java.util.Deque;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
@@ -32,6 +33,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.BLOCK_STYLES;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.CONTENT;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PARAMETERS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PROPS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.TYPE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.TableBlockParser.CELLS;
@@ -145,6 +147,9 @@ public class TableChainingListener extends AbstractChainingListener
         ObjectNode cell = this.context.getBlockNoteState().beginBlock(TABLE_CELL, styleMapping, true, false, true);
         ObjectNode cellProperties = (ObjectNode) cell.get(PROPS);
         Integer cellWidth = getCellWidth(cellProperties.remove(WIDTH));
+
+        ObjectNode unknownParameters = (ObjectNode) cellProperties.path(PARAMETERS);
+        unknownParameters.remove(List.of(COLSPAN, ROWSPAN));
 
         if (parameters.containsKey(COLSPAN)) {
             cellProperties.put(COLSPAN, Integer.parseInt(parameters.get(COLSPAN)));
