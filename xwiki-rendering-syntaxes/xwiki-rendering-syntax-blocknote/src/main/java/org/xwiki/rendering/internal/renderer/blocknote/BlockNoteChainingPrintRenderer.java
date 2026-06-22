@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.renderer.blocknote;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,7 +34,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.jspecify.annotations.NonNull;
 import org.w3c.css.sac.InputSource;
 import org.w3c.dom.css.CSSStyleDeclaration;
+import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
+import org.xwiki.rendering.block.MacroMarkerBlock;
+import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockParser;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.MetaData;
@@ -51,7 +55,9 @@ import com.steadystate.css.parser.SACParserCSS3;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.BLOCK_STYLES;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.CHILDREN;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.CONTENT;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PARAMETERS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PROPS;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.STYLE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.TEXT_ALIGNMENT;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.TYPE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.RootBlockParser.ROOT;
@@ -66,6 +72,11 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockPars
  */
 public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRenderer
 {
+    /**
+     * The attribute used to denote whether a block is editable (non-generated content) or not.
+     */
+    private static final String EDITABLE = "editable";
+
     /**
      * The mapping between XWiki Rendering text formats and BlockNote text styles. We simply reverse the mapping used by
      * the text block parser.
@@ -289,18 +300,30 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
     private ObjectNode getBlockProperties(Map<String, String> parameters, Map<String, String> styleMapping)
     {
         ObjectNode properties = this.objectMapper.createObjectNode();
+        String unknownStyles = "";
         try {
             CSSStyleDeclaration cssStyleDeclaration = this.cssParser
-                .parseStyleDeclaration(new InputSource(new StringReader(parameters.getOrDefault("style", ""))));
+                .parseStyleDeclaration(new InputSource(new StringReader(parameters.getOrDefault(STYLE, ""))));
             for (Map.Entry<String, String> entry : styleMapping.entrySet()) {
                 String value = cssStyleDeclaration.getPropertyValue(entry.getValue());
                 if (StringUtils.isNotEmpty(value)) {
                     properties.put(entry.getKey(), value);
+                    cssStyleDeclaration.removeProperty(entry.getValue());
                 }
             }
+            unknownStyles = cssStyleDeclaration.getCssText();
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse the style parameter.", e);
         }
+
+        ObjectNode unknownParameters = this.objectMapper.valueToTree(parameters);
+        if (StringUtils.isEmpty(unknownStyles)) {
+            unknownParameters.remove(STYLE);
+        } else {
+            unknownParameters.put(STYLE, unknownStyles);
+        }
+        properties.set(PARAMETERS, unknownParameters);
+
         return properties;
     }
 
@@ -332,6 +355,11 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
                 }
             }
 
+            JsonNode unknownParameters = styles.path(PARAMETERS);
+            if (unknownParameters.size() == 0) {
+                styles.remove(PARAMETERS);
+            }
+
             if (styles.isEmpty()) {
                 ((ArrayNode) this.blockNotePath.peek()).add(text.toString());
             } else {
@@ -353,8 +381,42 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
 
     private List<@NonNull FormatBlock> getFormats()
     {
-        return this.context.getXDOMPath().stream().filter(FormatBlock.class::isInstance).map(FormatBlock.class::cast)
-            .toList();
+        markEditableBlocksFromXDOMPath();
+        Deque<Block> xdomPath = this.context.getXDOMPath();
+        if (isEditableBlock(xdomPath.peek())) {
+            // Return only the editable formats (from non-generated content).
+            return xdomPath.stream().filter(FormatBlock.class::isInstance).filter(this::isEditableBlock)
+                .map(FormatBlock.class::cast).toList();
+        } else {
+            // Return only the non-editable formats from the inner-most macro output (generated content).
+            return xdomPath.stream().takeWhile(block -> !(block instanceof MacroMarkerBlock))
+                .filter(FormatBlock.class::isInstance).map(FormatBlock.class::cast).toList();
+        }
+    }
+
+    private void markEditableBlocksFromXDOMPath()
+    {
+        boolean editable = true;
+        // Iterate the XDOM path in reverse order, from the root to the current block, marking those that are editable
+        // (non-generated content).
+        Iterator<Block> pathIterator = this.context.getXDOMPath().descendingIterator();
+        while (pathIterator.hasNext()) {
+            Block block = pathIterator.next();
+            block.setAttribute(EDITABLE, editable);
+            if (block instanceof MacroMarkerBlock) {
+                // We enter the macro output, which is read-only.
+                editable = false;
+            } else if (block instanceof MetaDataBlock metaDataBlock
+                && metaDataBlock.getMetaData().contains(MetaData.NON_GENERATED_CONTENT)) {
+                // We enter a nested editable area inside the macro output.
+                editable = true;
+            }
+        }
+    }
+
+    private boolean isEditableBlock(Block block)
+    {
+        return block != null && Boolean.TRUE.equals(block.getAttribute(EDITABLE));
     }
 
     /**
@@ -377,8 +439,18 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
             // Simplify the children array if it is mapped to the content property and it has a single textual node.
             maybeSimplifyContentArray(this.blockNotePath.peek(), (ArrayNode) children);
         }
+
         // Pop the block itself.
-        return this.blockNotePath.pop();
+        JsonNode block = this.blockNotePath.pop();
+
+        // Remove the property that stores the unknown parameters if there are no unknown parameters.
+        JsonNode blockProperties = block.path(PROPS);
+        JsonNode blockUnknownParameters = blockProperties.path(PARAMETERS);
+        if (blockUnknownParameters.isObject() && blockUnknownParameters.size() == 0) {
+            ((ObjectNode) blockProperties).remove(PARAMETERS);
+        }
+
+        return block;
     }
 
     private void maybeSimplifyContentArray(JsonNode parent, ArrayNode content)

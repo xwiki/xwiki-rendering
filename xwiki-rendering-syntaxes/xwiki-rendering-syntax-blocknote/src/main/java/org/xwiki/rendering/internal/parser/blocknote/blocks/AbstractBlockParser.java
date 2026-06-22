@@ -97,6 +97,16 @@ public abstract class AbstractBlockParser implements BlockParser, Disposable
     public static final String TEXT_ALIGNMENT = "textAlignment";
 
     /**
+     * The property used to store the block custom parameters, that are not editable through the BlockNote editor.
+     */
+    public static final String PARAMETERS = "xwiki:parameters";
+
+    /**
+     * The parameter used to store the block style, that is a CSS declaration string.
+     */
+    public static final String STYLE = "style";
+
+    /**
      * The property used to mark a block as already processed.
      */
     protected static final String SKIP = "skip";
@@ -229,8 +239,17 @@ public abstract class AbstractBlockParser implements BlockParser, Disposable
     {
         Map<String, String> parameters = new LinkedHashMap<>();
         JsonNode properties = block.path(PROPS);
+        maybeSetCustomParameters(parameters, properties);
         maybeSetStyleParameter(parameters, properties, getBlockStyles());
         return parameters;
+    }
+
+    protected void maybeSetCustomParameters(Map<String, String> parameters, JsonNode properties)
+    {
+        JsonNode customParameters = properties.path(PARAMETERS);
+        if (customParameters.isObject()) {
+            customParameters.forEachEntry((key, value) -> parameters.put(key, value.asText()));
+        }
     }
 
     protected void maybeSetStyleParameter(Map<String, String> parameters, JsonNode styleNode)
@@ -244,7 +263,11 @@ public abstract class AbstractBlockParser implements BlockParser, Disposable
         if (styleNode.isObject()) {
             String value = toCSSDeclarations((ObjectNode) styleNode, styleMappings);
             if (!value.isEmpty()) {
-                parameters.put("style", value);
+                if (parameters.containsKey(STYLE)) {
+                    parameters.put(STYLE, parameters.get(STYLE) + ';' + value);
+                } else {
+                    parameters.put(STYLE, value);
+                }
             }
         }
     }

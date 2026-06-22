@@ -19,6 +19,7 @@
  */
 package org.xwiki.rendering.internal.renderer.blocknote;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +31,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.CONTENT;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PARAMETERS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PROPS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.CodeBlockParser.CODE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.CodeBlockParser.LANGUAGE;
@@ -104,8 +106,11 @@ public class TextChainingListener extends AbstractChainingListener
             ((ObjectNode) textBlock.get(STYLES)).put(VERBATIM, true);
         } else {
             ObjectNode code = this.context.getBlockNoteState().beginBlock(CODE, true, false, false, true);
+            ObjectNode codeProperties = (ObjectNode) code.path(PROPS);
+            ObjectNode unknownParameters = (ObjectNode) codeProperties.path(PARAMETERS);
+            unknownParameters.remove(List.of(VERBATIM_LANGUAGE));
             if (parameters.containsKey(VERBATIM_LANGUAGE)) {
-                ((ObjectNode) code.path(PROPS)).put(LANGUAGE, parameters.get(VERBATIM_LANGUAGE));
+                codeProperties.put(LANGUAGE, parameters.get(VERBATIM_LANGUAGE));
             }
             code.put(CONTENT, content);
         }
@@ -121,6 +126,7 @@ public class TextChainingListener extends AbstractChainingListener
             ObjectNode properties = (ObjectNode) rawBlock.path(PROPS);
             properties.put("syntax", syntax.toIdString());
             properties.put("text", text);
+            properties.remove(PARAMETERS);
         }
     }
 
@@ -131,7 +137,12 @@ public class TextChainingListener extends AbstractChainingListener
     private ObjectNode beginTextBlock(String content)
     {
         ObjectNode textBlock = this.context.getBlockNoteState().beginBlock(TEXT, true, false, false, false);
-        textBlock.set(STYLES, textBlock.remove(PROPS));
+        ObjectNode styles = (ObjectNode) textBlock.remove(PROPS);
+        textBlock.set(STYLES, styles);
+        JsonNode unknownParameters = styles.path(PARAMETERS);
+        if (unknownParameters.size() == 0) {
+            styles.remove(PARAMETERS);
+        }
         textBlock.put(TEXT, content);
         return textBlock;
     }

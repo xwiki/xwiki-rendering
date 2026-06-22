@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.renderer.blocknote;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PARAMETERS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PROPS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.TEXT_ALIGNMENT;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractEmbedBlockParser.ALT;
@@ -101,6 +103,9 @@ public class ImageChainingListener extends AbstractChainingListener
 
         ObjectNode image = this.context.getBlockNoteState().beginBlock(IMAGE, true, false, false, false);
         ObjectNode imageProperties = (ObjectNode) image.path(PROPS);
+
+        ObjectNode unknownParameters = (ObjectNode) imageProperties.path(PARAMETERS);
+        unknownParameters.remove(List.of(IMAGE_ALIGNMENT_PARAMETER, IMAGE_LABEL_PARAMETER, ALT, WIDTH));
 
         if (imageParameters.containsKey(IMAGE_ALIGNMENT_PARAMETER)) {
             String alignment = imageParameters.get(IMAGE_ALIGNMENT_PARAMETER);
