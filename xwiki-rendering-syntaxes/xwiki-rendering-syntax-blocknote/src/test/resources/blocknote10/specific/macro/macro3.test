@@ -1,0 +1,65 @@
+.#-------------------------------------------------------------------------------------------------------
+.input|blocknote/1.0
+.# Verify the parsing of nested in-place editable macros.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "xwiki:macroBlock",
+  "props": {
+    "call" : {
+      "name" : "info",
+      "parameters" : {
+        "title" : {
+          "type" : "heading",
+          "props" : {
+            "level" : 2
+          },
+          "content" : "Note"
+        },
+        "image" : "info.png"
+      },
+      "content" : {
+        "type" : "xwiki:inlineMacro",
+        "props": {
+          "call" : {
+            "name" : "error",
+            "parameters" : {
+              "title" : {
+                "type" : "text",
+                "styles" : {
+                  "bold" : true
+                },
+                "text" : "Failure"
+              },
+              "image" : "error.png"
+            },
+            "content" : {
+              "type" : "xwiki:inlineMacro",
+              "props": {
+                "call" : {
+                  "name" : "success",
+                  "parameters" : {
+                    "title" : "Done",
+                    "image" : "success.png"
+                  },
+                  "content" : {
+                    "type" : "text",
+                    "styles" : {
+                      "code" : true
+                    },
+                    "text" : "stacktrace"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{info title="== Note ==" image="info.png"}}
+{{error title="**Failure**" image="error.png"}}{{success title="Done" image="success.png"}}##stacktrace##{{/success}}{{/error}}
+{{/info}}

@@ -22,7 +22,6 @@ package org.xwiki.rendering.internal.renderer.blocknote;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,7 +37,6 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
-import org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockParser;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
@@ -63,6 +61,7 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlock
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.RootBlockParser.ROOT;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockParser.STYLES;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockParser.TEXT;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockParser.TEXT_STYLES;
 
 /**
  * Used to render the XDOM to BlockNote JSON format.
@@ -70,6 +69,7 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockPars
  * @version $Id$
  * @since 18.5.0RC1
  */
+@SuppressWarnings("checkstyle:ClassFanOutComplexity")
 public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRenderer
 {
     /**
@@ -81,9 +81,8 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
      * The mapping between XWiki Rendering text formats and BlockNote text styles. We simply reverse the mapping used by
      * the text block parser.
      */
-    private static final Map<Format, String> TEXT_STYLES =
-        Collections.unmodifiableMap(TextBlockParser.TEXT_STYLES.entrySet().stream()
-            .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey, (a, b) -> b, LinkedHashMap::new)));
+    private static final Map<Format, String> FORMAT_TO_STYLE = Collections.unmodifiableMap(TEXT_STYLES.entrySet()
+        .stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey, (a, b) -> b, LinkedHashMap::new)));
 
     private final Deque<JsonNode> blockNotePath = new LinkedList<>();
 
@@ -349,7 +348,7 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
             styleMapping.remove(TEXT_ALIGNMENT);
             ObjectNode styles = getBlockProperties(mergedParameters, styleMapping);
             for (FormatBlock format : formats) {
-                String styleName = TEXT_STYLES.get(format.getFormat());
+                String styleName = FORMAT_TO_STYLE.get(format.getFormat());
                 if (styleName != null) {
                     styles.put(styleName, true);
                 }
@@ -399,7 +398,7 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
         boolean editable = true;
         // Iterate the XDOM path in reverse order, from the root to the current block, marking those that are editable
         // (non-generated content).
-        Iterator<Block> pathIterator = this.context.getXDOMPath().descendingIterator();
+        var pathIterator = this.context.getXDOMPath().descendingIterator();
         while (pathIterator.hasNext()) {
             Block block = pathIterator.next();
             block.setAttribute(EDITABLE, editable);

@@ -1,0 +1,28 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test toggle list.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "toggleListItem",
+  "props" : { },
+  "content" : "one",
+  "children" : [ {
+    "type" : "toggleListItem",
+    "props" : { },
+    "content" : "red",
+    "children" : [ ]
+  } ]
+}, {
+  "type" : "toggleListItem",
+  "props" : { },
+  "content" : "two",
+  "children" : [ ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% data-xwiki-list-type="toggle" %)
+* one
+(% data-xwiki-list-type="toggle" %)
+** red
+* two

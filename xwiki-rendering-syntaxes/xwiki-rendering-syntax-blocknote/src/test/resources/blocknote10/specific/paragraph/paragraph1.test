@@ -7,13 +7,19 @@
   "props" : {
     "textColor" : "red",
     "backgroundColor" : "yellow",
-    "textAlignment" : "justify"
+    "textAlignment" : "justify",
+    "xwiki:parameters" : {
+      "style" : "padding: 6px"
+    }
   },
   "content" : [ "Some ", {
     "type" : "text",
     "styles" : {
       "textColor" : "green",
       "backgroundColor" : "blue",
+      "xwiki:parameters" : {
+        "style" : "text-transform: uppercase"
+      },
       "code" : true,
       "strike" : true,
       "underline" : true,
@@ -26,5 +32,5 @@
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
-(% style="color:red;background-color:yellow;text-align:justify" %)
-Some (% style="color:green;background-color:blue" %)**//__--##styled##--__//**(%%) text.
+(% style="padding: 6px;color:red;background-color:yellow;text-align:justify" %)
+Some (% style="text-transform: uppercase;color:green;background-color:blue" %)**//__--##styled##--__//**(%%) text.

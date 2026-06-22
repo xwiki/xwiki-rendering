@@ -1,0 +1,17 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test file embed.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "file",
+  "props" : {
+    "backgroundColor" : "blue",
+    "name" : "syntax-help.pdf",
+    "url" : "/path/to/qwer-tyui-opas.pdf",
+    "caption" : "PDF export of syntax help page"
+  }
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{blocknote:file style="background-color:blue" name="syntax-help.pdf" url="/path/to/qwer-tyui-opas.pdf" caption="PDF export of syntax help page"/}}

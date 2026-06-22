@@ -106,17 +106,15 @@ public abstract class AbstractMacroBlockParser extends AbstractBlockParser
         JsonNode fragment = parent.path(fragmentKey);
         if (fragment.isValueNode()) {
             return fragment.asText("");
-        } else if (fragment.isObject()) {
+        } else if (fragment.isObject() || fragment.isArray()) {
             this.fragmentRenderer.beginFragment(contextStack);
             contextStack.push(contextStack.peek().withInline(inline));
-            visitBlock((ObjectNode) fragment, contextStack)
-                .ifPresent(parentBlockEndCallback -> parentBlockEndCallback.accept(contextStack));
-            contextStack.pop();
-            return this.fragmentRenderer.endFragment(contextStack);
-        } else if (fragment.isArray()) {
-            this.fragmentRenderer.beginFragment(contextStack);
-            contextStack.push(contextStack.peek().withInline(inline));
-            visitChildBlocks(parent, fragmentKey, contextStack);
+            if (fragment.isObject()) {
+                visitBlock((ObjectNode) fragment, contextStack)
+                    .ifPresent(parentBlockEndCallback -> parentBlockEndCallback.accept(contextStack));
+            } else {
+                visitChildBlocks(parent, fragmentKey, contextStack);
+            }
             contextStack.pop();
             return this.fragmentRenderer.endFragment(contextStack);
         }
