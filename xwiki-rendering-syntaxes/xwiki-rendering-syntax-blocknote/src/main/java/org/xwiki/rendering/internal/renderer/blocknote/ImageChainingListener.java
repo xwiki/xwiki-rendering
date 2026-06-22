@@ -36,15 +36,15 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PARAMETERS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PROPS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.TEXT_ALIGNMENT;
-import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractEmbedBlockParser.ALT;
-import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractEmbedBlockParser.CAPTION;
-import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractEmbedBlockParser.NAME;
-import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractEmbedBlockParser.PREVIEW_WIDTH;
-import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractEmbedBlockParser.URL;
-import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractEmbedBlockParser.WIDTH;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.ALT;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.CAPTION;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.IMAGE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.IMAGE_ALIGNMENT_PARAMETER;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.IMAGE_LABEL_PARAMETER;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.NAME;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.PREVIEW_WIDTH;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.URL;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.WIDTH;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.LinkBlockParser.FREE_STANDING;
 
 /**

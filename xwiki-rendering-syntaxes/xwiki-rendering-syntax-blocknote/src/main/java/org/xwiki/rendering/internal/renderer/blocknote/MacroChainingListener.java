@@ -35,9 +35,13 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlock
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.CONTENT;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PROPS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.TYPE;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractEmbedBlockParser.EMBED_MACRO_PREFIX;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractMacroBlockParser.CALL;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractMacroBlockParser.NAME;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractMacroBlockParser.PARAMETERS;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.CAPTION;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.PREVIEW_WIDTH;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.URL;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.InlineMacroBlockParser.INLINE_MACRO;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.MacroBlockParser.MACRO;
 
@@ -53,6 +57,8 @@ public class MacroChainingListener extends AbstractChainingListener
      * The type representing a list of blocks.
      */
     private static final String BLOCK_LIST = "java.util.List<org.xwiki.rendering.block.Block>";
+
+    private static final String SHOW_PREVIEW = "showPreview";
 
     private final Context context;
 
@@ -80,6 +86,8 @@ public class MacroChainingListener extends AbstractChainingListener
     {
         if (this.context.getTextState().isPlainTextRendering()) {
             this.context.getTextState().addText(content, inline);
+        } else if (id.startsWith(EMBED_MACRO_PREFIX)) {
+            beginEmbedBlock(id.substring(EMBED_MACRO_PREFIX.length()), inline);
         } else {
             ObjectNode macro =
                 this.context.getBlockNoteState().beginBlock(inline ? INLINE_MACRO : MACRO, true, false, false, !inline);
@@ -89,6 +97,28 @@ public class MacroChainingListener extends AbstractChainingListener
             ArrayNode output = this.context.getBlockNoteState().getObjectMapper().createArrayNode();
             macroProperties.set("output", output);
             this.context.getBlockNoteState().getBlockNotePath().push(output);
+        }
+    }
+
+    private void beginEmbedBlock(String type, boolean inline)
+    {
+        ObjectNode embed = this.context.getBlockNoteState().beginBlock(type, true, false, false, !inline);
+        ObjectNode embedProperties = (ObjectNode) embed.path(PROPS);
+        ObjectNode unknownParameters = (ObjectNode) embedProperties.remove(AbstractBlockParser.PARAMETERS);
+        if (unknownParameters.path(NAME).isTextual()) {
+            embedProperties.put(NAME, unknownParameters.remove(NAME).asText());
+        }
+        if (unknownParameters.path(URL).isTextual()) {
+            embedProperties.put(URL, unknownParameters.remove(URL).asText());
+        }
+        if (unknownParameters.path(CAPTION).isTextual()) {
+            embedProperties.put(CAPTION, unknownParameters.remove(CAPTION).asText());
+        }
+        if (unknownParameters.path(SHOW_PREVIEW).isValueNode()) {
+            embedProperties.put(SHOW_PREVIEW, unknownParameters.remove(SHOW_PREVIEW).asBoolean());
+        }
+        if (unknownParameters.path(PREVIEW_WIDTH).isValueNode()) {
+            embedProperties.put(PREVIEW_WIDTH, unknownParameters.remove(PREVIEW_WIDTH).asInt());
         }
     }
 

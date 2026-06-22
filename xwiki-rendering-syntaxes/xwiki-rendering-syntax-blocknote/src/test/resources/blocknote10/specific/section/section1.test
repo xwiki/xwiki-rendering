@@ -22,10 +22,20 @@
       "bold" : true
     },
     "text" : "styled"
-  }, " title" ]
+  }, " title ", {
+    "type" : "xwiki:inlineMacro",
+    "props" : {
+      "call" : {
+        "name" : "success",
+        "parameters" : { },
+        "content" : "end!"
+      },
+      "output" : [ ]
+    }
+  } ]
 } ]
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
 (% style="color:red;background-color:yellow;text-align:center" %)
-== Some (% style="color:green;background-color:blue" %)**//__--##styled##--__//**(%%) title ==
+== Some (% style="color:green;background-color:blue" %)**//__--##styled##--__//**(%%) title {{success}}end!{{/success}} ==

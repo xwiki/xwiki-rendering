@@ -99,7 +99,7 @@ public class ListChainingListener extends AbstractChainingListener
             listItemProperties.put(START, listItemParameters.get(START));
         }
         if (listItemParameters.containsKey(CHECKED_PARAMETER)) {
-            listItemProperties.put(CHECKED_PROPERTY, listItemParameters.get(CHECKED_PARAMETER));
+            listItemProperties.put(CHECKED_PROPERTY, Boolean.valueOf(listItemParameters.get(CHECKED_PARAMETER)));
         }
     }
 
