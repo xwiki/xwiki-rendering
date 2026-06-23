@@ -1,0 +1,18 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test audio embed.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "audio",
+  "props" : {
+    "backgroundColor" : "green",
+    "name" : "song.mp3",
+    "url" : "/path/to/qwer-tyui-opas.mp3",
+    "caption" : "My favorite song",
+    "showPreview" : true
+  }
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{blocknote:audio style="background-color:green" name="song.mp3" url="/path/to/qwer-tyui-opas.mp3" caption="My favorite song" showPreview="true"/}}

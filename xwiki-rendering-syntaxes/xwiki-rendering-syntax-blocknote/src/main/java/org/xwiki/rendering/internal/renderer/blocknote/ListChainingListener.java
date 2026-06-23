@@ -95,9 +95,18 @@ public class ListChainingListener extends AbstractChainingListener
             .ifPresent(listBlock -> listItemParameters.putAll(listBlock.getParameters()));
         listItemParameters.putAll(parameters);
 
-        if (listItemParameters.containsKey(START)) {
-            listItemProperties.put(START, listItemParameters.get(START));
+        // XWiki syntax doesn't support parameters for list items so the start number is kept as a list parameter.
+        // BlockNote doesn't have a list block. It has only list items, which is why we need to copy the start number
+        // from the list to the first item (unless the value is specified explicitly on the list item, which could
+        // happen if the input syntax is not XWiki 2.1).
+        if (parameters.containsKey(START)
+            || (listItemParameters.containsKey(START) && this.context.getBlockState().getListItemIndex() == 0)) {
+            listItemProperties.put(START, Integer.parseInt(listItemParameters.get(START)));
         }
+
+        // Each list item can be checked or unchecked, but they are grouped by value in XDOM because XWiki syntax
+        // doesn't support parameters on list items. We need to copy the value from the list (group) to each list item
+        // (when ungrouping).
         if (listItemParameters.containsKey(CHECKED_PARAMETER)) {
             listItemProperties.put(CHECKED_PROPERTY, Boolean.valueOf(listItemParameters.get(CHECKED_PARAMETER)));
         }

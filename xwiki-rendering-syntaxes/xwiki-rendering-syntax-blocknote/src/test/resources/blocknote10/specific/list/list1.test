@@ -1,0 +1,42 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test numbered list with start parameter.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "numberedListItem",
+  "props" : {
+    "start" : 3
+  },
+  "content" : "three",
+  "children" : [ {
+    "type" : "numberedListItem",
+    "props" : {
+      "start" : 7
+    },
+    "content" : "seven",
+    "children" : [ ]
+  } ]
+}, {
+  "type" : "numberedListItem",
+  "props" : { },
+  "content" : "four",
+  "children" : [ ]
+}, {
+  "type" : "numberedListItem",
+  "props" : {
+    "start" : 5
+  },
+  "content" : "five",
+  "children" : [ ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% start="3" %)
+1. three
+(% start="7" %)
+11. seven
+1. four
+
+(% start="5" %)
+1. five

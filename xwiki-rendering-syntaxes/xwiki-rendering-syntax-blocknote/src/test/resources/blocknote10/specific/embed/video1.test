@@ -1,0 +1,20 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test video embed.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "video",
+  "props" : {
+    "backgroundColor" : "red",
+    "textAlignment" : "center",
+    "name" : "movie.mp4",
+    "url" : "/path/to/qwer-tyui-opas.mp4",
+    "caption" : "My favorite movie",
+    "showPreview" : true,
+    "previewWidth" : 640
+  }
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+{{blocknote:video style="background-color:red;text-align:center" name="movie.mp4" url="/path/to/qwer-tyui-opas.mp4" caption="My favorite movie" showPreview="true" previewWidth="640"/}}
