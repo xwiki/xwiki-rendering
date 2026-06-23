@@ -69,11 +69,12 @@ public abstract class AbstractListBlockParser extends AbstractBlockParser
     protected List<ObjectNode> getListItems(ObjectNode listItemBlock, Deque<Context> contextStack)
     {
         List<ObjectNode> listItems = new ArrayList<>();
+        listItems.add(listItemBlock);
         ArrayNode siblings = contextStack.peek().siblings();
-        for (int i = contextStack.peek().indexOf(listItemBlock); 0 <= i && i < siblings.size(); i++) {
-            JsonNode sibling = siblings.get(i);
-            if (inSameList(listItemBlock, sibling)) {
-                listItems.add((ObjectNode) sibling);
+        for (int i = contextStack.peek().indexOf(listItemBlock); 0 <= i && i < siblings.size() - 1; i++) {
+            JsonNode nextSibling = siblings.get(i + 1);
+            if (inSameList(listItemBlock, nextSibling)) {
+                listItems.add((ObjectNode) nextSibling);
             } else {
                 break;
             }

@@ -1,0 +1,30 @@
+.runTransformations
+.#-------------------------------------------------------------------------------------------------------
+.input|xwiki/2.1
+.# Verify the raw text block.
+.#-------------------------------------------------------------------------------------------------------
+{{html clean="false"}}
+<div data-foo="bar">one <em>two</em> three</div>
+{{/html}}
+.#-----------------------------------------------------
+.expect|blocknote/1.0
+.#-----------------------------------------------------
+[ {
+  "type" : "xwiki:macroBlock",
+  "props" : {
+    "call" : {
+      "name" : "html",
+      "parameters" : {
+        "clean" : "false"
+      },
+      "content" : "<div data-foo=\"bar\">one <em>two</em> three</div>"
+    },
+    "output" : [ {
+      "type" : "xwiki:raw",
+      "props" : {
+        "syntax" : "html/5.0",
+        "text" : "<div data-foo=\"bar\">one <em>two</em> three</div>"
+      }
+    } ]
+  }
+} ]

@@ -1,0 +1,33 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Table with header row and column.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "table",
+  "props" : { },
+  "content" : {
+    "type" : "tableContent",
+    "columnWidths" : [ ],
+    "headerRows" : 2,
+    "headerCols" : 1,
+    "rows" : [ {
+      "cells" : [ {
+        "type" : "tableCell",
+        "props" : {
+          "colspan" : 2
+        },
+        "content" : "One"
+      } ]
+    }, {
+      "cells" : [ "Two", "Three" ]
+    }, {
+      "cells" : [ "Four", "Five" ]
+    } ]
+  }
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+|=(% colspan="2" %)One
+|=Two|=Three
+|=Four|Five
