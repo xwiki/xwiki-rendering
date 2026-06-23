@@ -31,7 +31,7 @@
   <name>XWiki Rendering - Syntax - BlockNote</name>
   <description>XWiki Rendering - Syntax - BlockNote</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.92</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.95</xwiki.jacoco.instructionRatio>
     </properties>
   <dependencies>
     <dependency>
@@ -78,6 +78,13 @@
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-message</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Used to test the raw text block. -->
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-macro-html</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
