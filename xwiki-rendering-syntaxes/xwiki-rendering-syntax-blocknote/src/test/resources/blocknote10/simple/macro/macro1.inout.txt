@@ -1,5 +1,5 @@
 [ {
-  "type" : "xwiki:macroBlock",
+  "type" : "xwikiMacroBlock",
   "props" : {
     "call" : {
       "name" : "testsimplemacro",
@@ -8,7 +8,7 @@
     "output" : [ ]
   }
 }, {
-  "type" : "xwiki:macroBlock",
+  "type" : "xwikiMacroBlock",
   "props" : {
     "call" : {
       "name" : "testsimplemacro",

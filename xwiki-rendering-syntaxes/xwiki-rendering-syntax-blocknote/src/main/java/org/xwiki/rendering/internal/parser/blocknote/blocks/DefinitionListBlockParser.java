@@ -41,7 +41,7 @@ public class DefinitionListBlockParser extends AbstractListBlockParser
     /**
      * This component's role hint. Also the type of blocks handled by this parser.
      */
-    public static final String DEFINITION_LIST_ITEM = "xwiki:definitionListItem";
+    public static final String DEFINITION_LIST_ITEM = "xwikiDefinitionListItem";
 
     /**
      * The definition list item property used to differentiate between definition terms and definition descriptions.

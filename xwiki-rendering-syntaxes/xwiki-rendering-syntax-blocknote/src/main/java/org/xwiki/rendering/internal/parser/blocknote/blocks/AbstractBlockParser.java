@@ -99,7 +99,7 @@ public abstract class AbstractBlockParser implements BlockParser, Disposable
     /**
      * The property used to store the block custom parameters, that are not editable through the BlockNote editor.
      */
-    public static final String PARAMETERS = "xwiki:parameters";
+    public static final String PARAMETERS = "xwikiParameters";
 
     /**
      * The parameter used to store the block style, that is a CSS declaration string.

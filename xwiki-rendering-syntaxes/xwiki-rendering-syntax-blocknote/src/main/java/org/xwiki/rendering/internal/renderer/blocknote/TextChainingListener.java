@@ -120,7 +120,7 @@ public class TextChainingListener extends AbstractChainingListener
     @Override
     public void onRawText(String text, Syntax syntax)
     {
-        this.context.getBlockNoteState().beginBlock("xwiki:raw", true, false, false, false);
+        this.context.getBlockNoteState().beginBlock("xwikiRaw", true, false, false, false);
         JsonNode rawBlock = this.context.getBlockNoteState().endBlock();
         if (rawBlock != null) {
             ObjectNode properties = (ObjectNode) rawBlock.path(PROPS);

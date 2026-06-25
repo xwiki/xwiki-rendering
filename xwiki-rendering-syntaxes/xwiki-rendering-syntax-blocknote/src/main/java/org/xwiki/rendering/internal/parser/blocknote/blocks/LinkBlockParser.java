@@ -56,7 +56,7 @@ public class LinkBlockParser extends AbstractBlockParser
     /**
      * The link block property that indicates whether the link is free-standing or not.
      */
-    public static final String FREE_STANDING = "xwiki:freestanding";
+    public static final String FREE_STANDING = "xwikiFreestanding";
 
     @Override
     public void parse(ObjectNode linkBlock, Deque<Context> contextStack) throws ParseException

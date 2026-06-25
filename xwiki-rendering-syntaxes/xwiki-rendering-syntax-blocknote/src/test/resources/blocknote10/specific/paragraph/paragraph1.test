@@ -8,7 +8,7 @@
     "textColor" : "red",
     "backgroundColor" : "yellow",
     "textAlignment" : "justify",
-    "xwiki:parameters" : {
+    "xwikiParameters" : {
       "style" : "padding: 6px"
     }
   },
@@ -17,7 +17,7 @@
     "styles" : {
       "textColor" : "green",
       "backgroundColor" : "blue",
-      "xwiki:parameters" : {
+      "xwikiParameters" : {
         "style" : "text-transform: uppercase"
       },
       "code" : true,

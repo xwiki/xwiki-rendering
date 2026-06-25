@@ -154,7 +154,7 @@ public class MacroChainingListener extends AbstractChainingListener
                 throw new IllegalStateException("Unexpected non-generated content outside macro markers.");
             }
             ObjectNode editableArea =
-                this.context.getBlockNoteState().beginBlock("xwiki:editable", false, false, true, true);
+                this.context.getBlockNoteState().beginBlock("xwikiEditable", false, false, true, true);
             if (metadata.contains(MetaData.PARAMETER_NAME)) {
                 editableArea.put("name", (String) metadata.getMetaData(MetaData.PARAMETER_NAME));
             }

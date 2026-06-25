@@ -46,7 +46,7 @@ public class GroupBlockParser extends AbstractBlockParser
     /**
      * This component's role hint. Also the type of blocks handled by this parser.
      */
-    public static final String GROUP = "xwiki:group";
+    public static final String GROUP = "xwikiGroup";
 
     @Override
     public void parse(ObjectNode groupBlock, Deque<Context> contextStack) throws ParseException

@@ -4,7 +4,7 @@
   "content" : [ {
     "type" : "link",
     "props" : {
-      "xwiki:freestanding" : true
+      "xwikiFreestanding" : true
     },
     "content" : [ ],
     "href" : {
