@@ -44,7 +44,7 @@ public class InlineMacroBlockParser extends AbstractMacroBlockParser
     /**
      * This component's role hint. Also the type of blocks handled by this parser.
      */
-    public static final String INLINE_MACRO = "xwiki:inlineMacro";
+    public static final String INLINE_MACRO = "xwikiInlineMacro";
 
     @Override
     public void parse(ObjectNode macroBlock, Deque<Context> contextStack) throws ParseException

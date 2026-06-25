@@ -13,7 +13,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
 .expect|blocknote/1.0
 .#-----------------------------------------------------
 [ {
-  "type" : "xwiki:macroBlock",
+  "type" : "xwikiMacroBlock",
   "props" : {
     "call" : {
       "name" : "info",
@@ -31,7 +31,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
         "type" : "paragraph",
         "props" : { },
         "content" : [ "This ", {
-          "type" : "xwiki:inlineMacro",
+          "type" : "xwikiInlineMacro",
           "props" : {
             "call" : {
               "name" : "error",
@@ -40,7 +40,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
                 "image" : "error.png"
               },
               "content" : [ {
-                "type" : "xwiki:inlineMacro",
+                "type" : "xwikiInlineMacro",
                 "props" : {
                   "call" : {
                     "name" : "success",
@@ -67,10 +67,10 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
                         "typed" : true,
                         "parameters" : { }
                       },
-                      "xwiki:freestanding" : true
+                      "xwikiFreestanding" : true
                     }
                   }, {
-                    "type" : "xwiki:editable"
+                    "type" : "xwikiEditable"
                   } ]
                 }
               } ]
@@ -86,10 +86,10 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
                   "typed" : true,
                   "parameters" : { }
                 },
-                "xwiki:freestanding" : true
+                "xwikiFreestanding" : true
               }
             }, {
-              "type" : "xwiki:editable"
+              "type" : "xwikiEditable"
             } ]
           }
         }, " is ", {
@@ -118,9 +118,9 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
       } ]
     },
     "output" : [ {
-      "type" : "xwiki:group",
+      "type" : "xwikiGroup",
       "props" : {
-        "xwiki:parameters" : {
+        "xwikiParameters" : {
           "class" : "box infomessage"
         }
       },
@@ -135,10 +135,10 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
             "typed" : true,
             "parameters" : { }
           },
-          "xwiki:freestanding" : true
+          "xwikiFreestanding" : true
         }
       }, {
-        "type" : "xwiki:group",
+        "type" : "xwikiGroup",
         "props" : { },
         "children" : [ {
           "type" : "image",
@@ -151,21 +151,21 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
               "typed" : false,
               "parameters" : { }
             },
-            "xwiki:freestanding" : true
+            "xwikiFreestanding" : true
           }
         }, "\n", {
-          "type" : "xwiki:group",
+          "type" : "xwikiGroup",
           "props" : {
-            "xwiki:parameters" : {
+            "xwikiParameters" : {
               "class" : "box-title"
             }
           },
           "children" : [ {
-            "type" : "xwiki:editable",
+            "type" : "xwikiEditable",
             "name" : "title"
           } ]
         }, {
-          "type" : "xwiki:editable"
+          "type" : "xwikiEditable"
         } ]
       } ]
     } ]

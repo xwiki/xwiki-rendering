@@ -10,7 +10,7 @@
 .expect|blocknote/1.0
 .#-----------------------------------------------------
 [ {
-  "type" : "xwiki:macroBlock",
+  "type" : "xwikiMacroBlock",
   "props" : {
     "call" : {
       "name" : "html",
@@ -20,7 +20,7 @@
       "content" : "<div data-foo=\"bar\">one <em>two</em> three</div>"
     },
     "output" : [ {
-      "type" : "xwiki:raw",
+      "type" : "xwikiRaw",
       "props" : {
         "syntax" : "html/5.0",
         "text" : "<div data-foo=\"bar\">one <em>two</em> three</div>"

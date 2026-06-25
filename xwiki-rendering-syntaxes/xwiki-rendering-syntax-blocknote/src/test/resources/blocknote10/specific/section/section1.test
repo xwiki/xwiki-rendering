@@ -23,7 +23,7 @@
     },
     "text" : "styled"
   }, " title ", {
-    "type" : "xwiki:inlineMacro",
+    "type" : "xwikiInlineMacro",
     "props" : {
       "call" : {
         "name" : "success",

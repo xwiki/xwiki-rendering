@@ -44,7 +44,7 @@ public class MacroBlockParser extends AbstractMacroBlockParser
     /**
      * This component's role hint. Also the type of blocks handled by this parser.
      */
-    public static final String MACRO = "xwiki:macroBlock";
+    public static final String MACRO = "xwikiMacroBlock";
 
     @Override
     public void parse(ObjectNode macroBlock, Deque<Context> contextStack) throws ParseException
