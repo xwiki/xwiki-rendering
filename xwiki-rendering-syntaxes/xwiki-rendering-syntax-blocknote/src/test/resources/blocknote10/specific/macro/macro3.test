@@ -3,7 +3,7 @@
 .# Verify the parsing of nested in-place editable macros.
 .#-------------------------------------------------------------------------------------------------------
 [ {
-  "type" : "xwiki:macroBlock",
+  "type" : "xwikiMacroBlock",
   "props": {
     "call" : {
       "name" : "info",
@@ -18,7 +18,7 @@
         "image" : "info.png"
       },
       "content" : {
-        "type" : "xwiki:inlineMacro",
+        "type" : "xwikiInlineMacro",
         "props": {
           "call" : {
             "name" : "error",
@@ -33,7 +33,7 @@
               "image" : "error.png"
             },
             "content" : {
-              "type" : "xwiki:inlineMacro",
+              "type" : "xwikiInlineMacro",
               "props": {
                 "call" : {
                   "name" : "success",

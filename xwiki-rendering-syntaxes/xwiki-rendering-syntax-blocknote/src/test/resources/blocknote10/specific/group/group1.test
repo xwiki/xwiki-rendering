@@ -3,9 +3,9 @@
 .# Test group block.
 .#-------------------------------------------------------------------------------------------------------
 [ {
-  "type" : "xwiki:group",
+  "type" : "xwikiGroup",
   "props" : {
-    "xwiki:parameters" : {
+    "xwikiParameters" : {
       "foo" : "bar"
     }
   },

@@ -4,7 +4,7 @@
   "content" : [ "This is ", {
     "type" : "text",
     "styles" : {
-      "xwiki:verbatim" : true
+      "xwikiVerbatim" : true
     },
     "text" : "verbatim"
   } ]

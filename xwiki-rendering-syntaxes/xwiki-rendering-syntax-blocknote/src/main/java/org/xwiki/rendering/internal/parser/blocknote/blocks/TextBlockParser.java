@@ -70,7 +70,7 @@ public class TextBlockParser extends AbstractBlockParser
      * The text "style" used to mark verbatim text (text that should be rendered as-is, without interpreting any of its
      * content as wiki syntax).
      */
-    public static final String VERBATIM = "xwiki:verbatim";
+    public static final String VERBATIM = "xwikiVerbatim";
 
     static {
         Map<String, Format> textStyles = new LinkedHashMap<>();

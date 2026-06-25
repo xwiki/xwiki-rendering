@@ -9,6 +9,6 @@
       "typed" : false,
       "parameters" : { }
     },
-    "xwiki:freestanding" : true
+    "xwikiFreestanding" : true
   }
 } ]
