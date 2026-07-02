@@ -44,7 +44,7 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockPars
  * Renders text content to BlockNote JSON format.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 public class TextChainingListener extends AbstractChainingListener
 {

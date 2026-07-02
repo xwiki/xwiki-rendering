@@ -32,7 +32,7 @@ import static org.xwiki.rendering.internal.blocknote.BlockNote10SyntaxProvider.B
  * Parses a BlockNote JSON into a XDOM object.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @Component
 @Named("blocknote/1.0")

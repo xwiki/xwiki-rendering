@@ -36,7 +36,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * Group block parser.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @Component
 @Named(GroupBlockParser.GROUP)

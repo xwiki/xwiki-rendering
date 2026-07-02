@@ -40,7 +40,7 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockPars
  * Paragraph block parser.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @Component
 @Named(ParagraphBlockParser.PARAGRAPH)

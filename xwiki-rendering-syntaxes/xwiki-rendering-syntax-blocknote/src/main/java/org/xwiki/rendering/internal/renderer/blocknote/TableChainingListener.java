@@ -51,7 +51,7 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.TableBlockPar
  * Listener that handles table-related events and updates the BlockNote state accordingly.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 public class TableChainingListener extends AbstractChainingListener
 {

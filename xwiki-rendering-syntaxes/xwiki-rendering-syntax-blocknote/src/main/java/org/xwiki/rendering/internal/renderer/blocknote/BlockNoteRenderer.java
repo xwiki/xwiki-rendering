@@ -35,7 +35,7 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
  * Used to render the XDOM to BlockNote JSON format.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @Component
 @Named("blocknote/1.0")

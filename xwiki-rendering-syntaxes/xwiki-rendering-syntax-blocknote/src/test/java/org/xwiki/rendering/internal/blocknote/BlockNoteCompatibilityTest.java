@@ -27,7 +27,7 @@ import org.xwiki.test.annotation.AllComponents;
  * Run all CTS tests for the BlockNote 1.0 syntax.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @AllComponents
 @Syntax("blocknote/1.0")

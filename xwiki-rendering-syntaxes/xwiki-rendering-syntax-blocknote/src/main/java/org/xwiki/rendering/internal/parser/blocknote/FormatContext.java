@@ -34,7 +34,7 @@ import org.xwiki.rendering.listener.Format;
  * @param ownFormats the formats that are specific to this format context
  * @param ownParameters the parameters that are specific to this format context
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 public record FormatContext(List<Format> sharedFormats, Map<String, String> sharedParameters, List<Format> ownFormats,
     Map<String, String> ownParameters)

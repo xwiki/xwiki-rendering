@@ -31,7 +31,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * Check list block parser.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @Component
 @Named(CheckListBlockParser.CHECK_LIST_ITEM)

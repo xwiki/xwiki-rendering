@@ -72,7 +72,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * Records the path of XDOM blocks from the root to the current block being rendered.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @SuppressWarnings("checkstyle:ClassFanOutComplexity")
 public class XDOMPathChainingListener extends AbstractChainingListener

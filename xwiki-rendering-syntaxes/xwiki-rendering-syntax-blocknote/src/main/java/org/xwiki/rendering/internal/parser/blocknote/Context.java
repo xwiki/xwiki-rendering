@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @param sectionLevel the section level in the scope of the current parent block, or {@code null} if no section is open
  *            directly under the current parent block
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 public record Context(Listener listener, IdGenerator idGenerator, boolean inline, ObjectNode parent, ArrayNode siblings,
     HeaderLevel sectionLevel)
