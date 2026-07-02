@@ -56,7 +56,7 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockPars
  * Base class for BlockNote block parsers.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 public abstract class AbstractBlockParser implements BlockParser, Disposable
 {

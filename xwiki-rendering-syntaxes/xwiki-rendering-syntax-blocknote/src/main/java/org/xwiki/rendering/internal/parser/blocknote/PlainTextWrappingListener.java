@@ -29,7 +29,7 @@ import org.xwiki.rendering.listener.WrappingListener;
  * Used to parse plain text without generating any document or paragraph events.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 public class PlainTextWrappingListener extends WrappingListener
 {

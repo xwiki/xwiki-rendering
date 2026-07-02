@@ -37,7 +37,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * Base implementation for macro block parsers.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 public abstract class AbstractMacroBlockParser extends AbstractBlockParser
 {

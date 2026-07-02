@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * Interface for BlockNote block parsers.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @Role
 public interface BlockParser

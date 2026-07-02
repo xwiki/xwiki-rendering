@@ -31,7 +31,7 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
  * Shared context between the different chaining listeners used by the {@link BlockNoteRenderer}.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 public class Context
 {

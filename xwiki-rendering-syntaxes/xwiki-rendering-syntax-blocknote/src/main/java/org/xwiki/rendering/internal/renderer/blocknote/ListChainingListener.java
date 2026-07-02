@@ -51,7 +51,7 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.ToggleListBlo
  * Renders lists to BlockNote JSON format.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 public class ListChainingListener extends AbstractChainingListener
 {

@@ -28,7 +28,7 @@ import org.xwiki.test.annotation.AllComponents;
  * the conventions described in {@link org.xwiki.rendering.test.integration.TestDataParser}.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @AllComponents
 @Scope(value = "blocknote10.specific")

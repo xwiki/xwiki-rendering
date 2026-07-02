@@ -34,7 +34,7 @@ import org.xwiki.rendering.syntax.SyntaxType;
  * Register the {@code blocknote/1.0} syntax supported by this module.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @Component
 @Named("blocknote/1.0")

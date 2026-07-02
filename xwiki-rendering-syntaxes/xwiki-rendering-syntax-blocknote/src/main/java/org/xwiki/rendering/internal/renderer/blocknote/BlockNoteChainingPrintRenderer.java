@@ -67,7 +67,7 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockPars
  * Used to render the XDOM to BlockNote JSON format.
  *
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @SuppressWarnings("checkstyle:ClassFanOutComplexity")
 public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRenderer

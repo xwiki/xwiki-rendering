@@ -41,7 +41,7 @@ import org.xwiki.rendering.transformation.RenderingContext;
  * Used to render an XDOM fragment to the syntax specified by the XDOM metadata or the rendering context.
  * 
  * @version $Id$
- * @since 18.5.0RC1
+ * @since 18.6.0RC1
  */
 @Component(roles = FragmentRenderer.class)
 @Singleton
