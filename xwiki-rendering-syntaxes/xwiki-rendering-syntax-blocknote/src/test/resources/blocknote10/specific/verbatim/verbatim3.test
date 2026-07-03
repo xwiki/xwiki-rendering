@@ -1,0 +1,25 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Verify that the parameters of inline verbatim blocks are preserved on save.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ "one ", {
+    "type" : "text",
+    "styles" : {
+      "xwikiParameters" : {
+        "data-foo" : "bar"
+      },
+      "xwikiVerbatim" : true
+    },
+    "text" : "**two**"
+  }, " three" ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.# NOTE: The inline verbatim block appears to be rendered standalone because it has parameters. This looks like a bug in
+.# the XWiki 2.1 renderer.
+.#-----------------------------------------------------
+one (% data-foo="bar" %)
+{{{**two**}}} three

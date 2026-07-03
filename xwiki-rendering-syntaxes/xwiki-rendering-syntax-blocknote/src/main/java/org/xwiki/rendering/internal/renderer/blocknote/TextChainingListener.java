@@ -36,9 +36,6 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlock
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.CodeBlockParser.CODE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.CodeBlockParser.LANGUAGE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.CodeBlockParser.VERBATIM_LANGUAGE;
-import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockParser.STYLES;
-import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockParser.TEXT;
-import static org.xwiki.rendering.internal.parser.blocknote.blocks.TextBlockParser.VERBATIM;
 
 /**
  * Renders text content to BlockNote JSON format.
@@ -99,11 +96,8 @@ public class TextChainingListener extends AbstractChainingListener
         if (isPlainTextRendering()) {
             addText(content, inline);
         } else if (inline) {
-            // End the previous text block, if any.
-            this.context.getBlockNoteState().endTextBlock();
-            // Start a new text block with the verbatim style.
-            ObjectNode textBlock = beginTextBlock(content);
-            ((ObjectNode) textBlock.get(STYLES)).put(VERBATIM, true);
+            // See InlineContentChainingListener#onVerbatim()
+            super.onVerbatim(content, inline, parameters);
         } else {
             ObjectNode code = this.context.getBlockNoteState().beginBlock(CODE, true, false, false, true);
             ObjectNode codeProperties = (ObjectNode) code.path(PROPS);
@@ -113,8 +107,8 @@ public class TextChainingListener extends AbstractChainingListener
                 codeProperties.put(LANGUAGE, parameters.get(VERBATIM_LANGUAGE));
             }
             code.put(CONTENT, content);
+            this.context.getBlockNoteState().endBlock();
         }
-        this.context.getBlockNoteState().endBlock();
     }
 
     @Override
@@ -133,19 +127,6 @@ public class TextChainingListener extends AbstractChainingListener
     //
     // Utility methods to manage the pain text buffer.
     //
-
-    private ObjectNode beginTextBlock(String content)
-    {
-        ObjectNode textBlock = this.context.getBlockNoteState().beginBlock(TEXT, true, false, false, false);
-        ObjectNode styles = (ObjectNode) textBlock.remove(PROPS);
-        textBlock.set(STYLES, styles);
-        JsonNode unknownParameters = styles.path(PARAMETERS);
-        if (unknownParameters.size() == 0) {
-            styles.remove(PARAMETERS);
-        }
-        textBlock.put(TEXT, content);
-        return textBlock;
-    }
 
     /**
      * Indicates that the content being rendered should be rendered as plain text, without any formatting.

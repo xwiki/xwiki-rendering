@@ -26,8 +26,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jspecify.annotations.NonNull;
@@ -37,6 +37,7 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
+import org.xwiki.rendering.block.VerbatimBlock;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
@@ -81,8 +82,15 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
      * The mapping between XWiki Rendering text formats and BlockNote text styles. We simply reverse the mapping used by
      * the text block parser.
      */
-    private static final Map<Format, String> FORMAT_TO_STYLE = Collections.unmodifiableMap(TEXT_STYLES.entrySet()
-        .stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey, (a, b) -> b, LinkedHashMap::new)));
+    private static final Map<Format, String> FORMAT_TO_STYLE;
+
+    static {
+        Map<Format, String> formatToStyle = new LinkedHashMap<>();
+        for (Map.Entry<String, Format> entry : TEXT_STYLES.entrySet()) {
+            formatToStyle.put(entry.getValue(), entry.getKey());
+        }
+        FORMAT_TO_STYLE = Collections.unmodifiableMap(formatToStyle);
+    }
 
     private final Deque<JsonNode> blockNotePath = new LinkedList<>();
 
@@ -336,24 +344,14 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
     public void maybeAddTextBlock(boolean currentContainerBlockEnded)
     {
         Map<String, String> mergedParameters = new LinkedHashMap<>();
-        List<@NonNull FormatBlock> formats = getFormats();
-        for (FormatBlock format : formats) {
-            mergedParameters.putAll(format.getParameters());
+        List<@NonNull Block> formatBlocks = getFormats();
+        for (Block formatBlock : formatBlocks) {
+            mergedParameters.putAll(formatBlock.getParameters());
         }
 
         StringBuilder text = this.context.getTextState().getPlainText();
         if (!text.isEmpty() || isEmptyTextBlockNeeded(currentContainerBlockEnded, mergedParameters)) {
-            // Collect text styles.
-            Map<String, String> styleMapping = new LinkedHashMap<>(BLOCK_STYLES);
-            styleMapping.remove(TEXT_ALIGNMENT);
-            ObjectNode styles = getBlockProperties(mergedParameters, styleMapping);
-            for (FormatBlock format : formats) {
-                String styleName = FORMAT_TO_STYLE.get(format.getFormat());
-                if (styleName != null) {
-                    styles.put(styleName, true);
-                }
-            }
-
+            ObjectNode styles = getTextStyles(mergedParameters, formatBlocks);
             JsonNode unknownParameters = styles.path(PARAMETERS);
             if (unknownParameters.size() == 0) {
                 styles.remove(PARAMETERS);
@@ -371,6 +369,21 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
         }
     }
 
+    private ObjectNode getTextStyles(Map<String, String> mergedParameters, List<@NonNull Block> formatBlocks)
+    {
+        Map<String, String> styleMapping = new LinkedHashMap<>(BLOCK_STYLES);
+        styleMapping.remove(TEXT_ALIGNMENT);
+        ObjectNode styles = getBlockProperties(mergedParameters, styleMapping);
+        for (Block block : formatBlocks) {
+            Format format = block instanceof FormatBlock formatBlock ? formatBlock.getFormat() : null;
+            String styleName = FORMAT_TO_STYLE.get(format);
+            if (styleName != null) {
+                styles.put(styleName, true);
+            }
+        }
+        return styles;
+    }
+
     private boolean isEmptyTextBlockNeeded(boolean currentContainerBlockEnded, Map<String, String> parameters)
     {
         // If we are at the end of an empty block and there are active formats or parameters.
@@ -378,19 +391,24 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
             && !(parameters.isEmpty() && this.context.getXDOMPath().stream().noneMatch(FormatBlock.class::isInstance));
     }
 
-    private List<@NonNull FormatBlock> getFormats()
+    private List<@NonNull Block> getFormats()
     {
         markEditableBlocksFromXDOMPath();
         Deque<Block> xdomPath = this.context.getXDOMPath();
         if (isEditableBlock(xdomPath.peek())) {
             // Return only the editable formats (from non-generated content).
-            return xdomPath.stream().filter(FormatBlock.class::isInstance).filter(this::isEditableBlock)
-                .map(FormatBlock.class::cast).toList();
+            return xdomPath.stream().filter(this::isFormatBlock).filter(this::isEditableBlock).filter(Objects::nonNull)
+                .toList();
         } else {
             // Return only the non-editable formats from the inner-most macro output (generated content).
             return xdomPath.stream().takeWhile(block -> !(block instanceof MacroMarkerBlock))
-                .filter(FormatBlock.class::isInstance).map(FormatBlock.class::cast).toList();
+                .filter(this::isFormatBlock).filter(Objects::nonNull).toList();
         }
+    }
+
+    private boolean isFormatBlock(Block block)
+    {
+        return block instanceof FormatBlock || block instanceof VerbatimBlock;
     }
 
     private void markEditableBlocksFromXDOMPath()
