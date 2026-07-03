@@ -20,7 +20,6 @@
 package org.xwiki.rendering.internal.parser.blocknote.blocks;
 
 import java.util.Deque;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import jakarta.inject.Named;
@@ -63,7 +62,7 @@ public class CodeBlockParser extends AbstractBlockParser
     @Override
     public void parse(ObjectNode codeBlock, Deque<Context> contextStack) throws ParseException
     {
-        Map<String, String> parameters = new LinkedHashMap<>();
+        Map<String, String> parameters = getBlockParameters(codeBlock);
         JsonNode language = codeBlock.path(PROPS).path(LANGUAGE);
         if (language.isTextual()) {
             parameters.put(VERBATIM_LANGUAGE, language.asText());
