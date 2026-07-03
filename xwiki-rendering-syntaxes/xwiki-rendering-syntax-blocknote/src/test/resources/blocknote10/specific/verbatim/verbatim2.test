@@ -1,0 +1,22 @@
+.#-------------------------------------------------------------------------------------------------------
+.input|xwiki/2.1
+.# Verify that the parameters of inline verbatim blocks are preserved on save.
+.#-------------------------------------------------------------------------------------------------------
+one (% data-foo="bar" %){{{**two**}}}(%%) three
+.#-----------------------------------------------------
+.expect|blocknote/1.0
+.#-----------------------------------------------------
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ "one ", {
+    "type" : "text",
+    "styles" : {
+      "xwikiParameters" : {
+        "data-foo" : "bar"
+      },
+      "xwikiVerbatim" : true
+    },
+    "text" : "**two**"
+  }, " three" ]
+} ]

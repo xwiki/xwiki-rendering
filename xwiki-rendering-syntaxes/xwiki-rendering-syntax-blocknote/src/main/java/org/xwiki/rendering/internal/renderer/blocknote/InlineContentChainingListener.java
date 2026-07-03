@@ -76,6 +76,11 @@ public class InlineContentChainingListener extends AbstractChainingListener
     @Override
     public void beginFormat(Format format, Map<String, String> parameters)
     {
+        beginFormat();
+    }
+
+    private void beginFormat()
+    {
         if (!this.context.getTextState().isPlainTextRendering()) {
             // Text style has changed so we need to end the current text block.
             // Make sure the styles for the ended text block don't include the new format.
@@ -88,8 +93,23 @@ public class InlineContentChainingListener extends AbstractChainingListener
     @Override
     public void endFormat(Format format, Map<String, String> parameters)
     {
+        endFormat();
+    }
+
+    private void endFormat()
+    {
         if (!this.context.getTextState().isPlainTextRendering()) {
             this.context.getBlockNoteState().maybeAddTextBlock(true);
+        }
+    }
+
+    @Override
+    public void onVerbatim(String content, boolean inline, Map<String, String> parameters)
+    {
+        if (inline) {
+            beginFormat();
+            this.context.getTextState().addText(content, inline);
+            endFormat();
         }
     }
 }
