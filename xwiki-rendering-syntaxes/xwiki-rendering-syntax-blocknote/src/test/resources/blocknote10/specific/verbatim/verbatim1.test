@@ -5,6 +5,9 @@
 [ {
   "type" : "codeBlock",
   "props" : {
+    "xwikiParameters" : {
+      "data-color" : "blue"
+    },
     "language" : "js"
   },
   "content" : "const a = 13;\nlet b = 2 * a;"
@@ -12,6 +15,6 @@
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
-(% data-xwiki-verbatim-language="js" %)
+(% data-color="blue" data-xwiki-verbatim-language="js" %)
 {{{const a = 13;
 let b = 2 * a;}}}
