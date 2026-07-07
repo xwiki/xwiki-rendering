@@ -7,7 +7,10 @@
   "props" : {
     "textColor" : "blue",
     "backgroundColor" : "gray",
-    "textAlignment" : "center"
+    "textAlignment" : "center",
+    "xwikiParameters" : {
+      "data-sortable" : "true"
+    }
   },
   "content" : {
     "type" : "tableContent",
@@ -32,6 +35,9 @@
       }, {
         "type" : "tableCell",
         "props" : {
+          "xwikiParameters" : {
+            "data-since" : "2.1"
+          },
           "colspan" : 2
         },
         "content" : [ {
@@ -74,7 +80,10 @@
         "props" : {
           "textColor" : "black",
           "backgroundColor" : "white",
-          "textAlignment" : "justify"
+          "textAlignment" : "justify",
+          "xwikiParameters" : {
+            "class" : "test"
+          }
         },
         "content" : [ {
           "type" : "text",
@@ -103,7 +112,7 @@
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
-(% style="color:blue;background-color:gray;text-align:center" %)
-|=(% style="color:white;background-color:black;text-align:right;width:300px" rowspan="2" %)**Shape**|=(% style="width:200px" colspan="2" %)__Colors__
+(% data-sortable="true" style="color:blue;background-color:gray;text-align:center" %)
+|=(% style="color:white;background-color:black;text-align:right;width:300px" rowspan="2" %)**Shape**|=(% data-since="2.1" style="width:200px" colspan="2" %)__Colors__
 |(% style="color:red" %)--Before--|(% style="color:green" %)##After##
-|(% style="color:black;background-color:white;text-align:justify" %)**Circle**|(% style="color:red" colspan="2" %)//Red//
+|(% class="test" style="color:black;background-color:white;text-align:justify" %)**Circle**|(% style="color:red" colspan="2" %)//Red//
