@@ -4,6 +4,7 @@
 .#-------------------------------------------------------------------------------------------------------
 before
 
+(% data-foo="bar" %)
 >line1
 >lineOne
 >>line2
@@ -23,7 +24,11 @@ after
   "content" : "before"
 }, {
   "type" : "quote",
-  "props" : { },
+  "props" : {
+    "xwikiParameters" : {
+      "data-foo" : "bar"
+    }
+  },
   "content" : "line1",
   "children" : [ ]
 }, {

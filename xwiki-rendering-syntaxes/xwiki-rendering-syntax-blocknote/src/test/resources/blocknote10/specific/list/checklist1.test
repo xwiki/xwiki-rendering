@@ -19,6 +19,9 @@
 }, {
   "type" : "checkListItem",
   "props" : {
+    "xwikiParameters" : {
+      "data-color" : "red"
+    },
     "checked" : true
   },
   "content" : "pray",
@@ -39,6 +42,6 @@
 (% data-xwiki-list-type="check" data-xwiki-checklist-checked="true" %)
 ** pineapple
 
-(% data-xwiki-list-type="check" data-xwiki-checklist-checked="true" %)
+(% data-color="red" data-xwiki-list-type="check" data-xwiki-checklist-checked="true" %)
 * pray
 * love

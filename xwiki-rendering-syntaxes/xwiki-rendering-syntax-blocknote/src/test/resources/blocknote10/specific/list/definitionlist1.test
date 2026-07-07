@@ -1,0 +1,54 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test definition list with parameters.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "xwikiDefinitionListItem",
+  "props" : {
+    "term" : true
+  },
+  "content" : "title1",
+  "children" : [ ]
+}, {
+  "type" : "xwikiDefinitionListItem",
+  "props" : { },
+  "content" : "definition1",
+  "children" : [ {
+    "type" : "xwikiDefinitionListItem",
+    "props" : {
+      "xwikiParameters" : {
+        "data-foo" : "bar"
+      },
+      "term" : true
+    },
+    "content" : "title2",
+    "children" : [ ]
+  }, {
+    "type" : "xwikiDefinitionListItem",
+    "props" : { },
+    "content" : "definition2",
+    "children" : [ ]
+  } ]
+}, {
+  "type" : "xwikiDefinitionListItem",
+  "props" : {
+    "term" : true
+  },
+  "content" : "title3",
+  "children" : [ ]
+}, {
+  "type" : "xwikiDefinitionListItem",
+  "props" : { },
+  "content" : "definition3",
+  "children" : [ ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+; title1
+: definition1
+(% data-foo="bar" %)
+:; title2
+:: definition2
+; title3
+: definition3
