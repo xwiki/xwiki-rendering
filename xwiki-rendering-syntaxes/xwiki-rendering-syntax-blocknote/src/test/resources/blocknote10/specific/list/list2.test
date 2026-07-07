@@ -1,0 +1,48 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test bullet list with custom parameters.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "bulletListItem",
+  "props" : {
+    "xwikiParameters" : {
+      "data-foo" : "bar"
+    }
+  },
+  "content" : "one",
+  "children" : [ {
+    "type" : "bulletListItem",
+    "props" : { },
+    "content" : "two",
+    "children" : [ {
+      "type" : "bulletListItem",
+      "props" : {
+        "xwikiParameters" : {
+          "data-bar" : "foo"
+        }
+      },
+      "content" : "three",
+      "children" : [ ]
+    } ]
+  }, {
+    "type" : "bulletListItem",
+    "props" : { },
+    "content" : "four",
+    "children" : [ ]
+  } ]
+}, {
+  "type" : "bulletListItem",
+  "props" : { },
+  "content" : "five",
+  "children" : [ ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% data-foo="bar" %)
+* one
+** two
+(% data-bar="foo" %)
+*** three
+** four
+* five

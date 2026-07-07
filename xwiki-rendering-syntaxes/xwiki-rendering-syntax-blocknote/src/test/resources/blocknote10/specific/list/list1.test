@@ -11,6 +11,9 @@
   "children" : [ {
     "type" : "numberedListItem",
     "props" : {
+      "xwikiParameters" : {
+        "data-foo" : "bar"
+      },
       "start" : 7
     },
     "content" : "seven",
@@ -34,7 +37,7 @@
 .#-----------------------------------------------------
 (% start="3" %)
 1. three
-(% start="7" %)
+(% data-foo="bar" start="7" %)
 11. seven
 1. four
 

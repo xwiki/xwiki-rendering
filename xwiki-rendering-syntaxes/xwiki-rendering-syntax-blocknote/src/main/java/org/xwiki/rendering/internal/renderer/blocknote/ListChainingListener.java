@@ -22,9 +22,13 @@ package org.xwiki.rendering.internal.renderer.blocknote;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.IntSupplier;
 
+import org.xwiki.rendering.block.Block;
+import org.xwiki.rendering.block.DefinitionListBlock;
 import org.xwiki.rendering.block.ListBLock;
 import org.xwiki.rendering.block.NumberedListBlock;
+import org.xwiki.rendering.block.QuotationBlock;
 import org.xwiki.rendering.listener.ListType;
 import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
@@ -83,17 +87,13 @@ public class ListChainingListener extends AbstractChainingListener
     @Override
     public void beginListItem(Map<String, String> parameters)
     {
+        Map<String, String> listItemParameters =
+            mergeListParameters(ListBLock.class, this.context.getBlockState()::getListItemIndex);
         ObjectNode listItem = this.context.getBlockNoteState().beginBlock(getListItemType(), true, true, true, true);
         ObjectNode listItemProperties = (ObjectNode) listItem.path(PROPS);
 
         ObjectNode unknownParameters = (ObjectNode) listItemProperties.path(PARAMETERS);
-        unknownParameters.remove(List.of(START, CHECKED_PARAMETER));
-
-        // Merge the list item parameters with the list parameters.
-        Map<String, String> listItemParameters = new LinkedHashMap<>();
-        this.context.getXDOMPath().stream().filter(ListBLock.class::isInstance).map(ListBLock.class::cast).findFirst()
-            .ifPresent(listBlock -> listItemParameters.putAll(listBlock.getParameters()));
-        listItemParameters.putAll(parameters);
+        unknownParameters.remove(List.of(START, CHECKED_PARAMETER, LIST_TYPE));
 
         // XWiki syntax doesn't support parameters for list items so the start number is kept as a list parameter.
         // BlockNote doesn't have a list block. It has only list items, which is why we need to copy the start number
@@ -110,6 +110,22 @@ public class ListChainingListener extends AbstractChainingListener
         if (listItemParameters.containsKey(CHECKED_PARAMETER)) {
             listItemProperties.put(CHECKED_PROPERTY, Boolean.valueOf(listItemParameters.get(CHECKED_PARAMETER)));
         }
+    }
+
+    private <T extends Block> Map<String, String> mergeListParameters(Class<T> clasz, IntSupplier indexSupplier)
+    {
+        // Merge the list item parameters with the list parameters.
+        Map<String, String> listItemParameters = new LinkedHashMap<>();
+        this.context.getXDOMPath().stream().filter(clasz::isInstance).map(clasz::cast).findFirst()
+            .ifPresent(listBlock -> listItemParameters.putAll(listBlock.getParameters()));
+        listItemParameters.putAll(this.context.getParameters());
+
+        if (indexSupplier.getAsInt() == 0) {
+            // BlockNote doesn't have a list block so we add the list parameters to the first list item.
+            this.context.getXDOMPath().peek().setParameters(listItemParameters);
+        }
+
+        return listItemParameters;
     }
 
     private String getListItemType()
@@ -145,8 +161,14 @@ public class ListChainingListener extends AbstractChainingListener
     @Override
     public void beginDefinitionTerm()
     {
-        ObjectNode dt = this.context.getBlockNoteState().beginBlock(DEFINITION_LIST_ITEM, true, true, true, true);
+        ObjectNode dt = beginDefinitionListItem();
         ((ObjectNode) dt.path(PROPS)).put(TERM, true);
+    }
+
+    private ObjectNode beginDefinitionListItem()
+    {
+        mergeListParameters(DefinitionListBlock.class, this.context.getBlockState()::getDefinitionListItemIndex);
+        return this.context.getBlockNoteState().beginBlock(DEFINITION_LIST_ITEM, true, true, true, true);
     }
 
     @Override
@@ -158,7 +180,7 @@ public class ListChainingListener extends AbstractChainingListener
     @Override
     public void beginDefinitionDescription()
     {
-        this.context.getBlockNoteState().beginBlock(DEFINITION_LIST_ITEM, true, true, true, true);
+        beginDefinitionListItem();
     }
 
     @Override
@@ -182,6 +204,7 @@ public class ListChainingListener extends AbstractChainingListener
     @Override
     public void beginQuotationLine()
     {
+        mergeListParameters(QuotationBlock.class, this.context.getBlockState()::getQuotationLineIndex);
         this.context.getBlockNoteState().beginBlock(QUOTE, true, true, true, true);
     }
 

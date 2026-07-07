@@ -8,7 +8,11 @@
   "content" : "before"
 }, {
   "type" : "quote",
-  "props" : { },
+  "props" : {
+    "xwikiParameters" : {
+      "data-foo" : "bar"
+    }
+  },
   "content" : "line1",
   "children" : [ ]
 }, {
@@ -56,6 +60,7 @@
 .#-----------------------------------------------------
 before
 
+(% data-foo="bar" %)
 >line1
 >lineOne
 >>line2
