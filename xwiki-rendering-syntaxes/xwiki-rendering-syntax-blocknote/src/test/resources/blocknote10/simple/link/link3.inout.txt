@@ -4,16 +4,17 @@
   "content" : [ {
     "type" : "link",
     "props" : {
+      "xwikiReference" : {
+        "reference" : "attach:attach.ext",
+        "type" : {
+          "scheme" : "url"
+        },
+        "typed" : false,
+        "parameters" : { }
+      },
       "xwikiFreestanding" : true
     },
     "content" : [ ],
-    "href" : {
-      "reference" : "attach:attach.ext",
-      "type" : {
-        "scheme" : "url"
-      },
-      "typed" : false,
-      "parameters" : { }
-    }
+    "href" : "attach:attach.ext"
   } ]
 } ]

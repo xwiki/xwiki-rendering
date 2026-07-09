@@ -31,6 +31,7 @@ import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
+import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
@@ -55,11 +56,16 @@ public class BlockNoteRenderer extends AbstractChainingPrintRenderer implements 
     @Inject
     private Logger logger;
 
+    @Inject
+    private RenderingConfiguration renderingConfiguration;
+
     @Override
     public void initialize() throws InitializationException
     {
         ListenerChain chain = new ListenerChain();
         setListenerChain(chain);
+
+        WikiModel wikiModel = getWikiModel();
 
         // Construct the listener chain in the right order. Listeners early in the chain are called before listeners
         // placed later in the chain.
@@ -72,8 +78,8 @@ public class BlockNoteRenderer extends AbstractChainingPrintRenderer implements 
         chain.addListener(new ListChainingListener(chain));
         chain.addListener(new TableChainingListener(chain));
         chain.addListener(new MacroChainingListener(chain));
-        chain.addListener(new ImageChainingListener(chain, getWikiModel()));
-        chain.addListener(new InlineContentChainingListener(chain));
+        chain.addListener(new ImageChainingListener(chain, wikiModel));
+        chain.addListener(new InlineContentChainingListener(chain, wikiModel, this.renderingConfiguration));
         chain.addListener(new BlockNoteChainingPrintRenderer(chain));
     }
 
