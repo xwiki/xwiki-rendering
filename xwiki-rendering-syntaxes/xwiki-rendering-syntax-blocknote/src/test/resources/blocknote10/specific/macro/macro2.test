@@ -59,7 +59,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
                   "output" : [ {
                     "type" : "image",
                     "props" : {
-                      "url" : {
+                      "xwikiReference" : {
                         "reference" : "accept",
                         "type" : {
                           "scheme" : "icon"
@@ -67,6 +67,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
                         "typed" : true,
                         "parameters" : { }
                       },
+                      "url" : "imageurl",
                       "xwikiFreestanding" : true
                     }
                   }, {
@@ -78,7 +79,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
             "output" : [ {
               "type" : "image",
               "props" : {
-                "url" : {
+                "xwikiReference" : {
                   "reference" : "exclamation",
                   "type" : {
                     "scheme" : "icon"
@@ -86,6 +87,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
                   "typed" : true,
                   "parameters" : { }
                 },
+                "url" : "imageurl",
                 "xwikiFreestanding" : true
               }
             }, {
@@ -127,7 +129,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
       "children" : [ {
         "type" : "image",
         "props" : {
-          "url" : {
+          "xwikiReference" : {
             "reference" : "information",
             "type" : {
               "scheme" : "icon"
@@ -135,6 +137,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
             "typed" : true,
             "parameters" : { }
           },
+          "url" : "imageurl",
           "xwikiFreestanding" : true
         }
       }, {
@@ -143,14 +146,15 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
         "children" : [ {
           "type" : "image",
           "props" : {
-            "url" : {
+            "xwikiReference" : {
               "reference" : "info.png",
               "type" : {
-                "scheme" : "url"
+                "scheme" : "attach"
               },
               "typed" : false,
               "parameters" : { }
             },
+            "url" : "imageurl",
             "xwikiFreestanding" : true
           }
         }, "\n", {

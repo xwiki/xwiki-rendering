@@ -1,7 +1,7 @@
 [ {
   "type" : "image",
   "props" : {
-    "url" : {
+    "xwikiReference" : {
       "reference" : "image.png",
       "type" : {
         "scheme" : "url"
@@ -9,6 +9,7 @@
       "typed" : false,
       "parameters" : { }
     },
+    "url" : "image.png",
     "xwikiFreestanding" : true
   }
 } ]

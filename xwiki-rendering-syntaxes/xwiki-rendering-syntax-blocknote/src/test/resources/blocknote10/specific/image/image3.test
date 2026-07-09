@@ -5,7 +5,7 @@
 [ {
   "type" : "image",
   "props" : {
-    "url" : {
+    "xwikiReference" : {
       "reference" : "image.png",
       "type" : {
         "scheme" : "url"
@@ -13,59 +13,64 @@
       "typed" : false,
       "parameters" : { }
     },
+    "url" : "image.png",
     "xwikiFreestanding" : true
   }
 }, {
   "type" : "image",
   "props" : {
     "textAlignment" : "left",
-    "url" : {
+    "xwikiReference" : {
       "reference" : "image.png",
       "type" : {
         "scheme" : "url"
       },
       "typed" : false,
       "parameters" : { }
-    }
+    },
+    "url" : "image.png"
   }
 }, {
   "type" : "image",
   "props" : {
     "textAlignment" : "center",
-    "url" : {
+    "xwikiReference" : {
       "reference" : "image.png",
       "type" : {
         "scheme" : "url"
       },
       "typed" : false,
       "parameters" : { }
-    }
+    },
+    "url" : "image.png"
   }
 }, {
   "type" : "image",
   "props" : {
     "textAlignment" : "right",
-    "url" : {
+    "xwikiReference" : {
       "reference" : "image.png",
       "type" : {
         "scheme" : "url"
       },
       "typed" : false,
       "parameters" : { }
-    }
+    },
+    "url" : "image.png"
   }
 }, {
   "type" : "image",
   "props" : {
     "textAlignment" : "justify",
-    "url" : {
+    "xwikiReference" : {
       "reference" : "image.png",
       "type" : {
         "scheme" : "url"
       },
       "typed" : false,
       "parameters" : { }
-    }
+    },
+    "url" : "image.png"
   }
 } ]
 .#-----------------------------------------------------

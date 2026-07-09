@@ -19,9 +19,12 @@
  */
 package org.xwiki.rendering.internal.blocknote;
 
+import org.xwiki.rendering.test.MockWikiModel;
+import org.xwiki.rendering.test.integration.Initialized;
 import org.xwiki.rendering.test.integration.Scope;
 import org.xwiki.rendering.test.integration.junit5.RenderingTest;
 import org.xwiki.test.annotation.AllComponents;
+import org.xwiki.test.mockito.MockitoComponentManager;
 
 /**
  * Run all specific tests found in {@code *.test} files located in the classpath. These {@code *.test} files must follow
@@ -32,6 +35,11 @@ import org.xwiki.test.annotation.AllComponents;
  */
 @AllComponents
 @Scope(value = "blocknote10.specific")
-class BlockNoteSpecificTest extends RenderingTest
+public class BlockNoteSpecificTest extends RenderingTest
 {
+    @Initialized
+    public void initialize(MockitoComponentManager componentManager) throws Exception
+    {
+        componentManager.registerComponent(MockWikiModel.getComponentDescriptor());
+    }
 }
