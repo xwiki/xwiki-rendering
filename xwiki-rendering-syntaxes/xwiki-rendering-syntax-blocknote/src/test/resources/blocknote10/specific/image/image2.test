@@ -13,7 +13,7 @@
       "props" : {
         "textAlignment" : "center",
         "name" : "alternative text",
-        "url" : {
+        "xwikiReference" : {
           "reference" : "image.png",
           "type" : {
             "scheme" : "url"
@@ -21,6 +21,7 @@
           "typed" : false,
           "parameters" : { }
         },
+        "url" : "image.png",
         "previewWidth" : 250,
         "caption" : "This is the caption"
       }

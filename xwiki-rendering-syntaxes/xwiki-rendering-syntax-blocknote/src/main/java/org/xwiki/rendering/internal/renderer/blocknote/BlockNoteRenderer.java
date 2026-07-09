@@ -19,17 +19,23 @@
  */
 package org.xwiki.rendering.internal.renderer.blocknote;
 
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Provider;
 
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
 import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
+import org.xwiki.rendering.wiki.WikiModel;
 
 /**
  * Used to render the XDOM to BlockNote JSON format.
@@ -42,6 +48,13 @@ import org.xwiki.rendering.renderer.AbstractChainingPrintRenderer;
 @InstantiationStrategy(ComponentInstantiationStrategy.PER_LOOKUP)
 public class BlockNoteRenderer extends AbstractChainingPrintRenderer implements Initializable
 {
+    @Inject
+    @Named("context")
+    private Provider<ComponentManager> componentManagerProvider;
+
+    @Inject
+    private Logger logger;
+
     @Override
     public void initialize() throws InitializationException
     {
@@ -59,8 +72,23 @@ public class BlockNoteRenderer extends AbstractChainingPrintRenderer implements 
         chain.addListener(new ListChainingListener(chain));
         chain.addListener(new TableChainingListener(chain));
         chain.addListener(new MacroChainingListener(chain));
-        chain.addListener(new ImageChainingListener(chain));
+        chain.addListener(new ImageChainingListener(chain, getWikiModel()));
         chain.addListener(new InlineContentChainingListener(chain));
         chain.addListener(new BlockNoteChainingPrintRenderer(chain));
+    }
+
+    private WikiModel getWikiModel()
+    {
+        ComponentManager componentManager = this.componentManagerProvider.get();
+        // Try to find a WikiModel implementation and set it if it can be found. If not it means we're in non wiki
+        // mode (i.e. no attachment in wiki documents and no links to documents for example).
+        if (componentManager.hasComponent(WikiModel.class)) {
+            try {
+                return componentManager.getInstance(WikiModel.class);
+            } catch (ComponentLookupException e) {
+                this.logger.error("Failed to initialize the default WikiModel implementation", e);
+            }
+        }
+        return null;
     }
 }

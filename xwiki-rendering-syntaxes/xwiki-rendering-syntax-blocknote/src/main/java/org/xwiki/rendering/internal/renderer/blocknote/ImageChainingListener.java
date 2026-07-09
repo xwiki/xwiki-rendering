@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.xwiki.rendering.block.FigureBlock;
@@ -30,6 +31,8 @@ import org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser;
 import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.reference.ResourceReference;
+import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.wiki.WikiModel;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -45,6 +48,7 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockPar
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.PREVIEW_WIDTH;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.URL;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.WIDTH;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.XWIKI_REFERENCE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.LinkBlockParser.FREE_STANDING;
 
 /**
@@ -64,17 +68,29 @@ public class ImageChainingListener extends AbstractChainingListener
         Collections.unmodifiableMap(ImageBlockParser.IMAGE_ALIGNMENT.entrySet().stream()
             .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey, (a, b) -> b, LinkedHashMap::new)));
 
+    /**
+     * The resource reference types for which the image URL is computed using the {@link WikiModel}, because the
+     * reference alone isn't a usable URL (e.g. an attachment or icon reference).
+     */
+    private static final Set<ResourceType> WIKI_MODEL_RESOURCE_TYPES =
+        Set.of(ResourceType.ATTACHMENT, ResourceType.PAGE_ATTACHMENT, ResourceType.ICON);
+
     private final Context context;
+
+    private final WikiModel wikiModel;
 
     /**
      * Creates a new instance using the provided listener chain.
-     * 
+     *
      * @param listenerChain the listener chain
+     * @param wikiModel used to compute the image URL from the XWiki resource reference; may be {@code null} when
+     *            rendering outside a wiki context
      */
-    public ImageChainingListener(ListenerChain listenerChain)
+    public ImageChainingListener(ListenerChain listenerChain, WikiModel wikiModel)
     {
         setListenerChain(listenerChain);
         this.context = new Context(listenerChain);
+        this.wikiModel = wikiModel;
     }
 
     @Override
@@ -117,7 +133,8 @@ public class ImageChainingListener extends AbstractChainingListener
             imageProperties.put(NAME, imageParameters.get(ALT));
         }
 
-        imageProperties.set(URL, this.context.getBlockNoteState().toJSON(reference));
+        imageProperties.set(XWIKI_REFERENCE, this.context.getBlockNoteState().toJSON(reference));
+        imageProperties.put(URL, getImageURL(reference, imageParameters));
 
         if (imageParameters.containsKey(WIDTH)) {
             imageProperties.put(PREVIEW_WIDTH, Integer.parseInt(imageParameters.get(WIDTH)));
@@ -135,6 +152,15 @@ public class ImageChainingListener extends AbstractChainingListener
 
         if (freestanding) {
             imageProperties.put(FREE_STANDING, freestanding);
+        }
+    }
+
+    private String getImageURL(ResourceReference reference, Map<String, String> parameters)
+    {
+        if (this.wikiModel != null && WIKI_MODEL_RESOURCE_TYPES.contains(reference.getType())) {
+            return this.wikiModel.getImageURL(reference, parameters);
+        } else {
+            return reference.getReference();
         }
     }
 

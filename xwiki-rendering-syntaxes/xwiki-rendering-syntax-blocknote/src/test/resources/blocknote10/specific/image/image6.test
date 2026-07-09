@@ -1,23 +1,19 @@
 .#-------------------------------------------------------------------------------------------------------
-.input|xwiki/2.1
-.# Test image caption
+.inputexpect|blocknote/1.0
+.# Test that the image URL is computed using the WikiModel component for attachment references.
 .#-------------------------------------------------------------------------------------------------------
-[[john>>image:doe.png]]
-.#-----------------------------------------------------
-.expect|blocknote/1.0
-.#-----------------------------------------------------
 [ {
   "type" : "image",
   "props" : {
     "xwikiReference" : {
-      "reference" : "doe.png",
+      "reference" : "Space.Page@file.png",
       "type" : {
         "scheme" : "attach"
       },
-      "typed" : false,
+      "typed" : true,
       "parameters" : { }
     },
     "url" : "imageurl",
-    "caption" : "john"
+    "xwikiFreestanding" : true
   }
 } ]
