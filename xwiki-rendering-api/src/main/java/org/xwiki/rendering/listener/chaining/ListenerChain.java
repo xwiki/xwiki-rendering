@@ -70,7 +70,7 @@ public class ListenerChain
     public void removeListener(Class<? extends ChainingListener> listenerClass)
     {
         Deque<ChainingListener> stack = this.listeners.get(listenerClass);
-        if (stack.size() > 0) {
+        if (!stack.isEmpty()) {
             stack.pop();
         }
         if (stack.isEmpty()) {
