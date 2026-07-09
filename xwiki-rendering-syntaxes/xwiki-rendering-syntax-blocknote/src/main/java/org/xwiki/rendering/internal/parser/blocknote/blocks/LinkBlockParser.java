@@ -30,6 +30,7 @@ import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ParseException;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
@@ -61,7 +62,9 @@ public class LinkBlockParser extends AbstractBlockParser
     @Override
     public void parse(ObjectNode linkBlock, Deque<Context> contextStack) throws ParseException
     {
-        ResourceReference target = asResourceReference(linkBlock.path(HREF));
+        JsonNode xwikiReference = linkBlock.path(PROPS).path(REFERENCE);
+        ResourceReference target = asResourceReference(
+            xwikiReference.isMissingNode() || xwikiReference.isNull() ? linkBlock.path(HREF) : xwikiReference);
         boolean freeStanding = linkBlock.path(PROPS).path(FREE_STANDING).asBoolean(false);
         contextStack.peek().listener().beginLink(target, freeStanding, Listener.EMPTY_PARAMETERS);
 

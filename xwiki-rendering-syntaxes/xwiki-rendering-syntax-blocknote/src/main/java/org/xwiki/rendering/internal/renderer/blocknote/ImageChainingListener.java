@@ -39,6 +39,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PARAMETERS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PROPS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.TEXT_ALIGNMENT;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.REFERENCE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.ALT;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.CAPTION;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.IMAGE;
@@ -48,7 +49,6 @@ import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockPar
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.PREVIEW_WIDTH;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.URL;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.WIDTH;
-import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.XWIKI_REFERENCE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.LinkBlockParser.FREE_STANDING;
 
 /**
@@ -133,7 +133,7 @@ public class ImageChainingListener extends AbstractChainingListener
             imageProperties.put(NAME, imageParameters.get(ALT));
         }
 
-        imageProperties.set(XWIKI_REFERENCE, this.context.getBlockNoteState().toJSON(reference));
+        imageProperties.set(REFERENCE, this.context.getBlockNoteState().toJSON(reference));
         imageProperties.put(URL, getImageURL(reference, imageParameters));
 
         if (imageParameters.containsKey(WIDTH)) {

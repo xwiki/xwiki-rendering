@@ -75,11 +75,6 @@ public class ImageBlockParser extends AbstractBlockParser
     public static final String URL = "url";
 
     /**
-     * The name of the property holding the XWiki resource reference of an image block.
-     */
-    public static final String XWIKI_REFERENCE = "xwikiReference";
-
-    /**
      * The name of the property holding the caption of an image block.
      */
     public static final String CAPTION = "caption";
@@ -128,7 +123,7 @@ public class ImageBlockParser extends AbstractBlockParser
 
     private void visitImageBlock(ObjectNode imageBlock, Deque<Context> contextStack)
     {
-        JsonNode xwikiReference = imageBlock.path(PROPS).path(XWIKI_REFERENCE);
+        JsonNode xwikiReference = imageBlock.path(PROPS).path(REFERENCE);
         ResourceReference imageReference = asResourceReference(xwikiReference.isMissingNode() || xwikiReference.isNull()
             ? imageBlock.path(PROPS).path(URL) : xwikiReference);
         String id = contextStack.peek().idGenerator().generateUniqueId("I", imageReference.getReference());

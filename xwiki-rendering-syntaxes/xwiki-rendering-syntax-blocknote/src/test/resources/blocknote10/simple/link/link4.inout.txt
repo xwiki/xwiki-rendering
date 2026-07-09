@@ -4,16 +4,17 @@
   "content" : [ {
     "type" : "link",
     "props" : {
+      "xwikiReference" : {
+        "reference" : "http://xwiki.org",
+        "type" : {
+          "scheme" : "url"
+        },
+        "typed" : false,
+        "parameters" : { }
+      },
       "xwikiFreestanding" : true
     },
     "content" : [ ],
-    "href" : {
-      "reference" : "http://xwiki.org",
-      "type" : {
-        "scheme" : "url"
-      },
-      "typed" : false,
-      "parameters" : { }
-    }
+    "href" : "http://xwiki.org"
   } ]
 } ]

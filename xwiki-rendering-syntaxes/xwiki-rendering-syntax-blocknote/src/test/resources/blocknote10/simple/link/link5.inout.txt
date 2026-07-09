@@ -4,16 +4,17 @@
   "content" : [ {
     "type" : "link",
     "props" : {
+      "xwikiReference" : {
+        "reference" : "john@doe.com",
+        "type" : {
+          "scheme" : "mailto"
+        },
+        "typed" : true,
+        "parameters" : { }
+      },
       "xwikiFreestanding" : true
     },
     "content" : [ ],
-    "href" : {
-      "reference" : "john@doe.com",
-      "type" : {
-        "scheme" : "mailto"
-      },
-      "typed" : true,
-      "parameters" : { }
-    }
+    "href" : "mailto:john@doe.com"
   } ]
 } ]

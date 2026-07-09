@@ -7,7 +7,16 @@
   "props" : { },
   "content" : [ {
     "type" : "link",
-    "props" : { },
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "https://xwiki.org",
+        "type" : {
+          "scheme" : "url"
+        },
+        "typed" : false,
+        "parameters" : { }
+      }
+    },
     "content" : [ {
       "type" : "image",
       "props" : {
@@ -26,14 +35,7 @@
         "caption" : "This is the caption"
       }
     } ],
-    "href" : {
-      "reference" : "https://xwiki.org",
-      "type" : {
-        "scheme" : "url"
-      },
-      "typed" : false,
-      "parameters" : { }
-    }
+    "href" : "https://xwiki.org"
   } ]
 } ]
 .#-----------------------------------------------------

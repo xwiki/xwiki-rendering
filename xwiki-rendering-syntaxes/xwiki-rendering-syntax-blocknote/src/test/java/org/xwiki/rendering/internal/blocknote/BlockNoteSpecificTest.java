@@ -19,6 +19,8 @@
  */
 package org.xwiki.rendering.internal.blocknote;
 
+import org.xwiki.rendering.configuration.RenderingConfiguration;
+import org.xwiki.rendering.internal.configuration.DefaultRenderingConfiguration;
 import org.xwiki.rendering.test.MockWikiModel;
 import org.xwiki.rendering.test.integration.Initialized;
 import org.xwiki.rendering.test.integration.Scope;
@@ -41,5 +43,9 @@ public class BlockNoteSpecificTest extends RenderingTest
     public void initialize(MockitoComponentManager componentManager) throws Exception
     {
         componentManager.registerComponent(MockWikiModel.getComponentDescriptor());
+
+        DefaultRenderingConfiguration renderingConfiguration =
+            componentManager.getInstance(RenderingConfiguration.class);
+        renderingConfiguration.addInterWikiDefinition("wikipedia", "http://en.wikipedia.org/wiki/");
     }
 }

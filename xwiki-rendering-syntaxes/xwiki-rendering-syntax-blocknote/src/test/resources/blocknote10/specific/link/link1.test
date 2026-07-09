@@ -1,49 +1,175 @@
 .#-------------------------------------------------------------------------------------------------------
-.input|blocknote/1.0
-.# Various link types.
+.inputexpect|blocknote/1.0
+.# Test that the link href is computed using the WikiModel / RenderingConfiguration components,
+.# depending on the resource reference type (attachment, document, mailto, UNC, interwiki).
 .#-------------------------------------------------------------------------------------------------------
 [ {
   "type" : "paragraph",
-  "styles" : { },
+  "props" : { },
   "content" : [ {
     "type" : "link",
-    "content" : "typed URL",
-    "href" : "url:https://www.xwiki.org"
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "/path/to/file",
+        "type" : {
+          "scheme" : "path"
+        },
+        "typed" : true,
+        "parameters" : { }
+      }
+    },
+    "content" : [ ],
+    "href" : "/path/to/file"
   }, {
     "type" : "link",
-    "content" : "typed document",
-    "href" : "doc:Path.To.Page"
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "Space.Page@file.pdf",
+        "type" : {
+          "scheme" : "attach"
+        },
+        "typed" : true,
+        "parameters" : { }
+      }
+    },
+    "content" : [ ],
+    "href" : "attachmenturl"
   }, {
     "type" : "link",
-    "content" : "typed space",
-    "href" : "space:Path.To.Space"
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "Space.ExistingPage",
+        "type" : {
+          "scheme" : "doc"
+        },
+        "typed" : true,
+        "parameters" : { }
+      }
+    },
+    "content" : [ ],
+    "href" : "viewurl"
   }, {
     "type" : "link",
-    "content" : "interwiki",
-    "href" : "interwiki:wikipedia:XWiki"
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "Space.NonExistingPage",
+        "type" : {
+          "scheme" : "doc"
+        },
+        "typed" : true,
+        "parameters" : { }
+      }
+    },
+    "content" : [ ],
+    "href" : "editurl"
   }, {
     "type" : "link",
-    "content" : "typed attachment",
-    "href" : "attach:Path.To.Page@file.pdf"
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "ExistingPage",
+        "type" : {
+          "scheme" : "page"
+        },
+        "typed" : true,
+        "parameters" : { }
+      }
+    },
+    "content" : [ ],
+    "href" : "viewurl"
   }, {
     "type" : "link",
-    "content" : "mail",
-    "href" : "mailto:john@doe.com"
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "",
+        "type" : {
+          "scheme" : "doc"
+        },
+        "typed" : true,
+        "parameters" : {
+          "queryString" : "param1=value1&param2=value2",
+          "anchor" : "foo"
+        }
+      }
+    },
+    "content" : [ ],
+    "href" : "?param1=value1&param2=value2#foo"
   }, {
     "type" : "link",
-    "content" : "path",
-    "href" : "path:/one/two/three"
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "ExistingSpace",
+        "type" : {
+          "scheme" : "space"
+        },
+        "typed" : true,
+        "parameters" : { }
+      }
+    },
+    "content" : [ ],
+    "href" : "viewurl"
   }, {
     "type" : "link",
-    "content" : "UNC",
-    "href" : "unc:home/user/somefile"
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "jane@example.com",
+        "type" : {
+          "scheme" : "mailto"
+        },
+        "typed" : true,
+        "parameters" : { }
+      }
+    },
+    "content" : [ ],
+    "href" : "mailto:jane@example.com"
   }, {
     "type" : "link",
-    "content" : "untyped document",
-    "href" : "Path.To.Page"
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "home\\user\\file.txt",
+        "type" : {
+          "scheme" : "unc"
+        },
+        "typed" : true,
+        "parameters" : { }
+      }
+    },
+    "content" : [ ],
+    "href" : "file:///home/user/file.txt"
+  }, {
+    "type" : "link",
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "XWiki",
+        "type" : {
+          "scheme" : "interwiki"
+        },
+        "typed" : true,
+        "parameters" : {
+          "interWikiAlias" : "wikipedia"
+        }
+      }
+    },
+    "content" : [ ],
+    "href" : "http://en.wikipedia.org/wiki/XWiki"
+  }, {
+    "type" : "link",
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "SomePage",
+        "type" : {
+          "scheme" : "interwiki"
+        },
+        "typed" : true,
+        "parameters" : {
+          "interWikiAlias" : "unknownalias"
+        }
+      }
+    },
+    "content" : [ ],
+    "href" : "SomePage"
   } ]
 } ]
 .#-----------------------------------------------------
 .expect|xwiki/2.1
 .#-----------------------------------------------------
-[[typed URL>>url:https://www.xwiki.org]][[typed document>>doc:Path.To.Page]][[typed space>>space:Path.To.Space]][[interwiki>>interwiki:wikipedia:XWiki]][[typed attachment>>attach:Path.To.Page@file.pdf]][[mail>>mailto:john@doe.com]][[path>>path:/one/two/three]][[UNC>>unc:home/user/somefile]][[untyped document>>Path.To.Page]]
+[[path:/path/to/file]][[attach:Space.Page@file.pdf]][[doc:Space.ExistingPage]][[doc:Space.NonExistingPage]][[page:ExistingPage]][[doc:||queryString="param1=value1&param2=value2" anchor="foo"]][[space:ExistingSpace]][[mailto:jane@example.com]][[unc:home\user\file.txt]][[interwiki:wikipedia:XWiki]][[interwiki:unknownalias:SomePage]]

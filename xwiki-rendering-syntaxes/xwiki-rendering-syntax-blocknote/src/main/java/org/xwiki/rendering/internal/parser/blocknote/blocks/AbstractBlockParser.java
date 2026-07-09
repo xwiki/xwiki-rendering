@@ -102,6 +102,12 @@ public abstract class AbstractBlockParser implements BlockParser, Disposable
     public static final String PARAMETERS = "xwikiParameters";
 
     /**
+     * The name of the property holding the full-fidelity XWiki resource reference of a block (e.g. an image or a link),
+     * as opposed to the plain URL that the corresponding BlockNote property holds.
+     */
+    public static final String REFERENCE = "xwikiReference";
+
+    /**
      * The parameter used to store the block style, that is a CSS declaration string.
      */
     public static final String STYLE = "style";

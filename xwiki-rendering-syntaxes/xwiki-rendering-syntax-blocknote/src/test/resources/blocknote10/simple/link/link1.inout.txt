@@ -3,15 +3,17 @@
   "props" : { },
   "content" : [ {
     "type" : "link",
-    "props" : { },
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "reference",
+        "type" : {
+          "scheme" : "url"
+        },
+        "typed" : false,
+        "parameters" : { }
+      }
+    },
     "content" : [ ],
-    "href" : {
-      "reference" : "reference",
-      "type" : {
-        "scheme" : "url"
-      },
-      "typed" : false,
-      "parameters" : { }
-    }
+    "href" : "reference"
   } ]
 } ]
