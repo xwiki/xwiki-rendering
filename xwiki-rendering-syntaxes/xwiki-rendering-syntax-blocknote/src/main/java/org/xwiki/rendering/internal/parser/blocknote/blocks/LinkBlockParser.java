@@ -20,13 +20,13 @@
 package org.xwiki.rendering.internal.parser.blocknote.blocks;
 
 import java.util.Deque;
+import java.util.Map;
 
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.blocknote.Context;
-import org.xwiki.rendering.listener.Listener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.parser.ParseException;
 
@@ -66,10 +66,11 @@ public class LinkBlockParser extends AbstractBlockParser
         ResourceReference target = asResourceReference(
             xwikiReference.isMissingNode() || xwikiReference.isNull() ? linkBlock.path(HREF) : xwikiReference);
         boolean freeStanding = linkBlock.path(PROPS).path(FREE_STANDING).asBoolean(false);
-        contextStack.peek().listener().beginLink(target, freeStanding, Listener.EMPTY_PARAMETERS);
+        Map<String, String> parameters = getBlockParameters(linkBlock);
+        contextStack.peek().listener().beginLink(target, freeStanding, parameters);
 
         visitInlineChildBlocks(linkBlock, CONTENT, contextStack);
 
-        contextStack.peek().listener().endLink(target, freeStanding, Listener.EMPTY_PARAMETERS);
+        contextStack.peek().listener().endLink(target, freeStanding, parameters);
     }
 }
