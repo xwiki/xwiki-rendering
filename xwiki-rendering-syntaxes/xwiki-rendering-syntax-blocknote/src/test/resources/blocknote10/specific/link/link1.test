@@ -11,9 +11,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "/path/to/file",
-        "type" : {
-          "scheme" : "path"
-        },
+        "type" : "path",
         "typed" : true,
         "parameters" : { }
       }
@@ -25,9 +23,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "Space.Page@file.pdf",
-        "type" : {
-          "scheme" : "attach"
-        },
+        "type" : "attach",
         "typed" : true,
         "parameters" : { }
       }
@@ -39,9 +35,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "Space.ExistingPage",
-        "type" : {
-          "scheme" : "doc"
-        },
+        "type" : "doc",
         "typed" : true,
         "parameters" : { }
       }
@@ -53,9 +47,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "Space.NonExistingPage",
-        "type" : {
-          "scheme" : "doc"
-        },
+        "type" : "doc",
         "typed" : true,
         "parameters" : { }
       }
@@ -67,9 +59,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "ExistingPage",
-        "type" : {
-          "scheme" : "page"
-        },
+        "type" : "page",
         "typed" : true,
         "parameters" : { }
       }
@@ -81,9 +71,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "",
-        "type" : {
-          "scheme" : "doc"
-        },
+        "type" : "doc",
         "typed" : true,
         "parameters" : {
           "queryString" : "param1=value1&param2=value2",
@@ -98,9 +86,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "ExistingSpace",
-        "type" : {
-          "scheme" : "space"
-        },
+        "type" : "space",
         "typed" : true,
         "parameters" : { }
       }
@@ -112,9 +98,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "jane@example.com",
-        "type" : {
-          "scheme" : "mailto"
-        },
+        "type" : "mailto",
         "typed" : true,
         "parameters" : { }
       }
@@ -126,9 +110,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "home\\user\\file.txt",
-        "type" : {
-          "scheme" : "unc"
-        },
+        "type" : "unc",
         "typed" : true,
         "parameters" : { }
       }
@@ -140,9 +122,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "XWiki",
-        "type" : {
-          "scheme" : "interwiki"
-        },
+        "type" : "interwiki",
         "typed" : true,
         "parameters" : {
           "interWikiAlias" : "wikipedia"
@@ -156,9 +136,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "SomePage",
-        "type" : {
-          "scheme" : "interwiki"
-        },
+        "type" : "interwiki",
         "typed" : true,
         "parameters" : {
           "interWikiAlias" : "unknownalias"

@@ -6,9 +6,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "reference",
-        "type" : {
-          "scheme" : "url"
-        },
+        "type" : "url",
         "typed" : false,
         "parameters" : { }
       }

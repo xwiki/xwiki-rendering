@@ -6,9 +6,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "john@doe.com",
-        "type" : {
-          "scheme" : "mailto"
-        },
+        "type" : "mailto",
         "typed" : true,
         "parameters" : { }
       },

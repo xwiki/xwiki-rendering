@@ -14,9 +14,7 @@
       },
       "xwikiReference" : {
         "reference" : "http://xwiki.org",
-        "type" : {
-          "scheme" : "url"
-        },
+        "type" : "url",
         "typed" : false,
         "parameters" : { }
       }

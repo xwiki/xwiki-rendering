@@ -38,6 +38,7 @@ import org.jspecify.annotations.NonNull;
 import org.xwiki.component.manager.ComponentLifecycleException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.component.phase.Disposable;
+import org.xwiki.rendering.internal.blocknote.BlockNoteObjectMapper;
 import org.xwiki.rendering.internal.parser.blocknote.Context;
 import org.xwiki.rendering.internal.parser.blocknote.PlainTextWrappingListener;
 import org.xwiki.rendering.listener.reference.ResourceReference;
@@ -133,7 +134,7 @@ public abstract class AbstractBlockParser implements BlockParser, Disposable
     @Named("plain/1.0")
     private StreamParser plainTextStreamParser;
 
-    private ThreadLocal<@NonNull ObjectMapper> objectMapper = ThreadLocal.withInitial(ObjectMapper::new);
+    private ThreadLocal<@NonNull ObjectMapper> objectMapper = ThreadLocal.withInitial(BlockNoteObjectMapper::create);
 
     @Override
     public void dispose() throws ComponentLifecycleException

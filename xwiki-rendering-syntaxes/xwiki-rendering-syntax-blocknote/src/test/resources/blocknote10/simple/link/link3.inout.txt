@@ -6,9 +6,7 @@
     "props" : {
       "xwikiReference" : {
         "reference" : "attach:attach.ext",
-        "type" : {
-          "scheme" : "url"
-        },
+        "type" : "url",
         "typed" : false,
         "parameters" : { }
       },
