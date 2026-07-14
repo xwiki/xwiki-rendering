@@ -103,7 +103,7 @@ public class ImageBlockParser extends AbstractBlockParser
     public void parse(ObjectNode imageBlock, Deque<Context> contextStack) throws ParseException
     {
         JsonNode caption = imageBlock.path(PROPS).path(CAPTION);
-        if (caption.isTextual() && !contextStack.peek().inline()) {
+        if (isNonEmptyTextual(caption) && !contextStack.peek().inline()) {
             // Avoid storing the caption in the image parameters, as we do for inline images.
             ((ObjectNode) imageBlock.path(PROPS)).remove(CAPTION);
             Map<String, String> figureParameters = Map.of("class", IMAGE);
@@ -158,7 +158,7 @@ public class ImageBlockParser extends AbstractBlockParser
         JsonNode imageProperties = imageBlock.path(PROPS);
 
         JsonNode name = imageProperties.path(NAME);
-        if (name.isTextual()) {
+        if (isNonEmptyTextual(name)) {
             parameters.put(ALT, name.asText());
         }
 
@@ -168,12 +168,12 @@ public class ImageBlockParser extends AbstractBlockParser
         }
 
         JsonNode caption = imageProperties.path(CAPTION);
-        if (caption.isTextual()) {
+        if (isNonEmptyTextual(caption)) {
             parameters.put(CAPTION, caption.asText());
         }
 
         JsonNode alignment = imageProperties.path(TEXT_ALIGNMENT);
-        if (alignment.isTextual()) {
+        if (isNonEmptyTextual(alignment)) {
             String value = IMAGE_ALIGNMENT.getOrDefault(alignment.asText().toLowerCase(), alignment.asText());
             parameters.put(IMAGE_ALIGNMENT_PARAMETER, value);
         }
@@ -190,5 +190,10 @@ public class ImageBlockParser extends AbstractBlockParser
     {
         // Image blocks don't have child blocks, so we don't need to traverse them.
         blockConsumer.accept(embedBlock);
+    }
+
+    private boolean isNonEmptyTextual(JsonNode node)
+    {
+        return node.isTextual() && !node.asText().isBlank();
     }
 }
