@@ -3,9 +3,7 @@
   "props" : {
     "xwikiReference" : {
       "reference" : "image.png",
-      "type" : {
-        "scheme" : "url"
-      },
+      "type" : "url",
       "typed" : false,
       "parameters" : { }
     },

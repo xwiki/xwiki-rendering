@@ -11,9 +11,7 @@
   "props" : {
     "xwikiReference" : {
       "reference" : "doe.png",
-      "type" : {
-        "scheme" : "attach"
-      },
+      "type" : "attach",
       "typed" : false,
       "parameters" : { }
     },

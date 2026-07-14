@@ -61,9 +61,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
                     "props" : {
                       "xwikiReference" : {
                         "reference" : "accept",
-                        "type" : {
-                          "scheme" : "icon"
-                        },
+                        "type" : "icon",
                         "typed" : true,
                         "parameters" : { }
                       },
@@ -81,9 +79,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
               "props" : {
                 "xwikiReference" : {
                   "reference" : "exclamation",
-                  "type" : {
-                    "scheme" : "icon"
-                  },
+                  "type" : "icon",
                   "typed" : true,
                   "parameters" : { }
                 },
@@ -131,9 +127,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
         "props" : {
           "xwikiReference" : {
             "reference" : "information",
-            "type" : {
-              "scheme" : "icon"
-            },
+            "type" : "icon",
             "typed" : true,
             "parameters" : { }
           },
@@ -148,9 +142,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
           "props" : {
             "xwikiReference" : {
               "reference" : "info.png",
-              "type" : {
-                "scheme" : "attach"
-              },
+              "type" : "attach",
               "typed" : false,
               "parameters" : { }
             },

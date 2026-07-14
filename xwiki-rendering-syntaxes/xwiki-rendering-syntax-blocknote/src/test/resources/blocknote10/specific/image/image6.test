@@ -7,9 +7,7 @@
   "props" : {
     "xwikiReference" : {
       "reference" : "Space.Page@file.png",
-      "type" : {
-        "scheme" : "attach"
-      },
+      "type" : "attach",
       "typed" : true,
       "parameters" : { }
     },

@@ -38,6 +38,7 @@ import org.xwiki.rendering.block.FormatBlock;
 import org.xwiki.rendering.block.MacroMarkerBlock;
 import org.xwiki.rendering.block.MetaDataBlock;
 import org.xwiki.rendering.block.VerbatimBlock;
+import org.xwiki.rendering.internal.blocknote.BlockNoteObjectMapper;
 import org.xwiki.rendering.listener.Format;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
@@ -94,7 +95,7 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
 
     private final Deque<JsonNode> blockNotePath = new LinkedList<>();
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = BlockNoteObjectMapper.create();
 
     private final Context context;
 

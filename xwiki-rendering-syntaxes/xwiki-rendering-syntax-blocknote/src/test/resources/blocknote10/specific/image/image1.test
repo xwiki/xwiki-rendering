@@ -12,9 +12,7 @@
       "name" : "alternative text",
       "xwikiReference" : {
         "reference" : "image.png",
-        "type" : {
-          "scheme" : "url"
-        },
+        "type" : "url",
         "typed" : false,
         "parameters" : { }
       },
@@ -30,9 +28,7 @@
     "name" : "my logo",
     "xwikiReference" : {
       "reference" : "logo.png",
-      "type" : {
-        "scheme" : "url"
-      },
+      "type" : "url",
       "typed" : false,
       "parameters" : { }
     },
