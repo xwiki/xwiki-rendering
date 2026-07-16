@@ -10,7 +10,8 @@
         "typed" : false,
         "parameters" : { }
       },
-      "xwikiFreestanding" : true
+      "xwikiFreestanding" : true,
+      "xwikiGeneratedLabel" : "attach:attach.ext"
     },
     "content" : [ ],
     "href" : "attach:attach.ext"

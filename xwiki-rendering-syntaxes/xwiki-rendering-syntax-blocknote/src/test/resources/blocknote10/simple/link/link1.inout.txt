@@ -9,7 +9,8 @@
         "type" : "url",
         "typed" : false,
         "parameters" : { }
-      }
+      },
+      "xwikiGeneratedLabel" : "reference"
     },
     "content" : [ ],
     "href" : "reference"
