@@ -1,0 +1,30 @@
+.#-------------------------------------------------------------------------------------------------------
+.input|xwiki/2.1
+.# Test that rendering a document link (a ResourceReference subclass with convenience getters backed by
+.# the parameters map) doesn't serialize the anchor and query string twice: they must appear only inside
+.# the parameters and not also as top-level properties (which would break parsing back the reference).
+.#-------------------------------------------------------------------------------------------------------
+[[doc:||queryString="param1=value1&param2=value2" anchor="foo"]]
+.#-----------------------------------------------------
+.expect|blocknote/1.0
+.#-----------------------------------------------------
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ {
+    "type" : "link",
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "",
+        "type" : "doc",
+        "typed" : true,
+        "parameters" : {
+          "queryString" : "param1=value1&param2=value2",
+          "anchor" : "foo"
+        }
+      }
+    },
+    "content" : [ ],
+    "href" : "?param1=value1&param2=value2#foo"
+  } ]
+} ]

@@ -98,4 +98,29 @@ class ResourceReferenceTest
 
         assertNotEquals(reference, clonedReference);
     }
+
+    @Test
+    void copyConstructor()
+    {
+        DocumentResourceReference reference = new DocumentResourceReference("reference");
+        reference.setTyped(false);
+        reference.addBaseReference("base1");
+        reference.setAnchor("anchor");
+        reference.setQueryString("param=value");
+
+        ResourceReference copy = new ResourceReference(reference);
+
+        // The copy is a plain ResourceReference, without the subclass convenience getters.
+        assertEquals(ResourceReference.class, copy.getClass());
+        // The copy holds the same base state, including the anchor and query string stored as parameters.
+        assertEquals(reference, copy);
+        assertFalse(copy.isTyped());
+        assertEquals("anchor", copy.getParameter(DocumentResourceReference.ANCHOR));
+        assertEquals("param=value", copy.getParameter(DocumentResourceReference.QUERY_STRING));
+
+        // The copy is independent from the source.
+        copy.addBaseReference("base2");
+        copy.setParameter("parameter2", "value2");
+        assertNotEquals(reference, copy);
+    }
 }

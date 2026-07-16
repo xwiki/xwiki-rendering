@@ -504,7 +504,10 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
      */
     public ObjectNode toJSON(ResourceReference reference)
     {
-        ObjectNode objectNode = this.objectMapper.valueToTree(reference);
+        // Serialize a plain ResourceReference (not a subclass) so that convenience getters backed by the parameters map
+        // (e.g. the anchor and query string of a DocumentResourceReference) aren't emitted both at the top level and
+        // inside the parameters. The subclass specific data is preserved because it is stored in the parameters map.
+        ObjectNode objectNode = this.objectMapper.valueToTree(new ResourceReference(reference));
         if (reference.getBaseReferences().isEmpty()) {
             // ResourceReference initializes "baseReferences" with null but its getter returns an empty list. We remove
             // the empty "baseReferences" property in order to match the automatic XML serialization of
