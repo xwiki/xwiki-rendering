@@ -2,6 +2,8 @@
 .inputexpect|blocknote/1.0
 .# Test that the link href is computed using the WikiModel / RenderingConfiguration components,
 .# depending on the resource reference type (attachment, document, mailto, UNC, interwiki).
+.# A link without a label gets a generated label (using the URILabelGenerator / LinkLabelGenerator
+.# components, with the reference as fallback), marked with the xwikiGeneratedLabel property.
 .#-------------------------------------------------------------------------------------------------------
 [ {
   "type" : "paragraph",
@@ -14,7 +16,8 @@
         "type" : "path",
         "typed" : true,
         "parameters" : { }
-      }
+      },
+      "xwikiGeneratedLabel" : "/path/to/file"
     },
     "content" : [ ],
     "href" : "/path/to/file"
@@ -26,7 +29,8 @@
         "type" : "attach",
         "typed" : true,
         "parameters" : { }
-      }
+      },
+      "xwikiGeneratedLabel" : "Space.Page@file.pdf"
     },
     "content" : [ ],
     "href" : "attachmenturl"
@@ -38,7 +42,8 @@
         "type" : "doc",
         "typed" : true,
         "parameters" : { }
-      }
+      },
+      "xwikiGeneratedLabel" : "Space.ExistingPage"
     },
     "content" : [ ],
     "href" : "viewurl"
@@ -50,7 +55,8 @@
         "type" : "doc",
         "typed" : true,
         "parameters" : { }
-      }
+      },
+      "xwikiGeneratedLabel" : "Space.NonExistingPage"
     },
     "content" : [ ],
     "href" : "editurl"
@@ -62,7 +68,8 @@
         "type" : "page",
         "typed" : true,
         "parameters" : { }
-      }
+      },
+      "xwikiGeneratedLabel" : "ExistingPage"
     },
     "content" : [ ],
     "href" : "viewurl"
@@ -89,7 +96,8 @@
         "type" : "space",
         "typed" : true,
         "parameters" : { }
-      }
+      },
+      "xwikiGeneratedLabel" : "ExistingSpace"
     },
     "content" : [ ],
     "href" : "viewurl"
@@ -101,7 +109,8 @@
         "type" : "mailto",
         "typed" : true,
         "parameters" : { }
-      }
+      },
+      "xwikiGeneratedLabel" : "jane@example.com"
     },
     "content" : [ ],
     "href" : "mailto:jane@example.com"
@@ -113,7 +122,8 @@
         "type" : "unc",
         "typed" : true,
         "parameters" : { }
-      }
+      },
+      "xwikiGeneratedLabel" : "home\\user\\file.txt"
     },
     "content" : [ ],
     "href" : "file:///home/user/file.txt"
@@ -127,7 +137,8 @@
         "parameters" : {
           "interWikiAlias" : "wikipedia"
         }
-      }
+      },
+      "xwikiGeneratedLabel" : "XWiki"
     },
     "content" : [ ],
     "href" : "http://en.wikipedia.org/wiki/XWiki"
@@ -141,7 +152,8 @@
         "parameters" : {
           "interWikiAlias" : "unknownalias"
         }
-      }
+      },
+      "xwikiGeneratedLabel" : "SomePage"
     },
     "content" : [ ],
     "href" : "SomePage"

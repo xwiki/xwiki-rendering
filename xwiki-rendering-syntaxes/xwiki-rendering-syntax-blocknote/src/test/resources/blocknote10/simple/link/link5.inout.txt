@@ -10,7 +10,8 @@
         "typed" : true,
         "parameters" : { }
       },
-      "xwikiFreestanding" : true
+      "xwikiFreestanding" : true,
+      "xwikiGeneratedLabel" : "john@doe.com"
     },
     "content" : [ ],
     "href" : "mailto:john@doe.com"

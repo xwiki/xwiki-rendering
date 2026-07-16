@@ -1,0 +1,28 @@
+.#-------------------------------------------------------------------------------------------------------
+.input|blocknote/1.0
+.# Test that the link content is discarded when it is a generated label (xwikiGeneratedLabel property),
+.# so that the link is rendered back without a label. The content is not empty here because the editor
+.# materializes the generated label as the link content (so that it is visible and editable).
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ {
+    "type" : "link",
+    "props" : {
+      "xwikiReference" : {
+        "reference" : "Space.Page",
+        "type" : "doc",
+        "typed" : true,
+        "parameters" : { }
+      },
+      "xwikiGeneratedLabel" : "Page"
+    },
+    "content" : "Page",
+    "href" : "viewurl"
+  } ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+[[doc:Space.Page]]

@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.configuration.RenderingConfiguration;
 import org.xwiki.rendering.listener.Format;
@@ -32,13 +34,17 @@ import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
+import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
+import org.xwiki.rendering.renderer.reference.link.URILabelGenerator;
 import org.xwiki.rendering.wiki.WikiModel;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PROPS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.REFERENCE;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.LinkBlockParser.FREE_STANDING;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.LinkBlockParser.GENERATED_LABEL;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.LinkBlockParser.HREF;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.LinkBlockParser.LINK;
 
@@ -56,6 +62,8 @@ public class InlineContentChainingListener extends AbstractChainingListener
 
     private final RenderingConfiguration renderingConfiguration;
 
+    private final ComponentManager componentManager;
+
     /**
      * Creates a new instance using the provided listener chain.
      *
@@ -63,14 +71,17 @@ public class InlineContentChainingListener extends AbstractChainingListener
      * @param wikiModel used to compute the link URL from the XWiki resource reference; may be {@code null} when
      *            rendering outside a wiki context
      * @param renderingConfiguration used to look up InterWiki definitions
+     * @param componentManager used to look up the {@link URILabelGenerator} and {@link LinkLabelGenerator} components
+     *            when computing the generated label of a link that has no label
      */
     public InlineContentChainingListener(ListenerChain listenerChain, WikiModel wikiModel,
-        RenderingConfiguration renderingConfiguration)
+        RenderingConfiguration renderingConfiguration, ComponentManager componentManager)
     {
         setListenerChain(listenerChain);
         this.context = new Context(listenerChain);
         this.wikiModel = wikiModel;
         this.renderingConfiguration = renderingConfiguration;
+        this.componentManager = componentManager;
     }
 
     @Override
@@ -155,7 +166,48 @@ public class InlineContentChainingListener extends AbstractChainingListener
     @Override
     public void endLink(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        this.context.getBlockNoteState().endBlock();
+        // A link without a label needs a generated label so that it is visible and editable in the editor. We detect
+        // an empty label the same way the XHTML renderer does, before the empty block state is popped from the chain.
+        boolean emptyLabel = this.context.isCurrentContainerBlockEmpty();
+        // endBlock returns the link block (or null when rendering as plain text).
+        JsonNode link = this.context.getBlockNoteState().endBlock();
+        if (link != null && emptyLabel) {
+            String label = computeLabel(reference);
+            if (StringUtils.isNotEmpty(label)) {
+                // Mark the link as having a generated label. We keep the content empty on purpose; the editor
+                // integration materializes the label as the link content on load so that it can detect when the user
+                // changes it (in which case the label is no longer generated and must be preserved on save).
+                ((ObjectNode) link.path(PROPS)).put(GENERATED_LABEL, label);
+            }
+        }
+    }
+
+    /**
+     * Computes the label of a link that has no label, in the same way the XHTML renderer does. Document, page and space
+     * references use the {@link LinkLabelGenerator} component, while the other reference types use the
+     * {@link URILabelGenerator} component matching the reference type scheme. In both cases the reference itself is used
+     * as a fallback when the corresponding component can't be found (e.g. when rendering outside a wiki context).
+     *
+     * @param reference the reference of the link for which to compute the label
+     * @return the computed label
+     */
+    private String computeLabel(ResourceReference reference)
+    {
+        ResourceType type = reference.getType();
+        if (ResourceType.DOCUMENT.equals(type) || ResourceType.PAGE.equals(type) || ResourceType.SPACE.equals(type)) {
+            try {
+                return this.componentManager.<LinkLabelGenerator>getInstance(LinkLabelGenerator.class)
+                    .generate(reference);
+            } catch (ComponentLookupException e) {
+                return reference.getReference();
+            }
+        }
+        try {
+            return this.componentManager.<URILabelGenerator>getInstance(URILabelGenerator.class, type.getScheme())
+                .generateLabel(reference);
+        } catch (ComponentLookupException e) {
+            return reference.getReference();
+        }
     }
 
     @Override

@@ -65,7 +65,8 @@ public class BlockNoteRenderer extends AbstractChainingPrintRenderer implements 
         ListenerChain chain = new ListenerChain();
         setListenerChain(chain);
 
-        WikiModel wikiModel = getWikiModel();
+        ComponentManager componentManager = this.componentManagerProvider.get();
+        WikiModel wikiModel = getWikiModel(componentManager);
 
         // Construct the listener chain in the right order. Listeners early in the chain are called before listeners
         // placed later in the chain.
@@ -79,13 +80,13 @@ public class BlockNoteRenderer extends AbstractChainingPrintRenderer implements 
         chain.addListener(new TableChainingListener(chain));
         chain.addListener(new MacroChainingListener(chain));
         chain.addListener(new ImageChainingListener(chain, wikiModel));
-        chain.addListener(new InlineContentChainingListener(chain, wikiModel, this.renderingConfiguration));
+        chain.addListener(
+            new InlineContentChainingListener(chain, wikiModel, this.renderingConfiguration, componentManager));
         chain.addListener(new BlockNoteChainingPrintRenderer(chain));
     }
 
-    private WikiModel getWikiModel()
+    private WikiModel getWikiModel(ComponentManager componentManager)
     {
-        ComponentManager componentManager = this.componentManagerProvider.get();
         // Try to find a WikiModel implementation and set it if it can be found. If not it means we're in non wiki
         // mode (i.e. no attachment in wiki documents and no links to documents for example).
         if (componentManager.hasComponent(WikiModel.class)) {

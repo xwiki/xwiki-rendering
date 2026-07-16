@@ -10,7 +10,8 @@
         "typed" : false,
         "parameters" : { }
       },
-      "xwikiFreestanding" : true
+      "xwikiFreestanding" : true,
+      "xwikiGeneratedLabel" : "http://xwiki.org"
     },
     "content" : [ ],
     "href" : "http://xwiki.org"

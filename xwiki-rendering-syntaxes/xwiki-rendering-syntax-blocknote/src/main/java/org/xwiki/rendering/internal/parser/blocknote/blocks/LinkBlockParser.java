@@ -59,6 +59,12 @@ public class LinkBlockParser extends AbstractBlockParser
      */
     public static final String FREE_STANDING = "xwikiFreestanding";
 
+    /**
+     * The link block property that holds the label generated for a link that has no label. When present, the link
+     * content is a generated label that must be discarded on parse, so that the link is rendered back without a label.
+     */
+    public static final String GENERATED_LABEL = "xwikiGeneratedLabel";
+
     @Override
     public void parse(ObjectNode linkBlock, Deque<Context> contextStack) throws ParseException
     {
@@ -69,7 +75,11 @@ public class LinkBlockParser extends AbstractBlockParser
         Map<String, String> parameters = getBlockParameters(linkBlock);
         contextStack.peek().listener().beginLink(target, freeStanding, parameters);
 
-        visitInlineChildBlocks(linkBlock, CONTENT, contextStack);
+        // Discard the link content when it is a generated label, so that the link is rendered back without a label.
+        JsonNode generatedLabel = linkBlock.path(PROPS).path(GENERATED_LABEL);
+        if (generatedLabel.isMissingNode() || generatedLabel.isNull()) {
+            visitInlineChildBlocks(linkBlock, CONTENT, contextStack);
+        }
 
         contextStack.peek().listener().endLink(target, freeStanding, parameters);
     }
