@@ -83,6 +83,24 @@ public class ResourceReference implements Cloneable
     }
 
     /**
+     * Copy constructor. Creates a plain {@link ResourceReference} that is a deep copy of the base state of the passed
+     * reference, dropping any specialization introduced by subclasses. Since subclasses store their specific data (such
+     * as the anchor and query string of a {@link DocumentResourceReference}) inside the {@link #getParameters()} map, no
+     * information is lost.
+     *
+     * @param reference the reference to copy
+     * @since 18.6.0RC1
+     */
+    public ResourceReference(ResourceReference reference)
+    {
+        setTyped(reference.isTyped());
+        setReference(reference.getReference());
+        setType(reference.getType());
+        addBaseReferences(reference.getBaseReferences());
+        setParameters(reference.getParameters());
+    }
+
+    /**
      * @param typed see {@link #isTyped()}
      */
     public void setTyped(boolean typed)
@@ -257,7 +275,13 @@ public class ResourceReference implements Cloneable
         return builder.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @deprecated since 18.6.0RC1, use the {@link #ResourceReference(ResourceReference) copy constructor} instead
+     */
     @Override
+    @Deprecated(since = "18.6.0RC1")
     public ResourceReference clone()
     {
         ResourceReference clone;
@@ -270,9 +294,9 @@ public class ResourceReference implements Cloneable
 
         // Really clone the mutable fields
         if (this.baseReferences != null) {
-            this.baseReferences = new ArrayList<>(this.baseReferences);
+            clone.baseReferences = new ArrayList<>(this.baseReferences);
         }
-        this.parameters = new LinkedHashMap<>(this.parameters);
+        clone.parameters = new LinkedHashMap<>(this.parameters);
 
         return clone;
     }
