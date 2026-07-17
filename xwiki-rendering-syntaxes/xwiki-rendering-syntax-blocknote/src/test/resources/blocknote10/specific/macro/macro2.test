@@ -3,8 +3,8 @@
 .input|xwiki/2.1
 .# Verify the rendering of nested in-place editable macros.
 .#-------------------------------------------------------------------------------------------------------
-{{info title="== Note ==" image="info.png"}}
-This {{error title="The **Failure**" image="error.png"}}{{success title="//Done//" image="success.png"}}##stacktrace##{{/success}}{{/error}} is **expected**.
+{{info tiTle="== Note ==" image="info.png"}}
+This {{error titlE="The **Failure**" image="error.png"}}{{success title="//Done//" image="success.png"}}##stacktrace##{{/success}}{{/error}} is **expected**.
 
 * one
 * //two//
@@ -18,7 +18,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
     "call" : {
       "name" : "info",
       "parameters" : {
-        "title" : [ {
+        "tiTle" : [ {
           "type" : "heading",
           "props" : {
             "level" : 2
@@ -36,7 +36,7 @@ This {{error title="The **Failure**" image="error.png"}}{{success title="//Done/
             "call" : {
               "name" : "error",
               "parameters" : {
-                "title" : "The **Failure**",
+                "titlE" : "The **Failure**",
                 "image" : "error.png"
               },
               "content" : [ {

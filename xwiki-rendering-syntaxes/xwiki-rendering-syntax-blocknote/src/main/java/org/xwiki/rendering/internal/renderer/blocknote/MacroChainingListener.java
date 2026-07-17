@@ -202,11 +202,26 @@ public class MacroChainingListener extends AbstractChainingListener
     {
         ObjectNode macroCall = (ObjectNode) macroBlock.path(PROPS).path(CALL);
         ObjectNode parameters = (ObjectNode) macroCall.path(PARAMETERS);
+        String actualParameterName = getActualParameterName(parameters, name);
         if (value instanceof String stringValue) {
-            parameters.put(name, stringValue);
+            parameters.put(actualParameterName, stringValue);
         } else {
-            parameters.set(name, (JsonNode) value);
+            parameters.set(actualParameterName, (JsonNode) value);
         }
+    }
+
+    private String getActualParameterName(ObjectNode parameters, String name)
+    {
+        // Iterate the parameters to find the actual parameter name (case insensitive) since the user is free to use any
+        // case for the parameter name when calling a macro.
+        var iterator = parameters.fieldNames();
+        while (iterator.hasNext()) {
+            String actualParameterName = iterator.next();
+            if (actualParameterName.equalsIgnoreCase(name)) {
+                return actualParameterName;
+            }
+        }
+        return name;
     }
 
     private void setMacroContent(ObjectNode macroBlock, Object value)
