@@ -1,0 +1,94 @@
+.runTransformations
+.#-------------------------------------------------------------------------------------------------------
+.input|xwiki/2.1
+.# Verify the rendering of nested inline in-place editable macros, by checking that the text format (style)
+.# from the (read-only) macro output is not applied to the non-generated content. This can happen because
+.# BlockNote doesn't support nested inline styles. All inline styles are merged and flattened.
+.#-------------------------------------------------------------------------------------------------------
+one {{info cssClass="red"}}two {{error cssClass="green"}}three {{success cssClass="blue"}}four{{/success}} five{{/error}} six{{/info}} seven
+.#-----------------------------------------------------
+.expect|blocknote/1.0
+.#-----------------------------------------------------
+[ {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ "one ", {
+    "type" : "xwikiInlineMacro",
+    "props" : {
+      "call" : {
+        "name" : "info",
+        "parameters" : {
+          "cssClass" : "red"
+        },
+        "content" : [ "two ", {
+          "type" : "xwikiInlineMacro",
+          "props" : {
+            "call" : {
+              "name" : "error",
+              "parameters" : {
+                "cssClass" : "green"
+              },
+              "content" : [ "three ", {
+                "type" : "xwikiInlineMacro",
+                "props" : {
+                  "call" : {
+                    "name" : "success",
+                    "parameters" : {
+                      "cssClass" : "blue"
+                    },
+                    "content" : [ "four" ]
+                  },
+                  "output" : [ {
+                    "type" : "image",
+                    "props" : {
+                      "xwikiReference" : {
+                        "reference" : "accept",
+                        "type" : "icon",
+                        "typed" : true,
+                        "parameters" : { }
+                      },
+                      "url" : "imageurl",
+                      "xwikiFreestanding" : true
+                    }
+                  }, {
+                    "type" : "xwikiEditable"
+                  } ]
+                }
+              }, " five" ]
+            },
+            "output" : [ {
+              "type" : "image",
+              "props" : {
+                "xwikiReference" : {
+                  "reference" : "exclamation",
+                  "type" : "icon",
+                  "typed" : true,
+                  "parameters" : { }
+                },
+                "url" : "imageurl",
+                "xwikiFreestanding" : true
+              }
+            }, {
+              "type" : "xwikiEditable"
+            } ]
+          }
+        }, " six" ]
+      },
+      "output" : [ {
+        "type" : "image",
+        "props" : {
+          "xwikiReference" : {
+            "reference" : "information",
+            "type" : "icon",
+            "typed" : true,
+            "parameters" : { }
+          },
+          "url" : "imageurl",
+          "xwikiFreestanding" : true
+        }
+      }, {
+        "type" : "xwikiEditable"
+      } ]
+    }
+  }, " seven" ]
+} ]
