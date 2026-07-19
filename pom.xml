@@ -275,7 +275,33 @@
                    </differences>
                  </revapi.differences>
             -->
-            
+            <revapi.differences>
+              <justification>Added Jackson annotations for ResourceReference and ResourceType constructor parameters in order to be able to easily parse resource references from JSON.</justification>
+              <criticality>allowed</criticality>
+              <differences>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.annotation.added</code>
+                  <old>parameter void org.xwiki.rendering.listener.reference.ResourceReference::&lt;init&gt;(===java.lang.String===, org.xwiki.rendering.listener.reference.ResourceType)</old>
+                  <new>parameter void org.xwiki.rendering.listener.reference.ResourceReference::&lt;init&gt;(===java.lang.String===, org.xwiki.rendering.listener.reference.ResourceType)</new>
+                  <annotation>@com.fasterxml.jackson.annotation.JsonProperty("reference")</annotation>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.annotation.added</code>
+                  <old>parameter void org.xwiki.rendering.listener.reference.ResourceReference::&lt;init&gt;(java.lang.String, ===org.xwiki.rendering.listener.reference.ResourceType===)</old>
+                  <new>parameter void org.xwiki.rendering.listener.reference.ResourceReference::&lt;init&gt;(java.lang.String, ===org.xwiki.rendering.listener.reference.ResourceType===)</new>
+                  <annotation>@com.fasterxml.jackson.annotation.JsonProperty("type")</annotation>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.annotation.added</code>
+                  <old>parameter void org.xwiki.rendering.listener.reference.ResourceType::&lt;init&gt;(===java.lang.String===)</old>
+                  <new>parameter void org.xwiki.rendering.listener.reference.ResourceType::&lt;init&gt;(===java.lang.String===)</new>
+                  <annotation>@com.fasterxml.jackson.annotation.JsonProperty("scheme")</annotation>
+                </item>
+              </differences>
+            </revapi.differences>
           </analysisConfiguration>
         </configuration>
       </plugin>
