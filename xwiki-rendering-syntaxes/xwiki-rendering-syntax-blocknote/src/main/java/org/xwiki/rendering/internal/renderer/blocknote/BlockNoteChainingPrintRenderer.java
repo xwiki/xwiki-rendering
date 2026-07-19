@@ -420,14 +420,20 @@ public class BlockNoteChainingPrintRenderer extends AbstractChainingPrintRendere
         var pathIterator = this.context.getXDOMPath().descendingIterator();
         while (pathIterator.hasNext()) {
             Block block = pathIterator.next();
-            block.setAttribute(EDITABLE, editable);
             if (block instanceof MacroMarkerBlock) {
-                // We enter the macro output, which is read-only.
+                // The marker belongs to the region that contains the macro call; its output is read-only
+                // (generated) content, so mark the marker before switching to read-only.
+                block.setAttribute(EDITABLE, editable);
                 editable = false;
-            } else if (block instanceof MetaDataBlock metaDataBlock
-                && metaDataBlock.getMetaData().contains(MetaData.NON_GENERATED_CONTENT)) {
-                // We enter a nested editable area inside the macro output.
-                editable = true;
+            } else {
+                if (block instanceof MetaDataBlock metaDataBlock
+                    && metaDataBlock.getMetaData().contains(MetaData.NON_GENERATED_CONTENT)) {
+                    // Non-generated content starts an in-place editable region: the meta data block itself and its
+                    // content are editable, so that the read-only formatting from the macro output wrapping this block
+                    // is not merged into the editable content's text styles.
+                    editable = true;
+                }
+                block.setAttribute(EDITABLE, editable);
             }
         }
     }
