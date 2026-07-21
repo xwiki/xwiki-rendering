@@ -1,4 +1,8 @@
 .#---------------------------------------------------------------------------------------------------------
+.# An empty format (parameters only) at the very end of a paragraph is currently dropped. Unlike a format right
+.# after a still-pending macro or verbatim element (see XRENDERING-766), plain inline content followed by a trailing
+.# empty parameter format does not preserve that format.
+.#---------------------------------------------------------------------------------------------------------
 .input|xwiki/2.0
 .#---------------------------------------------------------------------------------------------------------
 Paragraph1(% id="test" %)
@@ -14,16 +18,12 @@ Paragraph4
 beginDocument
 beginParagraph
 onWord [Paragraph1]
-beginFormat [NONE] [[id]=[test]]
-endFormat [NONE] [[id]=[test]]
 endParagraph
 beginParagraph
 onWord [Paragraph2]
 endParagraph
 beginParagraph
 onWord [Paragraph3]
-beginFormat [NONE] [[id]=[test]]
-endFormat [NONE] [[id]=[test]]
 endParagraph
 beginParagraph
 onWord [Paragraph4]

@@ -703,6 +703,45 @@ class XWiki20ParserTest extends AbstractWikiParserTest
              "<pre class='wikimodel-macro' macroName='macro' param1='val1' param2='val2'><![CDATA[foo]]></pre>");
     }
 
+    /**
+     * A macro at the start of a line followed by a format must be inline, and the format must not wrap the macro,
+     * see <a href="https://jira.xwiki.org/browse/XRENDERING-766">XRENDERING-766</a>.
+     */
+    @Test
+    void testMacroFollowedByFormat() throws WikiParserException
+    {
+        // The format must not wrap the macro, only the content after it.
+        test("{{macro/}}(% id='test' %)hi",
+            "<p><span class='wikimodel-macro' macroName='macro'/>"
+                + "<span class='wikimodel-parameters'[id='test']>hi</span></p>");
+
+        // A format before the macro wraps the macro, though.
+        test("(% id='test' %){{macro/}}",
+            "<p><span class='wikimodel-parameters'[id='test']>"
+                + "<span class='wikimodel-macro' macroName='macro'/></span></p>");
+
+        // A trailing format makes the macro inline and produces an empty format after it.
+        test("{{macro/}}(% id='test' %)",
+            "<p><span class='wikimodel-macro' macroName='macro'/>"
+                + "<span class='wikimodel-parameters'[id='test']></span></p>");
+
+        // The trailing format must not leak into the following paragraph.
+        test("{{macro/}}(% id='test' %)\n\nPadding",
+            "<p><span class='wikimodel-macro' macroName='macro'/>"
+                + "<span class='wikimodel-parameters'[id='test']></span></p>\n"
+                + "<p>Padding</p>");
+
+        // Only the second macro must be wrapped in the format.
+        test("{{macro/}}(% id='test' %){{macro/}}",
+            "<p><span class='wikimodel-macro' macroName='macro'/><span class='wikimodel-parameters'[id='test']>"
+                + "<span class='wikimodel-macro' macroName='macro'/></span></p>");
+
+        // The same applies to verbatim content.
+        test("{{{verbatim}}}(% id='test' %)",
+            "<p><tt class=\"wikimodel-verbatim\">verbatim</tt>"
+                + "<span class='wikimodel-parameters'[id='test']></span></p>");
+    }
+
     @Test
     void testMacroParameterEscaping() throws WikiParserException
     {
