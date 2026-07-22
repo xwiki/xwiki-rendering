@@ -23,6 +23,7 @@ import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.xwiki.rendering.listener.chaining.AbstractChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
@@ -78,7 +79,7 @@ public class TableChainingListener extends AbstractChainingListener
         ObjectNode table = this.context.getBlockNoteState().beginBlock(TABLE, true,
             this.context.getBlockNoteState().getObjectMapper()::createObjectNode, false, true);
 
-        ObjectNode tableContent = (ObjectNode) table.get(CONTENT);
+        ObjectNode tableContent = getTableContent(table);
         tableContent.put(TYPE, "tableContent");
         tableContent.set(COLUMN_WIDTHS, this.context.getBlockNoteState().getObjectMapper().createArrayNode());
         tableContent.put(HEADER_ROWS, Integer.MAX_VALUE);
@@ -91,6 +92,11 @@ public class TableChainingListener extends AbstractChainingListener
     private Deque<JsonNode> getPath()
     {
         return this.context.getBlockNoteState().getBlockNotePath();
+    }
+
+    private ObjectNode getTableContent(JsonNode table)
+    {
+        return (ObjectNode) Objects.requireNonNull(table.get(CONTENT));
     }
 
     @Override
@@ -135,7 +141,7 @@ public class TableChainingListener extends AbstractChainingListener
 
         if (!header) {
             ObjectNode table = (ObjectNode) getPath().stream().skip(2).findFirst().orElseThrow();
-            ObjectNode tableContent = (ObjectNode) table.get(CONTENT);
+            ObjectNode tableContent = getTableContent(table);
             tableContent.put(HEADER_ROWS,
                 Math.min(tableContent.get(HEADER_ROWS).asInt(), this.context.getBlockState().getCellRow()));
             tableContent.put(HEADER_COLS,
@@ -161,7 +167,7 @@ public class TableChainingListener extends AbstractChainingListener
         if (cellWidth != null && this.context.getBlockState().getCellRow() == 0) {
             // In order to reach the table node we need to skip over cell content, cell, row and rows.
             ObjectNode table = (ObjectNode) getPath().stream().skip(4).findFirst().orElseThrow();
-            ObjectNode tableContent = (ObjectNode) table.get(CONTENT);
+            ObjectNode tableContent = getTableContent(table);
             ArrayNode columnWidths = (ArrayNode) tableContent.get(COLUMN_WIDTHS);
             for (int i = columnWidths.size(); i < this.context.getBlockState().getCellCol(); i++) {
                 columnWidths.addNull();
@@ -213,7 +219,7 @@ public class TableChainingListener extends AbstractChainingListener
     {
         JsonNode table = this.context.getBlockNoteState().endBlock();
         if (table != null) {
-            ObjectNode tableContent = (ObjectNode) table.get(CONTENT);
+            ObjectNode tableContent = getTableContent(table);
 
             int rowCount = tableContent.get(ROWS).size();
             int headerRows = Math.min(tableContent.get(HEADER_ROWS).asInt(), rowCount);
