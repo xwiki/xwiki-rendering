@@ -29,6 +29,7 @@ import javax.inject.Named;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.ImageBlock;
 import org.xwiki.rendering.block.MacroBlock;
@@ -54,6 +55,7 @@ import org.xwiki.test.junit5.mockito.InjectMockComponents;
 import org.xwiki.test.junit5.mockito.MockComponent;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -180,6 +182,28 @@ class DefaultMacroContentParserTest
 
         assertThrows(MacroPreparationException.class, () -> this.macroContentParser.prepareContentWiki(macroBlock),
             "No syntax provided to parse the content");
+    }
+
+    @Test
+    void prepareContentWikiUsesFreshIdGenerator() throws Exception
+    {
+        MacroBlock macroBlock = new MacroBlock("id", Map.of(), "content", false);
+        // The macro block is part of a document XDOM that has its own id generator.
+        IdGenerator documentIdGenerator = new IdGenerator();
+        XDOM xdom = new XDOM(List.of(macroBlock), documentIdGenerator);
+        xdom.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_1);
+
+        XDOM parsedXDOM = new XDOM(List.of(new ParagraphBlock(List.of(new WordBlock("1")))));
+        parsedXDOM.getMetaData().addMetaData(MetaData.SYNTAX, TEST_SYNTAX_1);
+        when(this.mockParser1.parse(any(Reader.class), any(IdGenerator.class))).thenReturn(parsedXDOM);
+
+        this.macroContentParser.prepareContentWiki(macroBlock);
+
+        // The macro content must be prepared with a fresh id generator, not the document's one, so that its
+        // generated ids start clean and are made unique only when the prepared content is inserted.
+        ArgumentCaptor<IdGenerator> idGeneratorCaptor = ArgumentCaptor.forClass(IdGenerator.class);
+        verify(this.mockParser1).parse(any(Reader.class), idGeneratorCaptor.capture());
+        assertNotSame(documentIdGenerator, idGeneratorCaptor.getValue());
     }
 
     @Test
