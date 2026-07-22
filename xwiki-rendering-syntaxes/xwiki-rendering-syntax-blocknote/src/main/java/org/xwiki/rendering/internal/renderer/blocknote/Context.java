@@ -21,9 +21,11 @@ package org.xwiki.rendering.internal.renderer.blocknote;
 
 import java.util.Deque;
 import java.util.Map;
+import java.util.Objects;
 
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
+import org.xwiki.rendering.listener.chaining.ChainingListener;
 import org.xwiki.rendering.listener.chaining.EmptyBlockChainingListener;
 import org.xwiki.rendering.listener.chaining.ListenerChain;
 
@@ -52,8 +54,7 @@ public class Context
      */
     public Deque<Block> getXDOMPath()
     {
-        return ((XDOMPathChainingListener) this.listenerChain.getListener(XDOMPathChainingListener.class))
-            .getXDOMPath();
+        return getRequiredListener(XDOMPathChainingListener.class).getXDOMPath();
     }
 
     /**
@@ -77,7 +78,7 @@ public class Context
      */
     private EmptyBlockChainingListener getEmptyBlockState()
     {
-        return (EmptyBlockChainingListener) this.listenerChain.getListener(EmptyBlockChainingListener.class);
+        return getRequiredListener(EmptyBlockChainingListener.class);
     }
 
     /**
@@ -85,7 +86,7 @@ public class Context
      */
     public TextChainingListener getTextState()
     {
-        return (TextChainingListener) this.listenerChain.getListener(TextChainingListener.class);
+        return getRequiredListener(TextChainingListener.class);
     }
 
     /**
@@ -93,7 +94,7 @@ public class Context
      */
     public BlockStateChainingListener getBlockState()
     {
-        return (BlockStateChainingListener) this.listenerChain.getListener(BlockStateChainingListener.class);
+        return getRequiredListener(BlockStateChainingListener.class);
     }
 
     /**
@@ -101,6 +102,17 @@ public class Context
      */
     public BlockNoteChainingPrintRenderer getBlockNoteState()
     {
-        return (BlockNoteChainingPrintRenderer) this.listenerChain.getListener(BlockNoteChainingPrintRenderer.class);
+        return getRequiredListener(BlockNoteChainingPrintRenderer.class);
+    }
+
+    /**
+     * @param listenerClass the listener class for which we want the instance from the chain
+     * @param <T> the type of listener
+     * @return the listener instance corresponding to the passed class, never {@code null}
+     */
+    private <T extends ChainingListener> T getRequiredListener(Class<T> listenerClass)
+    {
+        return Objects.requireNonNull(listenerClass.cast(this.listenerChain.getListener(listenerClass)),
+            () -> String.format("The [%s] listener is missing from the chain.", listenerClass.getName()));
     }
 }
