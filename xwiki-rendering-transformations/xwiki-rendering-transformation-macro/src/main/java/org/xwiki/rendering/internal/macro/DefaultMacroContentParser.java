@@ -33,7 +33,6 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.Block.Axes;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.internal.transformation.MutableRenderingContext;
@@ -262,15 +261,11 @@ public class DefaultMacroContentParser implements MacroContentParser
                     .orElseThrow(() -> new MacroPreparationException("No syntax provided to parse the content"));
             }
 
-            // Find the id generator
-            Optional<IdGenerator> idGenerator = macroBlock.get(
-                b -> b instanceof XDOM ? Optional.ofNullable(((XDOM) b).getIdGenerator()) : Optional.empty(),
-                Axes.DESCENDANT_OR_SELF);
-
             try {
-                // Parse the macro wiki content
-                XDOM result = parse(macroBlock.getContent(), contentSyntax, macroBlock.isInline(),
-                    idGenerator.isPresent() ? idGenerator.get() : null);
+                // Parse the macro wiki content with a fresh id generator, so that its generated ids start clean and
+                // don't depend on the document where the macro is called. The ids are made unique in the scope of that
+                // document later, when the prepared content is actually inserted (see adaptPreparedXDOM).
+                XDOM result = parse(macroBlock.getContent(), contentSyntax, macroBlock.isInline(), new IdGenerator());
 
                 // Prepare the macro wiki content
                 this.transformation.prepare(result);
