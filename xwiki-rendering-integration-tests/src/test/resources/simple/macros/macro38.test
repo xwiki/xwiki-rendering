@@ -1,8 +1,14 @@
 .runTransformations
 .#-----------------------------------------------------
-.# A macro followed by a format must be inline and must not be wrapped in the format (XRENDERING-766).
+.# A non-empty format after a macro must keep the macro inline without wrapping it in the format
+.# (XRENDERING-766): see test1, test3 and test5. A format before a macro still wraps it (test5).
+.# An *empty* format right after a macro (test2, test4) carries no content: the format is dropped and the
+.# macro is emitted as a standalone block, exactly as if the format were not there. The dropped format must
+.# not leak into the following block either - test2 is followed by "Padding", which must stay unformatted.
+.# The xwiki/2.0 input therefore does not round-trip (the empty formats disappear), so input and output are
+.# specified separately.
 .#-----------------------------------------------------
-.inputexpect|xwiki/2.0
+.input|xwiki/2.0
 .#-----------------------------------------------------
 {{testsimpleinlinemacro/}}(% id="test1" %)hi
 
@@ -27,13 +33,11 @@ beginFormat [NONE] [[id]=[test1]]
 onWord [hi]
 endFormat [NONE] [[id]=[test1]]
 endParagraph
+beginMacroMarkerStandalone [testsimpleinlinemacro] []
 beginParagraph
-beginMacroMarkerInline [testsimpleinlinemacro] []
 onWord [simpleinlinemacro3]
-endMacroMarkerInline [testsimpleinlinemacro] []
-beginFormat [NONE] [[id]=[test2]]
-endFormat [NONE] [[id]=[test2]]
 endParagraph
+endMacroMarkerStandalone [testsimpleinlinemacro] []
 beginParagraph
 onWord [Padding]
 endParagraph
@@ -47,13 +51,11 @@ onWord [simpleinlinemacro5]
 endMacroMarkerInline [testsimpleinlinemacro] []
 endFormat [NONE] [[id]=[test3]]
 endParagraph
+beginMacroMarkerStandalone [testsimpleinlinemacro] []
 beginParagraph
-beginMacroMarkerInline [testsimpleinlinemacro] []
 onWord [simpleinlinemacro6]
-endMacroMarkerInline [testsimpleinlinemacro] []
-beginFormat [NONE] [[id]=[test4]]
-endFormat [NONE] [[id]=[test4]]
 endParagraph
+endMacroMarkerStandalone [testsimpleinlinemacro] []
 beginParagraph
 beginFormat [NONE] [[id]=[test5]]
 beginMacroMarkerInline [testsimpleinlinemacro] []
@@ -63,10 +65,24 @@ endFormat [NONE] [[id]=[test5]]
 endParagraph
 endDocument
 .#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+{{testsimpleinlinemacro/}}(% id="test1" %)hi
+
+{{testsimpleinlinemacro/}}
+
+Padding
+
+{{testsimpleinlinemacro/}}(% id="test3" %){{testsimpleinlinemacro/}}
+
+{{testsimpleinlinemacro/}}
+
+(% id="test5" %){{testsimpleinlinemacro/}}
+.#-----------------------------------------------------
 .expect|annotatedxhtml/1.0
 .#-----------------------------------------------------
-<p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro2<!--stopmacro--><span id="test1">hi</span></p><p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro3<!--stopmacro--><span id="test2"></span></p><p>Padding</p><p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro4<!--stopmacro--><span id="test3"><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro5<!--stopmacro--></span></p><p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro6<!--stopmacro--><span id="test4"></span></p><p><span id="test5"><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro7<!--stopmacro--></span></p>
+<p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro2<!--stopmacro--><span id="test1">hi</span></p><!--startmacro:testsimpleinlinemacro|-|--><p>simpleinlinemacro3</p><!--stopmacro--><p>Padding</p><p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro4<!--stopmacro--><span id="test3"><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro5<!--stopmacro--></span></p><!--startmacro:testsimpleinlinemacro|-|--><p>simpleinlinemacro6</p><!--stopmacro--><p><span id="test5"><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro7<!--stopmacro--></span></p>
 .#-----------------------------------------------------
 .input|xhtml/1.0
 .#-----------------------------------------------------
-<p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro2<!--stopmacro--><span id="test1">hi</span></p><p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro3<!--stopmacro--><span id="test2"></span></p><p>Padding</p><p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro4<!--stopmacro--><span id="test3"><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro5<!--stopmacro--></span></p><p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro6<!--stopmacro--><span id="test4"></span></p><p><span id="test5"><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro7<!--stopmacro--></span></p>
+<p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro2<!--stopmacro--><span id="test1">hi</span></p><!--startmacro:testsimpleinlinemacro|-|--><p>simpleinlinemacro3</p><!--stopmacro--><p>Padding</p><p><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro4<!--stopmacro--><span id="test3"><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro5<!--stopmacro--></span></p><!--startmacro:testsimpleinlinemacro|-|--><p>simpleinlinemacro6</p><!--stopmacro--><p><span id="test5"><!--startmacro:testsimpleinlinemacro|-|-->simpleinlinemacro7<!--stopmacro--></span></p>

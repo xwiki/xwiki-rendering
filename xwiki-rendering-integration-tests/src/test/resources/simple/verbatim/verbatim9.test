@@ -1,7 +1,12 @@
 .#---------------------------------------------------------------------------------------------------------
-.# Verbatim text followed by a format must be inline and must not be wrapped in the format (XRENDERING-766).
+.# A non-empty format after verbatim text must keep the verbatim inline without wrapping it in the format
+.# (XRENDERING-766). A format before verbatim still wraps it. An *empty* format right after verbatim carries
+.# no content: the format is dropped and the verbatim is emitted as a standalone block, exactly as if the
+.# format were not there. The dropped format must not leak into the following block either - the fourth case
+.# is followed by "Padding", which must stay unformatted. The xwiki/2.0 input therefore does not round-trip
+.# (the empty format disappears), so input and output are specified separately.
 .#---------------------------------------------------------------------------------------------------------
-.inputexpect|xwiki/2.0
+.input|xwiki/2.0
 .#---------------------------------------------------------------------------------------------------------
 {{{verbatim}}}(% id="test" %)hi
 
@@ -35,11 +40,7 @@ beginFormat [NONE] [[id]=[test]]
 onVerbatim [verbatim] [true]
 endFormat [NONE] [[id]=[test]]
 endParagraph
-beginParagraph
-onVerbatim [verbatim] [true]
-beginFormat [NONE] [[id]=[test]]
-endFormat [NONE] [[id]=[test]]
-endParagraph
+onVerbatim [verbatim] [false]
 beginParagraph
 onWord [Padding]
 endParagraph
@@ -50,3 +51,17 @@ onVerbatim [verbatim2] [true]
 endFormat [NONE] [[id]=[test]]
 endParagraph
 endDocument
+.#---------------------------------------------------------------------------------------------------------
+.expect|xwiki/2.0
+.#---------------------------------------------------------------------------------------------------------
+{{{verbatim}}}(% id="test" %)hi
+
+(% id="test" %){{{verbatim}}}hi
+
+(% id="test" %){{{verbatim}}}
+
+{{{verbatim}}}
+
+Padding
+
+{{{verbatim1}}}(% id="test" %){{{verbatim2}}}

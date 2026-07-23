@@ -8,7 +8,7 @@
 .# NOTE: the input line below ends with a space (the enforcer content); it is preserved as the format content so the
 .# enforcer format is non-empty.
 .#-----------------------------------------------------
-{{mention reference="XWiki.Admin" style="FULL_NAME" anchor="XWiki-Admin-7qc"/}}(% id="xwiki-macro-inline-enforcer" %)
+{{mention reference="XWiki.Admin" style="FULL_NAME" anchor="XWiki-Admin-7qc"/}}(% id="xwiki-macro-inline-enforcer" %) 
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------

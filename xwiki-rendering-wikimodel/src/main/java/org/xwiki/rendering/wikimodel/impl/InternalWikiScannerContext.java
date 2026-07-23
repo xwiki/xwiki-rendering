@@ -630,13 +630,15 @@ public class InternalWikiScannerContext implements IWikiScannerContext
 
     public void closeBlock()
     {
-        // When a format followed a still-pending macro or verbatim element, that element cannot be standalone: it
-        // is inline content followed by an (empty) format. Emit both inside a paragraph, which the switch below
-        // closes again. Otherwise, the pending format would leak into the next block or be silently lost.
+        // A format that trails a still-pending macro or verbatim element has no content: the element is emitted as
+        // a standalone block below, and the empty format is dropped here so it does not leak into the next block.
+        // The macro/verbatim condition is required: it excludes the checkStyleOpened() -> beginParagraph() ->
+        // closeBlock() re-entrant call (which temporarily clears these fields), where the pending format must be
+        // preserved so that it can wrap the following inline content.
         if ((fMacroName != null || fVerbatimContent != null) && isNoBlockElements()
             && !WikiFormat.EMPTY.equals(fNewFormat))
         {
-            checkStyleOpened();
+            fNewFormat = WikiFormat.EMPTY;
         }
 
         checkVerbatim(false);

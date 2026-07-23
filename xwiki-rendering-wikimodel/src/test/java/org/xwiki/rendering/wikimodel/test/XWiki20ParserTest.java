@@ -720,15 +720,14 @@ class XWiki20ParserTest extends AbstractWikiParserTest
             "<p><span class='wikimodel-parameters'[id='test']>"
                 + "<span class='wikimodel-macro' macroName='macro'/></span></p>");
 
-        // A trailing format makes the macro inline and produces an empty format after it.
+        // A trailing format with no content is dropped, and the macro becomes a standalone block (as if the
+        // empty format were not there).
         test("{{macro/}}(% id='test' %)",
-            "<p><span class='wikimodel-macro' macroName='macro'/>"
-                + "<span class='wikimodel-parameters'[id='test']></span></p>");
+            "<pre class='wikimodel-macro' macroName='macro'/>");
 
-        // The trailing format must not leak into the following paragraph.
+        // The dropped empty format must not leak into the following paragraph.
         test("{{macro/}}(% id='test' %)\n\nPadding",
-            "<p><span class='wikimodel-macro' macroName='macro'/>"
-                + "<span class='wikimodel-parameters'[id='test']></span></p>\n"
+            "<pre class='wikimodel-macro' macroName='macro'/>\n"
                 + "<p>Padding</p>");
 
         // Only the second macro must be wrapped in the format.
@@ -736,10 +735,10 @@ class XWiki20ParserTest extends AbstractWikiParserTest
             "<p><span class='wikimodel-macro' macroName='macro'/><span class='wikimodel-parameters'[id='test']>"
                 + "<span class='wikimodel-macro' macroName='macro'/></span></p>");
 
-        // The same applies to verbatim content.
+        // The same applies to verbatim content: an empty trailing format is dropped and the verbatim becomes
+        // a standalone block.
         test("{{{verbatim}}}(% id='test' %)",
-            "<p><tt class=\"wikimodel-verbatim\">verbatim</tt>"
-                + "<span class='wikimodel-parameters'[id='test']></span></p>");
+            "<pre>verbatim</pre>");
     }
 
     @Test
