@@ -28,6 +28,7 @@ import org.junit.jupiter.api.Test;
 import org.xwiki.rendering.macro.MacroId;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Validate the retro compatibility of interface {@link MacroDescriptor}.
@@ -126,12 +127,117 @@ class DeprecatedMacroDescriptorTest
         }
     }
 
+    private static class TestCategoriesMacroDescriptor implements MacroDescriptor
+    {
+        @Override
+        public MacroId getId()
+        {
+            return null;
+        }
+
+        @Override
+        public String getName()
+        {
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            return null;
+        }
+
+        @Override
+        public Class<?> getParametersBeanClass()
+        {
+            return null;
+        }
+
+        @Override
+        public ContentDescriptor getContentDescriptor()
+        {
+            return null;
+        }
+
+        @Override
+        public Map<String, ParameterDescriptor> getParameterDescriptorMap()
+        {
+            return null;
+        }
+
+        @Override
+        public Set<String> getDefaultCategories()
+        {
+            return new LinkedHashSet<>(List.of("category1", "category2"));
+        }
+    }
+
+    private static class TestNoCategoriesMacroDescriptor implements MacroDescriptor
+    {
+        @Override
+        public MacroId getId()
+        {
+            return null;
+        }
+
+        @Override
+        public String getName()
+        {
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            return null;
+        }
+
+        @Override
+        public Class<?> getParametersBeanClass()
+        {
+            return null;
+        }
+
+        @Override
+        public ContentDescriptor getContentDescriptor()
+        {
+            return null;
+        }
+
+        @Override
+        public Map<String, ParameterDescriptor> getParameterDescriptorMap()
+        {
+            return null;
+        }
+    }
+
     @Test
     void getDefaultCategoryWithCategory()
     {
         TestCategoryMacroDescriptor descriptor = new TestCategoryMacroDescriptor();
 
         assertEquals(Set.of("deprecatedcategory"), descriptor.getDefaultCategories());
+    }
+
+    @Test
+    void getDefaultCategoryFromDefaultCategories()
+    {
+        TestCategoriesMacroDescriptor descriptor = new TestCategoriesMacroDescriptor();
+
+        // The legacy getDefaultCategory() must be derived from the new getDefaultCategories() when only the latter is
+        // implemented. This is the aspect advice being weaved onto the CompatibilityMacroDescriptor default method.
+        assertEquals("category1", descriptor.getDefaultCategory());
+    }
+
+    @Test
+    void getDefaultCategoryAndCategoriesWhenNeitherIsImplemented()
+    {
+        TestNoCategoriesMacroDescriptor descriptor = new TestNoCategoriesMacroDescriptor();
+
+        // When a descriptor implements neither category method, the two default methods delegate to each other. Verify
+        // that this does not lead to infinite recursion and returns the empty/null default values.
+        assertEquals(Set.of(), descriptor.getDefaultCategories());
+        assertNull(descriptor.getDefaultCategory());
     }
 
     @Test
