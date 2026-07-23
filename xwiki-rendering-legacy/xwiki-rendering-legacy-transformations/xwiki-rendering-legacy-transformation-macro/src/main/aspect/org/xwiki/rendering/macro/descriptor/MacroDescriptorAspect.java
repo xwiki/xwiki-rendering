@@ -61,7 +61,14 @@ public class MacroDescriptorAspect
     }
 
     /**
-     * Overwrite the default implementation of legacy #getDefaultCategory based on the legacy #getDefaultCategories.
+     * Overwrite the default implementation of legacy #getDefaultCategory based on #getDefaultCategories.
+     * <p>
+     * The pointcut targets {@link CompatibilityMacroDescriptor} rather than {@link MacroDescriptor} because that is
+     * where the {@code getDefaultCategory()} method body actually lives (it is added to {@link MacroDescriptor} through
+     * the {@link DeclareParents} mixin above, so there is no join point for it within {@link MacroDescriptor} itself).
+     * The {@code !cflowbelow(...)} clause prevents infinite recursion between this advice and
+     * {@link #aroundGetDefaultCategories} when a descriptor overrides neither category method: the default
+     * {@code getDefaultCategory()} then delegates to the default {@code getDefaultCategories()} and vice versa.
      *
      * @param descriptor the legacy descriptor API
      * @return a set containing the default category
@@ -69,9 +76,10 @@ public class MacroDescriptorAspect
      * @since 16.10.0RC1
      * @since 16.4.6
      */
-    @Around("execution(String MacroDescriptor.getDefaultCategory()) "
-        + "&& within(org.xwiki.rendering.macro.descriptor.MacroDescriptor) "
-        + "&& target(descriptor)")
+    @Around("execution(String CompatibilityMacroDescriptor.getDefaultCategory()) "
+        + "&& within(org.xwiki.rendering.macro.descriptor.CompatibilityMacroDescriptor) "
+        + "&& target(descriptor) "
+        + "&& !cflowbelow(adviceexecution() && within(MacroDescriptorAspect))")
     public String aroundGetDefaultCategory(MacroDescriptor descriptor)
     {
         Set<String> categories = descriptor.getDefaultCategories();
