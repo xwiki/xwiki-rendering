@@ -197,7 +197,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         // Flush text content before the link.
         // Escape open link syntax when before a link.
         if (getLinkRenderer().forceFullSyntax(getXWikiPrinter(), freestanding, parameters)
-            && getXWikiPrinter().getBuffer().length() > 0
+            && !getXWikiPrinter().getBuffer().isEmpty()
             && getXWikiPrinter().getBuffer().charAt(getXWikiPrinter().getBuffer().length() - 1) == '[')
         {
             getXWikiPrinter().setEscapeLastChar(true);
@@ -621,7 +621,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             getPrinter().print("\n");
         }
 
-        if (this.listStyle.length() > 0) {
+        if (!this.listStyle.isEmpty()) {
             print(this.listStyle.toString());
             if (this.listStyle.charAt(0) == '1') {
                 print(".");
@@ -643,7 +643,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             getPrinter().print("\n");
         }
 
-        if (this.listStyle.length() > 0) {
+        if (!this.listStyle.isEmpty()) {
             print(this.listStyle.toString());
             if (this.listStyle.charAt(0) == '1') {
                 print(".");
@@ -937,7 +937,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             }
         }
 
-        if (parametersStr.length() > 0) {
+        if (!parametersStr.isEmpty()) {
             StringBuilder buffer = new StringBuilder("(%");
             buffer.append(parametersStr);
             buffer.append(" %)");

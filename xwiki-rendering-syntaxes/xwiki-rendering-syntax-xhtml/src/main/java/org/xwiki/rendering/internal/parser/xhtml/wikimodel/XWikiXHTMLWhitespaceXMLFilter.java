@@ -76,7 +76,7 @@ public class XWikiXHTMLWhitespaceXMLFilter extends XHTMLWhitespaceXMLFilter
     @Override
     public void endCDATA() throws SAXException
     {
-        if (getContent().length() > 0 && this.containsWikiSyntax) {
+        if (!getContent().isEmpty() && this.containsWikiSyntax) {
             // Make sure we clean head/trail white spaces
             trimLeadingWhiteSpaces();
             trimTrailingWhiteSpaces();
@@ -97,7 +97,7 @@ public class XWikiXHTMLWhitespaceXMLFilter extends XHTMLWhitespaceXMLFilter
     {
         // If the element texts can contain wiki syntax only clean whitespaces at beginning and end of texts.
         if (this.containsWikiSyntax) {
-            if (getContent().length() > 0) {
+            if (!getContent().isEmpty()) {
                 Matcher matcher = HTML_WHITESPACE_BOUNDARIES_PATTERN.matcher(getContent());
                 String result = matcher.replaceAll(" ");
                 getContent().setLength(0);

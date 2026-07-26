@@ -109,7 +109,7 @@ public class XWikiReferenceParser extends WikiReferenceParser
             chunks[1] = reference.toString();
         }
 
-        if (parameters.length() > 0) {
+        if (!parameters.isEmpty()) {
             chunks[2] = parameters.toString();
         }
 

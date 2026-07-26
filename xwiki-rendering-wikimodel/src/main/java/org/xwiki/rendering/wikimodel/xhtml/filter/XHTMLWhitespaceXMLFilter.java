@@ -278,7 +278,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     protected void sendPreviousContent(boolean trimTrailing)
         throws SAXException
     {
-        if (fPreviousContent != null && fPreviousContent.length() > 0) {
+        if (fPreviousContent != null && !fPreviousContent.isEmpty()) {
             if (trimTrailing) {
                 fPreviousContent = trimTrailingWhiteSpaces(fPreviousContent);
             }
@@ -329,10 +329,10 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
         }
 
         // Send previous content
-        sendPreviousContent(getContent().length() == 0);
+        sendPreviousContent(getContent().isEmpty());
 
         // Send current content
-        if (getContent().length() > 0) {
+        if (!getContent().isEmpty()) {
             sendCharacters(getContent().toString().toCharArray());
             getContent().setLength(0);
         }
@@ -350,7 +350,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
         cleanContentLeadingSpaces();
         cleanContentExtraWhiteSpaces();
 
-        if (getContent().length() > 0) {
+        if (!getContent().isEmpty()) {
             sendPreviousContent(false);
 
             fPreviousInlineText.append(getContent());
@@ -365,7 +365,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
 
             getContent().setLength(0);
         } else {
-            if (fPreviousInlineText.length() == 0) {
+            if (fPreviousInlineText.isEmpty()) {
                 // There is no inline text before this inline element
                 sendInlineEvent(event);
             } else {
@@ -396,7 +396,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     protected void endEmptyVisibleElement() throws SAXException
     {
         // Send current content
-        if (getContent().length() > 0) {
+        if (!getContent().isEmpty()) {
             sendCharacters(getContent().toString().toCharArray());
             getContent().setLength(0);
         }
@@ -411,7 +411,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
             cleanContentLeadingSpaces();
             cleanContentExtraWhiteSpaces();
 
-            if (getContent().length() > 0) {
+            if (!getContent().isEmpty()) {
                 sendPreviousContent(false);
 
                 fPreviousInlineText.append(getContent());
@@ -448,7 +448,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     protected void endNonVisibleElement() throws SAXException
     {
         // Send current content
-        if (getContent().length() > 0) {
+        if (!getContent().isEmpty()) {
             sendCharacters(getContent().toString().toCharArray());
             getContent().setLength(0);
         }
@@ -476,8 +476,8 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
      */
     private void cleanContentLeadingSpaces()
     {
-        if (getContent().length() > 0) {
-            if (fPreviousInlineText.length() == 0
+        if (!getContent().isEmpty()) {
+            if (fPreviousInlineText.isEmpty()
                 || fPreviousInlineText
                 .charAt(fPreviousInlineText.length() - 1) == ' ')
             {
@@ -491,7 +491,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
      */
     protected void cleanContentExtraWhiteSpaces()
     {
-        if (getContent().length() > 0) {
+        if (!getContent().isEmpty()) {
             if (shouldRemoveWhiteSpaces()) {
                 Matcher matcher = HTML_WHITESPACE_DUPLICATES_PATTERN
                     .matcher(getContent());
@@ -506,7 +506,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     // when in CDATA or PRE elements).
     protected void trimLeadingWhiteSpaces()
     {
-        if (shouldRemoveWhiteSpaces() && getContent().length() > 0) {
+        if (shouldRemoveWhiteSpaces() && !getContent().isEmpty()) {
             String result = trimLeadingWhiteSpaces(getContent());
             getContent().setLength(0);
             getContent().append(result);
@@ -517,7 +517,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     {
         String trimedContent;
 
-        if (shouldRemoveWhiteSpaces() && content.length() > 0) {
+        if (shouldRemoveWhiteSpaces() && !content.isEmpty()) {
             Matcher matcher = HTML_WHITESPACE_HEAD_PATTERN.matcher(content);
             trimedContent = matcher.replaceAll("");
         } else {
@@ -529,7 +529,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
 
     protected void trimTrailingWhiteSpaces()
     {
-        if (shouldRemoveWhiteSpaces() && getContent().length() > 0) {
+        if (shouldRemoveWhiteSpaces() && !getContent().isEmpty()) {
             String result = trimTrailingWhiteSpaces(getContent());
             getContent().setLength(0);
             getContent().append(result);
@@ -540,7 +540,7 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
     {
         String trimedContent;
 
-        if (shouldRemoveWhiteSpaces() && content.length() > 0) {
+        if (shouldRemoveWhiteSpaces() && !content.isEmpty()) {
             Matcher matcher = HTML_WHITESPACE_TAIL_PATTERN.matcher(content);
             trimedContent = matcher.replaceAll("");
         } else {

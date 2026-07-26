@@ -61,7 +61,7 @@ public class XWikiSyntaxMacroRenderer
             buffer.append("/}}");
         } else {
             buffer.append(CLOSING_MARKER);
-            if (content.length() > 0) {
+            if (!content.isEmpty()) {
                 if (!isInline) {
                     buffer.append('\n');
                 }
