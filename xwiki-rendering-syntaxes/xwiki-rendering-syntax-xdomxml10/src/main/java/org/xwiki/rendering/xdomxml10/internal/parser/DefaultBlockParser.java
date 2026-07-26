@@ -134,7 +134,7 @@ public class DefaultBlockParser extends AbstractBlockParser
     {
         String str = getParameters().get(name);
 
-        return str != null && str.length() > 0 ? str.charAt(0) : defaultValue;
+        return str != null && !str.isEmpty() ? str.charAt(0) : defaultValue;
     }
 
     /**

@@ -533,7 +533,7 @@ public class EventsChainingRenderer extends AbstractChainingPrintRenderer
             }
         }
 
-        if (parametersStr.length() > 0) {
+        if (!parametersStr.isEmpty()) {
             StringBuilder buffer = new StringBuilder();
             buffer.append(' ').append('[');
             buffer.append(parametersStr);

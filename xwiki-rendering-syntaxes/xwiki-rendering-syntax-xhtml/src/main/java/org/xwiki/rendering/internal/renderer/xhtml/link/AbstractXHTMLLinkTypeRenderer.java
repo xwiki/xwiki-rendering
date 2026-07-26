@@ -241,7 +241,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     private String addAttributeValue(String currentValue, String valueToAdd)
     {
         String newValue;
-        if (currentValue == null || currentValue.length() == 0) {
+        if (currentValue == null || currentValue.isEmpty()) {
             newValue = "";
         } else {
             newValue = currentValue + " ";

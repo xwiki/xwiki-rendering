@@ -90,7 +90,7 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
     @Override
     public void flush()
     {
-        if (getBuffer().length() > 0) {
+        if (!getBuffer().isEmpty()) {
             this.escapeHandler.escape(getBuffer(), this.listenerChain, this.escapeLastChar, this.escapeFirstIfMatching,
                 this.lastPrinted);
             super.flush();
@@ -141,7 +141,7 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
     {
         // If the lookahead buffer is not empty and the last character is ":" then we need to escape it
         // since otherwise we would get "://" which could be confused for a URL.
-        if (getBuffer().length() > 0 && getBuffer().charAt(getBuffer().length() - 1) == ':') {
+        if (!getBuffer().isEmpty() && getBuffer().charAt(getBuffer().length() - 1) == ':') {
             this.escapeLastChar = true;
         }
 
@@ -152,7 +152,7 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
     {
         // If the lookahead buffer is not empty and the last character is ":" then we need to escape it
         // since otherwise we would get "://" which could be confused for a URL.
-        if (getBuffer().length() > 0 && getBuffer().charAt(getBuffer().length() - 1) == ':') {
+        if (!getBuffer().isEmpty() && getBuffer().charAt(getBuffer().length() - 1) == ':') {
             this.escapeLastChar = true;
         }
 
@@ -163,7 +163,7 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
     {
         // If the lookahead buffer is not empty and the last character is "{" then we need to escape it
         // since otherwise we would get "{{{" which could be confused for a verbatim block.
-        if (getBuffer().length() > 0 && getBuffer().charAt(getBuffer().length() - 1) == '{') {
+        if (!getBuffer().isEmpty() && getBuffer().charAt(getBuffer().length() - 1) == '{') {
             this.escapeLastChar = true;
         }
 
@@ -225,7 +225,7 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
         String end = verbatimContent.substring(currentIndex);
 
         if (printEndVerbatim) {
-            if (end.length() == 0 || end.charAt(0) == '}') {
+            if (end.isEmpty() || end.charAt(0) == '}') {
                 result.append("~}~}~}");
             } else {
                 result.append("~}}}");
@@ -241,14 +241,14 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
                 StringBuffer subVerbatim = subVerbatimStack.pop();
 
                 if (subVerbatimStack.isEmpty()) {
-                    if (subVerbatim.length() > 0 && subVerbatim.charAt(0) == '{') {
+                    if (!subVerbatim.isEmpty() && subVerbatim.charAt(0) == '{') {
                         result.append("~{~{~{");
                     } else {
                         result.append("~{{{");
                     }
                     result.append(subVerbatim);
                 } else {
-                    if (subVerbatim.length() > 0 && subVerbatim.charAt(0) == '{') {
+                    if (!subVerbatim.isEmpty() && subVerbatim.charAt(0) == '{') {
                         subVerbatimStack.peek().append("~{~{~{");
                     } else {
                         subVerbatimStack.peek().append("~{{{");

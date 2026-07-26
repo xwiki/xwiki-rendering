@@ -94,7 +94,7 @@ public class XWikiSyntaxResourceRenderer
     {
         // find if the last printed char is part of a syntax (i.e. consumed by the parser before starting to parse the
         // link)
-        boolean isLastSyntax = printer.getBuffer().length() == 0;
+        boolean isLastSyntax = printer.getBuffer().isEmpty();
 
         printer.flush();
 

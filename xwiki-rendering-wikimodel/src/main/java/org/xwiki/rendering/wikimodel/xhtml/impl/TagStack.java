@@ -409,14 +409,14 @@ public class TagStack
         // We should always have a length greater than 0 but we handle
         // the case where the user has entered some badly formed HTML
         StringBuffer listStyles = (StringBuffer) getStackParameter(LIST_STYLES);
-        if (listStyles.length() > 0) {
+        if (!listStyles.isEmpty()) {
             listStyles.setLength(listStyles.length() - 1);
         }
     }
 
     public boolean isEndOfList()
     {
-        return ((StringBuffer) getStackParameter(LIST_STYLES)).length() == 0;
+        return ((StringBuffer) getStackParameter(LIST_STYLES)).isEmpty();
     }
 
     public void resetEmptyLinesCount()

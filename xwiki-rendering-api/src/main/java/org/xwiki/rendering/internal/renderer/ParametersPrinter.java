@@ -128,7 +128,7 @@ public class ParametersPrinter
             String key = entry.getKey();
 
             if (key != null && value != null) {
-                if (builder.length() > 0) {
+                if (!builder.isEmpty()) {
                     builder.append(' ');
                 }
                 builder.append(print(key, value));

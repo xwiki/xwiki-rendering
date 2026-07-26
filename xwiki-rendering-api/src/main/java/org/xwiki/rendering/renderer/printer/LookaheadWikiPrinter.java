@@ -98,7 +98,7 @@ public class LookaheadWikiPrinter extends WrappingWikiPrinter
      */
     public void flush()
     {
-        if (getBuffer().length() > 0) {
+        if (!getBuffer().isEmpty()) {
             printInternal(getBuffer().toString());
             getBuffer().setLength(0);
         }

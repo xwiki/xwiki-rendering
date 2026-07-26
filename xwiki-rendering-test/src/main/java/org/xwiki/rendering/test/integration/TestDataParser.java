@@ -158,7 +158,7 @@ public class TestDataParser
     {
         // Remove the last newline since our test format forces an additional new lines
         // at the end of input texts.
-        if (buffer.length() > 0 && buffer.charAt(buffer.length() - 1) == '\n') {
+        if (!buffer.isEmpty() && buffer.charAt(buffer.length() - 1) == '\n') {
             buffer.setLength(buffer.length() - 1);
         }
         map.put(keyName, buffer.toString());

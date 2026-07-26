@@ -110,7 +110,7 @@ public class AccumulationXMLFilter extends DefaultXMLFilter
 
     private void flushAccumulationBuffer() throws SAXException
     {
-        if (fAccumulationBuffer.length() > 0) {
+        if (!fAccumulationBuffer.isEmpty()) {
             super.characters(
                 fAccumulationBuffer.toString().toCharArray(),
                 0,
