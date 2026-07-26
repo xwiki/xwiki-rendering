@@ -83,6 +83,32 @@
           </weaveDependencies>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.revapi</groupId>
+        <artifactId>revapi-maven-plugin</artifactId>
+        <configuration>
+          <analysisConfiguration>
+            <revapi.differences>
+              <criticality>allowed</criticality>
+              <justification>The pointcut of the legacy getDefaultCategory() advice now matches
+                CompatibilityMacroDescriptor, which is where the method body lives, so that the advice is really
+                weaved, and it excludes the advice's own control flow to avoid an infinite recursion with the
+                getDefaultCategories() advice. The pointcut expression is an implementation detail of the aspect and
+                not part of the public API.</justification>
+              <differences>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.annotation.attributeValueChanged</code>
+                  <old>method java.lang.String org.xwiki.rendering.macro.descriptor.MacroDescriptorAspect::aroundGetDefaultCategory(org.xwiki.rendering.macro.descriptor.MacroDescriptor)</old>
+                  <new>method java.lang.String org.xwiki.rendering.macro.descriptor.MacroDescriptorAspect::aroundGetDefaultCategory(org.xwiki.rendering.macro.descriptor.MacroDescriptor)</new>
+                  <annotationType>org.aspectj.lang.annotation.Around</annotationType>
+                  <attribute>value</attribute>
+                </item>
+              </differences>
+            </revapi.differences>
+          </analysisConfiguration>
+        </configuration>
+      </plugin>
       <!-- Exclude AspectJ's builddef.lst file form the generated JAR since it's not useful there. -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
