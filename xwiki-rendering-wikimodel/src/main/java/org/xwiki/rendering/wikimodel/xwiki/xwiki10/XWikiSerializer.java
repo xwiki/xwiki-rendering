@@ -154,10 +154,10 @@ public class XWikiSerializer extends PrintTextListener
             if (index > 0) {
                 String label = ref.substring(index + 1);
                 String link = ref.substring(0, index);
-                link = link.replaceAll(" ", "_");
+                link = link.replace(" ", "_");
                 print("[" + label + ">" + link + "]");
             } else {
-                ref = ref.replaceAll(" ", "_");
+                ref = ref.replace(" ", "_");
                 print("[" + ref + "]");
             }
         }

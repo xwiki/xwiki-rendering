@@ -80,14 +80,13 @@ public class RenderingTest extends AbstractRenderingTest
         List<Object[]> parametersList = (List<Object[]>) generator.generateData(packagePrefix, pattern);
 
         // Step 2: Generate test names
-        Function<Object[], String> displayNameGenerator = (input) -> (String) input[0];
+        Function<Object[], String> displayNameGenerator = input -> (String) input[0];
 
         // Step 3: Generate tests to execute
-        ThrowingConsumer<Object[]> testExecutor = (input) -> {
+        ThrowingConsumer<Object[]> testExecutor = input ->
             new InternalRenderingTest((String) input[1], (String) input[2],
                 (String) input[3], (String) input[4], (boolean) input[5], (List<String>) input[6],
                 (Map<String, ?>) input[7], getComponentManager()).execute();
-        };
 
         // Return the dynamically created tests
         return DynamicTest.stream(parametersList.iterator(), displayNameGenerator, testExecutor);

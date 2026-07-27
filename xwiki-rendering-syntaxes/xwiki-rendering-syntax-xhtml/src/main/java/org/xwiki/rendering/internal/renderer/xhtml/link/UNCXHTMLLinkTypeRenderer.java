@@ -45,7 +45,7 @@ public class UNCXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
     {
         // Transform the UNC reference into a file URL of the format: file://///myserver/myshare/mydoc.txt
         // i.e. replace all "\" chars by "/" and prefix with "file:///".
-        String fileURL = "file:///" + reference.getReference().replaceAll("\\\\", "/");
+        String fileURL = "file:///" + reference.getReference().replace("\\", "/");
 
         anchorAttributes.put(XHTMLLinkRenderer.HREF, fileURL);
     }

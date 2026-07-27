@@ -93,7 +93,7 @@ public class ListenerMethodProvider
      * @param method The method to get a name for.
      * @return The name of the method without class but with all parameter types.
      */
-    static private String getTestName(Method method)
+    private static String getTestName(Method method)
     {
         return method.getName() + "(" + Arrays.stream(method.getParameterTypes()).map(Class::getName)
             .collect(Collectors.joining(", ")) + ")";
@@ -103,7 +103,7 @@ public class ListenerMethodProvider
      * @param method The method to get parameters for.
      * @return A mock object or value for each expected parameter.
      */
-    static private Object getMockParameters(Method method)
+    private static Object getMockParameters(Method method)
     {
         return Arrays.stream(method.getParameterTypes()).map(ListenerMethodProvider::mockParameter).toArray();
     }
@@ -112,7 +112,7 @@ public class ListenerMethodProvider
      * @param classToMock The class to return a mock object for.
      * @return Either a mock object or in the case of an enum or primitive type a concrete value.
      */
-    static private Object mockParameter(Class<?> classToMock)
+    private static Object mockParameter(Class<?> classToMock)
     {
         if (classToMock.equals(Format.class)) {
             return Format.BOLD;

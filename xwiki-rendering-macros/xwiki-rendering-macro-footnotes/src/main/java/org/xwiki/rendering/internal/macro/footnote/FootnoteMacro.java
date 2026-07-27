@@ -119,12 +119,11 @@ public class FootnoteMacro extends AbstractMacro<FootnoteMacroParameters>
 
         // Only add a putfootnote macro at the end of the document if there's not already one (either already executed
         // or not).
-        if (root.getFirstBlock(PUTFOOTNOTE_MATCHER, Block.Axes.DESCENDANT) == null) {
-            // Make sure putfootnote is not itself the content of a putfootnote (to avoid an infinite loop)
-            if (context.getCurrentMacroBlock().getFirstBlock(PUTFOOTNOTE_MARKER_MATCHER, Block.Axes.ANCESTOR) == null) {
-                Block putFootnotesMacro = new MacroBlock(PutFootnotesMacro.MACRO_NAME, Collections.emptyMap(), false);
-                root.addChild(putFootnotesMacro);
-            }
+        // Make sure putfootnote is not itself the content of a putfootnote (to avoid an infinite loop)
+        if (root.getFirstBlock(PUTFOOTNOTE_MATCHER, Block.Axes.DESCENDANT) == null
+            && context.getCurrentMacroBlock().getFirstBlock(PUTFOOTNOTE_MARKER_MATCHER, Block.Axes.ANCESTOR) == null) {
+            Block putFootnotesMacro = new MacroBlock(PutFootnotesMacro.MACRO_NAME, Collections.emptyMap(), false);
+            root.addChild(putFootnotesMacro);
         }
 
         List<Block> blocks = this.contentParser.parse(content, context, false, true).getChildren();

@@ -38,6 +38,8 @@ import org.xwiki.stability.Unstable;
  */
 public class ReferenceTagHandler extends TagHandler
 {
+    private static final String CLASS_ATTRIBUTE = "class";
+
     public ReferenceTagHandler()
     {
         super(true);
@@ -115,7 +117,7 @@ public class ReferenceTagHandler extends TagHandler
     @Unstable
     protected boolean containsClass(WikiParameters parameters, String className)
     {
-        WikiParameter classParam = parameters.getParameter("class");
+        WikiParameter classParam = parameters.getParameter(CLASS_ATTRIBUTE);
 
         return (classParam != null) && classParam.getValue() != null && Arrays.stream(classParam.getValue().split(" "))
             .anyMatch(className::equalsIgnoreCase);
@@ -132,7 +134,7 @@ public class ReferenceTagHandler extends TagHandler
     @Unstable
     protected WikiParameters removeClass(WikiParameters parameters, String className)
     {
-        WikiParameter classParam = parameters.getParameter("class");
+        WikiParameter classParam = parameters.getParameter(CLASS_ATTRIBUTE);
         WikiParameters result = parameters;
 
         if (classParam != null) {
@@ -145,9 +147,9 @@ public class ReferenceTagHandler extends TagHandler
             }
 
             if (StringUtils.isBlank(classes)) {
-                result = parameters.remove("class");
+                result = parameters.remove(CLASS_ATTRIBUTE);
             } else {
-                result = parameters.setParameter("class", classes);
+                result = parameters.setParameter(CLASS_ATTRIBUTE, classes);
             }
         }
 

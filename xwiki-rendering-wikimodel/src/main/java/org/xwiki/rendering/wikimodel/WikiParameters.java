@@ -44,7 +44,7 @@ public class WikiParameters implements Iterable<WikiParameter>
     /**
      * An empty parameter list
      */
-    public final static WikiParameters EMPTY = new WikiParameters();
+    public static final WikiParameters EMPTY = new WikiParameters();
 
     private static final long serialVersionUID = 1253393289284318413L;
 
@@ -205,8 +205,7 @@ public class WikiParameters implements Iterable<WikiParameter>
     public WikiParameter[] getParameters(String key)
     {
         Map<String, WikiParameter[]> map = getParameters();
-        WikiParameter[] list = map.get(key);
-        return list;
+        return map.get(key);
     }
 
     /**
@@ -263,8 +262,7 @@ public class WikiParameters implements Iterable<WikiParameter>
      */
     public List<WikiParameter> toList()
     {
-        List<WikiParameter> result = new ArrayList<WikiParameter>(fList);
-        return result;
+        return new ArrayList<WikiParameter>(fList);
     }
 
     /**

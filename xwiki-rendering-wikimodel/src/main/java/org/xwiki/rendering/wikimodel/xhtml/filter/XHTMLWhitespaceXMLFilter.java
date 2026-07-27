@@ -454,12 +454,12 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
         }
     }
 
-    protected void sendCharacters(char ch[]) throws SAXException
+    protected void sendCharacters(char[] ch) throws SAXException
     {
         sendCharacters(ch, 0, ch.length);
     }
 
-    protected void sendCharacters(char ch[], int start, int length)
+    protected void sendCharacters(char[] ch, int start, int length)
         throws SAXException
     {
         if (length > 0) {
@@ -476,13 +476,12 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
      */
     private void cleanContentLeadingSpaces()
     {
-        if (!getContent().isEmpty()) {
-            if (fPreviousInlineText.isEmpty()
-                || fPreviousInlineText
-                .charAt(fPreviousInlineText.length() - 1) == ' ')
-            {
-                trimLeadingWhiteSpaces();
-            }
+        if (!getContent().isEmpty()
+            && (fPreviousInlineText.isEmpty()
+            || fPreviousInlineText
+            .charAt(fPreviousInlineText.length() - 1) == ' '))
+        {
+            trimLeadingWhiteSpaces();
         }
     }
 
@@ -491,14 +490,12 @@ public class XHTMLWhitespaceXMLFilter extends DefaultXMLFilter
      */
     protected void cleanContentExtraWhiteSpaces()
     {
-        if (!getContent().isEmpty()) {
-            if (shouldRemoveWhiteSpaces()) {
-                Matcher matcher = HTML_WHITESPACE_DUPLICATES_PATTERN
-                    .matcher(getContent());
-                String result = matcher.replaceAll(" ");
-                getContent().setLength(0);
-                getContent().append(result);
-            }
+        if (!getContent().isEmpty() && shouldRemoveWhiteSpaces()) {
+            Matcher matcher = HTML_WHITESPACE_DUPLICATES_PATTERN
+                .matcher(getContent());
+            String result = matcher.replaceAll(" ");
+            getContent().setLength(0);
+            getContent().append(result);
         }
     }
 

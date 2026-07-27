@@ -66,7 +66,7 @@ public class XWikiScannerUtil
         return unescapedContent.toString();
     }
 
-    private static int matchVerbatimSyntax(char buff[], int currentIndex,
+    private static int matchVerbatimSyntax(char[] buff, int currentIndex,
         char syntax)
     {
 

@@ -96,7 +96,6 @@ public class WikiReferenceParser implements IWikiReferenceParser
     protected String[] splitToChunks(String str)
     {
         String delimiter = "[|>]";
-        String[] chunks = str.split(delimiter);
-        return chunks;
+        return str.split(delimiter);
     }
 }

@@ -179,10 +179,9 @@ public class DefaultMacroCategoryManager implements MacroCategoryManager
 
     private Map<String, Set<MacroId>> getMacrosGroupedByCategories(Syntax syntax) throws MacroLookupException
     {
-        return getMacroIdsByCategory(macroId -> {
-            // True if the macroId has no syntax or if it has one it has to match the passed syntax
-            return syntax == null || macroId.getSyntax() == null || macroId.getSyntax().equals(syntax);
-        });
+        // True if the macroId has no syntax or if it has one it has to match the passed syntax
+        return getMacroIdsByCategory(
+            macroId -> syntax == null || macroId.getSyntax() == null || macroId.getSyntax().equals(syntax));
     }
 
     private void addToCategory(Map<String, Set<MacroId>> result, MacroId macroId, String macroCategory)

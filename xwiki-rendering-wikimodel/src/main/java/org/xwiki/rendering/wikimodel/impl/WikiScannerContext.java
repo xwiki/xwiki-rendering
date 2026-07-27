@@ -506,10 +506,9 @@ public class WikiScannerContext implements IWikiScannerContext
      */
     protected InternalWikiScannerContext newInternalContext()
     {
-        InternalWikiScannerContext context = new InternalWikiScannerContext(
+        return new InternalWikiScannerContext(
             fSectionBuilder,
             fListener);
-        return context;
     }
 
     public void onDefinitionListItemSplit()
