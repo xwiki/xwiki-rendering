@@ -33,6 +33,8 @@ import org.xwiki.rendering.wikimodel.util.WikiEntityUtil;
  */
 public class PrintInlineListener extends PrintTextListener
 {
+    private static final String SPAN_CLOSE = "</span>";
+
     /**
      *
      */
@@ -76,7 +78,7 @@ public class PrintInlineListener extends PrintTextListener
     public void endFormat(WikiFormat format)
     {
         if (!format.getParams().isEmpty()) {
-            print("</span>");
+            print(SPAN_CLOSE);
         }
         print(format.getTags(false));
     }
@@ -87,7 +89,7 @@ public class PrintInlineListener extends PrintTextListener
     @Override
     public void endPropertyInline(String inlineProperty)
     {
-        print("</span>");
+        print(SPAN_CLOSE);
     }
 
     /**
@@ -178,7 +180,7 @@ public class PrintInlineListener extends PrintTextListener
     {
         print("<span class='wikimodel-escaped'>"
             + WikiPageUtil.escapeXmlString(str)
-            + "</span>");
+            + SPAN_CLOSE);
     }
 
     @Override

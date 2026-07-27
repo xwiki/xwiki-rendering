@@ -452,10 +452,8 @@ public class PrintTextListener implements IWemListener
         print(" src='" + link + "'");
         WikiParameters params = ref.getParameters();
         String label = ref.getLabel();
-        if (label != null) {
-            if (params.getParameter("title") == null) {
-                params = params.addParameter("title", label);
-            }
+        if (label != null && params.getParameter("title") == null) {
+            params = params.addParameter("title", label);
         }
         print(params + "/>");
     }

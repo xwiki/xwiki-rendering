@@ -37,15 +37,15 @@ package org.xwiki.rendering.wikimodel;
  */
 public class WikiMacro
 {
-    public final static String MACRO_TOC = "toc";
+    public static final String MACRO_TOC = "toc";
 
-    public final static String MACRO_NOTOC = "notoc";
+    public static final String MACRO_NOTOC = "notoc";
 
-    public final static String MACRO_FORCETOC = "forcetoc";
+    public static final String MACRO_FORCETOC = "forcetoc";
 
-    public final static String MACRO_FOOTNOTES = "footnotes";
+    public static final String MACRO_FOOTNOTES = "footnotes";
 
-    public final static String UNHANDLED_MACRO = "unhandled";
+    public static final String UNHANDLED_MACRO = "unhandled";
 
     private final String name;
 

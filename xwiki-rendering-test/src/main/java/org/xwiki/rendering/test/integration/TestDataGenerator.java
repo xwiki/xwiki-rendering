@@ -39,6 +39,10 @@ import org.reflections.util.FilterBuilder;
  */
 public class TestDataGenerator
 {
+    private static final String XML_PREFIX = "<?xml";
+
+    private static final String DOCTYPE_PREFIX = "<!DOCTYPE";
+
     private TestDataParser parser = new TestDataParser();
 
     public Collection<Object[]> generateData(String testPackage, String pattern)
@@ -87,10 +91,11 @@ public class TestDataGenerator
                 String parserId = entry.getKey();
                 String input = entry.getValue();
 
-                if ("xhtml/1.0".equals(parserId) && !input.startsWith("<?xml") && !input.startsWith("<!DOCTYPE")) {
+                if ("xhtml/1.0".equals(parserId) && !input.startsWith(XML_PREFIX)
+                    && !input.startsWith(DOCTYPE_PREFIX)) {
                     input = normalizeHTML(input);
-                } else if ("docbook/4.4".equals(parserId) && !input.startsWith("<?xml")
-                    && !input.startsWith("<!DOCTYPE")) {
+                } else if ("docbook/4.4".equals(parserId) && !input.startsWith(XML_PREFIX)
+                    && !input.startsWith(DOCTYPE_PREFIX)) {
                     input = normalizeDocBook(input);
                 }
 
@@ -108,8 +113,8 @@ public class TestDataGenerator
                     singleResult[1] = input;
 
                     String expected = data.expectations.get(targetSyntaxId);
-                    if ("docbook/4.4".equals(targetSyntaxId) && !expected.startsWith("<?xml")
-                        && !expected.startsWith("<!DOCTYPE")) {
+                    if ("docbook/4.4".equals(targetSyntaxId) && !expected.startsWith(XML_PREFIX)
+                        && !expected.startsWith(DOCTYPE_PREFIX)) {
                         expected = normalizeDocBook(expected);
                     }
 

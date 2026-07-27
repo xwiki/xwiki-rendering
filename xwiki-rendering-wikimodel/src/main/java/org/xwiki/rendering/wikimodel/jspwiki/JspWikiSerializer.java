@@ -394,7 +394,7 @@ public class JspWikiSerializer implements IWemListener
 
     private void onReference(String link, String label)
     {
-        link = link.replaceAll(" ", "_");
+        link = link.replace(" ", "_");
         if (link.indexOf("Image") == 0) {
             print("{image" + link.substring(5) + "}");
         } else {

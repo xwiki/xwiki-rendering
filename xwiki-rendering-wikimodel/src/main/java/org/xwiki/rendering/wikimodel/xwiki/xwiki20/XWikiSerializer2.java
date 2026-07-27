@@ -54,6 +54,8 @@ public class XWikiSerializer2 extends PrintTextListener
 {
     private static final String[] HEADERS = {"", "=", "==", "===", "====", "=====", "======"};
 
+    private static final String STYLE_ATTRIBUTE = "style";
+
     private Deque<ListOrdering> listOrdering = new ArrayDeque<ListOrdering>();
 
     private Stack<Table> tables = new Stack<Table>();
@@ -203,14 +205,14 @@ public class XWikiSerializer2 extends PrintTextListener
     protected void onImageThumbnail(WikiReference ref)
     {
         WikiParameters params = ref.getParameters();
-        final WikiParameter oldstyle = params.getParameter("style");
+        final WikiParameter oldstyle = params.getParameter(STYLE_ATTRIBUTE);
         if (oldstyle != null) {
             // remove existing
-            params.remove("style");
-            params = params.addParameter("style", oldstyle.getValue() + ";" + "float: right; width:"
+            params.remove(STYLE_ATTRIBUTE);
+            params = params.addParameter(STYLE_ATTRIBUTE, oldstyle.getValue() + ";" + "float: right; width:"
                 + getImageThumbwidth());
         } else {
-            params = params.addParameter("style", "float: right; width:" + getImageThumbwidth());
+            params = params.addParameter(STYLE_ATTRIBUTE, "float: right; width:" + getImageThumbwidth());
         }
         params = params.remove("format");
         WikiReference newimgref = new WikiReference(ref.getLink(), ref.getLabel(), params);
@@ -483,7 +485,7 @@ public class XWikiSerializer2 extends PrintTextListener
     /**
      * @see #clearName(String)
      */
-    public final static String clearName(String name, boolean stripDots, boolean ascii)
+    public static final String clearName(String name, boolean stripDots, boolean ascii)
     {
         String temp = name;
         temp = temp.replaceAll(
@@ -567,7 +569,7 @@ public class XWikiSerializer2 extends PrintTextListener
      * RECOMMENDED FOR NAMES OF UPLOADED FILES. (boolean stripDots = false;
      * boolean ascii = true;)
      */
-    public final static String clearName(String name)
+    public static final String clearName(String name)
     {
         boolean stripDots = false;
         boolean ascii = true;

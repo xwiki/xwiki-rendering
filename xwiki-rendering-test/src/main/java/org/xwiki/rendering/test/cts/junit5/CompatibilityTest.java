@@ -119,16 +119,15 @@ public class CompatibilityTest extends AbstractRenderingTest
         List<TestData> testDataList = generator.generate(syntaxId, packageFilter, pattern);
 
         // Generate test names
-        Function<TestData, String> displayNameGenerator = (input) ->
+        Function<TestData, String> displayNameGenerator = input ->
             String.format("%s [%s, %s:%s, CTS:%s]%s", input.prefix, input.syntaxId,
                 input.isSyntaxInputTest ? "IN" : "OUT", input.syntaxExtension, input.ctsExtension,
                 input.isIgnored() ? " - Missing" : "");
 
         // Generate tests to execute
         String finalMetadataSyntaxId = metadataSyntaxId;
-        ThrowingConsumer<TestData> testExecutor = (input) -> {
+        ThrowingConsumer<TestData> testExecutor = input ->
             new InternalRenderingTest(input, finalMetadataSyntaxId, getComponentManager()).execute();
-        };
 
         // Return the dynamically created tests
         return DynamicTest.stream(testDataList.iterator(), displayNameGenerator, testExecutor);

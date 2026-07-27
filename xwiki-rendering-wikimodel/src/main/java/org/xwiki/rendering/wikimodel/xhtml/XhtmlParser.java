@@ -102,11 +102,10 @@ public class XhtmlParser implements IWikiParser
     public DefaultHandler getHandler(IWemListener listener)
     {
         WikiScannerContext context = new WikiScannerContext(listener);
-        XhtmlHandler handler = new XhtmlHandler(
+        return new XhtmlHandler(
             context,
             fExtraHandlers,
             fCommentHandler);
-        return handler;
     }
 
     /**
