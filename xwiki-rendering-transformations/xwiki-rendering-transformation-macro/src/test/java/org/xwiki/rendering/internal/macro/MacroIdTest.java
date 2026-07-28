@@ -25,8 +25,8 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 /**
  * Unit tests for {@link MacroId}.
@@ -51,26 +51,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
         assertEquals(id2, id1);
         // Equal objects must have equal hashcode
-        assertTrue(id1.hashCode() == id2.hashCode());
+        assertEquals(id1.hashCode(), id2.hashCode());
 
-        assertFalse(id3 == id1);
-        assertFalse(id3.equals(id1));
-        assertFalse(id1.equals(id3));
+        assertNotSame(id3, id1);
+        assertNotEquals(id3, id1);
+        assertNotEquals(id1, id3);
 
-        assertFalse(id4 == id1);
-        assertFalse(id4.equals(id1));
-        assertFalse(id1.equals(id4));
+        assertNotSame(id4, id1);
+        assertNotEquals(id4, id1);
+        assertNotEquals(id1, id4);
 
-        assertFalse(id5 == id3);
-        assertFalse(id5.equals(id1));
-        assertFalse(id1.equals(id5));
+        assertNotSame(id5, id3);
+        assertNotEquals(id5, id1);
+        assertNotEquals(id1, id5);
 
-        assertFalse(id6 == id1);
-        assertFalse(id6.equals(id1));
-        assertFalse(id1.equals(id6));
+        assertNotSame(id6, id1);
+        assertNotEquals(id6, id1);
+        assertNotEquals(id1, id6);
 
         assertEquals(id7, id6);
         // Equal objects must have equal hashcode
-        assertTrue(id6.hashCode() == id7.hashCode());
+        assertEquals(id6.hashCode(), id7.hashCode());
     }
 }

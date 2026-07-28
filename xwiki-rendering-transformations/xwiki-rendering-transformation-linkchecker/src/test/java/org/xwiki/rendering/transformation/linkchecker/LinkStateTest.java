@@ -22,8 +22,7 @@ package org.xwiki.rendering.transformation.linkchecker;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Unit tests for {@link LinkState}.
@@ -38,10 +37,10 @@ class LinkStateTest
         LinkState linkState1 = new LinkState(0, 0);
         LinkState linkState2 = new LinkState(0, 0, null);
 
-        assertFalse(linkState1.equals(null));
-        assertTrue(linkState1.equals(linkState1));
-        assertFalse(linkState1.equals(""));
-        assertTrue(linkState1.equals(linkState2));
+        assertNotEquals(linkState1, null);
+        assertEquals(linkState1, linkState1);
+        assertNotEquals(linkState1, "");
+        assertEquals(linkState1, linkState2);
     }
 
     @Test

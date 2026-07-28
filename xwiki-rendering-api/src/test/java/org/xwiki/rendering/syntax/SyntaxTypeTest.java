@@ -30,7 +30,7 @@ import org.xwiki.rendering.parser.ParseException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -82,8 +82,8 @@ class SyntaxTypeTest
 
         // Inequality
 
-        assertFalse(syntaxType4.equals(syntaxType1));
-        assertFalse(syntaxType6.equals(syntaxType5));
+        assertNotEquals(syntaxType4, syntaxType1);
+        assertNotEquals(syntaxType6, syntaxType5);
     }
 
     @Test

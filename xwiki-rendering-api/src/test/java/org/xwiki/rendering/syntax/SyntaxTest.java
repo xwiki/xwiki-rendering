@@ -29,7 +29,7 @@ import org.xwiki.rendering.parser.ParseException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -64,8 +64,8 @@ class SyntaxTest
         Syntax syntax2 = new Syntax(SyntaxType.XWIKI, "2.0");
         Syntax syntax3 = new Syntax(SyntaxType.CONFLUENCE, "1.0");
 
-        assertFalse(syntax2.equals(syntax1));
-        assertFalse(syntax3.equals(syntax1));
+        assertNotEquals(syntax2, syntax1);
+        assertNotEquals(syntax3, syntax1);
     }
 
     @Test

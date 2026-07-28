@@ -22,8 +22,7 @@ package org.xwiki.rendering.macro.source;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Validate {@link MacroContentSourceReference}.
@@ -41,15 +40,15 @@ class MacroContentSourceReferenceTest
     @Test
     void equals()
     {
-        assertTrue(new MacroContentSourceReference("type", "reference")
-            .equals(new MacroContentSourceReference("type", "reference")));
+        assertEquals(new MacroContentSourceReference("type", "reference"),
+            new MacroContentSourceReference("type", "reference"));
 
-        assertFalse(new MacroContentSourceReference("type", "reference")
-            .equals(new MacroContentSourceReference("type", "reference2")));
-        assertFalse(new MacroContentSourceReference("type", "reference")
-            .equals(new MacroContentSourceReference("type2", "reference")));
-        assertFalse(new MacroContentSourceReference("type", "reference").equals(null));
-        assertFalse(new MacroContentSourceReference("type", "reference").equals("other"));
+        assertNotEquals(new MacroContentSourceReference("type", "reference"),
+            new MacroContentSourceReference("type", "reference2"));
+        assertNotEquals(new MacroContentSourceReference("type", "reference"),
+            new MacroContentSourceReference("type2", "reference"));
+        assertNotEquals(new MacroContentSourceReference("type", "reference"), null);
+        assertNotEquals(new MacroContentSourceReference("type", "reference"), "other");
     }
 
     @Test

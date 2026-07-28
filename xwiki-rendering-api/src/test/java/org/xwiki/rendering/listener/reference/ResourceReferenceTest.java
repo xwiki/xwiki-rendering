@@ -60,9 +60,9 @@ class ResourceReferenceTest
         assertEquals(reference1, reference2);
 
         reference2.addBaseReference("base");
-        assertFalse(reference1.equals(reference2));
-        assertFalse(reference1.equals(null));
-        assertFalse(reference1.equals("different object class"));
+        assertNotEquals(reference1, reference2);
+        assertNotEquals(reference1, null);
+        assertNotEquals(reference1, "different object class");
 
         reference1.addBaseReference("base");
         assertEquals(reference1, reference2);
