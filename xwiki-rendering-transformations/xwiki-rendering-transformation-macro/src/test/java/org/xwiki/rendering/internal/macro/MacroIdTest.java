@@ -37,6 +37,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  class MacroIdTest
 {
     @Test
+    // This method verifies the equals()/hashCode() contract itself, so the assertions deliberately
+    // call equals(), == and hashCode() explicitly: the boolean form is what makes visible which
+    // object is the receiver and which argument it gets. Using assertEquals()/assertNotEquals()/
+    // assertNotSame() would move that into JUnit's internals and would invite a later SonarQube
+    // S3415 "swap these arguments" change that silently stops testing the contract.
+    @SuppressWarnings("java:S5785")
     void testEquality()
     {
         Syntax syntax1 = new Syntax(new SyntaxType("syntax1", "Syntax 1"), "1.0");
