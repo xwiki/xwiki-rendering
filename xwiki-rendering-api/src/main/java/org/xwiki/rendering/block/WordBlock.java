@@ -72,10 +72,10 @@ public class WordBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof WordBlock && super.equals(obj)) {
+        if (obj instanceof WordBlock otherBlock && super.equals(obj)) {
             EqualsBuilder builder = new EqualsBuilder();
 
-            builder.append(getWord(), ((WordBlock) obj).getWord());
+            builder.append(getWord(), otherBlock.getWord());
 
             return builder.isEquals();
         }

@@ -694,20 +694,20 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
      */
     public void serializeParameter(String name, Object value, boolean type)
     {
-        if (value instanceof String) {
-            serializeParameter(name, (String) value, type);
-        } else if (value instanceof Number) {
-            serializeParameter(name, (Number) value, type);
-        } else if (value instanceof Format) {
-            serializeParameter(name, (Format) value, type);
-        } else if (value instanceof HeaderLevel) {
-            serializeParameter(name, (HeaderLevel) value, type);
-        } else if (value instanceof ListType) {
-            serializeParameter(name, (ListType) value, type);
-        } else if (value instanceof ResourceReference) {
-            serializeParameter(name, (ResourceReference) value, type);
-        } else if (value instanceof MetaData) {
-            serializeParameter(name, (MetaData) value, type);
+        if (value instanceof String stringValue) {
+            serializeParameter(name, stringValue, type);
+        } else if (value instanceof Number numberValue) {
+            serializeParameter(name, numberValue, type);
+        } else if (value instanceof Format formatValue) {
+            serializeParameter(name, formatValue, type);
+        } else if (value instanceof HeaderLevel headerLevelValue) {
+            serializeParameter(name, headerLevelValue, type);
+        } else if (value instanceof ListType listTypeValue) {
+            serializeParameter(name, listTypeValue, type);
+        } else if (value instanceof ResourceReference referenceValue) {
+            serializeParameter(name, referenceValue, type);
+        } else if (value instanceof MetaData metaDataValue) {
+            serializeParameter(name, metaDataValue, type);
         } else if (value instanceof Map) {
             serializeParameter(name, (Map<?, ?>) value, type);
         }

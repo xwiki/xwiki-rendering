@@ -67,11 +67,11 @@ public class IdBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof IdBlock) {
+        if (obj instanceof IdBlock otherBlock) {
             EqualsBuilder builder = new EqualsBuilder();
 
             builder.appendSuper(super.equals(obj));
-            builder.append(getName(), ((IdBlock) obj).getName());
+            builder.append(getName(), otherBlock.getName());
 
             return builder.isEquals();
         }

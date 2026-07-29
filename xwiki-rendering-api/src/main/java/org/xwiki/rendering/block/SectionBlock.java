@@ -70,8 +70,8 @@ public class SectionBlock extends AbstractBlock
 
         if (!children.isEmpty()) {
             Block firstChild = children.get(0);
-            if (firstChild instanceof HeaderBlock) {
-                headerBlock = (HeaderBlock) firstChild;
+            if (firstChild instanceof HeaderBlock header) {
+                headerBlock = header;
             }
         }
 

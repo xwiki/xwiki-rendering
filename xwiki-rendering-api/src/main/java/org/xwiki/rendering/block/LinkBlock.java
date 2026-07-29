@@ -123,11 +123,11 @@ public class LinkBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof LinkBlock && super.equals(obj)) {
+        if (obj instanceof LinkBlock otherBlock && super.equals(obj)) {
             EqualsBuilder builder = new EqualsBuilder();
 
-            builder.append(getReference(), ((LinkBlock) obj).getReference());
-            builder.append(isFreeStandingURI(), ((LinkBlock) obj).isFreeStandingURI());
+            builder.append(getReference(), otherBlock.getReference());
+            builder.append(isFreeStandingURI(), otherBlock.isFreeStandingURI());
 
             return builder.isEquals();
         }

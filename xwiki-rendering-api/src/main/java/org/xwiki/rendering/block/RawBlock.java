@@ -83,11 +83,11 @@ public class RawBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof RawBlock && super.equals(obj)) {
+        if (obj instanceof RawBlock otherBlock && super.equals(obj)) {
             EqualsBuilder builder = new EqualsBuilder();
 
-            builder.append(getRawContent(), ((RawBlock) obj).getRawContent());
-            builder.append(getSyntax(), ((RawBlock) obj).getSyntax());
+            builder.append(getRawContent(), otherBlock.getRawContent());
+            builder.append(getSyntax(), otherBlock.getSyntax());
 
             return builder.isEquals();
         }

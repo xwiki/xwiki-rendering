@@ -125,10 +125,9 @@ public class XHTMLXWikiGeneratorListener extends DefaultXWikiGeneratorListener
         // image has been specified
         // - when the passed reference is not an instance of XWikiWikiReference which will happen if there's no special
         // XHTML comment defining a XWiki image
-        if (!(reference instanceof XWikiWikiReference)) {
+        if (!(reference instanceof XWikiWikiReference xwikiReference)) {
             super.onImage(reference);
         } else {
-            XWikiWikiReference xwikiReference = (XWikiWikiReference) reference;
             ResourceReference resourceReference = xwikiReference.getReference();
 
             flushFormat();

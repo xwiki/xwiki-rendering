@@ -96,9 +96,7 @@ public class MacroContentWikiSource
                 return true;
             }
 
-            if (obj instanceof MacroContentWikiSource) {
-                MacroContentWikiSource otherSource = (MacroContentWikiSource) obj;
-
+            if (obj instanceof MacroContentWikiSource otherSource) {
                 EqualsBuilder builder = new EqualsBuilder();
 
                 builder.append(getReference(), otherSource.getReference());

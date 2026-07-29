@@ -53,10 +53,10 @@ public class MetaDataConverter extends AbstractConverter<MetaData>
 
         MetaData parameters;
 
-        if (value instanceof MetaData) {
-            parameters = (MetaData) value;
-        } else if (value instanceof Map) {
-            parameters = new MetaData((Map) value);
+        if (value instanceof MetaData metaData) {
+            parameters = metaData;
+        } else if (value instanceof Map map) {
+            parameters = new MetaData(map);
         } else {
             String parametersString = value.toString().trim();
 

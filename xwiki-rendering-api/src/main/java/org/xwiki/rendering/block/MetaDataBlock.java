@@ -112,10 +112,10 @@ public class MetaDataBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof MetaDataBlock && super.equals(obj)) {
+        if (obj instanceof MetaDataBlock otherBlock && super.equals(obj)) {
             EqualsBuilder builder = new EqualsBuilder();
 
-            builder.append(getMetaData(), ((MetaDataBlock) obj).getMetaData());
+            builder.append(getMetaData(), otherBlock.getMetaData());
 
             return builder.isEquals();
         }

@@ -63,9 +63,9 @@ public abstract class AbstractBlockRenderer implements BlockRenderer
             block.traverse(renderer);
         }
 
-        if (renderer instanceof Flushable) {
+        if (renderer instanceof Flushable flushable) {
             try {
-                ((Flushable) renderer).flush();
+                flushable.flush();
             } catch (IOException e) {
                 if (this.logger != null) {
                     this.logger.error("Failed to flush renderer [{}]", renderer, e);
