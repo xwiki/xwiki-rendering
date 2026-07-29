@@ -106,9 +106,7 @@ public abstract class AbstractInternalRenderingTest
         if (this.configuration != null) {
             ConfigurationSource configurationSource = getComponentManager().getInstance(ConfigurationSource.class);
 
-            if (configurationSource instanceof MockConfigurationSource) {
-                MockConfigurationSource mockConfigurationSource = (MockConfigurationSource) configurationSource;
-
+            if (configurationSource instanceof MockConfigurationSource mockConfigurationSource) {
                 for (Map.Entry<String, ?> entry : this.configuration.entrySet()) {
                     originalConfiguration.put(entry.getKey(),
                         mockConfigurationSource.getProperty(entry.getKey()));
@@ -124,9 +122,7 @@ public abstract class AbstractInternalRenderingTest
             if (this.configuration != null) {
                 ConfigurationSource configurationSource = getComponentManager().getInstance(ConfigurationSource.class);
 
-                if (configurationSource instanceof MockConfigurationSource) {
-                    MockConfigurationSource mockConfigurationSource = (MockConfigurationSource) configurationSource;
-
+                if (configurationSource instanceof MockConfigurationSource mockConfigurationSource) {
                     for (Map.Entry<String, String> entry : originalConfiguration.entrySet()) {
                         if (entry.getValue() == null) {
                             mockConfigurationSource.removeProperty(entry.getKey());

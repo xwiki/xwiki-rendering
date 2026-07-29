@@ -196,12 +196,12 @@ public class IconTransformation extends AbstractTransformation implements Initia
     private boolean blockEquals(Block target, Block source)
     {
         boolean found = false;
-        if (source instanceof SpecialSymbolBlock && target instanceof SpecialSymbolBlock) {
-            if (((SpecialSymbolBlock) target).getSymbol() == ((SpecialSymbolBlock) source).getSymbol()) {
+        if (source instanceof SpecialSymbolBlock sourceSymbol && target instanceof SpecialSymbolBlock targetSymbol) {
+            if (targetSymbol.getSymbol() == sourceSymbol.getSymbol()) {
                 found = true;
             }
-        } else if (source instanceof WordBlock && target instanceof WordBlock) {
-            if (((WordBlock) target).getWord().equals(((WordBlock) source).getWord())) {
+        } else if (source instanceof WordBlock sourceWord && target instanceof WordBlock targetWord) {
+            if (targetWord.getWord().equals(sourceWord.getWord())) {
                 found = true;
             }
         } else if (source.equals(target)) {

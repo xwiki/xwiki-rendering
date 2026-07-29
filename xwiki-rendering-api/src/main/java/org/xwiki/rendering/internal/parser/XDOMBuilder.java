@@ -60,8 +60,8 @@ public class XDOMBuilder
         }
 
         // support even events without begin/endDocument for partial content
-        if (!blocks.isEmpty() && blocks.get(0) instanceof XDOM) {
-            return (XDOM) blocks.get(0);
+        if (!blocks.isEmpty() && blocks.get(0) instanceof XDOM xdom) {
+            return xdom;
         } else {
             return new XDOM(blocks);
         }

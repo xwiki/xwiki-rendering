@@ -556,9 +556,7 @@ public class MacroTransformation extends AbstractTransformation implements Initi
         }
 
         // Prepare the block
-        if (block instanceof MacroBlock) {
-            MacroBlock macroBlock = (MacroBlock) block;
-
+        if (block instanceof MacroBlock macroBlock) {
             // Find the macro
             Macro<?> macro = null;
             try {

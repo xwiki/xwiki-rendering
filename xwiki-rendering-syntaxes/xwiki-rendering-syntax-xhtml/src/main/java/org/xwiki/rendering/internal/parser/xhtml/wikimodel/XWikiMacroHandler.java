@@ -189,8 +189,7 @@ public class XWikiMacroHandler implements XWikiWikiModelHandler
 
         PrintRenderer renderer;
         if (context.getTagStack().isInsideBlockElement()
-            && xWikiGeneratorListener.getListener() instanceof WrappingListener) {
-            WrappingListener wrappingListener = (WrappingListener) xWikiGeneratorListener.getListener();
+            && xWikiGeneratorListener.getListener() instanceof WrappingListener wrappingListener) {
             renderer = (PrintRenderer) wrappingListener.getWrappedListener();
         } else {
             renderer = (PrintRenderer) xWikiGeneratorListener.getListener();

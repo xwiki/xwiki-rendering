@@ -96,8 +96,8 @@ public class FormatBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof FormatBlock && super.equals(obj)) {
-            return getFormat() == ((FormatBlock) obj).getFormat();
+        if (obj instanceof FormatBlock otherBlock && super.equals(obj)) {
+            return getFormat() == otherBlock.getFormat();
         }
 
         return false;

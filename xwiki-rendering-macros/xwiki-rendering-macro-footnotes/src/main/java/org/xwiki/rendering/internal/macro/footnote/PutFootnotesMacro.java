@@ -141,11 +141,12 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
                 // The footnote content has already been collected, we'll hopefully find it back later when looking at
                 // the footnote lists. Here, we just extract the ID of the footnote.
                 Block formatBlock = footnoteContent.get(0);
-                if (!formatBlock.getChildren().isEmpty() && formatBlock.getChildren().get(0) instanceof LinkBlock) {
-                    LinkBlock linkBlock = (LinkBlock) formatBlock.getChildren().get(0);
+                if (!formatBlock.getChildren().isEmpty()
+                    && formatBlock.getChildren().get(0) instanceof LinkBlock linkBlock)
+                {
                     ResourceReference reference = linkBlock.getReference();
-                    if (reference instanceof DocumentResourceReference) {
-                        this.id = ((DocumentResourceReference) reference).getAnchor();
+                    if (reference instanceof DocumentResourceReference documentReference) {
+                        this.id = documentReference.getAnchor();
                     }
                 }
                 this.referenceId = formatBlock.getParameter(ID_ATTRIBUTE_NAME);
@@ -252,11 +253,10 @@ public class PutFootnotesMacro extends AbstractMacro<FootnoteMacroParameters>
         if (macro.getChildren().size() == 1 && macro.getChildren().get(0) instanceof NumberedListBlock) {
             for (Block listItemBlock : macro.getChildren().get(0).getChildren()) {
                 if (listItemBlock.getChildren().size() == 3
-                    && listItemBlock.getChildren().get(2) instanceof CompositeBlock
+                    && listItemBlock.getChildren().get(2) instanceof CompositeBlock footnoteContent
                     && Strings.CS.startsWith(listItemBlock.getChildren().get(0).getParameter(ID_ATTRIBUTE_NAME),
                     FOOTNOTE_ID_PREFIX))
                 {
-                    CompositeBlock footnoteContent = (CompositeBlock) listItemBlock.getChildren().get(2);
                     String id = listItemBlock.getChildren().get(0).getParameter(ID_ATTRIBUTE_NAME);
                     if (footnotes.containsKey(id)) {
                         footnotes.get(id).content = footnoteContent;

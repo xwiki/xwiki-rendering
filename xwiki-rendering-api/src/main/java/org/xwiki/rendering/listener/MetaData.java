@@ -146,7 +146,7 @@ public class MetaData
             return true;
         }
 
-        return obj instanceof MetaData && this.metadata.equals(((MetaData) obj).metadata);
+        return obj instanceof MetaData metaData && this.metadata.equals(metaData.metadata);
     }
 
     @Override

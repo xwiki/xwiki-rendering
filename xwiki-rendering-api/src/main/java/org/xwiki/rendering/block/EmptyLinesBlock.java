@@ -73,8 +73,8 @@ public class EmptyLinesBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof EmptyLinesBlock) {
-            return getEmptyLinesCount() == ((EmptyLinesBlock) obj).getEmptyLinesCount() && super.equals(obj);
+        if (obj instanceof EmptyLinesBlock otherBlock) {
+            return getEmptyLinesCount() == otherBlock.getEmptyLinesCount() && super.equals(obj);
         }
 
         return false;

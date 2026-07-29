@@ -295,8 +295,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
             // the Attributes2 class.
             // See
             // http://www.saxproject.org/apidoc/org/xml/sax/package-summary.html#package_description
-            if (attributes instanceof Attributes2) {
-                Attributes2 attributes2 = (Attributes2) attributes;
+            if (attributes instanceof Attributes2 attributes2) {
                 // If the attribute is present in the XHTML source file then add
                 // it, otherwise skip it.
                 if (attributes2.isSpecified(i)) {

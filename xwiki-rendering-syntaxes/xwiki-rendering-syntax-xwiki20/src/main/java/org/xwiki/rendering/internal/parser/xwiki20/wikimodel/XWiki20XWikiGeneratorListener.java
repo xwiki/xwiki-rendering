@@ -123,10 +123,9 @@ public class XWiki20XWikiGeneratorListener extends DefaultXWikiGeneratorListener
             imageEvent = queue.get(1);
         }
 
-        if (imageEvent != null && imageEvent.eventParameters[3] instanceof Map<?, ?>
-            && ((Map<?, ?>) imageEvent.eventParameters[3]).containsKey(IMAGE_LABEL_PARAMETER))
+        if (imageEvent != null && imageEvent.eventParameters[3] instanceof Map<?, ?> imageParameters
+            && imageParameters.containsKey(IMAGE_LABEL_PARAMETER))
         {
-            Map<?, ?> imageParameters = (Map<?, ?>) imageEvent.eventParameters[3];
             String label = (String) imageParameters.get(IMAGE_LABEL_PARAMETER);
 
             // Remove the label from the image parameters.

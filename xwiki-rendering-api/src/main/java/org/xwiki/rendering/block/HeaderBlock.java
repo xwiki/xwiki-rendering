@@ -143,11 +143,11 @@ public class HeaderBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof HeaderBlock && super.equals(obj)) {
+        if (obj instanceof HeaderBlock otherBlock && super.equals(obj)) {
             EqualsBuilder builder = new EqualsBuilder();
 
-            builder.append(getLevel(), ((HeaderBlock) obj).getLevel());
-            builder.append(getId(), ((HeaderBlock) obj).getId());
+            builder.append(getLevel(), otherBlock.getLevel());
+            builder.append(getId(), otherBlock.getId());
 
             return builder.isEquals();
         }

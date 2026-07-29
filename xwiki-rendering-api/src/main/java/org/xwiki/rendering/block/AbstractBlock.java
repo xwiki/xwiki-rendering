@@ -508,12 +508,12 @@ public abstract class AbstractBlock implements Block
             return true;
         }
 
-        if (obj instanceof Block) {
+        if (obj instanceof Block otherBlock) {
             EqualsBuilder builder = new EqualsBuilder();
 
-            builder.append(getChildren(), ((Block) obj).getChildren());
-            builder.append(getParameters(), ((Block) obj).getParameters());
-            builder.append(getAttributes(), ((Block) obj).getAttributes());
+            builder.append(getChildren(), otherBlock.getChildren());
+            builder.append(getParameters(), otherBlock.getParameters());
+            builder.append(getAttributes(), otherBlock.getAttributes());
 
             return builder.isEquals();
         }

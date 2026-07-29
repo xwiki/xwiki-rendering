@@ -75,23 +75,22 @@ public class MacroContentSourceReferenceConverter extends AbstractConverter<Macr
     {
         MacroContentSourceReference reference;
 
-        if (value instanceof String) {
-            reference = fromString((String) value);
-        } else if (value instanceof InputStream) {
+        if (value instanceof String stringValue) {
+            reference = fromString(stringValue);
+        } else if (value instanceof InputStream inputStream) {
             reference = new MacroContentSourceReference(MacroContentSourceReference.TYPE_STRING,
-                IOUtils.toString((InputStream) value, StandardCharsets.UTF_8));
-        } else if (value instanceof byte[]) {
+                IOUtils.toString(inputStream, StandardCharsets.UTF_8));
+        } else if (value instanceof byte[] bytes) {
             reference = new MacroContentSourceReference(MacroContentSourceReference.TYPE_STRING,
-                new String((byte[]) value, StandardCharsets.UTF_8));
-        } else if (value instanceof Reader) {
+                new String(bytes, StandardCharsets.UTF_8));
+        } else if (value instanceof Reader reader) {
             reference = new MacroContentSourceReference(MacroContentSourceReference.TYPE_STRING,
-                IOUtils.toString((Reader) value));
-        } else if (value instanceof URL) {
-            reference =
-                new MacroContentSourceReference(MacroContentSourceReference.TYPE_URL, ((URL) value).toExternalForm());
-        } else if (value instanceof File) {
+                IOUtils.toString(reader));
+        } else if (value instanceof URL url) {
+            reference = new MacroContentSourceReference(MacroContentSourceReference.TYPE_URL, url.toExternalForm());
+        } else if (value instanceof File file) {
             reference = new MacroContentSourceReference(MacroContentSourceReference.TYPE_FILE,
-                ((File) value).getAbsolutePath());
+                file.getAbsolutePath());
         } else {
             reference = fromUnknownType(value);
         }

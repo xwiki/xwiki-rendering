@@ -106,11 +106,11 @@ public class VerbatimBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof VerbatimBlock && super.equals(obj)) {
+        if (obj instanceof VerbatimBlock otherBlock && super.equals(obj)) {
             EqualsBuilder builder = new EqualsBuilder();
 
-            builder.append(isInline(), ((VerbatimBlock) obj).isInline());
-            builder.append(getProtectedString(), ((VerbatimBlock) obj).getProtectedString());
+            builder.append(isInline(), otherBlock.isInline());
+            builder.append(getProtectedString(), otherBlock.getProtectedString());
 
             return builder.isEquals();
         }

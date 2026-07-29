@@ -75,8 +75,8 @@ public class SpecialSymbolBlock extends AbstractBlock
             return true;
         }
 
-        if (obj instanceof SpecialSymbolBlock && super.equals(obj)) {
-            return getSymbol() == ((SpecialSymbolBlock) obj).getSymbol();
+        if (obj instanceof SpecialSymbolBlock otherBlock && super.equals(obj)) {
+            return getSymbol() == otherBlock.getSymbol();
         }
 
         return false;

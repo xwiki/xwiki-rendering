@@ -135,9 +135,7 @@ public class MacroContentSourceReference
                 return true;
             }
 
-            if (obj instanceof MacroContentSourceReference) {
-                MacroContentSourceReference otherSource = (MacroContentSourceReference) obj;
-
+            if (obj instanceof MacroContentSourceReference otherSource) {
                 return Objects.equals(getType(), otherSource.getType())
                     && Objects.equals(getReference(), otherSource.getReference());
             }
