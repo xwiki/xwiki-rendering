@@ -234,8 +234,7 @@ public class BlockNavigator
                         return (T) block;
                     }
                     // fallthrough
-                case ANCESTOR:
-                case PARENT:
+                case ANCESTOR, PARENT:
                     axes = axes == Axes.PARENT ? Axes.SELF : Axes.ANCESTOR_OR_SELF;
                     nextBlock = block.getParent();
                     break;

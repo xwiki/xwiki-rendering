@@ -158,7 +158,7 @@ public class LinkCheckerTransformation extends AbstractTransformation implements
             Map<String, Object> contextData =
                 linkContextDataProvider.getContextData(linkReference, contentReference);
             if (linkContextData == null) {
-                linkContextData = new LinkedHashMap<>(contextData.size());
+                linkContextData = LinkedHashMap.newLinkedHashMap(contextData.size());
             }
             linkContextData.putAll(contextData);
         }

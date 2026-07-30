@@ -132,42 +132,11 @@ public class TagStack
     {
         XhtmlCharacterType type = XhtmlCharacterType.CHARACTER;
         switch (ch) {
-            case '!':
-            case '\'':
-            case '#':
-            case '$':
-            case '%':
-            case '&':
-            case '(':
-            case ')':
-            case '*':
-            case '+':
-            case ',':
-            case '-':
-            case '.':
-            case '/':
-            case ':':
-            case ';':
-            case '<':
-            case '=':
-            case '>':
-            case '?':
-            case '@':
-            case '[':
-            case '\\':
-            case ']':
-            case '^':
-            case '_':
-            case '`':
-            case '{':
-            case '|':
-            case '}':
-            case '~':
-            case '\"':
+            case '!', '\'', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?',
+                '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~', '\"':
                 type = XhtmlCharacterType.SPECIAL_SYMBOL;
                 break;
-            case ' ':
-            case '\t':
+            case ' ', '\t':
                 type = XhtmlCharacterType.SPACE;
                 break;
             case 160:
@@ -180,8 +149,7 @@ public class TagStack
                     type = XhtmlCharacterType.CHARACTER;
                 }
                 break;
-            case '\n':
-            case '\r':
+            case '\n', '\r':
                 type = XhtmlCharacterType.NEW_LINE;
                 break;
             default:

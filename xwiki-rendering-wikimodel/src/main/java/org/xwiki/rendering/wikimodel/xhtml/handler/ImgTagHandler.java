@@ -53,6 +53,7 @@ public class ImgTagHandler extends ReferenceTagHandler
         }
     }
 
+    @Override
     protected WikiParameters removeMeaningfulParameters(WikiParameters parameters)
     {
         return removeFreestanding(parameters).remove("alt").remove("src");

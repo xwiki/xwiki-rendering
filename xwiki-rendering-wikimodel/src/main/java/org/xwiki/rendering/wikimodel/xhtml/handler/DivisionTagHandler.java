@@ -44,11 +44,7 @@ public class DivisionTagHandler extends BlockTagHandler
     public boolean isBlockHandler(TagContext context)
     {
         WikiParameter param = context.getParams().getParameter("class");
-        if (param != null && Arrays.asList(param.getValue().split(" ")).contains("wikimodel-emptyline")) {
-            return true;
-        }
-
-        return false;
+        return param != null && Arrays.asList(param.getValue().split(" ")).contains("wikimodel-emptyline");
     }
 
     @Override

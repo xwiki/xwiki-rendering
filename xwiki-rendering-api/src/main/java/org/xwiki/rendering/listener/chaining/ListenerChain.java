@@ -127,9 +127,10 @@ public class ListenerChain
     {
         Deque<ChainingListener> result = this.listeners.get(listenerClass);
         if (result == null) {
-            for (Class<? extends ChainingListener> listenerKey : this.listeners.keySet()) {
-                if (listenerClass.isAssignableFrom(listenerKey)) {
-                    result = this.listeners.get(listenerKey);
+            for (Map.Entry<Class<? extends ChainingListener>, Deque<ChainingListener>> entry
+                : this.listeners.entrySet()) {
+                if (listenerClass.isAssignableFrom(entry.getKey())) {
+                    result = entry.getValue();
                     break;
                 }
             }

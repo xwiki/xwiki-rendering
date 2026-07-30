@@ -20,7 +20,6 @@
 package org.xwiki.rendering.internal.listener;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -73,7 +72,7 @@ public class ListenerRegistry
                 .stream()
                 .filter(listenerProvider -> listenerProvider.accept(action, syntax))
                 .map(listenerProvider -> listenerProvider.getListener(listenerChain))
-                .collect(Collectors.toList());
+                .toList();
         } catch (ComponentLookupException e) {
             this.logger.warn("Failed to load the list of [{}] for action [{}] and syntax [{}]. Cause [{}].",
                 ListenerProvider.class, action, syntax, getRootCauseMessage(e));
