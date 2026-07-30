@@ -25,7 +25,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -328,7 +327,7 @@ public class XhtmlHandler extends DefaultHandler implements LexicalHandler
                     return param;
                 }
             })
-            .collect(Collectors.toList());
+            .toList();
         return new WikiParameters(translatedParameters);
     }
 }

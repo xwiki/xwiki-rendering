@@ -71,8 +71,6 @@ public class InternalWikiScannerContext implements IWikiScannerContext
 
     protected int fBlockType = IBlockTypes.NONE;
 
-    private int fPreBlockType = IBlockTypes.NONE;
-
     protected WikiFormat fFormat;
 
     protected int fHeaderLevel;

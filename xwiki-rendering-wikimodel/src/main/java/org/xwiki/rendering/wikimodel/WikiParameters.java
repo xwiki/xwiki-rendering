@@ -274,13 +274,11 @@ public class WikiParameters implements Iterable<WikiParameter>
         if (fStr == null) {
             StringBuffer buf = new StringBuffer();
             int len = fList.size();
-            int counter = 0;
             for (int i = 0; i < len; i++) {
                 WikiParameter pair = fList.get(i);
                 if (pair.isValid()) {
                     buf.append(' ');
                     buf.append(pair);
-                    counter++;
                 }
             }
             fStr = buf.toString();

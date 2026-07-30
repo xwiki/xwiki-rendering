@@ -394,7 +394,7 @@ public abstract class AbstractBlock implements Block
     public void setParameter(String name, String value)
     {
         if (this.parameters == null) {
-            this.parameters = new LinkedHashMap<>(1);
+            this.parameters = LinkedHashMap.newLinkedHashMap(1);
         }
 
         this.parameters.put(name, value);
@@ -428,7 +428,7 @@ public abstract class AbstractBlock implements Block
     public void setAttribute(String name, Object value)
     {
         if (this.attributes == null) {
-            this.attributes = new LinkedHashMap<>(1);
+            this.attributes = LinkedHashMap.newLinkedHashMap(1);
         }
 
         this.attributes.put(name, value);
