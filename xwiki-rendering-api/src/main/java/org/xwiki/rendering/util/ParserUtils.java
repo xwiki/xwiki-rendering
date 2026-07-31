@@ -122,10 +122,8 @@ public class ParserUtils
     private void handleMacroInline(List<Block> blocks)
     {
         Block block = blocks.get(0);
-        if (block instanceof MacroBlock macro) {
-            if (!macro.isInline()) {
-                blocks.set(0, new MacroBlock(macro.getId(), macro.getParameters(), macro.getContent(), true));
-            }
+        if (block instanceof MacroBlock macro && !macro.isInline()) {
+            blocks.set(0, new MacroBlock(macro.getId(), macro.getParameters(), macro.getContent(), true));
         }
     }
 }
