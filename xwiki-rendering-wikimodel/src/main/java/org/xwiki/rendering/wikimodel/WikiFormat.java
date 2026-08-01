@@ -81,9 +81,7 @@ public class WikiFormat
     public WikiFormat(WikiStyle[] styles)
     {
         super();
-        for (WikiStyle style : styles) {
-            fStyles.add(style);
-        }
+        Collections.addAll(fStyles, styles);
     }
 
     public WikiFormat setParameters(Collection<WikiParameter> params)

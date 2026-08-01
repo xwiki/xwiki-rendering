@@ -385,7 +385,7 @@ public class WikiScannerUtil
         StringBuffer buf = new StringBuffer();
         int i = 0;
         boolean[] trim = {false};
-        for (; i < array.length; ) {
+        while (i < array.length) {
             String key = null;
             String value = null;
             i = removeWhitespaces(array, i, buf);

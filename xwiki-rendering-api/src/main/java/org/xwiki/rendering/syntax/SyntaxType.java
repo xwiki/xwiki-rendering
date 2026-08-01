@@ -368,10 +368,7 @@ public class SyntaxType implements Comparable<SyntaxType>
 
         String[] tokens = StringUtils.split(syntaxTypesString, '+');
         String id = tokens[0];
-        List<String> variants = new ArrayList<>();
-        for (int i = 1; i < tokens.length; i++) {
-            variants.add(tokens[i]);
-        }
+        List<String> variants = new ArrayList<>(Arrays.asList(tokens).subList(1, tokens.length));
 
         // For well-known syntax types, get the Syntax name from the registered Syntax types, otherwise use the id as
         // both the human readable name and the technical id (since the syntax type string doesn't contain any
