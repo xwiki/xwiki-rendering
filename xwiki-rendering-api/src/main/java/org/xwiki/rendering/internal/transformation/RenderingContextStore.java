@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.context.internal.concurrent.AbstractContextStore;
@@ -125,7 +126,8 @@ public class RenderingContextStore extends AbstractContextStore
                 try {
                     return this.syntaxRegistry.resolveSyntax(value.toString());
                 } catch (ParseException e) {
-                    this.logger.warn("Failed to restore the Syntax for key [{}]", key, e);
+                    this.logger.warn("Failed to restore the Syntax for key [{}]. Cause: [{}]", key,
+                        ExceptionUtils.getRootCauseMessage(e));
                 }
             }
         }

@@ -97,7 +97,7 @@ public class DefaultResourceReferenceParser extends AbstractResourceReferencePar
                         componentManager.getInstance(ResourceReferenceTypeParser.class, typePrefix);
                     parsedResourceReference = parser.parse(reference);
                 } catch (ComponentLookupException e) {
-                    this.logger.error("Failed to initialize resource type parser", e);
+                    this.logger.error("Failed to initialize the resource type parser for type [{}]", typePrefix, e);
                 }
             }
         }

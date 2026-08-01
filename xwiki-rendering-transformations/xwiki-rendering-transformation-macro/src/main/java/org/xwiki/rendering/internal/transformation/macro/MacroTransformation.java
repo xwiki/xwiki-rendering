@@ -539,7 +539,7 @@ public class MacroTransformation extends AbstractTransformation implements Initi
         try {
             prepare(block, syntax);
         } catch (StackOverflowError e) {
-            this.logger.error("Failed to prepare the block", e);
+            this.logger.error("Failed to prepare the block for syntax [{}]", syntax, e);
         }
     }
 
@@ -562,9 +562,9 @@ public class MacroTransformation extends AbstractTransformation implements Initi
             try {
                 macro = this.macroManager.getMacro(new MacroId(macroBlock.getId(), currentSyntax));
             } catch (Exception e) {
-                this.logger.debug(
-                    "Failed to get the macro with identifier [{}] for syntax [{}] (this macro block won't be prepared): {}",
-                    macroBlock.getId(), currentSyntax, ExceptionUtils.getRootCauseMessage(e));
+                this.logger.debug("Failed to get the macro with identifier [{}] for syntax [{}] (this macro block "
+                        + "won't be prepared). Cause: [{}]", macroBlock.getId(), currentSyntax,
+                    ExceptionUtils.getRootCauseMessage(e));
             }
 
             // Prepare the macro block
@@ -572,7 +572,8 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                 try {
                     macro.prepare(macroBlock);
                 } catch (Exception e) {
-                    this.logger.error("Failed to prepare the macro block", e);
+                    this.logger.error("Failed to prepare the macro block for macro [{}] and syntax [{}]",
+                        macroBlock.getId(), currentSyntax, e);
                 }
             }
         }
