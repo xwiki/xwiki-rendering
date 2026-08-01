@@ -124,7 +124,7 @@ public class WikiPageUtil
             {
                 buf.append(array[i]);
             } else {
-                buf.append("%" + Integer.toHexString(array[i]));
+                buf.append('%').append(Integer.toHexString(array[i]));
             }
         }
         return buf.toString();
@@ -173,7 +173,7 @@ public class WikiPageUtil
                 || array[i] == '<'
                 || (escapeQuots && (array[i] == '\'' || array[i] == '"')))
             {
-                buf.append("&#x" + Integer.toHexString(array[i]) + ";");
+                buf.append("&#x").append(Integer.toHexString(array[i])).append(';');
             } else {
                 buf.append(array[i]);
             }
