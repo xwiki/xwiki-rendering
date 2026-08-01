@@ -275,7 +275,24 @@
                    </differences>
                  </revapi.differences>
             -->
-            
+            <revapi.differences>
+              <differences>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.annotation.attributeValueChanged</code>
+                  <old>method java.lang.String org.xwiki.rendering.macro.descriptor.MacroDescriptorAspect::aroundGetDefaultCategory(org.xwiki.rendering.macro.descriptor.MacroDescriptor)</old>
+                  <new>method java.lang.String org.xwiki.rendering.macro.descriptor.MacroDescriptorAspect::aroundGetDefaultCategory(org.xwiki.rendering.macro.descriptor.MacroDescriptor)</new>
+                  <annotationType>org.aspectj.lang.annotation.Around</annotationType>
+                  <attribute>value</attribute>
+                  <criticality>allowed</criticality>
+                  <justification>The pointcut of the legacy getDefaultCategory() advice now matches
+                    CompatibilityMacroDescriptor, which is where the method body lives, so that the advice is really
+                    weaved, and it excludes the advice's own control flow to avoid an infinite recursion with the
+                    getDefaultCategories() advice. The pointcut expression is an implementation detail of the aspect
+                    and not part of the public API.</justification>
+                </item>
+              </differences>
+            </revapi.differences>
           </analysisConfiguration>
         </configuration>
       </plugin>
