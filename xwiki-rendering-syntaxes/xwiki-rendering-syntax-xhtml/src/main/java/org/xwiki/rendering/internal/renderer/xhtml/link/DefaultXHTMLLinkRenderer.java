@@ -108,7 +108,8 @@ public class DefaultXHTMLLinkRenderer implements XHTMLLinkRenderer
                     this.componentManagerProvider.get().getInstance(XHTMLLinkTypeRenderer.class,
                         reference.getType().getScheme());
             } catch (ComponentLookupException e) {
-                this.logger.error("Failed to initialize XHTML link type renderer", e);
+                this.logger.error("Failed to initialize the XHTML link type renderer for resource type [{}]",
+                    reference.getType().getScheme(), e);
             }
         }
 

@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
@@ -109,8 +110,8 @@ public class IconTransformation extends AbstractTransformation implements Initia
                     this.parserUtils.removeTopLevelParagraph(xdom.getChildren());
                     mergeTree(this.mappingTree, convertToDeepTree(xdom, (String) entry.getValue()));
                 } catch (ParseException e) {
-                    this.logger.warn("Failed to parse icon symbols [" + entry.getKey() + "]. Reason = ["
-                        + e.getMessage() + "]");
+                    this.logger.warn("Failed to parse icon symbols [{}]. Cause: [{}]", entry.getKey(),
+                        ExceptionUtils.getRootCauseMessage(e));
                 }
             }
         }
