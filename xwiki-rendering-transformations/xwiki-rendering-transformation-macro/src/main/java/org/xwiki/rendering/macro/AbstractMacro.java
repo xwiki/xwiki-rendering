@@ -258,8 +258,8 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
 
         // In case if setDefaultCategories() is invoked after macro initialization. Only works if the internal
         // MacroDescriptor is of type AbstractMacroDescriptor.
-        if (getDescriptor() instanceof AbstractMacroDescriptor macroDescriptor) {
-            macroDescriptor.setDefaultCategories(defaultCategories);
+        if (getDescriptor() instanceof AbstractMacroDescriptor abstractMacroDescriptor) {
+            abstractMacroDescriptor.setDefaultCategories(defaultCategories);
         }
     }
 
