@@ -79,9 +79,9 @@ public class MacroInfo
             index = macroString.indexOf(MACRO_SEPARATOR);
             if (index != -1) {
                 // Extract macro parameters
-                List<WikiParameter> parameters = new ArrayList<WikiParameter>();
-                index = WikiScannerUtil.splitToPairs(macroString, parameters, null, MACRO_SEPARATOR);
-                this.parameters = new WikiParameters(parameters);
+                List<WikiParameter> wikiParameters = new ArrayList<WikiParameter>();
+                index = WikiScannerUtil.splitToPairs(macroString, wikiParameters, null, MACRO_SEPARATOR);
+                this.parameters = new WikiParameters(wikiParameters);
 
                 // Extract macro content
                 if (macroString.length() > index) {

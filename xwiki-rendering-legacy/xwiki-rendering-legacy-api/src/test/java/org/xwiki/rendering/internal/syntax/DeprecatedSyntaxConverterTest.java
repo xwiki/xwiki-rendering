@@ -28,7 +28,7 @@ import org.xwiki.test.junit5.mockito.InjectMockComponents;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for {@link DeprecatedSyntaxConverter}.
@@ -57,12 +57,9 @@ class DeprecatedSyntaxConverterTest
     @Test
     void convertToSyntaxObjectWhenUnknownSyntax()
     {
-        try {
-            this.converter.convert(Syntax.class, "invalid");
-            fail("Should have thrown ConversionException");
-        } catch (ConversionException expected) {
-            assertEquals("Unknown syntax [invalid]", expected.getMessage());
-        }
+        ConversionException expected =
+            assertThrows(ConversionException.class, () -> this.converter.convert(Syntax.class, "invalid"));
+        assertEquals("Unknown syntax [invalid]", expected.getMessage());
     }
 
     @Test
