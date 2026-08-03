@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
@@ -231,9 +232,10 @@ public class DefaultLinkCheckerThread extends java.lang.Thread implements LinkCh
             ObservationManager observationManager = this.observationManagerProvider.get();
             observationManager.notify(new InvalidURLEvent(url), data);
         } catch (Exception e) {
-            // Failed to find an Observation Manager, continnue, but log a warning since it's not really normal
+            // Failed to find an Observation Manager, continue, but log a warning since it's not really normal
             this.logger.warn("The Invalid URL Event for URL [{}] (source [{}]) wasn't sent as no Observation Manager "
-                + "Component was found", url, data.get(EVENT_DATA_SOURCE));
+                + "Component was found. Root cause is [{}]", url, data.get(EVENT_DATA_SOURCE),
+                ExceptionUtils.getRootCauseMessage(e));
         }
     }
 }

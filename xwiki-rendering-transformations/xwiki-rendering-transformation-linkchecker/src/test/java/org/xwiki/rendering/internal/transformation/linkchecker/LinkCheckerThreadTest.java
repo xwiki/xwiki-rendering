@@ -152,6 +152,6 @@ class LinkCheckerThreadTest
         this.thread.processLinkQueue();
 
         assertEquals("The Invalid URL Event for URL [linkreference] (source [someref]) wasn't sent as no Observation "
-            + "Manager Component was found", logCapture.getMessage(0));
+            + "Manager Component was found. Root cause is [RuntimeException: error]", logCapture.getMessage(0));
     }
 }
