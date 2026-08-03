@@ -28,6 +28,7 @@ import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
@@ -104,8 +105,9 @@ public class DefaultMacroManager implements MacroManager
                         + "The hint should contain either the macro name only or the macro name followed by "
                         + "the syntax for which it is valid. In that case the macro name should be followed by a "
                         + "\"/\" followed by the syntax name followed by another \"/\" followed by the syntax version. "
-                        + "For example \"html/xwiki/2.0\". This macro will not be available in the system.",
-                    entry.getKey());
+                        + "For example \"html/xwiki/2.0\". This macro will not be available in the system. "
+                        + "Root cause is [{}]",
+                    entry.getKey(), ExceptionUtils.getRootCauseMessage(e));
                 continue;
             }
             if (syntax == null || macroId.getSyntax() == null || syntax.equals(macroId.getSyntax())) {
