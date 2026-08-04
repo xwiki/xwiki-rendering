@@ -167,7 +167,7 @@ public class XWikiReferenceParser extends WikiReferenceParser
             char c = array[i];
 
             if (!escaped) {
-                if (array[i] == '~' && !escaped) {
+                if (array[i] == '~') {
                     escaped = true;
                 } else if ((nb = countFirstChar(array, i, '|')) >= 2) {
                     for (; nb > 2; --nb) {

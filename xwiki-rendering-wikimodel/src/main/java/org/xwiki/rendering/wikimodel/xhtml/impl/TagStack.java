@@ -319,7 +319,8 @@ public class TagStack
     {
         Deque<Object> set = (Deque<Object>) getStackParameters().get(name);
         if (set == null) {
-            getStackParameters().put(name, set = new LinkedList<Object>());
+            set = new LinkedList<>();
+            getStackParameters().put(name, set);
         }
 
         set.push(data);

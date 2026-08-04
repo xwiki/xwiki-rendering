@@ -242,7 +242,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
             } else {
                 this.previousFormatParameters = null;
             }
-        } else if (this.previousFormatParameters == null) {
+        } else {
             printParameters(parameters, false);
         }
 
