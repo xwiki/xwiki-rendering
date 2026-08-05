@@ -116,7 +116,7 @@ class MacroContentSourceReferenceConverterTest
     }
 
     @Test
-    void convertFromUnknownType() throws Exception
+    void convertFromUnknownType()
     {
         assertEquals(new MacroContentSourceReference("string", "MyType"),
             this.converter.convert(MacroContentSourceReference.class, new MyType()));

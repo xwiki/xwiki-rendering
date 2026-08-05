@@ -63,8 +63,9 @@ public class DefaultErrorBlockGenerator implements ErrorBlockGenerator
     {
         Message message = new Message(messageId,
             defaultMessage != null && !defaultMessage.endsWith(".") ? defaultMessage + '.' : defaultMessage, arguments);
-        Message description = defaultDescription != null
-            ? new Message(messageId != null ? messageId + ".description" : null, defaultDescription, arguments) : null;
+        String descriptionId = messageId != null ? messageId + ".description" : null;
+        Message description =
+            defaultDescription != null ? new Message(descriptionId, defaultDescription, arguments) : null;
 
         return generateErrorBlocks(inline, message, description);
     }
