@@ -94,7 +94,7 @@ class TocMacroTest
     }
 
     @Test
-    void depthTooLow() throws Exception
+    void depthTooLow()
     {
         TocMacroParameters bean = new TocMacroParameters();
         Map<String, ?> values = Map.of("depth", "0");

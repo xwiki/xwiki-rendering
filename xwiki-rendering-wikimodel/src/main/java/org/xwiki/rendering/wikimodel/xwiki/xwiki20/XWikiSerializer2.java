@@ -369,12 +369,6 @@ public class XWikiSerializer2 extends PrintTextListener
     }
 
     @Override
-    public void onNewLine()
-    {
-        super.onNewLine();
-    }
-
-    @Override
     public void onSpecialSymbol(String str)
     {
         if (withinTableCell && "|".equals(str)) {
