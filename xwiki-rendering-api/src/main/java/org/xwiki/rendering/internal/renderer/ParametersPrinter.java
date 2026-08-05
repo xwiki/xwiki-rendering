@@ -38,8 +38,6 @@ public class ParametersPrinter
 
     private final String escapedStrings;
 
-    private char escapeChar;
-
     private Pattern escaped;
 
     private String replacement;
@@ -85,14 +83,12 @@ public class ParametersPrinter
 
     private void setEscapeChar(char escapeChar)
     {
-        this.escapeChar = escapeChar;
-
         StringBuilder replacementBuilder = new StringBuilder();
         replacementBuilder.append(Matcher.quoteReplacement(String.valueOf(escapeChar)));
         replacementBuilder.append("$0");
         this.replacement = replacementBuilder.toString();
 
-        this.escaped = Pattern.compile(Pattern.quote(String.valueOf(this.escapeChar)) + '|' + this.escapedStrings);
+        this.escaped = Pattern.compile(Pattern.quote(String.valueOf(escapeChar)) + '|' + this.escapedStrings);
     }
 
     /**
