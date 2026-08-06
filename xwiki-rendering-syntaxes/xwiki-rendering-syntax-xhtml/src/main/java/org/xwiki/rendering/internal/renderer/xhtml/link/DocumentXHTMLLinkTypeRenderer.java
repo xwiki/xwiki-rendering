@@ -25,6 +25,8 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -34,6 +36,7 @@ import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
+import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
 import org.xwiki.rendering.wiki.WikiModel;
 
 /**
@@ -51,6 +54,9 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      */
     private static final String WIKILINK = "wikilink";
 
+    @Inject
+    private Logger logger;
+
     /**
      * Used to generate the link targeting a local document.
      */
@@ -61,6 +67,12 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      */
     @Inject
     private LinkLabelGenerator linkLabelGenerator;
+
+    /**
+     * Used to generate a link title.
+     */
+    @Inject
+    private WantedLinkTitleGenerator defaultTitleGenerator;
 
     @Override
     public void initialize() throws InitializationException
@@ -88,6 +100,37 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
     protected String computeLabel(ResourceReference reference)
     {
         return this.linkLabelGenerator.generate(reference);
+    }
+
+    private WantedLinkTitleGenerator getTitleGenerator(ResourceReference reference)
+    {
+        WantedLinkTitleGenerator titleGenerator = this.defaultTitleGenerator;
+        try {
+            titleGenerator = this.componentManager.getInstance(WantedLinkTitleGenerator.class,
+                reference.getType().getScheme());
+        } catch (Exception e) {
+            String message = String.format("Could not find a [%s] component to generate the wanted "
+                + "link title for [{}].", WantedLinkTitleGenerator.class.getName());
+            if (logger.isDebugEnabled()) {
+                logger.debug(message, reference, e);
+            } else {
+                logger.warn(String.format("%s: [{}]", message), reference, ExceptionUtils.getRootCauseMessage(e));
+            }
+        }
+        return titleGenerator;
+    }
+
+    /**
+     * Implementation for computing a wanted link title.
+     * Looks for a component implementing WantedLinkTitleGenerator with a role hint matching the reference scheme.
+     * @param reference the reference for which to compute the title
+     * @return the wanted link title
+     * @since 16.3.0RC1
+     */
+    private String computeWantedLinkTitle(ResourceReference reference)
+    {
+        WantedLinkTitleGenerator titleGenerator = getTitleGenerator(reference);
+        return titleGenerator.generateWantedLinkTitle(reference);
     }
 
     @Override
@@ -126,6 +169,7 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
         } else {
             // The wiki document doesn't exist
             spanAttributes.put(CLASS, "wikicreatelink");
+            spanAttributes.put(TITLE, computeWantedLinkTitle(reference));
             anchorAttributes.put(XHTMLLinkRenderer.HREF, this.wikiModel.getDocumentEditURL(reference));
         }
 

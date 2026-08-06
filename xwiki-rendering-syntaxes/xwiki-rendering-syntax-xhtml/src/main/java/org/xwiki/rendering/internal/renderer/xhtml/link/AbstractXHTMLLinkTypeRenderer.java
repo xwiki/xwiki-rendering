@@ -48,6 +48,12 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     protected static final String CLASS = "class";
 
     /**
+     * The XHTML element {@code title} parameter.
+     * @since 16.3.0RC1
+     */
+    protected static final String TITLE = "title";
+
+    /**
      * The name of the XHTML format element.
      */
     protected static final String SPAN = "span";
@@ -221,7 +227,10 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     {
         // If there was no link content then generate it based on the passed reference
         if (!hasLabel()) {
-            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][] { { CLASS, "wikigeneratedlinkcontent" } });
+            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][]
+            {
+                { CLASS, "wikigeneratedlinkcontent" }
+            });
             getXHTMLWikiPrinter().printXML(computeLabel(reference));
             getXHTMLWikiPrinter().printXMLEndElement(SPAN);
         }
