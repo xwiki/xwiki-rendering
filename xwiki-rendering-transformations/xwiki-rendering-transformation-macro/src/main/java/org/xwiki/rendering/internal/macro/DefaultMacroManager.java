@@ -101,12 +101,11 @@ public class DefaultMacroManager implements MacroManager
                 // One of the macros is registered against the component manager with an invalid macro id, ignore it
                 // but log a warning.
                 this.logger.warn(
-                    "Invalid Macro descriptor format for hint [{}]. "
-                        + "The hint should contain either the macro name only or the macro name followed by "
-                        + "the syntax for which it is valid. In that case the macro name should be followed by a "
-                        + "\"/\" followed by the syntax name followed by another \"/\" followed by the syntax version. "
-                        + "For example \"html/xwiki/2.0\". This macro will not be available in the system. "
-                        + "Root cause is [{}]",
+                    "The macro registered with hint [{}] will not be available in the system. The hint should "
+                        + "contain either the macro name only or the macro name followed by the syntax for which it "
+                        + "is valid. In that case the macro name should be followed by a \"/\" followed by the "
+                        + "syntax name followed by another \"/\" followed by the syntax version. For example "
+                        + "\"html/xwiki/2.0\". Root cause is [{}]",
                     entry.getKey(), ExceptionUtils.getRootCauseMessage(e));
                 continue;
             }

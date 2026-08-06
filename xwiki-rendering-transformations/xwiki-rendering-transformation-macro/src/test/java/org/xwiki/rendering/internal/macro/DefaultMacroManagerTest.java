@@ -206,11 +206,11 @@ class DefaultMacroManagerTest
         this.macroManager.getMacroIds(new Syntax(new SyntaxType("syntax", "Syntax"), "whatever"));
 
         assertEquals(1, logCapture.size());
-        assertEquals("Invalid Macro descriptor format for hint [macro/invalidsyntax]. The hint should contain either "
-            + "the macro name only or the macro name followed by the syntax for which it is valid. In that case the "
-            + "macro name should be followed by a \"/\" followed by the syntax name followed by another \"/\" followed "
-            + "by the syntax version. For example \"html/xwiki/2.0\". This macro will not be available in the "
-            + "system. Root cause is [ParseException: Invalid macro id format [macro/invalidsyntax]]",
+        assertEquals("The macro registered with hint [macro/invalidsyntax] will not be available in the system. The "
+            + "hint should contain either the macro name only or the macro name followed by the syntax for which it "
+            + "is valid. In that case the macro name should be followed by a \"/\" followed by the syntax name "
+            + "followed by another \"/\" followed by the syntax version. For example \"html/xwiki/2.0\". "
+            + "Root cause is [ParseException: Invalid macro id format [macro/invalidsyntax]]",
             logCapture.getMessage(0));
     }
 
