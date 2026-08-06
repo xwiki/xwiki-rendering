@@ -72,12 +72,10 @@ public class TestDataParser
     {
         TestData data = new TestData();
 
-        // Resources should always be encoded as UTF-8, to reduce the dependency on the system encoding
-        BufferedReader reader = new BufferedReader(new InputStreamReader(source, StandardCharsets.UTF_8));
-
         // Read each line and look for lines starting with ".". When this happens it means we've found a separate
         // test case.
-        try {
+        // Resources should always be encoded as UTF-8, to reduce the dependency on the system encoding
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(source, StandardCharsets.UTF_8))) {
             String action = null;
             String keyName = null;
             boolean skip = false;
@@ -125,8 +123,6 @@ public class TestDataParser
                 saveData(action, buffer, data, keyName);
             }
 
-        } finally {
-            reader.close();
         }
 
         return data;
