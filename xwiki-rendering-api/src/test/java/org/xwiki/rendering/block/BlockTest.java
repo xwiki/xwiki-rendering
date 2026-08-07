@@ -136,8 +136,8 @@ class BlockTest
         assertNull(word2.getPreviousSibling());
 
         // Provide not existing block to replace
-        assertThrows(InvalidParameterException.class,
-            () -> parentBlock.replaceChild(word3, new WordBlock("not existing")));
+        WordBlock notExisting = new WordBlock("not existing");
+        assertThrows(InvalidParameterException.class, () -> parentBlock.replaceChild(word3, notExisting));
     }
 
     @Test

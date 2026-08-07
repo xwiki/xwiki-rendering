@@ -255,12 +255,10 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
                 throw new MacroExecutionException(CONTENT_MISSING_ERROR);
             }
 
-            if (isContentChecked()) {
-                // if it's null but not mandatory we return null
-                // if it's only empty we continue the processing
-                if (this.content == null) {
-                    return ret;
-                }
+            // if it's null but not mandatory we return null
+            // if it's only empty we continue the processing
+            if (isContentChecked() && this.content == null) {
+                return ret;
             }
 
             List<Block> contentBlocks = parseContent(this.parameters, this.content, this.context);
