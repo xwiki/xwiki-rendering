@@ -25,7 +25,6 @@ import javax.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.internal.parser.reference.GenericLinkReferenceParser;
-import org.xwiki.rendering.internal.parser.xwiki20.XWiki20LinkReferenceParser;
 import org.xwiki.rendering.listener.reference.InterWikiResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.ResourceReferenceTypeSerializer;
@@ -45,27 +44,27 @@ public class InterWikiReferenceTypeSerializer implements ResourceReferenceTypeSe
      * Escapes to add when rendering a link reference part.
      */
     private static final String[] ESCAPE_REPLACEMENTS_REFERENCE = new String[] {
-        String.valueOf(XWiki20LinkReferenceParser.ESCAPE_CHAR) + XWiki20LinkReferenceParser.ESCAPE_CHAR };
+        String.valueOf(GenericLinkReferenceParser.ESCAPE_CHAR) + GenericLinkReferenceParser.ESCAPE_CHAR };
 
     /**
      * Replacement chars for the escapes to add to the reference part.
      */
     private static final String[] ESCAPES_REFERENCE = new String[] {
-        String.valueOf(XWiki20LinkReferenceParser.ESCAPE_CHAR) };
+        String.valueOf(GenericLinkReferenceParser.ESCAPE_CHAR) };
 
     /**
      * Escapes to add when rendering a link query string, anchor or interwiki part.
      */
     private static final String[] ESCAPE_REPLACEMENTS_EXTRA = new String[] {
-        String.valueOf(XWiki20LinkReferenceParser.ESCAPE_CHAR) + XWiki20LinkReferenceParser.SEPARATOR_INTERWIKI,
-        String.valueOf(XWiki20LinkReferenceParser.ESCAPE_CHAR) + XWiki20LinkReferenceParser.ESCAPE_CHAR };
+        String.valueOf(GenericLinkReferenceParser.ESCAPE_CHAR) + GenericLinkReferenceParser.SEPARATOR_INTERWIKI,
+        String.valueOf(GenericLinkReferenceParser.ESCAPE_CHAR) + GenericLinkReferenceParser.ESCAPE_CHAR };
 
     /**
      * Replacement chars for the escapes to add to the query string, anchor or interwiki part.
      */
     private static final String[] ESCAPES_EXTRA = new String[] {
-        XWiki20LinkReferenceParser.SEPARATOR_INTERWIKI,
-        String.valueOf(XWiki20LinkReferenceParser.ESCAPE_CHAR) };
+        GenericLinkReferenceParser.SEPARATOR_INTERWIKI,
+        String.valueOf(GenericLinkReferenceParser.ESCAPE_CHAR) };
 
     @Override
     public String serialize(ResourceReference reference)

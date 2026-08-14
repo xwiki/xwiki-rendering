@@ -31,6 +31,7 @@ import org.xwiki.rendering.listener.chaining.ListenerChain;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.xdomxml10.internal.XDOMXMLConstants;
+import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.AbstractSerializer;
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.DefaultSerializer;
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.FormatConverter;
 import org.xwiki.rendering.xdomxml10.internal.renderer.parameter.HeaderLevelConverter;
@@ -571,7 +572,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
             attributesImpl.addAttribute(null, null, TYPE, null, "MetaData");
             attributes = attributesImpl;
         } else {
-            attributes = DefaultSerializer.EMPTY_ATTRIBUTES;
+            attributes = AbstractSerializer.EMPTY_ATTRIBUTES;
         }
 
         startElement(name, attributes);
@@ -668,7 +669,7 @@ public class XDOMXMLChainingStreamRenderer extends AbstractChainingContentHandle
             attributesImpl.addAttribute(null, null, TYPE, null, "ResourceReference");
             attributes = attributesImpl;
         } else {
-            attributes = DefaultSerializer.EMPTY_ATTRIBUTES;
+            attributes = AbstractSerializer.EMPTY_ATTRIBUTES;
         }
 
         startElement(name, attributes);
