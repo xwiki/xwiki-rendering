@@ -38,8 +38,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PARAMETERS;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.PROPS;
-import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.TEXT_ALIGNMENT;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.REFERENCE;
+import static org.xwiki.rendering.internal.parser.blocknote.blocks.AbstractBlockParser.TEXT_ALIGNMENT;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.ALT;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.CAPTION;
 import static org.xwiki.rendering.internal.parser.blocknote.blocks.ImageBlockParser.IMAGE;

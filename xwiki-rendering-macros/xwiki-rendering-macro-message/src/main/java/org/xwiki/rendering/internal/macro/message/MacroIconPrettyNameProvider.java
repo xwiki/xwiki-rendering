@@ -19,10 +19,10 @@
  */
 package org.xwiki.rendering.internal.macro.message;
 
+import javax.inject.Singleton;
+
 import org.apache.commons.lang3.StringUtils;
 import org.xwiki.component.annotation.Component;
-
-import javax.inject.Singleton;
 
 /**
  * Default component to provide an alternative text for an icon.

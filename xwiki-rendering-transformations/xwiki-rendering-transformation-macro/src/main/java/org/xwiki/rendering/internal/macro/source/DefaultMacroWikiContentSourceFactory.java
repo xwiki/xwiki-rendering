@@ -28,9 +28,9 @@ import org.xwiki.component.annotation.Component;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.macro.MacroExecutionException;
+import org.xwiki.rendering.macro.source.MacroContentSourceReference;
 import org.xwiki.rendering.macro.source.MacroContentWikiSource;
 import org.xwiki.rendering.macro.source.MacroContentWikiSourceFactory;
-import org.xwiki.rendering.macro.source.MacroContentSourceReference;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 /**

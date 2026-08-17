@@ -19,8 +19,6 @@
  */
 package org.xwiki.rendering.block;
 
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -36,6 +34,8 @@ import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
+
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 /**
  * Unit tests for plain text extraction, testing {@link PlainTextBlockFilter}.

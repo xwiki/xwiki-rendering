@@ -23,8 +23,6 @@ import java.io.StringReader;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.xwiki.component.embed.EmbeddableComponentManager;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.FormatBlock;
@@ -44,6 +42,8 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.icon.IconTransformationConfiguration;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Examples of using the XWiki Rendering API standalone, using the Embedded Component Manager.
