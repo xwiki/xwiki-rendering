@@ -19,14 +19,14 @@
  */
 package org.xwiki.rendering.internal.util;
 
+import javax.inject.Singleton;
+
 import org.xwiki.component.annotation.Component;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.ImageBlock;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceType;
 import org.xwiki.rendering.util.IconProvider;
-
-import javax.inject.Singleton;
 
 /**
  * Default component to provide an icon from its name.
