@@ -294,6 +294,42 @@
                     getDefaultCategories() advice. The pointcut expression is an implementation detail of the aspect
                     and not part of the public API.</justification>
                 </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.class.removed</code>
+                  <old>interface org.xwiki.rendering.wikimodel.IWikiSerializer</old>
+                  <criticality>highlight</criticality>
+                  <justification>Unused WikiModel serializer API. XWiki serializes through the Renderer/Listener
+                    implementations in xwiki-rendering-syntaxes, never through WikiModel's serializers. This interface
+                    was imported with WikiModel in XRENDERING-173 and has never had an implementor nor a
+                    caller.</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.class.removed</code>
+                  <old>class org.xwiki.rendering.wikimodel.jspwiki.JspWikiSerializer</old>
+                  <criticality>highlight</criticality>
+                  <justification>Unused WikiModel serializer, never completed (its javadoc says "Not ready yet.") and
+                    never called. JSPWiki rendering is handled by xwiki-rendering-syntax-jspwiki.</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.class.removed</code>
+                  <old>class org.xwiki.rendering.wikimodel.xwiki.xwiki10.XWikiSerializer</old>
+                  <criticality>highlight</criticality>
+                  <justification>Unused WikiModel serializer for XWiki 1.0 syntax, imported with WikiModel in
+                    XRENDERING-173 and never called. XWiki syntax rendering is handled by the renderers in
+                    xwiki-rendering-syntaxes.</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.class.removed</code>
+                  <old>class org.xwiki.rendering.wikimodel.xwiki.xwiki20.XWikiSerializer2</old>
+                  <criticality>highlight</criticality>
+                  <justification>Unused WikiModel serializer for XWiki 2.0 syntax, imported with WikiModel in
+                    XRENDERING-173 and never called. XWiki syntax rendering is handled by the renderers in
+                    xwiki-rendering-syntaxes.</justification>
+                </item>
               </differences>
             </revapi.differences>
           </analysisConfiguration>
