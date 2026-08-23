@@ -47,7 +47,7 @@ public class ParametersPrinter
      * 
      * @deprecated since 7.4.5 and 8.2RC1, use {@link #ParametersPrinter(char, String...)} instead
      */
-    @Deprecated
+    @Deprecated(since = "8.2RC1")
     public ParametersPrinter()
     {
         this.escapedStrings = Pattern.quote(QUOTE);
@@ -99,7 +99,7 @@ public class ParametersPrinter
      * @return the printed parameters
      * @deprecated since 7.4.5 and 8.2RC1, use {@link #print(Map)} instead
      */
-    @Deprecated
+    @Deprecated(since = "8.2RC1")
     public String print(Map<String, String> parameters, char escapeChar)
     {
         setEscapeChar(escapeChar);
@@ -143,7 +143,7 @@ public class ParametersPrinter
      * @return the printed parameter
      * @deprecated since 7.4.5 and 8.2RC1, use {@link #print(String, String)} instead
      */
-    @Deprecated
+    @Deprecated(since = "8.2RC1")
     public String print(String parameterName, String parameterValue, char escapeChar)
     {
         setEscapeChar(escapeChar);
