@@ -45,7 +45,7 @@ public class ParametersPrinter
     /**
      * Default constructor.
      * 
-     * @deprecated since 7.4.5 and 8.2RC1, use {@link #ParametersPrinter(char, String...)} instead
+     * @deprecated use {@link #ParametersPrinter(char, String...)} instead
      */
     @Deprecated(since = "8.2RC1")
     public ParametersPrinter()
@@ -97,7 +97,7 @@ public class ParametersPrinter
      * @param parameters the parameters to print
      * @param escapeChar the character used in front of a special character when need to escape it
      * @return the printed parameters
-     * @deprecated since 7.4.5 and 8.2RC1, use {@link #print(Map)} instead
+     * @deprecated use {@link #print(Map)} instead
      */
     @Deprecated(since = "8.2RC1")
     public String print(Map<String, String> parameters, char escapeChar)
@@ -141,7 +141,7 @@ public class ParametersPrinter
      * @param parameterValue the value of the parameter to print
      * @param escapeChar the character used in front of a special character when need to escape it
      * @return the printed parameter
-     * @deprecated since 7.4.5 and 8.2RC1, use {@link #print(String, String)} instead
+     * @deprecated use {@link #print(String, String)} instead
      */
     @Deprecated(since = "8.2RC1")
     public String print(String parameterName, String parameterValue, char escapeChar)
