@@ -62,7 +62,7 @@ public class MacroMarkerBlock extends AbstractMacroBlock
      * @return the macro name.
      * @deprecated since 2.4M1 use {@link #getId()} instead
      */
-    @Deprecated
+    @Deprecated(since = "2.4M1")
     public String getName()
     {
         return getId();

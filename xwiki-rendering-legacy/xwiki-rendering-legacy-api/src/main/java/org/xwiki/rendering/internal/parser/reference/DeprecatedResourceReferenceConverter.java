@@ -41,7 +41,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 @Component
 @Named("org.xwiki.rendering.listener.reference.ResourceReference")
 @Singleton
-@Deprecated
+@Deprecated(since = "5.2M1")
 public class DeprecatedResourceReferenceConverter implements Converter
 {
     /**

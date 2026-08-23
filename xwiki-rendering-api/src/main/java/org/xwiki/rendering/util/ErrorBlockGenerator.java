@@ -70,7 +70,7 @@ public interface ErrorBlockGenerator
      * @return the generated blocks
      * @deprecated since 14.0RC1, use {@link #generateErrorBlocks(boolean, String, String, String, Object...)} instead
      */
-    @Deprecated
+    @Deprecated(since = "14.0RC1")
     List<Block> generateErrorBlocks(String message, String description, boolean isInline);
 
     /**
@@ -87,7 +87,7 @@ public interface ErrorBlockGenerator
      * @return the generated blocks
      * @deprecated since 14.0RC1, use {@link #generateErrorBlocks(boolean, String, String, String, Object...)} instead
      */
-    @Deprecated
+    @Deprecated(since = "14.0RC1")
     List<Block> generateErrorBlocks(String messagePrefix, Throwable throwable, boolean isInline);
 
     /**

@@ -40,7 +40,7 @@ import org.xwiki.rendering.syntax.Syntax;
 @Component
 @Named("org.xwiki.rendering.syntax.Syntax")
 @Singleton
-@Deprecated
+@Deprecated(since = "5.2M1")
 public class DeprecatedSyntaxConverter extends AbstractConverter
 {
     /**

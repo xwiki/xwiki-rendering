@@ -33,7 +33,7 @@ import org.xwiki.rendering.syntax.SyntaxFactory;
  */
 @Component
 @Singleton
-@Deprecated
+@Deprecated(since = "9.8RC1")
 public class DefaultSyntaxFactory implements SyntaxFactory
 {
     @Override

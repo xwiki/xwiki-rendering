@@ -28,7 +28,7 @@ import org.xwiki.rendering.parser.ParseException;
  * @deprecated since 9.8RC1, use {@link Syntax#valueOf(String)} instead
  */
 @Role
-@Deprecated
+@Deprecated(since = "9.8RC1")
 public interface SyntaxFactory
 {
     /**
