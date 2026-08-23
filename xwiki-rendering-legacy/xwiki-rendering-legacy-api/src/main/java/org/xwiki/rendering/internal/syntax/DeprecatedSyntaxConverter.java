@@ -35,7 +35,7 @@ import org.xwiki.rendering.syntax.Syntax;
  * 
  * @version $Id$
  * @since 4.2M3
- * @deprecated since 5.2M1 use {@link SyntaxConverter} instead
+ * @deprecated use {@link SyntaxConverter} instead
  */
 @Component
 @Named("org.xwiki.rendering.syntax.Syntax")

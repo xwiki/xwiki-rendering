@@ -68,7 +68,7 @@ public interface ErrorBlockGenerator
      * @param description the description that will be displayed to the user when he clicks on the message
      * @param isInline whether the generated blocks should be inline or not
      * @return the generated blocks
-     * @deprecated since 14.0RC1, use {@link #generateErrorBlocks(boolean, String, String, String, Object...)} instead
+     * @deprecated use {@link #generateErrorBlocks(boolean, String, String, String, Object...)} instead
      */
     @Deprecated(since = "14.0RC1")
     List<Block> generateErrorBlocks(String message, String description, boolean isInline);
@@ -85,7 +85,7 @@ public interface ErrorBlockGenerator
      * @param throwable the exception from which the description will be extracted from
      * @param isInline whether the generated blocks should be inline or not
      * @return the generated blocks
-     * @deprecated since 14.0RC1, use {@link #generateErrorBlocks(boolean, String, String, String, Object...)} instead
+     * @deprecated use {@link #generateErrorBlocks(boolean, String, String, String, Object...)} instead
      */
     @Deprecated(since = "14.0RC1")
     List<Block> generateErrorBlocks(String messagePrefix, Throwable throwable, boolean isInline);

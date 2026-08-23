@@ -36,7 +36,7 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
  * @version $Id$
  * @since 2.6M1
  * @see org.xwiki.properties.converter.Converter
- * @deprecated since 5.2M1 use {@link ResourceReferenceConverter} instead
+ * @deprecated use {@link ResourceReferenceConverter} instead
  */
 @Component
 @Named("org.xwiki.rendering.listener.reference.ResourceReference")
