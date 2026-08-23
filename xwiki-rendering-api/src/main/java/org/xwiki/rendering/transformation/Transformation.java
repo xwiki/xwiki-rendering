@@ -50,9 +50,9 @@ public interface Transformation extends Comparable<Transformation>
      * @param dom the AST representing the content in Blocks
      * @param syntax the Syntax of the content
      * @throws TransformationException if the transformation fails for any reason
-     * @deprecated since 2.4M1 use {@link #transform(Block, TransformationContext)} instead
+     * @deprecated use {@link #transform(Block, TransformationContext)} instead
      */
-    @Deprecated
+    @Deprecated(since = "2.4M1")
     void transform(XDOM dom, Syntax syntax) throws TransformationException;
 
     /**

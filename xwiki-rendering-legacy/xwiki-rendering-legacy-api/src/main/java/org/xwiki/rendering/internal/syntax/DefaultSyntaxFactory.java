@@ -29,11 +29,11 @@ import org.xwiki.rendering.syntax.SyntaxFactory;
 /**
  * @version $Id$
  * @since 1.5M2
- * @deprecated since 9.8RC1, use {@link Syntax#valueOf(String)} instead
+ * @deprecated use {@link Syntax#valueOf(String)} instead
  */
 @Component
 @Singleton
-@Deprecated
+@Deprecated(since = "9.8RC1")
 public class DefaultSyntaxFactory implements SyntaxFactory
 {
     @Override

@@ -254,9 +254,9 @@ public class SyntaxType implements Comparable<SyntaxType>
 
     /**
      * @return the well-known Syntax types
-     * @deprecated since 13.3RC1, use {@link SyntaxRegistry#getSyntaxes()}
+     * @deprecated use {@link SyntaxRegistry#getSyntaxes()}
      */
-    @Deprecated
+    @Deprecated(since = "13.3RC1")
     public static Map<String, SyntaxType> getSyntaxTypes()
     {
         return KNOWN_SYNTAX_TYPES;

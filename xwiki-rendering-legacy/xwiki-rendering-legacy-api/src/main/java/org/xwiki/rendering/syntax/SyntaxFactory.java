@@ -25,10 +25,10 @@ import org.xwiki.rendering.parser.ParseException;
 /**
  * @version $Id$
  * @since 2.0RC1
- * @deprecated since 9.8RC1, use {@link Syntax#valueOf(String)} instead
+ * @deprecated use {@link Syntax#valueOf(String)} instead
  */
 @Role
-@Deprecated
+@Deprecated(since = "9.8RC1")
 public interface SyntaxFactory
 {
     /**

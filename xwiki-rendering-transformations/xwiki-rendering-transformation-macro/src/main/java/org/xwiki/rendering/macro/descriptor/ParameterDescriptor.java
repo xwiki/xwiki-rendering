@@ -51,9 +51,9 @@ public interface ParameterDescriptor
 
     /**
      * @return the type of the parameter.
-     * @deprecated since 3.0M1 use {@link #getParameterType()} instead
+     * @deprecated use {@link #getParameterType()} instead
      */
-    @Deprecated
+    @Deprecated(since = "3.0M1")
     Class<?> getType();
 
     /**
