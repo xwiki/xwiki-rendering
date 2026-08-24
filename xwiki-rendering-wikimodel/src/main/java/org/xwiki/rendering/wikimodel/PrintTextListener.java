@@ -62,6 +62,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginDefinitionDescription()
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -69,6 +70,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginDefinitionList(WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -76,6 +78,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginDefinitionTerm()
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -83,6 +86,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginDocument(WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -90,6 +94,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginFormat(WikiFormat format)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -97,6 +102,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginHeader(int headerLevel, WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -114,6 +120,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginList(WikiParameters params, boolean ordered)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -121,12 +128,13 @@ public class PrintTextListener implements IWemListener
      */
     public void beginListItem()
     {
+        // Nothing to print for this event.
     }
 
     @Override
     public void beginListItem(WikiParameters params)
     {
-        
+        // Nothing to print for this event.
     }
 
     /**
@@ -134,6 +142,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginParagraph(WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -142,6 +151,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginPropertyBlock(String propertyUri, boolean doc)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -149,6 +159,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginPropertyInline(String str)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -156,6 +167,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginQuotation(WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -195,6 +207,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginTable(WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -203,6 +216,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginTableCell(boolean tableHead, WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -210,6 +224,7 @@ public class PrintTextListener implements IWemListener
      */
     public void beginTableRow(WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -242,6 +257,7 @@ public class PrintTextListener implements IWemListener
      */
     public void endDefinitionTerm()
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -257,6 +273,7 @@ public class PrintTextListener implements IWemListener
      */
     public void endFormat(WikiFormat format)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -321,6 +338,7 @@ public class PrintTextListener implements IWemListener
      */
     public void endPropertyInline(String inlineProperty)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -373,6 +391,7 @@ public class PrintTextListener implements IWemListener
      */
     public void endTableCell(boolean tableHead, WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -380,6 +399,7 @@ public class PrintTextListener implements IWemListener
      */
     public void endTableRow(WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     protected ReferenceHandler newReferenceHandler()
@@ -427,6 +447,7 @@ public class PrintTextListener implements IWemListener
 
     public void onExtensionInline(String extensionName, WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -435,6 +456,7 @@ public class PrintTextListener implements IWemListener
      */
     public void onHorizontalLine(WikiParameters params)
     {
+        // Nothing to print for this event.
     }
 
     public void onImage(String ref)
@@ -471,6 +493,7 @@ public class PrintTextListener implements IWemListener
         WikiParameters params,
         String content)
     {
+        // Nothing to print for this event.
     }
 
     public void onMacroInline(
@@ -478,6 +501,7 @@ public class PrintTextListener implements IWemListener
         WikiParameters params,
         String content)
     {
+        // Nothing to print for this event.
     }
 
     /**
@@ -523,6 +547,7 @@ public class PrintTextListener implements IWemListener
      */
     public void onTableCaption(String str)
     {
+        // Nothing to print for this event.
     }
 
     /**
