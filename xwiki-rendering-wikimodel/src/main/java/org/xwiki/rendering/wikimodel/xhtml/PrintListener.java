@@ -326,6 +326,7 @@ public class PrintListener extends PrintInlineListener
     @Override
     public void onTableCaption(String str)
     {
+        // Nothing to print for this event.
     }
 
     @Override

@@ -47,6 +47,7 @@ public class TagHandler
 
     protected void begin(TagContext context)
     {
+        // Nothing to do by default, meant to be overridden by subclasses.
     }
 
     public void beginElement(TagContext context)
@@ -69,6 +70,7 @@ public class TagHandler
 
     protected void end(TagContext context)
     {
+        // Nothing to do by default, meant to be overridden by subclasses.
     }
 
     public final void endElement(TagContext context)
