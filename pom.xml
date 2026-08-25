@@ -330,6 +330,58 @@
                     XRENDERING-173 and never called. XWiki syntax rendering is handled by the renderers in
                     xwiki-rendering-syntaxes.</justification>
                 </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.class.nonFinalClassInheritsFromNewClass</code>
+                  <new>class org.xwiki.rendering.wikimodel.PrintTextListener</new>
+                  <criticality>allowed</criticality>
+                  <justification>
+                    PrintTextListener extends EmptyWemListener instead of implementing IWemListener directly, so that
+                    the no-op listener callbacks it used to redeclare are inherited instead of being copied.
+                    EmptyWemListener supplies exactly the empty bodies that were declared before, and the only members
+                    it adds to these types are the no-arg beginDocument() and endDocument() no-ops. No existing method
+                    is removed or changed.
+                  </justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.class.nonFinalClassInheritsFromNewClass</code>
+                  <new>class org.xwiki.rendering.wikimodel.EventDumpListener</new>
+                  <criticality>allowed</criticality>
+                  <justification>
+                    This class is not modified itself; it is a subclass of PrintTextListener, which now extends
+                    EmptyWemListener instead of implementing IWemListener directly, so EmptyWemListener appears in this
+                    class's inherited hierarchy too. EmptyWemListener supplies exactly the empty listener callbacks that
+                    PrintTextListener declared before, and the only members it adds to these types are the no-arg
+                    beginDocument() and endDocument() no-ops. No existing method is removed or changed.
+                  </justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.class.nonFinalClassInheritsFromNewClass</code>
+                  <new>class org.xwiki.rendering.wikimodel.xhtml.PrintInlineListener</new>
+                  <criticality>allowed</criticality>
+                  <justification>
+                    This class is not modified itself; it is a subclass of PrintTextListener, which now extends
+                    EmptyWemListener instead of implementing IWemListener directly, so EmptyWemListener appears in this
+                    class's inherited hierarchy too. EmptyWemListener supplies exactly the empty listener callbacks that
+                    PrintTextListener declared before, and the only members it adds to these types are the no-arg
+                    beginDocument() and endDocument() no-ops. No existing method is removed or changed.
+                  </justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.class.nonFinalClassInheritsFromNewClass</code>
+                  <new>class org.xwiki.rendering.wikimodel.xhtml.PrintListener</new>
+                  <criticality>allowed</criticality>
+                  <justification>
+                    This class is not modified itself; it is a subclass of PrintTextListener, which now extends
+                    EmptyWemListener instead of implementing IWemListener directly, so EmptyWemListener appears in this
+                    class's inherited hierarchy too. EmptyWemListener supplies exactly the empty listener callbacks that
+                    PrintTextListener declared before, and the only members it adds to these types are the no-arg
+                    beginDocument() and endDocument() no-ops. No existing method is removed or changed.
+                  </justification>
+                </item>
               </differences>
             </revapi.differences>
           </analysisConfiguration>

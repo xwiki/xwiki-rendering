@@ -23,7 +23,7 @@ package org.xwiki.rendering.wikimodel;
  * @version $Id$
  * @since 4.0M1
  */
-public class PrintTextListener implements IWemListener
+public class PrintTextListener extends EmptyWemListener
 {
     private final IWikiPrinter fPrinter;
 
@@ -58,176 +58,6 @@ public class PrintTextListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#beginDefinitionDescription()
-     */
-    public void beginDefinitionDescription()
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginDefinitionList(WikiParameters)
-     */
-    public void beginDefinitionList(WikiParameters params)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginDefinitionTerm()
-     */
-    public void beginDefinitionTerm()
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListenerDocument#beginDocument(WikiParameters)
-     */
-    public void beginDocument(WikiParameters params)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginFormat(WikiFormat)
-     */
-    public void beginFormat(WikiFormat format)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginHeader(int, WikiParameters)
-     */
-    public void beginHeader(int headerLevel, WikiParameters params)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginInfoBlock(String,
-     *      WikiParameters)
-     */
-    public void beginInfoBlock(String infoType, WikiParameters params)
-    {
-        //
-    }
-
-    /**
-     * @see IWemListener#beginList(WikiParameters,
-     *      boolean)
-     */
-    public void beginList(WikiParameters params, boolean ordered)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginListItem()
-     */
-    public void beginListItem()
-    {
-        // Nothing to print for this event.
-    }
-
-    @Override
-    public void beginListItem(WikiParameters params)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginParagraph(WikiParameters)
-     */
-    public void beginParagraph(WikiParameters params)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginPropertyBlock(java.lang.String,
-     *      boolean)
-     */
-    public void beginPropertyBlock(String propertyUri, boolean doc)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginPropertyInline(java.lang.String)
-     */
-    public void beginPropertyInline(String str)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginQuotation(WikiParameters)
-     */
-    public void beginQuotation(WikiParameters params)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginQuotationLine()
-     */
-    public void beginQuotationLine()
-    {
-        //
-    }
-
-    /**
-     * @see IWemListenerDocument#beginSection(int, int,
-     *      WikiParameters)
-     */
-    public void beginSection(
-        int docLevel,
-        int headerLevel,
-        WikiParameters params)
-    {
-        // 
-    }
-
-    /**
-     * @see IWemListenerDocument#beginSectionContent(int, int,
-     *      WikiParameters)
-     */
-    public void beginSectionContent(
-        int docLevel,
-        int headerLevel,
-        WikiParameters params)
-    {
-        // 
-    }
-
-    /**
-     * @see IWemListener#beginTable(WikiParameters)
-     */
-    public void beginTable(WikiParameters params)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginTableCell(boolean,
-     *      WikiParameters)
-     */
-    public void beginTableCell(boolean tableHead, WikiParameters params)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#beginTableRow(WikiParameters)
-     */
-    public void beginTableRow(WikiParameters params)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
      * This method is called at the end of each block element. It can be
      * overloaded in subclasses.
      */
@@ -253,11 +83,13 @@ public class PrintTextListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#endDefinitionTerm()
+     * @see IWemListenerDocument#beginDocument(WikiParameters)
      */
-    public void endDefinitionTerm()
+    @Override
+    public void beginDocument(WikiParameters params)
     {
-        // Nothing to print for this event.
+        // Overridden to stay a no-op. EmptyWemListener#beginDocument(WikiParameters) forwards to the no-arg
+        // beginDocument(), which would invoke a subclass override of it; nothing is printed for this event.
     }
 
     /**
@@ -266,14 +98,6 @@ public class PrintTextListener implements IWemListener
     public void endDocument(WikiParameters params)
     {
         endBlock();
-    }
-
-    /**
-     * @see IWemListener#endFormat(WikiFormat)
-     */
-    public void endFormat(WikiFormat format)
-    {
-        // Nothing to print for this event.
     }
 
     /**
@@ -334,14 +158,6 @@ public class PrintTextListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#endPropertyInline(java.lang.String)
-     */
-    public void endPropertyInline(String inlineProperty)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
      * @see IWemListener#endQuotation(WikiParameters)
      */
     public void endQuotation(WikiParameters params)
@@ -350,56 +166,11 @@ public class PrintTextListener implements IWemListener
     }
 
     /**
-     * @see IWemListener#endQuotationLine()
-     */
-    public void endQuotationLine()
-    {
-        //
-    }
-
-    /**
-     * @see IWemListenerDocument#endSection(int, int,
-     *      WikiParameters)
-     */
-    public void endSection(int docLevel, int headerLevel, WikiParameters params)
-    {
-        // 
-    }
-
-    /**
-     * @see IWemListenerDocument#endSectionContent(int, int,
-     *      WikiParameters)
-     */
-    public void endSectionContent(
-        int docLevel,
-        int headerLevel,
-        WikiParameters params)
-    {
-        //
-    }
-
-    /**
      * @see IWemListener#endTable(WikiParameters)
      */
     public void endTable(WikiParameters params)
     {
         endBlock();
-    }
-
-    /**
-     * @see IWemListener#endTableCell(boolean, WikiParameters)
-     */
-    public void endTableCell(boolean tableHead, WikiParameters params)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#endTableRow(WikiParameters)
-     */
-    public void endTableRow(WikiParameters params)
-    {
-        // Nothing to print for this event.
     }
 
     protected ReferenceHandler newReferenceHandler()
@@ -427,36 +198,12 @@ public class PrintTextListener implements IWemListener
         };
     }
 
-    public void onEmptyLines(int count)
-    {
-        //
-    }
-
     /**
      * @see IWemListener#onEscape(java.lang.String)
      */
     public void onEscape(String str)
     {
         print(str);
-    }
-
-    public void onExtensionBlock(String extensionName, WikiParameters params)
-    {
-        //
-    }
-
-    public void onExtensionInline(String extensionName, WikiParameters params)
-    {
-        // Nothing to print for this event.
-    }
-
-    /**
-     * @see IWemListener#onHorizontalLine(WikiParameters
-     *      params)
-     */
-    public void onHorizontalLine(WikiParameters params)
-    {
-        // Nothing to print for this event.
     }
 
     public void onImage(String ref)
@@ -486,22 +233,6 @@ public class PrintTextListener implements IWemListener
     public void onLineBreak()
     {
         println("");
-    }
-
-    public void onMacroBlock(
-        String macroName,
-        WikiParameters params,
-        String content)
-    {
-        // Nothing to print for this event.
-    }
-
-    public void onMacroInline(
-        String macroName,
-        WikiParameters params,
-        String content)
-    {
-        // Nothing to print for this event.
     }
 
     /**
@@ -540,14 +271,6 @@ public class PrintTextListener implements IWemListener
     public void onSpecialSymbol(String str)
     {
         print(str);
-    }
-
-    /**
-     * @see IWemListener#onTableCaption(java.lang.String)
-     */
-    public void onTableCaption(String str)
-    {
-        // Nothing to print for this event.
     }
 
     /**
