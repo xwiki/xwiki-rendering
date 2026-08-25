@@ -77,12 +77,6 @@ class ReferenceHandlerTest
             super(supportImage, supportDownload);
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see ReferenceHandler#handleImage(java.lang.String,
-         * java.lang.String, WikiParameters)
-         */
         @Override
         protected void handleImage(String ref, String label,
             WikiParameters params)
@@ -91,13 +85,6 @@ class ReferenceHandlerTest
             imgLabel = label;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * ReferenceHandler#handleReference(java.lang.String,
-         * java.lang.String, WikiParameters)
-         */
         @Override
         protected void handleReference(String ref, String label,
             WikiParameters params)
