@@ -24,6 +24,7 @@ import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -54,6 +55,8 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer implements StackableChainingListener
 {
     private static final String EMPTY_PARAMETERS = "(%%)";
+
+    private static final Pattern PARAMETER_VALUE_ESCAPES = Pattern.compile("[~\"]");
 
     /**
      * Elements for which the parser ignores a newline after them.
@@ -930,7 +933,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
             if (key != null && value != null) {
                 // Escape quotes in value to not break parameter value syntax
-                value = value.replaceAll("[~\"]", "~$0");
+                value = PARAMETER_VALUE_ESCAPES.matcher(value).replaceAll("~$0");
                 // Escape ending custom parameters syntax
                 value = value.replace("%)", "~%)");
                 parametersStr.append(' ').append(key).append('=').append('\"').append(value).append('\"');
