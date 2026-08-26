@@ -73,7 +73,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<MessageMacro
      * @param macroName the macro name (eg "Error", "Info", etc)
      * @param macroDescription the macro description
      */
-    public AbstractMessageMacro(String macroName, String macroDescription)
+    protected AbstractMessageMacro(String macroName, String macroDescription)
     {
         super(macroName, macroDescription,
             new DefaultContentDescriptor("Content of the message", true, Block.LIST_BLOCK_TYPE),

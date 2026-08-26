@@ -51,7 +51,7 @@ public abstract class AbstractStackingInlineContentChainingListener extends Look
     /**
      * @param listenerChain the listener chain to save
      */
-    public AbstractStackingInlineContentChainingListener(ListenerChain listenerChain)
+    protected AbstractStackingInlineContentChainingListener(ListenerChain listenerChain)
     {
         super(listenerChain, Integer.MAX_VALUE);
         setListenerChain(listenerChain);

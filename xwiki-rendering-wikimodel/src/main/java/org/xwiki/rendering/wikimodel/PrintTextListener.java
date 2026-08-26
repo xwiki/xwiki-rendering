@@ -69,6 +69,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#endDefinitionDescription()
      */
+    @Override
     public void endDefinitionDescription()
     {
         endBlock();
@@ -77,6 +78,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#endDefinitionList(WikiParameters)
      */
+    @Override
     public void endDefinitionList(WikiParameters params)
     {
         endBlock();
@@ -95,6 +97,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListenerDocument#endDocument(WikiParameters)
      */
+    @Override
     public void endDocument(WikiParameters params)
     {
         endBlock();
@@ -103,6 +106,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#endHeader(int, WikiParameters)
      */
+    @Override
     public void endHeader(int headerLevel, WikiParameters params)
     {
         endBlock();
@@ -112,6 +116,7 @@ public class PrintTextListener extends EmptyWemListener
      * @see IWemListener#endInfoBlock(String,
      *      WikiParameters)
      */
+    @Override
     public void endInfoBlock(String infoType, WikiParameters params)
     {
         endBlock();
@@ -121,6 +126,7 @@ public class PrintTextListener extends EmptyWemListener
      * @see IWemListener#endList(WikiParameters,
      *      boolean)
      */
+    @Override
     public void endList(WikiParameters params, boolean ordered)
     {
         endBlock();
@@ -129,6 +135,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#endListItem()
      */
+    @Override
     public void endListItem()
     {
         endBlock();
@@ -143,6 +150,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#endParagraph(WikiParameters)
      */
+    @Override
     public void endParagraph(WikiParameters params)
     {
         endBlock();
@@ -152,6 +160,7 @@ public class PrintTextListener extends EmptyWemListener
      * @see IWemListener#endPropertyBlock(java.lang.String,
      *      boolean)
      */
+    @Override
     public void endPropertyBlock(String propertyUri, boolean doc)
     {
         endBlock();
@@ -160,6 +169,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#endQuotation(WikiParameters)
      */
+    @Override
     public void endQuotation(WikiParameters params)
     {
         endBlock();
@@ -168,6 +178,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#endTable(WikiParameters)
      */
+    @Override
     public void endTable(WikiParameters params)
     {
         endBlock();
@@ -201,11 +212,13 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#onEscape(java.lang.String)
      */
+    @Override
     public void onEscape(String str)
     {
         print(str);
     }
 
+    @Override
     public void onImage(String ref)
     {
         print("<img");
@@ -213,6 +226,7 @@ public class PrintTextListener extends EmptyWemListener
         print(" class='wikimodel-freestanding'/>");
     }
 
+    @Override
     public void onImage(WikiReference ref)
     {
         print("<img");
@@ -230,6 +244,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#onLineBreak()
      */
+    @Override
     public void onLineBreak()
     {
         println("");
@@ -238,6 +253,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#onNewLine()
      */
+    @Override
     public void onNewLine()
     {
         println("");
@@ -246,12 +262,14 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#onReference(java.lang.String)
      */
+    @Override
     public void onReference(String ref)
     {
         WikiReference reference = new WikiReference(ref);
         onReference(reference);
     }
 
+    @Override
     public void onReference(WikiReference ref)
     {
         fRefHandler.handle(ref);
@@ -260,6 +278,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#onSpace(java.lang.String)
      */
+    @Override
     public void onSpace(String str)
     {
         print(str);
@@ -268,6 +287,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#onSpecialSymbol(java.lang.String)
      */
+    @Override
     public void onSpecialSymbol(String str)
     {
         print(str);
@@ -277,6 +297,7 @@ public class PrintTextListener extends EmptyWemListener
      * @see IWemListener#onVerbatimBlock(String,
      *      WikiParameters)
      */
+    @Override
     public void onVerbatimBlock(String str, WikiParameters params)
     {
         print(str);
@@ -286,6 +307,7 @@ public class PrintTextListener extends EmptyWemListener
      * @see IWemListener#onVerbatimInline(java.lang.String,
      *      WikiParameters)
      */
+    @Override
     public void onVerbatimInline(String str, WikiParameters params)
     {
         print(str);
@@ -294,6 +316,7 @@ public class PrintTextListener extends EmptyWemListener
     /**
      * @see IWemListener#onWord(java.lang.String)
      */
+    @Override
     public void onWord(String str)
     {
         print(str);
