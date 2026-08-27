@@ -73,29 +73,20 @@ public class MacroContentSourceReferenceConverter extends AbstractConverter<Macr
 
     private MacroContentSourceReference convertToType(Object value) throws IOException
     {
-        MacroContentSourceReference reference;
-
-        if (value instanceof String stringValue) {
-            reference = fromString(stringValue);
-        } else if (value instanceof InputStream inputStream) {
-            reference = new MacroContentSourceReference(MacroContentSourceReference.TYPE_STRING,
+        return switch (value) {
+            case String stringValue -> fromString(stringValue);
+            case InputStream inputStream -> new MacroContentSourceReference(MacroContentSourceReference.TYPE_STRING,
                 IOUtils.toString(inputStream, StandardCharsets.UTF_8));
-        } else if (value instanceof byte[] bytes) {
-            reference = new MacroContentSourceReference(MacroContentSourceReference.TYPE_STRING,
+            case byte[] bytes -> new MacroContentSourceReference(MacroContentSourceReference.TYPE_STRING,
                 new String(bytes, StandardCharsets.UTF_8));
-        } else if (value instanceof Reader reader) {
-            reference = new MacroContentSourceReference(MacroContentSourceReference.TYPE_STRING,
+            case Reader reader -> new MacroContentSourceReference(MacroContentSourceReference.TYPE_STRING,
                 IOUtils.toString(reader));
-        } else if (value instanceof URL url) {
-            reference = new MacroContentSourceReference(MacroContentSourceReference.TYPE_URL, url.toExternalForm());
-        } else if (value instanceof File file) {
-            reference = new MacroContentSourceReference(MacroContentSourceReference.TYPE_FILE,
-                file.getAbsolutePath());
-        } else {
-            reference = fromUnknownType(value);
-        }
-
-        return reference;
+            case URL url ->
+                new MacroContentSourceReference(MacroContentSourceReference.TYPE_URL, url.toExternalForm());
+            case File file ->
+                new MacroContentSourceReference(MacroContentSourceReference.TYPE_FILE, file.getAbsolutePath());
+            case null, default -> fromUnknownType(value);
+        };
     }
 
     private MacroContentSourceReference fromUnknownType(Object value)
