@@ -17,27 +17,20 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
- {
-  // We want all suggestions right away
-  "prHourlyLimit" : 0,
-  "prConcurrentLimit" : 0,
-
-  // Create different pull request for each major upgrade
-  "separateMajorMinor": true,
-  "separateMultipleMajor": true,
-
-  // Set a "dependencies" label on all pull requests created by Renovate
-  "labels": ["dependencies"],
+{
+  // The settings the XWiki repositories share. See https://github.com/xwiki/.github
+  "extends": ["github>xwiki/.github//renovate/default.json5"],
 
   // Assign all upgrade pull requests by default to the one in charge of dispatching them
   assignees: [
     "tmortagne"
   ],
 
-  // There is no point trying to find update for commons and rendering dependencies
+  // Added to the rules of the preset, which already disables the commons dependencies.
   "packageRules": [
+    // There is no point trying to find update for rendering dependencies
     {
-      "matchPackagePrefixes": ["org.xwiki.commons:", "org.xwiki.rendering:"],
+      "matchPackagePrefixes": ["org.xwiki.rendering:"],
       "enabled": false
     }
   ]
