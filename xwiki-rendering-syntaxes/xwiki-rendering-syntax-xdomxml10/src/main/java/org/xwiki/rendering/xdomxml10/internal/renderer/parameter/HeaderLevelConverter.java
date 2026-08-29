@@ -66,7 +66,7 @@ public class HeaderLevelConverter
      */
     public String toString(HeaderLevel headerLevel)
     {
-        return HEADERLEVELTOSTRING.containsKey(headerLevel) ? HEADERLEVELTOSTRING.get(headerLevel)
-            : HEADERLEVELTOSTRING.get(HeaderLevel.LEVEL1);
+        return HEADERLEVELTOSTRING
+            .get(HEADERLEVELTOSTRING.containsKey(headerLevel) ? headerLevel : HeaderLevel.LEVEL1);
     }
 }

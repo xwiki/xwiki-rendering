@@ -230,7 +230,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
     @Override
     public int compareTo(Macro<?> macro)
     {
-        return getPriority() - macro.getPriority();
+        return Integer.compare(getPriority(), macro.getPriority());
     }
 
     /**
