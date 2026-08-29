@@ -86,6 +86,6 @@ public class FormatConverter
      */
     public String toString(Format format)
     {
-        return FORMATTOSTRING.containsKey(format) ? FORMATTOSTRING.get(format) : FORMATTOSTRING.get(Format.NONE);
+        return FORMATTOSTRING.get(FORMATTOSTRING.containsKey(format) ? format : Format.NONE);
     }
 }

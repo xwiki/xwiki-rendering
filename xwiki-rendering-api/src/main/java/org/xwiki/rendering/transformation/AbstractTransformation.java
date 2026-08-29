@@ -45,7 +45,7 @@ public abstract class AbstractTransformation implements Transformation
     @Override
     public int compareTo(Transformation transformation)
     {
-        return getPriority() - transformation.getPriority();
+        return Integer.compare(getPriority(), transformation.getPriority());
     }
 
     @Override
