@@ -19,7 +19,6 @@
  */
 package org.xwiki.rendering.internal.parser.xwiki20;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Named;
@@ -80,12 +79,12 @@ public class XWiki20LinkReferenceParser extends GenericLinkReferenceParser
     /**
      * The list of recognized URL prefixes when in wiki mode.
      */
-    public static final List<String> URI_PREFIXES = Arrays.asList(MAILTO_SCHEME, ATTACH_SCHEME);
+    public static final List<String> URI_PREFIXES = List.of(MAILTO_SCHEME, ATTACH_SCHEME);
 
     /**
      * The list of recognized URL prefixes when in non wiki mode.
      */
-    public static final List<String> URI_PREFIXES_NON_WIKI_MODE = Arrays.asList(MAILTO_SCHEME);
+    public static final List<String> URI_PREFIXES_NON_WIKI_MODE = List.of(MAILTO_SCHEME);
 
     @Override
     protected List<String> getAllowedURIPrefixes()
