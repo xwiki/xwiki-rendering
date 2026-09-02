@@ -293,6 +293,9 @@ public class WikiPageUtil
         if (ch == ':') {
             return colonEnabled;
         }
+        // Note: the NameStartChar production also allows the supplementary range #x10000-#xEFFFF,
+        // which cannot be tested here since a char only goes up to 0xFFFF. Supporting it would mean
+        // taking an int code point instead, i.e. changing this method's signature.
         return (ch >= 'A' && ch <= 'Z')
             || ch == '_'
             || (ch >= 'a' && ch <= 'z')
