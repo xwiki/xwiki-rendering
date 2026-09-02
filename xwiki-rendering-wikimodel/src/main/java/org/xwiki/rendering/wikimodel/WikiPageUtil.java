@@ -21,6 +21,8 @@ package org.xwiki.rendering.wikimodel;
 
 import java.util.Arrays;
 
+import org.xwiki.stability.Unstable;
+
 /**
  * This class contains some utility methods used for escaping xml strings as
  * well as for encoding/decoding http parameters.
@@ -30,6 +32,37 @@ import java.util.Arrays;
  */
 public class WikiPageUtil
 {
+    /**
+     * The code point ranges of the XML NameStartChar production, as inclusive bounds. ':' is left out since it is
+     * only accepted when the caller enables it.
+     */
+    private static final int[][] NAME_START_CHAR_RANGES = {
+        {'A', 'Z'},
+        {'_', '_'},
+        {'a', 'z'},
+        {0xC0, 0xD6},
+        {0xD8, 0xF6},
+        {0xF8, 0x2FF},
+        {0x370, 0x37D},
+        {0x37F, 0x1FFF},
+        {0x200C, 0x200D},
+        {0x2070, 0x218F},
+        {0x2C00, 0x2FEF},
+        {0x3001, 0xD7FF},
+        {0xF900, 0xFDCF},
+        {0xFDF0, 0xFFFD},
+        {0x10000, 0xEFFFF}};
+
+    /**
+     * The code point ranges the XML NameChar production adds to NameStartChar, as inclusive bounds.
+     */
+    private static final int[][] NAME_CHAR_RANGES = {
+        {'-', '.'},
+        {'0', '9'},
+        {0xB7, 0xB7},
+        {0x0300, 0x036F},
+        {0x203F, 0x2040}};
+
     /**
      * Reserved symbols - see RFC 2396 (http://www.ietf.org/rfc/rfc2396.txt)
      */
@@ -237,16 +270,20 @@ public class WikiPageUtil
     {
         boolean valid = false;
         int len = tagName != null ? tagName.length() : 0;
-        for (int i = 0; i < len; i++) {
-            char ch = tagName.charAt(i);
+        // A supplementary character is made of two chars, so walk the name by code point rather than by char,
+        // otherwise each half of a surrogate pair would be checked on its own and rejected.
+        int i = 0;
+        while (i < len) {
+            int codePoint = tagName.codePointAt(i);
             if (i == 0) {
-                valid = isValidXmlNameStartChar(ch, colonEnabled);
+                valid = isValidXmlNameStartChar(codePoint, colonEnabled);
             } else {
-                valid = isValidXmlNameChar(ch, colonEnabled);
+                valid = isValidXmlNameChar(codePoint, colonEnabled);
             }
             if (!valid) {
                 break;
             }
+            i += Character.charCount(codePoint);
         }
         return valid;
     }
@@ -257,22 +294,18 @@ public class WikiPageUtil
      * <p>
      * See http://www.w3.org/TR/xml/#NT-NameChar.
      * </p>
-     * 
-     * @param ch the character to check
+     *
+     * @param codePoint the code point to check
      * @param colonEnabled if this flag is <code>true</code> then this method
      * accepts the ':' symbol.
      * @return <code>true</code> if the given value is a valid XML name
      *         character
+     * @since 18.8.0RC1
      */
-    public static boolean isValidXmlNameChar(char ch, boolean colonEnabled)
+    @Unstable
+    public static boolean isValidXmlNameChar(int codePoint, boolean colonEnabled)
     {
-        return isValidXmlNameStartChar(ch, colonEnabled)
-            || (ch == '-')
-            || (ch == '.')
-            || (ch >= '0' && ch <= '9')
-            || (ch == 0xB7)
-            || (ch >= 0x0300 && ch <= 0x036F)
-            || (ch >= 0x203F && ch <= 0x2040);
+        return isValidXmlNameStartChar(codePoint, colonEnabled) || isInRanges(codePoint, NAME_CHAR_RANGES);
     }
 
     /**
@@ -281,32 +314,30 @@ public class WikiPageUtil
      * <p>
      * See http://www.w3.org/TR/xml/#NT-NameStartChar.
      * </p>
-     * 
-     * @param ch the character to check
+     *
+     * @param codePoint the code point to check
      * @param colonEnabled if this flag is <code>true</code> then this method
      * accepts the ':' symbol.
      * @return <code>true</code> if the given value is a valid first character
      *         for an XML name
+     * @since 18.8.0RC1
      */
-    public static boolean isValidXmlNameStartChar(char ch, boolean colonEnabled)
+    @Unstable
+    public static boolean isValidXmlNameStartChar(int codePoint, boolean colonEnabled)
     {
-        if (ch == ':') {
+        if (codePoint == ':') {
             return colonEnabled;
         }
-        return (ch >= 'A' && ch <= 'Z')
-            || ch == '_'
-            || (ch >= 'a' && ch <= 'z')
-            || (ch >= 0xC0 && ch <= 0xD6)
-            || (ch >= 0xD8 && ch <= 0xF6)
-            || (ch >= 0xF8 && ch <= 0x2FF)
-            || (ch >= 0x370 && ch <= 0x37D)
-            || (ch >= 0x37F && ch <= 0x1FFF)
-            || (ch >= 0x200C && ch <= 0x200D)
-            || (ch >= 0x2070 && ch <= 0x218F)
-            || (ch >= 0x2C00 && ch <= 0x2FEF)
-            || (ch >= 0x3001 && ch <= 0xD7FF)
-            || (ch >= 0xF900 && ch <= 0xFDCF)
-            || (ch >= 0xFDF0 && ch <= 0xFFFD)
-            || (ch >= 0x10000 && ch <= 0xEFFFF);
+        return isInRanges(codePoint, NAME_START_CHAR_RANGES);
+    }
+
+    private static boolean isInRanges(int codePoint, int[][] ranges)
+    {
+        for (int[] range : ranges) {
+            if (codePoint >= range[0] && codePoint <= range[1]) {
+                return true;
+            }
+        }
+        return false;
     }
 }

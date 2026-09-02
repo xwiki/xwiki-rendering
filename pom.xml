@@ -318,6 +318,30 @@
                 </item>
                 <item>
                   <ignore>true</ignore>
+                  <code>java.method.parameterTypeChanged</code>
+                  <old>parameter boolean org.xwiki.rendering.wikimodel.WikiPageUtil::isValidXmlNameChar(===char===, boolean)</old>
+                  <new>parameter boolean org.xwiki.rendering.wikimodel.WikiPageUtil::isValidXmlNameChar(===int===, boolean)</new>
+                  <parameterIndex>0</parameterIndex>
+                  <criticality>allowed</criticality>
+                  <justification>Replaced by isValidXmlNameChar(int, boolean), which takes a code point and can
+                    therefore express the whole XML NameChar production, including the supplementary range
+                    #x10000-#xEFFFF that a char cannot hold. The char signature is re-added by the
+                    xwiki-rendering-legacy-wikimodel module.</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.method.parameterTypeChanged</code>
+                  <old>parameter boolean org.xwiki.rendering.wikimodel.WikiPageUtil::isValidXmlNameStartChar(===char===, boolean)</old>
+                  <new>parameter boolean org.xwiki.rendering.wikimodel.WikiPageUtil::isValidXmlNameStartChar(===int===, boolean)</new>
+                  <parameterIndex>0</parameterIndex>
+                  <criticality>allowed</criticality>
+                  <justification>Replaced by isValidXmlNameStartChar(int, boolean), which takes a code point and can
+                    therefore express the whole XML NameStartChar production, including the supplementary range
+                    #x10000-#xEFFFF that a char cannot hold. The char signature is re-added by the
+                    xwiki-rendering-legacy-wikimodel module.</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
                   <code>java.class.nonFinalClassInheritsFromNewClass</code>
                   <new>class org.xwiki.rendering.wikimodel.PrintTextListener</new>
                   <criticality>allowed</criticality>

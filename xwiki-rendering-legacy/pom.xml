@@ -38,6 +38,7 @@
   <modules>
     <module>xwiki-rendering-legacy-api</module>
     <module>xwiki-rendering-legacy-transformations</module>
+    <module>xwiki-rendering-legacy-wikimodel</module>
   </modules>
   <dependencies>
     <!-- Needed for backward compatibility Aspects -->
