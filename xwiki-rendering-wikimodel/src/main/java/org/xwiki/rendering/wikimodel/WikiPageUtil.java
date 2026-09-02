@@ -306,7 +306,6 @@ public class WikiPageUtil
             || (ch >= 0x2C00 && ch <= 0x2FEF)
             || (ch >= 0x3001 && ch <= 0xD7FF)
             || (ch >= 0xF900 && ch <= 0xFDCF)
-            || (ch >= 0xFDF0 && ch <= 0xFFFD)
-            || (ch >= 0x10000 && ch <= 0xEFFFF);
+            || (ch >= 0xFDF0 && ch <= 0xFFFD);
     }
 }
