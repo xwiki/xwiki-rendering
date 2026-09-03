@@ -88,7 +88,7 @@ public abstract class AbstractMacroDescriptor implements MacroDescriptor
      *            this macro.
      * @since 2.3M1
      */
-    public AbstractMacroDescriptor(MacroId id, String name, String description, ContentDescriptor contentDescriptor,
+    protected AbstractMacroDescriptor(MacroId id, String name, String description, ContentDescriptor contentDescriptor,
         BeanDescriptor parametersBeanDescriptor)
     {
         this.id = id;

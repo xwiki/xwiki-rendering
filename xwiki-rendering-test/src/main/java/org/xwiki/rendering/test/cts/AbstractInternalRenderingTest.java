@@ -99,7 +99,8 @@ public abstract class AbstractInternalRenderingTest
      * @param metadataSyntaxId the Syntax id of the syntax used as Metadata in the generated XDOM for parsers
      * @param componentManager see {@link #getComponentManager()}
      */
-    public AbstractInternalRenderingTest(TestData testData, String metadataSyntaxId, ComponentManager componentManager)
+    protected AbstractInternalRenderingTest(TestData testData, String metadataSyntaxId,
+        ComponentManager componentManager)
     {
         this.testData = testData;
         this.componentManager = componentManager;

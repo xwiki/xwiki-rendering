@@ -78,7 +78,7 @@ public abstract class AbstractChainingListener implements ChainingListener
      * <p>
      * Initialize {@link #listItemRetroCompatibility} field.
      */
-    public AbstractChainingListener()
+    protected AbstractChainingListener()
     {
         this.listItemRetroCompatibility = needsRetroCompatibility(method -> method.getName().endsWith("ListItem"), 0);
         this.imageRetroCompatibility = needsRetroCompatibility(method -> "onImage".equals(method.getName()), 3);

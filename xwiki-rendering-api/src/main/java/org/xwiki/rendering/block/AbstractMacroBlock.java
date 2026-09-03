@@ -55,7 +55,7 @@ public abstract class AbstractMacroBlock extends AbstractBlock
      * @param content the content of the macro
      * @param inline indicate if the macro is located in a inline content
      */
-    public AbstractMacroBlock(List<? extends Block> childrenBlocks, Map<String, String> parameters, String id,
+    protected AbstractMacroBlock(List<? extends Block> childrenBlocks, Map<String, String> parameters, String id,
         String content, boolean inline)
     {
         super(childrenBlocks, parameters);
