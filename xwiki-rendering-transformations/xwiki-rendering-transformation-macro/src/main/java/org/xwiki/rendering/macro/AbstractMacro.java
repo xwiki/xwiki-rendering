@@ -134,7 +134,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * @param name the name of the macro (eg "Table Of Contents" for the TOC macro)
      * @since 2.0M3
      */
-    public AbstractMacro(String name)
+    protected AbstractMacro(String name)
     {
         this(name, null);
     }
@@ -146,7 +146,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * @param description a string describing this macro.
      * @since 2.0M3
      */
-    public AbstractMacro(String name, String description)
+    protected AbstractMacro(String name, String description)
     {
         this(name, description, null, Object.class);
     }
@@ -159,7 +159,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * @param contentDescriptor {@link ContentDescriptor} for this macro.
      * @since 2.0M3
      */
-    public AbstractMacro(String name, String description, ContentDescriptor contentDescriptor)
+    protected AbstractMacro(String name, String description, ContentDescriptor contentDescriptor)
     {
         this(name, description, contentDescriptor, Object.class);
     }
@@ -172,7 +172,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * @param parametersBeanClass class of the parameters bean of this macro.
      * @since 2.0M3
      */
-    public AbstractMacro(String name, String description, Class<?> parametersBeanClass)
+    protected AbstractMacro(String name, String description, Class<?> parametersBeanClass)
     {
         this(name, description, null, parametersBeanClass);
     }
@@ -186,7 +186,7 @@ public abstract class AbstractMacro<P> implements Macro<P>, Initializable
      * @param parametersBeanClass class of the parameters bean.
      * @since 2.0M3
      */
-    public AbstractMacro(String name, String description, ContentDescriptor contentDescriptor,
+    protected AbstractMacro(String name, String description, ContentDescriptor contentDescriptor,
         Class<?> parametersBeanClass)
     {
         this.name = name;

@@ -52,7 +52,7 @@ public abstract class AbstractFormatTagHandler extends TagHandler
      */
     private final CSSOMParser cssParser = new CSSOMParser(new SACParserCSS3());
 
-    public AbstractFormatTagHandler()
+    protected AbstractFormatTagHandler()
     {
         this(null);
     }

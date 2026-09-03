@@ -82,7 +82,7 @@ public abstract class AbstractBlock implements Block
     /**
      * Empty constructor to construct an empty block.
      */
-    public AbstractBlock()
+    protected AbstractBlock()
     {
         // Nothing to do
     }
@@ -92,7 +92,7 @@ public abstract class AbstractBlock implements Block
      *
      * @param parameters the parameters to set
      */
-    public AbstractBlock(Map<String, String> parameters)
+    protected AbstractBlock(Map<String, String> parameters)
     {
         setParameters(parameters);
     }
@@ -103,7 +103,7 @@ public abstract class AbstractBlock implements Block
      * @param childBlock the child block of this block
      * @since 3.0M1
      */
-    public AbstractBlock(Block childBlock)
+    protected AbstractBlock(Block childBlock)
     {
         this(childBlock, Collections.emptyMap());
     }
@@ -114,7 +114,7 @@ public abstract class AbstractBlock implements Block
      * @param childrenBlocks the list of children blocks of the block to construct
      * @since 3.0M1
      */
-    public AbstractBlock(List<? extends Block> childrenBlocks)
+    protected AbstractBlock(List<? extends Block> childrenBlocks)
     {
         this(childrenBlocks, Collections.emptyMap());
     }
@@ -126,7 +126,7 @@ public abstract class AbstractBlock implements Block
      * @param parameters the parameters to set
      * @since 3.0M1
      */
-    public AbstractBlock(Block childBlock, Map<String, String> parameters)
+    protected AbstractBlock(Block childBlock, Map<String, String> parameters)
     {
         this(parameters);
 
@@ -140,7 +140,7 @@ public abstract class AbstractBlock implements Block
      * @param parameters the parameters to set
      * @since 3.0M1
      */
-    public AbstractBlock(List<? extends Block> childrenBlocks, Map<String, String> parameters)
+    protected AbstractBlock(List<? extends Block> childrenBlocks, Map<String, String> parameters)
     {
         this(parameters);
 

@@ -35,7 +35,7 @@ public abstract class AbstractNoParameterMacro extends AbstractMacro<Object>
      * @param name the name of the macro (eg "Table Of Contents" for the TOC macro)
      * @since 2.0M3
      */
-    public AbstractNoParameterMacro(String name)
+    protected AbstractNoParameterMacro(String name)
     {
         super(name);
     }
@@ -47,7 +47,7 @@ public abstract class AbstractNoParameterMacro extends AbstractMacro<Object>
      * @param description the description of the macro
      * @since 2.0M3
      */
-    public AbstractNoParameterMacro(String name, String description)
+    protected AbstractNoParameterMacro(String name, String description)
     {
         super(name, description);
     }
@@ -60,7 +60,7 @@ public abstract class AbstractNoParameterMacro extends AbstractMacro<Object>
      * @param contentDescriptor the {@link ContentDescriptor} describing the content of this macro.
      * @since 3.2M3
      */
-    public AbstractNoParameterMacro(String name, String description, ContentDescriptor contentDescriptor)
+    protected AbstractNoParameterMacro(String name, String description, ContentDescriptor contentDescriptor)
     {
         super(name, description, contentDescriptor);
     }
