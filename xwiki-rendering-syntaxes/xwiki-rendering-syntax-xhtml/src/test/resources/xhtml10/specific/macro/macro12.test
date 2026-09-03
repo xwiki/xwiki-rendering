@@ -1,0 +1,19 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# An inline macro followed by CKEditor's "xwiki-macro-inline-enforcer" span must be parsed as an inline macro that
+.# is *not* wrapped in the enforcer format: the onMacroInline event comes before beginFormat, not inside it. If the
+.# macro were wrapped, CKEditor's removal of the enforcer span would delete the macro too (XWIKI-21973 /
+.# XRENDERING-766). The enforcer span carries a non-breaking space, which is why it keeps the macro inline.
+.#-----------------------------------------------------
+<p><!--startmacro:mention|-|reference="XWiki.Admin" style="FULL_NAME" anchor="XWiki-Admin-7qcxlk"--><!--stopmacro--><span id="xwiki-macro-inline-enforcer">&nbsp;</span></p>
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+beginParagraph
+onMacroInline [mention] [reference=XWiki.Admin|style=FULL_NAME|anchor=XWiki-Admin-7qcxlk]
+beginFormat [NONE] [[id]=[xwiki-macro-inline-enforcer]]
+onSpace
+endFormat [NONE] [[id]=[xwiki-macro-inline-enforcer]]
+endParagraph
+endDocument

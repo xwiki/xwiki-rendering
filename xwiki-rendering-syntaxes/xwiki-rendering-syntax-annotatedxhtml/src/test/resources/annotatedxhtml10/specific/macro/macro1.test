@@ -1,0 +1,12 @@
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.# An inline macro followed by the CKEditor "xwiki-macro-inline-enforcer" span (a parameter format holding a
+.# non-breaking space, used to keep the macro inline) must round-trip with the macro *before* the span and never
+.# wrapped inside it. If the macro were wrapped, CKEditor's removal of the enforcer span would delete the macro too
+.# (XWIKI-21973 / XRENDERING-766).
+.#-----------------------------------------------------
+<p><!--startmacro:mention|-|reference="XWiki.Admin" style="FULL_NAME" anchor="XWiki-Admin-7qcxlk"--><!--stopmacro--><span id="xwiki-macro-inline-enforcer">&nbsp;</span></p>
+.#-----------------------------------------------------
+.expect|annotatedxhtml/1.0
+.#-----------------------------------------------------
+<p><!--startmacro:mention|-|reference="XWiki.Admin" style="FULL_NAME" anchor="XWiki-Admin-7qcxlk"--><!--stopmacro--><span id="xwiki-macro-inline-enforcer">&nbsp;</span></p>

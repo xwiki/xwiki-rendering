@@ -1,0 +1,31 @@
+.#---------------------------------------------------------------------------------------------------------
+.# An empty format (parameters only) at the very end of a paragraph is currently dropped. Unlike a format right
+.# after a still-pending macro or verbatim element (see XRENDERING-766), plain inline content followed by a trailing
+.# empty parameter format does not preserve that format.
+.#---------------------------------------------------------------------------------------------------------
+.input|xwiki/2.0
+.#---------------------------------------------------------------------------------------------------------
+Paragraph1(% id="test" %)
+
+Paragraph2
+
+Paragraph3(% id="test" %)(%%)
+
+Paragraph4
+.#---------------------------------------------------------------------------------------------------------
+.expect|event/1.0
+.#---------------------------------------------------------------------------------------------------------
+beginDocument
+beginParagraph
+onWord [Paragraph1]
+endParagraph
+beginParagraph
+onWord [Paragraph2]
+endParagraph
+beginParagraph
+onWord [Paragraph3]
+endParagraph
+beginParagraph
+onWord [Paragraph4]
+endParagraph
+endDocument

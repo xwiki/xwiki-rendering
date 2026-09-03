@@ -597,9 +597,12 @@ public class InternalWikiScannerContext implements IWikiScannerContext
             fMacroName = macroName;
             fVerbatimContent = verbatimContent;
         }
-        openFormat();
+        // First check if we encountered a verbatim or macro that we can now process as inline.
+        // Then open whatever format we encountered. If the format was before the verbatim or macro, we would have
+        // immediately recognized both as inline and processed them already.
         checkVerbatim(true);
         checkMacro(true);
+        openFormat();
     }
 
     private void checkTableCell()
@@ -625,6 +628,17 @@ public class InternalWikiScannerContext implements IWikiScannerContext
 
     public void closeBlock()
     {
+        // A format that trails a still-pending macro or verbatim element has no content: the element is emitted as
+        // a standalone block below, and the empty format is dropped here so it does not leak into the next block.
+        // The macro/verbatim condition is required: it excludes the checkStyleOpened() -> beginParagraph() ->
+        // closeBlock() re-entrant call (which temporarily clears these fields), where the pending format must be
+        // preserved so that it can wrap the following inline content.
+        if ((fMacroName != null || fVerbatimContent != null) && isNoBlockElements()
+            && !WikiFormat.EMPTY.equals(fNewFormat))
+        {
+            fNewFormat = WikiFormat.EMPTY;
+        }
+
         checkVerbatim(false);
         checkMacro(false);
 

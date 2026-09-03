@@ -703,6 +703,44 @@ class XWiki20ParserTest extends AbstractWikiParserTest
              "<pre class='wikimodel-macro' macroName='macro' param1='val1' param2='val2'><![CDATA[foo]]></pre>");
     }
 
+    /**
+     * A macro at the start of a line followed by a format must be inline, and the format must not wrap the macro,
+     * see <a href="https://jira.xwiki.org/browse/XRENDERING-766">XRENDERING-766</a>.
+     */
+    @Test
+    void testMacroFollowedByFormat() throws WikiParserException
+    {
+        // The format must not wrap the macro, only the content after it.
+        test("{{macro/}}(% id='test' %)hi",
+            "<p><span class='wikimodel-macro' macroName='macro'/>"
+                + "<span class='wikimodel-parameters'[id='test']>hi</span></p>");
+
+        // A format before the macro wraps the macro, though.
+        test("(% id='test' %){{macro/}}",
+            "<p><span class='wikimodel-parameters'[id='test']>"
+                + "<span class='wikimodel-macro' macroName='macro'/></span></p>");
+
+        // A trailing format with no content is dropped, and the macro becomes a standalone block (as if the
+        // empty format were not there).
+        test("{{macro/}}(% id='test' %)",
+            "<pre class='wikimodel-macro' macroName='macro'/>");
+
+        // The dropped empty format must not leak into the following paragraph.
+        test("{{macro/}}(% id='test' %)\n\nPadding",
+            "<pre class='wikimodel-macro' macroName='macro'/>\n"
+                + "<p>Padding</p>");
+
+        // Only the second macro must be wrapped in the format.
+        test("{{macro/}}(% id='test' %){{macro/}}",
+            "<p><span class='wikimodel-macro' macroName='macro'/><span class='wikimodel-parameters'[id='test']>"
+                + "<span class='wikimodel-macro' macroName='macro'/></span></p>");
+
+        // The same applies to verbatim content: an empty trailing format is dropped and the verbatim becomes
+        // a standalone block.
+        test("{{{verbatim}}}(% id='test' %)",
+            "<pre>verbatim</pre>");
+    }
+
     @Test
     void testMacroParameterEscaping() throws WikiParserException
     {
