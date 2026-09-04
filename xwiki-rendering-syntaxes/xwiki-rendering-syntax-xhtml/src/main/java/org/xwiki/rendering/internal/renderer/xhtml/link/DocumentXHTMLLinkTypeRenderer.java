@@ -102,30 +102,38 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
         return this.linkLabelGenerator.generate(reference);
     }
 
+    /**
+     * Look for a {@link WantedLinkTitleGenerator} with a role hint matching the reference scheme, so that the title
+     * can be adapted to the kind of resource being referenced. When no such component is registered, which is the
+     * case when the rendering runs on its own, the default generator is used instead.
+     *
+     * @param reference the reference for which to find a title generator
+     * @return the title generator to use for the passed reference, never {@code null}
+     */
     private WantedLinkTitleGenerator getTitleGenerator(ResourceReference reference)
     {
-        WantedLinkTitleGenerator titleGenerator = this.defaultTitleGenerator;
-        try {
-            titleGenerator = this.componentManager.getInstance(WantedLinkTitleGenerator.class,
-                reference.getType().getScheme());
-        } catch (Exception e) {
-            String message = String.format("Could not find a [%s] component to generate the wanted "
-                + "link title for [{}].", WantedLinkTitleGenerator.class.getName());
-            if (logger.isDebugEnabled()) {
-                logger.debug(message, reference, e);
-            } else {
-                logger.warn(String.format("%s: [{}]", message), reference, ExceptionUtils.getRootCauseMessage(e));
+        String scheme = reference.getType().getScheme();
+        if (this.componentManager.hasComponent(WantedLinkTitleGenerator.class, scheme)) {
+            try {
+                return this.componentManager.getInstance(WantedLinkTitleGenerator.class, scheme);
+            } catch (ComponentLookupException e) {
+                String message = String.format("Failed to load the [%s] component with hint [%s] to generate the "
+                    + "wanted link title for reference [{}]. Using the default generator instead.",
+                    WantedLinkTitleGenerator.class.getName(), scheme);
+                if (this.logger.isDebugEnabled()) {
+                    this.logger.debug(message, reference, e);
+                } else {
+                    this.logger.warn(String.format("%s Cause: [{}]", message), reference,
+                        ExceptionUtils.getRootCauseMessage(e));
+                }
             }
         }
-        return titleGenerator;
+        return this.defaultTitleGenerator;
     }
 
     /**
-     * Implementation for computing a wanted link title.
-     * Looks for a component implementing WantedLinkTitleGenerator with a role hint matching the reference scheme.
      * @param reference the reference for which to compute the title
-     * @return the wanted link title
-     * @since 16.3.0RC1
+     * @return the title to display on the wanted link rendered for the passed reference
      */
     private String computeWantedLinkTitle(ResourceReference reference)
     {

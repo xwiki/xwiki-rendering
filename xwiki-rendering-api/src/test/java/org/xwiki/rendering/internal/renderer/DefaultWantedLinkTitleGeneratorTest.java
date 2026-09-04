@@ -17,26 +17,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.renderer.reference.link;
+package org.xwiki.rendering.internal.renderer;
 
-import org.xwiki.component.annotation.Role;
+import org.junit.jupiter.api.Test;
+import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.stability.Unstable;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Generate Resource Reference titles for wanted links.
- * The implementations should be named according to the kind of reference they process.
+ * Unit tests for {@link DefaultWantedLinkTitleGenerator}.
  *
  * @version $Id$
- * @since 18.8.0RC1
  */
-@Role
-@Unstable
-public interface WantedLinkTitleGenerator
+class DefaultWantedLinkTitleGeneratorTest
 {
-    /**
-     * @param reference the reference for which we want to generate a wanted link title
-     * @return the title to display when rendering the resource reference wanted link
-     */
-    String generateWantedLinkTitle(ResourceReference reference);
+    private final DefaultWantedLinkTitleGenerator generator = new DefaultWantedLinkTitleGenerator();
+
+    @Test
+    void generateWantedLinkTitleUsesTheReference()
+    {
+        ResourceReference reference = new DocumentResourceReference("Space.WantedPage");
+
+        assertEquals("Create resource: Space.WantedPage", this.generator.generateWantedLinkTitle(reference));
+    }
+
+    @Test
+    void generateWantedLinkTitleOnEmptyReference()
+    {
+        ResourceReference reference = new DocumentResourceReference("");
+
+        assertEquals("Create resource: ", this.generator.generateWantedLinkTitle(reference));
+    }
 }
