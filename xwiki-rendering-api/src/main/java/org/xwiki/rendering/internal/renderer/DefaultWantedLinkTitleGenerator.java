@@ -31,8 +31,9 @@ import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
  * E.g. XWikiDocumentWantedLinkTitleGenerator in xwiki-platform which is used to provide translations.
  * This implementation is a fallback and should only be used when xwiki-rendering is running by itself.
  * This implementation uses the reference as the title.
+ *
  * @version $Id$
- * @since 16.3.0RC1
+ * @since 18.8.0RC1
  */
 @Component
 @Singleton

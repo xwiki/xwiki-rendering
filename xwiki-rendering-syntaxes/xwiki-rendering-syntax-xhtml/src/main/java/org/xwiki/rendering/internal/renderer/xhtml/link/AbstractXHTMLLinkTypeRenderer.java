@@ -49,7 +49,8 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
 
     /**
      * The XHTML element {@code title} parameter.
-     * @since 16.3.0RC1
+     *
+     * @since 18.8.0RC1
      */
     protected static final String TITLE = "title";
 
@@ -227,10 +228,7 @@ public abstract class AbstractXHTMLLinkTypeRenderer implements XHTMLLinkTypeRend
     {
         // If there was no link content then generate it based on the passed reference
         if (!hasLabel()) {
-            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][]
-            {
-                { CLASS, "wikigeneratedlinkcontent" }
-            });
+            getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][] { { CLASS, "wikigeneratedlinkcontent" } });
             getXHTMLWikiPrinter().printXML(computeLabel(reference));
             getXHTMLWikiPrinter().printXMLEndElement(SPAN);
         }
