@@ -25,6 +25,8 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -34,6 +36,7 @@ import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
+import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
 import org.xwiki.rendering.wiki.WikiModel;
 
 /**
@@ -51,6 +54,9 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      */
     private static final String WIKILINK = "wikilink";
 
+    @Inject
+    private Logger logger;
+
     /**
      * Used to generate the link targeting a local document.
      */
@@ -61,6 +67,12 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      */
     @Inject
     private LinkLabelGenerator linkLabelGenerator;
+
+    /**
+     * Used to generate a link title.
+     */
+    @Inject
+    private WantedLinkTitleGenerator defaultTitleGenerator;
 
     @Override
     public void initialize() throws InitializationException
@@ -88,6 +100,45 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
     protected String computeLabel(ResourceReference reference)
     {
         return this.linkLabelGenerator.generate(reference);
+    }
+
+    /**
+     * Look for a {@link WantedLinkTitleGenerator} with a role hint matching the reference scheme, so that the title
+     * can be adapted to the kind of resource being referenced. When no such component is registered, which is the
+     * case when the rendering runs on its own, the default generator is used instead.
+     *
+     * @param reference the reference for which to find a title generator
+     * @return the title generator to use for the passed reference, never {@code null}
+     */
+    private WantedLinkTitleGenerator getTitleGenerator(ResourceReference reference)
+    {
+        String scheme = reference.getType().getScheme();
+        if (this.componentManager.hasComponent(WantedLinkTitleGenerator.class, scheme)) {
+            try {
+                return this.componentManager.getInstance(WantedLinkTitleGenerator.class, scheme);
+            } catch (ComponentLookupException e) {
+                String message = String.format("Failed to load the [%s] component with hint [%s] to generate the "
+                    + "wanted link title for reference [{}]. Using the default generator instead.",
+                    WantedLinkTitleGenerator.class.getName(), scheme);
+                if (this.logger.isDebugEnabled()) {
+                    this.logger.debug(message, reference, e);
+                } else {
+                    this.logger.warn(String.format("%s Cause: [{}]", message), reference,
+                        ExceptionUtils.getRootCauseMessage(e));
+                }
+            }
+        }
+        return this.defaultTitleGenerator;
+    }
+
+    /**
+     * @param reference the reference for which to compute the title
+     * @return the title to display on the wanted link rendered for the passed reference
+     */
+    private String computeWantedLinkTitle(ResourceReference reference)
+    {
+        WantedLinkTitleGenerator titleGenerator = getTitleGenerator(reference);
+        return titleGenerator.generateWantedLinkTitle(reference);
     }
 
     @Override
@@ -125,6 +176,7 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
         } else {
             // The wiki document doesn't exist
             spanAttributes.put(CLASS, "wikicreatelink");
+            spanAttributes.put(TITLE, computeWantedLinkTitle(reference));
             anchorAttributes.put(XHTMLLinkRenderer.HREF, this.wikiModel.getDocumentEditURL(reference));
         }
 
