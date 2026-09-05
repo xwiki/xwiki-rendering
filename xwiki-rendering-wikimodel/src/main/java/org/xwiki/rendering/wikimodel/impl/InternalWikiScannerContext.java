@@ -150,9 +150,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
 
     public void beginFormat(WikiParameters params)
     {
-        closeFormat(false);
-        fNewFormat = fNewFormat.setParameters(params.toList());
-        fInlineState.set(InlineState.BEGIN_FORMAT);
+        setFormatParameters(params);
     }
 
     public void beginFormat(WikiStyle wikiStyle)
@@ -676,9 +674,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
 
     public void endFormat(WikiParameters params)
     {
-        closeFormat(false);
-        fNewFormat = fNewFormat.setParameters(params.toList());
-        fInlineState.set(InlineState.BEGIN_FORMAT);
+        setFormatParameters(params);
     }
 
     public void endFormat(WikiStyle wikiStyle)
@@ -979,9 +975,7 @@ public class InternalWikiScannerContext implements IWikiScannerContext
 
     public void onFormat(WikiParameters params)
     {
-        closeFormat(false);
-        fNewFormat = fNewFormat.setParameters(params.toList());
-        fInlineState.set(InlineState.BEGIN_FORMAT);
+        setFormatParameters(params);
     }
 
     public void onFormat(WikiStyle wikiStyle)
@@ -1219,5 +1213,17 @@ public class InternalWikiScannerContext implements IWikiScannerContext
             buf.append(ch);
         }
         return buf.toString();
+    }
+
+    /**
+     * Closes the currently open format and re-opens it with the given parameters.
+     *
+     * @param params the parameters of the format to open
+     */
+    private void setFormatParameters(WikiParameters params)
+    {
+        closeFormat(false);
+        fNewFormat = fNewFormat.setParameters(params.toList());
+        fInlineState.set(InlineState.BEGIN_FORMAT);
     }
 }

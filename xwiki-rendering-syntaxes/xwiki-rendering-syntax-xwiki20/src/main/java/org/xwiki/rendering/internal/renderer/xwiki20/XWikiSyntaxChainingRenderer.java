@@ -659,17 +659,13 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     @Override
     public void endDefinitionDescription()
     {
-        this.previousFormatParameters = null;
-
-        getXWikiPrinter().flush();
+        resetFormatAndFlush();
     }
 
     @Override
     public void endDefinitionTerm()
     {
-        this.previousFormatParameters = null;
-
-        getXWikiPrinter().flush();
+        resetFormatAndFlush();
     }
 
     /**
@@ -707,9 +703,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     @Override
     public void endQuotationLine()
     {
-        this.previousFormatParameters = null;
-
-        getXWikiPrinter().flush();
+        resetFormatAndFlush();
     }
 
     @Override
@@ -1029,5 +1023,15 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         getXWikiPrinter().flush();
 
         super.popPrinter();
+    }
+
+    /**
+     * Ends an inline content block: forget the format parameters of the previous block and flush the printer.
+     */
+    private void resetFormatAndFlush()
+    {
+        this.previousFormatParameters = null;
+
+        getXWikiPrinter().flush();
     }
 }
