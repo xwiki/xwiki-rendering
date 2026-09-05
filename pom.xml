@@ -113,22 +113,17 @@
             <include>**/*IntegrationTests.java</include>
           </includes>
           <!-- Verify that unit tests don't output anything to stdout/stderr -->
-          <systemProperties combine.children="append">
+          <systemPropertyVariables>
             <!-- This property makes it simple for some module to exclude the check (for example for functional
                  tests) -->
-            <property>
-              <name>xwiki.surefire.captureconsole.skip</name>
-              <value>${xwiki.surefire.captureconsole.skip}</value>
-            </property>
-          </systemProperties>
-          <properties>
-            <property>
-              <name>listener</name>
-              <value>org.xwiki.test.CaptureConsoleRunListener</value>
-            </property>
-          </properties>
+            <xwiki.surefire.captureconsole.skip>${xwiki.surefire.captureconsole.skip}</xwiki.surefire.captureconsole.skip>
+          </systemPropertyVariables>
         </configuration>
         <dependencies>
+          <!-- Used to automatically register our custom JUnit5 Extensions using the service loader mechanism.
+               We also need to have the JAR containing our extensions visible to JUnit5's ClassLoader. This is
+               done here and not in the top level commons pom.xml, as otherwise it would cause a cyclic dependency.
+          -->
           <dependency>
             <groupId>org.xwiki.commons</groupId>
             <artifactId>xwiki-commons-tool-test-simple</artifactId>
