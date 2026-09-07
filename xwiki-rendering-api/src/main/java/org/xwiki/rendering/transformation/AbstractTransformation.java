@@ -48,6 +48,9 @@ public abstract class AbstractTransformation implements Transformation
         return Integer.compare(getPriority(), transformation.getPriority());
     }
 
+    /**
+     * @deprecated use {@link #transform(Block, TransformationContext)} instead
+     */
     @Override
     @Deprecated
     public void transform(XDOM dom, Syntax syntax) throws TransformationException
