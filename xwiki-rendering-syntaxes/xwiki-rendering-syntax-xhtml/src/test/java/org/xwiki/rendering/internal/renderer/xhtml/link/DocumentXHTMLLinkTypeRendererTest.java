@@ -86,7 +86,7 @@ class DocumentXHTMLLinkTypeRendererTest
     }
 
     @Test
-    void beginLinkOnWantedLinkFallsBackOnTheDefaultTitleGenerator()
+    void beginLinkOnWantedLinkPutsTheTitleOnTheAnchorUsingTheDefaultTitleGenerator()
     {
         ResourceReference reference = new DocumentResourceReference("Space.WantedPage");
         when(this.wikiModel.isDocumentAvailable(reference)).thenReturn(false);
@@ -95,8 +95,9 @@ class DocumentXHTMLLinkTypeRendererTest
 
         this.renderer.beginLink(reference, false, Collections.emptyMap());
 
-        assertEquals("<span class=\"wikicreatelink\" title=\"Create resource: WantedPage\">"
-            + "<a href=\"/edit/Space/WantedPage\">", this.printer.toString());
+        assertEquals("<span class=\"wikicreatelink\">"
+            + "<a href=\"/edit/Space/WantedPage\" title=\"Create resource: WantedPage\">",
+            this.printer.toString());
     }
 
     @Test
@@ -108,12 +109,13 @@ class DocumentXHTMLLinkTypeRendererTest
         ResourceReference reference = new DocumentResourceReference("Space.WantedPage");
         when(this.wikiModel.isDocumentAvailable(reference)).thenReturn(false);
         when(this.wikiModel.getDocumentEditURL(reference)).thenReturn("/edit/Space/WantedPage");
-        when(documentTitleGenerator.generateWantedLinkTitle(reference)).thenReturn("Créer la page WantedPage");
+        when(documentTitleGenerator.generateWantedLinkTitle(reference)).thenReturn("Cr\u00e9er la page WantedPage");
 
         this.renderer.beginLink(reference, false, Collections.emptyMap());
 
-        assertEquals("<span class=\"wikicreatelink\" title=\"Créer la page WantedPage\">"
-            + "<a href=\"/edit/Space/WantedPage\">", this.printer.toString());
+        assertEquals("<span class=\"wikicreatelink\">"
+            + "<a href=\"/edit/Space/WantedPage\" title=\"Cr\u00e9er la page WantedPage\">",
+            this.printer.toString());
         verifyNoInteractions(this.defaultTitleGenerator);
     }
 }

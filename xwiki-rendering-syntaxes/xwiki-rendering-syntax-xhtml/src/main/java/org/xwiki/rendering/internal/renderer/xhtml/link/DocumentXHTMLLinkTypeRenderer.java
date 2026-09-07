@@ -174,10 +174,11 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
             spanAttributes.put(CLASS, WIKILINK);
             anchorAttributes.put(XHTMLLinkRenderer.HREF, this.wikiModel.getDocumentViewURL(reference));
         } else {
-            // The wiki document doesn't exist
+            // The wiki document doesn't exist. The title goes on the anchor and not on the span because the
+            // accessible description of a link is only computed from the link element itself.
             spanAttributes.put(CLASS, "wikicreatelink");
-            spanAttributes.put(TITLE, computeWantedLinkTitle(reference));
             anchorAttributes.put(XHTMLLinkRenderer.HREF, this.wikiModel.getDocumentEditURL(reference));
+            anchorAttributes.put(TITLE, computeWantedLinkTitle(reference));
         }
 
         getXHTMLWikiPrinter().printXMLStartElement(SPAN, spanAttributes);
