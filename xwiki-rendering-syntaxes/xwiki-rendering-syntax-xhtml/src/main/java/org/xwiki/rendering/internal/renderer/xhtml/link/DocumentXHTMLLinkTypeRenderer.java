@@ -117,15 +117,11 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
             try {
                 return this.componentManager.getInstance(WantedLinkTitleGenerator.class, scheme);
             } catch (ComponentLookupException e) {
-                String message = String.format("Failed to load the [%s] component with hint [%s] to generate the "
-                    + "wanted link title for reference [{}]. Using the default generator instead.",
-                    WantedLinkTitleGenerator.class.getName(), scheme);
-                if (this.logger.isDebugEnabled()) {
-                    this.logger.debug(message, reference, e);
-                } else {
-                    this.logger.warn(String.format("%s Cause: [{}]", message), reference,
-                        ExceptionUtils.getRootCauseMessage(e));
-                }
+                this.logger.warn("Failed to load the [{}] component with hint [{}] to generate the wanted link "
+                    + "title for reference [{}]. Using the default generator instead. Cause: [{}]",
+                    WantedLinkTitleGenerator.class.getName(), scheme, reference,
+                    ExceptionUtils.getRootCauseMessage(e));
+                this.logger.debug("Full stack trace of the wanted link title generator lookup failure:", e);
             }
         }
         return this.defaultTitleGenerator;
