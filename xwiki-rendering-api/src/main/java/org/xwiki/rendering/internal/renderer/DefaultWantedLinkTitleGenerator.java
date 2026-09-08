@@ -26,11 +26,11 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
 
 /**
- * Generates wanted link titles for resource references.
- * Using this implementation should be avoided, another implementation should be used instead.
- * E.g. XWikiDocumentWantedLinkTitleGenerator in xwiki-platform which is used to provide translations.
- * This implementation is a fallback and should only be used when xwiki-rendering is running by itself.
- * This implementation uses the reference as the title.
+ * Generates the title of a wanted link from the reference itself, in English and without translating it.
+ * <p>
+ * This is a fallback for when the rendering runs on its own. Wherever a better implementation can be registered
+ * it should be: XWikiDocumentWantedLinkTitleGenerator in xwiki-platform, for example, names the document and
+ * translates the title.
  *
  * @version $Id$
  * @since 18.8.0RC1
@@ -41,11 +41,6 @@ public class DefaultWantedLinkTitleGenerator implements WantedLinkTitleGenerator
 {
     private static final String DEFAULT_TITLE = "Create resource: %s";
 
-    /**
-     * Generates wanted link titles for resource references.
-     * @param reference the reference for which we want to generate a wanted link title
-     * @return the wanted link title used when rendering a resource reference.
-     */
     @Override
     public String generateWantedLinkTitle(ResourceReference reference)
     {

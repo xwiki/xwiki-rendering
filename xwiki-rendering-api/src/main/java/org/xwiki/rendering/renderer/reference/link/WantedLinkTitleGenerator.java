@@ -24,8 +24,12 @@ import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.stability.Unstable;
 
 /**
- * Generate Resource Reference titles for wanted links.
- * The implementations should be named according to the kind of reference they process.
+ * Generates the title of a wanted link, which is the link rendered for a resource that does not exist yet.
+ * <p>
+ * An implementation is looked up by a role hint equal to the scheme of the kind of reference it handles, as
+ * returned by {@link org.xwiki.rendering.listener.reference.ResourceType#getScheme()}, so {@code doc} or
+ * {@code space} for instance. An implementation registered under any other hint is never called: the lookup
+ * falls back to the implementation registered without a hint, and reports nothing.
  *
  * @version $Id$
  * @since 18.8.0RC1
@@ -35,8 +39,9 @@ import org.xwiki.stability.Unstable;
 public interface WantedLinkTitleGenerator
 {
     /**
-     * @param reference the reference for which we want to generate a wanted link title
-     * @return the title to display when rendering the resource reference wanted link
+     * @param reference the reference of the resource the wanted link points to
+     * @return the title to display on the rendered wanted link, as plain text since it ends up in an XHTML
+     *         {@code title} attribute, or {@code null} to render the link without a title
      */
     String generateWantedLinkTitle(ResourceReference reference);
 }
