@@ -76,7 +76,7 @@ public class DefaultParameterDescriptor implements ParameterDescriptor
      * @deprecated use {@link #getParameterType()} instead
      */
     @Override
-    @Deprecated
+    @Deprecated(since = "3.0M1")
     public Class<?> getType()
     {
         return this.propertyDescriptor.getPropertyClass();

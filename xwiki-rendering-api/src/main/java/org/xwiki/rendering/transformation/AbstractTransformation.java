@@ -52,7 +52,7 @@ public abstract class AbstractTransformation implements Transformation
      * @deprecated use {@link #transform(Block, TransformationContext)} instead
      */
     @Override
-    @Deprecated
+    @Deprecated(since = "2.4M1")
     public void transform(XDOM dom, Syntax syntax) throws TransformationException
     {
         transform(dom, new TransformationContext(dom, syntax));
