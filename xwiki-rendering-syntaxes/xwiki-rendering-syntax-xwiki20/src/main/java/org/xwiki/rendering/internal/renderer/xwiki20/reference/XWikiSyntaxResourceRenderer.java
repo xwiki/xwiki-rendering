@@ -21,6 +21,7 @@ package org.xwiki.rendering.internal.renderer.xwiki20.reference;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.EnumSet;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -45,11 +46,27 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
 public class XWikiSyntaxResourceRenderer
 {
     /**
+     * The escape character of the XWiki Syntax, {@code ~}.
+     */
+    protected static final String ESCAPE_CHAR = XWikiSyntaxEscapeHandler.ESCAPE_CHAR;
+
+    /**
      * Separator to use between the link reference and link parameters.
      */
     protected static final String PARAMETER_SEPARATOR = "||";
 
-    protected static final ParametersPrinter PARAMETERS_PRINTER = new ParametersPrinter('~', "||", "]]", ">>");
+    /**
+     * Separator between the reference and the label inside the full link syntax.
+     */
+    protected static final String LABEL_SEPARATOR = ">>";
+
+    /**
+     * End of the full link syntax.
+     */
+    protected static final String LINK_END = "]]";
+
+    protected static final ParametersPrinter PARAMETERS_PRINTER =
+        new ParametersPrinter('~', PARAMETER_SEPARATOR, LINK_END, LABEL_SEPARATOR);
 
     protected static final CharSequenceTranslator ESCAPE_LABEL = new LookupTranslator(Map.of(
         "~", "~~",
@@ -59,6 +76,15 @@ public class XWikiSyntaxResourceRenderer
         ">", "~>"
     ));
 
+    /**
+     * The event types that mean that nothing but a white space (or nothing at all) follows the reference, that is
+     * the event types that let a free-standing reference end where it ends.
+     */
+    private static final EnumSet<EventType> WHITE_SPACE_EVENT_TYPES = EnumSet.of(EventType.ON_SPACE,
+        EventType.ON_NEW_LINE, EventType.END_PARAGRAPH, EventType.END_LINK, EventType.END_LIST_ITEM,
+        EventType.END_DEFINITION_DESCRIPTION, EventType.END_DEFINITION_TERM, EventType.END_QUOTATION_LINE,
+        EventType.END_SECTION);
+
     private Deque<Boolean> forceFullSyntaxDeque = new ArrayDeque<Boolean>();
 
     private XWikiSyntaxListenerChain listenerChain;
@@ -66,6 +92,8 @@ public class XWikiSyntaxResourceRenderer
     private ResourceReferenceSerializer referenceSerializer;
 
     /**
+     * @param listenerChain the listener chain this renderer is part of, used to look ahead at the next event
+     * @param referenceSerializer the serializer to use to convert a resource reference into its string representation
      * @since 2.5RC1
      */
     public XWikiSyntaxResourceRenderer(XWikiSyntaxListenerChain listenerChain,
@@ -94,10 +122,11 @@ public class XWikiSyntaxResourceRenderer
         String result = this.referenceSerializer.serialize(reference);
 
         if (!isFreeStanding) {
-            result = XWikiSyntaxEscapeHandler.escapeCurlyBrackets(result.replace("~", "~~")
-                .replace(">>", "~>~>")
-                .replace(PARAMETER_SEPARATOR, "~|~|")
-                .replace("]]", "~]~]"));
+            result = XWikiSyntaxEscapeHandler.escapeCurlyBrackets(
+                result.replace(ESCAPE_CHAR, ESCAPE_CHAR + ESCAPE_CHAR)
+                    .replace(LABEL_SEPARATOR, "~>~>")
+                    .replace(PARAMETER_SEPARATOR, "~|~|")
+                    .replace(LINK_END, "~]~]"));
         }
 
         return result;
@@ -206,6 +235,7 @@ public class XWikiSyntaxResourceRenderer
      * @since 18.4.6
      * @since 18.8.0RC1
      */
+    @SuppressWarnings("checkstyle:BooleanExpressionComplexity")
     public boolean forceFullSyntax(XWikiSyntaxEscapeWikiPrinter printer, ResourceReference reference,
         boolean isLastSyntax, boolean freestanding, Map<String, String> parameters)
     {
@@ -235,20 +265,22 @@ public class XWikiSyntaxResourceRenderer
 
     private boolean isNotAWhiteSpace(Event nextEvent)
     {
-        return nextEvent != null && nextEvent.eventType != EventType.ON_SPACE
-            && nextEvent.eventType != EventType.ON_NEW_LINE && nextEvent.eventType != EventType.END_PARAGRAPH
-            && nextEvent.eventType != EventType.END_LINK && nextEvent.eventType != EventType.END_LIST_ITEM
-            && nextEvent.eventType != EventType.END_DEFINITION_DESCRIPTION
-            && nextEvent.eventType != EventType.END_DEFINITION_TERM
-            && nextEvent.eventType != EventType.END_QUOTATION_LINE && nextEvent.eventType != EventType.END_SECTION;
+        return nextEvent != null && !WHITE_SPACE_EVENT_TYPES.contains(nextEvent.eventType);
     }
 
+    /**
+     * Prints the label of a link, followed by the separator that introduces the reference. Nothing is printed for an
+     * empty label as the reference is then used as the label.
+     *
+     * @param printer the printer to print to
+     * @param label the already rendered label of the link
+     */
     public void renderLinkContent(XWikiSyntaxEscapeWikiPrinter printer, String label)
     {
         // If there was some link content specified then output the character separator ">>".
         if (!StringUtils.isEmpty(label)) {
             printer.print(ESCAPE_LABEL.translate(label));
-            printer.print(">>");
+            printer.print(LABEL_SEPARATOR);
         }
     }
 
@@ -277,7 +309,7 @@ public class XWikiSyntaxResourceRenderer
         printParameters(printer, reference, parameters);
 
         if (fullSyntax) {
-            printer.print("]]");
+            printer.print(LINK_END);
         }
 
         this.forceFullSyntaxDeque.pop();

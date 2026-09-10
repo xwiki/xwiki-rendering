@@ -52,6 +52,9 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
  * @version $Id$
  * @since 1.8RC1
  */
+// The syntax markers this renderer prints are duplicated across the many event methods and naming each of them
+// wouldn't make anything clearer, while the fan-out is inherent to a renderer that handles every rendering event.
+@SuppressWarnings({"checkstyle:ClassFanOutComplexity", "checkstyle:MultipleStringLiterals"})
 public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer implements StackableChainingListener
 {
     private static final String EMPTY_PARAMETERS = "(%%)";
@@ -65,15 +68,15 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         EnumSet.of(BlockStateChainingListener.Event.TABLE, BlockStateChainingListener.Event.LIST,
             BlockStateChainingListener.Event.DEFINITION_LIST);
 
+    protected ResourceReferenceSerializer linkReferenceSerializer;
+
+    protected ResourceReferenceSerializer imageReferenceSerializer;
+
     private XWikiSyntaxResourceRenderer linkResourceRenderer;
 
     private XWikiSyntaxResourceRenderer imageResourceRenderer;
 
     private XWikiSyntaxMacroRenderer macroPrinter;
-
-    protected ResourceReferenceSerializer linkReferenceSerializer;
-
-    protected ResourceReferenceSerializer imageReferenceSerializer;
 
     // Custom States
 
@@ -86,6 +89,9 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     private String figureCaption;
 
     /**
+     * @param listenerChain the listener chain this renderer is part of
+     * @param linkReferenceSerializer the serializer to use to serialize link references
+     * @param imageReferenceSerializer the serializer to use to serialize image references
      * @since 2.5RC1
      */
     public XWikiSyntaxChainingRenderer(ListenerChain listenerChain, ResourceReferenceSerializer linkReferenceSerializer,
@@ -233,6 +239,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     }
 
     @Override
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     public void beginFormat(Format format, Map<String, String> parameters)
     {
         // If the previous format had parameters and the parameters are different from the current ones then close them
@@ -311,7 +318,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 break;
             case NONE:
                 break;
-            default: // Unsupported format
+            // Unsupported format
+            default:
                 break;
         }
         if (!parameters.isEmpty()) {
@@ -1025,6 +1033,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     /**
      * Allows exposing the additional methods of {@link XWikiSyntaxEscapeWikiPrinter}, namely the ability to delay
      * printing some text and the ability to escape characters that would otherwise have a meaning in XWiki syntax.
+     *
+     * @return the printer of this renderer, as a {@link XWikiSyntaxEscapeWikiPrinter}
      */
     public XWikiSyntaxEscapeWikiPrinter getXWikiPrinter()
     {

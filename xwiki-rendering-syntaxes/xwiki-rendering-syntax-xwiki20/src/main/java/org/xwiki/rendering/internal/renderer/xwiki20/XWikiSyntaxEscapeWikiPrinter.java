@@ -49,6 +49,11 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
 
     private String lastPrinted;
 
+    /**
+     * @param printer the printer to send the escaped content to
+     * @param listenerChain the listener chain, used by the escape handler to know in which kind of block the content
+     *     is printed
+     */
     public XWikiSyntaxEscapeWikiPrinter(WikiPrinter printer, XWikiSyntaxListenerChain listenerChain)
     {
         super(printer);
@@ -58,6 +63,9 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
         this.listenerChain = listenerChain;
     }
 
+    /**
+     * @return the handler that escapes the content printed through this printer
+     */
     public XWikiSyntaxEscapeHandler getEscapeHandler()
     {
         return this.escapeHandler;
@@ -99,6 +107,10 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
         this.escapeFirstIfMatching = null;
     }
 
+    /**
+     * Prints the start of a bold format, escaping the "*" that follows it when it is at the start of a line and could
+     * thus be parsed as a list item marker.
+     */
     public void printBeginBold()
     {
         flush();
@@ -112,36 +124,61 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
         }
     }
 
+    /**
+     * @param escapeLastChar {@code true} to escape the last character of the content that is currently buffered, to
+     *     be used when the content printed next would otherwise combine with it into a syntax construct
+     */
     public void setEscapeLastChar(boolean escapeLastChar)
     {
         this.escapeLastChar = escapeLastChar;
     }
 
+    /**
+     * @param onNewLine {@code true} if the content printed next starts at the beginning of a line
+     */
     public void setOnNewLine(boolean onNewLine)
     {
         this.escapeHandler.setOnNewLine(onNewLine);
     }
 
+    /**
+     * @return {@code true} if the content printed next starts at the beginning of a line
+     */
     public boolean isOnNewLine()
     {
         return this.escapeHandler.isOnNewLine();
     }
 
+    /**
+     * @return {@code true} if the last character printed is a white space or if nothing has been printed on the
+     *     current line yet
+     */
     public boolean isAfterWhiteSpace()
     {
         return isOnNewLine() || Character.isWhitespace(getLastPrinted().charAt(getLastPrinted().length() - 1));
     }
 
+    /**
+     * @return the last chunk of content that has been printed, or {@code null} if nothing has been printed yet
+     */
     public String getLastPrinted()
     {
         return this.lastPrinted;
     }
 
+    /**
+     * Prints the start of an italic format, escaping a preceding ":" so that the result cannot be parsed as the "://"
+     * of a URL.
+     */
     public void printBeginItalic()
     {
         printItalicMarker();
     }
 
+    /**
+     * Prints the end of an italic format, escaping a preceding ":" so that the result cannot be parsed as the "://"
+     * of a URL.
+     */
     public void printEndItalic()
     {
         printItalicMarker();
@@ -158,6 +195,12 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
         print("//");
     }
 
+    /**
+     * Prints an already rendered inline macro, escaping a preceding "{" so that the result cannot be parsed as the
+     * "{{{" of a verbatim block.
+     *
+     * @param xwikiSyntaxText the macro, already serialized into XWiki Syntax
+     */
     public void printInlineMacro(String xwikiSyntaxText)
     {
         // If the lookahead buffer is not empty and the last character is "{" then we need to escape it
@@ -169,6 +212,14 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
         print(xwikiSyntaxText);
     }
 
+    /**
+     * Prints the content of a verbatim block, escaping the "{{{" and "}}}" it contains so that they cannot open or
+     * close a verbatim block. Balanced pairs are left alone as the parser accepts nested verbatim blocks.
+     *
+     * @param verbatimContent the content of the verbatim block
+     */
+    @SuppressWarnings({"checkstyle:CyclomaticComplexity", "checkstyle:NPathComplexity", "checkstyle:JavaNCSS",
+        "checkstyle:ExecutableStatementCount", "checkstyle:MultipleStringLiterals"})
     public void printVerbatimContent(String verbatimContent)
     {
         StringBuffer result = new StringBuffer();

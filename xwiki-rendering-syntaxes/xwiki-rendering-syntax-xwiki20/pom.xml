@@ -80,27 +80,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <executions>
-          <execution>
-            <!-- Specify the "default" execution id so that the "blocker" one is always executed -->
-            <id>default</id>
-            <configuration>
-              <excludes>
-                <!-- The following files have structural checkstyle issues (high complexity, fan-out or boolean
-                     expression complexity) that would require refactoring to fix, hence they are still excluded
-                     for now. -->
-                org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxEscapeWikiPrinter.java,
-                org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxChainingRenderer.java,
-                org/xwiki/rendering/internal/renderer/xwiki20/XWikiSyntaxEscapeHandler.java,
-                org/xwiki/rendering/internal/renderer/xwiki20/reference/XWikiSyntaxResourceRenderer.java
-              </excludes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 </project>

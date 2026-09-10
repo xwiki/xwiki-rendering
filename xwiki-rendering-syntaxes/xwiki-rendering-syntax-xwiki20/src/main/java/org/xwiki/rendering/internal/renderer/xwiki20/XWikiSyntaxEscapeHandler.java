@@ -32,7 +32,16 @@ import org.xwiki.rendering.listener.chaining.BlockStateChainingListener;
  */
 public class XWikiSyntaxEscapeHandler
 {
+    /**
+     * Matches the list and definition markers that a "*" printed at the start of a line could complete, so that such
+     * a "*" can be escaped.
+     */
     public static final Pattern STARLISTEND_PATTERN = Pattern.compile("(\\**([:;]*|1+\\.)?\\p{Blank})");
+
+    /**
+     * The escape character of the XWiki Syntax, {@code ~}.
+     */
+    public static final String ESCAPE_CHAR = "~";
 
     private static final Pattern LIST_PATTERN = Pattern
         .compile("\\p{Blank}*((\\*+[:;]*)|([1*]+\\.[:;]*)|([:;]+))\\p{Blank}+");
@@ -58,20 +67,39 @@ public class XWikiSyntaxEscapeHandler
      */
     private static final Pattern CURLY_BRACKETS_PATTERN = Pattern.compile("\\{(?=\\{)|(?<=\\{)\\{");
 
-    public static final String ESCAPE_CHAR = "~";
-
     private boolean onNewLine = true;
 
+    /**
+     * @param onNewLine {@code true} if the next escaping starts at the beginning of a line, in which case the
+     *     constructs that are only recognized there need to be escaped, too
+     */
     public void setOnNewLine(boolean onNewLine)
     {
         this.onNewLine = onNewLine;
     }
 
+    /**
+     * @return {@code true} if the next escaping starts at the beginning of a line
+     */
     public boolean isOnNewLine()
     {
         return this.onNewLine;
     }
 
+    /**
+     * Escapes, in place, every character of the buffer that would be parsed as XWiki Syntax instead of as plain text.
+     * Which characters need escaping depends on where in the document the content is printed, which is why the
+     * listener chain is consulted for the current block state.
+     *
+     * @param accumulatedBuffer the content to escape, modified in place
+     * @param listenerChain the listener chain, used to know in which kind of block the content is printed
+     * @param escapeLastChar {@code true} if the last character has to be escaped because of what is going to be
+     *     printed right after this content
+     * @param escapeFirstIfMatching when not {@code null}, the pattern whose first matched character has to be escaped
+     *     at the start of the content
+     * @param lastPrinted the content that has been printed just before, or {@code null} if there is none
+     */
+    @SuppressWarnings({"checkstyle:CyclomaticComplexity", "checkstyle:MultipleStringLiterals"})
     public void escape(StringBuffer accumulatedBuffer, XWikiSyntaxListenerChain listenerChain, boolean escapeLastChar,
         Pattern escapeFirstIfMatching, String lastPrinted)
     {
