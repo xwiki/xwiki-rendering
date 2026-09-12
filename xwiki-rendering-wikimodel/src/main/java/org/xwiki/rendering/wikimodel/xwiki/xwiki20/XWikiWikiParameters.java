@@ -25,6 +25,9 @@ import org.xwiki.rendering.wikimodel.WikiParameters;
  * @version $Id$
  * @since 4.0M1
  */
+// The hiding is deliberate: this factory exists so that XWikiWikiParameters.newWikiParameters(...) applies the
+// XWiki 2.0 escaping, and callers pick it explicitly through XWikiWikiParameters.
+@SuppressWarnings("java:S9149")
 public class XWikiWikiParameters extends WikiParameters
 {
     public static WikiParameters newWikiParameters(String str)
