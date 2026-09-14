@@ -20,6 +20,7 @@
 package org.xwiki.rendering.internal.renderer.xwiki20;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,15 +32,18 @@ import org.xwiki.rendering.block.DefinitionListBlock;
 import org.xwiki.rendering.block.DefinitionTermBlock;
 import org.xwiki.rendering.block.GroupBlock;
 import org.xwiki.rendering.block.HeaderBlock;
+import org.xwiki.rendering.block.IdBlock;
 import org.xwiki.rendering.block.ListItemBlock;
 import org.xwiki.rendering.block.NewLineBlock;
 import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.SectionBlock;
+import org.xwiki.rendering.block.SpecialSymbolBlock;
 import org.xwiki.rendering.block.TableBlock;
 import org.xwiki.rendering.block.TableCellBlock;
 import org.xwiki.rendering.block.TableHeadCellBlock;
 import org.xwiki.rendering.block.TableRowBlock;
 import org.xwiki.rendering.block.WordBlock;
+import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.HeaderLevel;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
@@ -73,6 +77,21 @@ class XWikiSyntaxBlockRendererTest
     void inline()
     {
         assertEquals("word", render(new WordBlock("word")));
+    }
+
+    @Test
+    void idAfterCurlyBracket()
+    {
+        // The "{" needs to be escaped, otherwise the output would start with "{{{" and be parsed as a verbatim block.
+        Block paragraph = new ParagraphBlock(List.of(new SpecialSymbolBlock('{'), new IdBlock("anchor")));
+        assertEquals("~{{{id name=\"anchor\"/}}", render(paragraph));
+    }
+
+    @Test
+    void standaloneIdFollowedByParagraph()
+    {
+        Block xdom = new XDOM(List.of(new IdBlock("anchor"), new ParagraphBlock(List.of(new WordBlock("word")))));
+        assertEquals("{{id name=\"anchor\"/}}\n\nword", render(xdom));
     }
 
     @Test

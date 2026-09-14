@@ -52,6 +52,12 @@ public class XWikiSyntaxEscapeHandler
     private static final Pattern DOUBLE_CHARS_PATTERN = Pattern.compile(
         "(?<!~)\\/\\/|(?<!~)\\*\\*|(?<!~)__|(?<!~)--|(?<!~)\\^\\^|(?<!~),,|(?<!~)##|(?<!~)\\\\\\\\");
 
+    /**
+     * Matches every "{" that is next to another one, that is every character of a run of two or more "{". A single
+     * "{" has no meaning in XWiki Syntax and is left alone.
+     */
+    private static final Pattern CURLY_BRACKETS_PATTERN = Pattern.compile("\\{(?=\\{)|(?<=\\{)\\{");
+
     public static final String ESCAPE_CHAR = "~";
 
     private boolean onNewLine = true;
@@ -118,11 +124,8 @@ public class XWikiSyntaxEscapeHandler
             replaceAll(accumulatedBuffer, "=", ESCAPE_CHAR + "=");
         }
 
-        // Escape verbatim "{{{"
-        replaceAll(accumulatedBuffer, "{{{", ESCAPE_CHAR + "{" + ESCAPE_CHAR + "{" + ESCAPE_CHAR + "{");
-
-        // Escape "{{"
-        replaceAll(accumulatedBuffer, "{{", ESCAPE_CHAR + "{" + ESCAPE_CHAR + "{");
+        // Escape anything that could be confused with a macro ("{{") or with verbatim content ("{{{").
+        escapeCurlyBrackets(accumulatedBuffer);
 
         // Escape groups
         replaceAll(accumulatedBuffer, "(((", ESCAPE_CHAR + "(" + ESCAPE_CHAR + "(" + ESCAPE_CHAR + "(");
@@ -152,6 +155,41 @@ public class XWikiSyntaxEscapeHandler
 
         // Escape begin link
         replaceAll(accumulatedBuffer, "[[", ESCAPE_CHAR + "[" + ESCAPE_CHAR + "[");
+    }
+
+    /**
+     * Escapes the "{" characters that form a "{{" sequence, so that the passed value cannot be confused with the start
+     * or the end of a macro or with verbatim content when it is parsed again. This is needed for every value that
+     * doesn't otherwise escape "{" because the output of the renderer is inserted as-is inside the content of a macro
+     * and the macro content is scanned for the macro's closing marker without any regard for the construct the marker
+     * appears in.
+     * <p>
+     * Every character of a run of "{" is escaped, so that no "{{" sequence is left in the result whatever the length of
+     * the run. A single "{" is left alone as it has no meaning in XWiki Syntax. Callers must escape the escape
+     * character itself <em>before</em> calling this method, so that the tildes inserted here are not doubled.
+     *
+     * @param value the value to escape
+     * @return the escaped value
+     * @since 16.10.19
+     * @since 17.10.14
+     * @since 18.4.6
+     * @since 18.8.0RC1
+     */
+    public static String escapeCurlyBrackets(String value)
+    {
+        return CURLY_BRACKETS_PATTERN.matcher(value).replaceAll(ESCAPE_CHAR + "$0");
+    }
+
+    /**
+     * Same as {@link #escapeCurlyBrackets(String)} but modifying the passed buffer in place.
+     *
+     * @param accumulatedBuffer the buffer to escape
+     */
+    private static void escapeCurlyBrackets(StringBuffer accumulatedBuffer)
+    {
+        String escaped = escapeCurlyBrackets(accumulatedBuffer.toString());
+        accumulatedBuffer.setLength(0);
+        accumulatedBuffer.append(escaped);
     }
 
     private void escapeURI(StringBuffer accumulatedBuffer, String match)

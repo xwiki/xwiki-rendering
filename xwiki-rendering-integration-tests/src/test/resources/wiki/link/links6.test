@@ -1,6 +1,8 @@
 .#-----------------------------------------------------
 .input|xwiki/2.0
-.# [[{{macro}}]]					a macro as label
+.# [[{{macro}}]]					a macro as label, kept as a plain reference. It is re-serialized escaped
+.#									(~{~{) so that it cannot be parsed as a macro, nor close a macro this link is
+.#									serialized in; the escaped form parses back to the very same reference.
 .# [[Label>Reference]]				just a reference, the > need to be double to be matched as a link syntax
 .# [[Reference|Param=Value]]		just a reference,  the | need to be double to be matched as a link syntax
 .# [[[[no link]]>>Not Reference]]	only images are valid sub-links syntaxes
@@ -59,7 +61,7 @@ endDocument
 .#-----------------------------------------------------
 .expect|xwiki/2.0
 .#-----------------------------------------------------
-[[{{macro}}]]
+[[~{~{macro}}]]
 [[Label>Reference]]
 [[Reference|Param=Value]]
 [[[[no link]]>>Not Reference]]
