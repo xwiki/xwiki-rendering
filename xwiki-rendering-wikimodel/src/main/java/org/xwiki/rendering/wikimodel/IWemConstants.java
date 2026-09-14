@@ -26,6 +26,8 @@ package org.xwiki.rendering.wikimodel;
  * @version $Id$
  * @since 4.0M1
  */
+// Old interface not describing a type, hard to remove for backward-compatibility reasons.
+@SuppressWarnings("java:S1214")
 public interface IWemConstants
 {
     /**
