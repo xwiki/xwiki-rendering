@@ -38,8 +38,6 @@ import org.xwiki.rendering.wikimodel.util.SectionBuilder;
  */
 public class InternalWikiScannerContext implements IWikiScannerContext
 {
-    // Old interface not describing a type, hard to remove for backward-compatibility reasons.
-    @SuppressWarnings("java:S1214")
     protected interface IBlockTypes
     {
         int HEADER = 1 << 1;

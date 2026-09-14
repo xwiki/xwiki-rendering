@@ -26,7 +26,8 @@ package org.xwiki.rendering.wikimodel;
  * @version $Id$
  * @since 4.0M1
  */
-// Old interface not describing a type, hard to remove for backward-compatibility reasons.
+// Constant holder rather than a type, and a published one: the styles are referenced as
+// IWemConstants.X throughout the wikimodel parsers, so moving them out would be a breaking change.
 @SuppressWarnings("java:S1214")
 public interface IWemConstants
 {
