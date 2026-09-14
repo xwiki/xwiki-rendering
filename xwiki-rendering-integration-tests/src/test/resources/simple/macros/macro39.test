@@ -1,0 +1,19 @@
+.runTransformations
+.#-----------------------------------------------------
+.# Same problem as macro38 but for a link reference: a link inside a box macro points at a reference that contains the
+.# macro's own closing marker ({{/box}}). It survives WYSIWYG editing inside the data-xwiki-non-generated-content
+.# wrapper (the reference is carried by the startwikilink annotation) and is re-rendered to XWiki syntax on save. The
+.# resource reference serializer must re-escape the "{{".
+.#
+.# The escaping is done by XWikiSyntaxResourceRenderer#serialize, which escapes "{{" like it already escapes "]]".
+.# Without it the reference would be emitted as [[label>>{{/box}}]], which re-parses as a premature {{/box}}.
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<!--startmacro:box|-||-|[[label>>~\{~\{/box}}]]--><div class="box"><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p><!--startwikilink:false|-|doc|-|\{\{/box}}--><span class="wikicreatelink"><a href="editurl">label</a></span><!--stopwikilink--></p></div></div><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+{{box}}
+[[label>>~{~{/box}}]]
+{{/box}}
