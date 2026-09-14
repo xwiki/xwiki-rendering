@@ -158,10 +158,11 @@ public class XWikiSyntaxEscapeHandler
     }
 
     /**
-     * Escapes the "{" characters that form a "{{" sequence, so that the passed value cannot be confused with the
-     * start or the end of a macro or with verbatim content when it is parsed again. This is needed for every value
-     * that is serialized as-is inside the content of a macro, as the macro content is scanned for the macro's closing
-     * marker without any regard for the construct the marker appears in.
+     * Escapes the "{" characters that form a "{{" sequence, so that the passed value cannot be confused with the start
+     * or the end of a macro or with verbatim content when it is parsed again. This is needed for every value that
+     * doesn't otherwise escape "{" because the output of the renderer is inserted as-is inside the content of a macro
+     * and the macro content is scanned for the macro's closing marker without any regard for the construct the marker
+     * appears in.
      * <p>
      * Every character of a run of "{" is escaped, so that no "{{" sequence is left in the result whatever the length of
      * the run. A single "{" is left alone as it has no meaning in XWiki Syntax. Callers must escape the escape
