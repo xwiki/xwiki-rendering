@@ -22,6 +22,7 @@ package org.xwiki.rendering.internal.renderer.xwiki21.reference;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxEscapeHandler;
 import org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxEscapeWikiPrinter;
 import org.xwiki.rendering.internal.renderer.xwiki20.XWikiSyntaxListenerChain;
 import org.xwiki.rendering.listener.reference.AttachmentResourceReference;
@@ -71,6 +72,16 @@ public class XWikiSyntaxResourceRenderer
         return ResourceType.ATTACHMENT.equals(resourceType) || ResourceType.PAGE_ATTACHMENT.equals(resourceType);
     }
 
+    /**
+     * @param name the name of the reference parameter to print
+     * @param value the value of the reference parameter to print
+     * @return the printed parameter, escaped so that it cannot close a macro it might be serialized in
+     */
+    private static String printParameter(String name, String value)
+    {
+        return XWikiSyntaxEscapeHandler.escapeCurlyBrackets(PARAMETERS_PRINTER.print(name, value));
+    }
+
     @Override
     protected void printParameters(XWikiSyntaxEscapeWikiPrinter printer, ResourceReference reference,
         Map<String, String> parameters)
@@ -88,7 +99,7 @@ public class XWikiSyntaxResourceRenderer
             String queryString = reference.getParameter(DocumentResourceReference.QUERY_STRING);
             if (!StringUtils.isEmpty(queryString)) {
                 printer.print(PARAMETER_SEPARATOR);
-                printer.print(this.PARAMETERS_PRINTER.print(QUERY_STRING, queryString, '~'));
+                printer.print(printParameter(QUERY_STRING, queryString));
                 shouldPrintSeparator = false;
             }
             // Then print the anchor
@@ -99,14 +110,14 @@ public class XWikiSyntaxResourceRenderer
                 } else {
                     printer.print(" ");
                 }
-                printer.print(this.PARAMETERS_PRINTER.print(ANCHOR, anchor, '~'));
+                printer.print(printParameter(ANCHOR, anchor));
                 shouldPrintSeparator = false;
             }
         } else if (isAttachment(resourceType)) {
             String queryString = reference.getParameter(AttachmentResourceReference.QUERY_STRING);
             if (!StringUtils.isEmpty(queryString)) {
                 printer.print(PARAMETER_SEPARATOR);
-                printer.print(this.PARAMETERS_PRINTER.print(QUERY_STRING, queryString, '~'));
+                printer.print(printParameter(QUERY_STRING, queryString));
                 shouldPrintSeparator = false;
             }
         }
@@ -118,7 +129,7 @@ public class XWikiSyntaxResourceRenderer
             } else {
                 printer.print(" ");
             }
-            printer.print(this.PARAMETERS_PRINTER.print(parameters, '~'));
+            printer.print(XWikiSyntaxEscapeHandler.escapeCurlyBrackets(PARAMETERS_PRINTER.print(parameters)));
         }
     }
 }
