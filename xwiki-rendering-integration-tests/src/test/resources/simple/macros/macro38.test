@@ -1,0 +1,21 @@
+.runTransformations
+.#-----------------------------------------------------
+.# A group parameter value inside a box macro contains the macro's own closing marker ({{/box}}). When the box is
+.# edited in the WYSIWYG editor, that value lives as a real HTML attribute inside the data-xwiki-non-generated-content
+.# wrapper, so on save the xhtml/1.0 parser takes the content from there (not from the opaque macro comment) and
+.# re-renders it to XWiki syntax. The renderer must re-escape the "{{" so that the box is not closed early on the next
+.# parse.
+.#
+.# The escaping is done by XWikiSyntaxChainingRenderer#printParameters, which applies
+.# XWikiSyntaxEscapeHandler#escapeCurlyBrackets to the parameter value the way text is already escaped. Without it the
+.# parameter would be emitted as (% class="{{/box}}" %), which re-parses as a premature {{/box}}.
+.#-----------------------------------------------------
+.input|xhtml/1.0
+.#-----------------------------------------------------
+<!--startmacro:box|-||-|(% class="~\{~\{/box}}" %)Info content--><div class="box"><div data-xwiki-non-generated-content="java.util.List&lt;org.xwiki.rendering.block.Block&gt;" class="xwiki-metadata-container"><p><span class="&#123;&#123;/box}}">Info content</span></p></div></div><!--stopmacro-->
+.#-----------------------------------------------------
+.expect|xwiki/2.0
+.#-----------------------------------------------------
+{{box}}
+(% class="~{~{/box}}" %)Info content
+{{/box}}

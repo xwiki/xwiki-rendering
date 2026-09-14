@@ -196,7 +196,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     {
         // Flush text content before the link.
         // Escape open link syntax when before a link.
-        if (getLinkRenderer().forceFullSyntax(getXWikiPrinter(), freestanding, parameters)
+        if (getLinkRenderer().forceFullSyntax(getXWikiPrinter(), reference, freestanding, parameters)
             && getXWikiPrinter().getBuffer().length() > 0
             && getXWikiPrinter().getBuffer().charAt(getXWikiPrinter().getBuffer().length() - 1) == '[')
         {
@@ -205,7 +205,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
         handleEmptyParameters();
         getXWikiPrinter().flush();
 
-        getLinkRenderer().beginRenderLink(getXWikiPrinter(), freestanding, parameters);
+        getLinkRenderer().beginRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
 
         XWikiSyntaxEscapeWikiPrinter linkLabelPrinter =
             new XWikiSyntaxEscapeWikiPrinter(new DefaultWikiPrinter(), getXWikiSyntaxListenerChain());
@@ -525,7 +525,9 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     @Override
     public void onId(String name)
     {
-        print("{{id name=\"" + name + "\"/}}");
+        // Use the macro printer so that the name is escaped like any other macro parameter value, and the inline
+        // macro printing so that a "{" printed just before isn't parsed as the start of a verbatim block.
+        printInlineMacro(getMacroPrinter().renderMacro("id", Map.of("name", name), null, true));
     }
 
     @Override
@@ -822,7 +824,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                     getBlockState().beginLink(figureContent.getLinkReference(), false,
                         figureContent.getLinkParameters());
                 }
-                getImageRenderer().beginRenderLink(getXWikiPrinter(), false, figureContent.getImageParameters());
+                getImageRenderer().beginRenderLink(getXWikiPrinter(), figureContent.getImageReference(), false,
+                    figureContent.getImageParameters());
 
                 // Ignore output from, e.g., a nested paragraph or anything else that might wrap the image/caption.
                 this.pushPrinter(
@@ -912,7 +915,7 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
     @Override
     public void onImage(ResourceReference reference, boolean freestanding, Map<String, String> parameters)
     {
-        getImageRenderer().beginRenderLink(getXWikiPrinter(), freestanding, parameters);
+        getImageRenderer().beginRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
         getImageRenderer().endRenderLink(getXWikiPrinter(), reference, freestanding, parameters);
     }
 
@@ -933,6 +936,8 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
                 value = value.replaceAll("[~\"]", "~$0");
                 // Escape ending custom parameters syntax
                 value = value.replace("%)", "~%)");
+                // Escape anything that could close the macro this value might be serialized in
+                value = XWikiSyntaxEscapeHandler.escapeCurlyBrackets(value);
                 parametersStr.append(' ').append(key).append('=').append('\"').append(value).append('\"');
             }
         }
@@ -948,6 +953,16 @@ public class XWikiSyntaxChainingRenderer extends AbstractChainingPrintRenderer i
 
             print(buffer.toString());
         }
+    }
+
+    private void printInlineMacro(String xwikiSyntaxText)
+    {
+        this.isFirstElementRendered = true;
+
+        // Handle empty formatting parameters.
+        handleEmptyParameters();
+
+        getXWikiPrinter().printInlineMacro(xwikiSyntaxText);
     }
 
     private void printDelayed(String text)
