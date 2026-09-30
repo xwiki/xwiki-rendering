@@ -355,6 +355,9 @@ public class MacroTransformation extends AbstractTransformation implements Initi
     }
 
     @Override
+    // Catching Throwable is deliberate in this method, as the comments in the catch blocks state: a macro is
+    // third-party code and must never break the whole rendering, the failure is turned into an error block instead.
+    @SuppressWarnings("java:S1181")
     public void transform(Block rootBlock, TransformationContext context) throws TransformationException
     {
         // Create a macro execution context with all the information required for macros.
