@@ -25,6 +25,8 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.annotation.InstantiationStrategy;
 import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
@@ -34,6 +36,7 @@ import org.xwiki.component.phase.InitializationException;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
+import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
 import org.xwiki.rendering.wiki.WikiModel;
 
 /**
@@ -51,6 +54,9 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      */
     private static final String WIKILINK = "wikilink";
 
+    @Inject
+    private Logger logger;
+
     /**
      * Used to generate the link targeting a local document.
      */
@@ -61,6 +67,12 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
      */
     @Inject
     private LinkLabelGenerator linkLabelGenerator;
+
+    /**
+     * Used to generate a link title.
+     */
+    @Inject
+    private WantedLinkTitleGenerator defaultTitleGenerator;
 
     @Override
     public void initialize() throws InitializationException
@@ -88,6 +100,41 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
     protected String computeLabel(ResourceReference reference)
     {
         return this.linkLabelGenerator.generate(reference);
+    }
+
+    /**
+     * Look for a {@link WantedLinkTitleGenerator} with a role hint matching the reference scheme, so that the title
+     * can be adapted to the kind of resource being referenced. When no such component is registered, which is the
+     * case when the rendering runs on its own, the default generator is used instead.
+     *
+     * @param reference the reference for which to find a title generator
+     * @return the title generator to use for the passed reference, never {@code null}
+     */
+    private WantedLinkTitleGenerator getTitleGenerator(ResourceReference reference)
+    {
+        String scheme = reference.getType().getScheme();
+        if (this.componentManager.hasComponent(WantedLinkTitleGenerator.class, scheme)) {
+            try {
+                return this.componentManager.getInstance(WantedLinkTitleGenerator.class, scheme);
+            } catch (ComponentLookupException e) {
+                this.logger.warn("Failed to load the [{}] component with hint [{}] to generate the wanted link "
+                    + "title for reference [{}]. Using the default generator instead. Cause: [{}]",
+                    WantedLinkTitleGenerator.class.getName(), scheme, reference,
+                    ExceptionUtils.getRootCauseMessage(e));
+                this.logger.debug("Full stack trace of the wanted link title generator lookup failure:", e);
+            }
+        }
+        return this.defaultTitleGenerator;
+    }
+
+    /**
+     * @param reference the reference for which to compute the title
+     * @return the title to display on the wanted link rendered for the passed reference
+     */
+    private String computeWantedLinkTitle(ResourceReference reference)
+    {
+        WantedLinkTitleGenerator titleGenerator = getTitleGenerator(reference);
+        return titleGenerator.generateWantedLinkTitle(reference);
     }
 
     @Override
@@ -123,9 +170,11 @@ public class DocumentXHTMLLinkTypeRenderer extends AbstractXHTMLLinkTypeRenderer
             spanAttributes.put(CLASS, WIKILINK);
             anchorAttributes.put(XHTMLLinkRenderer.HREF, this.wikiModel.getDocumentViewURL(reference));
         } else {
-            // The wiki document doesn't exist
+            // The wiki document doesn't exist. The title goes on the anchor and not on the span because the
+            // accessible description of a link is only computed from the link element itself.
             spanAttributes.put(CLASS, "wikicreatelink");
             anchorAttributes.put(XHTMLLinkRenderer.HREF, this.wikiModel.getDocumentEditURL(reference));
+            anchorAttributes.put(TITLE, computeWantedLinkTitle(reference));
         }
 
         getXHTMLWikiPrinter().printXMLStartElement(SPAN, spanAttributes);

@@ -60,6 +60,18 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
 
     private static final String NAME_ATTRIBUTE = "name";
 
+    private static final String TITLE_ATTRIBUTE = "title";
+
+    /**
+     * The class the renderer sets on the span wrapping a link to a page that does not exist.
+     */
+    private static final String WANTED_LINK_CLASS = "wikicreatelink";
+
+    /**
+     * The name of the element wrapping a rendered link.
+     */
+    private static final String SPAN_ELEMENT = "span";
+
     private WikiModelStreamParser parser;
 
     /**
@@ -99,7 +111,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
                 context.getTagStack().setStackParameter(IS_FREE_STANDING_LINK, Boolean.TRUE);
             } else {
                 context.getTagStack().setStackParameter(LINK_PARAMETERS,
-                    removeMeaningfulParameters(context.getParams()));
+                    removeGeneratedTitle(context, removeMeaningfulParameters(context.getParams())));
             }
 
             setAccumulateContent(false);
@@ -158,14 +170,36 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
 
                 ResourceReference resourceReference = computeResourceReference(ref.getValue());
 
-                XWikiWikiReference reference =
-                    new XWikiWikiReference(resourceReference, label, removeMeaningfulParameters(parameters), false);
+                XWikiWikiReference reference = new XWikiWikiReference(resourceReference, label,
+                    removeGeneratedTitle(context, removeMeaningfulParameters(parameters)), false);
 
                 context.getScannerContext().onReference(reference);
             }
         } else {
             super.end(context);
         }
+    }
+
+    /**
+     * Drops the title of a wanted link so that it is not turned into a link parameter. The renderer puts that title
+     * on the anchor rather than on the wrapping span so that it reaches the accessible description of the link, and
+     * it is generated rather than authored, so keeping it would write it back into the wiki source on a round trip.
+     *
+     * @param context the tag context of the anchor being parsed
+     * @param parameters the parameters gathered from the anchor
+     * @return the parameters without the generated title
+     * @since 18.8.0RC1
+     */
+    private WikiParameters removeGeneratedTitle(TagContext context, WikiParameters parameters)
+    {
+        WikiParameters result = parameters;
+        TagContext parent = context.getParentContext();
+        if (parent != null && SPAN_ELEMENT.equalsIgnoreCase(parent.getName())
+            && containsClass(parent.getParams(), WANTED_LINK_CLASS))
+        {
+            result = result.remove(TITLE_ATTRIBUTE);
+        }
+        return result;
     }
 
     /**
