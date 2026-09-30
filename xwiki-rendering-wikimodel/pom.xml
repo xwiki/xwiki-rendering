@@ -83,6 +83,45 @@
           </dependency>
         </dependencies>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <!-- Compile the JavaCC-generated scanners in their own execution, with the javac lint checks turned off
+               since we don't control the generated code. They need the hand-written sources to compile, which are
+               passed on the sourcepath so that javac resolves them without linting them and without writing their
+               class files (that's the job of the execution below). -->
+          <execution>
+            <id>compile-generated-sources</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <compileSourceRoots>
+                <compileSourceRoot>${project.build.directory}/generated-sources/javacc</compileSourceRoot>
+              </compileSourceRoots>
+              <compilerArgs>
+                <arg>-Xlint:none</arg>
+                <arg>-parameters</arg>
+                <arg>-implicit:none</arg>
+                <arg>-sourcepath</arg>
+                <arg>${project.build.sourceDirectory}</arg>
+              </compilerArgs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <!-- Only the hand-written sources, so that they stay fully checked: the generated ones are compiled
+                   by the execution above and are picked up from the output directory. -->
+              <compileSourceRoots>
+                <compileSourceRoot>${project.build.sourceDirectory}</compileSourceRoot>
+              </compileSourceRoots>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <!-- Add specific excludes for this module for license checks -->
       <plugin>
         <groupId>com.mycila</groupId>
