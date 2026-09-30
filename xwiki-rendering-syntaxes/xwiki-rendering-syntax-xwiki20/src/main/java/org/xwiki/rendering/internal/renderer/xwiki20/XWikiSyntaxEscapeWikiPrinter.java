@@ -219,7 +219,7 @@ public class XWikiSyntaxEscapeWikiPrinter extends LookaheadWikiPrinter
      * @param verbatimContent the content of the verbatim block
      */
     @SuppressWarnings({"checkstyle:CyclomaticComplexity", "checkstyle:NPathComplexity", "checkstyle:JavaNCSS",
-        "checkstyle:ExecutableStatementCount", "checkstyle:MultipleStringLiterals"})
+        "checkstyle:ExecutableStatementCount", "checkstyle:MultipleStringLiterals", "java:S3776"})
     public void printVerbatimContent(String verbatimContent)
     {
         StringBuffer result = new StringBuffer();

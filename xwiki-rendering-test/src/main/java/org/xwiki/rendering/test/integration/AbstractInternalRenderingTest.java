@@ -86,6 +86,9 @@ public abstract class AbstractInternalRenderingTest
 
     private ComponentManager componentManager;
 
+    // Published constructor of the rendering test framework: one parameter per field of the test case being run,
+    // so the parameter list cannot be shortened without changing that published signature.
+    @SuppressWarnings("java:S107")
     public AbstractInternalRenderingTest(String input, String expected, String parserId, String targetSyntaxId,
         boolean streaming, List<String> transformations, Map<String, ?> configuration,
         ComponentManager componentManager)
