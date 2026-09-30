@@ -208,9 +208,11 @@ TOKEN_MGR_DECLS: {
     int tableDepth = 0; 
     String macroName = "";
     int macroDepth = 0;
+    int macroVerbatimDepth = 0;
     void initMacro(CharSequence buf) {
         macroName = getMacroName(buf);
         macroDepth = 1;
+        macroVerbatimDepth = 0;
     }
     String getMacroName(CharSequence buf) {
         Matcher matcher = MACRO_NAME_PATTERN.matcher(buf);
@@ -409,8 +411,52 @@ TOKEN_MGR_DECLS: {
             }
         }
     }
+    /*
+     * Verbatim content is literal, so the closing marker of the macro must not be recognized inside it. This token is
+     * only a look-ahead checking that the verbatim block is actually closed: all of it but the opening "{{{" is backed
+     * up and rescanned in MACRO_VERBATIM_CONTEXT, which counts the nesting. An unterminated "{{{" doesn't match here
+     * and is scanned character by character as before, so that it cannot swallow the rest of the document.
+     */
+    | <MACRO_VERBATIM_LOOKAHEAD: "{{{" ( "~" ~[] | ~["}", "~"] | "}" ~["}", "~"] | "}}" ~["}", "~"] )* "}}}" > {
+        {
+            input_stream.backup(image.length() - "{{{".length());
+            matchedToken.image = "{{{";
+            matchedToken.kind = MACRO_CONTENT;
+            macroVerbatimDepth = 1;
+        }
+      } : MACRO_VERBATIM_CONTEXT
     | <MACRO_CONTENT: ( <XWIKI_CHAR> | <SPACE> |<NEW_LINE> | <XWIKI_SPECIAL_SYMBOL> ) >
 
+}
+
+/*
+ * Scans the verbatim blocks that appear inside the content of a macro. Everything is reported as MACRO_CONTENT so that
+ * the macro() production keeps seeing one continuous content stream, and the closing marker of the macro is not
+ * recognized. Mirrors VERBATIM_CONTEXT, except that it returns to MACRO_CONTEXT instead of the preceding state.
+ */
+<MACRO_VERBATIM_CONTEXT> TOKEN:
+{
+      <MACRO_VERBATIM_START: "{" ("{")? ("{")? > {
+          if (image.length() == 3) {
+              macroVerbatimDepth++;
+          }
+          matchedToken.kind = MACRO_CONTENT;
+      }
+    | <MACRO_VERBATIM_END: "}" ("}")? ("}")? > {
+          if (image.length() == 3) {
+              macroVerbatimDepth--;
+              if (macroVerbatimDepth == 0) {
+                  SwitchTo(MACRO_CONTEXT);
+              }
+          }
+          matchedToken.kind = MACRO_CONTENT;
+      }
+    | <MACRO_VERBATIM_CONTENT: (
+          "~" ~[]
+        | ~["}", "{", "~"]
+      )+ > {
+          matchedToken.kind = MACRO_CONTENT;
+      }
 }
 
 <*> TOKEN:

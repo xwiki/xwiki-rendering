@@ -1,0 +1,35 @@
+.#-----------------------------------------------------
+.# An unterminated verbatim inside a macro must keep closing the macro at its closing marker, as it did before
+.# MACRO_CONTEXT became verbatim-aware: the MACRO_VERBATIM_LOOKAHEAD token only treats a "{{{" as the start of a
+.# verbatim block if that block is actually closed, so that a stray "{{{" cannot swallow the rest of the document.
+.# See macro44 for the case where a later, unrelated "}}}" does make the look-ahead match.
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.#-----------------------------------------------------
+{{box}}
+{{{ unterminated
+{{/box}}
+
+After the box.
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.#-----------------------------------------------------
+{{box}}
+{{{ unterminated
+{{/box}}
+
+After the box.
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onMacroStandalone [box] [] [{{{ unterminated]
+beginParagraph
+onWord [After]
+onSpace
+onWord [the]
+onSpace
+onWord [box]
+onSpecialSymbol [.]
+endParagraph
+endDocument
