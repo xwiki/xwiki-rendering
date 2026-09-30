@@ -66,6 +66,8 @@ public interface MacroManager
      *             syntax identifier and for all syntaxes
      * @since 2.03M
      */
+    // A macro is looked up by id, so its parameters bean type is unknown (Macro is itself Comparable<Macro<?>>).
+    @SuppressWarnings("java:S1452")
     Macro<?> getMacro(MacroId macroId) throws MacroLookupException;
 
     /**

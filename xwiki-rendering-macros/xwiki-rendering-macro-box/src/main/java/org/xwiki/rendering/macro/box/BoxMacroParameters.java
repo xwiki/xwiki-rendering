@@ -65,6 +65,8 @@ public class BoxMacroParameters
      *
      * @return the title represented as a list of Blocks
      */
+    // Mirrors the field and setBlockTitle(List<? extends Block>), so callers can pass any Block subtype list.
+    @SuppressWarnings("java:S1452")
     public List<? extends Block> getBlockTitle()
     {
         return this.blockTitle;
