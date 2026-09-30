@@ -46,6 +46,10 @@ public class XDOM extends MetaDataBlock
      * same between parsing, transformation and rendering, and we need to generate ids during parsing and during
      * transformation.
      */
+    // 'transient' is deliberate here: the id generator is parse/render-time state that must not be
+    // written out when an XDOM is serialized with XStream, which honours 'transient' independently of
+    // java.io.Serializable.
+    @SuppressWarnings("java:S2065")
     private transient IdGenerator idGenerator;
 
     /**
