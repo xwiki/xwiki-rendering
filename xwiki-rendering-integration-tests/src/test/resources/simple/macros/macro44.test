@@ -1,0 +1,33 @@
+.#-----------------------------------------------------
+.# Known limitation of the verbatim-aware macro content scan: whether an unterminated "{{{" inside a macro is
+.# verbatim or not is genuinely ambiguous, and MACRO_VERBATIM_LOOKAHEAD resolves it by looking for a "}}}" anywhere
+.# after it. Here the "{{{elsewhere}}}" that follows the macro provides one, so the "{{{" is taken as a verbatim
+.# block and the macro's closing marker is scanned as verbatim content instead of closing the box.
+.# Before the parser became verbatim-aware the box closed at its marker (as it still does in macro41). This is the
+.# accepted trade-off of the fix, not an intended behaviour: any resolution of the ambiguity breaks one of the two
+.# readings.
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.#-----------------------------------------------------
+{{box}}
+{{{ unterminated
+{{/box}}
+
+{{{elsewhere}}}
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.#-----------------------------------------------------
+{{box}}
+{{{ unterminated
+{{/box}}
+
+{{{elsewhere}}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onMacroStandalone [box] [] [{{{ unterminated
+{{/box}}
+
+{{{elsewhere}}}]
+endDocument
