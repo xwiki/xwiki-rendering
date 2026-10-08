@@ -1,0 +1,90 @@
+.#-------------------------------------------------------------------------------------------------------
+.inputexpect|blocknote/1.0
+.# Test toggle list.
+.#-------------------------------------------------------------------------------------------------------
+[ {
+  "type" : "toggleListItem",
+  "props" : { },
+  "content" : "nestedlist1.1",
+  "children" : [ {
+    "type" : "toggleListItem",
+    "props" : { },
+    "content" : "nestedlist2.1",
+    "children" : [ ]
+  }, {
+    "type" : "toggleListItem",
+    "props" : { },
+    "content" : "nestedlist2.2",
+    "children" : [ {
+      "type" : "xwikiGroup",
+      "props" : { },
+      "children" : [ {
+        "type" : "paragraph",
+        "props" : { },
+        "content" : "content"
+      } ]
+    } ]
+  } ]
+}, {
+  "type" : "toggleListItem",
+  "props" : { },
+  "content" : "listwithmacro",
+  "children" : [ {
+    "type" : "xwikiGroup",
+    "props" : { },
+    "children" : [ {
+      "type" : "xwikiMacroBlock",
+      "props" : {
+        "call" : {
+          "name" : "info",
+          "parameters" : { },
+          "content" : "hello"
+        },
+        "output" : [ ]
+      }
+    } ]
+  } ]
+}, {
+  "type" : "toggleListItem",
+  "props" : { },
+  "content" : "listwitnnocontent",
+  "children" : [ ]
+}, {
+  "type" : "toggleListItem",
+  "props" : { },
+  "content" : "listwithsimplecontent",
+  "children" : [ {
+    "type" : "xwikiGroup",
+    "props" : { },
+    "children" : [ {
+      "type" : "paragraph",
+      "props" : { },
+      "content" : "simplecontent"
+    } ]
+  } ]
+}, {
+  "type" : "paragraph",
+  "props" : { },
+  "content" : [ ]
+} ]
+.#-----------------------------------------------------
+.expect|xwiki/2.1
+.#-----------------------------------------------------
+(% data-xwiki-list-type="toggle" %)
+* nestedlist1.1
+(% data-xwiki-list-type="toggle" %)
+** nestedlist2.1
+** nestedlist2.2(((
+content
+)))
+* listwithmacro(((
+{{info}}
+hello
+{{/info}}
+)))
+* listwitnnocontent
+* listwithsimplecontent(((
+simplecontent
+)))
+
+
