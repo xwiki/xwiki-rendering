@@ -97,6 +97,9 @@ public abstract class AbstractXHTMLImageTypeRenderer implements XHTMLImageTypeRe
     }
 
     @Override
+    // Catching Throwable is deliberate here: a failing image renderer must not break the rendering of the whole
+    // document, an inline rendering error is generated instead.
+    @SuppressWarnings("java:S1181")
     public void onImage(ResourceReference reference, boolean freestanding, String id, Map<String, String> parameters)
     {
         Map<String, String> attributes = new LinkedHashMap<>();
