@@ -33,10 +33,10 @@ import org.xwiki.component.descriptor.ComponentInstantiationStrategy;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
+import org.xwiki.rendering.internal.renderer.reference.link.WantedLinkTitleGenerator;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
-import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
 import org.xwiki.rendering.wiki.WikiModel;
 
 /**

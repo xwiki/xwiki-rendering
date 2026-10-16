@@ -22,8 +22,8 @@ package org.xwiki.rendering.internal.renderer;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.rendering.internal.renderer.reference.link.WantedLinkTitleGenerator;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
 
 /**
  * Generates the title of a wanted link from the reference itself, in English and without translating it.
@@ -33,7 +33,7 @@ import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
  * translates the title.
  *
  * @version $Id$
- * @since 18.8.0RC1
+ * @since 18.10.0RC1
  */
 @Component
 @Singleton

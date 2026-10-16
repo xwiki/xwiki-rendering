@@ -17,11 +17,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rendering.renderer.reference.link;
+package org.xwiki.rendering.internal.renderer.reference.link;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.listener.reference.ResourceReference;
-import org.xwiki.stability.Unstable;
 
 /**
  * Generates the title of a wanted link, which is the link rendered for a resource that does not exist yet.
@@ -32,10 +31,9 @@ import org.xwiki.stability.Unstable;
  * falls back to the implementation registered without a hint, and reports nothing.
  *
  * @version $Id$
- * @since 18.8.0RC1
+ * @since 18.10.0RC1
  */
 @Role
-@Unstable
 public interface WantedLinkTitleGenerator
 {
     /**

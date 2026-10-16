@@ -188,7 +188,7 @@ public class XWikiReferenceTagHandler extends ReferenceTagHandler implements XWi
      * @param context the tag context of the anchor being parsed
      * @param parameters the parameters gathered from the anchor
      * @return the parameters without the generated title
-     * @since 18.8.0RC1
+     * @since 18.10.0RC1
      */
     private WikiParameters removeGeneratedTitle(TagContext context, WikiParameters parameters)
     {

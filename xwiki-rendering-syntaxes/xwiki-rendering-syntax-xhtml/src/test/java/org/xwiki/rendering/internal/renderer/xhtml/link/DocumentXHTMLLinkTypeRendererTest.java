@@ -23,12 +23,12 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.xwiki.rendering.internal.renderer.reference.link.WantedLinkTitleGenerator;
 import org.xwiki.rendering.listener.reference.DocumentResourceReference;
 import org.xwiki.rendering.listener.reference.ResourceReference;
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter;
 import org.xwiki.rendering.renderer.printer.XHTMLWikiPrinter;
 import org.xwiki.rendering.renderer.reference.link.LinkLabelGenerator;
-import org.xwiki.rendering.renderer.reference.link.WantedLinkTitleGenerator;
 import org.xwiki.rendering.wiki.WikiModel;
 import org.xwiki.test.junit5.mockito.ComponentTest;
 import org.xwiki.test.junit5.mockito.InjectComponentManager;
