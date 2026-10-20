@@ -20,8 +20,10 @@
 package org.xwiki.rendering.internal.parser.plain;
 
 import java.io.BufferedReader;
+import java.io.CharArrayReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.BitSet;
 
 import javax.inject.Named;
@@ -88,7 +90,7 @@ public class PlainTextStreamParser implements StreamParser
     public void parse(Reader source, Listener listener) throws ParseException
     {
         StringBuilder word = new StringBuilder();
-        BufferedReader bufferedSource = new BufferedReader(source);
+        Reader bufferedSource = isBuffered(source) ? source : new BufferedReader(source);
         int charAsInt;
 
         listener.beginDocument(MetaData.EMPTY);
@@ -113,6 +115,18 @@ public class PlainTextStreamParser implements StreamParser
         }
 
         listener.endDocument(MetaData.EMPTY);
+    }
+
+    /**
+     * Buffering a source that is already in memory brings nothing, while allocating the buffer costs more than parsing
+     * a short text, which callers like the code macro do for each highlighted token.
+     *
+     * @param source the input to read from
+     * @return {@code true} if reading the source doesn't need a buffer
+     */
+    private boolean isBuffered(Reader source)
+    {
+        return source instanceof BufferedReader || source instanceof StringReader || source instanceof CharArrayReader;
     }
 
     private void parseChar(int charAsInt, StringBuilder word, Listener listener)
