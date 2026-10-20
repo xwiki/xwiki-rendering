@@ -31,7 +31,7 @@
   <name>XWiki Rendering - Syntax - Plain</name>
   <description>XWiki Rendering - Syntax - Plain</description>
   <properties>
-    <xwiki.jacoco.instructionRatio>0.90</xwiki.jacoco.instructionRatio>
+    <xwiki.jacoco.instructionRatio>0.92</xwiki.jacoco.instructionRatio>
     </properties>
   <dependencies>
     <!-- Test Dependencies -->
