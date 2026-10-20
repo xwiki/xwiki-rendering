@@ -51,7 +51,7 @@ public class ResourceReferenceParser extends DefaultBlockParser implements Value
     /**
      * The parsed resource reference.
      */
-    public ResourceReference reference;
+    public ResourceReference resourceReference;
 
     /**
      * Default constructor.
@@ -64,16 +64,16 @@ public class ResourceReferenceParser extends DefaultBlockParser implements Value
     @Override
     public ResourceReference getValue()
     {
-        return this.reference;
+        return this.resourceReference;
     }
 
     @Override
     protected void endBlock()
     {
-        this.reference =
+        this.resourceReference =
             new ResourceReference(getParameterAsString(REFERENCE, null), new ResourceType(getParameterAsString(
                 TYPE, "path")));
-        this.reference.setTyped(getParameterAsBoolean(TYPED, true));
-        this.reference.setParameters(getCustomParameters());
+        this.resourceReference.setTyped(getParameterAsBoolean(TYPED, true));
+        this.resourceReference.setParameters(getCustomParameters());
     }
 }
