@@ -23,6 +23,8 @@ import java.io.Reader;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.macro.Macro;
@@ -80,6 +82,15 @@ class MessageMacroTest
         assertNotNull(messageMacro.getDescriptor().getContentDescriptor());
         messageMacro = this.componentManager.getInstance(Macro.class, "success");
         assertNotNull(messageMacro.getDescriptor().getContentDescriptor());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "info", "warning", "error", "success" })
+    void cssClassParameterIsAdvanced(String macroName) throws Exception
+    {
+        Macro<MessageMacroParameters> messageMacro = this.componentManager.getInstance(Macro.class, macroName);
+
+        assertTrue(messageMacro.getDescriptor().getParameterDescriptorMap().get("cssclass").isAdvanced());
     }
 
     @Test

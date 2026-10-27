@@ -22,6 +22,7 @@ package org.xwiki.rendering.macro.box;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
 import org.xwiki.properties.annotation.PropertyDisplayType;
 import org.xwiki.properties.annotation.PropertyHidden;
@@ -131,6 +132,7 @@ public class BoxMacroParameters
      * @param cssClass refer to {@link BoxMacroParameters#getCssClass()}
      */
     @PropertyDescription("A CSS class to add to the box element")
+    @PropertyAdvanced
     public void setCssClass(String cssClass)
     {
         this.cssClass = cssClass;
