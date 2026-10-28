@@ -36,6 +36,11 @@
     <xwiki.extension.name>Footnote Macros</xwiki.extension.name>
     <!-- Category to display by the Extension Manager -->
     <xwiki.extension.category>macro</xwiki.extension.category>
+    <!-- Indicate to the XWiki Extension Manager that this extension contributes Macro components -->
+    <xwiki.extension.components>
+      org.xwiki.rendering.macro.Macro/footnote
+      org.xwiki.rendering.macro.Macro/putFootnotes
+    </xwiki.extension.components>
   </properties>
   <!-- Test dependencies -->
   <dependencies>
