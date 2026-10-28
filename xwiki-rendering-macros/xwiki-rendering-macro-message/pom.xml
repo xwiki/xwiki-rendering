@@ -34,6 +34,13 @@
     <xwiki.jacoco.instructionRatio>0.93</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Message Macros</xwiki.extension.name>
+    <!-- Indicate to the XWiki Extension Manager that this extension contributes Macro components -->
+    <xwiki.extension.components>
+      org.xwiki.rendering.macro.Macro/error
+      org.xwiki.rendering.macro.Macro/info
+      org.xwiki.rendering.macro.Macro/success
+      org.xwiki.rendering.macro.Macro/warning
+    </xwiki.extension.components>
   </properties>
   <dependencies>
     <dependency>
