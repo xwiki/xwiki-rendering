@@ -273,7 +273,28 @@
                    </differences>
                  </revapi.differences>
             -->
-            
+            <revapi.differences>
+              <differences>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.annotation.added</code>
+                  <old>method void org.xwiki.rendering.macro.box.BoxMacroParameters::setCssClass(java.lang.String)</old>
+                  <new>method void org.xwiki.rendering.macro.box.BoxMacroParameters::setCssClass(java.lang.String)</new>
+                  <annotation>@org.xwiki.properties.annotation.PropertyAdvanced</annotation>
+                  <criticality>allowed</criticality>
+                  <justification>Binary compatible</justification>
+                </item>
+                <item>
+                  <ignore>true</ignore>
+                  <code>java.annotation.added</code>
+                  <old>method void org.xwiki.rendering.macro.box.BoxMacroParameters::setCssClass(java.lang.String) @ org.xwiki.rendering.macro.message.MessageMacroParameters</old>
+                  <new>method void org.xwiki.rendering.macro.box.BoxMacroParameters::setCssClass(java.lang.String) @ org.xwiki.rendering.macro.message.MessageMacroParameters</new>
+                  <annotation>@org.xwiki.properties.annotation.PropertyAdvanced</annotation>
+                  <criticality>allowed</criticality>
+                  <justification>Binary compatible</justification>
+                </item>
+              </differences>
+            </revapi.differences>
           </analysisConfiguration>
         </configuration>
       </plugin>
