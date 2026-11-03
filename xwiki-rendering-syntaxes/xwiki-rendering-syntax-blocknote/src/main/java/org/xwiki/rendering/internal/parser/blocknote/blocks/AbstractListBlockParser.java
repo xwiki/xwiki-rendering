@@ -97,9 +97,14 @@ public abstract class AbstractListBlockParser extends AbstractBlockParser
         beginListItem(listItemBlock, listener);
 
         visitInlineChildBlocks(listItemBlock, CONTENT, contextStack);
-        visitChildBlocks(listItemBlock, CHILDREN, contextStack);
+        visitListChildren(listItemBlock, contextStack);
 
         endListItem(listItemBlock, listener);
+    }
+
+    protected void visitListChildren(ObjectNode parentBlock, Deque<Context> contextStack) throws ParseException
+    {
+        visitChildBlocks(parentBlock, CHILDREN, contextStack);
     }
 
     protected abstract void beginList(Listener listener, Map<String, String> parameters);
