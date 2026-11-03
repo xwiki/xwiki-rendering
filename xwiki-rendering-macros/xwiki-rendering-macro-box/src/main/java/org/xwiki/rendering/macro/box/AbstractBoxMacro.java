@@ -104,6 +104,8 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      * @return the title represented as a list of Blocks
      * @since 10.10
      */
+    // The title blocks come from the parameters bean, which stores them as a list of any Block subtype.
+    @SuppressWarnings("java:S1452")
     protected List<? extends Block> getBlockTitle(P parameters, String content, MacroTransformationContext context)
     {
         return parameters.getBlockTitle();
