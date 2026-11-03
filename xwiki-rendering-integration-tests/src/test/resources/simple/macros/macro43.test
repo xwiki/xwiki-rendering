@@ -1,0 +1,22 @@
+.#-----------------------------------------------------
+.# An escaped closing marker does not close the macro, because "~{" is matched as a single MACRO_CONTENT token
+.# (XWIKI_SPECIAL_SYMBOL covers "~" followed by a special symbol). This also keeps an escaped "~{{{" from being
+.# recognized as the start of a verbatim block by MACRO_VERBATIM_LOOKAHEAD.
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.#-----------------------------------------------------
+{{box}}
+~{{/box}}
+{{/box}}
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.#-----------------------------------------------------
+{{box}}
+~{{/box}}
+{{/box}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onMacroStandalone [box] [] [~{{/box}}]
+endDocument
