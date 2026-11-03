@@ -33,6 +33,9 @@ import org.xwiki.component.annotation.Component;
 @Component
 @Named("xwiki/2.1/link")
 @Singleton
+// The shadowing is deliberate: each XWiki syntax version specialises the previous one and the serializers of the
+// two versions are deliberately paired by name, their package being the version they serialize.
+@SuppressWarnings("java:S2176")
 public class XWikiSyntaxLinkReferenceSerializer
     extends org.xwiki.rendering.internal.renderer.xwiki20.reference.XWikiSyntaxLinkReferenceSerializer
 {
