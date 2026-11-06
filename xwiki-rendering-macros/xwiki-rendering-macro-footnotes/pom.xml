@@ -36,11 +36,13 @@
     <xwiki.extension.name>Footnote Macros</xwiki.extension.name>
     <!-- Category to display by the Extension Manager -->
     <xwiki.extension.category>macro</xwiki.extension.category>
-    <!-- Indicate to the XWiki Extension Manager that this extension contributes Macro components -->
+    <!-- Indicate to the XWiki Extension Manager that this extension contributes a Macro component -->
     <xwiki.extension.components>
       org.xwiki.rendering.macro.Macro/footnote
-      org.xwiki.rendering.macro.Macro/putFootnotes
     </xwiki.extension.components>
+    <!-- Internal macro inserted by the footnote macro, not declared in xwiki.extension.components so that the editor
+         doesn't suggest installing it -->
+    <xwiki.extension.components.macros.check.excluded>putFootnotes</xwiki.extension.components.macros.check.excluded>
   </properties>
   <!-- Test dependencies -->
   <dependencies>
