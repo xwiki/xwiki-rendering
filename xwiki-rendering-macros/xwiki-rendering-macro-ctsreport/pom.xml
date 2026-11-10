@@ -35,6 +35,9 @@
     <xwiki.jacoco.instructionRatio>0.71</xwiki.jacoco.instructionRatio>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Compatibility Test Suite Report Macro</xwiki.extension.name>
+    <!-- Internal macro of the rendering compatibility test suite, not declared in xwiki.extension.components so that
+         the editor doesn't suggest installing it -->
+    <xwiki.extension.components.macros.check.excluded>ctsdata</xwiki.extension.components.macros.check.excluded>
   </properties>
   <dependencies>
     <dependency>
