@@ -31,6 +31,11 @@
   <name>XWiki Rendering - Test Framework</name>
   <packaging>jar</packaging>
   <description>XWiki Rendering - Test Framework</description>
+  <properties>
+    <!-- Test frameworks are not public APIs, so don't run backward-compatibility checks on them.
+         See https://dev.xwiki.org/xwiki/bin/view/Community/DevelopmentPractices#HCodeThatIsNotAPI -->
+    <xwiki.revapi.skip>true</xwiki.revapi.skip>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
