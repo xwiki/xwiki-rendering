@@ -277,21 +277,13 @@
               <differences>
                 <item>
                   <ignore>true</ignore>
-                  <code>java.annotation.added</code>
-                  <old>method void org.xwiki.rendering.macro.box.BoxMacroParameters::setCssClass(java.lang.String)</old>
-                  <new>method void org.xwiki.rendering.macro.box.BoxMacroParameters::setCssClass(java.lang.String)</new>
-                  <annotation>@org.xwiki.properties.annotation.PropertyAdvanced</annotation>
+                  <regex>true</regex>
+                  <code>java\.annotation\.added</code>
+                  <old>method void org\.xwiki\.rendering\.macro\.box\.BoxMacroParameters::setCssClass\(java\.lang\.String\).*</old>
+                  <new>method void org\.xwiki\.rendering\.macro\.box\.BoxMacroParameters::setCssClass\(java\.lang\.String\).*</new>
+                  <annotation>@org\.xwiki\.properties\.annotation\.PropertyAdvanced</annotation>
                   <criticality>allowed</criticality>
-                  <justification>Binary compatible</justification>
-                </item>
-                <item>
-                  <ignore>true</ignore>
-                  <code>java.annotation.added</code>
-                  <old>method void org.xwiki.rendering.macro.box.BoxMacroParameters::setCssClass(java.lang.String) @ org.xwiki.rendering.macro.message.MessageMacroParameters</old>
-                  <new>method void org.xwiki.rendering.macro.box.BoxMacroParameters::setCssClass(java.lang.String) @ org.xwiki.rendering.macro.message.MessageMacroParameters</new>
-                  <annotation>@org.xwiki.properties.annotation.PropertyAdvanced</annotation>
-                  <criticality>allowed</criticality>
-                  <justification>Binary compatible</justification>
+                  <justification>Binary compatible, only marks the parameter as advanced in the macro descriptor, including where MessageMacroParameters inherits it</justification>
                 </item>
               </differences>
             </revapi.differences>
