@@ -70,7 +70,6 @@ public class XHTML5Parser extends XHTMLParser
     /**
      * A special factory that create foolproof XML reader that have the following characteristics:
      * <ul>
-     * <li>Use DTD caching when the underlying XML parser is Xerces</li>
      * <li>Ignore SAX callbacks when the parser parses the DTD</li>
      * <li>Accumulate onCharacters() calls since SAX parser may normally call this event several times.</li>
      * <li>Remove non-semantic white spaces where needed</li>
