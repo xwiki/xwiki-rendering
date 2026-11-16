@@ -130,7 +130,9 @@ public abstract class AbstractXHTMLImageTypeRenderer implements XHTMLImageTypeRe
 
             // And generate the XHTML IMG element.
             getXHTMLWikiPrinter().printXMLElement(XHTMLImageRenderer.IMG, attributes);
-        } catch (Throwable e) {
+        } catch (Exception | LinkageError e) {
+            // The image renderer this class dispatches to can come from an extension, so it can fail with a
+            // LinkageError; a failing one must not break the rendering of the whole document.
             // Error title
             getXHTMLWikiPrinter().printXMLStartElement(SPAN, new String[][] { { CLASS, "xwikirenderingerror" } });
             getXHTMLWikiPrinter().printXML(e.getMessage());
