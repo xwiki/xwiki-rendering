@@ -66,13 +66,19 @@
       <plugin>
         <groupId>org.javacc.plugin</groupId>
         <artifactId>javacc-maven-plugin</artifactId>
-        <version>3.0.3</version>
+        <version>3.8.0</version>
         <executions>
           <execution>
             <id>javacc</id>
             <goals>
               <goal>javacc</goal>
             </goals>
+            <configuration>
+              <javaccCmdLineArgs>
+                <arg>-GRAMMAR_ENCODING="UTF-8"</arg>
+                <arg>-OUTPUT_DIRECTORY="${project.build.directory}/generated-sources/javacc"</arg>
+              </javaccCmdLineArgs>
+            </configuration>
           </execution>
         </executions>
         <dependencies>
