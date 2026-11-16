@@ -73,12 +73,6 @@
             <goals>
               <goal>javacc</goal>
             </goals>
-            <configuration>
-              <javaccCmdLineArgs>
-                <arg>-GRAMMAR_ENCODING="UTF-8"</arg>
-                <arg>-OUTPUT_DIRECTORY="${project.build.directory}/generated-sources/javacc"</arg>
-              </javaccCmdLineArgs>
-            </configuration>
           </execution>
         </executions>
         <dependencies>
