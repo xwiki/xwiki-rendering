@@ -19,15 +19,12 @@
  */
 package org.xwiki.rendering.wikimodel;
 
-import org.xwiki.stability.Unstable;
-
 /**
  * This listener is used to notify about figures and their captions.
  *
  * @version $Id$
  * @since 14.1RC1
  */
-@Unstable
 public interface IWemListenerFigure
 {
     /**

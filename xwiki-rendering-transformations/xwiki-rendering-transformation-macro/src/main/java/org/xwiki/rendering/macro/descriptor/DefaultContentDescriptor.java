@@ -21,8 +21,6 @@ package org.xwiki.rendering.macro.descriptor;
 
 import java.lang.reflect.Type;
 
-import org.xwiki.stability.Unstable;
-
 /**
  * The default implementation of {@link ContentDescriptor}.
  *
@@ -132,7 +130,6 @@ public class DefaultContentDescriptor implements ContentDescriptor
      * @return the current instance
      * @since 17.5.0
      */
-    @Unstable
     public DefaultContentDescriptor setOrder(int order)
     {
         this.order = order;

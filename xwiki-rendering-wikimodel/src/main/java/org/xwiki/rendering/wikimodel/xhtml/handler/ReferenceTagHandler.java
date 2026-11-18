@@ -28,7 +28,6 @@ import org.xwiki.rendering.wikimodel.WikiParameter;
 import org.xwiki.rendering.wikimodel.WikiParameters;
 import org.xwiki.rendering.wikimodel.WikiReference;
 import org.xwiki.rendering.wikimodel.xhtml.impl.TagContext;
-import org.xwiki.stability.Unstable;
 
 /**
  * Handles references.
@@ -100,7 +99,6 @@ public class ReferenceTagHandler extends TagHandler
      * @return if the class parameter contains the class "wikimodel-freestanding"
      * @since 14.2RC1
      */
-    @Unstable
     protected boolean containsFreeStandingClass(WikiParameters parameters)
     {
         return containsClass(parameters, "wikimodel-freestanding");
@@ -114,7 +112,6 @@ public class ReferenceTagHandler extends TagHandler
      * @return true if the parameters contain the given class name, false otherwise
      * @since 14.2RC1
      */
-    @Unstable
     protected boolean containsClass(WikiParameters parameters, String className)
     {
         WikiParameter classParam = parameters.getParameter(CLASS_ATTRIBUTE);
@@ -131,7 +128,6 @@ public class ReferenceTagHandler extends TagHandler
      * @return the parameters with the given class name removed
      * @since 14.2RC1
      */
-    @Unstable
     protected WikiParameters removeClass(WikiParameters parameters, String className)
     {
         WikiParameter classParam = parameters.getParameter(CLASS_ATTRIBUTE);

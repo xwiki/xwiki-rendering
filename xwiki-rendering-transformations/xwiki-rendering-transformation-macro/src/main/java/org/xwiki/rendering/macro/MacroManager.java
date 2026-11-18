@@ -23,7 +23,6 @@ import java.util.Set;
 
 import org.xwiki.component.annotation.Role;
 import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.stability.Unstable;
 
 /**
  * Allow retrieving and test the existence of macros. Macros can be available for all syntaxes or only available for
@@ -86,7 +85,6 @@ public interface MacroManager
      *         for all syntaxes. {@code false} otherwise.
      * @since 17.5.0
      */
-    @Unstable
     default boolean exists(MacroId macroId, boolean checkAllSyntaxes)
     {
         return exists(macroId);

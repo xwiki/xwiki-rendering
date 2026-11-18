@@ -21,8 +21,6 @@ package org.xwiki.rendering.macro.descriptor;
 
 import java.lang.reflect.Type;
 
-import org.xwiki.stability.Unstable;
-
 /**
  * Define a macro content.
  *
@@ -58,7 +56,6 @@ public interface ContentDescriptor
      * @since 17.5.0
      * @see ParameterDescriptor#getOrder()
      */
-    @Unstable
     default int getOrder()
     {
         return -1;

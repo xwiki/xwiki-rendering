@@ -22,7 +22,6 @@ package org.xwiki.rendering.macro.descriptor;
 import java.lang.reflect.Type;
 
 import org.xwiki.properties.PropertyGroupDescriptor;
-import org.xwiki.stability.Unstable;
 
 /**
  * Define a macro parameter.
@@ -124,7 +123,6 @@ public interface ParameterDescriptor
      * priority. {@code -1} means no defined order.
      * @since 17.5.0
      */
-    @Unstable
     default int getOrder()
     {
         return -1;

@@ -22,7 +22,6 @@ package org.xwiki.rendering.macro.message;
 import org.xwiki.properties.annotation.PropertyAdvanced;
 import org.xwiki.properties.annotation.PropertyDescription;
 import org.xwiki.rendering.macro.box.BoxMacroParameters;
-import org.xwiki.stability.Unstable;
 
 /**
  * Parameters for the Message macro.
@@ -31,7 +30,6 @@ import org.xwiki.stability.Unstable;
  * @since 17.1.0RC1
  */
 
-@Unstable
 public class MessageMacroParameters extends BoxMacroParameters 
 {
     /**
@@ -46,7 +44,6 @@ public class MessageMacroParameters extends BoxMacroParameters
      * @since 17.1.0RC1
      * @return whether the current message is an ARIA status.
      */
-    @Unstable
     public boolean isStatus()
     {
         return this.status;
@@ -58,7 +55,6 @@ public class MessageMacroParameters extends BoxMacroParameters
      */
     @PropertyDescription("Whether this message should be set as an ARIA status.")
     @PropertyAdvanced
-    @Unstable
     public void setStatus(boolean status)
     {
         this.status = status;

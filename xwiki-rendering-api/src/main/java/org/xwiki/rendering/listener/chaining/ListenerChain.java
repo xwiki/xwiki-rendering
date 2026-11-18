@@ -26,8 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.xwiki.stability.Unstable;
-
 /**
  * Stores information about the listeners in the chain and the order in which they need to be called. Also sports a
  * feature that allows pushing and popping listeners that are stackable. This feature is useful since listeners can hold
@@ -197,7 +195,6 @@ public class ListenerChain
      * @since 16.10.3
      * @since 17.0.0RC1
      */
-    @Unstable
     public int getStackingDepth()
     {
         return this.stackingDepth;

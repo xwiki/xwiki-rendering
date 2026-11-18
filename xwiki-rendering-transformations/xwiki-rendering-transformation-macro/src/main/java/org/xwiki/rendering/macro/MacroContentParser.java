@@ -25,7 +25,6 @@ import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.listener.MetaData;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.xwiki.stability.Unstable;
 
 /**
  * Parses content of a macro field (parameter, macro content) in a given syntax.
@@ -50,7 +49,6 @@ public interface MacroContentParser
      * @since 17.4.8
      * @since 17.10.0
      */
-    @Unstable
     String ATTRIBUTE_PREPARE_CONTENT_XDOM_INLINE = "prepare.content.xdom.inline";
 
     /**

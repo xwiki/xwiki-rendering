@@ -19,8 +19,6 @@
  */
 package org.xwiki.rendering.wikimodel.util;
 
-import org.xwiki.stability.Unstable;
-
 /**
  * @param <T> the type of data managed by this listener
  * @version $Id$
@@ -58,7 +56,6 @@ public interface ISectionListener<T>
      * @since 14.10.8
      * @since 15.3RC1
      */
-    @Unstable
     default boolean isFigureDocument()
     {
         return false;

@@ -26,7 +26,6 @@ import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.MacroBlock;
 import org.xwiki.rendering.macro.descriptor.MacroDescriptor;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
-import org.xwiki.stability.Unstable;
 
 /**
  * Represents a Macro, ie a mechanism to generate Rendering {@link Block}s, that we use as a way to either generate
@@ -98,7 +97,6 @@ public interface Macro<P> extends Comparable<Macro<?>>
      * @since 17.3.0RC1
      * @since 16.10.9
      */
-    @Unstable
     default boolean isExecutionIsolated(P parameters, String content)
     {
         return false;
