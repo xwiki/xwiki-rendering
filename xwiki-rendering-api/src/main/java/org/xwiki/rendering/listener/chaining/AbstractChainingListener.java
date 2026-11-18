@@ -43,6 +43,33 @@ import org.xwiki.rendering.syntax.Syntax;
 public abstract class AbstractChainingListener implements ChainingListener
 {
     /**
+     * The retro compatibility modes needed by a listener class.
+     *
+     * @param listItem see {@link #listItemRetroCompatibility}
+     * @param image see {@link #imageRetroCompatibility}
+     */
+    private record RetroCompatibility(boolean listItem, boolean image)
+    {
+    }
+
+    /**
+     * The retro compatibility modes needed by each listener class, computed once per class because inspecting the
+     * declared methods of the class hierarchy is expensive and listeners are created very often. A {@link ClassValue}
+     * stores the value in the class itself, so it doesn't prevent classes loaded by an extension class loader from
+     * being garbage collected.
+     */
+    private static final ClassValue<RetroCompatibility> RETRO_COMPATIBILITY = new ClassValue<>()
+    {
+        @Override
+        protected RetroCompatibility computeValue(Class<?> type)
+        {
+            return new RetroCompatibility(
+                needsRetroCompatibility(type, method -> method.getName().endsWith("ListItem"), 0),
+                needsRetroCompatibility(type, method -> "onImage".equals(method.getName()), 3));
+        }
+    };
+
+    /**
      * The chain to use to know the next listener to call on events.
      */
     private ListenerChain listenerChain;
@@ -80,23 +107,26 @@ public abstract class AbstractChainingListener implements ChainingListener
      */
     protected AbstractChainingListener()
     {
-        this.listItemRetroCompatibility = needsRetroCompatibility(method -> method.getName().endsWith("ListItem"), 0);
-        this.imageRetroCompatibility = needsRetroCompatibility(method -> "onImage".equals(method.getName()), 3);
+        RetroCompatibility retroCompatibility = RETRO_COMPATIBILITY.get(getClass());
+        this.listItemRetroCompatibility = retroCompatibility.listItem();
+        this.imageRetroCompatibility = retroCompatibility.image();
     }
 
     /**
      * Checks if a method needs retro compatibility.
      *
+     * @param listenerClass the listener class to check
      * @param methodFilter a predicate to filter the methods
      * @param oldParameterCount the number of parameters the old version of the method has
      * @return true if there is a child class that implements the matched method(s) only with the old parameter count
      * @since 14.2RC1
      */
-    private boolean needsRetroCompatibility(Predicate<Method> methodFilter, int oldParameterCount)
+    private static boolean needsRetroCompatibility(Class<?> listenerClass, Predicate<Method> methodFilter,
+        int oldParameterCount)
     {
         boolean result = false;
 
-        for (Class<?> current = getClass(); current != AbstractChainingListener.class; current =
+        for (Class<?> current = listenerClass; current != AbstractChainingListener.class; current =
             current.getSuperclass()) {
             Set<Integer> parameterCounts = Arrays.stream(current.getDeclaredMethods())
                 .filter(methodFilter)
