@@ -21,7 +21,6 @@ package org.xwiki.rendering.internal.macro.box;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.inject.Named;
@@ -68,14 +67,6 @@ public class DefaultBoxMacro<P extends BoxMacroParameters> extends AbstractBoxMa
         super("Box", DESCRIPTION, new DefaultContentDescriptor(CONTENT_DESCRIPTION, false,
             Block.LIST_BLOCK_TYPE), BoxMacroParameters.class);
         setDefaultCategories(Set.of(DEFAULT_CATEGORY_FORMATTING));
-    }
-
-    @Override
-    public List<Block> execute(P parameters, String content, MacroTransformationContext context)
-        throws MacroExecutionException
-    {
-        // Render an empty box when the macro has no content, so that the user gets a box to fill.
-        return super.execute(parameters, Objects.toString(content, ""), context);
     }
 
     @Override

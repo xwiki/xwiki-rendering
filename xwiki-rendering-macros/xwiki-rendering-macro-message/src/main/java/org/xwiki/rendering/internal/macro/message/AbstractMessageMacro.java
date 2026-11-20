@@ -22,7 +22,6 @@ package org.xwiki.rendering.internal.macro.message;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -121,8 +120,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<MessageMacro
     public List<Block> execute(MessageMacroParameters parameters, String content, MacroTransformationContext context) 
         throws MacroExecutionException 
     {
-        // Render an empty message box when the macro has no content, so that the user gets a box to fill.
-        List<Block> boxFoundation = super.execute(parameters, Objects.toString(content, ""), context);
+        List<Block> boxFoundation = super.execute(parameters, content, context);
         if (!boxFoundation.isEmpty() && getIconName() != null) {
             Block defaultBox = boxFoundation.get(0);
             if (parameters.isStatus()) {
