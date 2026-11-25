@@ -44,6 +44,7 @@ import org.xwiki.test.junit5.mockito.MockComponent;
 import org.xwiki.test.mockito.MockitoComponentManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -91,6 +92,15 @@ class MessageMacroTest
         Macro<MessageMacroParameters> messageMacro = this.componentManager.getInstance(Macro.class, macroName);
 
         assertTrue(messageMacro.getDescriptor().getParameterDescriptorMap().get("cssclass").isAdvanced());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "info", "warning", "error", "success" })
+    void contentIsOptional(String macroName) throws Exception
+    {
+        Macro<MessageMacroParameters> messageMacro = this.componentManager.getInstance(Macro.class, macroName);
+
+        assertFalse(messageMacro.getDescriptor().getContentDescriptor().isMandatory());
     }
 
     @Test
