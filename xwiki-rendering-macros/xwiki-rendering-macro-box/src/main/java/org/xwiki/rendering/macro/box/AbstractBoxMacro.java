@@ -255,10 +255,8 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
                 throw new MacroExecutionException(CONTENT_MISSING_ERROR);
             }
 
-            // if it's null but not mandatory we return null
-            // if it's only empty we continue the processing
             if (isContentChecked() && this.content == null) {
-                return ret;
+                this.content = "";
             }
 
             List<Block> contentBlocks = parseContent(this.parameters, this.content, this.context);
@@ -309,7 +307,8 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      * which need boxes.
      *
      * @param parameters the parameters of the macro.
-     * @param content the content of the macro.
+     * @param content the content of the macro, {@code null} if there is none and {@link #isContentChecked()} is
+     *            false
      * @param context the context if the macros transformation.
      * @return the result of the macro execution.
      * @throws MacroExecutionException error when executing the macro.
