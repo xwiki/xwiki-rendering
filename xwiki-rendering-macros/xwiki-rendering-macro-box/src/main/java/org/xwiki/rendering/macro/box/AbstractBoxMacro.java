@@ -308,7 +308,8 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
      * which need boxes.
      *
      * @param parameters the parameters of the macro.
-     * @param content the content of the macro.
+     * @param content the content of the macro, {@code null} only when the macro has no content and
+     *            {@link #isContentChecked()} returns false
      * @param context the context if the macros transformation.
      * @return the result of the macro execution.
      * @throws MacroExecutionException error when executing the macro.
@@ -318,7 +319,9 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
 
     /**
      * @return true if {@link AbstractBoxMacro#execute(BoxMacroParameters, String, MacroTransformationContext)} should
-     *         make sure the content is not null, by rendering an empty box when the macro has no content
+     *         make sure the content is not null, by passing an empty content to
+     *         {@link #parseContent(BoxMacroParameters, String, MacroTransformationContext)} when the macro has no
+     *         content, false to pass a {@code null} content to it instead
      * @since 15.0RC1
      * @since 14.10.2
      */
