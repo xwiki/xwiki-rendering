@@ -255,9 +255,10 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
                 throw new MacroExecutionException(CONTENT_MISSING_ERROR);
             }
 
-            // A missing content renders an empty box, so that the user gets a box to fill.
+            // if it's null but not mandatory we return null
+            // if it's only empty we continue the processing
             if (isContentChecked() && this.content == null) {
-                this.content = "";
+                return ret;
             }
 
             List<Block> contentBlocks = parseContent(this.parameters, this.content, this.context);
@@ -318,7 +319,7 @@ public abstract class AbstractBoxMacro<P extends BoxMacroParameters> extends Abs
 
     /**
      * @return true if {@link AbstractBoxMacro#execute(BoxMacroParameters, String, MacroTransformationContext)} should
-     *         make sure the content is not null, by rendering an empty box when the macro has no content
+     *         make sure the content is not null
      * @since 15.0RC1
      * @since 14.10.2
      */

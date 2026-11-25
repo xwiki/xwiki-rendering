@@ -1,18 +1,18 @@
 .runTransformations
 .#-----------------------------------------------------
 .input|xwiki/2.0
-.# Verify that a message without content renders an empty message box, standalone and inline.
+.# Verify that a message with an empty content renders an empty message box, standalone and inline.
 .#-----------------------------------------------------
-{{info/}}
+{{info}}{{/info}}
 
 {{error}}{{/error}}
 
-a {{warning/}} b
+a {{warning}}{{/warning}} b
 .#-----------------------------------------------------
 .expect|event/1.0
 .#-----------------------------------------------------
 beginDocument
-beginMacroMarkerStandalone [info] []
+beginMacroMarkerStandalone [info] [] []
 beginGroup [[class]=[box infomessage]]
 onImage [Typed = [true] Type = [icon] Reference = [information]] [true]
 beginGroup
@@ -20,7 +20,7 @@ beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endGroup
 endGroup [[class]=[box infomessage]]
-endMacroMarkerStandalone [info] []
+endMacroMarkerStandalone [info] [] []
 beginMacroMarkerStandalone [error] [] []
 beginGroup [[class]=[box errormessage]]
 onImage [Typed = [true] Type = [icon] Reference = [exclamation]] [true]
@@ -33,13 +33,13 @@ endMacroMarkerStandalone [error] [] []
 beginParagraph
 onWord [a]
 onSpace
-beginMacroMarkerInline [warning] []
+beginMacroMarkerInline [warning] [] []
 beginFormat [NONE] [[class]=[box warningmessage]]
 onImage [Typed = [true] Type = [icon] Reference = [error]] [true]
 beginMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endMetaData [[non-generated-content]=[java.util.List<org.xwiki.rendering.block.Block>]]
 endFormat [NONE] [[class]=[box warningmessage]]
-endMacroMarkerInline [warning] []
+endMacroMarkerInline [warning] [] []
 onSpace
 onWord [b]
 endParagraph
