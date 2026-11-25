@@ -76,7 +76,7 @@ public abstract class AbstractMessageMacro extends AbstractBoxMacro<MessageMacro
     protected AbstractMessageMacro(String macroName, String macroDescription)
     {
         super(macroName, macroDescription,
-            new DefaultContentDescriptor("Content of the message", true, Block.LIST_BLOCK_TYPE),
+            new DefaultContentDescriptor("Content of the message", false, Block.LIST_BLOCK_TYPE),
             MessageMacroParameters.class);
     }
     
