@@ -1,0 +1,23 @@
+.#-----------------------------------------------------
+.# Like macro40, but with the macro's closing marker inside a *nested* verbatim block, which is what the renderer
+.# produces for verbatim content that itself contains "{{{...}}}" (see XWikiSyntaxEscapeWikiPrinter#printVerbatimContent).
+.# The verbatim nesting has to be counted, otherwise the region would end at the first "}}}" and the following
+.# "{{/box}}" would close the macro early.
+.#-----------------------------------------------------
+.input|xwiki/2.0
+.#-----------------------------------------------------
+{{box}}
+{{{a{{{b}}}{{/box}}c}}}
+{{/box}}
+.#-----------------------------------------------------
+.input|xwiki/2.1
+.#-----------------------------------------------------
+{{box}}
+{{{a{{{b}}}{{/box}}c}}}
+{{/box}}
+.#-----------------------------------------------------
+.expect|event/1.0
+.#-----------------------------------------------------
+beginDocument
+onMacroStandalone [box] [] [{{{a{{{b}}}{{/box}}c}}}]
+endDocument
