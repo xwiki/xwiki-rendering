@@ -37,6 +37,9 @@ import org.xwiki.rendering.renderer.reference.ResourceReferenceSerializer;
  * @version $Id$
  * @since 2.5M2
  */
+// The shadowing is deliberate: each XWiki syntax version specialises the previous one and the renderers of the
+// two versions are deliberately paired by name, their package being the version they render.
+@SuppressWarnings("java:S2176")
 public class XWikiSyntaxResourceRenderer
     extends org.xwiki.rendering.internal.renderer.xwiki20.reference.XWikiSyntaxResourceRenderer
 {
