@@ -418,7 +418,7 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                     macro.getDescriptor().getParametersBeanClass().getDeclaredConstructor().newInstance();
                 try {
                     this.beanManager.populate(macroParameters, macroBlock.getParameters());
-                } catch (Throwable e) {
+                } catch (Exception | LinkageError e) {
                     // One macro parameter was invalid.
                     // The macro will not be executed and we generate an error message instead of the macro
                     // execution result.
@@ -439,11 +439,12 @@ public class MacroTransformation extends AbstractTransformation implements Initi
                     priorityMacroBlockMatcher.reset();
                 }
                 newBlocks = ((Macro) macro).execute(macroParameters, macroBlock.getContent(), macroContext);
-            } catch (Throwable e) {
+            } catch (Exception | LinkageError e) {
                 // The Macro failed to execute.
                 // The macro will not be executed and we generate an error message instead of the macro
                 // execution result.
-                // Note: We catch any Exception because we want to never break the whole rendering.
+                // Note: We catch any Exception, and the LinkageError a macro coming from a broken extension
+                // fails with, because we want to never break the whole rendering.
                 if (macroBlock.getParent() == null) {
                     this.logger.warn("The macro [{}] failed to execute and removed itself from the document so no "
                             + "error can be displayed. The root cause of the error is: [{}]", macroBlock.getId(),
