@@ -290,6 +290,9 @@ public abstract class AbstractBlock implements Block
         replaceChild(Collections.singletonList(newBlock), oldBlock);
     }
 
+    // getChildren() only returns the immutable Collections.emptyList() when there is no child at all, and that case
+    // is already excluded by the indexOfChild() check below, so the list removed from is always the mutable one.
+    @SuppressWarnings("javabugs:S6322")
     @Override
     public void replaceChild(List<Block> newBlocks, Block oldBlock)
     {
@@ -475,6 +478,9 @@ public abstract class AbstractBlock implements Block
         return this.previousSiblingBlock;
     }
 
+    // getChildren() only returns the immutable Collections.emptyList() when there is no child at all, and that case
+    // is already excluded by the indexOfBlock() check below, so the list removed from is always the mutable one.
+    @SuppressWarnings("javabugs:S6322")
     @Override
     public void removeBlock(Block childBlockToRemove)
     {
